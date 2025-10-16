@@ -1,0 +1,38 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../app/hooks/useAuth';
+import { ROUTES } from '../app/config/routes.config';
+
+export const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await login(email, password);
+    navigate(ROUTES.DASHBOARD);
+  };
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
