@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { User, Mail, Phone, MapPin, Calendar, Building2, Hash, Tag } from 'lucide-react';
+import type { EditClientDialogProps } from '@/app/types/clients/clients.interfaces';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -19,11 +20,6 @@ import {
 } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
 import { Textarea } from '@/shared/ui/textarea';
-
-interface EditClientDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
 
 export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) {
   const [formData, setFormData] = useState({

@@ -1,9 +1,8 @@
 import { MessageTypeEnum, InsightTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums';
-import type { ChatMessageInterface } from '@/app/types/ai-assistant/ai-assistant.interfaces';
-
-interface ChatMessageProps {
-  chat: ChatMessageInterface;
-}
+import type {
+  ChatMessageInterface,
+  ChatMessageProps,
+} from '@/app/types/ai-assistant/ai-assistant.interfaces';
 
 export function ChatMessage({ chat }: ChatMessageProps) {
   return (

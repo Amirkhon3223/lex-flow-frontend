@@ -1,8 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { Sparkles, Star, Tag } from 'lucide-react';
+import { ROUTES } from '@/app/config/routes.config';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 
 export function AIInsightsWidget() {
+  const navigate = useNavigate();
+
   return (
     <Card className="bg-white border-0 shadow-sm">
       <div className="p-6">
@@ -37,7 +41,10 @@ export function AIInsightsWidget() {
           </div>
         </div>
 
-        <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 rounded-xl shadow-md">
+        <Button
+          onClick={() => navigate(ROUTES.AI_ASSISTANT)}
+          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 rounded-xl shadow-md cursor-pointer"
+        >
           <Sparkles className="w-4 h-4 mr-2" strokeWidth={2.5} />
           Спросить AI
         </Button>

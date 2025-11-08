@@ -1,28 +1,10 @@
+import type {
+    SubscriptionFeatures,
+    Payment,
+    SubscriptionTabProps,
+} from '@/app/types/settings/settings.interfaces';
 import { PaymentHistoryItem } from './PaymentHistoryItem';
 import { SubscriptionCard } from './SubscriptionCard';
-
-interface SubscriptionFeatures {
-    clients: string;
-    cases: string;
-    storage: string;
-    users: number;
-}
-
-interface Payment {
-    date: string;
-    plan: string;
-    amount: string;
-}
-
-interface SubscriptionTabProps {
-    plan: string;
-    price: string;
-    period: string;
-    expiresAt: string;
-    status: string;
-    features: SubscriptionFeatures;
-    payments: Payment[];
-}
 
 export function SubscriptionTab({
     plan,

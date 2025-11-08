@@ -1,9 +1,5 @@
+import type { FilterTabsProps } from '@/app/types/cases/cases.interfaces';
 import { Button } from '@/shared/ui/button';
-
-interface FilterTabsProps {
-  filterStatus: 'all' | 'urgent' | 'medium' | 'completed';
-  setFilterStatus: (status: 'all' | 'urgent' | 'medium' | 'completed') => void;
-}
 
 export function FilterTabs({ filterStatus, setFilterStatus }: FilterTabsProps) {
   return (

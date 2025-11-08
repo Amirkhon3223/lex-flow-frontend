@@ -61,7 +61,7 @@ export function Sidebar() {
               <Link
                 key={item.id}
                 to={item.path}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${
+                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer ${
                   isActive
                     ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
                     : 'text-gray-700 hover:bg-gray-100'
@@ -88,7 +88,7 @@ export function Sidebar() {
           <Separator className="mb-3 bg-gray-200" />
           <Link
             to={ROUTES.AI_ASSISTANT}
-            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${
+            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer ${
               location.pathname === ROUTES.AI_ASSISTANT
                 ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
                 : 'text-gray-700 hover:bg-gray-100'
@@ -102,7 +102,7 @@ export function Sidebar() {
           </Link>
           <Link
             to={ROUTES.SETTINGS}
-            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${
+            className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer ${
               location.pathname === ROUTES.SETTINGS
                 ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
                 : 'text-gray-700 hover:bg-gray-100'
@@ -112,7 +112,7 @@ export function Sidebar() {
             <span className="text-[15px]">Настройки</span>
           </Link>
           <button
-            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-gray-700 hover:bg-red-50 hover:text-red-600"
+            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-gray-700 hover:bg-red-50 hover:text-red-600 cursor-pointer"
             onClick={() => {
 
               console.log('Logout clicked');

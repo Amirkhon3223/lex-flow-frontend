@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   MoreHorizontal,
@@ -6,6 +7,8 @@ import {
   Phone,
   MapPin,
   Calendar,
+  Link,
+  Mail as MailIcon,
   Briefcase,
   FileText,
   DollarSign,
@@ -22,21 +25,52 @@ import {
   MessageSquare,
   Video,
 } from 'lucide-react';
+import { ROUTES } from '@/app/config/routes.config';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import { ClientTimelineTypeEnum } from '@/app/types/clients/clients.enums';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/shared/ui/dropdown-menu';
 import { Progress } from '@/shared/ui/progress';
 import { Separator } from '@/shared/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { ClientMeetingsCalendar } from './ClientMeetingsCalendar';
 import { EditClientDialog } from './EditClientDialog';
+import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
 
 export function ClientDetailView() {
-  const onBack = () => window.history.back();
+  const navigate = useNavigate();
+  const onBack = () => navigate(ROUTES.CLIENTS.BASE);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
+
+  const handleDownloadDocument = (docName: string) => {
+    const link = document.createElement('a');
+    link.href = '#';
+    link.download = docName;
+    link.click();
+    console.log('Downloading:', docName);
+  };
+
+  const handleCopyLink = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    console.log('Link copied:', url);
+  };
+
+  const handleShareEmail = () => {
+    const url = window.location.href;
+    const subject = 'Поделиться клиентом';
+    const body = `Посмотрите этого клиента: ${url}`;
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
   const clientCases = [
     {
       id: 1,
@@ -137,6 +171,7 @@ export function ClientDetailView() {
   return (
     <div>
       <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen} />
+      <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen} />
 
       {}
       <header className="relative bg-white border-b border-gray-200/50">
@@ -148,9 +183,23 @@ export function ClientDetailView() {
             </Button>
 
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
-                <Share2 className="w-5 h-5" strokeWidth={2} />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
+                    <Share2 className="w-5 h-5" strokeWidth={2} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={handleCopyLink}>
+                    <Link className="w-4 h-4 mr-2" strokeWidth={2} />
+                    Скопировать ссылку
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleShareEmail}>
+                    <MailIcon className="w-4 h-4 mr-2" strokeWidth={2} />
+                    Поделиться в почте
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
                 <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
               </Button>
@@ -189,11 +238,21 @@ export function ClientDetailView() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <Button variant="outline" size="sm" className="rounded-xl border-gray-200 hover:bg-gray-50">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-xl border-gray-200 hover:bg-gray-50"
+                    onClick={() => window.location.href = 'mailto:ivanov@mail.ru'}
+                  >
                     <Mail className="w-4 h-4 mr-2" strokeWidth={2} />
                     ivanov@mail.ru
                   </Button>
-                  <Button variant="outline" size="sm" className="rounded-xl border-gray-200 hover:bg-gray-50">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-xl border-gray-200 hover:bg-gray-50"
+                    onClick={() => window.location.href = 'tel:+79991234567'}
+                  >
                     <Phone className="w-4 h-4 mr-2" strokeWidth={2} />
                     +7 (999) 123-45-67
                   </Button>
@@ -206,7 +265,10 @@ export function ClientDetailView() {
                 <MessageSquare className="w-4 h-4 mr-2" strokeWidth={2} />
                 Написать
               </Button>
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md">
+              <Button
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+                onClick={() => setIsAddCaseDialogOpen(true)}
+              >
                 <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
                 Новое дело
               </Button>
@@ -445,6 +507,7 @@ export function ClientDetailView() {
                         variant="ghost"
                         size="icon"
                         className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => handleDownloadDocument(doc.name)}
                       >
                         <Download className="w-4 h-4" strokeWidth={2} />
                       </Button>

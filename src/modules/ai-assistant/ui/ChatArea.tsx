@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
-import type { ChatMessageInterface } from '@/app/types/ai-assistant/ai-assistant.interfaces';
+import type {
+  ChatMessageInterface,
+  ChatAreaProps,
+} from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { Card } from '@/shared/ui/card';
 import { ScrollArea } from '@/shared/ui/scroll-area';
 import { ChatInput } from './ChatInput';
 import { ChatMessage } from './ChatMessage';
-
-interface ChatAreaProps {
-  chatHistory: ChatMessageInterface[];
-}
 
 export function ChatArea({ chatHistory }: ChatAreaProps) {
   const [message, setMessage] = useState('');

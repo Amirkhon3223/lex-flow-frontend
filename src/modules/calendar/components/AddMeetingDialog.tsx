@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { Calendar as CalendarIcon, Clock, MapPin, Video, Phone, Users, AlarmClock } from 'lucide-react';
+import type { AddMeetingDialogProps } from '@/app/types/calendar/calendar.interfaces';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import {
@@ -23,11 +24,6 @@ import {
 } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
 import { Textarea } from '@/shared/ui/textarea';
-
-interface AddMeetingDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
 
 export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) {
   const [date, setDate] = useState<Date>();

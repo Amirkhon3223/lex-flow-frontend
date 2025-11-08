@@ -36,6 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 
 
 export function DocumentsListView() {
@@ -44,6 +45,7 @@ export function DocumentsListView() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [sortBy, setSortBy] = useState('date');
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
 
   const documents: DocumentInterface[] = [
     {
@@ -173,6 +175,8 @@ export function DocumentsListView() {
 
   return (
     <div>
+      <UploadDocumentDialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen} />
+
       {}
       <header className="relative bg-white border-b border-gray-200/50">
         <div className="px-8 py-6">
@@ -182,7 +186,10 @@ export function DocumentsListView() {
               <p className="text-gray-500 text-lg">Управление всеми документами и версиями</p>
             </div>
 
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md">
+            <Button
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+              onClick={() => setIsUploadDialogOpen(true)}
+            >
               <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
               Загрузить документ
             </Button>

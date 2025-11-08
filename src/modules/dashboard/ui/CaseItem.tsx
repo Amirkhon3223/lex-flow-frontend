@@ -1,11 +1,5 @@
 import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
-
-interface CaseItemProps {
-  title: string;
-  client: string;
-  priority: CasePriorityEnum;
-  deadline: string;
-}
+import type { CaseItemProps } from '@/app/types/dashboard/dashboard.interfaces';
 
 export const CaseItem = ({ title, client, priority, deadline }: CaseItemProps) => {
   const priorityColors = {

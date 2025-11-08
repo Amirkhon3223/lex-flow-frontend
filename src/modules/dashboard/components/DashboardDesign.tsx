@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Users,
   Briefcase,
@@ -18,9 +19,6 @@ import {
   Tag,
   User,
 } from 'lucide-react';
-import { GlobalCalendarView } from '@/modules/calendar/components/GlobalCalendarView';
-import { CaseDetailView } from '@/modules/cases/components/CaseDetailView';
-import { ClientDetailView } from '@/modules/clients/components/ClientDetailView';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -28,10 +26,17 @@ import { Card } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
 import { Progress } from '@/shared/ui/progress';
 import { Separator } from '@/shared/ui/separator';
+import { ROUTES } from '@/app/config/routes.config';
+import { AddClientDialog } from '@/shared/components/AddClientDialog';
+import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 
 export default function App() {
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('overview');
-  const [viewMode, setViewMode] = useState<'dashboard' | 'caseDetail' | 'clientDetail' | 'calendar'>('dashboard');
+  const [isAddClientDialogOpen, setIsAddClientDialogOpen] = useState(false);
+  const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
+  const [isUploadDocumentDialogOpen, setIsUploadDocumentDialogOpen] = useState(false);
 
   const priorities = [
     {
@@ -69,20 +74,12 @@ export default function App() {
     { action: 'создал новое дело', item: '"Договор подряда"', client: 'ООО "Строй+"', time: 'Вчера' },
   ];
 
-  if (viewMode === 'caseDetail') {
-    return <CaseDetailView />;
-  }
-
-  if (viewMode === 'clientDetail') {
-    return <ClientDetailView />;
-  }
-
-  if (viewMode === 'calendar') {
-    return <GlobalCalendarView />;
-  }
-
   return (
     <div className="min-h-screen bg-[#f5f5f7]">
+      <AddClientDialog open={isAddClientDialogOpen} onOpenChange={setIsAddClientDialogOpen} />
+      <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen} />
+      <UploadDocumentDialog open={isUploadDocumentDialogOpen} onOpenChange={setIsUploadDocumentDialogOpen} />
+
       {}
       <aside className="fixed left-0 top-0 h-full w-72 bg-white/80 backdrop-blur-2xl border-r border-gray-200/50 z-10">
         <div className="flex flex-col h-full">
@@ -102,20 +99,20 @@ export default function App() {
           {}
           <nav className="flex-1 px-4 space-y-1">
             {[
-              { icon: Home, label: 'Обзор', id: 'overview' },
-              { icon: Briefcase, label: 'Дела', id: 'cases', count: 47 },
-              { icon: Users, label: 'Клиенты', id: 'clients', count: 24, action: () => setViewMode('clientDetail') },
-              { icon: FileText, label: 'Документы', id: 'documents' },
-              { icon: Calendar, label: 'Календарь', id: 'calendar', action: () => setViewMode('calendar') },
-              { icon: BarChart3, label: 'Аналитика', id: 'analytics' },
+              { icon: Home, label: 'Обзор', id: 'overview', route: ROUTES.DASHBOARD },
+              { icon: Briefcase, label: 'Дела', id: 'cases', count: 47, route: ROUTES.CASES.BASE },
+              { icon: Users, label: 'Клиенты', id: 'clients', count: 24, route: ROUTES.CLIENTS.BASE },
+              { icon: FileText, label: 'Документы', id: 'documents', route: ROUTES.DOCUMENTS.BASE },
+              { icon: Calendar, label: 'Календарь', id: 'calendar', route: ROUTES.CALENDAR },
+              { icon: BarChart3, label: 'Аналитика', id: 'analytics', route: ROUTES.ANALYTICS },
             ].map((item) => (
               <button
                 key={item.id}
                 onClick={() => {
                   setActiveSection(item.id);
-                  item.action?.();
+                  navigate(item.route);
                 }}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${
+                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer ${
                   activeSection === item.id
                     ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
                     : 'text-gray-700 hover:bg-gray-100'
@@ -139,14 +136,20 @@ export default function App() {
           {}
           <div className="p-4 space-y-1">
             <Separator className="mb-3 bg-gray-200" />
-            <button className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 transition-all">
+            <button
+              onClick={() => navigate(ROUTES.AI_ASSISTANT)}
+              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 transition-all cursor-pointer"
+            >
               <Sparkles className="w-5 h-5" strokeWidth={2} />
               <span className="text-[15px]">AI Помощник</span>
               <Badge className="ml-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs border-0">
                 Новое
               </Badge>
             </button>
-            <button className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 transition-all">
+            <button
+              onClick={() => navigate(ROUTES.SETTINGS)}
+              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 transition-all cursor-pointer"
+            >
               <Settings className="w-5 h-5" strokeWidth={2} />
               <span className="text-[15px]">Настройки</span>
             </button>
@@ -173,13 +176,13 @@ export default function App() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative w-11 h-11 rounded-xl hover:bg-gray-100"
+                className="relative w-11 h-11 rounded-xl hover:bg-gray-100 cursor-pointer"
               >
                 <Bell className="w-5 h-5 text-gray-600" strokeWidth={2} />
                 <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
               </Button>
 
-              <Avatar className="w-11 h-11 ring-2 ring-gray-200 ring-offset-2">
+              <Avatar className="w-11 h-11 ring-2 ring-gray-200 ring-offset-2 cursor-pointer">
                 <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-sm">
                   АП
                 </AvatarFallback>
@@ -267,7 +270,12 @@ export default function App() {
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl tracking-tight">Приоритетные дела</h3>
-                    <Button variant="ghost" size="sm" className="text-blue-500 hover:bg-blue-50 rounded-lg">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => navigate(ROUTES.CASES.BASE)}
+                      className="text-blue-500 hover:bg-blue-50 rounded-lg cursor-pointer"
+                    >
                       Все дела
                       <ChevronRight className="w-4 h-4 ml-1" strokeWidth={2} />
                     </Button>
@@ -277,7 +285,7 @@ export default function App() {
                     {priorities.map((item, index) => (
                       <div
                         key={index}
-                        onClick={() => setViewMode('caseDetail')}
+                        onClick={() => navigate(ROUTES.CASES.DETAIL('1'))}
                         className="group p-5 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer"
                       >
                         <div className="flex items-start justify-between mb-3">
@@ -375,7 +383,10 @@ export default function App() {
                     ))}
                   </div>
 
-                  <Button className="w-full mt-6 bg-white/20 hover:bg-white/30 text-white border-0 rounded-xl backdrop-blur-sm">
+                  <Button
+                    onClick={() => navigate(ROUTES.CALENDAR)}
+                    className="w-full mt-6 bg-white/20 hover:bg-white/30 text-white border-0 rounded-xl backdrop-blur-sm cursor-pointer"
+                  >
                     Открыть календарь
                   </Button>
                 </div>
@@ -415,7 +426,10 @@ export default function App() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 rounded-xl shadow-md">
+                  <Button
+                    onClick={() => navigate(ROUTES.AI_ASSISTANT)}
+                    className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 rounded-xl shadow-md cursor-pointer"
+                  >
                     <Sparkles className="w-4 h-4 mr-2" strokeWidth={2.5} />
                     Спросить AI
                   </Button>
@@ -428,15 +442,24 @@ export default function App() {
                   <h3 className="text-lg tracking-tight mb-4">Быстрые действия</h3>
 
                   <div className="space-y-2">
-                    <Button className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl">
+                    <Button
+                      onClick={() => setIsAddClientDialogOpen(true)}
+                      className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer"
+                    >
                       <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
                       Новый клиент
                     </Button>
-                    <Button className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl">
+                    <Button
+                      onClick={() => setIsAddCaseDialogOpen(true)}
+                      className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer"
+                    >
                       <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
                       Новое дело
                     </Button>
-                    <Button className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl">
+                    <Button
+                      onClick={() => setIsUploadDocumentDialogOpen(true)}
+                      className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer"
+                    >
                       <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
                       Загрузить документ
                     </Button>

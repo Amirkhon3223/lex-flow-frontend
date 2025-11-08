@@ -18,3 +18,14 @@ export interface CaseInterface {
   createdAt: string;
   lastUpdate: string;
 }
+
+export interface FilterTabsProps {
+  filterStatus: 'all' | 'urgent' | 'medium' | 'completed';
+  setFilterStatus: (status: 'all' | 'urgent' | 'medium' | 'completed') => void;
+}
+
+export interface AddCaseDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSubmit?: (caseData: any) => void;
+}
