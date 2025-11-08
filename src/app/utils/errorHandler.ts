@@ -1,5 +1,5 @@
-import { toast } from 'sonner';
 import type { AxiosError } from 'axios';
+import { toast } from 'sonner';
 
 interface ErrorResponse {
   message?: string;

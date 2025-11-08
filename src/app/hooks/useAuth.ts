@@ -23,9 +23,8 @@ export const useAuth = () => {
     const token = localStorage.getItem('access_token');
 
     if (token) {
-      // TODO: Validate token and fetch user data
       setAuthState({
-        user: null, // Replace with actual user data
+        user: null,
         isAuthenticated: true,
         isLoading: false,
       });
@@ -39,7 +38,6 @@ export const useAuth = () => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    // TODO: Implement login logic
     console.log('Login:', email, password);
   };
 

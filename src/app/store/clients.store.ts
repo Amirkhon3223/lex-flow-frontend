@@ -58,11 +58,15 @@ export const useClientsStore = create<ClientsState>((set) => ({
     set({ loading: true, error: null });
     try {
       const updatedClient = await clientService.update(id, data);
-      set((state) => ({
-        clients: state.clients.map((c) => (c.id === id ? updatedClient : c)),
-        selectedClient: state.selectedClient?.id === id ? updatedClient : state.selectedClient,
-        loading: false,
-      }));
+      if (updatedClient) {
+        set((state) => ({
+          clients: state.clients.map((c) => (c.id === id ? updatedClient : c)),
+          selectedClient: state.selectedClient?.id === id ? updatedClient : state.selectedClient,
+          loading: false,
+        }));
+      } else {
+        set({ error: 'Клиент не найден', loading: false });
+      }
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }

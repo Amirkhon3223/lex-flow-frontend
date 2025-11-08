@@ -46,7 +46,7 @@ export const useDocumentsStore = create<DocumentsState>((set) => ({
     }
   },
 
-  uploadDocument: async (data) => {
+  uploadDocument: async (_data) => {
     set({ loading: true, error: null });
     try {
       set({ loading: false });
@@ -67,7 +67,7 @@ export const useDocumentsStore = create<DocumentsState>((set) => ({
     }
   },
 
-  fetchVersions: async (documentId) => {
+  fetchVersions: async (_documentId) => {
     set({ loading: true, error: null });
     try {
       set({ versions: [], loading: false });

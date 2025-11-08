@@ -1,8 +1,8 @@
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
-import { API_CONFIG } from '../config/api.config';
 import { authInterceptor } from './auth.interceptor';
 import { errorInterceptor } from './error.interceptor';
+import { API_CONFIG } from '../config/api.config';
 
 export const createHttpClient = (): AxiosInstance => {
   const client = axios.create({

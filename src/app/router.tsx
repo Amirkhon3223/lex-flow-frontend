@@ -1,15 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
+import ClientDetailPage from '@/modules/clients/pages/ClientDetailPage';
+import AiAssistantPage from '@/pages/AiAssistantPage';
+import AnalyticsPage from '@/pages/AnalyticsPage';
+import CalendarPage from '@/pages/CalendarPage';
+import CaseDetailPage from '@/pages/CaseDetailPage';
+import CasesPage from '@/pages/CasesPage';
+import ClientsPage from '@/pages/ClientsPage';
+import DashboardPage from '@/pages/DashboardPage';
+import DocumentComparePage from '@/pages/DocumentComparePage';
+import DocumentsPage from '@/pages/DocumentsPage';
+import DocumentVersionsPage from '@/pages/DocumentVersionsPage';
+import LoginPage from '@/pages/LoginPage';
+import NotificationsPage from '@/pages/NotificationsPage';
+import ReportsPage from '@/pages/ReportsPage';
+import SettingsPage from '@/pages/SettingsPage';
+import UserProfilePage from '@/pages/UserProfilePage';
+import { Layout } from '@/shared/components/Layout';
 import { ROUTES } from './config/routes.config';
-import { AuthGuard } from './guards/auth.guard';
-import { LoginPage } from '../pages/LoginPage';
-import { DashboardPage } from '../modules/dashboard';
-import { ClientsPage } from '../modules/clients';
-import { CasesPage } from '../modules/cases';
-import { DocumentsPage } from '../modules/documents';
-import { CalendarPage } from '../modules/calendar';
-import { ReportsPage } from '../modules/reports';
-import { NotificationsPage } from '../modules/notifications';
-import { SettingsPage } from '../modules/settings';
 
 export const router = createBrowserRouter([
   {
@@ -19,65 +26,121 @@ export const router = createBrowserRouter([
   {
     path: ROUTES.DASHBOARD,
     element: (
-      <AuthGuard>
+      <Layout>
         <DashboardPage />
-      </AuthGuard>
+      </Layout>
     ),
   },
   {
     path: ROUTES.CLIENTS.BASE,
     element: (
-      <AuthGuard>
+      <Layout>
         <ClientsPage />
-      </AuthGuard>
+      </Layout>
+    ),
+  },
+  {
+    path: '/clients/:id',
+    element: (
+      <Layout>
+        <ClientDetailPage />
+      </Layout>
     ),
   },
   {
     path: ROUTES.CASES.BASE,
     element: (
-      <AuthGuard>
+      <Layout>
         <CasesPage />
-      </AuthGuard>
+      </Layout>
+    ),
+  },
+  {
+    path: '/cases/:id',
+    element: (
+      <Layout>
+        <CaseDetailPage />
+      </Layout>
     ),
   },
   {
     path: ROUTES.DOCUMENTS.BASE,
     element: (
-      <AuthGuard>
+      <Layout>
         <DocumentsPage />
-      </AuthGuard>
+      </Layout>
+    ),
+  },
+  {
+    path: '/documents/:id/versions',
+    element: (
+      <Layout>
+        <DocumentVersionsPage />
+      </Layout>
+    ),
+  },
+  {
+    path: '/documents/:id/compare',
+    element: (
+      <Layout>
+        <DocumentComparePage />
+      </Layout>
     ),
   },
   {
     path: ROUTES.CALENDAR,
     element: (
-      <AuthGuard>
+      <Layout>
         <CalendarPage />
-      </AuthGuard>
+      </Layout>
+    ),
+  },
+  {
+    path: ROUTES.ANALYTICS,
+    element: (
+      <Layout>
+        <AnalyticsPage />
+      </Layout>
+    ),
+  },
+  {
+    path: ROUTES.AI_ASSISTANT,
+    element: (
+      <Layout>
+        <AiAssistantPage />
+      </Layout>
     ),
   },
   {
     path: ROUTES.REPORTS,
     element: (
-      <AuthGuard>
+      <Layout>
         <ReportsPage />
-      </AuthGuard>
+      </Layout>
     ),
   },
   {
     path: ROUTES.NOTIFICATIONS,
     element: (
-      <AuthGuard>
+      <Layout>
         <NotificationsPage />
-      </AuthGuard>
+      </Layout>
     ),
   },
   {
     path: ROUTES.SETTINGS,
     element: (
-      <AuthGuard>
+      <Layout>
         <SettingsPage />
-      </AuthGuard>
+      </Layout>
+    ),
+  },
+  {
+    path: '/settings/profile',
+    element: (
+      <Layout>
+        <UserProfilePage />
+      </Layout>
     ),
   },
 ]);

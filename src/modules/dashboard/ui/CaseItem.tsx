@@ -1,15 +1,17 @@
+import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
+
 interface CaseItemProps {
   title: string;
   client: string;
-  priority: 'high' | 'medium' | 'low';
+  priority: CasePriorityEnum;
   deadline: string;
 }
 
 export const CaseItem = ({ title, client, priority, deadline }: CaseItemProps) => {
   const priorityColors = {
-    high: '#ef4444',
-    medium: '#f59e0b',
-    low: '#10b981',
+    [CasePriorityEnum.HIGH]: '#ef4444',
+    [CasePriorityEnum.MEDIUM]: '#f59e0b',
+    [CasePriorityEnum.LOW]: '#10b981',
   };
 
   return (

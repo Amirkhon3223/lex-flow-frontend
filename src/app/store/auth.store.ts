@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthState>()(
       loading: false,
       error: null,
 
-      login: async (email, password) => {
+      login: async (email, _password) => {
         set({ loading: true, error: null });
         try {
           const token = 'mock-token';
@@ -52,7 +52,7 @@ export const useAuthStore = create<AuthState>()(
         set({ user: null, token: null, isAuthenticated: false });
       },
 
-      register: async (email, password, name) => {
+      register: async (_email, _password, _name) => {
         set({ loading: true, error: null });
         try {
           set({ loading: false });
