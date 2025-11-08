@@ -19,6 +19,8 @@ export const ROUTES = {
     DETAIL: (id: string) => `/documents/${id}`,
   },
   CALENDAR: '/calendar',
+  ANALYTICS: '/analytics',
+  AI_ASSISTANT: '/ai-assistant',
   REPORTS: '/reports',
   NOTIFICATIONS: '/notifications',
   SETTINGS: '/settings',

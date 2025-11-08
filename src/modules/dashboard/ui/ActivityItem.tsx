@@ -1,15 +1,17 @@
+import { ActivityTypeEnum } from '@/app/types/dashboard/dashboard.enums';
+
 interface ActivityItemProps {
   action: string;
   user: string;
   time: string;
-  type: 'case' | 'document' | 'client';
+  type: ActivityTypeEnum;
 }
 
 export const ActivityItem = ({ action, user, time, type }: ActivityItemProps) => {
   const typeIcons = {
-    case: '⚖️',
-    document: '📄',
-    client: '👤',
+    [ActivityTypeEnum.CASE]: '⚖️',
+    [ActivityTypeEnum.DOCUMENT]: '📄',
+    [ActivityTypeEnum.CLIENT]: '👤',
   };
 
   return (

@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { ROUTES } from '../config/routes.config';
 import { Layout } from '../../shared/components/Layout';
+import { ROUTES } from '../config/routes.config';
+import { useAuth } from '../hooks/useAuth';
 
 interface AuthGuardProps {
   children: React.ReactNode;

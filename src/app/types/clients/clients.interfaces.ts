@@ -1,0 +1,52 @@
+import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from './clients.enums';
+
+export interface ClientInterface {
+  id: number;
+  name: string;
+  avatar: string;
+  type: ClientTypeEnum;
+  category: ClientCategoryEnum;
+  email: string;
+  phone: string;
+  activeCases: number;
+  totalCases: number;
+  totalRevenue: number;
+  lastContact: string;
+  status: ClientStatusEnum;
+  joinDate: string;
+}
+
+export interface ClientFormInterface {
+  id: string;
+  firstName?: string;
+  lastName?: string;
+  middleName?: string;
+  companyName?: string;
+  type: ClientTypeEnum;
+  inn?: string;
+  kpp?: string;
+  email: string;
+  phone: string;
+  address?: string;
+  category?: string;
+  notes?: string;
+  activeCases: number;
+  totalRevenue: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateClientInterface {
+  firstName?: string;
+  lastName?: string;
+  middleName?: string;
+  companyName?: string;
+  type: ClientTypeEnum;
+  inn?: string;
+  kpp?: string;
+  email: string;
+  phone: string;
+  address?: string;
+  category?: string;
+  notes?: string;
+}

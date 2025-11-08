@@ -90,7 +90,7 @@ export const useCasesStore = create<CasesState>((set) => ({
     }
   },
 
-  fetchTasks: async (caseId) => {
+  fetchTasks: async (_caseId) => {
     set({ loading: true, error: null });
     try {
       set({ tasks: [], loading: false });

@@ -1,34 +1,42 @@
+import type { LucideIcon } from 'lucide-react';
+import { StatCardVariantEnum } from '@/app/types/dashboard/dashboard.enums';
+import { Badge } from '@/shared/ui/badge';
+import { Card } from '@/shared/ui/card';
+
 interface StatCardProps {
   title: string;
-  value: number;
-  icon?: string;
-  trend?: number;
+  value: string | number;
+  icon: LucideIcon;
+  iconColor: string;
+  iconBg: string;
+  trend?: {
+    value: string;
+    isPositive: boolean;
+  };
+  variant?: StatCardVariantEnum;
 }
 
-export const StatCard = ({ title, value, icon, trend }: StatCardProps) => {
+export function StatCard({ title, value, icon: Icon, iconColor, iconBg, trend, variant = StatCardVariantEnum.DEFAULT }: StatCardProps) {
   return (
-    <div style={{
-      padding: '20px',
-      background: 'white',
-      borderRadius: '8px',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <p style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>{title}</p>
-          <h3 style={{ fontSize: '28px', fontWeight: 'bold', margin: 0 }}>{value}</h3>
+    <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow">
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className={`w-12 h-12 rounded-2xl ${iconBg} flex items-center justify-center`}>
+            <Icon className={`w-6 h-6 ${iconColor}`} strokeWidth={2} />
+          </div>
+          {trend && (
+            <Badge className={
+              variant === StatCardVariantEnum.URGENT
+                ? 'bg-red-50 text-red-700 border-0 text-xs'
+                : 'bg-green-50 text-green-700 border-0 text-xs'
+            }>
+              {variant === StatCardVariantEnum.URGENT ? 'Срочно' : trend.value}
+            </Badge>
+          )}
         </div>
-        {icon && <span style={{ fontSize: '32px' }}>{icon}</span>}
+        <div className="text-3xl tracking-tight mb-1">{value}</div>
+        <div className="text-sm text-gray-500">{title}</div>
       </div>
-      {trend !== undefined && (
-        <p style={{
-          marginTop: '12px',
-          fontSize: '12px',
-          color: trend >= 0 ? '#10b981' : '#ef4444',
-        }}>
-          {trend >= 0 ? '↑' : '↓'} {Math.abs(trend)}%
-        </p>
-      )}
-    </div>
+    </Card>
   );
-};
+}
