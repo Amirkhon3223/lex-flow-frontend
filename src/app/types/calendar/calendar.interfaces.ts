@@ -19,3 +19,22 @@ export interface MeetingInterface {
   status: MeetingStatusEnum;
   priority?: MeetingPriorityEnum;
 }
+
+export interface AddMeetingDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export interface MeetingCardProps {
+  title: string;
+  client: string;
+  clientInitials: string;
+  duration: string;
+  location: string;
+  case?: string;
+  type: MeetingTypeEnum;
+  status: MeetingStatusEnum;
+  priority?: MeetingPriorityEnum;
+  statusText: string;
+  planned?: boolean;
+}

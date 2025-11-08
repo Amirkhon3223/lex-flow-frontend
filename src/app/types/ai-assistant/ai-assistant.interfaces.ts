@@ -19,3 +19,17 @@ export interface RecentAnalysisInterface {
   status: AnalysisStatusEnum;
   date: string;
 }
+
+export interface ChatAreaProps {
+  chatHistory: ChatMessageInterface[];
+}
+
+export interface ChatMessageProps {
+  chat: ChatMessageInterface;
+}
+
+export interface ChatInputProps {
+  message: string;
+  setMessage: (message: string) => void;
+  onSend: () => void;
+}

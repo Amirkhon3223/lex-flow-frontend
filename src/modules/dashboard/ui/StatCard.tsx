@@ -1,20 +1,7 @@
-import type { LucideIcon } from 'lucide-react';
 import { StatCardVariantEnum } from '@/app/types/dashboard/dashboard.enums';
+import type { StatCardProps } from '@/app/types/dashboard/dashboard.interfaces';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
-
-interface StatCardProps {
-  title: string;
-  value: string | number;
-  icon: LucideIcon;
-  iconColor: string;
-  iconBg: string;
-  trend?: {
-    value: string;
-    isPositive: boolean;
-  };
-  variant?: StatCardVariantEnum;
-}
 
 export function StatCard({ title, value, icon: Icon, iconColor, iconBg, trend, variant = StatCardVariantEnum.DEFAULT }: StatCardProps) {
   return (

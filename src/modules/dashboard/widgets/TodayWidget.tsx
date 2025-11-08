@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import { Calendar } from 'lucide-react';
+import { ROUTES } from '@/app/config/routes.config';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 
@@ -9,6 +11,8 @@ const upcomingEvents = [
 ];
 
 export function TodayWidget() {
+  const navigate = useNavigate();
+
   return (
     <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/30 text-white">
       <div className="p-6">
@@ -30,7 +34,10 @@ export function TodayWidget() {
           ))}
         </div>
 
-        <Button className="w-full mt-6 bg-white/20 hover:bg-white/30 text-white border-0 rounded-xl backdrop-blur-sm">
+        <Button
+          onClick={() => navigate(ROUTES.CALENDAR)}
+          className="w-full mt-6 bg-white/20 hover:bg-white/30 text-white border-0 rounded-xl backdrop-blur-sm cursor-pointer"
+        >
           Открыть календарь
         </Button>
       </div>

@@ -1,12 +1,7 @@
 import { Send } from 'lucide-react';
+import type { ChatInputProps } from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { Button } from '@/shared/ui/button';
 import { Textarea } from '@/shared/ui/textarea';
-
-interface ChatInputProps {
-  message: string;
-  setMessage: (message: string) => void;
-  onSend: () => void;
-}
 
 export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
   return (

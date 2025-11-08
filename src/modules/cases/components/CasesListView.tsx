@@ -57,6 +57,8 @@ import {
   Grid3x3,
   List,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/app/config/routes.config';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar'; // shared/ui в FSD
@@ -91,6 +93,7 @@ import {
 
 
 export function CasesListView() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterPriority, setFilterPriority] = useState('all');
@@ -264,7 +267,10 @@ export function CasesListView() {
               <p className="text-gray-500">Управление делами и докуме��тами</p>
             </div>
 
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md">
+            <Button
+              onClick={() => console.log('Open add case dialog')}
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md cursor-pointer"
+            >
               <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
               Новое дело
             </Button>
@@ -326,7 +332,7 @@ export function CasesListView() {
               <Button
                 variant={viewMode === 'table' ? 'default' : 'ghost'}
                 size="icon"
-                className="rounded-xl"
+                className="rounded-xl cursor-pointer"
                 onClick={() => setViewMode('table')}
               >
                 <List className="w-4 h-4" strokeWidth={2} />
@@ -334,7 +340,7 @@ export function CasesListView() {
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="icon"
-                className="rounded-xl"
+                className="rounded-xl cursor-pointer"
                 onClick={() => setViewMode('grid')}
               >
                 <Grid3x3 className="w-4 h-4" strokeWidth={2} />
@@ -381,7 +387,11 @@ export function CasesListView() {
               </TableHeader>
               <TableBody>
                 {filteredCases.map((caseItem) => (
-                  <TableRow key={caseItem.id} className="border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors">
+                  <TableRow
+                    key={caseItem.id}
+                    onClick={() => navigate(ROUTES.CASES.DETAIL(caseItem.id.toString()))}
+                    className="border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors"
+                  >
                     <TableCell>
                       <div className="max-w-[300px]">
                         <div className="tracking-tight mb-1 truncate">{caseItem.title}</div>
@@ -430,23 +440,46 @@ export function CasesListView() {
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="rounded-xl">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="rounded-xl cursor-pointer focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <MoreHorizontal className="w-4 h-4" strokeWidth={2} />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="rounded-xl">
                           <DropdownMenuLabel>Действия</DropdownMenuLabel>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="cursor-pointer">
+                          <DropdownMenuItem
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(ROUTES.CASES.DETAIL(caseItem.id.toString()));
+                            }}
+                            className="cursor-pointer"
+                          >
                             <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
                             Открыть
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="cursor-pointer">
+                          <DropdownMenuItem
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              console.log('Edit case:', caseItem.id);
+                            }}
+                            className="cursor-pointer"
+                          >
                             <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
                             Редактировать
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="cursor-pointer text-red-600">
+                          <DropdownMenuItem
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              console.log('Delete case:', caseItem.id);
+                            }}
+                            className="cursor-pointer text-red-600"
+                          >
                             <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
                             Удалить
                           </DropdownMenuItem>
@@ -459,10 +492,14 @@ export function CasesListView() {
             </Table>
           </Card>
         ) : (
-          
+
           <div className="grid grid-cols-3 gap-4">
             {filteredCases.map((caseItem) => (
-              <Card key={caseItem.id} className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+              <Card
+                key={caseItem.id}
+                onClick={() => navigate(ROUTES.CASES.DETAIL(caseItem.id.toString()))}
+                className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              >
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -502,7 +539,14 @@ export function CasesListView() {
                     </div>
                   </div>
 
-                  <Button variant="outline" className="w-full rounded-xl border-gray-200 hover:bg-gray-50">
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(ROUTES.CASES.DETAIL(caseItem.id.toString()));
+                    }}
+                    variant="outline"
+                    className="w-full rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer"
+                  >
                     Открыть дело
                   </Button>
                 </div>

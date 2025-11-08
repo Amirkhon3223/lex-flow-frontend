@@ -11,6 +11,7 @@ import {
   Calendar,
   DollarSign,
 } from 'lucide-react';
+import type { AddCaseDialogProps } from '@/app/types/cases/cases.interfaces';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -28,12 +29,6 @@ import {
   SelectValue,
 } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
-
-interface AddCaseDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSubmit?: (caseData: any) => void;
-}
 
 export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogProps) {
   const [formData, setFormData] = useState({

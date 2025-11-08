@@ -1,13 +1,7 @@
 import { Search, Filter, Star } from 'lucide-react';
+import type { FilterPanelProps } from '@/app/types/documents/documents.interfaces';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent } from '@/shared/ui/card';
-
-interface FilterPanelProps {
-    searchQuery: string;
-    onSearchChange: (query: string) => void;
-    filterType: 'all' | 'favorite';
-    onFilterChange: (filter: 'all' | 'favorite') => void;
-}
 
 export function FilterPanel({ searchQuery, onSearchChange, filterType, onFilterChange }: FilterPanelProps) {
     return (

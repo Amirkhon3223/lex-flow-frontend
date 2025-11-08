@@ -42,7 +42,7 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="relative w-11 h-11 rounded-xl hover:bg-gray-100"
+              className="relative w-11 h-11 rounded-xl hover:bg-gray-100 cursor-pointer"
               onClick={() => setIsNotificationsOpen(true)}
             >
               <Bell className="w-5 h-5" strokeWidth={2} />
@@ -52,7 +52,7 @@ export function Header() {
 
             {}
             <button
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+              className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
               onClick={() => {
 
                 console.log('Open profile');

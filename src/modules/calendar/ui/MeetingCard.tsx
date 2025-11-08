@@ -1,21 +1,8 @@
 import { Clock, Video, Phone, MapPin, Calendar as CalendarIcon } from 'lucide-react';
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
+import type { MeetingCardProps } from '@/app/types/calendar/calendar.interfaces';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
-
-interface MeetingCardProps {
-    title: string;
-    client: string;
-    clientInitials: string;
-    duration: string;
-    location: string;
-    case?: string;
-    type: MeetingTypeEnum;
-    status: MeetingStatusEnum;
-    priority?: MeetingPriorityEnum;
-    statusText: string;
-    planned?: boolean;
-}
 
 export function MeetingCard({
     title,

@@ -50,3 +50,8 @@ export interface CreateClientInterface {
   category?: string;
   notes?: string;
 }
+
+export interface EditClientDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}

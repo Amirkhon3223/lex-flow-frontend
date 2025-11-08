@@ -94,6 +94,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/ui/table';
+import { AddClientDialog } from '@/shared/components/AddClientDialog';
 
 
 export function ClientsListView() {
@@ -101,6 +102,7 @@ export function ClientsListView() {
   const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [isAddClientDialogOpen, setIsAddClientDialogOpen] = useState(false);
 
   const clients: ClientInterface[] = [
     {
@@ -300,6 +302,8 @@ export function ClientsListView() {
 
   return (
     <div>
+      <AddClientDialog open={isAddClientDialogOpen} onOpenChange={setIsAddClientDialogOpen} />
+
       {}
       <header className="relative bg-white border-b border-gray-200/50">
         <div className="px-8 py-4">
@@ -309,7 +313,10 @@ export function ClientsListView() {
               <p className="text-gray-500">База клиентов и контакты</p>
             </div>
 
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md">
+            <Button
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+              onClick={() => setIsAddClientDialogOpen(true)}
+            >
               <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
               Новый клиент
             </Button>

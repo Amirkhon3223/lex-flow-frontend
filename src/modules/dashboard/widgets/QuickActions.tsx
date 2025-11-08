@@ -16,21 +16,21 @@ export function QuickActions({ onAddClient, onAddCase, onUploadDocument }: Quick
 
         <div className="space-y-2">
           <Button
-            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl"
+            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer"
             onClick={onAddClient}
           >
             <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
             Новый клиент
           </Button>
           <Button
-            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl"
+            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer"
             onClick={onAddCase}
           >
             <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
             Новое дело
           </Button>
           <Button
-            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl"
+            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer"
             onClick={onUploadDocument}
           >
             <Plus className="w-4 h-4 mr-2" strokeWidth={2} />

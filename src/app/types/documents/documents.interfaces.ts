@@ -28,3 +28,10 @@ export interface DocumentInterface {
   lastModified: string;
   starred: boolean;
 }
+
+export interface FilterPanelProps {
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  filterType: 'all' | 'favorite';
+  onFilterChange: (filter: 'all' | 'favorite') => void;
+}
