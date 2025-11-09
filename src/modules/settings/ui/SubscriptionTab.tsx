@@ -1,6 +1,4 @@
 import type {
-    SubscriptionFeatures,
-    Payment,
     SubscriptionTabProps,
 } from '@/app/types/settings/settings.interfaces';
 import { PaymentHistoryItem } from './PaymentHistoryItem';

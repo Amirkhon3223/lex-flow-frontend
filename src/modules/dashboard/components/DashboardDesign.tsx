@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Users,
   Briefcase,
@@ -19,6 +18,11 @@ import {
   Tag,
   User,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/app/config/routes.config';
+import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
+import { AddClientDialog } from '@/shared/components/AddClientDialog';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -26,10 +30,6 @@ import { Card } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
 import { Progress } from '@/shared/ui/progress';
 import { Separator } from '@/shared/ui/separator';
-import { ROUTES } from '@/app/config/routes.config';
-import { AddClientDialog } from '@/shared/components/AddClientDialog';
-import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
-import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 
 export default function App() {
   const navigate = useNavigate();

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   MoreHorizontal,
@@ -25,9 +24,11 @@ import {
   MessageSquare,
   Video,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import { ClientTimelineTypeEnum } from '@/app/types/clients/clients.enums';
+import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -43,7 +44,6 @@ import { Separator } from '@/shared/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { ClientMeetingsCalendar } from './ClientMeetingsCalendar';
 import { EditClientDialog } from './EditClientDialog';
-import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
 
 export function ClientDetailView() {
   const navigate = useNavigate();

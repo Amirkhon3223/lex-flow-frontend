@@ -19,6 +19,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { DocumentStatusEnum, DocumentCategoryEnum } from '@/app/types/documents/documents.enums';
 import type { DocumentInterface } from '@/app/types/documents/documents.interfaces';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -36,7 +37,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
-import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 
 
 export function DocumentsListView() {

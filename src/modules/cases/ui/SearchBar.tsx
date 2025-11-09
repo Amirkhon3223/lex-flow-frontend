@@ -1,9 +1,5 @@
 import { Search } from 'lucide-react';
-
-interface SearchBarProps {
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-}
+import type { SearchBarProps } from '@/app/types/cases/cases.interfaces';
 
 export function SearchBar({ searchQuery, setSearchQuery }: SearchBarProps) {
   return (
