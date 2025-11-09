@@ -44,8 +44,6 @@
 
 import { useState } from 'react';
 import {
-  Search,
-  Filter,
   Plus,
   MoreHorizontal,
   Calendar,
@@ -65,6 +63,7 @@ import { ROUTES } from '@/app/config/routes.config';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
 import { AddCaseDialog } from '@/modules/cases/ui/AddCaseDialog';
+import { CaseFilters } from '@/modules/cases/ui/CaseFilters';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar'; // shared/ui в FSD
 import { Badge } from '@/shared/ui/badge'; // shared/ui в FSD
 import { Button } from '@/shared/ui/button'; // shared/ui в FSD
@@ -77,15 +76,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
-import { Input } from '@/shared/ui/input'; // shared/ui в FSD
 import { Progress } from '@/shared/ui/progress'; // shared/ui в FSD
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
 import {
   Table,
   TableBody,
@@ -269,7 +260,7 @@ export function CasePage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-3xl tracking-tight mb-1">Дела</h1>
-              <p className="text-gray-500">Управление делами и докуме��тами</p>
+              <p className="text-gray-500">Управление делами и документами</p>
             </div>
 
             <Button
@@ -283,55 +274,16 @@ export function CasePage() {
 
           {}
           <div className="flex items-center gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
-              <Input
-                placeholder="Поиск дел..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-10 bg-gray-100/80 border-0 rounded-xl focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:bg-white"
-              />
-            </div>
-
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-[180px] h-10 rounded-xl border-gray-200">
-                <Filter className="w-4 h-4 mr-2" strokeWidth={2} />
-                <SelectValue placeholder="Статус" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                <SelectItem value="all">Все статусы</SelectItem>
-                <SelectItem value="in_progress">В работе</SelectItem>
-                <SelectItem value="review">На проверке</SelectItem>
-                <SelectItem value="completed">Завершено</SelectItem>
-                <SelectItem value="on_hold">Приостановлено</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={filterPriority} onValueChange={setFilterPriority}>
-              <SelectTrigger className="w-[160px] h-10 rounded-xl border-gray-200">
-                <SelectValue placeholder="Приоритет" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                <SelectItem value="all">Все приоритеты</SelectItem>
-                <SelectItem value="high">Высокий</SelectItem>
-                <SelectItem value="medium">Средний</SelectItem>
-                <SelectItem value="low">Низкий</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={filterCategory} onValueChange={setFilterCategory}>
-              <SelectTrigger className="w-[200px] h-10 rounded-xl border-gray-200">
-                <SelectValue placeholder="Категория" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                <SelectItem value="all">Все категории</SelectItem>
-                <SelectItem value="Трудовое право">Трудовое право</SelectItem>
-                <SelectItem value="Договорное право">Договорное право</SelectItem>
-                <SelectItem value="Наследственное право">Наследственное право</SelectItem>
-                <SelectItem value="Семейное право">Семейное право</SelectItem>
-                <SelectItem value="Защита прав потребителей">Защита прав потребителей</SelectItem>
-              </SelectContent>
-            </Select>
+            <CaseFilters
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              filterStatus={filterStatus}
+              setFilterStatus={setFilterStatus}
+              filterPriority={filterPriority}
+              setFilterPriority={setFilterPriority}
+              filterCategory={filterCategory}
+              setFilterCategory={setFilterCategory}
+            />
 
             <div className="flex items-center gap-1 ml-auto">
               <Button

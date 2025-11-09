@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { ChevronRight, User, Clock, MoreHorizontal, Eye, Edit, Trash2, Archive } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
+import { FilterTabs } from '@/modules/cases/ui/FilterTabs';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -13,14 +15,14 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { Progress } from '@/shared/ui/progress';
 
-const cases = [
+const allCases = [
   {
     id: 1,
     title: 'Трудовой спор - увольнение',
     client: 'Иванов П.А.',
     deadline: 'Завтра',
     progress: 75,
-    urgent: true,
+    status: 'urgent' as const,
   },
   {
     id: 2,
@@ -28,7 +30,7 @@ const cases = [
     client: 'ООО "ТехноСтрой"',
     deadline: 'Через 5 дней',
     progress: 45,
-    urgent: false,
+    status: 'medium' as const,
   },
   {
     id: 3,
@@ -36,15 +38,28 @@ const cases = [
     client: 'Смирнова А.В.',
     deadline: 'Через 2 недели',
     progress: 30,
-    urgent: false,
+    status: 'medium' as const,
+  },
+  {
+    id: 4,
+    title: 'Взыскание задолженности',
+    client: 'Петров М.И.',
+    deadline: 'Завершено',
+    progress: 100,
+    status: 'completed' as const,
   },
 ];
 
 export function PriorityCases() {
   const navigate = useNavigate();
+  const [filterStatus, setFilterStatus] = useState<'all' | 'urgent' | 'medium' | 'completed'>('all');
+
+  const filteredCases = filterStatus === 'all'
+    ? allCases
+    : allCases.filter(c => c.status === filterStatus);
 
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-xl">
+    <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl tracking-tight">Приоритетные дела</h3>
@@ -59,8 +74,12 @@ export function PriorityCases() {
           </Button>
         </div>
 
+        <div className="mb-4">
+          <FilterTabs filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
+        </div>
+
         <div className="space-y-4">
-          {cases.map((item) => (
+          {filteredCases.map((item) => (
             <div
               key={item.id}
               onClick={() => navigate(ROUTES.CASES.DETAIL(item.id.toString()))}
@@ -70,9 +89,14 @@ export function PriorityCases() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <h4 className="tracking-tight">{item.title}</h4>
-                    {item.urgent && (
+                    {item.status === 'urgent' && (
                       <Badge className="bg-red-100 text-red-700 border-0 text-xs">
                         Срочно
+                      </Badge>
+                    )}
+                    {item.status === 'completed' && (
+                      <Badge className="bg-green-100 text-green-700 border-0 text-xs">
+                        Завершено
                       </Badge>
                     )}
                   </div>

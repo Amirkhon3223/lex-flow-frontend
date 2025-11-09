@@ -76,7 +76,7 @@ export function SettingsView() {
 
             {}
             <TabsContent value="profile" className="space-y-6">
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">Личная информация</h3>
 
@@ -149,7 +149,7 @@ export function SettingsView() {
                 </div>
               </Card>
 
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">Региональные настройки</h3>
 
@@ -189,7 +189,7 @@ export function SettingsView() {
 
             {}
             <TabsContent value="notifications" className="space-y-6">
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">Уведомления по email</h3>
 
@@ -213,7 +213,7 @@ export function SettingsView() {
                 </div>
               </Card>
 
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">Push-уведомления</h3>
 
@@ -238,7 +238,7 @@ export function SettingsView() {
 
             {}
             <TabsContent value="security" className="space-y-6">
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">Изменить пароль</h3>
 
@@ -278,7 +278,7 @@ export function SettingsView() {
                 </div>
               </Card>
 
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">Двухфакторная аутентификация</h3>
 
@@ -299,7 +299,7 @@ export function SettingsView() {
                 </div>
               </Card>
 
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-4">Активные сессии</h3>
                   <p className="text-gray-500 mb-6">Это устройства, на которых выполнен вход в ваш аккаунт</p>
@@ -335,7 +335,7 @@ export function SettingsView() {
 
             {}
             <TabsContent value="team" className="space-y-6">
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl tracking-tight">Члены команды</h3>
@@ -424,7 +424,7 @@ export function SettingsView() {
                 </div>
               </Card>
 
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">История платежей</h3>
 

@@ -287,7 +287,7 @@ export function CaseDetailView() {
           {/* Left Column */}
           <div className="col-span-2 space-y-6">
             {/* Progress Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg tracking-tight">Прогресс дела</h3>
@@ -369,7 +369,7 @@ export function CaseDetailView() {
             </Card>
 
             {/* Tabs Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <Tabs defaultValue="documents" className="w-full">
                 <div className="border-b border-gray-100 px-6 pt-6">
                   <TabsList className="bg-gray-100 rounded-xl p-1">
@@ -482,7 +482,7 @@ export function CaseDetailView() {
           {/* Right Column */}
           <div className="space-y-6">
             {/* Client Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Клиент</h3>
 
@@ -527,7 +527,7 @@ export function CaseDetailView() {
             </Card>
 
             {/* Tasks Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg tracking-tight">Задачи</h3>
@@ -567,7 +567,7 @@ export function CaseDetailView() {
             </Card>
 
             {/* Finances Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Финансы</h3>
 
@@ -595,7 +595,7 @@ export function CaseDetailView() {
             </Card>
 
             {/* Comments Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <div
                   className="flex items-center justify-between mb-4 cursor-pointer"

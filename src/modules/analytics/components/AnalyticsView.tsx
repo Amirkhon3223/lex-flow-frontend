@@ -105,7 +105,7 @@ export function AnalyticsView() {
 
           {}
           <div className="grid grid-cols-4 gap-4">
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
@@ -121,7 +121,7 @@ export function AnalyticsView() {
               </div>
             </Card>
 
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
@@ -137,7 +137,7 @@ export function AnalyticsView() {
               </div>
             </Card>
 
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
@@ -153,7 +153,7 @@ export function AnalyticsView() {
               </div>
             </Card>
 
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
@@ -222,7 +222,7 @@ export function AnalyticsView() {
               </Card>
 
               {}
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">Типы дел</h3>
                   <ResponsiveContainer width="100%" height={300}>
@@ -266,7 +266,7 @@ export function AnalyticsView() {
             </div>
 
             {}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <h3 className="text-xl tracking-tight mb-6">Динамика дохода</h3>
                 <ResponsiveContainer width="100%" height={250}>
@@ -297,7 +297,7 @@ export function AnalyticsView() {
           </TabsContent>
 
           <TabsContent value="team" className="space-y-6">
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <h3 className="text-xl tracking-tight mb-6">Лучшие юристы</h3>
                 <div className="space-y-4">

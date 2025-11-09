@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ChevronLeft,
   Mail,
@@ -9,16 +10,22 @@ import {
   DollarSign,
   Clock,
   TrendingUp,
-  Edit,
+  Edit, Plus,
 } from 'lucide-react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import type { CaseCardInterface } from "@/app/types/cases/cases.interfaces.ts";
+import { CaseCard } from "@/modules/cases/ui/CaseCard.tsx";
+import { EditClientDialog } from "@/modules/clients/components/EditClientDialog.tsx";
+import { AddClientDialog } from "@/shared/components/AddClientDialog.tsx";
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { Progress } from '@/shared/ui/progress';
 
 export default function ClientDetailPage() {
+  const navigate = useNavigate();
+  const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { id: _id } = useParams();
 
   const client = {
@@ -40,47 +47,58 @@ export default function ClientDetailPage() {
     interactions: 12,
   };
 
-  const cases = [
+  const cases: CaseCardInterface[] = [
     {
       id: 1,
       title: 'Трудовой спор - незаконное увольнение',
+      client: 'Иванов Петр Алексеевич',
+      clientInitials: 'ИП',
+      category: 'Трудовое право',
+      deadline: '20 окт 2025',
+      daysLeft: 5,
+      progress: 75,
+      documents: 8,
+      events: 3,
       status: 'urgent',
       statusText: 'Срочно',
-      inProgress: true,
-      documents: 8,
-      deadline: '20 окт 2025',
-      timeLeft: '2 часа назад',
-      progress: 75,
     },
     {
       id: 2,
       title: 'Восстановление на работе',
-      status: 'review',
-      statusText: 'На проверке',
-      inProgress: true,
-      documents: 5,
+      client: 'Иванов Петр Алексеевич',
+      clientInitials: 'ИП',
+      category: 'Трудовое право',
       deadline: '15 ноя 2025',
-      timeLeft: '1 день назад',
+      daysLeft: 30,
       progress: 45,
+      documents: 5,
+      events: 2,
+      status: 'medium',
+      statusText: 'На проверке',
     },
     {
       id: 3,
       title: 'Взыскание задолженности по зарплате',
+      client: 'Иванов Петр Алексеевич',
+      clientInitials: 'ИП',
+      category: 'Трудовое право',
+      deadline: '5 окт 2025',
+      daysLeft: -10,
+      progress: 100,
+      documents: 12,
+      events: 5,
       status: 'completed',
       statusText: 'Завершено',
-      inProgress: false,
-      documents: 12,
-      deadline: '5 окт 2025',
-      timeLeft: '5 дней назад',
-      progress: 100,
     },
   ];
 
   return (
     <div className="space-y-6">
+      <AddClientDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen}/>
+      <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}/>
       {}
       <Link to="/clients" className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900">
-        <ChevronLeft className="mr-1 h-4 w-4" />
+        <ChevronLeft className="mr-1 h-4 w-4"/>
         Все клиенты
       </Link>
 
@@ -106,11 +124,11 @@ export default function ClientDetailPage() {
             </div>
             <div className="mt-2 flex items-center gap-4 text-sm">
               <div className="flex items-center gap-1 text-gray-600">
-                <Mail className="h-4 w-4" />
+                <Mail className="h-4 w-4"/>
                 {client.email}
               </div>
               <div className="flex items-center gap-1 text-gray-600">
-                <Phone className="h-4 w-4" />
+                <Phone className="h-4 w-4"/>
                 {client.phone}
               </div>
             </div>
@@ -120,8 +138,11 @@ export default function ClientDetailPage() {
           <Button variant="outline">
             Написать
           </Button>
-          <Button>
-            <Edit className="mr-2 h-4 w-4" />
+          <Button
+            className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+            onClick={() => setIsAddCaseDialogOpen(true)}
+          >
+            <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
             Новое дело
           </Button>
         </div>
@@ -130,70 +151,70 @@ export default function ClientDetailPage() {
       {}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-5">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-6 bg-white rounded-xl">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-gray-600">Активных дел</p>
                 <p className="mt-2 text-3xl font-bold">{client.activeCases}</p>
               </div>
               <div className="rounded-lg bg-blue-50 p-3">
-                <Briefcase className="h-5 w-5 text-blue-600" />
+                <Briefcase className="h-5 w-5 text-blue-600"/>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-6 bg-white rounded-xl">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-gray-600">Документов</p>
                 <p className="mt-2 text-3xl font-bold">{client.documents}</p>
               </div>
               <div className="rounded-lg bg-purple-50 p-3">
-                <FileText className="h-5 w-5 text-purple-600" />
+                <FileText className="h-5 w-5 text-purple-600"/>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-6 bg-white rounded-xl">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-gray-600">Общий гонорар</p>
                 <p className="mt-2 text-3xl font-bold">{client.totalRevenue}</p>
               </div>
               <div className="rounded-lg bg-green-50 p-3">
-                <DollarSign className="h-5 w-5 text-green-600" />
+                <DollarSign className="h-5 w-5 text-green-600"/>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-6 bg-white rounded-xl">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-gray-600">Часов работы</p>
                 <p className="mt-2 text-3xl font-bold">{client.hoursWorked}</p>
               </div>
               <div className="rounded-lg bg-orange-50 p-3">
-                <Clock className="h-5 w-5 text-orange-600" />
+                <Clock className="h-5 w-5 text-orange-600"/>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-6 bg-white rounded-xl">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-gray-600">Взаимодействий</p>
                 <p className="mt-2 text-3xl font-bold">{client.interactions}</p>
               </div>
               <div className="rounded-lg bg-red-50 p-3">
-                <TrendingUp className="h-5 w-5 text-red-600" />
+                <TrendingUp className="h-5 w-5 text-red-600"/>
               </div>
             </div>
           </CardContent>
@@ -201,7 +222,7 @@ export default function ClientDetailPage() {
       </div>
 
       {}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 bg-white rounded-xl">
         {}
         <div className="lg:col-span-2">
           <Card>
@@ -211,41 +232,7 @@ export default function ClientDetailPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               {cases.map((caseItem) => (
-                <div
-                  key={caseItem.id}
-                  className="rounded-lg border p-4 transition-colors hover:bg-gray-50"
-                >
-                  <div className="mb-3 flex items-start justify-between">
-                    <div>
-                      <h3 className="font-medium text-gray-900">{caseItem.title}</h3>
-                      <div className="mt-1 flex items-center gap-3 text-sm text-gray-600">
-                        <span>📄 {caseItem.documents} документов</span>
-                        <span>📅 {caseItem.deadline}</span>
-                        <span>🕐 {caseItem.timeLeft}</span>
-                      </div>
-                    </div>
-                    <Badge
-                      className={
-                        caseItem.status === 'urgent'
-                          ? 'bg-red-100 text-red-700 border-red-200'
-                          : caseItem.status === 'review'
-                          ? 'bg-purple-100 text-purple-700 border-purple-200'
-                          : 'bg-green-100 text-green-700 border-green-200'
-                      }
-                    >
-                      {caseItem.statusText}
-                    </Badge>
-                  </div>
-                  {caseItem.inProgress && (
-                    <div>
-                      <div className="mb-2 flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Прогресс</span>
-                        <span className="font-medium">{caseItem.progress}%</span>
-                      </div>
-                      <Progress value={caseItem.progress} />
-                    </div>
-                  )}
-                </div>
+                <CaseCard key={caseItem.id} caseItem={caseItem} />
               ))}
             </CardContent>
           </Card>
@@ -257,14 +244,14 @@ export default function ClientDetailPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Контактная информация</CardTitle>
-              <Button variant="ghost" size="icon">
-                <Edit className="h-4 w-4" />
+              <Button variant="ghost" size="icon" onClick={() => setIsEditDialogOpen(true)}>
+                <Edit className="h-4 w-4"/>
               </Button>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-blue-50 p-2">
-                  <Mail className="h-4 w-4 text-blue-600" />
+                  <Mail className="h-4 w-4 text-blue-600"/>
                 </div>
                 <div>
                   <div className="text-sm text-gray-600">Email</div>
@@ -273,7 +260,7 @@ export default function ClientDetailPage() {
               </div>
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-green-50 p-2">
-                  <Phone className="h-4 w-4 text-green-600" />
+                  <Phone className="h-4 w-4 text-green-600"/>
                 </div>
                 <div>
                   <div className="text-sm text-gray-600">Телефон</div>
@@ -282,7 +269,7 @@ export default function ClientDetailPage() {
               </div>
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-purple-50 p-2">
-                  <MapPin className="h-4 w-4 text-purple-600" />
+                  <MapPin className="h-4 w-4 text-purple-600"/>
                 </div>
                 <div>
                   <div className="text-sm text-gray-600">Адрес</div>
@@ -291,7 +278,7 @@ export default function ClientDetailPage() {
               </div>
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-orange-50 p-2">
-                  <CalendarIcon className="h-4 w-4 text-orange-600" />
+                  <CalendarIcon className="h-4 w-4 text-orange-600"/>
                 </div>
                 <div>
                   <div className="text-sm text-gray-600">Дата рождения</div>
