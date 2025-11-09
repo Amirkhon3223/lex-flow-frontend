@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { ChevronRight, User, Clock, MoreHorizontal, Eye, Edit, Trash2, Archive } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';

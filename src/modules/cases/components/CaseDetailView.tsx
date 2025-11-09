@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   ArrowLeft,
   MoreHorizontal,
@@ -19,28 +20,63 @@ import {
   TrendingUp,
   DollarSign,
   History,
+  Link,
+  Mail,
+  Edit,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/app/config/routes.config';
+import {
+  DocumentStatusEnum,
+  TimelineEventTypeEnum,
+  AIInsightTypeEnum,
+  AIInsightPriorityEnum,
+} from '@/app/types/cases/cases.enums';
+import type {
+  CaseDocumentInterface,
+  TimelineEventInterface,
+  CaseTaskInterface,
+  AIInsightInterface,
+} from '@/app/types/cases/cases.interfaces';
+import { AddTaskDialog } from '@/shared/components/AddTaskDialog';
+import { CommentsDialog } from '@/shared/components/CommentsDialog';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/shared/ui/dropdown-menu';
 import { Progress } from '@/shared/ui/progress';
 import { Separator } from '@/shared/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { Textarea } from '@/shared/ui/textarea';
 
-
 export function CaseDetailView() {
+  const navigate = useNavigate();
   const onBack = () => window.history.back();
 
-  const documents = [
+  const [isUploadDocumentDialogOpen, setIsUploadDocumentDialogOpen] = useState(false);
+  const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] = useState(false);
+  const [isCommentsDialogOpen, setIsCommentsDialogOpen] = useState(false);
+  const [isEditCaseDialogOpen, setIsEditCaseDialogOpen] = useState(false);
+
+  // Mock data - в продакшене будет из API
+  const caseId = 1;
+  const clientId = 1;
+
+  const documents: CaseDocumentInterface[] = [
     {
       id: 1,
       name: 'Исковое заявление.pdf',
       size: '2.4 MB',
       date: '12 окт 2025',
       versions: 3,
-      status: 'final',
+      status: DocumentStatusEnum.FINAL,
     },
     {
       id: 2,
@@ -48,7 +84,7 @@ export function CaseDetailView() {
       size: '1.8 MB',
       date: '10 окт 2025',
       versions: 2,
-      status: 'review',
+      status: DocumentStatusEnum.REVIEW,
     },
     {
       id: 3,
@@ -56,68 +92,105 @@ export function CaseDetailView() {
       size: '856 KB',
       date: '8 окт 2025',
       versions: 1,
-      status: 'draft',
+      status: DocumentStatusEnum.DRAFT,
     },
   ];
 
-  const timeline = [
+  const timeline: TimelineEventInterface[] = [
     {
       date: '15 окт 2025, 14:30',
       title: 'Документ отправлен клиенту',
       description: 'Исковое заявление.pdf',
-      type: 'document',
+      type: TimelineEventTypeEnum.DOCUMENT,
     },
     {
       date: '14 окт 2025, 11:00',
       title: 'Встреча с клиентом',
       description: 'Обсуждение стратегии защиты',
-      type: 'meeting',
+      type: TimelineEventTypeEnum.MEETING,
     },
     {
       date: '12 окт 2025, 16:45',
       title: 'Создан новый документ',
       description: 'Исковое заявление.pdf (версия 3)',
-      type: 'document',
+      type: TimelineEventTypeEnum.DOCUMENT,
     },
     {
       date: '10 окт 2025, 09:15',
       title: 'Дело создано',
       description: 'Трудовой спор - незаконное увольнение',
-      type: 'system',
+      type: TimelineEventTypeEnum.SYSTEM,
     },
   ];
 
-  const tasks = [
+  const tasks: CaseTaskInterface[] = [
     { id: 1, title: 'Подготовить возражение на иск', completed: true },
     { id: 2, title: 'Собрать доказательства', completed: true },
     { id: 3, title: 'Встретиться с клиентом', completed: false },
     { id: 4, title: 'Подать документы в суд', completed: false },
   ];
 
-  const aiInsights = [
+  const aiInsights: AIInsightInterface[] = [
     {
-      type: 'risk',
+      type: AIInsightTypeEnum.RISK,
       title: 'Выявлен риск',
       description: 'Отсутствует уведомление о сокращении за 2 месяца',
-      priority: 'high',
+      priority: AIInsightPriorityEnum.HIGH,
     },
     {
-      type: 'opportunity',
+      type: AIInsightTypeEnum.OPPORTUNITY,
       title: 'Сильная позиция',
       description: 'Есть свидетели нарушения процедуры увольнения',
-      priority: 'medium',
+      priority: AIInsightPriorityEnum.MEDIUM,
     },
     {
-      type: 'deadline',
+      type: AIInsightTypeEnum.DEADLINE,
       title: 'Приближается срок',
       description: 'Подача в суд через 5 дней',
-      priority: 'high',
+      priority: AIInsightPriorityEnum.HIGH,
     },
   ];
 
+  const handleAIReport = () => {
+    navigate(ROUTES.AI_ASSISTANT);
+  };
+
+  const handleClientProfile = () => {
+    navigate(`${ROUTES.CLIENTS.BASE}/${clientId}`);
+  };
+
+  const handleDocumentClick = (docId: number) => {
+    navigate(`${ROUTES.DOCUMENTS.BASE}/${docId}`);
+  };
+
+  const handleDownloadDocument = (docName: string) => {
+    const link = document.createElement('a');
+    link.href = '#';
+    link.download = docName;
+    link.click();
+    console.log('Downloading:', docName);
+  };
+
+  const handleCopyLink = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    console.log('Link copied:', url);
+  };
+
+  const handleShareEmail = () => {
+    const url = window.location.href;
+    const subject = 'Поделиться делом';
+    const body = `Посмотрите это дело: ${url}`;
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <div>
-      {}
+      <UploadDocumentDialog open={isUploadDocumentDialogOpen} onOpenChange={setIsUploadDocumentDialogOpen} />
+      <AddTaskDialog open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen} />
+      <CommentsDialog open={isCommentsDialogOpen} onOpenChange={setIsCommentsDialogOpen} />
+
+      {/* Header */}
       <header className="relative bg-white border-b border-gray-200/50">
         <div className="px-8 py-4">
           <div className="flex items-center justify-between mb-4">
@@ -127,12 +200,37 @@ export function CaseDetailView() {
             </Button>
 
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
-                <Share2 className="w-5 h-5" strokeWidth={2} />
-              </Button>
-              <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
-                <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
+                    <Share2 className="w-5 h-5" strokeWidth={2} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={handleCopyLink}>
+                    <Link className="w-4 h-4 mr-2" strokeWidth={2} />
+                    Скопировать ссылку
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleShareEmail}>
+                    <Mail className="w-4 h-4 mr-2" strokeWidth={2} />
+                    Поделиться в почте
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
+                    <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={() => setIsEditCaseDialogOpen(true)}>
+                    <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
+                    Редактировать дело
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
@@ -161,7 +259,10 @@ export function CaseDetailView() {
               </div>
             </div>
 
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md">
+            <Button
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+              onClick={() => setIsUploadDocumentDialogOpen(true)}
+            >
               <Paperclip className="w-4 h-4 mr-2" strokeWidth={2} />
               Добавить документ
             </Button>
@@ -169,12 +270,12 @@ export function CaseDetailView() {
         </div>
       </header>
 
-      {}
+      {/* Main */}
       <main className="px-8 py-6">
         <div className="grid grid-cols-3 gap-6">
-          {}
+          {/* Left Column */}
           <div className="col-span-2 space-y-6">
-            {}
+            {/* Progress Card */}
             <Card className="bg-white border-0 shadow-sm">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -183,27 +284,35 @@ export function CaseDetailView() {
                 </div>
                 <Progress value={75} className="h-2 mb-4" />
                 <div className="grid grid-cols-4 gap-4 text-center">
-                  <div>
-                    <div className="text-2xl tracking-tight mb-1">8</div>
+                  <div className="flex flex-col items-center">
+                    <Badge className="bg-blue-100 text-blue-700 border-0 text-lg px-3 py-1 mb-2">
+                      8
+                    </Badge>
                     <div className="text-sm text-gray-500">Документов</div>
                   </div>
-                  <div>
-                    <div className="text-2xl tracking-tight mb-1">12</div>
+                  <div className="flex flex-col items-center">
+                    <Badge className="bg-purple-100 text-purple-700 border-0 text-lg px-3 py-1 mb-2">
+                      12
+                    </Badge>
                     <div className="text-sm text-gray-500">Событий</div>
                   </div>
-                  <div>
-                    <div className="text-2xl tracking-tight mb-1">5</div>
+                  <div className="flex flex-col items-center">
+                    <Badge className="bg-orange-100 text-orange-700 border-0 text-lg px-3 py-1 mb-2">
+                      5
+                    </Badge>
                     <div className="text-sm text-gray-500">Дней до суда</div>
                   </div>
-                  <div>
-                    <div className="text-2xl tracking-tight mb-1">3</div>
+                  <div className="flex flex-col items-center">
+                    <Badge className="bg-green-100 text-green-700 border-0 text-lg px-3 py-1 mb-2">
+                      3
+                    </Badge>
                     <div className="text-sm text-gray-500">Задачи</div>
                   </div>
                 </div>
               </div>
             </Card>
 
-            {}
+            {/* AI Insights Card */}
             <Card className="bg-gradient-to-br from-purple-500 to-pink-500 border-0 shadow-lg shadow-purple-500/20 text-white">
               <div className="p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -221,13 +330,13 @@ export function CaseDetailView() {
                     >
                       <div className="flex items-start gap-3">
                         <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                          insight.priority === 'high'
+                          insight.priority === AIInsightPriorityEnum.HIGH
                             ? 'bg-white/20'
                             : 'bg-white/10'
                         }`}>
-                          {insight.type === 'risk' && <AlertCircle className="w-4 h-4" strokeWidth={2.5} />}
-                          {insight.type === 'opportunity' && <TrendingUp className="w-4 h-4" strokeWidth={2.5} />}
-                          {insight.type === 'deadline' && <Clock className="w-4 h-4" strokeWidth={2.5} />}
+                          {insight.type === AIInsightTypeEnum.RISK && <AlertCircle className="w-4 h-4" strokeWidth={2.5} />}
+                          {insight.type === AIInsightTypeEnum.OPPORTUNITY && <TrendingUp className="w-4 h-4" strokeWidth={2.5} />}
+                          {insight.type === AIInsightTypeEnum.DEADLINE && <Clock className="w-4 h-4" strokeWidth={2.5} />}
                         </div>
                         <div className="flex-1">
                           <div className="text-sm mb-1 opacity-90">{insight.title}</div>
@@ -238,14 +347,17 @@ export function CaseDetailView() {
                   ))}
                 </div>
 
-                <Button className="w-full bg-white/20 hover:bg-white/30 border-0 rounded-xl backdrop-blur-sm text-white">
+                <Button
+                  className="w-full bg-white/20 hover:bg-white/30 border-0 rounded-xl backdrop-blur-sm text-white"
+                  onClick={handleAIReport}
+                >
                   Полный AI отчет
                   <ChevronRight className="w-4 h-4 ml-2" strokeWidth={2} />
                 </Button>
               </div>
             </Card>
 
-            {}
+            {/* Tabs Card */}
             <Card className="bg-white border-0 shadow-sm">
               <Tabs defaultValue="documents" className="w-full">
                 <div className="border-b border-gray-100 px-6 pt-6">
@@ -266,23 +378,23 @@ export function CaseDetailView() {
                   {documents.map((doc) => (
                     <div
                       key={doc.id}
-                      className="group flex items-center gap-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer"
+                      className="group flex items-center gap-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all"
                     >
                       <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
                         <FileText className="w-6 h-6 text-blue-500" strokeWidth={2} />
                       </div>
 
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 cursor-pointer" onClick={() => handleDocumentClick(doc.id)}>
                         <div className="flex items-center gap-2 mb-1">
                           <h4 className="tracking-tight truncate">{doc.name}</h4>
                           <Badge className={`${
-                            doc.status === 'final'
+                            doc.status === DocumentStatusEnum.FINAL
                               ? 'bg-green-100 text-green-700'
-                              : doc.status === 'review'
+                              : doc.status === DocumentStatusEnum.REVIEW
                               ? 'bg-blue-100 text-blue-700'
                               : 'bg-gray-200 text-gray-700'
                           } border-0 text-xs`}>
-                            {doc.status === 'final' ? 'Финал' : doc.status === 'review' ? 'Проверка' : 'Черновик'}
+                            {doc.status === DocumentStatusEnum.FINAL ? 'Финал' : doc.status === DocumentStatusEnum.REVIEW ? 'Проверка' : 'Черновик'}
                           </Badge>
                         </div>
                         <div className="flex items-center gap-3 text-sm text-gray-500">
@@ -297,11 +409,21 @@ export function CaseDetailView() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button variant="ghost" size="icon" className="rounded-xl">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="rounded-xl"
+                          onClick={() => handleDocumentClick(doc.id)}
+                        >
                           <Eye className="w-4 h-4" strokeWidth={2} />
                         </Button>
-                        <Button variant="ghost" size="icon" className="rounded-xl">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="rounded-xl"
+                          onClick={() => handleDownloadDocument(doc.name)}
+                        >
                           <Download className="w-4 h-4" strokeWidth={2} />
                         </Button>
                       </div>
@@ -309,7 +431,7 @@ export function CaseDetailView() {
                   ))}
                 </TabsContent>
 
-                <TabsContent value="timeline" className="p-6">
+                <TabsContent value="timeline" className="p-6 max-h-[500px] overflow-y-auto">
                   <div className="space-y-6">
                     {timeline.map((event, index) => (
                       <div key={index} className="flex gap-4">
@@ -346,9 +468,9 @@ export function CaseDetailView() {
             </Card>
           </div>
 
-          {}
+          {/* Right Column */}
           <div className="space-y-6">
-            {}
+            {/* Client Card */}
             <Card className="bg-white border-0 shadow-sm">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Клиент</h3>
@@ -382,14 +504,18 @@ export function CaseDetailView() {
                   </div>
                 </div>
 
-                <Button variant="outline" className="w-full mt-4 rounded-xl border-gray-200 hover:bg-gray-50">
+                <Button
+                  variant="outline"
+                  className="w-full mt-4 rounded-xl border-gray-200 hover:bg-gray-50"
+                  onClick={handleClientProfile}
+                >
                   Профиль клиента
                   <ChevronRight className="w-4 h-4 ml-2" strokeWidth={2} />
                 </Button>
               </div>
             </Card>
 
-            {}
+            {/* Tasks Card */}
             <Card className="bg-white border-0 shadow-sm">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -419,13 +545,17 @@ export function CaseDetailView() {
                   ))}
                 </div>
 
-                <Button variant="ghost" className="w-full mt-3 text-blue-500 hover:bg-blue-50 rounded-xl">
+                <Button
+                  variant="ghost"
+                  className="w-full mt-3 text-blue-500 hover:bg-blue-50 rounded-xl"
+                  onClick={() => setIsAddTaskDialogOpen(true)}
+                >
                   Добавить задачу
                 </Button>
               </div>
             </Card>
 
-            {}
+            {/* Finances Card */}
             <Card className="bg-white border-0 shadow-sm">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Финансы</h3>
@@ -453,17 +583,24 @@ export function CaseDetailView() {
               </div>
             </Card>
 
-            {}
+            {/* Comments Card */}
             <Card className="bg-white border-0 shadow-sm">
               <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
+                <div
+                  className="flex items-center justify-between mb-4 cursor-pointer"
+                  onClick={() => setIsCommentsDialogOpen(true)}
+                >
                   <h3 className="text-lg tracking-tight">Комментарии</h3>
                   <Badge className="bg-blue-100 text-blue-700 border-0">
                     3
                   </Badge>
                 </div>
 
-                <Button variant="outline" className="w-full rounded-xl border-gray-200 hover:bg-gray-50">
+                <Button
+                  variant="outline"
+                  className="w-full rounded-xl border-gray-200 hover:bg-gray-50"
+                  onClick={() => setIsCommentsDialogOpen(true)}
+                >
                   <MessageSquare className="w-4 h-4 mr-2" strokeWidth={2} />
                   Добавить комментарий
                 </Button>

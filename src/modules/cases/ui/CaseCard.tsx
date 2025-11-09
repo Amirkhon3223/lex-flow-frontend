@@ -1,27 +1,9 @@
 import { FileText, Calendar, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import type { CaseCardProps } from '@/app/types/cases/cases.interfaces';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Progress } from '@/shared/ui/progress';
-
-interface CaseItem {
-  id: number;
-  title: string;
-  client: string;
-  clientInitials: string;
-  category: string;
-  deadline: string;
-  daysLeft: number;
-  progress: number;
-  documents: number;
-  events: number;
-  status: string;
-  statusText: string;
-}
-
-interface CaseCardProps {
-  caseItem: CaseItem;
-}
 
 const getStatusColor = (status: string) => {
   switch (status) {

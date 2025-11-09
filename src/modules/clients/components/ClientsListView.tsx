@@ -66,6 +66,7 @@ import {
 } from 'lucide-react';
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
+import { AddClientDialog } from '@/shared/components/AddClientDialog';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar'; // shared/ui в FSD
 import { Badge } from '@/shared/ui/badge'; // shared/ui в FSD
 import { Button } from '@/shared/ui/button'; // shared/ui в FSD
@@ -94,7 +95,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/ui/table';
-import { AddClientDialog } from '@/shared/components/AddClientDialog';
 
 
 export function ClientsListView() {

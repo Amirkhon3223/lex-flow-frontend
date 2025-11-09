@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';

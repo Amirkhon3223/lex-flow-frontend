@@ -10,3 +10,29 @@ export enum CasePriorityEnum {
   MEDIUM = 'medium',
   HIGH = 'high',
 }
+
+export enum DocumentStatusEnum {
+  DRAFT = 'draft',
+  REVIEW = 'review',
+  FINAL = 'final',
+}
+
+export enum TimelineEventTypeEnum {
+  DOCUMENT = 'document',
+  MEETING = 'meeting',
+  SYSTEM = 'system',
+  DEADLINE = 'deadline',
+  PAYMENT = 'payment',
+}
+
+export enum AIInsightTypeEnum {
+  RISK = 'risk',
+  OPPORTUNITY = 'opportunity',
+  DEADLINE = 'deadline',
+}
+
+export enum AIInsightPriorityEnum {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+}

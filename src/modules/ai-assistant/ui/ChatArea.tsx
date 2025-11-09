@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import type {
-  ChatMessageInterface,
   ChatAreaProps,
 } from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { Card } from '@/shared/ui/card';
