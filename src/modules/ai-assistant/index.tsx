@@ -153,7 +153,7 @@ export function AIAssistantView() {
           </TabsContent>
 
           <TabsContent value="analyze" className="space-y-6">
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-8 text-center">
                 <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-6">
                   <Upload className="w-10 h-10 text-white" strokeWidth={2} />
@@ -171,7 +171,7 @@ export function AIAssistantView() {
           </TabsContent>
 
           <TabsContent value="research" className="space-y-6">
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-8">
                 <div className="max-w-2xl mx-auto">
                   <h3 className="text-2xl tracking-tight mb-6 text-center">Поиск в правовой базе и судебной практике</h3>

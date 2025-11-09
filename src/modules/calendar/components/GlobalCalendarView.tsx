@@ -219,8 +219,8 @@ export function GlobalCalendarView() {
       <AddMeetingDialog open={isAddMeetingOpen} onOpenChange={setIsAddMeetingOpen} />
 
       {}
-      <header className="relative bg-white border-b border-gray-200/50">
-        <div className="px-8 py-4">
+      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+        <div className="px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-3xl tracking-tight mb-1">Календарь</h1>
@@ -309,7 +309,7 @@ export function GlobalCalendarView() {
       </header>
 
       {}
-      <main className="px-8 py-6">
+      <main className="py-6">
         {}
         <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white mb-6">
           <div className="p-6">
@@ -455,7 +455,7 @@ export function GlobalCalendarView() {
 
             {}
             <div className="col-span-2 space-y-4">
-              <Card className="bg-white border-0 shadow-sm">
+              <Card className="bg-white border-0 shadow-sm rounded-xl">
                 <div className="p-6">
                   <h3 className="text-lg tracking-tight mb-4">
                     {date ? date.toLocaleDateString('ru-RU', {
@@ -534,7 +534,7 @@ export function GlobalCalendarView() {
               </Card>
 
               {}
-              <Card className="bg-white border-0 shadow-sm">
+              <Card className="bg-white border-0 shadow-sm rounded-xl">
                 <div className="p-6">
                   <h3 className="text-lg tracking-tight mb-4">Предстоящие встречи</h3>
 
@@ -562,8 +562,8 @@ export function GlobalCalendarView() {
             </div>
           </div>
         ) : (
-          
-          <Card className="bg-white border-0 shadow-sm">
+
+          <Card className="bg-white border-0 shadow-sm rounded-xl">
             <div className="p-6">
               <h3 className="text-xl tracking-tight mb-6">Все встречи</h3>
 

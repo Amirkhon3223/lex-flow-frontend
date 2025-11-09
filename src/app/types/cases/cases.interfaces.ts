@@ -99,3 +99,10 @@ export interface AddCaseDialogProps {
   onOpenChange: (open: boolean) => void;
   onSubmit?: (caseData: CaseFormData) => void;
 }
+
+export interface EditCaseDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  initialData?: CaseFormData;
+  onSubmit?: (caseData: CaseFormData) => void;
+}

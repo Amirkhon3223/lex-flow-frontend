@@ -25,36 +25,37 @@ import {
   Edit,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/app/config/routes.config';
+import { ROUTES } from '@/app/config/routes.config.ts';
 import {
   DocumentStatusEnum,
   TimelineEventTypeEnum,
   AIInsightTypeEnum,
   AIInsightPriorityEnum,
-} from '@/app/types/cases/cases.enums';
+} from '@/app/types/cases/cases.enums.ts';
 import type {
   CaseDocumentInterface,
   TimelineEventInterface,
   CaseTaskInterface,
   AIInsightInterface,
-} from '@/app/types/cases/cases.interfaces';
-import { AddTaskDialog } from '@/shared/components/AddTaskDialog';
-import { CommentsDialog } from '@/shared/components/CommentsDialog';
-import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
-import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
-import { Badge } from '@/shared/ui/badge';
-import { Button } from '@/shared/ui/button';
-import { Card } from '@/shared/ui/card';
+} from '@/app/types/cases/cases.interfaces.ts';
+import { EditCaseDialog } from '@/modules/cases/ui/EditCaseDialog.tsx';
+import { AddTaskDialog } from '@/shared/components/AddTaskDialog.tsx';
+import { CommentsDialog } from '@/shared/components/CommentsDialog.tsx';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog.tsx';
+import { Avatar, AvatarFallback } from '@/shared/ui/avatar.tsx';
+import { Badge } from '@/shared/ui/badge.tsx';
+import { Button } from '@/shared/ui/button.tsx';
+import { Card } from '@/shared/ui/card.tsx';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
-import { Progress } from '@/shared/ui/progress';
-import { Separator } from '@/shared/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
-import { Textarea } from '@/shared/ui/textarea';
+} from '@/shared/ui/dropdown-menu.tsx';
+import { Progress } from '@/shared/ui/progress.tsx';
+import { Separator } from '@/shared/ui/separator.tsx';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
+import { Textarea } from '@/shared/ui/textarea.tsx';
 
 export function CaseDetailView() {
   const navigate = useNavigate();
@@ -68,6 +69,16 @@ export function CaseDetailView() {
   // Mock data - в продакшене будет из API
   const caseId = 1;
   const clientId = 1;
+
+  const caseData = {
+    title: 'Трудовой спор - незаконное увольнение',
+    client: 'client1',
+    category: 'labor',
+    deadline: '2025-10-20',
+    fee: '75000',
+    description: 'Дело о незаконном увольнении работника',
+    priority: 'high',
+  };
 
   const documents: CaseDocumentInterface[] = [
     {
@@ -191,8 +202,8 @@ export function CaseDetailView() {
       <CommentsDialog open={isCommentsDialogOpen} onOpenChange={setIsCommentsDialogOpen} />
 
       {/* Header */}
-      <header className="relative bg-white border-b border-gray-200/50">
-        <div className="px-8 py-4">
+      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+        <div className="px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <Button variant="ghost" className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2" onClick={onBack}>
               <ArrowLeft className="w-5 h-5 mr-2" strokeWidth={2} />
@@ -271,12 +282,12 @@ export function CaseDetailView() {
       </header>
 
       {/* Main */}
-      <main className="px-8 py-6">
+      <main className="py-6">
         <div className="grid grid-cols-3 gap-6">
           {/* Left Column */}
           <div className="col-span-2 space-y-6">
             {/* Progress Card */}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg tracking-tight">Прогресс дела</h3>
@@ -358,7 +369,7 @@ export function CaseDetailView() {
             </Card>
 
             {/* Tabs Card */}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <Tabs defaultValue="documents" className="w-full">
                 <div className="border-b border-gray-100 px-6 pt-6">
                   <TabsList className="bg-gray-100 rounded-xl p-1">
@@ -471,7 +482,7 @@ export function CaseDetailView() {
           {/* Right Column */}
           <div className="space-y-6">
             {/* Client Card */}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Клиент</h3>
 
@@ -516,7 +527,7 @@ export function CaseDetailView() {
             </Card>
 
             {/* Tasks Card */}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg tracking-tight">Задачи</h3>
@@ -556,7 +567,7 @@ export function CaseDetailView() {
             </Card>
 
             {/* Finances Card */}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Финансы</h3>
 
@@ -584,7 +595,7 @@ export function CaseDetailView() {
             </Card>
 
             {/* Comments Card */}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <div
                   className="flex items-center justify-between mb-4 cursor-pointer"
@@ -609,6 +620,25 @@ export function CaseDetailView() {
           </div>
         </div>
       </main>
+
+      {/* Dialogs */}
+      <EditCaseDialog
+        open={isEditCaseDialogOpen}
+        onOpenChange={setIsEditCaseDialogOpen}
+        initialData={caseData}
+      />
+      <AddTaskDialog
+        open={isAddTaskDialogOpen}
+        onOpenChange={setIsAddTaskDialogOpen}
+      />
+      <CommentsDialog
+        open={isCommentsDialogOpen}
+        onOpenChange={setIsCommentsDialogOpen}
+      />
+      <UploadDocumentDialog
+        open={isUploadDocumentDialogOpen}
+        onOpenChange={setIsUploadDocumentDialogOpen}
+      />
     </div>
   );
 }

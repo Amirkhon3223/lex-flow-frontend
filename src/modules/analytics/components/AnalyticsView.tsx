@@ -75,9 +75,8 @@ export function AnalyticsView() {
   return (
     <div>
       {}
-      <header className="relative bg-white border-b border-gray-200/50">
-        <div className="px-8 py-6">
-          <div className="flex items-start justify-between mb-6">
+      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+<div className="px-4 py-6">          <div className="flex items-start justify-between mb-6">
             <div>
               <h1 className="text-4xl tracking-tight mb-2">Аналитика</h1>
               <p className="text-gray-500 text-lg">Обзор эффективности работы и статистика</p>
@@ -106,7 +105,7 @@ export function AnalyticsView() {
 
           {}
           <div className="grid grid-cols-4 gap-4">
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
@@ -122,7 +121,7 @@ export function AnalyticsView() {
               </div>
             </Card>
 
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
@@ -138,7 +137,7 @@ export function AnalyticsView() {
               </div>
             </Card>
 
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
@@ -154,7 +153,7 @@ export function AnalyticsView() {
               </div>
             </Card>
 
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
@@ -223,7 +222,7 @@ export function AnalyticsView() {
               </Card>
 
               {}
-              <Card className="bg-white border-0 shadow-sm">
+              <Card className="bg-white border-0 shadow-sm rounded-xl">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">Типы дел</h3>
                   <ResponsiveContainer width="100%" height={300}>
@@ -267,7 +266,7 @@ export function AnalyticsView() {
             </div>
 
             {}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <h3 className="text-xl tracking-tight mb-6">Динамика дохода</h3>
                 <ResponsiveContainer width="100%" height={250}>
@@ -298,7 +297,7 @@ export function AnalyticsView() {
           </TabsContent>
 
           <TabsContent value="team" className="space-y-6">
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <h3 className="text-xl tracking-tight mb-6">Лучшие юристы</h3>
                 <div className="space-y-4">

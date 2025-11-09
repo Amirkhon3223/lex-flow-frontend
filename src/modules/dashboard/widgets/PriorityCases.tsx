@@ -44,7 +44,7 @@ export function PriorityCases() {
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-white border-0 shadow-sm">
+    <Card className="bg-white border-0 shadow-sm rounded-xl">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl tracking-tight">Приоритетные дела</h3>

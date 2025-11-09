@@ -1,5 +1,3 @@
-import { ClientsListView } from '@/modules/clients/components/ClientsListView';
+import { ClientsPage } from "@/modules/clients";
 
-export default function ClientsPage() {
-  return <ClientsListView />;
-}
+export default ClientsPage;
