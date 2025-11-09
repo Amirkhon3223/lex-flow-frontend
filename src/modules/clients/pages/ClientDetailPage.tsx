@@ -15,8 +15,8 @@ import {
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import type { CaseCardInterface } from "@/app/types/cases/cases.interfaces.ts";
 import { CaseCard } from "@/modules/cases/ui/CaseCard.tsx";
-import { EditClientDialog } from "@/modules/clients/components/EditClientDialog.tsx";
-import { AddClientDialog } from "@/shared/components/AddClientDialog.tsx";
+import { AddCaseDialog } from "@/shared/components/AddCaseDialog.tsx";
+import { EditClientDialog } from "@/shared/components/EditClientDialog.tsx";
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -94,7 +94,7 @@ export default function ClientDetailPage() {
 
   return (
     <div className="space-y-6">
-      <AddClientDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen}/>
+      <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen}/>
       <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}/>
       {}
       <Link to="/clients" className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900">

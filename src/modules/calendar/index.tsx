@@ -3,10 +3,10 @@ import { Plus } from 'lucide-react';
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import { SearchBar } from '@/shared/ui/search-bar';
 import { DateBlock } from './ui/DateBlock';
 import { FilterPanel } from './ui/FilterPanel';
 import { MeetingCard } from './ui/MeetingCard';
-import { SearchBar } from './ui/SearchBar';
 import { TodayCard } from './ui/TodayCard';
 import { ViewToggle } from './ui/ViewToggle';
 

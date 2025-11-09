@@ -1,23 +1,20 @@
-import { Search, Filter, Star } from 'lucide-react';
+import { Filter, Star } from 'lucide-react';
 import type { FilterPanelProps } from '@/app/types/documents/documents.interfaces';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent } from '@/shared/ui/card';
+import { SearchBar } from '@/shared/ui/search-bar';
 
 export function FilterPanel({ searchQuery, onSearchChange, filterType, onFilterChange }: FilterPanelProps) {
     return (
         <Card>
             <CardContent className="p-4">
                 <div className="flex items-center gap-4">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder="Поиск документов..."
-                            value={searchQuery}
-                            onChange={(e) => onSearchChange(e.target.value)}
-                            className="w-full rounded-lg border py-2 pl-10 pr-4 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                        />
-                    </div>
+                    <SearchBar
+                        value={searchQuery}
+                        onChange={onSearchChange}
+                        placeholder="Поиск документов..."
+                        className="flex-1"
+                    />
                     <Button
                         variant={filterType === 'all' ? 'default' : 'outline'}
                         onClick={() => onFilterChange('all')}

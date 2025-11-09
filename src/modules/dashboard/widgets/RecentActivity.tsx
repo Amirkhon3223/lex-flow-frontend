@@ -1,4 +1,5 @@
 import { Card } from '@/shared/ui/card';
+import { ActivityItem } from '@/modules/dashboard/ui/ActivityItem';
 
 const recentActivity = [
   { action: 'добавил документ', item: '"Исковое заявление"', client: 'Иванов П.А.', time: '2 часа назад' },
@@ -14,26 +15,14 @@ export function RecentActivity() {
 
         <div className="space-y-4">
           {recentActivity.map((activity, index) => (
-            <div key={index} className="flex gap-4">
-              <div className="flex flex-col items-center">
-                <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                {index < recentActivity.length - 1 && (
-                  <div className="w-px h-full bg-gray-200 mt-2"></div>
-                )}
-              </div>
-              <div className="flex-1 pb-4">
-                <p className="text-[15px] mb-1">
-                  <span className="text-gray-900">Вы</span>{' '}
-                  <span className="text-gray-500">{activity.action}</span>{' '}
-                  <span className="text-gray-900">{activity.item}</span>
-                </p>
-                <div className="flex items-center gap-3 text-sm text-gray-400">
-                  <span>{activity.client}</span>
-                  <span>•</span>
-                  <span>{activity.time}</span>
-                </div>
-              </div>
-            </div>
+            <ActivityItem
+              key={index}
+              action={activity.action}
+              item={activity.item}
+              client={activity.client}
+              time={activity.time}
+              isLast={index === recentActivity.length - 1}
+            />
           ))}
         </div>
       </div>

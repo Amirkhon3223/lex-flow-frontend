@@ -1,38 +1,40 @@
-import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
+import { User, Clock } from 'lucide-react';
 import type { CaseItemProps } from '@/app/types/dashboard/dashboard.interfaces';
+import { Badge } from '@/shared/ui/badge';
 
-export const CaseItem = ({ title, client, priority, deadline }: CaseItemProps) => {
-  const priorityColors = {
-    [CasePriorityEnum.HIGH]: '#ef4444',
-    [CasePriorityEnum.MEDIUM]: '#f59e0b',
-    [CasePriorityEnum.LOW]: '#10b981',
-  };
-
+export function CaseItem({ title, client, deadline, status, onClick }: CaseItemProps) {
   return (
-    <div style={{
-      padding: '12px',
-      borderBottom: '1px solid #e5e7eb',
-      cursor: 'pointer',
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-        <div>
-          <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '600' }}>{title}</h4>
-          <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#666' }}>{client}</p>
+    <div
+      onClick={onClick}
+      className="group p-5 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer"
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1">
+          <div className="flex items-center gap-2 mb-2">
+            <h4 className="tracking-tight">{title}</h4>
+            {status === 'urgent' && (
+              <Badge className="bg-red-100 text-red-700 border-0 text-xs">
+                Срочно
+              </Badge>
+            )}
+            {status === 'completed' && (
+              <Badge className="bg-green-100 text-green-700 border-0 text-xs">
+                Завершено
+              </Badge>
+            )}
+          </div>
+          <div className="flex items-center gap-4 text-sm text-gray-500">
+            <span className="flex items-center gap-1.5">
+              <User className="w-4 h-4" strokeWidth={2} />
+              {client}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Clock className="w-4 h-4" strokeWidth={2} />
+              {deadline}
+            </span>
+          </div>
         </div>
-        <span style={{
-          padding: '2px 8px',
-          borderRadius: '4px',
-          fontSize: '11px',
-          fontWeight: '500',
-          backgroundColor: priorityColors[priority] + '20',
-          color: priorityColors[priority],
-        }}>
-          {priority}
-        </span>
       </div>
-      <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#999' }}>
-        Deadline: {deadline}
-      </p>
     </div>
   );
-};
+}

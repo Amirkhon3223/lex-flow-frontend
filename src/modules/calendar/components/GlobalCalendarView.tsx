@@ -24,14 +24,7 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import { Card } from '@/shared/ui/card';
-import { Input } from '@/shared/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { Separator } from '@/shared/ui/separator';
 import { AddMeetingDialog } from './AddMeetingDialog';
 
@@ -268,43 +261,39 @@ export function GlobalCalendarView() {
           </div>
 
           {}
-          <div className="flex items-center gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
-              <Input
-                placeholder="Поиск встреч..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-10 bg-gray-100/80 border-0 rounded-xl focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:bg-white"
-              />
-            </div>
-
-            <Select value={filterType} onValueChange={setFilterType}>
-              <SelectTrigger className="w-[180px] h-10 rounded-xl border-gray-200">
-                <Filter className="w-4 h-4 mr-2" strokeWidth={2} />
-                <SelectValue placeholder="Тип встречи" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                <SelectItem value="all">Все типы</SelectItem>
-                <SelectItem value="in_person">Личные встречи</SelectItem>
-                <SelectItem value="video">Видеозвонки</SelectItem>
-                <SelectItem value="phone">Телефонные звонки</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={filterClient} onValueChange={setFilterClient}>
-              <SelectTrigger className="w-[200px] h-10 rounded-xl border-gray-200">
-                <User className="w-4 h-4 mr-2" strokeWidth={2} />
-                <SelectValue placeholder="Клиент" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                <SelectItem value="all">Все клиенты</SelectItem>
-                {uniqueClients.map(client => (
-                  <SelectItem key={client} value={client}>{client}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <FilterBar
+            searchConfig={{
+              value: searchQuery,
+              onChange: setSearchQuery,
+              placeholder: 'Поиск встреч...',
+              className: 'flex-1 max-w-md',
+            }}
+            filters={[
+              {
+                value: filterType,
+                onChange: setFilterType,
+                placeholder: 'Тип встречи',
+                width: 'w-[180px]',
+                options: [
+                  { value: 'all', label: 'Все типы' },
+                  { value: 'in_person', label: 'Личные встречи' },
+                  { value: 'video', label: 'Видеозвонки' },
+                  { value: 'phone', label: 'Телефонные звонки' },
+                ],
+              },
+              {
+                value: filterClient,
+                onChange: setFilterClient,
+                placeholder: 'Клиент',
+                width: 'w-[200px]',
+                icon: User,
+                options: [
+                  { value: 'all', label: 'Все клиенты' },
+                  ...uniqueClients.map(client => ({ value: client, label: client })),
+                ],
+              },
+            ]}
+          />
         </div>
       </header>
 

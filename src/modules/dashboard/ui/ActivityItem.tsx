@@ -1,33 +1,26 @@
-import { ActivityTypeEnum } from '@/app/types/dashboard/dashboard.enums';
+import type { ActivityItemProps } from '@/app/types/dashboard/dashboard.interfaces';
 
-interface ActivityItemProps {
-  action: string;
-  user: string;
-  time: string;
-  type: ActivityTypeEnum;
-}
-
-export const ActivityItem = ({ action, user, time, type }: ActivityItemProps) => {
-  const typeIcons = {
-    [ActivityTypeEnum.CASE]: '⚖️',
-    [ActivityTypeEnum.DOCUMENT]: '📄',
-    [ActivityTypeEnum.CLIENT]: '👤',
-  };
-
+export function ActivityItem({ action, item, client, time, isLast = false }: ActivityItemProps) {
   return (
-    <div style={{
-      padding: '12px',
-      borderBottom: '1px solid #e5e7eb',
-      display: 'flex',
-      gap: '12px',
-    }}>
-      <span style={{ fontSize: '24px' }}>{typeIcons[type]}</span>
-      <div style={{ flex: 1 }}>
-        <p style={{ margin: 0, fontSize: '14px' }}>
-          <strong>{user}</strong> {action}
+    <div className="flex gap-4">
+      <div className="flex flex-col items-center">
+        <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+        {!isLast && (
+          <div className="w-px h-full bg-gray-200 mt-2"></div>
+        )}
+      </div>
+      <div className="flex-1 pb-4">
+        <p className="text-[15px] mb-1">
+          <span className="text-gray-900">Вы</span>{' '}
+          <span className="text-gray-500">{action}</span>{' '}
+          <span className="text-gray-900">{item}</span>
         </p>
-        <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#999' }}>{time}</p>
+        <div className="flex items-center gap-3 text-sm text-gray-400">
+          <span>{client}</span>
+          <span>•</span>
+          <span>{time}</span>
+        </div>
       </div>
     </div>
   );
-};
+}

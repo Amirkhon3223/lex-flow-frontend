@@ -21,13 +21,16 @@ import {
   Share2,
   MessageSquare,
   Video,
+  Clock,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config.ts';
 import type { CaseCardInterface } from '@/app/types/cases/cases.interfaces.ts';
 import { ClientTimelineTypeEnum } from '@/app/types/clients/clients.enums.ts';
-import { AddCaseDialog } from '@/modules/cases/ui/AddCaseDialog.tsx';
+import { ClientMeetingsCalendar } from '@/modules/calendar/components/ClientMeetingsCalendar.tsx';
 import { CaseCard } from '@/modules/cases/ui/CaseCard.tsx';
+import { AddCaseDialog } from "@/shared/components/AddCaseDialog.tsx";
+import { EditClientDialog } from '@/shared/components/EditClientDialog.tsx';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar.tsx';
 import { Badge } from '@/shared/ui/badge.tsx';
 import { Button } from '@/shared/ui/button.tsx';
@@ -36,12 +39,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger,ы
 } from '@/shared/ui/dropdown-menu.tsx';
+import { Progress } from '@/shared/ui/progress.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
-import { ClientMeetingsCalendar } from '../components/ClientMeetingsCalendar.tsx';
-import { EditClientDialog } from '../components/EditClientDialog.tsx';
 
 export function ClientDetailView() {
   const navigate = useNavigate();
@@ -184,7 +186,7 @@ export function ClientDetailView() {
       <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen} />
 
       {}
-      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+        <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <Button variant="ghost" className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2" onClick={onBack}>
