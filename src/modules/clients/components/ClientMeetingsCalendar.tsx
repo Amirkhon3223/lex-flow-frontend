@@ -139,7 +139,7 @@ export function ClientMeetingsCalendar() {
 
       <div className="grid grid-cols-2 gap-6">
         {}
-        <Card className="bg-white border-0 shadow-sm rounded-xl">
+        <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg tracking-tight">Календарь встреч</h3>
@@ -215,7 +215,7 @@ export function ClientMeetingsCalendar() {
         <div className="space-y-4">
           {}
           {date && (
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">
                   {date.toLocaleDateString('ru-RU', {

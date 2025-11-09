@@ -455,7 +455,7 @@ export function GlobalCalendarView() {
 
             {}
             <div className="col-span-2 space-y-4">
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-lg tracking-tight mb-4">
                     {date ? date.toLocaleDateString('ru-RU', {
@@ -534,7 +534,7 @@ export function GlobalCalendarView() {
               </Card>
 
               {}
-              <Card className="bg-white border-0 shadow-sm rounded-xl">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
                 <div className="p-6">
                   <h3 className="text-lg tracking-tight mb-4">Предстоящие встречи</h3>
 
@@ -563,7 +563,7 @@ export function GlobalCalendarView() {
           </div>
         ) : (
 
-          <Card className="bg-white border-0 shadow-sm rounded-xl">
+          <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
             <div className="p-6">
               <h3 className="text-xl tracking-tight mb-6">Все встречи</h3>
 

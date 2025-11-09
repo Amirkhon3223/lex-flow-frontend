@@ -54,17 +54,17 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white border-0 shadow-2xl rounded-3xl p-0">
-        <DialogHeader className="px-8 pt-8 pb-6">
+      <DialogContent className="max-w-2xl max-h-[90vh] bg-white border-0 shadow-2xl rounded-3xl p-0 flex flex-col overflow-hidden">
+        <DialogHeader className="px-8 pt-8 pb-6 flex-shrink-0">
           <DialogTitle className="text-2xl tracking-tight">Редактирование клиента</DialogTitle>
           <DialogDescription className="text-gray-500">
             Обновите информацию о клиенте
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="px-8 pb-8">
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
           {}
-          <div className="space-y-6">
+          <div className="space-y-6 px-8 pb-4 overflow-y-auto flex-1">
             <div>
               <h3 className="text-lg tracking-tight mb-4 flex items-center gap-2">
                 <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center">
@@ -291,7 +291,7 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
           </div>
 
           {}
-          <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-100">
+          <div className="flex items-center gap-3 px-8 py-6 border-t border-gray-100 flex-shrink-0 bg-white">
             <Button
               type="button"
               variant="outline"

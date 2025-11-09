@@ -8,7 +8,7 @@ export function AIInsightsWidget() {
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-xl">
+    <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
       <div className="p-6">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">

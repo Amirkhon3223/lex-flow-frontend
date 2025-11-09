@@ -64,13 +64,16 @@ import {
   Users,
   Building2,
 } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/app/config/routes.config.ts";
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
+import { EditClientDialog } from '@/modules/clients/components/EditClientDialog';
 import { AddClientDialog } from '@/shared/components/AddClientDialog';
-import { Avatar, AvatarFallback } from '@/shared/ui/avatar'; // shared/ui в FSD
-import { Badge } from '@/shared/ui/badge'; // shared/ui в FSD
-import { Button } from '@/shared/ui/button'; // shared/ui в FSD
-import { Card } from '@/shared/ui/card'; // shared/ui в FSD
+import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
+import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
+import { Card } from '@/shared/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -79,7 +82,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
-import { Input } from '@/shared/ui/input'; // shared/ui в FSD
+import { Input } from '@/shared/ui/input';
 import {
   Select,
   SelectContent,
@@ -98,11 +101,13 @@ import {
 
 
 export function ClientsPage() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
   const [isAddClientDialogOpen, setIsAddClientDialogOpen] = useState(false);
+  const [isEditClientDialogOpen, setIsEditClientDialogOpen] = useState(false);
 
   const clients: ClientInterface[] = [
     {
@@ -303,6 +308,7 @@ export function ClientsPage() {
   return (
     <div>
       <AddClientDialog open={isAddClientDialogOpen} onOpenChange={setIsAddClientDialogOpen} />
+      <EditClientDialog open={isEditClientDialogOpen} onOpenChange={setIsEditClientDialogOpen} />
 
       {}
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
@@ -394,7 +400,7 @@ export function ClientsPage() {
         </div>
 
         {}
-        <Card className="bg-white border-0 shadow-sm rounded-xl">
+        <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
           <Table>
             <TableHeader>
               <TableRow className="border-b border-gray-100 hover:bg-transparent">
@@ -411,7 +417,10 @@ export function ClientsPage() {
             </TableHeader>
             <TableBody>
               {filteredClients.map((client) => (
-                <TableRow key={client.id} className="border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors">
+                <TableRow key={client.id}
+                          className="border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors"
+                          onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id.toString()))}
+                >
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="w-10 h-10 ring-2 ring-gray-100">
@@ -484,7 +493,13 @@ export function ClientsPage() {
                           <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
                           Профиль
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer">
+                        <DropdownMenuItem
+                          className="cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsEditClientDialogOpen(true);
+                          }}
+                        >
                           <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
                           Редактировать
                         </DropdownMenuItem>

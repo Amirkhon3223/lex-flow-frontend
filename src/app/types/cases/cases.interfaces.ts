@@ -106,3 +106,14 @@ export interface EditCaseDialogProps {
   initialData?: CaseFormData;
   onSubmit?: (caseData: CaseFormData) => void;
 }
+
+export interface CaseFiltersProps {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  filterStatus: string;
+  setFilterStatus: (status: string) => void;
+  filterPriority: string;
+  setFilterPriority: (priority: string) => void;
+  filterCategory: string;
+  setFilterCategory: (category: string) => void;
+}

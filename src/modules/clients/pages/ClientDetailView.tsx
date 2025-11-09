@@ -11,13 +11,11 @@ import {
   Briefcase,
   FileText,
   DollarSign,
-  Clock,
   TrendingUp,
   Edit,
   Send,
   Star,
   Building2,
-  ChevronRight,
   Plus,
   Download,
   Share2,
@@ -26,9 +24,10 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config.ts';
-import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums.ts';
+import type { CaseCardInterface } from '@/app/types/cases/cases.interfaces.ts';
 import { ClientTimelineTypeEnum } from '@/app/types/clients/clients.enums.ts';
 import { AddCaseDialog } from '@/modules/cases/ui/AddCaseDialog.tsx';
+import { CaseCard } from '@/modules/cases/ui/CaseCard.tsx';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar.tsx';
 import { Badge } from '@/shared/ui/badge.tsx';
 import { Button } from '@/shared/ui/button.tsx';
@@ -39,7 +38,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu.tsx';
-import { Progress } from '@/shared/ui/progress.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
 import { ClientMeetingsCalendar } from '../components/ClientMeetingsCalendar.tsx';
@@ -71,36 +69,48 @@ export function ClientDetailView() {
     const body = `Посмотрите этого клиента: ${url}`;
     window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
-  const clientCases = [
+  const clientCases: CaseCardInterface[] = [
     {
       id: 1,
       title: 'Трудовой спор - незаконное увольнение',
-      status: CaseStatusEnum.IN_PROGRESS,
-      priority: CasePriorityEnum.HIGH,
+      client: 'Иванов Петр Алексеевич',
+      clientInitials: 'ИП',
+      category: 'Трудовое право',
       deadline: '20 окт 2025',
+      daysLeft: 5,
       progress: 75,
       documents: 8,
-      lastUpdate: '2 часа назад',
+      events: 3,
+      status: 'urgent',
+      statusText: 'Срочно',
     },
     {
       id: 2,
       title: 'Восстановление на работе',
-      status: CaseStatusEnum.REVIEW,
-      priority: CasePriorityEnum.MEDIUM,
+      client: 'Иванов Петр Алексеевич',
+      clientInitials: 'ИП',
+      category: 'Трудовое право',
       deadline: '15 ноя 2025',
+      daysLeft: 30,
       progress: 45,
       documents: 5,
-      lastUpdate: '1 день назад',
+      events: 2,
+      status: 'medium',
+      statusText: 'На проверке',
     },
     {
       id: 3,
       title: 'Взыскание задолженности по зарплате',
-      status: CaseStatusEnum.COMPLETED,
-      priority: CasePriorityEnum.LOW,
+      client: 'Иванов Петр Алексеевич',
+      clientInitials: 'ИП',
+      category: 'Трудовое право',
       deadline: '5 окт 2025',
+      daysLeft: -10,
       progress: 100,
       documents: 12,
-      lastUpdate: '5 дней назад',
+      events: 5,
+      status: 'completed',
+      statusText: 'Завершено',
     },
   ];
 
@@ -200,9 +210,19 @@ export function ClientDetailView() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
-                <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
+                    <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>
+                    <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
+                    Редактировать
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
@@ -281,7 +301,7 @@ export function ClientDetailView() {
       <main className="py-6">
         {}
         <div className="grid grid-cols-5 gap-4 mb-6">
-          <Card className="bg-white border-0 shadow-sm rounded-xl">
+          <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
@@ -293,7 +313,7 @@ export function ClientDetailView() {
             </div>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm rounded-xl">
+          <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
@@ -305,7 +325,7 @@ export function ClientDetailView() {
             </div>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm rounded-xl">
+          <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
@@ -317,7 +337,7 @@ export function ClientDetailView() {
             </div>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm rounded-xl">
+          <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
@@ -329,7 +349,7 @@ export function ClientDetailView() {
             </div>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm rounded-xl">
+          <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
@@ -346,7 +366,7 @@ export function ClientDetailView() {
           {}
           <div className="col-span-2 space-y-6">
             {}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl tracking-tight">Дела клиента</h3>
@@ -357,75 +377,14 @@ export function ClientDetailView() {
 
                 <div className="space-y-3">
                   {clientCases.map((caseItem) => (
-                    <div
-                      key={caseItem.id}
-                      className="group p-5 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer"
-                    >
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <h4 className="tracking-tight">{caseItem.title}</h4>
-                            {caseItem.priority === CasePriorityEnum.HIGH && (
-                              <Badge className="bg-red-100 text-red-700 border-0 text-xs">
-                                Срочно
-                              </Badge>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-4 text-sm text-gray-500">
-                            <span className="flex items-center gap-1.5">
-                              <FileText className="w-4 h-4" strokeWidth={2} />
-                              {caseItem.documents} документов
-                            </span>
-                            <span className="flex items-center gap-1.5">
-                              <Calendar className="w-4 h-4" strokeWidth={2} />
-                              {caseItem.deadline}
-                            </span>
-                            <span className="flex items-center gap-1.5">
-                              <Clock className="w-4 h-4" strokeWidth={2} />
-                              {caseItem.lastUpdate}
-                            </span>
-                          </div>
-                        </div>
-
-                        <Badge className={`${
-                          caseItem.status === CaseStatusEnum.IN_PROGRESS
-                            ? 'bg-blue-100 text-blue-700'
-                            : caseItem.status === CaseStatusEnum.REVIEW
-                            ? 'bg-purple-100 text-purple-700'
-                            : 'bg-green-100 text-green-700'
-                        } border-0`}>
-                          {caseItem.status === CaseStatusEnum.IN_PROGRESS
-                            ? 'В работе'
-                            : caseItem.status === CaseStatusEnum.REVIEW
-                            ? 'На проверке'
-                            : 'Завершено'}
-                        </Badge>
-                      </div>
-
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-500">Прогресс</span>
-                          <span className="text-gray-900">{caseItem.progress}%</span>
-                        </div>
-                        <Progress value={caseItem.progress} className="h-2" />
-                      </div>
-
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="mt-3 text-blue-500 hover:bg-blue-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        Открыть дело
-                        <ChevronRight className="w-4 h-4 ml-1" strokeWidth={2} />
-                      </Button>
-                    </div>
+                    <CaseCard key={caseItem.id} caseItem={caseItem} />
                   ))}
                 </div>
               </div>
             </Card>
 
             {}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <Tabs defaultValue="timeline" className="w-full">
                 <div className="border-b border-gray-100 px-6 pt-6">
                   <TabsList className="bg-gray-100 rounded-xl p-1">
@@ -540,7 +499,7 @@ export function ClientDetailView() {
           {}
           <div className="space-y-6">
             {}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg tracking-tight">Контактная информация</h3>
@@ -640,7 +599,7 @@ export function ClientDetailView() {
             </Card>
 
             {}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Быстрые действия</h3>
 
@@ -666,7 +625,7 @@ export function ClientDetailView() {
             </Card>
 
             {}
-            <Card className="bg-white border-0 shadow-sm rounded-xl">
+            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Дополнительно</h3>
 
