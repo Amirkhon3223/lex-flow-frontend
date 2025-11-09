@@ -1,5 +1,3 @@
-import { CasesListView } from '@/modules/cases/components/CasesListView';
+import { CasePage } from "@/modules/cases";
 
-export default function CasesPage() {
-  return <CasesListView />;
-}
+export default CasePage;

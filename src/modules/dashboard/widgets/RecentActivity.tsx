@@ -8,10 +8,10 @@ const recentActivity = [
 
 export function RecentActivity() {
   return (
-    <Card className="bg-white border-0 shadow-sm">
+    <Card className="bg-white border-0 shadow-sm rounded-xl">
       <div className="p-6">
         <h3 className="text-xl tracking-tight mb-6">Последняя активность</h3>
-        
+
         <div className="space-y-4">
           {recentActivity.map((activity, index) => (
             <div key={index} className="flex gap-4">

@@ -14,19 +14,19 @@ import {
   Info,
   ChevronDown,
 } from 'lucide-react';
-import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums';
-import type { DocumentChangeInterface, DocumentVersionInterface } from '@/app/types/documents/documents.interfaces';
-import { Badge } from '@/shared/ui/badge';
-import { Button } from '@/shared/ui/button';
-import { Card } from '@/shared/ui/card';
-import { ScrollArea } from '@/shared/ui/scroll-area';
+import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums.ts';
+import type { DocumentChangeInterface, DocumentVersionInterface } from '@/app/types/documents/documents.interfaces.ts';
+import { Badge } from '@/shared/ui/badge.tsx';
+import { Button } from '@/shared/ui/button.tsx';
+import { Card } from '@/shared/ui/card.tsx';
+import { ScrollArea } from '@/shared/ui/scroll-area.tsx';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from '@/shared/ui/select';
-import { Separator } from '@/shared/ui/separator';
+} from '@/shared/ui/select.tsx';
+import { Separator } from '@/shared/ui/separator.tsx';
 
 
 export function DocumentCompareView() {
@@ -185,7 +185,7 @@ export function DocumentCompareView() {
   return (
     <div>
       {}
-      <header className="relative bg-white border-b border-gray-200/50">
+      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-8 py-4">
           <div className="flex items-center justify-between mb-4">
             <Button

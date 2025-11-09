@@ -12,16 +12,16 @@ import {
   Trash2,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Badge } from '@/shared/ui/badge';
-import { Button } from '@/shared/ui/button';
-import { Card } from '@/shared/ui/card';
+import { Badge } from '@/shared/ui/badge.tsx';
+import { Button } from '@/shared/ui/button.tsx';
+import { Card } from '@/shared/ui/card.tsx';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
-import { Separator } from '@/shared/ui/separator';
+} from '@/shared/ui/dropdown-menu.tsx';
+import { Separator } from '@/shared/ui/separator.tsx';
 
 
 export function DocumentVersionsView() {
@@ -73,7 +73,7 @@ export function DocumentVersionsView() {
   return (
     <div>
       {}
-      <header className="relative bg-white border-b border-gray-200/50">
+      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-8 py-4">
           <div className="flex items-center justify-between mb-4">
             <Button

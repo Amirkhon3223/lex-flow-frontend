@@ -25,25 +25,25 @@ import {
   Video,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/app/config/routes.config';
-import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
-import { ClientTimelineTypeEnum } from '@/app/types/clients/clients.enums';
-import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
-import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
-import { Badge } from '@/shared/ui/badge';
-import { Button } from '@/shared/ui/button';
-import { Card } from '@/shared/ui/card';
+import { ROUTES } from '@/app/config/routes.config.ts';
+import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums.ts';
+import { ClientTimelineTypeEnum } from '@/app/types/clients/clients.enums.ts';
+import { AddCaseDialog } from '@/modules/cases/ui/AddCaseDialog.tsx';
+import { Avatar, AvatarFallback } from '@/shared/ui/avatar.tsx';
+import { Badge } from '@/shared/ui/badge.tsx';
+import { Button } from '@/shared/ui/button.tsx';
+import { Card } from '@/shared/ui/card.tsx';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
-import { Progress } from '@/shared/ui/progress';
-import { Separator } from '@/shared/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
-import { ClientMeetingsCalendar } from './ClientMeetingsCalendar';
-import { EditClientDialog } from './EditClientDialog';
+} from '@/shared/ui/dropdown-menu.tsx';
+import { Progress } from '@/shared/ui/progress.tsx';
+import { Separator } from '@/shared/ui/separator.tsx';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
+import { ClientMeetingsCalendar } from '../components/ClientMeetingsCalendar.tsx';
+import { EditClientDialog } from '../components/EditClientDialog.tsx';
 
 export function ClientDetailView() {
   const navigate = useNavigate();
@@ -174,8 +174,8 @@ export function ClientDetailView() {
       <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen} />
 
       {}
-      <header className="relative bg-white border-b border-gray-200/50">
-        <div className="px-8 py-4">
+      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+        <div className="px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <Button variant="ghost" className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2" onClick={onBack}>
               <ArrowLeft className="w-5 h-5 mr-2" strokeWidth={2} />
@@ -278,10 +278,10 @@ export function ClientDetailView() {
       </header>
 
       {}
-      <main className="px-8 py-6">
+      <main className="py-6">
         {}
         <div className="grid grid-cols-5 gap-4 mb-6">
-          <Card className="bg-white border-0 shadow-sm">
+          <Card className="bg-white border-0 shadow-sm rounded-xl">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
@@ -293,7 +293,7 @@ export function ClientDetailView() {
             </div>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm">
+          <Card className="bg-white border-0 shadow-sm rounded-xl">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
@@ -305,7 +305,7 @@ export function ClientDetailView() {
             </div>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm">
+          <Card className="bg-white border-0 shadow-sm rounded-xl">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
@@ -317,7 +317,7 @@ export function ClientDetailView() {
             </div>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm">
+          <Card className="bg-white border-0 shadow-sm rounded-xl">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
@@ -329,7 +329,7 @@ export function ClientDetailView() {
             </div>
           </Card>
 
-          <Card className="bg-white border-0 shadow-sm">
+          <Card className="bg-white border-0 shadow-sm rounded-xl">
             <div className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
@@ -346,7 +346,7 @@ export function ClientDetailView() {
           {}
           <div className="col-span-2 space-y-6">
             {}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl tracking-tight">Дела клиента</h3>
@@ -425,7 +425,7 @@ export function ClientDetailView() {
             </Card>
 
             {}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <Tabs defaultValue="timeline" className="w-full">
                 <div className="border-b border-gray-100 px-6 pt-6">
                   <TabsList className="bg-gray-100 rounded-xl p-1">
@@ -540,7 +540,7 @@ export function ClientDetailView() {
           {}
           <div className="space-y-6">
             {}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg tracking-tight">Контактная информация</h3>
@@ -640,7 +640,7 @@ export function ClientDetailView() {
             </Card>
 
             {}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Быстрые действия</h3>
 
@@ -666,7 +666,7 @@ export function ClientDetailView() {
             </Card>
 
             {}
-            <Card className="bg-white border-0 shadow-sm">
+            <Card className="bg-white border-0 shadow-sm rounded-xl">
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Дополнительно</h3>
 

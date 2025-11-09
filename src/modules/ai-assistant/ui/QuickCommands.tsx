@@ -8,7 +8,7 @@ interface QuickCommandsProps {
 
 export function QuickCommands({ commands, onCommandClick }: QuickCommandsProps) {
   return (
-    <Card className="bg-white border-0 shadow-sm">
+    <Card className="bg-white border-0 shadow-sm rounded-xl">
       <div className="p-6">
         <h3 className="tracking-tight mb-4">Быстрые команды</h3>
         <div className="space-y-2">

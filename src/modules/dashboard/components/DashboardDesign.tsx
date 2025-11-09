@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
-import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
+import { AddCaseDialog } from '@/modules/cases/ui/AddCaseDialog';
 import { AddClientDialog } from '@/shared/components/AddClientDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
@@ -266,7 +266,7 @@ export default function App() {
           <div className="grid grid-cols-3 gap-6">
             {}
             <div className="col-span-2 space-y-6">
-              <Card className="bg-white border-0 shadow-sm">
+              <Card className="bg-white border-0 shadow-sm rounded-xl">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl tracking-tight">Приоритетные дела</h3>
@@ -328,7 +328,7 @@ export default function App() {
               </Card>
 
               {}
-              <Card className="bg-white border-0 shadow-sm">
+              <Card className="bg-white border-0 shadow-sm rounded-xl">
                 <div className="p-6">
                   <h3 className="text-xl tracking-tight mb-6">Последняя активность</h3>
 
@@ -393,7 +393,7 @@ export default function App() {
               </Card>
 
               {}
-              <Card className="bg-white border-0 shadow-sm">
+              <Card className="bg-white border-0 shadow-sm rounded-xl">
                 <div className="p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
@@ -437,7 +437,7 @@ export default function App() {
               </Card>
 
               {}
-              <Card className="bg-white border-0 shadow-sm">
+              <Card className="bg-white border-0 shadow-sm rounded-xl">
                 <div className="p-6">
                   <h3 className="text-lg tracking-tight mb-4">Быстрые действия</h3>
 

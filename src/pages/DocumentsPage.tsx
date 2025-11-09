@@ -1,5 +1,3 @@
-import { DocumentsListView } from '@/modules/documents/components/DocumentsListView';
+import { DocumentsPage } from "@/modules/documents";
 
-export default function DocumentsPage() {
-  return <DocumentsListView />;
-}
+export default DocumentsPage;

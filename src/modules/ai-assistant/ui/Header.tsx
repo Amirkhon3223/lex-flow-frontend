@@ -3,7 +3,7 @@ import { Badge } from '@/shared/ui/badge';
 
 export function Header() {
   return (
-    <header className="relative bg-white border-b border-gray-200/50">
+    <header className="relative bg-white border-b border-gray-200/50 ">
       <div className="px-8 py-6">
         <div className="flex items-start justify-between">
           <div>

@@ -13,9 +13,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/dialog';
-import { Textarea } from '@/shared/ui/textarea';
-import { Separator } from '@/shared/ui/separator';
 import { ScrollArea } from '@/shared/ui/scroll-area';
+import { Separator } from '@/shared/ui/separator';
+import { Textarea } from '@/shared/ui/textarea';
 
 interface Comment {
   id: number;

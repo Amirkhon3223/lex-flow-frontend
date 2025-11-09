@@ -10,7 +10,7 @@ interface RecentAnalysesProps {
 
 export function RecentAnalyses({ analyses }: RecentAnalysesProps) {
   return (
-    <Card className="bg-white border-0 shadow-sm">
+    <Card className="bg-white border-0 shadow-sm rounded-xl">
       <div className="p-6">
         <h3 className="tracking-tight mb-4">Недавние анализы</h3>
         <div className="space-y-3">
