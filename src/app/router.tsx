@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import ClientDetailPage from '@/modules/clients/pages/ClientDetailPage';
 import { MeetingDetailPage } from '@/modules/calendar/pages/MeetingDetailPage';
+import ClientDetailPage from '@/modules/clients/pages/ClientDetailPage';
 import AiAssistantPage from '@/pages/AiAssistantPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
 import CalendarPage from '@/pages/CalendarPage';

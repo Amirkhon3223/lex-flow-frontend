@@ -1,100 +1,102 @@
-import { useState } from 'react';
-import { Briefcase, Users, TrendingUp, DollarSign, Download } from 'lucide-react';
+import { Calendar, Download, BarChart3, Briefcase, DollarSign, Users } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
-import { CaseStatsChart } from './ui/CaseStatsChart';
-import { CaseTypesChart } from './ui/CaseTypesChart';
-import { PeriodSelector } from './ui/PeriodSelector';
-import { StatsCard } from './ui/StatsCard';
-import { TabsPanel } from './ui/TabsPanel';
-
-const caseStatsData = [
-    { month: 'Янв', completed: 8, failed: 2 },
-    { month: 'Фев', completed: 10, failed: 3 },
-    { month: 'Мар', completed: 12, failed: 2 },
-    { month: 'Апр', completed: 9, failed: 4 },
-    { month: 'Май', completed: 14, failed: 3 },
-    { month: 'Июн', completed: 16, failed: 4 },
-];
-
-const caseTypesData = [
-    { name: 'Трудовые споры', value: 35, color: '#3b82f6' },
-    { name: 'Договорное право', value: 25, color: '#8b5cf6' },
-    { name: 'Наследственные дела', value: 20, color: '#f59e0b' },
-    { name: 'Семейное право', value: 15, color: '#10b981' },
-    { name: 'Прочее', value: 5, color: '#6b7280' },
-];
-
-const tabs = [
-    { id: 'overview', label: 'Обзор' },
-    { id: 'cases', label: 'Дела' },
-    { id: 'finance', label: 'Финансы' },
-    { id: 'team', label: 'Команда' },
-];
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
+import { CasesChart } from './components/CasesChart';
+import { CaseTypesChart } from './components/CaseTypesChart';
+import { RevenueChart } from './components/RevenueChart';
+import { StatsCards } from './components/StatsCards';
+import { TeamStats } from './components/TeamStats';
 
 export default function AnalyticsPage() {
-    const [activeTab, setActiveTab] = useState('overview');
+  const handleExportReport = () => {
+    console.log('Экспорт отчета');
+  };
 
-    return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Аналитика</h1>
-                    <p className="text-sm text-gray-600">Обзор эффективности работы и статистика</p>
-                </div>
-                <div className="flex gap-2">
-                    <PeriodSelector />
-                    <Button>
-                        <Download className="mr-2 h-4 w-4" />
-                        Экспорт отчета
-                    </Button>
-                </div>
+  return (
+    <div>
+      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+        <div className="px-4 py-6">
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <h1 className="text-4xl tracking-tight mb-2">Аналитика</h1>
+              <p className="text-gray-500 text-lg">Обзор эффективности работы и статистика</p>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-4">
-                <StatsCard
-                    title="Активные дела"
-                    value="47"
-                    change="+12%"
-                    icon={Briefcase}
-                    iconBgColor="bg-blue-50"
-                    iconColor="text-blue-600"
-                />
-                <StatsCard
-                    title="Новых клиентов"
-                    value="24"
-                    change="+8%"
-                    icon={Users}
-                    iconBgColor="bg-purple-50"
-                    iconColor="text-purple-600"
-                />
-                <StatsCard
-                    title="Успешных дел"
-                    value="87%"
-                    change="+5%"
-                    icon={TrendingUp}
-                    iconBgColor="bg-green-50"
-                    iconColor="text-green-600"
-                />
-                <StatsCard
-                    title="Доход за период"
-                    value="3.8M ₽"
-                    change="+23%"
-                    icon={DollarSign}
-                    iconBgColor="bg-orange-50"
-                    iconColor="text-orange-600"
-                />
-            </div>
+            <div className="flex items-center gap-3">
+              <Select defaultValue="month">
+                <SelectTrigger className="w-48 h-12 rounded-xl border-gray-200">
+                  <Calendar className="w-4 h-4 mr-2" strokeWidth={2}/>
+                  <SelectValue/>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="week">Эта неделя</SelectItem>
+                  <SelectItem value="month">Этот месяц</SelectItem>
+                  <SelectItem value="quarter">Квартал</SelectItem>
+                  <SelectItem value="year">Год</SelectItem>
+                </SelectContent>
+              </Select>
 
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                <CaseStatsChart data={caseStatsData} />
-                <CaseTypesChart data={caseTypesData} />
+              <Button
+                onClick={handleExportReport}
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+              >
+                <Download className="w-4 h-4 mr-2" strokeWidth={2}/>
+                Экспорт отчета
+              </Button>
             </div>
+          </div>
 
-            <TabsPanel
-                tabs={tabs}
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-            />
+          <StatsCards/>
         </div>
-    );
+      </header>
+
+      <main className="p-8">
+        <Tabs defaultValue="overview" className="space-y-6">
+          <TabsList className="bg-gray-100 rounded-xl p-1.5">
+            <TabsTrigger
+              value="overview"
+              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <BarChart3 className="w-4 h-4 mr-2" strokeWidth={2}/>
+              Обзор
+            </TabsTrigger>
+            <TabsTrigger
+              value="cases"
+              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <Briefcase className="w-4 h-4 mr-2" strokeWidth={2}/>
+              Дела
+            </TabsTrigger>
+            <TabsTrigger
+              value="finance"
+              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <DollarSign className="w-4 h-4 mr-2" strokeWidth={2}/>
+              Финансы
+            </TabsTrigger>
+            <TabsTrigger
+              value="team"
+              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              <Users className="w-4 h-4 mr-2" strokeWidth={2}/>
+              Команда
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid grid-cols-3 gap-6">
+              <CasesChart/>
+              <CaseTypesChart/>
+            </div>
+            <RevenueChart/>
+          </TabsContent>
+
+          <TabsContent value="team" className="space-y-6">
+            <TeamStats/>
+          </TabsContent>
+        </Tabs>
+      </main>
+    </div>
+  );
 }

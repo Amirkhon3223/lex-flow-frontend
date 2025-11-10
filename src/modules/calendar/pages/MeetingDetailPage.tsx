@@ -18,13 +18,13 @@ import {
 import { useParams, useNavigate } from 'react-router-dom';
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
 import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
+import { AddMeetingDialog } from '@/modules/calendar/components/AddMeetingDialog';
+import { CommentsDialog } from '@/shared/components/CommentsDialog';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
-import { CommentsDialog } from '@/shared/components/CommentsDialog';
-import { AddMeetingDialog } from '@/modules/calendar/components/AddMeetingDialog';
 
 export function MeetingDetailPage() {
   const { id } = useParams();
