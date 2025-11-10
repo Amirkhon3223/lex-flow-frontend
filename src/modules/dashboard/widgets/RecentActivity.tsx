@@ -1,5 +1,5 @@
-import { Card } from '@/shared/ui/card';
 import { ActivityItem } from '@/modules/dashboard/ui/ActivityItem';
+import { Card } from '@/shared/ui/card';
 
 const recentActivity = [
   { action: 'добавил документ', item: '"Исковое заявление"', client: 'Иванов П.А.', time: '2 часа назад' },

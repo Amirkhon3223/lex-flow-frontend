@@ -62,8 +62,8 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
-import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
 import { CaseFilters } from '@/modules/cases/ui/CaseFilters';
+import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar'; // shared/ui в FSD
 import { Badge } from '@/shared/ui/badge'; // shared/ui в FSD
 import { Button } from '@/shared/ui/button'; // shared/ui в FSD

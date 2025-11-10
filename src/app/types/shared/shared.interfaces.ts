@@ -55,3 +55,21 @@ export interface ActionsMenuProps {
   triggerIcon?: LucideIcon;
   triggerClassName?: string;
 }
+
+/**
+ * Пропсы для компонента StatCard
+ */
+export interface StatCardProps {
+  label?: string;
+  title?: string;
+  value: string | number;
+  icon: LucideIcon;
+  iconBg?: string;
+  iconColor?: string;
+  valueColor?: string;
+  variant?: 'default' | 'urgent';
+  trend?: {
+    value: string | number;
+    isPositive: boolean;
+  };
+}

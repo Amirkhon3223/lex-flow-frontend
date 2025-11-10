@@ -65,15 +65,15 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/app/config/routes.config.ts";
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
+import { CompactStatCard } from '@/modules/clients/ui/CompactStatCard';
 import { AddClientDialog } from '@/shared/components/AddClientDialog';
 import { EditClientDialog } from '@/shared/components/EditClientDialog';
+import { FilterBar } from '@/shared/components/filters/FilterBar';
+import { ActionsMenu } from '@/shared/components/menus/ActionsMenu';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
-import { ActionsMenu } from '@/shared/components/menus/ActionsMenu';
-import { FilterBar } from '@/shared/components/filters/FilterBar';
-import { StatCard } from '@/shared/ui/stat-card';
 import {
   Table,
   TableBody,
@@ -283,10 +283,10 @@ export function ClientsPage() {
   };
 
   const stats = [
-    { label: 'Всего клиентов', value: clients.length, icon: Users, iconBg: 'bg-blue-50', iconColor: 'text-blue-500' },
-    { label: 'Активные', value: clients.filter(c => c.status === ClientStatusEnum.ACTIVE).length, icon: TrendingUp, iconBg: 'bg-green-50', iconColor: 'text-green-500' },
-    { label: 'VIP', value: clients.filter(c => c.category === ClientCategoryEnum.VIP).length, icon: Star, iconBg: 'bg-purple-50', iconColor: 'text-purple-500' },
-    { label: 'Активных дел', value: clients.reduce((sum, c) => sum + c.activeCases, 0), icon: Briefcase, iconBg: 'bg-orange-50', iconColor: 'text-orange-500' },
+    { label: 'Всего клиентов', value: clients.length, icon: Users, color: 'text-blue-500' },
+    { label: 'Активные', value: clients.filter(c => c.status === ClientStatusEnum.ACTIVE).length, icon: TrendingUp, color: 'text-green-500' },
+    { label: 'VIP', value: clients.filter(c => c.category === ClientCategoryEnum.VIP).length, icon: Star, color: 'text-purple-500' },
+    { label: 'Активных дел', value: clients.reduce((sum, c) => sum + c.activeCases, 0), icon: Briefcase, color: 'text-orange-500' },
   ];
 
   return (
@@ -367,13 +367,12 @@ export function ClientsPage() {
         {}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {stats.map((stat, index) => (
-            <StatCard
+            <CompactStatCard
               key={index}
               label={stat.label}
               value={stat.value}
               icon={stat.icon}
-              iconBg={stat.iconBg}
-              iconColor={stat.iconColor}
+              color={stat.color}
             />
           ))}
         </div>

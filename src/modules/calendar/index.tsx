@@ -1,149 +1,592 @@
-import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import {
+  Calendar as CalendarIcon,
+  Clock,
+  MapPin,
+  Video,
+  Phone,
+  Users,
+  Plus,
+  ChevronLeft,
+  ChevronRight,
+  MoreHorizontal,
+  User,
+  Briefcase,
+  Grid3x3,
+  List,
+} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
+import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
+import { AddMeetingDialog } from "@/modules/calendar/components/AddMeetingDialog.tsx";
+import { MeetingsList } from '@/modules/calendar/components/MeetingsList';
+import { FilterBar } from '@/shared/components/filters/FilterBar';
+import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
+import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { SearchBar } from '@/shared/ui/search-bar';
-import { DateBlock } from './ui/DateBlock';
-import { FilterPanel } from './ui/FilterPanel';
-import { MeetingCard } from './ui/MeetingCard';
-import { TodayCard } from './ui/TodayCard';
-import { ViewToggle } from './ui/ViewToggle';
+import { Calendar } from '@/shared/ui/calendar';
+import { Card } from '@/shared/ui/card';
+import { Separator } from '@/shared/ui/separator';
 
-const meetings = [
-    {
-        id: 1,
-        title: 'Консультация завершена',
-        client: 'Смирнова А.В.',
-        clientInitials: 'СА',
-        date: '12 окт',
-        time: '11:00',
-        duration: '30 минут',
-        location: 'Офис, кабинет 305',
-        type: MeetingTypeEnum.IN_PERSON,
-        status: MeetingStatusEnum.COMPLETED,
-        statusText: 'Завершено',
-    },
-    {
-        id: 2,
-        title: 'Консультация по трудовому спору',
-        client: 'Иванов П.А.',
-        clientInitials: 'ИП',
-        date: '15 окт',
-        time: '10:00',
-        duration: '1 час',
-        location: 'Офис, кабинет 305',
-        case: 'Трудовой спор - незаконное увольнение',
-        type: MeetingTypeEnum.IN_PERSON,
-        status: MeetingStatusEnum.SCHEDULED,
-        priority: MeetingPriorityEnum.HIGH,
-        statusText: 'Срочно',
-        planned: true,
-    },
-    {
-        id: 3,
-        title: 'Видео-встреча: обсуждение договора',
-        client: 'Смирнова А.В.',
-        clientInitials: 'СА',
-        date: '15 окт',
-        time: '14:30',
-        duration: '45 минут',
-        location: 'Google Meet',
-        case: 'Наследственное дело',
-        type: MeetingTypeEnum.VIDEO,
-        status: MeetingStatusEnum.SCHEDULED,
-        priority: MeetingPriorityEnum.MEDIUM,
-        statusText: 'Средний',
-        planned: true,
-    },
-    {
-        id: 4,
-        title: 'Телефонная консультация',
-        client: 'ООО "ТехноСтрой"',
-        clientInitials: 'ТС',
-        date: '16 окт',
-        time: '11:00',
-        duration: '30 минут',
-        location: 'Договор аренды помещения',
-        type: MeetingTypeEnum.PHONE,
-        status: MeetingStatusEnum.SCHEDULED,
-        priority: MeetingPriorityEnum.LOW,
-        statusText: 'Низкий',
-        planned: true,
-    },
-    {
-        id: 5,
-        title: 'Подписание документов',
-        client: 'Козлов Д.М.',
-        clientInitials: 'КД',
-        date: '18 окт',
-        time: '15:00',
-        duration: '30 минут',
-        location: 'Офис, кабинет 305',
-        case: 'Взыскание задолженности',
-        type: MeetingTypeEnum.IN_PERSON,
-        status: MeetingStatusEnum.SCHEDULED,
-        priority: MeetingPriorityEnum.HIGH,
-        statusText: 'Срочно',
-        planned: true,
-    },
-];
+export function CalendarPage() {
+  const navigate = useNavigate();
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [isAddMeetingOpen, setIsAddMeetingOpen] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
+  const [filterType, setFilterType] = useState<string>('all');
+  const [filterClient, setFilterClient] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
 
-export default function CalendarPage() {
-    const [viewMode, setViewMode] = useState<'calendar' | 'list'>('list');
-    const [searchQuery, setSearchQuery] = useState('');
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .calendar-with-indicators .rdp-day.has-meeting {
+        position: relative;
+      }
+      .calendar-with-indicators .rdp-day.has-meeting::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #3b82f6;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
-    const filteredMeetings = meetings.filter(meeting =>
-        meeting.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        meeting.client.toLowerCase().includes(searchQuery.toLowerCase())
-    );
 
+  const allMeetings: MeetingInterface[] = [
+    {
+      id: 1,
+      title: 'Консультация по трудовому спору',
+      client: { name: 'Иванов П.А.', avatar: 'ИП' },
+      case: 'Трудовой спор - незаконное увольнение',
+      date: new Date(2025, 10, 9, 10, 0),
+      time: '10:00',
+      duration: '1 час',
+      type: MeetingTypeEnum.IN_PERSON,
+      location: 'Офис, кабинет 305',
+      status: MeetingStatusEnum.SCHEDULED,
+      priority: MeetingPriorityEnum.HIGH,
+    },
+    {
+      id: 2,
+      title: 'Видео-встреча: обсуждение договора',
+      client: { name: 'Смирнова А.В.', avatar: 'СА' },
+      case: 'Наследственное дело',
+      date: new Date(2025, 10, 9, 14, 30),
+      time: '14:30',
+      duration: '45 минут',
+      type: MeetingTypeEnum.VIDEO,
+      location: 'Google Meet',
+      status: MeetingStatusEnum.SCHEDULED,
+      priority: MeetingPriorityEnum.MEDIUM,
+    },
+    {
+      id: 3,
+      title: 'Телефонная консультация',
+      client: { name: 'ООО "ТехноСтрой"', avatar: 'ТС' },
+      case: 'Договор аренды помещения',
+      date: new Date(2025, 10, 12, 11, 0),
+      time: '11:00',
+      duration: '30 минут',
+      type: MeetingTypeEnum.PHONE,
+      status: MeetingStatusEnum.SCHEDULED,
+      priority: MeetingPriorityEnum.LOW,
+    },
+    {
+      id: 4,
+      title: 'Подписание документов',
+      client: { name: 'Козлов Д.М.', avatar: 'КД' },
+      case: 'Взыскание задолженности',
+      date: new Date(2025, 10, 15, 15, 0),
+      time: '15:00',
+      duration: '30 минут',
+      type: MeetingTypeEnum.IN_PERSON,
+      location: 'Офис, кабинет 305',
+      status: MeetingStatusEnum.SCHEDULED,
+      priority: MeetingPriorityEnum.HIGH,
+    },
+    {
+      id: 5,
+      title: 'Встреча с клиентом',
+      client: { name: 'Иванов П.А.', avatar: 'ИП' },
+      case: 'Трудовой спор - незаконное увольнение',
+      date: new Date(2025, 10, 20, 16, 0),
+      time: '16:00',
+      duration: '1 час',
+      type: MeetingTypeEnum.IN_PERSON,
+      location: 'Офис, кабинет 305',
+      status: MeetingStatusEnum.SCHEDULED,
+      priority: MeetingPriorityEnum.MEDIUM,
+    },
+    {
+      id: 6,
+      title: 'Консультация завершена',
+      client: { name: 'Смирнова А.В.', avatar: 'СА' },
+      date: new Date(2025, 10, 5, 11, 0),
+      time: '11:00',
+      duration: '30 минут',
+      type: MeetingTypeEnum.IN_PERSON,
+      location: 'Офис, кабинет 305',
+      status: MeetingStatusEnum.COMPLETED,
+    },
+    {
+      id: 7,
+      title: 'Заседание в суде',
+      client: { name: 'Иванов П.А.', avatar: 'ИП' },
+      case: 'Трудовой спор - незаконное увольнение',
+      date: new Date(2025, 9, 22, 10, 0),
+      time: '10:00',
+      duration: '2 часа',
+      type: MeetingTypeEnum.IN_PERSON,
+      location: 'Районный суд',
+      status: MeetingStatusEnum.SCHEDULED,
+      priority: MeetingPriorityEnum.HIGH,
+    },
+  ];
+
+
+  const filteredMeetings = allMeetings.filter(meeting => {
+    const matchesType = filterType === 'all' || meeting.type === filterType;
+    const matchesClient = filterClient === 'all' || meeting.client.name === filterClient;
+    const matchesSearch = searchQuery === '' ||
+      meeting.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      meeting.client.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesType && matchesClient && matchesSearch;
+  });
+
+
+  const selectedDateMeetings = filteredMeetings.filter(meeting => {
+    if (!date) return false;
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Календарь</h1>
-                    <p className="text-sm text-gray-600">Все встречи и события</p>
-                </div>
-                <Button>
-                    <Plus className="mr-2 h-4 w-4" />
-                    Новая встреча
-                </Button>
+      meeting.date.getDate() === date.getDate() &&
+      meeting.date.getMonth() === date.getMonth() &&
+      meeting.date.getFullYear() === date.getFullYear()
+    );
+  }).sort((a, b) => a.date.getTime() - b.date.getTime());
+
+
+  const upcomingMeetings = filteredMeetings
+    .filter(m => m.status === MeetingStatusEnum.SCHEDULED && m.date >= new Date())
+    .sort((a, b) => a.date.getTime() - b.date.getTime())
+    .slice(0, 5);
+
+
+  const today = new Date();
+  const todayMeetings = filteredMeetings.filter(meeting => {
+    return (
+      meeting.date.getDate() === today.getDate() &&
+      meeting.date.getMonth() === today.getMonth() &&
+      meeting.date.getFullYear() === today.getFullYear() &&
+      meeting.status === MeetingStatusEnum.SCHEDULED
+    );
+  }).sort((a, b) => a.date.getTime() - b.date.getTime());
+
+
+  const meetingDates = filteredMeetings.map(m => m.date);
+
+
+  const uniqueClients = Array.from(new Set(allMeetings.map(m => m.client.name)));
+
+  const getMeetingTypeIcon = (type: MeetingInterface['type']) => {
+    switch (type) {
+      case 'video':
+        return <Video className="w-4 h-4" strokeWidth={2}/>;
+      case 'phone':
+        return <Phone className="w-4 h-4" strokeWidth={2}/>;
+      default:
+        return <Users className="w-4 h-4" strokeWidth={2}/>;
+    }
+  };
+
+  const getMeetingTypeColor = (type: MeetingInterface['type']) => {
+    switch (type) {
+      case 'video':
+        return 'bg-purple-100 text-purple-700';
+      case 'phone':
+        return 'bg-green-100 text-green-700';
+      default:
+        return 'bg-blue-100 text-blue-700';
+    }
+  };
+
+  const getPriorityColor = (priority?: MeetingInterface['priority']) => {
+    switch (priority) {
+      case 'high':
+        return 'bg-red-100 text-red-700';
+      case 'medium':
+        return 'bg-amber-100 text-amber-700';
+      default:
+        return 'bg-gray-100 text-gray-700';
+    }
+  };
+
+  return (
+    <div>
+      <AddMeetingDialog open={isAddMeetingOpen} onOpenChange={setIsAddMeetingOpen}/>
+      {}
+      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+        <div className="px-4 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-3xl tracking-tight mb-1">Календарь</h1>
+              <p className="text-gray-500">Все встречи и события</p>
             </div>
 
-            <Card>
-                <CardContent className="p-4">
-                    <div className="flex items-center gap-4">
-                        <SearchBar
-                            value={searchQuery}
-                            onChange={setSearchQuery}
-                        />
-                        <FilterPanel />
-                        <ViewToggle
-                            viewMode={viewMode}
-                            onViewChange={setViewMode}
-                        />
-                    </div>
-                </CardContent>
-            </Card>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 bg-gray-100 rounded-xl p-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setViewMode('calendar')}
+                  className={`rounded-lg ${
+                    viewMode === 'calendar'
+                      ? 'bg-white shadow-sm'
+                      : 'hover:bg-transparent'
+                  }`}
+                >
+                  <Grid3x3 className="w-4 h-4 mr-2" strokeWidth={2}/>
+                  Календарь
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setViewMode('list')}
+                  className={`rounded-lg ${
+                    viewMode === 'list'
+                      ? 'bg-white shadow-sm'
+                      : 'hover:bg-transparent'
+                  }`}
+                >
+                  <List className="w-4 h-4 mr-2" strokeWidth={2}/>
+                  Список
+                </Button>
+              </div>
 
-            <TodayCard meetingsCount={1} />
+              <Button
+                onClick={() => setIsAddMeetingOpen(true)}
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+              >
+                <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
+                Новая встреча
+              </Button>
+            </div>
+          </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Все встречи</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-6">
-                        {filteredMeetings.map((meeting) => (
-                            <div key={meeting.id} className="flex items-start gap-4">
-                                <DateBlock date={meeting.date} time={meeting.time} />
-                                <MeetingCard {...meeting} />
-                            </div>
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
+          {}
+          <FilterBar
+            searchConfig={{
+              value: searchQuery,
+              onChange: setSearchQuery,
+              placeholder: 'Поиск встреч...',
+              className: 'flex-1 max-w-md',
+            }}
+            filters={[
+              {
+                value: filterType,
+                onChange: setFilterType,
+                placeholder: 'Тип встречи',
+                width: 'w-[180px]',
+                options: [
+                  { value: 'all', label: 'Все типы' },
+                  { value: 'in_person', label: 'Личные встречи' },
+                  { value: 'video', label: 'Видеозвонки' },
+                  { value: 'phone', label: 'Телефонные звонки' },
+                ],
+              },
+              {
+                value: filterClient,
+                onChange: setFilterClient,
+                placeholder: 'Клиент',
+                width: 'w-[200px]',
+                icon: User,
+                options: [
+                  { value: 'all', label: 'Все клиенты' },
+                  ...uniqueClients.map(client => ({ value: client, label: client })),
+                ],
+              },
+            ]}
+          />
         </div>
-    );
+      </header>
+
+      {}
+      <main className="py-6">
+        {}
+        <Card
+          className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white mb-6">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-xl tracking-tight mb-1">Сегодня</h3>
+                <p className="text-sm opacity-90">
+                  {new Date().toLocaleDateString('ru-RU', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                  })}
+                </p>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl tracking-tight">{todayMeetings.length}</div>
+                <div className="text-sm opacity-90">
+                  {todayMeetings.length === 1 ? 'встреча' : 'встречи'}
+                </div>
+              </div>
+            </div>
+
+            {todayMeetings.length > 0 ? (
+              <div className="space-y-2">
+                {todayMeetings.slice(0, 2).map((meeting) => (
+                  <div
+                    key={meeting.id}
+                    onClick={() => navigate(`/calendar/meetings/${meeting.id}`)}
+                    className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 cursor-pointer hover:bg-white/20 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Avatar className="w-8 h-8 ring-2 ring-white/30">
+                        <AvatarFallback className="bg-white/20 text-white text-xs">
+                          {meeting.client.avatar}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm truncate">{meeting.title}</div>
+                        <div className="text-xs opacity-75">{meeting.time} • {meeting.client.name}</div>
+                      </div>
+                      <div
+                        className="w-6 h-6 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                        {getMeetingTypeIcon(meeting.type)}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-4 opacity-75">
+                <p className="text-sm">Встреч на сегодня не запланировано</p>
+              </div>
+            )}
+          </div>
+        </Card>
+
+        {}
+        {viewMode === 'calendar' ? (
+          <div className="grid grid-cols-5 gap-6">
+            {}
+            <Card className="col-span-3 bg-white border-0 shadow-sm">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl tracking-tight">
+                    Календарь
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-xl border-gray-200 hover:bg-gray-50"
+                      onClick={() => {
+                        setSelectedMonth(new Date());
+                        setDate(new Date());
+                      }}
+                    >
+                      Сегодня
+                    </Button>
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 rounded-lg"
+                        onClick={() => {
+                          const newDate = new Date(selectedMonth);
+                          newDate.setMonth(newDate.getMonth() - 1);
+                          setSelectedMonth(newDate);
+                        }}
+                      >
+                        <ChevronLeft className="w-4 h-4" strokeWidth={2}/>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 rounded-lg"
+                        onClick={() => {
+                          const newDate = new Date(selectedMonth);
+                          newDate.setMonth(newDate.getMonth() + 1);
+                          setSelectedMonth(newDate);
+                        }}
+                      >
+                        <ChevronRight className="w-4 h-4" strokeWidth={2}/>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <Calendar
+                  selected={date}
+                  onSelect={(newDate) => newDate && setDate(newDate)}
+                  month={selectedMonth}
+                  onMonthChange={setSelectedMonth}
+                  className="rounded-xl border-0"
+                  modifiers={{
+                    meeting: meetingDates,
+                  }}
+                  modifiersClassNames={{
+                    meeting: "bg-blue-500",
+                  }}
+                />
+
+                <div className="mt-6 grid grid-cols-3 gap-3">
+                  <div className="p-3 rounded-xl bg-blue-50 text-center">
+                    <div className="text-2xl tracking-tight text-blue-600 mb-1">
+                      {filteredMeetings.filter(m => m.status === MeetingStatusEnum.SCHEDULED).length}
+                    </div>
+                    <div className="text-xs text-blue-600">Запланировано</div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-green-50 text-center">
+                    <div className="text-2xl tracking-tight text-green-600 mb-1">
+                      {filteredMeetings.filter(m => m.status === MeetingStatusEnum.COMPLETED).length}
+                    </div>
+                    <div className="text-xs text-green-600">Завершено</div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-gray-50 text-center">
+                    <div className="text-2xl tracking-tight text-gray-600 mb-1">
+                      {filteredMeetings.length}
+                    </div>
+                    <div className="text-xs text-gray-600">Всего</div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {}
+            <div className="col-span-2 space-y-4">
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
+                <div className="p-6">
+                  <h3 className="text-lg tracking-tight mb-4">
+                    {date ? date.toLocaleDateString('ru-RU', {
+                      day: 'numeric',
+                      month: 'long',
+                    }) : 'Выберите дату'}
+                  </h3>
+
+                  {selectedDateMeetings.length > 0 ? (
+                    <div className="space-y-3">
+                      {selectedDateMeetings.map((meeting) => (
+                        <div
+                          key={meeting.id}
+                          onClick={() => navigate(`/calendar/meetings/${meeting.id}`)}
+                          className="group p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer"
+                        >
+                          <div className="flex items-start gap-3 mb-3">
+                            <Avatar className="w-10 h-10 ring-2 ring-gray-200">
+                              <AvatarFallback
+                                className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs">
+                                {meeting.client.avatar}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-sm tracking-tight mb-1 truncate">{meeting.title}</h4>
+                              <p className="text-xs text-gray-500">{meeting.client.name}</p>
+                            </div>
+                            {meeting.priority && (
+                              <Badge className={`${getPriorityColor(meeting.priority)} border-0 text-xs`}>
+                                {meeting.priority === 'high' ? 'Срочно' : meeting.priority === 'medium' ? 'Средний' : 'Низкий'}
+                              </Badge>
+                            )}
+                          </div>
+
+                          <div className="space-y-1.5 text-xs text-gray-500">
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-3.5 h-3.5" strokeWidth={2}/>
+                              <span>{meeting.time} • {meeting.duration}</span>
+                            </div>
+                            {meeting.location && (
+                              <div className="flex items-center gap-2">
+                                <MapPin className="w-3.5 h-3.5" strokeWidth={2}/>
+                                <span className="truncate">{meeting.location}</span>
+                              </div>
+                            )}
+                            {meeting.case && (
+                              <div className="flex items-center gap-2">
+                                <Briefcase className="w-3.5 h-3.5" strokeWidth={2}/>
+                                <span className="truncate">{meeting.case}</span>
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="flex items-center gap-2 mt-3">
+                            <Badge className={`${getMeetingTypeColor(meeting.type)} border-0 text-xs`}>
+                              {getMeetingTypeIcon(meeting.type)}
+                            </Badge>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="ml-auto rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <MoreHorizontal className="w-4 h-4" strokeWidth={2}/>
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                        <CalendarIcon className="w-8 h-8 text-gray-400" strokeWidth={2}/>
+                      </div>
+                      <p className="text-sm text-gray-500">Нет встреч на эту дату</p>
+                    </div>
+                  )}
+                </div>
+              </Card>
+
+              {}
+              <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
+                <div className="p-6">
+                  <h3 className="text-lg tracking-tight mb-4">Предстоящие встречи</h3>
+
+                  <div className="space-y-3">
+                    {upcomingMeetings.slice(0, 3).map((meeting) => (
+                      <div key={meeting.id}
+                           className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
+                        <div className="flex flex-col items-center min-w-[50px]">
+                          <div className="text-sm text-gray-900">
+                            {meeting.date.toLocaleDateString('ru-RU', { day: 'numeric' })}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {meeting.date.toLocaleDateString('ru-RU', { month: 'short' })}
+                          </div>
+                        </div>
+                        <Separator orientation="vertical" className="h-10 bg-gray-200"/>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm truncate mb-1">{meeting.title}</div>
+                          <div className="text-xs text-gray-500">{meeting.client.name}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        ) : (
+          <MeetingsList
+            meetings={filteredMeetings}
+            getMeetingTypeIcon={getMeetingTypeIcon}
+            getMeetingTypeColor={getMeetingTypeColor}
+            getPriorityColor={getPriorityColor}
+          />
+        )}
+      </main>
+    </div>
+  );
 }

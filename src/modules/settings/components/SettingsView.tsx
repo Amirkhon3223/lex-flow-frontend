@@ -30,14 +30,15 @@ import { Switch } from '@/shared/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 
 
-export function SettingsView() {
+export default function SettingsView() {
   return (
     <div>
       {}
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
-<div className="px-4 py-6">          <div className="flex items-center gap-4">
+        <div className="px-4 py-6">
+          <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
-              <Settings className="w-6 h-6 text-gray-600" strokeWidth={2} />
+              <Settings className="w-6 h-6 text-gray-600" strokeWidth={2}/>
             </div>
             <div>
               <h1 className="text-4xl tracking-tight">Настройки</h1>
@@ -52,24 +53,29 @@ export function SettingsView() {
         <div className="max-w-5xl mx-auto">
           <Tabs defaultValue="profile" className="space-y-6">
             <TabsList className="bg-gray-100 rounded-xl p-1.5 grid grid-cols-5 w-full">
-              <TabsTrigger value="profile" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                <User className="w-4 h-4 mr-2" strokeWidth={2} />
+              <TabsTrigger value="profile"
+                           className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <User className="w-4 h-4 mr-2" strokeWidth={2}/>
                 Профиль
               </TabsTrigger>
-              <TabsTrigger value="notifications" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                <Bell className="w-4 h-4 mr-2" strokeWidth={2} />
+              <TabsTrigger value="notifications"
+                           className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <Bell className="w-4 h-4 mr-2" strokeWidth={2}/>
                 Уведомления
               </TabsTrigger>
-              <TabsTrigger value="security" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                <Shield className="w-4 h-4 mr-2" strokeWidth={2} />
+              <TabsTrigger value="security"
+                           className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <Shield className="w-4 h-4 mr-2" strokeWidth={2}/>
                 Безопасность
               </TabsTrigger>
-              <TabsTrigger value="team" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                <Users className="w-4 h-4 mr-2" strokeWidth={2} />
+              <TabsTrigger value="team"
+                           className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <Users className="w-4 h-4 mr-2" strokeWidth={2}/>
                 Команда
               </TabsTrigger>
-              <TabsTrigger value="billing" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                <CreditCard className="w-4 h-4 mr-2" strokeWidth={2} />
+              <TabsTrigger value="billing"
+                           className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <CreditCard className="w-4 h-4 mr-2" strokeWidth={2}/>
                 Подписка
               </TabsTrigger>
             </TabsList>
@@ -103,7 +109,8 @@ export function SettingsView() {
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
                       <div className="relative">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
+                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+                              strokeWidth={2}/>
                         <Input
                           id="email"
                           type="email"
@@ -116,7 +123,8 @@ export function SettingsView() {
                     <div className="space-y-2">
                       <Label htmlFor="phone">Телефон</Label>
                       <div className="relative">
-                        <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
+                        <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+                                    strokeWidth={2}/>
                         <Input
                           id="phone"
                           type="tel"
@@ -136,7 +144,7 @@ export function SettingsView() {
                     </div>
                   </div>
 
-                  <Separator className="my-6 bg-gray-200" />
+                  <Separator className="my-6 bg-gray-200"/>
 
                   <div className="flex items-center justify-between">
                     <Button variant="outline" className="rounded-xl border-gray-200 hover:bg-gray-50">
@@ -158,8 +166,8 @@ export function SettingsView() {
                       <Label htmlFor="language">Язык</Label>
                       <Select defaultValue="ru">
                         <SelectTrigger className="h-12 rounded-xl border-gray-200">
-                          <Globe className="w-4 h-4 mr-2 text-gray-400" strokeWidth={2} />
-                          <SelectValue />
+                          <Globe className="w-4 h-4 mr-2 text-gray-400" strokeWidth={2}/>
+                          <SelectValue/>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="ru">Русский</SelectItem>
@@ -172,8 +180,8 @@ export function SettingsView() {
                       <Label htmlFor="timezone">Часовой пояс</Label>
                       <Select defaultValue="msk">
                         <SelectTrigger className="h-12 rounded-xl border-gray-200">
-                          <Clock className="w-4 h-4 mr-2 text-gray-400" strokeWidth={2} />
-                          <SelectValue />
+                          <Clock className="w-4 h-4 mr-2 text-gray-400" strokeWidth={2}/>
+                          <SelectValue/>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="msk">Москва (GMT+3)</SelectItem>
@@ -206,7 +214,7 @@ export function SettingsView() {
                           <h4 className="tracking-tight mb-1">{item.label}</h4>
                           <p className="text-sm text-gray-500">{item.description}</p>
                         </div>
-                        <Switch defaultChecked={item.checked} />
+                        <Switch defaultChecked={item.checked}/>
                       </div>
                     ))}
                   </div>
@@ -228,7 +236,7 @@ export function SettingsView() {
                           <h4 className="tracking-tight mb-1">{item.label}</h4>
                           <p className="text-sm text-gray-500">{item.description}</p>
                         </div>
-                        <Switch defaultChecked={item.checked} />
+                        <Switch defaultChecked={item.checked}/>
                       </div>
                     ))}
                   </div>
@@ -269,10 +277,10 @@ export function SettingsView() {
                     </div>
                   </div>
 
-                  <Separator className="my-6 bg-gray-200" />
+                  <Separator className="my-6 bg-gray-200"/>
 
                   <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl">
-                    <Lock className="w-4 h-4 mr-2" strokeWidth={2} />
+                    <Lock className="w-4 h-4 mr-2" strokeWidth={2}/>
                     Обновить пароль
                   </Button>
                 </div>
@@ -285,7 +293,7 @@ export function SettingsView() {
                   <div className="flex items-start justify-between p-4 rounded-xl bg-green-50 border border-green-100">
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center flex-shrink-0">
-                        <Shield className="w-5 h-5 text-green-600" strokeWidth={2} />
+                        <Shield className="w-5 h-5 text-green-600" strokeWidth={2}/>
                       </div>
                       <div>
                         <h4 className="tracking-tight text-green-900 mb-1">2FA активирована</h4>
@@ -322,7 +330,8 @@ export function SettingsView() {
                           <p className="text-sm text-gray-500">{session.location} • {session.time}</p>
                         </div>
                         {!session.current && (
-                          <Button variant="outline" size="sm" className="rounded-lg border-gray-200 hover:bg-red-50 hover:text-red-600">
+                          <Button variant="outline" size="sm"
+                                  className="rounded-lg border-gray-200 hover:bg-red-50 hover:text-red-600">
                             Завершить
                           </Button>
                         )}
@@ -340,21 +349,27 @@ export function SettingsView() {
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl tracking-tight">Члены команды</h3>
                     <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl">
-                      <Users className="w-4 h-4 mr-2" strokeWidth={2} />
+                      <Users className="w-4 h-4 mr-2" strokeWidth={2}/>
                       Пригласить
                     </Button>
                   </div>
 
                   <div className="space-y-3">
                     {[
-                      { name: 'Александр Иванов', email: 'a.ivanov@lexflow.ru', role: 'admin', status: 'Администратор' },
+                      {
+                        name: 'Александр Иванов',
+                        email: 'a.ivanov@lexflow.ru',
+                        role: 'admin',
+                        status: 'Администратор'
+                      },
                       { name: 'Мария Смирнова', email: 'm.smirnova@lexflow.ru', role: 'lawyer', status: 'Юрист' },
                       { name: 'Дмитрий Петров', email: 'd.petrov@lexflow.ru', role: 'lawyer', status: 'Юрист' },
                       { name: 'Елена Волкова', email: 'e.volkova@lexflow.ru', role: 'assistant', status: 'Ассистент' },
                     ].map((member, index) => (
                       <div key={index} className="flex items-center justify-between p-4 rounded-xl bg-gray-50">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white">
+                          <div
+                            className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white">
                             {member.name.split(' ').map(n => n[0]).join('')}
                           </div>
                           <div>
@@ -365,13 +380,13 @@ export function SettingsView() {
                         <div className="flex items-center gap-3">
                           <Badge className={`border-0 ${
                             member.role === 'admin' ? 'bg-purple-100 text-purple-700' :
-                            member.role === 'lawyer' ? 'bg-blue-100 text-blue-700' :
-                            'bg-gray-200 text-gray-700'
+                              member.role === 'lawyer' ? 'bg-blue-100 text-blue-700' :
+                                'bg-gray-200 text-gray-700'
                           }`}>
                             {member.status}
                           </Badge>
                           <Button variant="ghost" size="icon" className="rounded-xl">
-                            <Settings className="w-4 h-4" strokeWidth={2} />
+                            <Settings className="w-4 h-4" strokeWidth={2}/>
                           </Button>
                         </div>
                       </div>
@@ -383,12 +398,13 @@ export function SettingsView() {
 
             {}
             <TabsContent value="billing" className="space-y-6">
-              <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/30 text-white">
+              <Card
+                className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/30 text-white">
                 <div className="p-8">
                   <div className="flex items-start justify-between mb-6">
                     <div>
                       <Badge className="bg-white/20 text-white border-0 mb-3">
-                        <Zap className="w-3 h-3 mr-1" strokeWidth={2} />
+                        <Zap className="w-3 h-3 mr-1" strokeWidth={2}/>
                         Премиум
                       </Badge>
                       <h3 className="text-3xl tracking-tight mb-2">LexFlow Premium</h3>
@@ -400,7 +416,7 @@ export function SettingsView() {
                     </div>
                   </div>
 
-                  <Separator className="my-6 bg-white/20" />
+                  <Separator className="my-6 bg-white/20"/>
 
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div>
@@ -414,7 +430,8 @@ export function SettingsView() {
                   </div>
 
                   <div className="flex gap-3">
-                    <Button className="flex-1 bg-white/20 hover:bg-white/30 text-white border-0 rounded-xl backdrop-blur-sm">
+                    <Button
+                      className="flex-1 bg-white/20 hover:bg-white/30 text-white border-0 rounded-xl backdrop-blur-sm">
                       Изменить план
                     </Button>
                     <Button className="flex-1 bg-white text-blue-600 hover:bg-gray-50 border-0 rounded-xl">
@@ -447,7 +464,7 @@ export function SettingsView() {
                             </Badge>
                           </div>
                           <Button variant="ghost" size="icon" className="rounded-xl">
-                            <Download className="w-4 h-4" strokeWidth={2} />
+                            <Download className="w-4 h-4" strokeWidth={2}/>
                           </Button>
                         </div>
                       </div>

@@ -18,6 +18,7 @@ export interface MeetingInterface {
   participants?: string[];
   status: MeetingStatusEnum;
   priority?: MeetingPriorityEnum;
+  description?: string;
 }
 
 export interface AddMeetingDialogProps {

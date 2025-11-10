@@ -140,11 +140,8 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 rounded-xl" align="start">
                     <Calendar
-                      mode="single"
                       selected={date}
                       onSelect={setDate}
-                      initialFocus
-                      className="rounded-xl"
                     />
                   </PopoverContent>
                 </Popover>

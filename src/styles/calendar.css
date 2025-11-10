@@ -1,0 +1,93 @@
+/* Calendar meeting indicators - trying multiple selectors */
+.meeting-indicator {
+  position: relative !important;
+}
+
+.meeting-indicator::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 2px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background-color: #3b82f6 !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+
+.rdp-day_button.meeting-indicator::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 2px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background-color: #3b82f6 !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+
+/* Try button child selector */
+button.meeting-indicator::after,
+.meeting-indicator button::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 2px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background-color: #3b82f6 !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+
+/* Make sure calendar days are clickable - full block click */
+.rdp-day {
+  position: relative !important;
+}
+
+.rdp-day_button,
+.rdp-day button,
+button.rdp-day_button {
+  cursor: pointer !important;
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.rdp-day_button:hover,
+.rdp-day button:hover {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Today's date highlighting */
+.rdp-day_button.rdp-day_today {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 0 2px #3b82f6 !important;
+}
+
+.rdp-day_button.rdp-day_today:not(.rdp-day_selected) {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.rdp-day_button.rdp-day_selected {
+  background-color: #3b82f6 !important;
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+.rdp-day_button.rdp-day_selected:hover {
+  background-color: #2563eb !important;
+}

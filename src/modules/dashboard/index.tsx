@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { caseService } from "@/app/services/cases/caseService";
 import { clientService } from "@/app/services/clients/clientService";
 import { documentService } from "@/app/services/documents/documentService";
-import { AddCaseDialog } from "@/shared/components/AddCaseDialog";
-import { AddClientDialog } from "@/shared/components/AddClientDialog";
 import { AIInsightsWidget } from "@/modules/dashboard/widgets/AIInsightsWidget";
 import { PriorityCases } from "@/modules/dashboard/widgets/PriorityCases";
 import { QuickActions } from "@/modules/dashboard/widgets/QuickActions";
 import { RecentActivity } from "@/modules/dashboard/widgets/RecentActivity";
 import { StatsCards } from "@/modules/dashboard/widgets/StatsCards";
 import { TodayWidget } from "@/modules/dashboard/widgets/TodayWidget";
+import { AddCaseDialog } from "@/shared/components/AddCaseDialog";
+import { AddClientDialog } from "@/shared/components/AddClientDialog";
 import { UploadDocumentDialog } from "@/shared/components/UploadDocumentDialog";
 
 export default function DashboardPage() {

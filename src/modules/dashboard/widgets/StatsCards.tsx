@@ -1,5 +1,5 @@
 import { Briefcase, Users, FileText, Clock } from 'lucide-react';
-import { StatCard } from '../ui/StatCard';
+import { StatCard } from '@/shared/ui/stat-card';
 
 export function StatsCards() {
   const stats = [

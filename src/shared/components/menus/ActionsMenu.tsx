@@ -27,7 +27,7 @@ import {
 export function ActionsMenu({
   items,
   triggerIcon: TriggerIcon = MoreHorizontal,
-  triggerClassName = 'rounded-xl'
+  triggerClassName = 'rounded-xl',
 }: ActionsMenuProps) {
   return (
     <DropdownMenu>
