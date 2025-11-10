@@ -145,6 +145,14 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: '/profile',
+    element: (
+      <Layout>
+        <UserProfilePage />
+      </Layout>
+    ),
+  },
+  {
     path: '/settings/profile',
     element: (
       <Layout>

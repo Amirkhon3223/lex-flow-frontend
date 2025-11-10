@@ -1,5 +1,3 @@
-import { UserProfileView } from '@/modules/settings/components/UserProfileView';
+import UserProfilePage from '@/modules/user-profile';
 
-export default function UserProfilePage() {
-  return <UserProfileView />;
-}
+export default UserProfilePage;
