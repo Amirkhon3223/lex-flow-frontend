@@ -4,6 +4,11 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 
 export function PaymentHistoryItem({ payment, onDownload }: PaymentHistoryItemProps) {
+  const handleDownload = () => {
+    console.log('Скачать чек:', payment.invoice);
+    onDownload?.();
+  };
+
   return (
     <div className="flex items-center justify-between p-4 rounded-xl bg-gray-50">
       <div>
@@ -17,7 +22,7 @@ export function PaymentHistoryItem({ payment, onDownload }: PaymentHistoryItemPr
             {payment.status}
           </Badge>
         </div>
-        <Button variant="ghost" size="icon" className="rounded-xl" onClick={onDownload}>
+        <Button variant="ghost" size="icon" className="rounded-xl" onClick={handleDownload}>
           <Download className="w-4 h-4" strokeWidth={2} />
         </Button>
       </div>

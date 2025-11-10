@@ -13,6 +13,19 @@ const ACTIVE_SESSIONS: SessionInterface[] = [
 ];
 
 export function SecurityTabContent() {
+  const handlePasswordChange = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Обновить пароль');
+  };
+
+  const handleToggle2FA = () => {
+    console.log('Отключить 2FA');
+  };
+
+  const handleTerminateSession = (device: string) => {
+    console.log('Завершить сессию:', device);
+  };
+
   return (
     <div className="space-y-6">
       {/* Change Password */}
@@ -20,7 +33,7 @@ export function SecurityTabContent() {
         <div className="p-6">
           <h3 className="text-xl tracking-tight mb-6">Изменить пароль</h3>
 
-          <div className="space-y-4">
+          <form onSubmit={handlePasswordChange} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="currentPassword">Текущий пароль</Label>
               <Input
@@ -45,14 +58,14 @@ export function SecurityTabContent() {
                 className="h-12 rounded-xl border-gray-200"
               />
             </div>
-          </div>
 
-          <Separator className="my-6 bg-gray-200" />
+            <Separator className="my-6 bg-gray-200" />
 
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl">
-            <Lock className="w-4 h-4 mr-2" strokeWidth={2} />
-            Обновить пароль
-          </Button>
+            <Button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl">
+              <Lock className="w-4 h-4 mr-2" strokeWidth={2} />
+              Обновить пароль
+            </Button>
+          </form>
         </div>
       </Card>
 
@@ -71,7 +84,11 @@ export function SecurityTabContent() {
                 <p className="text-sm text-green-700">Ваш аккаунт защищен двухфакторной аутентификацией</p>
               </div>
             </div>
-            <Button variant="outline" className="rounded-xl border-green-200 hover:bg-green-100">
+            <Button
+              variant="outline"
+              onClick={handleToggle2FA}
+              className="rounded-xl border-green-200 hover:bg-green-100"
+            >
               Отключить
             </Button>
           </div>
@@ -86,7 +103,11 @@ export function SecurityTabContent() {
 
           <div className="space-y-3">
             {ACTIVE_SESSIONS.map((session, index) => (
-              <SessionItem key={index} session={session} />
+              <SessionItem
+                key={index}
+                session={session}
+                onTerminate={() => handleTerminateSession(session.device)}
+              />
             ))}
           </div>
         </div>

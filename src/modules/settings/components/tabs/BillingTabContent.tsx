@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import { Zap } from 'lucide-react';
 import type { PaymentHistoryInterface } from '@/app/types/settings/settings.interfaces';
 import { PaymentHistoryItem } from '@/modules/settings/components/PaymentHistoryItem';
+import { ChangePlanDialog } from '@/shared/components/ChangePlanDialog';
+import { ManagePaymentDialog } from '@/shared/components/ManagePaymentDialog';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -13,10 +16,33 @@ const PAYMENT_HISTORY: PaymentHistoryInterface[] = [
 ];
 
 export function BillingTabContent() {
+  const [isChangePlanOpen, setIsChangePlanOpen] = useState(false);
+  const [isManagePaymentOpen, setIsManagePaymentOpen] = useState(false);
+
+  const handleChangePlan = () => {
+    setIsChangePlanOpen(true);
+  };
+
+  const handleManagePayment = () => {
+    setIsManagePaymentOpen(true);
+  };
+
+  const handlePlanSubmit = (plan: string) => {
+    console.log('План изменен на:', plan);
+  };
+
+  const handlePaymentSubmit = (data: { cardNumber: string; expiry: string; cvv: string }) => {
+    console.log('Способ оплаты обновлен:', data);
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Subscription Card */}
-      <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/30 text-white">
+    <>
+      <ChangePlanDialog open={isChangePlanOpen} onOpenChange={setIsChangePlanOpen} onSubmit={handlePlanSubmit} />
+      <ManagePaymentDialog open={isManagePaymentOpen} onOpenChange={setIsManagePaymentOpen} onSubmit={handlePaymentSubmit} />
+
+      <div className="space-y-6">
+        {/* Subscription Card */}
+        <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/30 text-white">
         <div className="p-8">
           <div className="flex items-start justify-between mb-6">
             <div>
@@ -47,10 +73,16 @@ export function BillingTabContent() {
           </div>
 
           <div className="flex gap-3">
-            <Button className="flex-1 bg-white/20 hover:bg-white/30 text-white border-0 rounded-xl backdrop-blur-sm">
+            <Button
+              onClick={handleChangePlan}
+              className="flex-1 bg-white/20 hover:bg-white/30 text-white border-0 rounded-xl backdrop-blur-sm"
+            >
               Изменить план
             </Button>
-            <Button className="flex-1 bg-white text-blue-600 hover:bg-gray-50 border-0 rounded-xl">
+            <Button
+              onClick={handleManagePayment}
+              className="flex-1 bg-white text-blue-600 hover:bg-gray-50 border-0 rounded-xl"
+            >
               Управление оплатой
             </Button>
           </div>
@@ -69,6 +101,7 @@ export function BillingTabContent() {
           </div>
         </div>
       </Card>
-    </div>
+      </div>
+    </>
   );
 }

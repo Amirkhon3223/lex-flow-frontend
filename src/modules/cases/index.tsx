@@ -63,6 +63,7 @@ import { ROUTES } from '@/app/config/routes.config';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
 import { CaseFilters } from '@/modules/cases/ui/CaseFilters';
+import { EditCaseDialog } from "@/modules/cases/ui/EditCaseDialog.tsx";
 import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar'; // shared/ui в FSD
 import { Badge } from '@/shared/ui/badge'; // shared/ui в FSD
@@ -95,6 +96,17 @@ export function CasePage() {
   const [filterCategory, setFilterCategory] = useState('all');
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
   const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
+  const [isEditCaseDialogOpen, setIsEditCaseDialogOpen] = useState(false);
+
+  const caseData = {
+    title: 'Трудовой спор - незаконное увольнение',
+    client: 'client1',
+    category: 'labor',
+    deadline: '2025-10-20',
+    fee: '75000',
+    description: 'Дело о незаконном увольнении работника',
+    priority: 'high',
+  };
 
   const cases: CaseInterface[] = [
     {
@@ -427,7 +439,7 @@ export function CasePage() {
                           <DropdownMenuItem
                             onClick={(e) => {
                               e.stopPropagation();
-                              console.log('Edit case:', caseItem.id);
+                              setIsEditCaseDialogOpen(true);
                             }}
                             className="cursor-pointer"
                           >
@@ -522,6 +534,11 @@ export function CasePage() {
       <AddCaseDialog
         open={isAddCaseDialogOpen}
         onOpenChange={setIsAddCaseDialogOpen}
+      />
+      <EditCaseDialog
+        open={isEditCaseDialogOpen}
+        onOpenChange={setIsEditCaseDialogOpen}
+        initialData={caseData}
       />
     </div>
   );
