@@ -47,10 +47,7 @@
 
 import { useState } from 'react';
 import {
-  Search,
-  Filter,
   Plus,
-  MoreHorizontal,
   Mail,
   Phone,
   Briefcase,
@@ -68,28 +65,15 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/app/config/routes.config.ts";
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
-import { EditClientDialog } from '@/modules/clients/components/EditClientDialog';
+import { CompactStatCard } from '@/modules/clients/ui/CompactStatCard';
 import { AddClientDialog } from '@/shared/components/AddClientDialog';
+import { EditClientDialog } from '@/shared/components/EditClientDialog';
+import { FilterBar } from '@/shared/components/filters/FilterBar';
+import { ActionsMenu } from '@/shared/components/menus/ActionsMenu';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
-import { Input } from '@/shared/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
 import {
   Table,
   TableBody,
@@ -299,10 +283,10 @@ export function ClientsPage() {
   };
 
   const stats = [
-    { label: 'Всего клиентов', value: clients.length, color: 'text-blue-500', icon: Users },
-    { label: 'Активные', value: clients.filter(c => c.status === ClientStatusEnum.ACTIVE).length, color: 'text-green-500', icon: TrendingUp },
-    { label: 'VIP', value: clients.filter(c => c.category === ClientCategoryEnum.VIP).length, color: 'text-purple-500', icon: Star },
-    { label: 'Активных дел', value: clients.reduce((sum, c) => sum + c.activeCases, 0), color: 'text-orange-500', icon: Briefcase },
+    { label: 'Всего клиентов', value: clients.length, icon: Users, color: 'text-blue-500' },
+    { label: 'Активные', value: clients.filter(c => c.status === ClientStatusEnum.ACTIVE).length, icon: TrendingUp, color: 'text-green-500' },
+    { label: 'VIP', value: clients.filter(c => c.category === ClientCategoryEnum.VIP).length, icon: Star, color: 'text-purple-500' },
+    { label: 'Активных дел', value: clients.reduce((sum, c) => sum + c.activeCases, 0), icon: Briefcase, color: 'text-orange-500' },
   ];
 
   return (
@@ -329,54 +313,52 @@ export function ClientsPage() {
           </div>
 
           {}
-          <div className="flex items-center gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
-              <Input
-                placeholder="Поиск клиентов..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-10 bg-gray-100/80 border-0 rounded-xl focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:bg-white"
-              />
-            </div>
-
-            <Select value={filterType} onValueChange={setFilterType}>
-              <SelectTrigger className="w-[180px] h-10 rounded-xl border-gray-200">
-                <Filter className="w-4 h-4 mr-2" strokeWidth={2} />
-                <SelectValue placeholder="Тип" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                <SelectItem value="all">Все типы</SelectItem>
-                <SelectItem value="individual">Физ. лицо</SelectItem>
-                <SelectItem value="legal">Юр. лицо</SelectItem>
-                <SelectItem value="entrepreneur">ИП</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={filterCategory} onValueChange={setFilterCategory}>
-              <SelectTrigger className="w-[160px] h-10 rounded-xl border-gray-200">
-                <SelectValue placeholder="Категория" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                <SelectItem value="all">Все категории</SelectItem>
-                <SelectItem value="vip">VIP</SelectItem>
-                <SelectItem value="premium">Премиум</SelectItem>
-                <SelectItem value="standard">Стандарт</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-[160px] h-10 rounded-xl border-gray-200">
-                <SelectValue placeholder="Статус" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                <SelectItem value="all">Все статусы</SelectItem>
-                <SelectItem value="active">Активные</SelectItem>
-                <SelectItem value="inactive">Неактивные</SelectItem>
-                <SelectItem value="pending">Ожидание</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <FilterBar
+            searchConfig={{
+              value: searchQuery,
+              onChange: setSearchQuery,
+              placeholder: 'Поиск клиентов...',
+              className: 'flex-1 max-w-md',
+            }}
+            filters={[
+              {
+                value: filterType,
+                onChange: setFilterType,
+                placeholder: 'Тип',
+                width: 'w-[180px]',
+                options: [
+                  { value: 'all', label: 'Все типы' },
+                  { value: 'individual', label: 'Физ. лицо' },
+                  { value: 'legal', label: 'Юр. лицо' },
+                  { value: 'entrepreneur', label: 'ИП' },
+                ],
+              },
+              {
+                value: filterCategory,
+                onChange: setFilterCategory,
+                placeholder: 'Категория',
+                width: 'w-[160px]',
+                options: [
+                  { value: 'all', label: 'Все категории' },
+                  { value: 'vip', label: 'VIP' },
+                  { value: 'premium', label: 'Премиум' },
+                  { value: 'standard', label: 'Стандарт' },
+                ],
+              },
+              {
+                value: filterStatus,
+                onChange: setFilterStatus,
+                placeholder: 'Статус',
+                width: 'w-[160px]',
+                options: [
+                  { value: 'all', label: 'Все статусы' },
+                  { value: 'active', label: 'Активные' },
+                  { value: 'inactive', label: 'Неактивные' },
+                  { value: 'pending', label: 'Ожидание' },
+                ],
+              },
+            ]}
+          />
         </div>
       </header>
 
@@ -385,17 +367,13 @@ export function ClientsPage() {
         {}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {stats.map((stat, index) => (
-            <Card key={index} className="bg-white border-0 shadow-sm">
-              <div className="p-5">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className={`text-3xl tracking-tight mb-1 ${stat.color}`}>{stat.value}</div>
-                    <div className="text-sm text-gray-500">{stat.label}</div>
-                  </div>
-                  <stat.icon className={`w-8 h-8 ${stat.color} opacity-20`} strokeWidth={2} />
-                </div>
-              </div>
-            </Card>
+            <CompactStatCard
+              key={index}
+              label={stat.label}
+              value={stat.value}
+              icon={stat.icon}
+              color={stat.color}
+            />
           ))}
         </div>
 
@@ -480,40 +458,33 @@ export function ClientsPage() {
                   </TableCell>
                   <TableCell>{getStatusBadge(client.status)}</TableCell>
                   <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="rounded-xl">
-                          <MoreHorizontal className="w-4 h-4" strokeWidth={2} />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="rounded-xl">
-                        <DropdownMenuLabel>Действия</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer">
-                          <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
-                          Профиль
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className="cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsEditClientDialogOpen(true);
-                          }}
-                        >
-                          <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
-                          Редактировать
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer">
-                          <Mail className="w-4 h-4 mr-2" strokeWidth={2} />
-                          Написать
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer text-red-600">
-                          <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                          Удалить
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <ActionsMenu
+                      items={[
+                        {
+                          icon: Eye,
+                          label: 'Профиль',
+                          onClick: () => {},
+                        },
+                        {
+                          icon: Edit,
+                          label: 'Редактировать',
+                          onClick: () => setIsEditClientDialogOpen(true),
+                          separator: true,
+                        },
+                        {
+                          icon: Mail,
+                          label: 'Написать',
+                          onClick: () => {},
+                        },
+                        {
+                          icon: Trash2,
+                          label: 'Удалить',
+                          onClick: () => {},
+                          variant: 'danger',
+                          separator: true,
+                        },
+                      ]}
+                    />
                   </TableCell>
                 </TableRow>
               ))}

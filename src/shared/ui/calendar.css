@@ -1,0 +1,16 @@
+/* Индикаторы встреч под датами */
+.calendar-with-indicators .rdp-day.has-meeting {
+  position: relative;
+}
+
+.calendar-with-indicators .rdp-day.has-meeting::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #3b82f6; /* blue-500 */
+}

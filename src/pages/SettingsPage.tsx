@@ -1,5 +1,3 @@
-import { SettingsView } from '@/modules/settings/components/SettingsView';
+import SettingsPage from "@/modules/settings";
 
-export default function SettingsPage() {
-  return <SettingsView />;
-}
+export default SettingsPage;

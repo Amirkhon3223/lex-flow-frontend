@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "./styles/smart-calendar.css";
+
 
 @layer base {
   :root {

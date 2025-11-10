@@ -35,3 +35,27 @@ export interface FilterPanelProps {
   filterType: 'all' | 'favorite';
   onFilterChange: (filter: 'all' | 'favorite') => void;
 }
+
+/**
+ * Пропсы для DocumentCard компонента
+ */
+export interface DocumentCardProps {
+  id: number;
+  title: string;
+  case: string;
+  author: string;
+  type: string;
+  size: string;
+  date: string;
+  versions: number;
+  status: DocumentStatusEnum;
+  statusText: string;
+  favorite: boolean;
+}
+
+/**
+ * Пропсы для StatusBadge компонента
+ */
+export interface StatusBadgeProps {
+  status: DocumentStatusEnum;
+}

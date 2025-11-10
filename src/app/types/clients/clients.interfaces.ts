@@ -55,3 +55,48 @@ export interface EditClientDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+/**
+ * Контактная информация клиента
+ */
+export interface ContactInfo {
+  email: string;
+  phone: string;
+  address: string;
+  birthDate: string;
+}
+
+/**
+ * Пропсы для ContactInfoCard компонента
+ */
+export interface ContactInfoCardProps {
+  contactInfo: ContactInfo;
+  onEdit: () => void;
+}
+
+/**
+ * Финансовые данные клиента
+ */
+export interface FinancialData {
+  totalAmount: number;
+  paidAmount: number;
+  remainingAmount: number;
+  paymentPercentage: number;
+}
+
+/**
+ * Пропсы для FinancialCard компонента
+ */
+export interface FinancialCardProps {
+  financialData: FinancialData;
+}
+
+/**
+ * Пропсы для компактной статистической карточки
+ */
+export interface CompactStatCardProps {
+  label: string;
+  value: string | number;
+  icon: import('lucide-react').LucideIcon;
+  color: string;
+}

@@ -1,29 +1,19 @@
 import { useState } from "react";
-import {
-  ChevronLeft,
-  Mail,
-  Phone,
-  MapPin,
-  Calendar as CalendarIcon,
-  Briefcase,
-  FileText,
-  DollarSign,
-  Clock,
-  TrendingUp,
-  Edit, Plus,
-} from 'lucide-react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { ChevronLeft, Briefcase, FileText, DollarSign, Clock, TrendingUp, Plus, Mail, Phone } from 'lucide-react';
+import { useParams, Link } from 'react-router-dom';
 import type { CaseCardInterface } from "@/app/types/cases/cases.interfaces.ts";
 import { CaseCard } from "@/modules/cases/ui/CaseCard.tsx";
-import { EditClientDialog } from "@/modules/clients/components/EditClientDialog.tsx";
-import { AddClientDialog } from "@/shared/components/AddClientDialog.tsx";
+import { ContactInfoCard } from "@/modules/clients/ui/ContactInfoCard.tsx";
+import { FinancialCard } from "@/modules/clients/widgets/FinancialCard.tsx";
+import { AddCaseDialog } from "@/shared/components/AddCaseDialog.tsx";
+import { EditClientDialog } from "@/shared/components/EditClientDialog.tsx";
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import { StatCard } from '@/shared/ui/stat-card';
 
 export default function ClientDetailPage() {
-  const navigate = useNavigate();
   const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { id: _id } = useParams();
@@ -94,7 +84,7 @@ export default function ClientDetailPage() {
 
   return (
     <div className="space-y-6">
-      <AddClientDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen}/>
+      <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen}/>
       <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}/>
       {}
       <Link to="/clients" className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900">
@@ -150,81 +140,47 @@ export default function ClientDetailPage() {
 
       {}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-5">
-        <Card>
-          <CardContent className="p-6 bg-white rounded-xl">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Активных дел</p>
-                <p className="mt-2 text-3xl font-bold">{client.activeCases}</p>
-              </div>
-              <div className="rounded-lg bg-blue-50 p-3">
-                <Briefcase className="h-5 w-5 text-blue-600"/>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 bg-white rounded-xl">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Документов</p>
-                <p className="mt-2 text-3xl font-bold">{client.documents}</p>
-              </div>
-              <div className="rounded-lg bg-purple-50 p-3">
-                <FileText className="h-5 w-5 text-purple-600"/>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 bg-white rounded-xl">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Общий гонорар</p>
-                <p className="mt-2 text-3xl font-bold">{client.totalRevenue}</p>
-              </div>
-              <div className="rounded-lg bg-green-50 p-3">
-                <DollarSign className="h-5 w-5 text-green-600"/>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 bg-white rounded-xl">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Часов работы</p>
-                <p className="mt-2 text-3xl font-bold">{client.hoursWorked}</p>
-              </div>
-              <div className="rounded-lg bg-orange-50 p-3">
-                <Clock className="h-5 w-5 text-orange-600"/>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6 bg-white rounded-xl">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Взаимодействий</p>
-                <p className="mt-2 text-3xl font-bold">{client.interactions}</p>
-              </div>
-              <div className="rounded-lg bg-red-50 p-3">
-                <TrendingUp className="h-5 w-5 text-red-600"/>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <StatCard
+          label="Активных дел"
+          value={client.activeCases}
+          icon={Briefcase}
+          iconBg="bg-blue-50"
+          iconColor="text-blue-600"
+        />
+        <StatCard
+          label="Документов"
+          value={client.documents}
+          icon={FileText}
+          iconBg="bg-purple-50"
+          iconColor="text-purple-600"
+        />
+        <StatCard
+          label="Общий гонорар"
+          value={client.totalRevenue}
+          icon={DollarSign}
+          iconBg="bg-green-50"
+          iconColor="text-green-600"
+        />
+        <StatCard
+          label="Часов работы"
+          value={client.hoursWorked}
+          icon={Clock}
+          iconBg="bg-orange-50"
+          iconColor="text-orange-600"
+        />
+        <StatCard
+          label="Взаимодействий"
+          value={client.interactions}
+          icon={TrendingUp}
+          iconBg="bg-red-50"
+          iconColor="text-red-600"
+        />
       </div>
 
       {}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 bg-white rounded-xl">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 bg-white rounded-xl">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Дела клиента</CardTitle>
@@ -240,83 +196,24 @@ export default function ClientDetailPage() {
 
         {}
         <div className="space-y-6">
-          {}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Контактная информация</CardTitle>
-              <Button variant="ghost" size="icon" onClick={() => setIsEditDialogOpen(true)}>
-                <Edit className="h-4 w-4"/>
-              </Button>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="rounded-lg bg-blue-50 p-2">
-                  <Mail className="h-4 w-4 text-blue-600"/>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600">Email</div>
-                  <div className="font-medium">{client.email}</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="rounded-lg bg-green-50 p-2">
-                  <Phone className="h-4 w-4 text-green-600"/>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600">Телефон</div>
-                  <div className="font-medium">{client.phone}</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="rounded-lg bg-purple-50 p-2">
-                  <MapPin className="h-4 w-4 text-purple-600"/>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600">Адрес</div>
-                  <div className="font-medium">{client.address}</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="rounded-lg bg-orange-50 p-2">
-                  <CalendarIcon className="h-4 w-4 text-orange-600"/>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600">Дата рождения</div>
-                  <div className="font-medium">{client.birthDate}</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <ContactInfoCard
+            contactInfo={{
+              email: client.email,
+              phone: client.phone,
+              address: client.address,
+              birthDate: client.birthDate,
+            }}
+            onEdit={() => setIsEditDialogOpen(true)}
+          />
 
-          {}
-          <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-            <CardHeader>
-              <CardTitle className="text-white">Финансы</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-blue-100">Всего к оплате</span>
-                <span className="text-xl font-bold">250 000 ₽</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-blue-100">Оплачено</span>
-                <span className="text-xl font-bold">125 000 ₽</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-blue-100">Остаток</span>
-                <span className="text-xl font-bold">125 000 ₽</span>
-              </div>
-              <div>
-                <div className="mb-2 flex items-center justify-between text-sm">
-                  <span className="text-blue-100">Процент оплаты</span>
-                  <span className="font-medium">50%</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-white/20">
-                  <div className="h-full w-1/2 bg-white"></div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <FinancialCard
+            financialData={{
+              totalAmount: 250000,
+              paidAmount: 125000,
+              remainingAmount: 125000,
+              paymentPercentage: 50,
+            }}
+          />
         </div>
       </div>
     </div>

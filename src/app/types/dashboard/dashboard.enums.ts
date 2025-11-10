@@ -3,8 +3,3 @@ export enum ActivityTypeEnum {
   DOCUMENT = 'document',
   CLIENT = 'client',
 }
-
-export enum StatCardVariantEnum {
-  DEFAULT = 'default',
-  URGENT = 'urgent',
-}

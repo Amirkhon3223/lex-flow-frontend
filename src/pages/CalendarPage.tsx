@@ -1,5 +1,3 @@
-import { GlobalCalendarView } from '@/modules/calendar/components/GlobalCalendarView';
+import { CalendarPage } from "@/modules/calendar";
 
-export default function CalendarPage() {
-  return <GlobalCalendarView />;
-}
+export default CalendarPage;

@@ -1,38 +1,18 @@
 import { useState } from 'react';
-import {
-  ArrowUpDown,
-  Clock,
-  Download,
-  Eye,
-  FileText,
-  Filter,
-  FolderOpen,
-  History,
-  MoreHorizontal,
-  Search,
-  Star,
-  Tag,
-  Trash2,
-  Upload,
-  User,
-} from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { ArrowUpDown, Clock, FileText, Filter, Star, Upload } from 'lucide-react';
 import { DocumentCategoryEnum, DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 import type { DocumentInterface } from '@/app/types/documents/documents.interfaces';
+import { CompactStatCard } from '@/modules/clients/ui/CompactStatCard';
+import { DocumentCard } from '@/modules/documents/ui/DocumentCard';
+import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
-import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
-import { Card } from '@/shared/ui/card';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/shared/ui/dropdown-menu';
-import { Input } from '@/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 
 
 export function DocumentsPage() {
-  const navigate = useNavigate();
-  const onDocumentOpen = (docId: number) => console.log('Document opened:', docId);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
+  const [filterCategory, setFilterCategory] = useState('all');
   const [sortBy, setSortBy] = useState('date');
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
 
@@ -123,44 +103,36 @@ export function DocumentsPage() {
     },
   ];
 
-  const getStatusColor = (status: DocumentStatusEnum) => {
-    switch (status) {
-      case DocumentStatusEnum.FINAL:
-        return 'bg-green-100 text-green-700';
-      case DocumentStatusEnum.REVIEW:
-        return 'bg-blue-100 text-blue-700';
-      case DocumentStatusEnum.DRAFT:
-        return 'bg-gray-200 text-gray-700';
-      default:
-        return 'bg-gray-100 text-gray-600';
-    }
-  };
+  const filteredDocuments = documents.filter((doc) => {
+    const matchesSearch = doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      doc.case.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      doc.client.toLowerCase().includes(searchQuery.toLowerCase());
 
-  const getStatusText = (status: DocumentStatusEnum) => {
-    switch (status) {
-      case DocumentStatusEnum.FINAL:
-        return 'Финал';
-      case DocumentStatusEnum.REVIEW:
-        return 'Проверка';
-      case DocumentStatusEnum.DRAFT:
-        return 'Черновик';
-      default:
-        return status;
-    }
-  };
+    const matchesCategory = filterCategory === 'all' || doc.category === filterCategory;
 
-  const getCategoryIcon = (category: DocumentCategoryEnum) => {
-    switch (category) {
-      case DocumentCategoryEnum.LEGAL:
-        return 'bg-blue-100 text-blue-600';
-      case DocumentCategoryEnum.CONTRACT:
-        return 'bg-purple-100 text-purple-600';
-      case DocumentCategoryEnum.ADMINISTRATIVE:
-        return 'bg-orange-100 text-orange-600';
+    return matchesSearch && matchesCategory;
+  });
+
+  const sortedDocuments = [...filteredDocuments].sort((a, b) => {
+    switch (sortBy) {
+      case 'name':
+        return a.name.localeCompare(b.name);
+      case 'size':
+        return parseFloat(a.size) - parseFloat(b.size);
+      case 'versions':
+        return b.versions - a.versions;
+      case 'date':
       default:
-        return 'bg-gray-100 text-gray-600';
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
     }
-  };
+  });
+
+  const stats = [
+    { label: 'Всего', value: documents.length, icon: FileText, color: 'text-blue-500' },
+    { label: 'На проверке', value: documents.filter(d => d.status === DocumentStatusEnum.REVIEW).length, icon: Clock, color: 'text-amber-500' },
+    { label: 'Избранные', value: documents.filter(d => d.starred).length, icon: Star, color: 'text-yellow-500' },
+    { label: 'Черновиков', value: documents.filter(d => d.status === DocumentStatusEnum.DRAFT).length, icon: Filter, color: 'text-gray-500' },
+  ];
 
   return (
     <div>
@@ -186,217 +158,73 @@ export function DocumentsPage() {
 
           {}
           <div className="grid grid-cols-4 gap-4 mb-6">
-            <Card className="bg-white border-0 shadow-sm">
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-2xl tracking-tight mb-1">156</div>
-                    <div className="text-sm text-gray-500">Всего</div>
-                  </div>
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-                    <FileText className="w-5 h-5 text-blue-500" strokeWidth={2}/>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="bg-white border-0 shadow-sm">
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-2xl tracking-tight mb-1">12</div>
-                    <div className="text-sm text-gray-500">На проверке</div>
-                  </div>
-                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-amber-500" strokeWidth={2}/>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="bg-white border-0 shadow-sm">
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-2xl tracking-tight mb-1">8</div>
-                    <div className="text-sm text-gray-500">Избранные</div>
-                  </div>
-                  <div className="w-10 h-10 rounded-xl bg-yellow-50 flex items-center justify-center">
-                    <Star className="w-5 h-5 text-yellow-500" strokeWidth={2}/>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="bg-white border-0 shadow-sm">
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-2xl tracking-tight mb-1">34</div>
-                    <div className="text-sm text-gray-500">Версий</div>
-                  </div>
-                  <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
-                    <History className="w-5 h-5 text-purple-500" strokeWidth={2}/>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </div>
-
-          {}
-          <div className="flex items-center gap-3">
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" strokeWidth={2}/>
-              <Input
-                placeholder="Поиск документов..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 pr-4 h-12 rounded-xl border-gray-200 focus-visible:ring-blue-500"
+            {stats.map((stat, index) => (
+              <CompactStatCard
+                key={index}
+                label={stat.label}
+                value={stat.value}
+                icon={stat.icon}
+                color={stat.color}
               />
-            </div>
-
-            <Select value={filterType} onValueChange={setFilterType}>
-              <SelectTrigger className="w-48 h-12 rounded-xl border-gray-200">
-                <Filter className="w-4 h-4 mr-2" strokeWidth={2}/>
-                <SelectValue placeholder="Тип"/>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Все типы</SelectItem>
-                <SelectItem value="legal">Иски</SelectItem>
-                <SelectItem value="contract">Договоры</SelectItem>
-                <SelectItem value="administrative">Административные</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-48 h-12 rounded-xl border-gray-200">
-                <ArrowUpDown className="w-4 h-4 mr-2" strokeWidth={2}/>
-                <SelectValue placeholder="Сортировка"/>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="date">По дате</SelectItem>
-                <SelectItem value="name">По названию</SelectItem>
-                <SelectItem value="size">По размеру</SelectItem>
-                <SelectItem value="versions">По версиям</SelectItem>
-              </SelectContent>
-            </Select>
+            ))}
           </div>
+
+          <FilterBar
+            searchConfig={{
+              value: searchQuery,
+              onChange: setSearchQuery,
+              placeholder: 'Поиск документов...',
+              className: 'flex-1',
+            }}
+            filters={[
+              {
+                value: filterCategory,
+                onChange: setFilterCategory,
+                placeholder: 'Категория',
+                width: 'w-[200px]',
+                icon: Filter,
+                options: [
+                  { value: 'all', label: 'Все категории' },
+                  { value: 'legal', label: 'Иски' },
+                  { value: 'contract', label: 'Договоры' },
+                  { value: 'administrative', label: 'Административные' },
+                ],
+              },
+              {
+                value: sortBy,
+                onChange: setSortBy,
+                placeholder: 'Сортировка',
+                width: 'w-[180px]',
+                icon: ArrowUpDown,
+                options: [
+                  { value: 'date', label: 'По дате' },
+                  { value: 'name', label: 'По названию' },
+                  { value: 'size', label: 'По размеру' },
+                  { value: 'versions', label: 'По версиям' },
+                ],
+              },
+            ]}
+          />
         </div>
       </header>
 
-      {}
       <main className="py-8">
         <div className="grid grid-cols-1 gap-3">
-          {documents.map((doc) => (
-            <Card
+          {sortedDocuments.map((doc) => (
+            <DocumentCard
               key={doc.id}
-              className="bg-white border-0 shadow-sm hover:shadow-md transition-all group cursor-pointer"
-              onClick={() => onDocumentOpen?.(doc.id)}
-            >
-              <div className="p-5">
-                <div className="flex items-center gap-4">
-                  {}
-                  <div
-                    className={`w-14 h-14 rounded-2xl ${getCategoryIcon(doc.category)} flex items-center justify-center flex-shrink-0`}>
-                    <FileText className="w-7 h-7" strokeWidth={2}/>
-                  </div>
-
-                  {}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="tracking-tight truncate">{doc.name}</h3>
-                      {doc.starred && (
-                        <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 flex-shrink-0" strokeWidth={2}/>
-                      )}
-                      <Badge className={`${getStatusColor(doc.status)} border-0 text-xs`}>
-                        {getStatusText(doc.status)}
-                      </Badge>
-                    </div>
-
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
-                      <span className="flex items-center gap-1.5">
-                        <FolderOpen className="w-3.5 h-3.5" strokeWidth={2}/>
-                        {doc.case}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1.5">
-                        <User className="w-3.5 h-3.5" strokeWidth={2}/>
-                        {doc.client}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1.5">
-                        <Tag className="w-3.5 h-3.5" strokeWidth={2}/>
-                        {doc.type}
-                      </span>
-                    </div>
-                  </div>
-
-                  {}
-                  <div className="flex items-center gap-6 text-sm text-gray-500">
-                    <div className="text-right">
-                      <div className="text-gray-900 mb-0.5">{doc.size}</div>
-                      <div className="text-xs">{doc.date}</div>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50">
-                      <History className="w-3.5 h-3.5 text-purple-600" strokeWidth={2}/>
-                      <span className="text-purple-700">{doc.versions}</span>
-                    </div>
-                  </div>
-
-                  {}
-                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-xl hover:bg-blue-50"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    >
-                      <Eye className="w-4 h-4 text-blue-500" strokeWidth={2}/>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-xl hover:bg-green-50"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    >
-                      <Download className="w-4 h-4 text-green-500" strokeWidth={2}/>
-                    </Button>
-                    <div onClick={(e) => e.stopPropagation()}>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="rounded-xl hover:bg-gray-100"
-                          >
-                            <MoreHorizontal className="w-4 h-4" strokeWidth={2}/>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-48">
-                          <DropdownMenuItem onClick={() => navigate(`/documents/${doc.id}/versions`)}>
-                            <History className="w-4 h-4 mr-2" strokeWidth={2}/>
-                            История версий
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <Star className="w-4 h-4 mr-2" strokeWidth={2}/>
-                            {doc.starred ? 'Убрать из избранного' : 'В избранное'}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
-                            <Trash2 className="w-4 h-4 mr-2" strokeWidth={2}/>
-                            Удалить
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
+              id={doc.id}
+              title={doc.name}
+              case={doc.case}
+              author={doc.client}
+              type={doc.type}
+              size={doc.size}
+              date={doc.date}
+              versions={doc.versions}
+              status={doc.status}
+              statusText=""
+              favorite={doc.starred}
+            />
           ))}
         </div>
       </main>
