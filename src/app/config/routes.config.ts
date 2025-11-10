@@ -24,4 +24,5 @@ export const ROUTES = {
   REPORTS: '/reports',
   NOTIFICATIONS: '/notifications',
   SETTINGS: '/settings',
+  USER_PROFILE: '/user-profile',
 };
