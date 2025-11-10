@@ -9,8 +9,9 @@
  */
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Search, Bell } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from "@/app/config/routes.config.ts";
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
@@ -55,7 +56,7 @@ export function Header() {
             {}
             <button
               className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
-              onClick={() => navigate('/profile')}
+              onClick={() => navigate(ROUTES.USER_PROFILE)}
             >
               <Avatar className="w-10 h-10 border-2 border-white shadow-sm">
                 <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-sm">

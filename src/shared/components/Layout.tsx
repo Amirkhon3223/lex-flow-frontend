@@ -8,7 +8,8 @@
  * - Фиксированный Sidebar (слева) и липкий Header (сверху)
  */
 
-import type { ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
+import { SelectProvider } from "@/shared/context/SelectContext.tsx";
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 
@@ -18,20 +19,18 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="min-h-screen bg-[#f5f5f7]">
-      {}
-      <Sidebar />
+    <SelectProvider>
+      <div className="min-h-screen bg-[#f5f5f7]">
+        <Sidebar/>
 
-      {}
-      <div className="ml-72">
-        {}
-        <Header />
+        <div className="ml-72">
+          <Header/>
 
-        {}
-        <main className="p-8">
-          {children}
-        </main>
+          <main className="p-8">
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </SelectProvider>
   );
 };

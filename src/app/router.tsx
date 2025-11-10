@@ -145,19 +145,19 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: '/profile',
+    path: ROUTES.USER_PROFILE,
     element: (
       <Layout>
         <UserProfilePage />
       </Layout>
     ),
   },
-  {
-    path: '/settings/profile',
-    element: (
-      <Layout>
-        <UserProfilePage />
-      </Layout>
-    ),
-  },
+  // {
+  //   path: '/settings/profile',
+  //   element: (
+  //     <Layout>
+  //       <UserProfilePage />
+  //     </Layout>
+  //   ),
+  // },
 ]);
