@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Clock, Globe, Mail, Smartphone } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -7,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/shared/ui/separator';
 
 export function ProfileTabContent() {
+  const [openSelect, setOpenSelect] = useState<'language' | 'timezone' | null>(null);
+
   const handleProfileSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Profile saved');
@@ -98,7 +101,11 @@ export function ProfileTabContent() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="language">Язык</Label>
-              <Select defaultValue="ru">
+              <Select
+                defaultValue="ru"
+                open={openSelect === 'language'}
+                onOpenChange={(open) => setOpenSelect(open ? 'language' : null)}
+              >
                 <SelectTrigger className="h-12 rounded-xl border-gray-200">
                   <Globe className="w-4 h-4 mr-2 text-gray-400" strokeWidth={2} />
                   <SelectValue />
@@ -112,7 +119,11 @@ export function ProfileTabContent() {
 
             <div className="space-y-2">
               <Label htmlFor="timezone">Часовой пояс</Label>
-              <Select defaultValue="msk">
+              <Select
+                defaultValue="msk"
+                open={openSelect === 'timezone'}
+                onOpenChange={(open) => setOpenSelect(open ? 'timezone' : null)}
+              >
                 <SelectTrigger className="h-12 rounded-xl border-gray-200">
                   <Clock className="w-4 h-4 mr-2 text-gray-400" strokeWidth={2} />
                   <SelectValue />
