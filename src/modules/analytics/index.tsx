@@ -1,9 +1,11 @@
 import { Calendar, Download, BarChart3, Briefcase, DollarSign, Users } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { ManagedSelect as Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/managed-select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { CasesChart } from './components/CasesChart';
+import { CasesTabContent } from './components/CasesTabContent';
 import { CaseTypesChart } from './components/CaseTypesChart';
+import { FinanceTabContent } from './components/FinanceTabContent';
 import { RevenueChart } from './components/RevenueChart';
 import { StatsCards } from './components/StatsCards';
 import { TeamStats } from './components/TeamStats';
@@ -90,6 +92,14 @@ export default function AnalyticsPage() {
               <CaseTypesChart/>
             </div>
             <RevenueChart/>
+          </TabsContent>
+
+          <TabsContent value="cases" className="space-y-6">
+            <CasesTabContent/>
+          </TabsContent>
+
+          <TabsContent value="finance" className="space-y-6">
+            <FinanceTabContent/>
           </TabsContent>
 
           <TabsContent value="team" className="space-y-6">

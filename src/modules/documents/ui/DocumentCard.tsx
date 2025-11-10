@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { FileText, Star, FolderOpen, User, Tag, History, MoreHorizontal, Eye, Download, Trash2 } from 'lucide-react';
 import type { DocumentCardProps } from '@/app/types/documents/documents.interfaces';
 import { Button } from '@/shared/ui/button';
@@ -17,8 +18,21 @@ export function DocumentCard({
   status,
   favorite,
 }: DocumentCardProps) {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/documents/${id}/versions`);
+  };
+
+  const handleOpenDocument = () => {
+    navigate(`/documents/${id}/versions`);
+  };
+
   return (
-    <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-all group cursor-pointer">
+    <Card
+      className="bg-white border-0 shadow-sm hover:shadow-md transition-all group cursor-pointer"
+      onClick={handleCardClick}
+    >
       <div className="p-5">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
@@ -70,15 +84,15 @@ export function DocumentCard({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="rounded-xl">
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleOpenDocument(); }}>
                   <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
                   Открыть
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
                   <Download className="w-4 h-4 mr-2" strokeWidth={2} />
                   Скачать
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-red-600">
+                <DropdownMenuItem className="text-red-600" onClick={(e) => e.stopPropagation()}>
                   <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
                   Удалить
                 </DropdownMenuItem>

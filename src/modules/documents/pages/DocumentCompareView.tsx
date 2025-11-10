@@ -35,6 +35,7 @@ export function DocumentCompareView() {
   const [zoomLevel, setZoomLevel] = useState(100);
   const [version1, setVersion1] = useState('2');
   const [version2, setVersion2] = useState('3');
+  const [openSelect, setOpenSelect] = useState<'version1' | 'version2' | null>(null);
 
 
   const documentVersions: DocumentVersionInterface[] = [
@@ -244,7 +245,12 @@ export function DocumentCompareView() {
           {}
           <div className="flex items-center gap-4">
             <div className="flex-1">
-              <Select value={version1} onValueChange={setVersion1}>
+              <Select
+                value={version1}
+                onValueChange={setVersion1}
+                open={openSelect === 'version1'}
+                onOpenChange={(open) => setOpenSelect(open ? 'version1' : null)}
+              >
                 <SelectTrigger className="h-12 rounded-xl border-gray-200 bg-white">
                   <div className="flex items-center gap-3 w-full">
                     <FileText className="w-4 h-4 text-gray-400 flex-shrink-0" strokeWidth={2} />
@@ -275,7 +281,12 @@ export function DocumentCompareView() {
             </div>
 
             <div className="flex-1">
-              <Select value={version2} onValueChange={setVersion2}>
+              <Select
+                value={version2}
+                onValueChange={setVersion2}
+                open={openSelect === 'version2'}
+                onOpenChange={(open) => setOpenSelect(open ? 'version2' : null)}
+              >
                 <SelectTrigger className="h-12 rounded-xl border-gray-200 bg-white">
                   <div className="flex items-center gap-3 w-full">
                     <FileText className="w-4 h-4 text-gray-400 flex-shrink-0" strokeWidth={2} />
