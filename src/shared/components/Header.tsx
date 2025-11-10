@@ -9,6 +9,7 @@
  */
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Bell } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Button } from '@/shared/ui/button';
@@ -17,6 +18,7 @@ import { GlobalSearchDialog } from './GlobalSearchDialog';
 import { NotificationsPanel } from './NotificationsPanel';
 
 export function Header() {
+  const navigate = useNavigate();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -53,10 +55,7 @@ export function Header() {
             {}
             <button
               className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
-              onClick={() => {
-
-                console.log('Open profile');
-              }}
+              onClick={() => navigate('/profile')}
             >
               <Avatar className="w-10 h-10 border-2 border-white shadow-sm">
                 <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-sm">
