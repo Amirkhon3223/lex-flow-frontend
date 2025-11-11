@@ -37,8 +37,8 @@ export function ProfileTabs({
   return (
     <Card className="bg-white border-0 shadow-sm">
       <Tabs defaultValue="profile" className="w-full">
-        <div className="border-b border-gray-100 px-6 pt-6">
-          <TabsList className="bg-gray-100 rounded-xl p-1">
+        <div className="border-b border-gray-100 px-6 py-4">
+          <TabsList className="bg-gray-100 rounded-xls">
             <TabsTrigger value="profile" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
               <User className="w-4 h-4 mr-2" strokeWidth={2} />
               Профиль
