@@ -1,5 +1,6 @@
 import { Check, Zap } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
+import { Card } from '@/shared/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -7,7 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/dialog';
-import { Card } from '@/shared/ui/card';
 
 interface ChangePlanDialogProps {
   open: boolean;

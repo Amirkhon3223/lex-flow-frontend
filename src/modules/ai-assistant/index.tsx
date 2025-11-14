@@ -118,9 +118,9 @@ export function AIAssistantView() {
     <div>
       <Header />
 
-      <main className="p-8">
-        <Tabs defaultValue="chat" className="space-y-6">
-          <TabsList className="bg-gray-100 rounded-xl p-1.5">
+      <main className="">
+        <Tabs defaultValue="chat" className="space-y-4 mt-4">
+          <TabsList className="bg-gray-100 rounded-xl">
             <TabsTrigger value="chat" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
               <MessageSquare className="w-4 h-4 mr-2" strokeWidth={2} />
               Чат с AI

@@ -16,7 +16,7 @@ export const ROUTES = {
   },
   DOCUMENTS: {
     BASE: '/documents',
-    DETAIL: (id: string) => `/documents/${id}`,
+    DETAIL: (id: string) => `/documents/${id}/versions`,
   },
   CALENDAR: '/calendar',
   ANALYTICS: '/analytics',

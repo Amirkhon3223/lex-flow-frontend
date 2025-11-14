@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   ArrowLeft,
   GitCompare,
@@ -11,6 +11,7 @@ import {
   ZoomIn,
   ZoomOut,
   Maximize2,
+  Minimize2,
   Info,
   ChevronDown,
 } from 'lucide-react';
@@ -36,6 +37,8 @@ export function DocumentCompareView() {
   const [version1, setVersion1] = useState('2');
   const [version2, setVersion2] = useState('3');
   const [openSelect, setOpenSelect] = useState<'version1' | 'version2' | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
 
   const documentVersions: DocumentVersionInterface[] = [
@@ -183,8 +186,37 @@ export function DocumentCompareView() {
     }
   };
 
+  const handleToggleFullscreen = async () => {
+    if (!document.fullscreenElement) {
+      try {
+        await containerRef.current?.requestFullscreen();
+        setIsFullscreen(true);
+      } catch (err) {
+        console.error('Error attempting to enable fullscreen:', err);
+      }
+    } else {
+      try {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      } catch (err) {
+        console.error('Error attempting to exit fullscreen:', err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   return (
-    <div>
+    <div ref={containerRef}>
       {}
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-8 py-4">
@@ -221,9 +253,17 @@ export function DocumentCompareView() {
 
               <Separator orientation="vertical" className="h-8 mx-2 bg-gray-200" />
 
-              <Button variant="outline" className="rounded-xl border-gray-200 hover:bg-gray-50">
-                <Maximize2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                Полный экран
+              <Button
+                variant="outline"
+                className="rounded-xl border-gray-200 hover:bg-gray-50"
+                onClick={handleToggleFullscreen}
+              >
+                {isFullscreen ? (
+                  <Minimize2 className="w-4 h-4 mr-2" strokeWidth={2} />
+                ) : (
+                  <Maximize2 className="w-4 h-4 mr-2" strokeWidth={2} />
+                )}
+                {isFullscreen ? 'Выйти из полного экрана' : 'Полный экран'}
               </Button>
               <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl">
                 <Download className="w-4 h-4 mr-2" strokeWidth={2} />

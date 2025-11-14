@@ -1,28 +1,44 @@
-import { useState } from 'react';
-import { Sparkles } from 'lucide-react';
-import type {
-  ChatAreaProps,
-} from '@/app/types/ai-assistant/ai-assistant.interfaces';
-import { Card } from '@/shared/ui/card';
-import { ScrollArea } from '@/shared/ui/scroll-area';
-import { ChatInput } from './ChatInput';
-import { ChatMessage } from './ChatMessage';
+import { useState, useRef, useEffect } from "react";
+import { Sparkles } from "lucide-react";
+import type { ChatAreaProps } from "@/app/types/ai-assistant/ai-assistant.interfaces";
+import { Card } from "@/shared/ui/card";
+import { ScrollArea } from "@/shared/ui/scroll-area";
+import { ChatInput } from "./ChatInput";
+import { ChatMessage } from "./ChatMessage";
+import { MessageTypeEnum } from "@/app/types/ai-assistant/ai-assistant.enums.ts";
 
 export function ChatArea({ chatHistory }: ChatAreaProps) {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState(chatHistory);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = () => {
-    if (message.trim()) {
+    if (!message.trim()) return;
 
-      setMessage('');
-    }
+    const newMsg = {
+      type: MessageTypeEnum.USER,
+      message,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    setMessages((prev) => [...prev, newMsg]);
+    setMessage('');
   };
 
+
+  // Плавный автоскролл вниз при новом сообщении
+  useEffect(() => {
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [messages]);
+
   return (
-    <Card className="col-span-2 bg-white border-0 shadow-sm">
-      <div className="flex flex-col h-[600px]">
-        {}
-        <div className="p-6 border-b border-gray-100">
+    <Card className="col-span-2 bg-white border-0 shadow-sm overflow-hidden relative">
+      <div className="flex flex-col h-[80vh] relative">
+        {/* Заголовок */}
+        <div className="p-4 border-b border-gray-100 flex-shrink-0 bg-white sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" strokeWidth={2.5} />
@@ -34,21 +50,28 @@ export function ChatArea({ chatHistory }: ChatAreaProps) {
           </div>
         </div>
 
-        {}
-        <ScrollArea className="flex-1 p-6">
-          <div className="space-y-6">
-            {chatHistory.map((chat, index) => (
-              <ChatMessage key={index} chat={chat} />
-            ))}
-          </div>
-        </ScrollArea>
+        {/* Сообщения */}
+        <div className="flex-1 overflow-hidden bg-gray-50">
+          <ScrollArea className="h-full">
+            <div
+              ref={scrollRef}
+              className="p-6 space-y-6 overflow-y-auto h-full scroll-smooth"
+            >
+              {messages.map((chat, index) => (
+                <ChatMessage key={index} chat={chat} />
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
 
-        {}
-        <ChatInput
-          message={message}
-          setMessage={setMessage}
-          onSend={handleSendMessage}
-        />
+        {/* Поле ввода */}
+        <div className="flex-shrink-0 sticky bottom-0 z-30 bg-white border-t border-gray-200">
+          <ChatInput
+            message={message}
+            setMessage={setMessage}
+            onSend={handleSendMessage}
+          />
+        </div>
       </div>
     </Card>
   );

@@ -171,7 +171,7 @@ export function CaseDetailView() {
   };
 
   const handleDocumentClick = (docId: number) => {
-    navigate(`${ROUTES.DOCUMENTS.BASE}/${docId}`);
+    navigate(ROUTES.DOCUMENTS.DETAIL(docId.toString()));
   };
 
   const handleDownloadDocument = (docName: string) => {
