@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { Sparkles } from "lucide-react";
+import { MessageTypeEnum } from "@/app/types/ai-assistant/ai-assistant.enums.ts";
 import type { ChatAreaProps } from "@/app/types/ai-assistant/ai-assistant.interfaces";
 import { Card } from "@/shared/ui/card";
 import { ScrollArea } from "@/shared/ui/scroll-area";
 import { ChatInput } from "./ChatInput";
 import { ChatMessage } from "./ChatMessage";
-import { MessageTypeEnum } from "@/app/types/ai-assistant/ai-assistant.enums.ts";
 
 export function ChatArea({ chatHistory }: ChatAreaProps) {
   const [message, setMessage] = useState("");
@@ -28,10 +28,18 @@ export function ChatArea({ chatHistory }: ChatAreaProps) {
 
   // Плавный автоскролл вниз при новом сообщении
   useEffect(() => {
-    scrollRef.current?.scrollTo({
-      top: scrollRef.current.scrollHeight,
-      behavior: "smooth",
-    });
+    if (scrollRef.current) {
+      // Небольшая задержка для обновления DOM
+      setTimeout(() => {
+        const viewport = scrollRef.current?.querySelector('[data-slot="scroll-area-viewport"]');
+        if (viewport) {
+          viewport.scrollTo({
+            top: viewport.scrollHeight,
+            behavior: "smooth",
+          });
+        }
+      }, 50);
+    }
   }, [messages]);
 
   return (
@@ -51,12 +59,9 @@ export function ChatArea({ chatHistory }: ChatAreaProps) {
         </div>
 
         {/* Сообщения */}
-        <div className="flex-1 overflow-hidden bg-gray-50">
+        <div className="flex-1 overflow-hidden bg-gray-50" ref={scrollRef}>
           <ScrollArea className="h-full">
-            <div
-              ref={scrollRef}
-              className="p-6 space-y-6 overflow-y-auto h-full scroll-smooth"
-            >
+            <div className="p-6 space-y-6">
               {messages.map((chat, index) => (
                 <ChatMessage key={index} chat={chat} />
               ))}

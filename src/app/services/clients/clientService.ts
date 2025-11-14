@@ -1,23 +1,24 @@
-import type { Client, CreateClientDto, UpdateClientDto } from '../../types/clients/client.types';
+import type { ClientFormInterface, CreateClientInterface } from '../../types/clients/clients.interfaces';
+import type { UpdateClientType } from '../../types/clients/clients.types';
 import { mockClients, simulateApiDelay, generateId } from '../mock/mockData';
 
 class ClientService {
-  private clients: Client[] = [...mockClients] as Client[];
+  private clients: ClientFormInterface[] = [...mockClients] as ClientFormInterface[];
 
-  async getAll(): Promise<Client[]> {
+  async getAll(): Promise<ClientFormInterface[]> {
     await simulateApiDelay();
     return this.clients;
   }
 
-  async getById(id: string): Promise<Client | null> {
+  async getById(id: string): Promise<ClientFormInterface | null> {
     await simulateApiDelay();
     return this.clients.find(c => c.id === id) || null;
   }
 
-  async create(data: CreateClientDto): Promise<Client> {
+  async create(data: CreateClientInterface): Promise<ClientFormInterface> {
     await simulateApiDelay(800);
 
-    const newClient: Client = {
+    const newClient: ClientFormInterface = {
       id: generateId(),
       ...data,
       activeCases: 0,
@@ -30,7 +31,7 @@ class ClientService {
     return newClient;
   }
 
-  async update(id: string, data: UpdateClientDto): Promise<Client | null> {
+  async update(id: string, data: UpdateClientType): Promise<ClientFormInterface | null> {
     await simulateApiDelay(600);
 
     const index = this.clients.findIndex(c => c.id === id);

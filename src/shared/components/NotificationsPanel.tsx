@@ -151,7 +151,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 {unreadCount > 0 ? `${unreadCount} новых уведомлений` : 'Нет новых уведомлений'}
               </SheetDescription>
             </div>
-            {notifications.length > 0 && (
+            {!!notifications.length && (
               <Button
                 variant="ghost"
                 size="icon"
@@ -169,7 +169,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
             <TabsList className="bg-gray-100 rounded-xl p-1 w-full">
               <TabsTrigger value="all" className="flex-1 rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
                 Все
-                {notifications.length > 0 && (
+                {!!notifications.length && (
                   <Badge className="ml-2 bg-gray-200 text-gray-700 border-0 text-xs">
                     {notifications.length}
                   </Badge>
@@ -186,7 +186,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
             </TabsList>
           </div>
 
-          {notifications.length > 0 && (
+          {!!notifications.length && (
             <div className="px-6 py-3 flex items-center justify-between border-b border-gray-100">
               <Button
                 variant="ghost"
@@ -211,7 +211,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
           )}
 
           <TabsContent value="all" className="mt-0 h-[calc(100vh-280px)] overflow-y-auto">
-            {notifications.length > 0 ? (
+            {notifications.length ? (
               <div className="divide-y divide-gray-50">
                 {notifications.map((notification) => (
                   <div
@@ -275,7 +275,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
           </TabsContent>
 
           <TabsContent value="unread" className="mt-0 h-[calc(100vh-280px)] overflow-y-auto">
-            {unreadNotifications.length > 0 ? (
+            {unreadNotifications.length ? (
               <div className="divide-y divide-gray-50">
                 {unreadNotifications.map((notification) => (
                   <div
@@ -335,7 +335,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
           </TabsContent>
         </Tabs>
 
-        {notifications.length > 0 && (
+        {!!notifications.length && (
           <div className="px-6 py-4 border-t border-gray-100">
             <Button
               variant="outline"
