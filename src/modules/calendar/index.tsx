@@ -345,7 +345,7 @@ export function CalendarPage() {
               </div>
             </div>
 
-            {todayMeetings.length > 0 ? (
+            {todayMeetings.length ? (
               <div className="space-y-2">
                 {todayMeetings.slice(0, 2).map((meeting) => (
                   <div
@@ -478,7 +478,7 @@ export function CalendarPage() {
                     }) : 'Выберите дату'}
                   </h3>
 
-                  {selectedDateMeetings.length > 0 ? (
+                  {selectedDateMeetings.length ? (
                     <div className="space-y-3">
                       {selectedDateMeetings.map((meeting) => (
                         <div

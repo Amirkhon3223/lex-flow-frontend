@@ -1,12 +1,21 @@
 import { useRef, useEffect, useState } from "react";
 import { Send, Paperclip, Mic, X } from "lucide-react";
-import type { ChatInputProps } from "@/app/types/ai-assistant/ai-assistant.interfaces";
+import type { ChatInputProps, SpeechRecognitionInstance } from "@/app/types/ai-assistant/ai-assistant.interfaces";
+import {
+  createSpeechRecognition,
+  setupSpeechRecognitionCallbacks,
+  startSpeechRecognition,
+  stopSpeechRecognition,
+  cleanupSpeechRecognition,
+  isSpeechRecognitionSupported,
+} from "@/app/utils/speechRecognition";
 
 export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
 
   // 🔹 Автоматическая высота textarea
   useEffect(() => {
@@ -16,6 +25,36 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
     const newHeight = Math.min(textarea.scrollHeight, window.innerHeight * 0.4);
     textarea.style.height = `${newHeight}px`;
   }, [message]);
+
+  // 🔹 Инициализация распознавания речи
+  useEffect(() => {
+    recognitionRef.current = createSpeechRecognition({
+      lang: 'ru-RU',
+      continuous: true,
+      interimResults: true,
+    });
+
+    if (recognitionRef.current) {
+      setupSpeechRecognitionCallbacks(recognitionRef.current, {
+        onResult: (transcript: string, isFinal: boolean) => {
+          if (isFinal) {
+            setMessage((prev) => prev + transcript);
+          }
+        },
+        onError: (error: string) => {
+          console.error('Ошибка распознавания речи:', error);
+          setIsRecording(false);
+        },
+        onEnd: () => {
+          setIsRecording(false);
+        },
+      });
+    }
+
+    return () => {
+      cleanupSpeechRecognition(recognitionRef.current);
+    };
+  }, [setMessage]);
 
   // 🔹 Добавление файлов
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,25 +66,36 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
 
   // 🔹 Отправка сообщения
   const handleSend = () => {
-    if (!message.trim() && files.length === 0) return;
+    if (!message.trim() && !files.length) return;
     onSend();
     setMessage("");
     setFiles([]);
     if (textareaRef.current) textareaRef.current.style.height = "40px";
   };
 
-  // 🔹 Голосовая кнопка (заглушка)
+  // 🔹 Управление голосовым вводом
   const handleVoiceInput = () => {
-    setIsRecording((prev) => !prev);
-    console.log("🎙 Voice recording:", !isRecording);
+    if (!isSpeechRecognitionSupported()) {
+      alert('Ваш браузер не поддерживает распознавание речи. Используйте Chrome или Edge.');
+      return;
+    }
+
+    if (isRecording) {
+      stopSpeechRecognition(recognitionRef.current);
+      setIsRecording(false);
+    } else {
+      const started = startSpeechRecognition(recognitionRef.current);
+      if (started) {
+        setIsRecording(true);
+      }
+    }
   };
 
-  const isDisabled = !message.trim() && files.length === 0;
+  const isDisabled = !message.trim() && !files.length;
 
   return (
     <div className="px-4 pt-4 bg-white relative z-10">
-      {/* 🔸 Превью прикреплённых файлов */}
-      {files.length > 0 && (
+      {!!files.length && (
         <div className="mb-2 flex flex-wrap gap-2 animate-fadeIn">
           {files.map((file, index) => (
             <div
@@ -69,7 +119,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
         </div>
       )}
 
-      {/* 🔸 Контейнер ввода */}
       <div className="relative flex items-end gap-2 bg-gray-50 rounded-2xl border border-gray-200 focus-within:border-purple-400 transition-all duration-200 shadow-md">
         <textarea
           ref={textareaRef}
@@ -86,7 +135,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
           rows={1}
         />
 
-        {/* 🔹 Кнопки действий */}
         <div className="absolute right-2 bottom-1.5 flex items-center gap-1">
           <input
             ref={fileInputRef}

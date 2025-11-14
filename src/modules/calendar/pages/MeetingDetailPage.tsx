@@ -266,7 +266,7 @@ export function MeetingDetailPage() {
           </Card>
 
           {/* Participants */}
-          {meeting.participants && meeting.participants.length > 0 && (
+          {!!meeting.participants?.length && (
             <Card className="bg-white border-0 shadow-sm">
               <CardHeader>
                 <CardTitle>Участники</CardTitle>
