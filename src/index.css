@@ -1,6 +1,199 @@
 @import "tailwindcss";
 @import "./styles/smart-calendar.css";
 
+/* 🎬 КАСТОМНЫЕ АНИМАЦИИ ДЛЯ МОДАЛОК - ЧИСТЫЙ CSS */
+
+/* Keyframes для входа и выхода */
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes modal-exit {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0) scale(0.95);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-in-top {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out-top {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slide-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out-bottom {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+/* Применение анимаций к Dialog Overlay */
+[data-slot="dialog-overlay"][data-state="open"],
+[data-slot="alert-dialog-overlay"][data-state="open"],
+[data-slot="sheet-overlay"][data-state="open"],
+[data-slot="drawer-overlay"][data-state="open"] {
+  animation: fade-in 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-slot="dialog-overlay"][data-state="closed"],
+[data-slot="alert-dialog-overlay"][data-state="closed"],
+[data-slot="sheet-overlay"][data-state="closed"],
+[data-slot="drawer-overlay"][data-state="closed"] {
+  animation: fade-out 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Применение анимаций к Dialog Content */
+[data-slot="dialog-content"][data-state="open"],
+[data-slot="alert-dialog-content"][data-state="open"] {
+  animation: modal-enter 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-slot="dialog-content"][data-state="closed"],
+[data-slot="alert-dialog-content"][data-state="closed"] {
+  animation: modal-exit 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Применение анимаций к Sheet (шторка справа) */
+[data-slot="sheet-content"][data-state="open"] {
+  animation: slide-in-right 500ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+[data-slot="sheet-content"][data-state="closed"] {
+  animation: slide-out-right 300ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Dropdown, Select, Popover - быстрые анимации */
+[data-slot="dropdown-menu-content"][data-state="open"],
+[data-slot="select-content"][data-state="open"],
+[data-slot="popover-content"][data-state="open"],
+[data-slot="context-menu-content"][data-state="open"],
+[data-slot="menubar-content"][data-state="open"] {
+  animation: modal-enter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-slot="dropdown-menu-content"][data-state="closed"],
+[data-slot="select-content"][data-state="closed"],
+[data-slot="popover-content"][data-state="closed"],
+[data-slot="context-menu-content"][data-state="closed"],
+[data-slot="menubar-content"][data-state="closed"] {
+  animation: modal-exit 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Tooltip - очень быстрая */
+[data-slot="tooltip-content"][data-state="instant-open"],
+[data-slot="tooltip-content"][data-state="delayed-open"] {
+  animation: fade-in 100ms ease-out;
+}
+
+[data-slot="tooltip-content"][data-state="closed"] {
+  animation: fade-out 75ms ease-in;
+}
+
+/* Hover Card */
+[data-slot="hover-card-content"][data-state="open"] {
+  animation: modal-enter 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-slot="hover-card-content"][data-state="closed"] {
+  animation: modal-exit 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 @layer base {
   :root {
@@ -55,6 +248,7 @@
   * {
     border-color: hsl(var(--border));
   }
+
   body {
     background-color: #f5f5f7;
     color: hsl(var(--foreground));

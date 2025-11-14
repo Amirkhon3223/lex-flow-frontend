@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { Send, Paperclip, Mic, X } from "lucide-react";
+import { toast } from "sonner";
 import type { ChatInputProps, SpeechRecognitionInstance } from "@/app/types/ai-assistant/ai-assistant.interfaces";
 import {
   createSpeechRecognition,
@@ -16,6 +17,8 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isRecording, setIsRecording] = useState(false);
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
+  const baseMessageRef = useRef<string>(''); // Базовый текст до начала записи
+  const [interimText, setInterimText] = useState<string>(''); // Промежуточный текст (серый)
 
   // 🔹 Автоматическая высота textarea
   useEffect(() => {
@@ -38,15 +41,24 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
       setupSpeechRecognitionCallbacks(recognitionRef.current, {
         onResult: (transcript: string, isFinal: boolean) => {
           if (isFinal) {
-            setMessage((prev) => prev + transcript);
+            // Финальный текст - добавляем к базовому
+            const finalText = baseMessageRef.current + (baseMessageRef.current ? ' ' : '') + transcript.trim();
+            setMessage(finalText);
+            baseMessageRef.current = finalText; // Обновляем базу
+            setInterimText(''); // Очищаем промежуточный
+          } else {
+            // Промежуточный текст - показываем серым
+            setInterimText(transcript.trim());
           }
         },
         onError: (error: string) => {
           console.error('Ошибка распознавания речи:', error);
           setIsRecording(false);
+          setInterimText('');
         },
         onEnd: () => {
           setIsRecording(false);
+          setInterimText('');
         },
       });
     }
@@ -76,14 +88,20 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
   // 🔹 Управление голосовым вводом
   const handleVoiceInput = () => {
     if (!isSpeechRecognitionSupported()) {
-      alert('Ваш браузер не поддерживает распознавание речи. Используйте Chrome или Edge.');
+      toast.error('Распознавание речи недоступно', {
+        description: 'Ваш браузер не поддерживает эту функцию. Используйте Chrome или Edge.',
+      });
       return;
     }
 
     if (isRecording) {
       stopSpeechRecognition(recognitionRef.current);
       setIsRecording(false);
+      setInterimText('');
     } else {
+      // Сохраняем текущий текст как базовый
+      baseMessageRef.current = message;
+      setInterimText('');
       const started = startSpeechRecognition(recognitionRef.current);
       if (started) {
         setIsRecording(true);
@@ -120,20 +138,28 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
       )}
 
       <div className="relative flex items-end gap-2 bg-gray-50 rounded-2xl border border-gray-200 focus-within:border-purple-400 transition-all duration-200 shadow-md">
-        <textarea
-          ref={textareaRef}
-          placeholder="Введите сообщение..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-          className="chat-textarea flex-1 bg-transparent pl-4 pr-28 py-3 outline-none resize-none min-h-[40px] max-h-[45vh] overflow-y-auto text-sm leading-relaxed transition-all"
-          rows={1}
-        />
+        <div className="flex-1 relative">
+          <textarea
+            ref={textareaRef}
+            placeholder={interimText ? "" : "Введите сообщение..."}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+            className="chat-textarea w-full bg-transparent pl-4 pr-28 py-3 outline-none resize-none min-h-[40px] max-h-[45vh] overflow-y-auto text-sm leading-relaxed transition-all"
+            rows={1}
+          />
+          {interimText && (
+            <div className="absolute inset-0 pl-4 pr-28 py-3 pointer-events-none text-sm leading-relaxed overflow-hidden">
+              <span className="invisible">{message}</span>
+              <span className="text-gray-400">{message ? ' ' : ''}{interimText}</span>
+            </div>
+          )}
+        </div>
 
         <div className="absolute right-2 bottom-1.5 flex items-center gap-1">
           <input
