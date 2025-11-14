@@ -14,6 +14,7 @@ import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { ChatArea } from './ui/ChatArea';
 import { FeatureCard } from './ui/FeatureCard';
 import { Header } from './ui/Header';
@@ -22,6 +23,12 @@ import { RecentAnalyses } from './ui/RecentAnalyses';
 
 export function AIAssistantView() {
   const [message, setMessage] = useState('');
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+
+  const handleDocumentUpload = (documentData: any) => {
+    console.log('Документ загружен:', documentData);
+    // TODO: Добавить логику обработки загруженного документа
+  };
 
   const features = [
     {
@@ -162,7 +169,10 @@ export function AIAssistantView() {
                 <p className="text-gray-500 mb-6">
                   AI проверит юридическую корректность, выявит риски и даст рекомендации
                 </p>
-                <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl shadow-lg shadow-purple-500/30">
+                <Button
+                  onClick={() => setUploadDialogOpen(true)}
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl shadow-lg shadow-purple-500/30"
+                >
                   <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
                   Выбрать документ
                 </Button>
@@ -183,11 +193,17 @@ export function AIAssistantView() {
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <Button variant="outline" className="h-14 rounded-xl border-gray-200 hover:bg-purple-50 hover:border-purple-200 justify-start">
+                    <Button
+                      variant="outline"
+                      className="h-14 rounded-xl border-gray-200 hover:bg-purple-50 hover:border-purple-200 justify-start"
+                    >
                       <Scale className="w-5 h-5 mr-3 text-purple-500" strokeWidth={2} />
                       <span>Судебная практика</span>
                     </Button>
-                    <Button variant="outline" className="h-14 rounded-xl border-gray-200 hover:bg-blue-50 hover:border-blue-200 justify-start">
+                    <Button
+                      variant="outline"
+                      className="h-14 rounded-xl border-gray-200 hover:bg-blue-50 hover:border-blue-200 justify-start"
+                    >
                       <BookOpen className="w-5 h-5 mr-3 text-blue-500" strokeWidth={2} />
                       <span>Законодательство</span>
                     </Button>
@@ -198,6 +214,12 @@ export function AIAssistantView() {
           </TabsContent>
         </Tabs>
       </main>
+
+      <UploadDocumentDialog
+        open={uploadDialogOpen}
+        onOpenChange={setUploadDialogOpen}
+        onSubmit={handleDocumentUpload}
+      />
     </div>
   );
 }

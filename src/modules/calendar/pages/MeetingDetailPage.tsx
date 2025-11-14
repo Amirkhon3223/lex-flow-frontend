@@ -16,10 +16,12 @@ import {
   Briefcase,
 } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
 import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
 import { AddMeetingDialog } from '@/modules/calendar/components/AddMeetingDialog';
 import { CommentsDialog } from '@/shared/components/CommentsDialog';
+import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
@@ -33,10 +35,13 @@ export function MeetingDetailPage() {
   const [isAddNoteOpen, setIsAddNoteOpen] = useState(false);
   const [isAddDocumentOpen, setIsAddDocumentOpen] = useState(false);
   const [isRescheduleOpen, setIsRescheduleOpen] = useState(false);
+  const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleComplete = () => {
     // TODO: Обновить статус встречи на COMPLETED в API
     console.log('Встреча отмечена как завершённая, ID:', id);
+    toast.success('Встреча отмечена как завершённая');
     navigate('/calendar');
   };
 
@@ -45,11 +50,14 @@ export function MeetingDetailPage() {
   };
 
   const handleCancel = () => {
-    if (confirm('Вы уверены, что хотите отменить встречу?')) {
-      // TODO: Отменить встречу в API
-      console.log('Встреча отменена, ID:', id);
-      navigate('/calendar');
-    }
+    setIsCancelDialogOpen(true);
+  };
+
+  const confirmCancel = () => {
+    // TODO: Отменить встречу в API
+    console.log('Встреча отменена, ID:', id);
+    toast.success('Встреча отменена');
+    navigate('/calendar');
   };
 
   const handleEdit = () => {
@@ -57,10 +65,14 @@ export function MeetingDetailPage() {
   };
 
   const handleDelete = () => {
-    if (confirm('Вы уверены, что хотите удалить встречу?')) {
-      // TODO: Удалить встречу
-      navigate('/calendar');
-    }
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    // TODO: Удалить встречу
+    console.log('Встреча удалена, ID:', id);
+    toast.success('Встреча удалена');
+    navigate('/calendar');
   };
 
   const meeting: MeetingInterface = {
@@ -140,6 +152,28 @@ export function MeetingDetailPage() {
       <CommentsDialog open={isAddNoteOpen} onOpenChange={setIsAddNoteOpen} />
       <AddMeetingDialog open={isEditingOpen} onOpenChange={setIsEditingOpen} />
       <AddMeetingDialog open={isRescheduleOpen} onOpenChange={setIsRescheduleOpen} />
+
+      <ConfirmDialog
+        open={isCancelDialogOpen}
+        onOpenChange={setIsCancelDialogOpen}
+        title="Отменить встречу?"
+        description="Вы уверены, что хотите отменить эту встречу? Это действие можно будет отменить позже."
+        confirmText="Да, отменить"
+        cancelText="Не отменять"
+        onConfirm={confirmCancel}
+        variant="destructive"
+      />
+
+      <ConfirmDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        title="Удалить встречу?"
+        description="Вы уверены, что хотите удалить эту встречу? Это действие нельзя будет отменить."
+        confirmText="Да, удалить"
+        cancelText="Не удалять"
+        onConfirm={confirmDelete}
+        variant="destructive"
+      />
 
       {/* Header */}
       <header className="bg-white border-b border-gray-200/50 rounded-xl mb-6">
