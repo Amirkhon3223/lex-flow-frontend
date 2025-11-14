@@ -1,4 +1,4 @@
-import { LucideIcon } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
 

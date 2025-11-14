@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { FileText, Star, FolderOpen, User, Tag, History, MoreHorizontal, Eye, Download, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import type { DocumentCardProps } from '@/app/types/documents/documents.interfaces';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';

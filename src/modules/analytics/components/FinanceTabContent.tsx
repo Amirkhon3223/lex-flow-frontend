@@ -1,7 +1,6 @@
 import { DollarSign, TrendingUp, CreditCard, Wallet } from 'lucide-react';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
-import { Progress } from '@/shared/ui/progress';
 
 const revenueBySource = [
   { source: 'Консультации', amount: 1250000, percentage: 32, color: 'bg-blue-500' },
