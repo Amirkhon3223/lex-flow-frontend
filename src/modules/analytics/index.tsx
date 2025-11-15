@@ -1,4 +1,4 @@
-import { Calendar, Download, BarChart3, Briefcase, DollarSign, Users } from 'lucide-react';
+import { Calendar, Download, BarChart3, Briefcase, DollarSign, Users, Sparkles } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { ManagedSelect as Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/managed-select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
@@ -20,11 +20,16 @@ export default function AnalyticsPage() {
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-4 py-6">
           <div className="flex items-start justify-between mb-6">
-            <div>
-              <h1 className="text-4xl tracking-tight mb-2">Аналитика</h1>
-              <p className="text-gray-500 text-lg">Обзор эффективности работы и статистика</p>
+            <div className="flex items-center gap-3">
+              <div
+                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5}/>
+              </div>
+              <div>
+                <h1 className="text-4xl tracking-tight">Аналитика</h1>
+                <p className="text-gray-500 text-lg">Обзор эффективности работы и статистики</p>
+              </div>
             </div>
-
             <div className="flex items-center gap-3">
               <Select defaultValue="month">
                 <SelectTrigger className="w-48 h-12 rounded-xl border-gray-200">

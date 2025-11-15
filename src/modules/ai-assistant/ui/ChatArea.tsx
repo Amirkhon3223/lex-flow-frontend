@@ -25,7 +25,6 @@ export function ChatArea({ chatHistory }: ChatAreaProps) {
     setMessage('');
   };
 
-
   // Плавный автоскролл вниз при новом сообщении
   useEffect(() => {
     if (scrollRef.current) {

@@ -1,4 +1,4 @@
-import { Bell, CreditCard, Settings, Shield, User, Users } from "lucide-react";
+import { Bell, CreditCard, Shield, Sparkles, User, Users } from "lucide-react";
 import { BillingTabContent } from '@/modules/settings/components/tabs/BillingTabContent';
 import { NotificationsTabContent } from '@/modules/settings/components/tabs/NotificationsTabContent';
 import { ProfileTabContent } from '@/modules/settings/components/tabs/ProfileTabContent';
@@ -13,9 +13,10 @@ export default function SettingsPage() {
       {}
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-4 py-6">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
-              <Settings className="w-6 h-6 text-gray-600" strokeWidth={2}/>
+          <div className="flex items-center gap-3">
+            <div
+              className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+              <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5}/>
             </div>
             <div>
               <h1 className="text-4xl tracking-tight">Настройки</h1>

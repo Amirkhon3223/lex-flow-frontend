@@ -3,6 +3,7 @@ import { MeetingDetailPage } from '@/modules/calendar/pages/MeetingDetailPage';
 import ClientDetailPage from '@/modules/clients/pages/ClientDetailPage';
 import AiAssistantPage from '@/pages/AiAssistantPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
+import AuthPage from "@/pages/AuthPage.tsx";
 import CalendarPage from '@/pages/CalendarPage';
 import CaseDetailPage from '@/pages/CaseDetailPage';
 import CasesPage from '@/pages/CasesPage';
@@ -11,7 +12,6 @@ import DashboardPage from '@/pages/DashboardPage';
 import DocumentComparePage from '@/pages/DocumentComparePage';
 import DocumentsPage from '@/pages/DocumentsPage';
 import DocumentVersionsPage from '@/pages/DocumentVersionsPage';
-import LoginPage from '@/pages/LoginPage';
 import NotificationsPage from '@/pages/NotificationsPage';
 import ReportsPage from '@/pages/ReportsPage';
 import SettingsPage from '@/pages/SettingsPage';
@@ -22,7 +22,7 @@ import { ROUTES } from './config/routes.config';
 export const router = createBrowserRouter([
   {
     path: ROUTES.AUTH.LOGIN,
-    element: <LoginPage />,
+    element: <AuthPage/>,
   },
   {
     path: ROUTES.DASHBOARD,
@@ -152,12 +152,4 @@ export const router = createBrowserRouter([
       </Layout>
     ),
   },
-  // {
-  //   path: '/settings/profile',
-  //   element: (
-  //     <Layout>
-  //       <UserProfilePage />
-  //     </Layout>
-  //   ),
-  // },
 ]);

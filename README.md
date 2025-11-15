@@ -62,7 +62,7 @@ src/
 ├── pages/                 # Обёртки страниц для роутинга (2 строки)
 │   ├── DashboardPage.tsx
 │   ├── ClientsPage.tsx
-│   └── LoginPage.tsx      # Полноценная страница
+│   └── Index.tsx      # Полноценная страница
 │
 └── shared/                # Переиспользуемые компоненты
     ├── ui/                # shadcn/ui компоненты

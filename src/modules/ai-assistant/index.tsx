@@ -10,11 +10,11 @@ import {
 } from 'lucide-react';
 import { MessageTypeEnum, AnalysisStatusEnum, InsightTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums';
 import type { ChatMessageInterface, RecentAnalysisInterface } from '@/app/types/ai-assistant/ai-assistant.interfaces';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
-import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { ChatArea } from './ui/ChatArea';
 import { FeatureCard } from './ui/FeatureCard';
 import { Header } from './ui/Header';

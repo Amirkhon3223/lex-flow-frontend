@@ -13,7 +13,7 @@ import {
   User,
   Briefcase,
   Grid3x3,
-  List,
+  List, Sparkles,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
@@ -238,9 +238,15 @@ export function CalendarPage() {
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-4 py-4">
           <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl tracking-tight mb-1">Календарь</h1>
-              <p className="text-gray-500">Все встречи и события</p>
+            <div className="flex items-center gap-3">
+              <div
+                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5}/>
+              </div>
+              <div>
+                <h1 className="text-4xl tracking-tight">Календарь</h1>
+                <p className="text-gray-500 text-lg">Все встречи и события</p>
+              </div>
             </div>
 
             <div className="flex items-center gap-3">

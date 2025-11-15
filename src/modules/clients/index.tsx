@@ -59,7 +59,7 @@ import {
   Star,
   TrendingUp,
   Users,
-  Building2,
+  Building2, Sparkles,
 } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/app/config/routes.config.ts";
@@ -231,7 +231,6 @@ export function ClientsPage() {
     },
   ];
 
-
   const filteredClients = clients.filter(client => {
     const matchesSearch = searchQuery === '' ||
       client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -298,16 +297,22 @@ export function ClientsPage() {
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-4 py-4">
           <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl tracking-tight mb-1">Клиенты</h1>
-              <p className="text-gray-500">База клиентов и контакты</p>
+            <div className="flex items-center gap-3">
+              <div
+                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5}/>
+              </div>
+              <div>
+                <h1 className="text-4xl tracking-tight">Клиенты</h1>
+                <p className="text-gray-500 text-lg">База клиентов и контакты</p>
+              </div>
             </div>
 
             <Button
               className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
               onClick={() => setIsAddClientDialogOpen(true)}
             >
-              <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+              <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
               Новый клиент
             </Button>
           </div>

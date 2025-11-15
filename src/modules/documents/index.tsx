@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowUpDown, Clock, FileText, Filter, Star, Upload } from 'lucide-react';
+import { ArrowUpDown, Clock, FileText, Filter, Sparkles, Star, Upload } from 'lucide-react';
 import { DocumentCategoryEnum, DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 import type { DocumentInterface } from '@/app/types/documents/documents.interfaces';
 import { CompactStatCard } from '@/modules/clients/ui/CompactStatCard';
@@ -142,9 +142,15 @@ export function DocumentsPage() {
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-4 py-6">
           <div className="flex items-start justify-between mb-6">
-            <div>
-              <h1 className="text-4xl tracking-tight mb-2">Документы</h1>
-              <p className="text-gray-500 text-lg">Управление всеми документами и версиями</p>
+            <div className="flex items-center gap-3">
+              <div
+                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5}/>
+              </div>
+              <div>
+                <h1 className="text-4xl tracking-tight">Документы</h1>
+                <p className="text-gray-500 text-lg">Управление всеми документами</p>
+              </div>
             </div>
 
             <Button
