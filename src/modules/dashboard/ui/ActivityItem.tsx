@@ -2,21 +2,21 @@ import type { ActivityItemProps } from '@/app/types/dashboard/dashboard.interfac
 
 export function ActivityItem({ action, item, client, time, isLast = false }: ActivityItemProps) {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-3 sm:gap-4">
       <div className="flex flex-col items-center">
-        <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+        <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
         {!isLast && (
           <div className="w-px h-full bg-gray-200 mt-2"></div>
         )}
       </div>
-      <div className="flex-1 pb-4">
-        <p className="text-[15px] mb-1">
+      <div className="flex-1 pb-4 min-w-0">
+        <p className="text-sm sm:text-[15px] mb-1">
           <span className="text-gray-900">Вы</span>{' '}
           <span className="text-gray-500">{action}</span>{' '}
-          <span className="text-gray-900">{item}</span>
+          <span className="text-gray-900 break-words">{item}</span>
         </p>
-        <div className="flex items-center gap-3 text-sm text-gray-400">
-          <span>{client}</span>
+        <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-400 flex-wrap">
+          <span className="truncate max-w-[150px] sm:max-w-none">{client}</span>
           <span>•</span>
           <span>{time}</span>
         </div>
