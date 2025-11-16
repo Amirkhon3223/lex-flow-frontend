@@ -27,9 +27,9 @@ export function MeetingsList({
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-      <div className="p-6">
-        <h3 className="text-xl tracking-tight mb-6">Все встречи</h3>
+    <Card className="bg-white border-0 shadow-sm">
+      <div className="p-4 sm:p-6">
+        <h3 className="text-lg sm:text-xl tracking-tight mb-4 sm:mb-6">Все встречи</h3>
 
         <div className="space-y-3">
           {meetings
@@ -38,9 +38,66 @@ export function MeetingsList({
               <div
                 key={meeting.id}
                 onClick={() => navigate(`/calendar/meetings/${meeting.id}`)}
-                className="group p-5 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer"
+                className="group p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer"
               >
-                <div className="flex items-start gap-4">
+                {/* Mobile layout */}
+                <div className="md:hidden">
+                  <div className="flex items-start gap-2 mb-2">
+                    <div className="flex flex-col items-center min-w-[40px]">
+                      <div className="text-base tracking-tight text-gray-900">
+                        {meeting.date.toLocaleDateString('ru-RU', { day: 'numeric' })}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {meeting.date.toLocaleDateString('ru-RU', { month: 'short' })}
+                      </div>
+                    </div>
+                    <Separator orientation="vertical" className="h-10 bg-gray-200" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Avatar className="w-7 h-7 ring-2 ring-gray-200 flex-shrink-0">
+                          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs">
+                            {meeting.client.avatar}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm tracking-tight truncate">{meeting.title}</h4>
+                          <p className="text-xs text-gray-500">{meeting.client.name}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {meeting.priority && (
+                      <Badge className={`${getPriorityColor(meeting.priority)} border-0 text-xs`}>
+                        {meeting.priority === 'high' ? 'Срочно' : meeting.priority === 'medium' ? 'Средний' : 'Низкий'}
+                      </Badge>
+                    )}
+                    <Badge className={`${getMeetingTypeColor(meeting.type)} border-0 text-xs`}>
+                      {getMeetingTypeIcon(meeting.type)}
+                    </Badge>
+                    <Badge className={`${meeting.status === MeetingStatusEnum.COMPLETED
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-blue-100 text-blue-700'
+                      } border-0 text-xs`}>
+                      {meeting.status === MeetingStatusEnum.COMPLETED ? 'Завершено' : 'Запланировано'}
+                    </Badge>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" strokeWidth={2} />
+                      {meeting.time} • {meeting.duration}
+                    </span>
+                    {meeting.location && (
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3" strokeWidth={2} />
+                        <span className="truncate max-w-[100px]">{meeting.location}</span>
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Desktop layout */}
+                <div className="hidden md:flex items-start gap-4">
                   <div className="flex flex-col items-center min-w-[60px]">
                     <div className="text-2xl tracking-tight text-gray-900">
                       {meeting.date.toLocaleDateString('ru-RU', { day: 'numeric' })}

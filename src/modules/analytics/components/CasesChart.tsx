@@ -13,14 +13,14 @@ const casesData: CaseStatDataInterface[] = [
 
 export function CasesChart() {
   return (
-    <Card className="col-span-2 bg-white border-0 shadow-sm rounded-xl">
-      <div className="p-6">
-        <h3 className="text-xl tracking-tight mb-6">Статистика дел</h3>
-        <ResponsiveContainer width="100%" height={300}>
+    <Card className="md:col-span-2 bg-white border-0 shadow-sm rounded-lg sm:rounded-xl">
+      <div className="p-3 sm:p-4 md:p-6">
+        <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Статистика дел</h3>
+        <ResponsiveContainer width="100%" height={200} className="sm:!h-[250px] md:!h-[300px]">
           <BarChart data={casesData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="month" stroke="#9ca3af" />
-            <YAxis stroke="#9ca3af" />
+            <XAxis dataKey="month" stroke="#9ca3af" fontSize={12} />
+            <YAxis stroke="#9ca3af" fontSize={12} />
             <Tooltip
               contentStyle={{
                 backgroundColor: 'white',
@@ -29,9 +29,9 @@ export function CasesChart() {
                 boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
               }}
             />
-            <Bar dataKey="won" fill="#10B981" radius={[8, 8, 0, 0]} />
-            <Bar dataKey="pending" fill="#F59E0B" radius={[8, 8, 0, 0]} />
-            <Bar dataKey="lost" fill="#EF4444" radius={[8, 8, 0, 0]} />
+            <Bar dataKey="won" fill="#10B981" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="pending" fill="#F59E0B" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="lost" fill="#EF4444" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

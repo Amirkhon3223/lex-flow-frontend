@@ -58,50 +58,94 @@ export function MeetingCard({
     };
 
     return (
-        <div className="flex-1 rounded-lg border p-4 hover:bg-gray-50 transition-colors">
-            <div className="flex items-start justify-between">
-                <div className="flex items-start gap-3">
-                    <Avatar className="h-10 w-10">
-                        <AvatarFallback className="bg-blue-600 text-white text-sm">
+        <div className="flex-1 rounded-lg border p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+            {/* Mobile layout */}
+            <div className="md:hidden">
+                <div className="flex items-start gap-2 mb-2">
+                    <Avatar className="h-8 w-8 flex-shrink-0">
+                        <AvatarFallback className="bg-blue-600 text-white text-xs">
                             {clientInitials}
                         </AvatarFallback>
                     </Avatar>
-                    <div>
-                        <h3 className="font-semibold text-gray-900">{title}</h3>
-                        <div className="mt-1 text-sm text-gray-600">{client}</div>
-                        <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
-                            <div className="flex items-center gap-1">
-                                <Clock className="h-4 w-4" />
-                                {duration}
-                            </div>
-                            <div className="flex items-center gap-1">
-                                {getTypeIcon(type)}
-                                {location}
-                            </div>
-                            {caseName && (
-                                <div className="flex items-center gap-1">
-                                    <CalendarIcon className="h-4 w-4" />
-                                    {caseName}
-                                </div>
-                            )}
-                        </div>
+                    <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-sm truncate">{title}</h3>
+                        <div className="text-xs text-gray-600">{client}</div>
                     </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap gap-1 mb-2">
                     {status === MeetingStatusEnum.COMPLETED ? (
-                        <Badge className={getStatusColor(status)}>
+                        <Badge className={`${getStatusColor(status)} text-xs`}>
                             {statusText}
                         </Badge>
                     ) : (
-                        <Badge className={getPriorityColor(priority)}>
+                        <Badge className={`${getPriorityColor(priority)} text-xs`}>
                             {statusText}
                         </Badge>
                     )}
                     {planned && (
-                        <Badge className="bg-blue-100 text-blue-700 border-blue-200">
+                        <Badge className="bg-blue-100 text-blue-700 border-blue-200 text-xs">
                             Запланировано
                         </Badge>
                     )}
+                </div>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600">
+                    <div className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {duration}
+                    </div>
+                    <div className="flex items-center gap-1">
+                        {getTypeIcon(type)}
+                        <span className="truncate max-w-[120px]">{location}</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Desktop layout */}
+            <div className="hidden md:block">
+                <div className="flex items-start justify-between">
+                    <div className="flex items-start gap-3">
+                        <Avatar className="h-10 w-10">
+                            <AvatarFallback className="bg-blue-600 text-white text-sm">
+                                {clientInitials}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div>
+                            <h3 className="font-semibold text-gray-900">{title}</h3>
+                            <div className="mt-1 text-sm text-gray-600">{client}</div>
+                            <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
+                                <div className="flex items-center gap-1">
+                                    <Clock className="h-4 w-4" />
+                                    {duration}
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    {getTypeIcon(type)}
+                                    {location}
+                                </div>
+                                {caseName && (
+                                    <div className="flex items-center gap-1">
+                                        <CalendarIcon className="h-4 w-4" />
+                                        {caseName}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        {status === MeetingStatusEnum.COMPLETED ? (
+                            <Badge className={getStatusColor(status)}>
+                                {statusText}
+                            </Badge>
+                        ) : (
+                            <Badge className={getPriorityColor(priority)}>
+                                {statusText}
+                            </Badge>
+                        )}
+                        {planned && (
+                            <Badge className="bg-blue-100 text-blue-700 border-blue-200">
+                                Запланировано
+                            </Badge>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
