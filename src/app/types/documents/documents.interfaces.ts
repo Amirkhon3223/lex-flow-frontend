@@ -59,3 +59,12 @@ export interface DocumentCardProps {
 export interface StatusBadgeProps {
   status: DocumentStatusEnum;
 }
+
+export interface UploadDocumentFormData {
+  name: string;
+  case: string;
+  type: string;
+  status?: string;
+  notes?: string;
+  file: File;
+}

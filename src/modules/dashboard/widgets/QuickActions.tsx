@@ -11,29 +11,29 @@ interface QuickActionsProps {
 export function QuickActions({ onAddClient, onAddCase, onUploadDocument }: QuickActionsProps) {
   return (
     <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-      <div className="p-6">
-        <h3 className="text-lg tracking-tight mb-4">Быстрые действия</h3>
+      <div className="p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Быстрые действия</h3>
 
         <div className="space-y-2">
           <Button
-            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer"
+            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer text-sm sm:text-base py-2.5 sm:py-3"
             onClick={onAddClient}
           >
-            <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" strokeWidth={2} />
             Новый клиент
           </Button>
           <Button
-            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer"
+            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer text-sm sm:text-base py-2.5 sm:py-3"
             onClick={onAddCase}
           >
-            <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" strokeWidth={2} />
             Новое дело
           </Button>
           <Button
-            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer"
+            className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer text-sm sm:text-base py-2.5 sm:py-3"
             onClick={onUploadDocument}
           >
-            <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" strokeWidth={2} />
             Загрузить документ
           </Button>
         </div>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronRight, User, Clock, MoreHorizontal, Eye, Edit, Trash2, Archive } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
+import type { PriorityCaseInterface } from '@/app/types/dashboard/dashboard.interfaces';
 import { FilterTabs } from '@/modules/cases/ui/FilterTabs';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -15,14 +16,14 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { Progress } from '@/shared/ui/progress';
 
-const allCases = [
+const allCases: PriorityCaseInterface[] = [
   {
     id: 1,
     title: 'Трудовой спор - увольнение',
     client: 'Иванов П.А.',
     deadline: 'Завтра',
     progress: 75,
-    status: 'urgent' as const,
+    status: 'urgent',
   },
   {
     id: 2,
@@ -30,7 +31,7 @@ const allCases = [
     client: 'ООО "ТехноСтрой"',
     deadline: 'Через 5 дней',
     progress: 45,
-    status: 'medium' as const,
+    status: 'medium',
   },
   {
     id: 3,
@@ -38,7 +39,7 @@ const allCases = [
     client: 'Смирнова А.В.',
     deadline: 'Через 2 недели',
     progress: 30,
-    status: 'medium' as const,
+    status: 'medium',
   },
   {
     id: 4,
@@ -46,7 +47,7 @@ const allCases = [
     client: 'Петров М.И.',
     deadline: 'Завершено',
     progress: 100,
-    status: 'completed' as const,
+    status: 'completed',
   },
 ];
 
@@ -60,16 +61,17 @@ export function PriorityCases() {
 
   return (
     <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl tracking-tight">Приоритетные дела</h3>
+          <h3 className="text-lg sm:text-xl tracking-tight">Приоритетные дела</h3>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => navigate(ROUTES.CASES.BASE)}
-            className="text-blue-500 hover:bg-blue-50 rounded-lg cursor-pointer"
+            className="text-blue-500 hover:bg-blue-50 rounded-lg cursor-pointer text-sm sm:text-base"
           >
-            Все дела
+            <span className="hidden sm:inline">Все дела</span>
+            <span className="sm:hidden">Все</span>
             <ChevronRight className="w-4 h-4 ml-1" strokeWidth={2} />
           </Button>
         </div>
@@ -83,30 +85,30 @@ export function PriorityCases() {
             <div
               key={item.id}
               onClick={() => navigate(ROUTES.CASES.DETAIL(item.id.toString()))}
-              className="group p-5 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer"
+              className="group p-4 sm:p-5 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer"
             >
               <div className="flex items-start justify-between mb-3">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <h4 className="tracking-tight">{item.title}</h4>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
+                    <h4 className="tracking-tight text-sm sm:text-base truncate">{item.title}</h4>
                     {item.status === 'urgent' && (
-                      <Badge className="bg-red-100 text-red-700 border-0 text-xs">
+                      <Badge className="bg-red-100 text-red-700 border-0 text-xs flex-shrink-0">
                         Срочно
                       </Badge>
                     )}
                     {item.status === 'completed' && (
-                      <Badge className="bg-green-100 text-green-700 border-0 text-xs">
+                      <Badge className="bg-green-100 text-green-700 border-0 text-xs flex-shrink-0">
                         Завершено
                       </Badge>
                     )}
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-500 flex-wrap">
                     <span className="flex items-center gap-1.5">
-                      <User className="w-4 h-4" strokeWidth={2} />
-                      {item.client}
+                      <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
+                      <span className="truncate max-w-[120px] sm:max-w-none">{item.client}</span>
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <Clock className="w-4 h-4" strokeWidth={2} />
+                      <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
                       {item.deadline}
                     </span>
                   </div>
