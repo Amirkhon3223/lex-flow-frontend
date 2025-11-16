@@ -269,21 +269,21 @@ export function CasePage() {
       {}
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-3">
               <div
-                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
-                <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5}/>
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5}/>
               </div>
               <div>
-                <h1 className="text-4xl tracking-tight">Дела</h1>
-                <p className="text-gray-500 text-lg">Управление делами и документами</p>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">Дела</h1>
+                <p className="text-gray-500 text-sm sm:text-base lg:text-lg">Управление делами и документами</p>
               </div>
             </div>
 
             <Button
               onClick={() => setIsAddCaseDialogOpen(true)}
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md cursor-pointer"
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md cursor-pointer w-full sm:w-auto"
             >
               <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
               Новое дело
@@ -291,7 +291,7 @@ export function CasePage() {
           </div>
 
           {}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-3 w-full">
             <CaseFilters
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -303,7 +303,7 @@ export function CasePage() {
               setFilterCategory={setFilterCategory}
             />
 
-            <div className="flex items-center gap-1 ml-auto">
+            <div className="hidden md:flex items-center gap-1 lg:ml-auto">
             <Button
                 variant={viewMode === 'table' ? 'default' : 'ghost'}
                 size="icon"
@@ -325,21 +325,21 @@ export function CasePage() {
         </div>
       </header>
 
-      <main className="py-6">
+      <main className="py-4 sm:py-6">
         {}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
               <Card key={index} className="bg-white border-0 shadow-sm">
-                <div className="p-5">
+                <div className="p-4 sm:p-5">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className={`text-3xl tracking-tight mb-1 ${stat.color}`}>{stat.value}</div>
-                      <div className="text-sm text-gray-500">{stat.label}</div>
+                      <div className={`text-2xl sm:text-3xl tracking-tight mb-1 ${stat.color}`}>{stat.value}</div>
+                      <div className="text-xs sm:text-sm text-gray-500">{stat.label}</div>
                     </div>
-                    <div className={`w-12 h-12 rounded-2xl ${stat.iconBg} flex items-center justify-center`}>
-                      <Icon className={`w-6 h-6 ${stat.iconColor}`} strokeWidth={2} />
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl ${stat.iconBg} flex items-center justify-center flex-shrink-0`}>
+                      <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.iconColor}`} strokeWidth={2} />
                     </div>
                   </div>
                 </div>
@@ -350,7 +350,7 @@ export function CasePage() {
 
         {}
         {viewMode === 'table' ? (
-          <Card className="bg-white border-0 shadow-sm px-3 py-2">
+          <Card className="bg-white border-0 shadow-sm px-3 py-2 hidden md:block">
             <Table>
               <TableHeader>
                 <TableRow className="border-b border-gray-100 hover:bg-transparent">
@@ -471,50 +471,51 @@ export function CasePage() {
               </TableBody>
             </Table>
           </Card>
-        ) : (
+        ) : null}
 
-          <div className="grid grid-cols-3 gap-4">
+          {/* Mobile grid view (always visible on mobile) or Desktop grid when selected */}
+          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 ${viewMode === 'table' ? 'md:hidden' : ''}`}>
             {filteredCases.map((caseItem) => (
               <Card
                 key={caseItem.id}
                 onClick={() => navigate(ROUTES.CASES.DETAIL(caseItem.id.toString()))}
                 className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
               >
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h3 className="tracking-tight mb-2 line-clamp-2">{caseItem.title}</h3>
+                <div className="p-4 sm:p-6">
+                  <div className="flex items-start justify-between mb-3 sm:mb-4">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="tracking-tight mb-2 line-clamp-2 text-sm sm:text-base">{caseItem.title}</h3>
                       <div className="flex items-center gap-2 mb-3">
-                        <Avatar className="w-6 h-6 ring-2 ring-gray-100">
+                        <Avatar className="w-5 h-5 sm:w-6 sm:h-6 ring-2 ring-gray-100 flex-shrink-0">
                           <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs">
                             {caseItem.client.avatar}
                           </AvatarFallback>
                         </Avatar>
-                        <span className="text-sm text-gray-600">{caseItem.client.name}</span>
+                        <span className="text-xs sm:text-sm text-gray-600 truncate">{caseItem.client.name}</span>
                       </div>
                     </div>
                     {getPriorityBadge(caseItem.priority)}
                   </div>
 
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-center justify-between text-sm">
+                  <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
+                    <div className="flex items-center justify-between text-xs sm:text-sm">
                       <span className="text-gray-500">Статус</span>
                       {getStatusBadge(caseItem.status)}
                     </div>
-                    <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center justify-between text-xs sm:text-sm">
                       <span className="text-gray-500">Прогресс</span>
                       <span className="text-gray-900">{caseItem.progress}%</span>
                     </div>
-                    <Progress value={caseItem.progress} className="h-2" />
+                    <Progress value={caseItem.progress} className="h-1.5 sm:h-2" />
                   </div>
 
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                  <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
                     <div className="flex items-center gap-1.5">
-                      <Calendar className="w-4 h-4" strokeWidth={2} />
+                      <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
                       {caseItem.deadline}
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <FileText className="w-4 h-4" strokeWidth={2} />
+                      <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
                       {caseItem.documents}
                     </div>
                   </div>
@@ -525,7 +526,7 @@ export function CasePage() {
                       navigate(ROUTES.CASES.DETAIL(caseItem.id.toString()));
                     }}
                     variant="outline"
-                    className="w-full rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer"
+                    className="w-full rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer text-xs sm:text-sm"
                   >
                     Открыть дело
                   </Button>
@@ -533,7 +534,7 @@ export function CasePage() {
               </Card>
             ))}
           </div>
-        )}
+
       </main>
 
       {/* Dialogs */}
