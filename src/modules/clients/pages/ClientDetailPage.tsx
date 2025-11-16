@@ -83,53 +83,53 @@ export default function ClientDetailPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen}/>
       <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}/>
       {}
-      <Link to="/clients" className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900">
-        <ChevronLeft className="mr-1 h-4 w-4"/>
+      <Link to="/clients" className="inline-flex items-center text-xs sm:text-sm text-gray-600 hover:text-gray-900">
+        <ChevronLeft className="mr-1 h-3.5 w-3.5 sm:h-4 sm:w-4"/>
         Все клиенты
       </Link>
 
       {}
-      <div className="flex items-start justify-between">
-        <div className="flex items-start gap-4">
-          <Avatar className="h-16 w-16">
-            <AvatarFallback className="bg-blue-600 text-xl text-white">
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
+          <Avatar className="h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0">
+            <AvatarFallback className="bg-blue-600 text-lg sm:text-xl text-white">
               {client.initials}
             </AvatarFallback>
           </Avatar>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold text-gray-900">{client.name}</h1>
-              <Badge className="bg-green-100 text-green-700 border-green-200">
+          <div className="min-w-0">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{client.name}</h1>
+              <Badge className="bg-green-100 text-green-700 border-green-200 w-fit">
                 {client.status}
               </Badge>
             </div>
-            <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
+            <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
               <span>🏢 {client.type}</span>
               <span>📅 {client.since}</span>
               {client.vip && <span>⭐ VIP клиент</span>}
             </div>
-            <div className="mt-2 flex items-center gap-4 text-sm">
+            <div className="mt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
               <div className="flex items-center gap-1 text-gray-600">
-                <Mail className="h-4 w-4"/>
-                {client.email}
+                <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0"/>
+                <span className="truncate">{client.email}</span>
               </div>
               <div className="flex items-center gap-1 text-gray-600">
-                <Phone className="h-4 w-4"/>
+                <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0"/>
                 {client.phone}
               </div>
             </div>
           </div>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline">
+        <div className="flex gap-2 w-full sm:w-auto">
+          <Button variant="outline" className="flex-1 sm:flex-none text-sm sm:text-base">
             Написать
           </Button>
           <Button
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+            className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md flex-1 sm:flex-none text-sm sm:text-base"
             onClick={() => setIsAddCaseDialogOpen(true)}
           >
             <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
@@ -139,7 +139,7 @@ export default function ClientDetailPage() {
       </div>
 
       {}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
         <StatCard
           label="Активных дел"
           value={client.activeCases}
@@ -178,15 +178,15 @@ export default function ClientDetailPage() {
       </div>
 
       {}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-3">
         {}
         <div className="lg:col-span-2 bg-white rounded-xl">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Дела клиента</CardTitle>
-              <span className="text-sm text-gray-600">3 дел</span>
+            <CardHeader className="flex flex-row items-center justify-between p-4 sm:p-6">
+              <CardTitle className="text-base sm:text-lg">Дела клиента</CardTitle>
+              <span className="text-xs sm:text-sm text-gray-600">3 дел</span>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6 pt-0 sm:pt-0">
               {cases.map((caseItem) => (
                 <CaseCard key={caseItem.id} caseItem={caseItem} />
               ))}
@@ -195,7 +195,7 @@ export default function ClientDetailPage() {
         </div>
 
         {}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <ContactInfoCard
             contactInfo={{
               email: client.email,
