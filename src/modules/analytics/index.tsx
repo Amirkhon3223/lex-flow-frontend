@@ -18,22 +18,22 @@ export default function AnalyticsPage() {
   return (
     <div>
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
-        <div className="px-4 py-6">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-center gap-3">
+        <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-6">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <div className="flex items-center gap-2 sm:gap-3">
               <div
-                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
-                <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5}/>
+                className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5}/>
               </div>
-              <div>
-                <h1 className="text-4xl tracking-tight">Аналитика</h1>
-                <p className="text-gray-500 text-lg">Обзор эффективности работы и статистики</p>
+              <div className="min-w-0">
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight truncate">Аналитика</h1>
+                <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg">Обзор эффективности работы и статистики</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               <Select defaultValue="month">
-                <SelectTrigger className="w-48 h-12 rounded-xl border-gray-200">
-                  <Calendar className="w-4 h-4 mr-2" strokeWidth={2}/>
+                <SelectTrigger className="w-32 sm:w-40 md:w-48 h-8 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm">
+                  <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 mr-1.5 sm:mr-2" strokeWidth={2}/>
                   <SelectValue/>
                 </SelectTrigger>
                 <SelectContent>
@@ -46,10 +46,10 @@ export default function AnalyticsPage() {
 
               <Button
                 onClick={handleExportReport}
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md h-8 sm:h-10 md:h-12 px-2 sm:px-3 md:px-4 text-xs sm:text-sm"
               >
-                <Download className="w-4 h-4 mr-2" strokeWidth={2}/>
-                Экспорт отчета
+                <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 sm:mr-2" strokeWidth={2}/>
+                <span className="hidden sm:inline">Экспорт отчета</span>
               </Button>
             </div>
           </div>
@@ -58,56 +58,56 @@ export default function AnalyticsPage() {
         </div>
       </header>
 
-      <main className="p-8">
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="bg-gray-100 rounded-xl p-1.5">
+      <main className="p-3 sm:p-4 md:p-6 lg:p-8">
+        <Tabs defaultValue="overview" className="space-y-4 sm:space-y-6">
+          <TabsList className="bg-gray-100 rounded-lg sm:rounded-xl p-1 sm:p-1.5 w-full flex overflow-x-auto">
             <TabsTrigger
               value="overview"
-              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              <BarChart3 className="w-4 h-4 mr-2" strokeWidth={2}/>
-              Обзор
+              <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2}/>
+              <span className="hidden sm:inline">Обзор</span>
             </TabsTrigger>
             <TabsTrigger
               value="cases"
-              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              <Briefcase className="w-4 h-4 mr-2" strokeWidth={2}/>
-              Дела
+              <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2}/>
+              <span className="hidden sm:inline">Дела</span>
             </TabsTrigger>
             <TabsTrigger
               value="finance"
-              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              <DollarSign className="w-4 h-4 mr-2" strokeWidth={2}/>
-              Финансы
+              <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2}/>
+              <span className="hidden sm:inline">Финансы</span>
             </TabsTrigger>
             <TabsTrigger
               value="team"
-              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              <Users className="w-4 h-4 mr-2" strokeWidth={2}/>
-              Команда
+              <Users className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2}/>
+              <span className="hidden sm:inline">Команда</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-3 gap-6">
+          <TabsContent value="overview" className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <CasesChart/>
               <CaseTypesChart/>
             </div>
             <RevenueChart/>
           </TabsContent>
 
-          <TabsContent value="cases" className="space-y-6">
+          <TabsContent value="cases" className="space-y-4 sm:space-y-6">
             <CasesTabContent/>
           </TabsContent>
 
-          <TabsContent value="finance" className="space-y-6">
+          <TabsContent value="finance" className="space-y-4 sm:space-y-6">
             <FinanceTabContent/>
           </TabsContent>
 
-          <TabsContent value="team" className="space-y-6">
+          <TabsContent value="team" className="space-y-4 sm:space-y-6">
             <TeamStats/>
           </TabsContent>
         </Tabs>
