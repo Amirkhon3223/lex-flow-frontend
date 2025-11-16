@@ -74,33 +74,79 @@ export function DocumentVersionsView() {
     <div>
       {}
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
-        <div className="px-8 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <Button
-              variant="ghost"
-              className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2"
-              onClick={onBack}
-            >
-              <ArrowLeft className="w-5 h-5 mr-2" strokeWidth={2} />
-              Назад к документам
-            </Button>
+        <div className="px-4 sm:px-6 lg:px-8 py-4">
+          {/* Mobile header row */}
+          <div className="md:hidden">
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <Button
+                variant="ghost"
+                className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2"
+                onClick={onBack}
+              >
+                <ArrowLeft className="w-4 h-4 mr-1.5" strokeWidth={2} />
+                <span className="text-sm">Назад</span>
+              </Button>
 
-            <div className="flex items-center gap-2">
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl">
+              <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white px-3 py-1.5">
+                <div className="text-center">
+                  <div className="text-base font-medium">v{documentInfo.currentVersion}</div>
+                  <div className="text-xs opacity-90">Текущая</div>
+                </div>
+              </Card>
+            </div>
+
+            <div className="mb-3">
+              <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl w-full text-sm">
                 <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
                 Загрузить новую версию
               </Button>
             </div>
           </div>
 
-          <div className="flex items-start justify-between">
+          {/* Desktop header row */}
+          <div className="hidden md:flex items-center justify-between gap-3 mb-4">
+            <Button
+              variant="ghost"
+              className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2"
+              onClick={onBack}
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" strokeWidth={2} />
+              <span className="text-base">Назад к документам</span>
+            </Button>
+
+            <div className="flex items-center gap-2">
+              <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base">
+                <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
+                Загрузить новую версию
+              </Button>
+            </div>
+          </div>
+
+          {/* Mobile document info */}
+          <div className="md:hidden">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <FileText className="w-5 h-5 text-blue-600" strokeWidth={2} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h1 className="text-base tracking-tight mb-1">{documentInfo.name}</h1>
+                <div className="text-xs text-gray-500 space-y-0.5">
+                  <div className="truncate">{documentInfo.case}</div>
+                  <div>{documentInfo.client}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop layout */}
+          <div className="hidden md:flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center">
                   <FileText className="w-7 h-7 text-blue-600" strokeWidth={2} />
                 </div>
                 <div>
-                  <h1 className="text-3xl tracking-tight mb-1">{documentInfo.name}</h1>
+                  <h1 className="text-2xl lg:text-3xl tracking-tight mb-1">{documentInfo.name}</h1>
                   <div className="flex items-center gap-4 text-sm text-gray-500">
                     <span>{documentInfo.case}</span>
                     <span>•</span>
@@ -121,20 +167,20 @@ export function DocumentVersionsView() {
       </header>
 
       {}
-      <main className="p-8">
+      <main className="p-4 sm:p-6 lg:p-8">
         <div className="max-w-5xl mx-auto">
           {}
-          <Card className="bg-blue-50 border-blue-100 mb-6">
-            <div className="p-5">
+          <Card className="bg-blue-50 border-blue-100 mb-4 sm:mb-6">
+            <div className="p-4 sm:p-5">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-blue-600" strokeWidth={2} />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" strokeWidth={2} />
                 </div>
                 <div>
-                  <h3 className="tracking-tight text-blue-900 mb-1">История версий документа</h3>
-                  <p className="text-sm text-blue-700">
+                  <h3 className="text-sm sm:text-base tracking-tight text-blue-900 mb-1">История версий документа</h3>
+                  <p className="text-xs sm:text-sm text-blue-700">
                     Всего создано {documentInfo.totalVersions} {documentInfo.totalVersions === 1 ? 'версия' : documentInfo.totalVersions < 5 ? 'версии' : 'версий'}.
-                    Вы можете просмотреть, скачать или сравнить любые версии.
+                    <span className="hidden sm:inline"> Вы можете просмотреть, скачать или сравнить любые версии.</span>
                   </p>
                 </div>
               </div>
@@ -142,7 +188,7 @@ export function DocumentVersionsView() {
           </Card>
 
           {}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {versions.map((version, index) => (
               <Card
                 key={version.version}
@@ -150,8 +196,131 @@ export function DocumentVersionsView() {
                   version.isCurrent ? 'ring-2 ring-blue-500' : ''
                 }`}
               >
-                <div className="p-6">
-                  <div className="flex items-start gap-6">
+                <div className="p-4 sm:p-6">
+                  {/* Mobile layout */}
+                  <div className="md:hidden">
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="flex flex-col items-center">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-medium ${
+                          version.isCurrent
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-100 text-gray-600'
+                        }`}>
+                          v{version.version}
+                        </div>
+                        {index < versions.length - 1 && (
+                          <div className="w-px h-12 bg-gray-200 mt-3"></div>
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-base tracking-tight mb-1">Версия {version.version}</h3>
+                            <div className="flex flex-wrap gap-1 mb-2">
+                              {version.isCurrent && (
+                                <Badge className="bg-blue-100 text-blue-700 border-0 text-xs">
+                                  Текущая
+                                </Badge>
+                              )}
+                              {version.approved && (
+                                <Badge className="bg-green-100 text-green-700 border-0 flex items-center gap-1 text-xs">
+                                  <CheckCircle2 className="w-2.5 h-2.5" strokeWidth={2} />
+                                  Утверждена
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="rounded-xl hover:bg-gray-100 h-8 w-8"
+                              >
+                                <MoreHorizontal className="w-4 h-4" strokeWidth={2} />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-56">
+                              <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
+                                <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
+                                Просмотреть
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Download className="w-4 h-4 mr-2" strokeWidth={2} />
+                                Скачать
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
+                                <GitCompare className="w-4 h-4 mr-2" strokeWidth={2} />
+                                Сравнить с текущей
+                              </DropdownMenuItem>
+                              {!version.isCurrent && (
+                                <>
+                                  <DropdownMenuItem>
+                                    <CheckCircle2 className="w-4 h-4 mr-2" strokeWidth={2} />
+                                    Восстановить эту версию
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem className="text-red-600">
+                                    <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
+                                    Удалить версию
+                                  </DropdownMenuItem>
+                                </>
+                              )}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+
+                        <div className="space-y-1 text-xs text-gray-500 mb-2">
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="w-3 h-3" strokeWidth={2} />
+                            {version.date}
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <User className="w-3 h-3" strokeWidth={2} />
+                            {version.author}
+                          </div>
+                          <div>{version.size}</div>
+                        </div>
+
+                        <p className="text-xs text-gray-700 mb-3">{version.changes}</p>
+
+                        <div className="flex flex-wrap gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="rounded-lg border-gray-200 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 text-xs h-7"
+                            onClick={() => navigate('/documents/1/compare')}
+                          >
+                            <Eye className="w-3 h-3 mr-1" strokeWidth={2} />
+                            Просмотр
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="rounded-lg border-gray-200 hover:bg-green-50 hover:border-green-200 hover:text-green-600 text-xs h-7"
+                          >
+                            <Download className="w-3 h-3 mr-1" strokeWidth={2} />
+                            Скачать
+                          </Button>
+                          {!version.isCurrent && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="rounded-lg border-gray-200 hover:bg-purple-50 hover:border-purple-200 hover:text-purple-600 text-xs h-7"
+                              onClick={onCompare}
+                            >
+                              <GitCompare className="w-3 h-3 mr-1" strokeWidth={2} />
+                              Сравнить
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Desktop layout */}
+                  <div className="hidden md:flex items-start gap-6">
                     {}
                     <div className="flex flex-col items-center">
                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg ${

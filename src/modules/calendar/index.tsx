@@ -476,7 +476,7 @@ export function CalendarPage() {
             {}
             <div className="col-span-2 space-y-4">
               <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-                <div className="p-6">
+                <div className="p-2">
                   <h3 className="text-lg tracking-tight mb-4">
                     {date ? date.toLocaleDateString('ru-RU', {
                       day: 'numeric',
@@ -557,7 +557,7 @@ export function CalendarPage() {
 
               {}
               <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-                <div className="p-6">
+                <div className="p-2">
                   <h3 className="text-lg tracking-tight mb-4">Предстоящие встречи</h3>
 
                   <div className="space-y-3">

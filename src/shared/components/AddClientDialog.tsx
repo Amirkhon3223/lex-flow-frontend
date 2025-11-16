@@ -14,7 +14,7 @@ import {
   Briefcase,
 } from 'lucide-react';
 import { ClientTypeEnum } from '@/app/types/clients/clients.enums';
-import { CreateClientInterface } from '@/app/types/clients/clients.interfaces';
+import type { CreateClientInterface } from "@/app/types/clients/clients.interfaces.ts";
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
