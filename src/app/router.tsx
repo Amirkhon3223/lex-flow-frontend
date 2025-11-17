@@ -13,7 +13,6 @@ import DocumentComparePage from '@/pages/DocumentComparePage';
 import DocumentsPage from '@/pages/DocumentsPage';
 import DocumentVersionsPage from '@/pages/DocumentVersionsPage';
 import NotificationsPage from '@/pages/NotificationsPage';
-import ReportsPage from '@/pages/ReportsPage';
 import SettingsPage from '@/pages/SettingsPage';
 import UserProfilePage from '@/pages/UserProfilePage';
 import { Layout } from '@/shared/components/Layout';
@@ -117,14 +116,6 @@ export const router = createBrowserRouter([
     element: (
       <Layout>
         <AiAssistantPage />
-      </Layout>
-    ),
-  },
-  {
-    path: ROUTES.REPORTS,
-    element: (
-      <Layout>
-        <ReportsPage />
       </Layout>
     ),
   },
