@@ -1,27 +1,29 @@
-import { Calendar as CalendarIcon } from 'lucide-react';
-import { Card, CardContent } from '@/shared/ui/card';
-
-interface TodayCardProps {
-    meetingsCount: number;
-}
+import type { TodayCardProps } from '@/app/types/calendar/calendar.interfaces';
+import { Card } from '@/shared/ui/card';
 
 export function TodayCard({ meetingsCount }: TodayCardProps) {
     return (
-        <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
-            <CardContent className="flex items-center justify-between p-6">
-                <div className="flex items-center gap-4">
-                    <div className="rounded-lg bg-white/20 p-3">
-                        <CalendarIcon className="h-6 w-6" />
-                    </div>
+        <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white mb-4 sm:mb-6">
+            <div className="p-4 sm:p-6">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
                     <div>
-                        <h3 className="text-xl font-bold">Сегодня</h3>
-                        <p className="text-sm text-blue-100">
-                            У вас {meetingsCount} {meetingsCount === 1 ? 'встреча' : 'встречи'}
+                        <h3 className="text-lg sm:text-xl tracking-tight mb-1">Сегодня</h3>
+                        <p className="text-xs sm:text-sm opacity-90">
+                            {new Date().toLocaleDateString('ru-RU', {
+                                weekday: 'long',
+                                day: 'numeric',
+                                month: 'long',
+                            })}
                         </p>
                     </div>
+                    <div className="text-right">
+                        <div className="text-2xl sm:text-3xl tracking-tight">{meetingsCount}</div>
+                        <div className="text-xs sm:text-sm opacity-90">
+                            {meetingsCount === 1 ? 'встреча' : 'встречи'}
+                        </div>
+                    </div>
                 </div>
-                <div className="text-4xl font-bold">{meetingsCount}</div>
-            </CardContent>
+            </div>
         </Card>
     );
 }

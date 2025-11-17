@@ -1,8 +1,8 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import type { CaseTypeDataInterface } from '@/app/types/analytics/analytics.interfaces';
+import type { CaseTypeData } from "@/app/types/cases/cases.interfaces.ts";
 import { Card } from '@/shared/ui/card';
 
-const caseTypeData: CaseTypeDataInterface[] = [
+const caseTypeData: CaseTypeData[] = [
   { name: 'Трудовые споры', value: 35, color: '#3B82F6' },
   { name: 'Договорное право', value: 25, color: '#8B5CF6' },
   { name: 'Наследственные дела', value: 20, color: '#F59E0B' },
@@ -25,7 +25,6 @@ export function CaseTypesChart() {
               outerRadius={70}
               paddingAngle={5}
               dataKey="value"
-              className="sm:[&>path]:!innerRadius-[50px] sm:[&>path]:!outerRadius-[85px] md:[&>path]:!innerRadius-[60px] md:[&>path]:!outerRadius-[100px]"
             >
               {caseTypeData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />

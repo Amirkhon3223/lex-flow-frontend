@@ -16,22 +16,28 @@ export function TeamMemberItem({ member, onSettings }: TeamMemberItemProps) {
   };
 
   return (
-    <div className="flex items-center justify-between p-4 rounded-xl bg-gray-50">
-      <div className="flex items-center gap-4">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white">
-          {member.name.split(' ').map(n => n[0]).join('')}
+    <div className="flex items-center justify-between gap-2 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-gray-50">
+      <div className="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0">
+        <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xs sm:text-sm flex-shrink-0">
+          {member.name
+            .split(' ')
+            .map(n => n[0])
+            .join('')}
         </div>
-        <div>
-          <h4 className="tracking-tight mb-1">{member.name}</h4>
-          <p className="text-sm text-gray-500">{member.email}</p>
+        <div className="min-w-0">
+          <h4 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base truncate">{member.name}</h4>
+          <p className="text-xs sm:text-sm text-gray-500 truncate">{member.email}</p>
         </div>
       </div>
-      <div className="flex items-center gap-3">
-        <Badge className={`border-0 ${getRoleBadgeColor(member.role)}`}>
-          {member.status}
-        </Badge>
-        <Button variant="ghost" size="icon" className="rounded-xl" onClick={onSettings}>
-          <Settings className="w-4 h-4" strokeWidth={2} />
+      <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 flex-shrink-0">
+        <Badge className={`border-0 text-xs ${getRoleBadgeColor(member.role)}`}>{member.status}</Badge>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-lg sm:rounded-xl h-7 w-7 sm:h-8 sm:w-8"
+          onClick={onSettings}
+        >
+          <Settings className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
         </Button>
       </div>
     </div>

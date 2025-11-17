@@ -117,3 +117,10 @@ export interface CaseFiltersProps {
   filterCategory: string;
   setFilterCategory: (category: string) => void;
 }
+
+export interface CaseTypeData {
+  name: string;
+  value: number;
+  color: string;
+  [key: string]: string | number;
+}

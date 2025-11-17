@@ -5,25 +5,19 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MeetingStatusEnum } from '@/app/types/calendar/calendar.enums';
-import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
+import type { MeetingsListProps } from '@/app/types/calendar/calendar.interfaces';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
 
-interface MeetingsListProps {
-  meetings: MeetingInterface[];
-  getMeetingTypeIcon: (type: MeetingInterface['type']) => JSX.Element;
-  getMeetingTypeColor: (type: MeetingInterface['type']) => string;
-  getPriorityColor: (priority?: MeetingInterface['priority']) => string;
-}
 
 export function MeetingsList({
-  meetings,
-  getMeetingTypeIcon,
-  getMeetingTypeColor,
-  getPriorityColor,
-}: MeetingsListProps) {
+                               meetings,
+                               getMeetingTypeIcon,
+                               getMeetingTypeColor,
+                               getPriorityColor,
+                             }: MeetingsListProps) {
   const navigate = useNavigate();
 
   return (
@@ -51,7 +45,7 @@ export function MeetingsList({
                         {meeting.date.toLocaleDateString('ru-RU', { month: 'short' })}
                       </div>
                     </div>
-                    <Separator orientation="vertical" className="h-10 bg-gray-200" />
+                    <Separator orientation="vertical" className="h-10 bg-gray-200"/>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <Avatar className="w-7 h-7 ring-2 ring-gray-200 flex-shrink-0">
@@ -76,20 +70,20 @@ export function MeetingsList({
                       {getMeetingTypeIcon(meeting.type)}
                     </Badge>
                     <Badge className={`${meeting.status === MeetingStatusEnum.COMPLETED
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-blue-100 text-blue-700'
-                      } border-0 text-xs`}>
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-blue-100 text-blue-700'
+                    } border-0 text-xs`}>
                       {meeting.status === MeetingStatusEnum.COMPLETED ? 'Завершено' : 'Запланировано'}
                     </Badge>
                   </div>
                   <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
                     <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" strokeWidth={2} />
+                      <Clock className="w-3 h-3" strokeWidth={2}/>
                       {meeting.time} • {meeting.duration}
                     </span>
                     {meeting.location && (
                       <span className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" strokeWidth={2} />
+                        <MapPin className="w-3 h-3" strokeWidth={2}/>
                         <span className="truncate max-w-[100px]">{meeting.location}</span>
                       </span>
                     )}
@@ -110,7 +104,7 @@ export function MeetingsList({
                     </div>
                   </div>
 
-                  <Separator orientation="vertical" className="h-20 bg-gray-200" />
+                  <Separator orientation="vertical" className="h-20 bg-gray-200"/>
 
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-2">
@@ -136,9 +130,9 @@ export function MeetingsList({
                           {getMeetingTypeIcon(meeting.type)}
                         </Badge>
                         <Badge className={`${meeting.status === MeetingStatusEnum.COMPLETED
-                            ? 'bg-green-100 text-green-700'
-                            : 'bg-blue-100 text-blue-700'
-                          } border-0`}>
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-blue-100 text-blue-700'
+                        } border-0`}>
                           {meeting.status === MeetingStatusEnum.COMPLETED ? 'Завершено' : 'Запланировано'}
                         </Badge>
                       </div>
@@ -146,18 +140,18 @@ export function MeetingsList({
 
                     <div className="flex items-center gap-6 text-sm text-gray-500">
                       <span className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" strokeWidth={2} />
+                        <Clock className="w-4 h-4" strokeWidth={2}/>
                         {meeting.duration}
                       </span>
                       {meeting.location && (
                         <span className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4" strokeWidth={2} />
+                          <MapPin className="w-4 h-4" strokeWidth={2}/>
                           {meeting.location}
                         </span>
                       )}
                       {meeting.case && (
                         <span className="flex items-center gap-2">
-                          <Briefcase className="w-4 h-4" strokeWidth={2} />
+                          <Briefcase className="w-4 h-4" strokeWidth={2}/>
                           {meeting.case}
                         </span>
                       )}

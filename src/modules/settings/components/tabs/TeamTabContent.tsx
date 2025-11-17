@@ -35,33 +35,33 @@ export function TeamTabContent() {
 
   return (
     <>
-      <InviteTeamMemberDialog open={isInviteDialogOpen} onOpenChange={setIsInviteDialogOpen} onSubmit={handleInviteSubmit} />
+      <InviteTeamMemberDialog
+        open={isInviteDialogOpen}
+        onOpenChange={setIsInviteDialogOpen}
+        onSubmit={handleInviteSubmit}
+      />
 
-      <div className="space-y-6">
-        <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl tracking-tight">Члены команды</h3>
-            <Button
-              onClick={handleInvite}
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl"
-            >
-              <Users className="w-4 h-4 mr-2" strokeWidth={2} />
-              Пригласить
-            </Button>
-          </div>
+      <div className="space-y-4 sm:space-y-6">
+        <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
+          <div className="p-3 sm:p-4 md:p-6">
+            <div className="flex items-center justify-between gap-2 mb-3 sm:mb-4 md:mb-6">
+              <h3 className="text-base sm:text-lg md:text-xl tracking-tight">Члены команды</h3>
+              <Button
+                onClick={handleInvite}
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-2 sm:px-3 md:px-4"
+              >
+                <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
+                <span className="hidden sm:inline">Пригласить</span>
+              </Button>
+            </div>
 
-          <div className="space-y-3">
-            {TEAM_MEMBERS.map((member, index) => (
-              <TeamMemberItem
-                key={index}
-                member={member}
-                onSettings={() => handleMemberSettings(member.name)}
-              />
-            ))}
+            <div className="space-y-2 sm:space-y-3">
+              {TEAM_MEMBERS.map((member, index) => (
+                <TeamMemberItem key={index} member={member} onSettings={() => handleMemberSettings(member.name)} />
+              ))}
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
       </div>
     </>
   );
