@@ -12,17 +12,15 @@ interface FeatureCardProps {
 
 export function FeatureCard({ icon: Icon, title, description, gradient, count }: FeatureCardProps) {
   return (
-    <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-all cursor-pointer group">
-      <div className="p-3 sm:p-4 md:p-5">
-        <div
-          className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl md:rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-2 sm:mb-3 md:mb-4 group-hover:scale-110 transition-transform`}
-        >
-          <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2} />
-        </div>
-        <h3 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">{title}</h3>
-        <p className="text-xs text-gray-500 mb-2 sm:mb-3 line-clamp-2">{description}</p>
-        <Badge className="bg-gray-100 text-gray-700 border-0 text-xs">{count}</Badge>
+    <Card className="hover:shadow-md transition-all cursor-pointer group">
+      <div
+        className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl md:rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-2 sm:mb-3 md:mb-4 group-hover:scale-110 transition-transform`}
+      >
+        <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2} />
       </div>
+      <h3 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">{title}</h3>
+      <p className="text-xs text-gray-500 mb-2 sm:mb-3 line-clamp-2">{description}</p>
+      <Badge className="bg-gray-100 text-gray-700 border-0 text-xs">{count}</Badge>
     </Card>
   );
 }

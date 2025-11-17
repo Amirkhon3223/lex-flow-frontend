@@ -31,8 +31,8 @@ export function FinanceTabContent() {
       {/* Payment Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {paymentStats.map((stat) => (
-          <Card key={stat.title} className="bg-white border-0 shadow-sm rounded-lg sm:rounded-xl px-2 sm:px-4 py-1.5 sm:py-3">
-            <div className="">
+          <Card key={stat.title}>
+            <div>
               <div className="flex items-center justify-between mb-2 sm:mb-3 md:mb-4">
                 <div className={`w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl ${stat.bgColor} flex items-center justify-center`}>
                   <stat.icon className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${stat.iconColor}`} strokeWidth={2} />
@@ -51,7 +51,7 @@ export function FinanceTabContent() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* Revenue by Source */}
-        <Card className="bg-white border-0 shadow-sm rounded-lg sm:rounded-xl px-2 sm:px-4 py-1.5 sm:py-3">
+        <Card>
           <div>
             <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-2 md:mb-4">Доходы по источникам</h3>
             <div className="space-y-3 sm:space-y-4">
@@ -85,7 +85,7 @@ export function FinanceTabContent() {
         </Card>
 
         {/* Top Clients by Revenue */}
-        <Card className="bg-white border-0 shadow-sm rounded-lg sm:rounded-xl px-2 sm:px-4 py-1.5 sm:py-3">
+        <Card>
           <div>
             <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-2 md:mb-4">ТОП клиенты по доходу</h3>
             <div className="space-y-2 sm:space-y-3">

@@ -12,9 +12,8 @@ const caseTypeData: CaseTypeData[] = [
 
 export function CaseTypesChart() {
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-lg sm:rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-      <div className="p-3 sm:p-4 md:p-6">
-        <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Типы дел</h3>
+    <Card>
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Типы дел</h3>
         <ResponsiveContainer width="100%" height={200} className="sm:!h-[250px] md:!h-[300px]">
           <PieChart>
             <Pie
@@ -51,7 +50,6 @@ export function CaseTypesChart() {
             </div>
           ))}
         </div>
-      </div>
     </Card>
   );
 }

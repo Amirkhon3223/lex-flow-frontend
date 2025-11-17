@@ -8,9 +8,8 @@ export function AIInsightsWidget() {
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-      <div className="p-4 sm:p-6">
-        <div className="flex items-center gap-2 mb-3 sm:mb-4">
+    <Card>
+      <div className="flex items-center gap-2 mb-3 sm:mb-4">
           <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
             <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.5} />
           </div>
@@ -48,7 +47,6 @@ export function AIInsightsWidget() {
           <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" strokeWidth={2.5} />
           Спросить AI
         </Button>
-      </div>
     </Card>
   );
 }

@@ -35,7 +35,7 @@ export function ProfileTabs({
   handleProfileChange: (field: string, value: string) => void;
 }) {
   return (
-    <Card className="bg-white border-0 shadow-sm">
+    <Card >
       <Tabs defaultValue="profile" className="w-full">
         <div className="border-b border-gray-100 px-6 py-4">
           <TabsList className="bg-gray-100 rounded-xls">

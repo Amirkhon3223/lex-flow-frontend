@@ -4,11 +4,10 @@ import { Separator } from '@/shared/ui/separator';
 
 export function UpcomingMeetings({ meetings, onSelectDate }: UpcomingMeetingsProps) {
   return (
-    <Card className="bg-white border-0 shadow-sm">
-      <div className="p-4 sm:p-5">
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Предстоящие встречи</h3>
+    <Card>
+      <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Предстоящие встречи</h3>
 
-        <div className="space-y-2 sm:space-y-3">
+      <div className="space-y-2 sm:space-y-3">
           {meetings.slice(0, 3).map((meeting) => (
             <div
               key={meeting.id}
@@ -31,7 +30,6 @@ export function UpcomingMeetings({ meetings, onSelectDate }: UpcomingMeetingsPro
             </div>
           ))}
         </div>
-      </div>
     </Card>
   );
 }

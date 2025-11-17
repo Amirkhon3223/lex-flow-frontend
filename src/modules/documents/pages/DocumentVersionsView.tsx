@@ -171,18 +171,16 @@ export function DocumentVersionsView() {
         <div className="max-w-5xl mx-auto">
           {}
           <Card className="bg-blue-50 border-blue-100 mb-4 sm:mb-6">
-            <div className="p-4 sm:p-5">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" strokeWidth={2} />
-                </div>
-                <div>
-                  <h3 className="text-sm sm:text-base tracking-tight text-blue-900 mb-1">История версий документа</h3>
-                  <p className="text-xs sm:text-sm text-blue-700">
-                    Всего создано {documentInfo.totalVersions} {documentInfo.totalVersions === 1 ? 'версия' : documentInfo.totalVersions < 5 ? 'версии' : 'версий'}.
-                    <span className="hidden sm:inline"> Вы можете просмотреть, скачать или сравнить любые версии.</span>
-                  </p>
-                </div>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" strokeWidth={2} />
+              </div>
+              <div>
+                <h3 className="text-sm sm:text-base tracking-tight text-blue-900 mb-1">История версий документа</h3>
+                <p className="text-xs sm:text-sm text-blue-700">
+                  Всего создано {documentInfo.totalVersions} {documentInfo.totalVersions === 1 ? 'версия' : documentInfo.totalVersions < 5 ? 'версии' : 'версий'}.
+                  <span className="hidden sm:inline"> Вы можете просмотреть, скачать или сравнить любые версии.</span>
+                </p>
               </div>
             </div>
           </Card>
@@ -192,12 +190,11 @@ export function DocumentVersionsView() {
             {versions.map((version, index) => (
               <Card
                 key={version.version}
-                className={`bg-white border-0 shadow-sm hover:shadow-md transition-all ${
+                className={`hover:shadow-md transition-all ${
                   version.isCurrent ? 'ring-2 ring-blue-500' : ''
                 }`}
               >
-                <div className="p-4 sm:p-6">
-                  {/* Mobile layout */}
+                {/* Mobile layout */}
                   <div className="md:hidden">
                     <div className="flex items-start gap-3 mb-3">
                       <div className="flex flex-col items-center">
@@ -445,7 +442,6 @@ export function DocumentVersionsView() {
                       </div>
                     </div>
                   </div>
-                </div>
               </Card>
             ))}
           </div>

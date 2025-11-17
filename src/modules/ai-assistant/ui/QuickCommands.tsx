@@ -8,9 +8,8 @@ interface QuickCommandsProps {
 
 export function QuickCommands({ commands, onCommandClick }: QuickCommandsProps) {
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-      <div className="p-3 sm:p-4 md:p-6">
-        <h3 className="tracking-tight mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">Быстрые команды</h3>
+    <Card>
+      <h3 className="tracking-tight mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">Быстрые команды</h3>
         <div className="space-y-1.5 sm:space-y-2">
           {commands.map((action, index) => (
             <button
@@ -28,7 +27,6 @@ export function QuickCommands({ commands, onCommandClick }: QuickCommandsProps) 
             </button>
           ))}
         </div>
-      </div>
     </Card>
   );
 }

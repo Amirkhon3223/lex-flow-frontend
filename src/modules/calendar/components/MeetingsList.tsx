@@ -21,11 +21,10 @@ export function MeetingsList({
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-white border-0 shadow-sm">
-      <div className="p-4 sm:p-6">
-        <h3 className="text-lg sm:text-xl tracking-tight mb-4 sm:mb-6">Все встречи</h3>
+    <Card>
+      <h3 className="text-lg sm:text-xl tracking-tight mb-4 sm:mb-6">Все встречи</h3>
 
-        <div className="space-y-3">
+      <div className="space-y-3">
           {meetings
             .sort((a, b) => a.date.getTime() - b.date.getTime())
             .map((meeting) => (
@@ -161,7 +160,6 @@ export function MeetingsList({
               </div>
             ))}
         </div>
-      </div>
     </Card>
   );
 }

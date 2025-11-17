@@ -17,18 +17,17 @@ export function SelectedDateMeetings({
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-white border-0 shadow-sm">
-      <div className="p-4 sm:p-5">
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">
-          {date
-            ? date.toLocaleDateString('ru-RU', {
-                day: 'numeric',
-                month: 'long',
-              })
-            : 'Выберите дату'}
-        </h3>
+    <Card>
+      <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">
+        {date
+          ? date.toLocaleDateString('ru-RU', {
+              day: 'numeric',
+              month: 'long',
+            })
+          : 'Выберите дату'}
+      </h3>
 
-        {meetings.length ? (
+      {meetings.length ? (
           <div className="space-y-3">
             {meetings.map((meeting) => (
               <div
@@ -101,7 +100,6 @@ export function SelectedDateMeetings({
             <p className="text-xs sm:text-sm text-gray-500">Нет встреч на эту дату</p>
           </div>
         )}
-      </div>
     </Card>
   );
 }

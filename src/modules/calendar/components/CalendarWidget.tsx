@@ -14,9 +14,8 @@ export function CalendarWidget({
   meetings,
 }: CalendarWidgetProps) {
   return (
-    <Card className="lg:col-span-3 bg-white border-0 shadow-sm">
-      <div className="p-4 sm:p-6">
-        <div className="flex items-center justify-between mb-4">
+    <Card className="lg:col-span-3">
+      <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg sm:text-xl tracking-tight">Календарь</h3>
           <div className="flex items-center gap-2">
             <Button
@@ -93,7 +92,6 @@ export function CalendarWidget({
             <div className="text-xs text-gray-600">Всего</div>
           </div>
         </div>
-      </div>
     </Card>
   );
 }

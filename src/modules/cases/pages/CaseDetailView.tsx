@@ -197,16 +197,17 @@ export function CaseDetailView() {
 
   return (
     <div>
-      <UploadDocumentDialog open={isUploadDocumentDialogOpen} onOpenChange={setIsUploadDocumentDialogOpen} />
-      <AddTaskDialog open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen} />
-      <CommentsDialog open={isCommentsDialogOpen} onOpenChange={setIsCommentsDialogOpen} />
+      <UploadDocumentDialog open={isUploadDocumentDialogOpen} onOpenChange={setIsUploadDocumentDialogOpen}/>
+      <AddTaskDialog open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen}/>
+      <CommentsDialog open={isCommentsDialogOpen} onOpenChange={setIsCommentsDialogOpen}/>
 
       {/* Header */}
       <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
         <div className="px-4 py-4">
           <div className="flex items-center justify-between mb-4">
-            <Button variant="ghost" className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2 text-sm sm:text-base" onClick={onBack}>
-              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" strokeWidth={2} />
+            <Button variant="ghost" className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2 text-sm sm:text-base"
+                    onClick={onBack}>
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" strokeWidth={2}/>
               <span className="hidden sm:inline">Все дела</span>
               <span className="sm:hidden">Назад</span>
             </Button>
@@ -215,16 +216,16 @@ export function CaseDetailView() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
-                    <Share2 className="w-5 h-5" strokeWidth={2} />
+                    <Share2 className="w-5 h-5" strokeWidth={2}/>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem onClick={handleCopyLink}>
-                    <Link className="w-4 h-4 mr-2" strokeWidth={2} />
+                    <Link className="w-4 h-4 mr-2" strokeWidth={2}/>
                     Скопировать ссылку
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleShareEmail}>
-                    <Mail className="w-4 h-4 mr-2" strokeWidth={2} />
+                    <Mail className="w-4 h-4 mr-2" strokeWidth={2}/>
                     Поделиться в почте
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -233,12 +234,12 @@ export function CaseDetailView() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
-                    <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
+                    <MoreHorizontal className="w-5 h-5" strokeWidth={2}/>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem onClick={() => setIsEditCaseDialogOpen(true)}>
-                    <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
+                    <Edit className="w-4 h-4 mr-2" strokeWidth={2}/>
                     Редактировать дело
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -249,23 +250,25 @@ export function CaseDetailView() {
           <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
             <div className="flex-1 min-w-0">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
-                <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight">Трудовой спор - незаконное увольнение</h1>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight">Трудовой спор - незаконное
+                  увольнение</h1>
                 <Badge className="bg-amber-100 text-amber-700 border-0 w-fit">
                   В работе
                 </Badge>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-[15px] text-gray-500">
+              <div
+                className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-[15px] text-gray-500">
                 <span className="flex items-center gap-2">
-                  <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
+                  <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2}/>
                   <span className="truncate">Иванов Петр Алексеевич</span>
                 </span>
                 <span className="flex items-center gap-2">
-                  <Tag className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
+                  <Tag className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2}/>
                   Трудовое право
                 </span>
                 <span className="flex items-center gap-2">
-                  <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
+                  <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2}/>
                   <span className="hidden sm:inline">Дедлайн:</span> 20 октября 2025
                 </span>
               </div>
@@ -275,7 +278,7 @@ export function CaseDetailView() {
               className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full lg:w-auto text-sm sm:text-base"
               onClick={() => setIsUploadDocumentDialogOpen(true)}
             >
-              <Paperclip className="w-4 h-4 mr-2" strokeWidth={2} />
+              <Paperclip className="w-4 h-4 mr-2" strokeWidth={2}/>
               Добавить документ
             </Button>
           </div>
@@ -288,34 +291,38 @@ export function CaseDetailView() {
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Progress Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-              <div className="p-4 sm:p-6">
+            <Card>
+              <div>
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <h3 className="text-base sm:text-lg tracking-tight">Прогресс дела</h3>
                   <span className="text-xl sm:text-2xl tracking-tight">75%</span>
                 </div>
-                <Progress value={75} className="h-1.5 sm:h-2 mb-3 sm:mb-4" />
+                <Progress value={75} className="h-1.5 sm:h-2 mb-3 sm:mb-4"/>
                 <div className="grid grid-cols-4   sm:grid-cols-4 gap-3 sm:gap-4 text-center">
                   <div className="flex flex-col items-center">
-                    <Badge className="bg-blue-100 text-blue-700 border-0 text-base sm:text-lg px-2.5 sm:px-3 py-1 mb-1.5 sm:mb-2">
+                    <Badge
+                      className="bg-blue-100 text-blue-700 border-0 text-base sm:text-lg px-2.5 sm:px-3 py-1 mb-1.5 sm:mb-2">
                       8
                     </Badge>
                     <div className="text-xs sm:text-sm text-gray-500">Документов</div>
                   </div>
                   <div className="flex flex-col items-center">
-                    <Badge className="bg-purple-100 text-purple-700 border-0 text-base sm:text-lg px-2.5 sm:px-3 py-1 mb-1.5 sm:mb-2">
+                    <Badge
+                      className="bg-purple-100 text-purple-700 border-0 text-base sm:text-lg px-2.5 sm:px-3 py-1 mb-1.5 sm:mb-2">
                       12
                     </Badge>
                     <div className="text-xs sm:text-sm text-gray-500">Событий</div>
                   </div>
                   <div className="flex flex-col items-center">
-                    <Badge className="bg-orange-100 text-orange-700 border-0 text-base sm:text-lg px-2.5 sm:px-3 py-1 mb-1.5 sm:mb-2">
+                    <Badge
+                      className="bg-orange-100 text-orange-700 border-0 text-base sm:text-lg px-2.5 sm:px-3 py-1 mb-1.5 sm:mb-2">
                       5
                     </Badge>
                     <div className="text-xs sm:text-sm text-gray-500">Дней до суда</div>
                   </div>
                   <div className="flex flex-col items-center">
-                    <Badge className="bg-green-100 text-green-700 border-0 text-base sm:text-lg px-2.5 sm:px-3 py-1 mb-1.5 sm:mb-2">
+                    <Badge
+                      className="bg-green-100 text-green-700 border-0 text-base sm:text-lg px-2.5 sm:px-3 py-1 mb-1.5 sm:mb-2">
                       3
                     </Badge>
                     <div className="text-xs sm:text-sm text-gray-500">Задачи</div>
@@ -325,11 +332,13 @@ export function CaseDetailView() {
             </Card>
 
             {/* AI Insights Card */}
-            <Card className="bg-gradient-to-br from-purple-500 to-pink-500 border-0 shadow-lg shadow-purple-500/20 text-white">
-              <div className="p-4 sm:p-6">
+            <Card
+              className="bg-gradient-to-br from-purple-500 to-pink-500 border-0 shadow-lg shadow-purple-500/20 text-white">
+              <div>
                 <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
+                  <div
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5}/>
                   </div>
                   <h3 className="text-lg sm:text-xl tracking-tight">AI Анализ дела</h3>
                 </div>
@@ -341,14 +350,18 @@ export function CaseDetailView() {
                       className="p-3 sm:p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20"
                     >
                       <div className="flex items-start gap-2 sm:gap-3">
-                        <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                          insight.priority === AIInsightPriorityEnum.HIGH
-                            ? 'bg-white/20'
-                            : 'bg-white/10'
-                        }`}>
-                          {insight.type === AIInsightTypeEnum.RISK && <AlertCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5} />}
-                          {insight.type === AIInsightTypeEnum.OPPORTUNITY && <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5} />}
-                          {insight.type === AIInsightTypeEnum.DEADLINE && <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5} />}
+                        <div
+                          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                            insight.priority === AIInsightPriorityEnum.HIGH
+                              ? 'bg-white/20'
+                              : 'bg-white/10'
+                          }`}>
+                          {insight.type === AIInsightTypeEnum.RISK &&
+                            <AlertCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5}/>}
+                          {insight.type === AIInsightTypeEnum.OPPORTUNITY &&
+                            <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5}/>}
+                          {insight.type === AIInsightTypeEnum.DEADLINE &&
+                            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5}/>}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="text-xs sm:text-sm mb-1 opacity-90">{insight.title}</div>
@@ -364,36 +377,40 @@ export function CaseDetailView() {
                   onClick={handleAIReport}
                 >
                   Полный AI отчет
-                  <ChevronRight className="w-4 h-4 ml-2" strokeWidth={2} />
+                  <ChevronRight className="w-4 h-4 ml-2" strokeWidth={2}/>
                 </Button>
               </div>
             </Card>
 
             {/* Tabs Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
+            <Card>
               <Tabs defaultValue="documents" className="w-full">
-                <div className="border-b border-gray-100 px-4 sm:px-6 pt-4 sm:pt-6">
+                <div className="border-b border-gray-100 py-4">
                   <TabsList className="bg-gray-100 rounded-xl p-1 w-full sm:w-auto">
-                    <TabsTrigger value="documents" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none">
+                    <TabsTrigger value="documents"
+                                 className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none">
                       Документы
                     </TabsTrigger>
-                    <TabsTrigger value="timeline" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none">
+                    <TabsTrigger value="timeline"
+                                 className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none">
                       История
                     </TabsTrigger>
-                    <TabsTrigger value="notes" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none">
+                    <TabsTrigger value="notes"
+                                 className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none">
                       Заметки
                     </TabsTrigger>
                   </TabsList>
                 </div>
 
-                <TabsContent value="documents" className="p-4 sm:p-6 space-y-2 sm:space-y-3">
+                <TabsContent value="documents" className="space-y-2 sm:space-y-3">
                   {documents.map((doc) => (
                     <div
                       key={doc.id}
                       className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all"
                     >
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
-                        <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" strokeWidth={2} />
+                      <div
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                        <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" strokeWidth={2}/>
                       </div>
 
                       <div className="flex-1 min-w-0 cursor-pointer" onClick={() => handleDocumentClick(doc.id)}>
@@ -403,8 +420,8 @@ export function CaseDetailView() {
                             doc.status === DocumentStatusEnum.FINAL
                               ? 'bg-green-100 text-green-700'
                               : doc.status === DocumentStatusEnum.REVIEW
-                              ? 'bg-blue-100 text-blue-700'
-                              : 'bg-gray-200 text-gray-700'
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'bg-gray-200 text-gray-700'
                           } border-0 text-xs w-fit`}>
                             {doc.status === DocumentStatusEnum.FINAL ? 'Финал' : doc.status === DocumentStatusEnum.REVIEW ? 'Проверка' : 'Черновик'}
                           </Badge>
@@ -415,7 +432,7 @@ export function CaseDetailView() {
                           <span>{doc.date}</span>
                           <span className="hidden sm:inline">•</span>
                           <span className="flex items-center gap-1">
-                            <History className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
+                            <History className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2}/>
                             {doc.versions} {doc.versions === 1 ? 'версия' : 'версии'}
                           </span>
                         </div>
@@ -428,7 +445,7 @@ export function CaseDetailView() {
                           className="rounded-xl h-8 w-8 sm:h-10 sm:w-10"
                           onClick={() => handleDocumentClick(doc.id)}
                         >
-                          <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
+                          <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2}/>
                         </Button>
                         <Button
                           variant="ghost"
@@ -436,7 +453,7 @@ export function CaseDetailView() {
                           className="rounded-xl h-8 w-8 sm:h-10 sm:w-10"
                           onClick={() => handleDownloadDocument(doc.name)}
                         >
-                          <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
+                          <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2}/>
                         </Button>
                       </div>
                     </div>
@@ -467,7 +484,7 @@ export function CaseDetailView() {
                   </div>
                 </TabsContent>
 
-                <TabsContent value="notes" className="p-4 sm:p-6">
+                <TabsContent value="notes" className="p-2">
                   <Textarea
                     placeholder="Добавьте заметки о деле..."
                     className="min-h-[150px] sm:min-h-[200px] rounded-xl border-gray-200 focus-visible:ring-blue-500 resize-none text-sm sm:text-base"
@@ -483,13 +500,14 @@ export function CaseDetailView() {
           {/* Right Column */}
           <div className="space-y-4 sm:space-y-6">
             {/* Client Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-              <div className="p-4 sm:p-6">
+            <Card>
+              <div>
                 <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Клиент</h3>
 
                 <div className="flex items-center gap-3 mb-3 sm:mb-4">
                   <Avatar className="w-12 h-12 sm:w-14 sm:h-14 ring-2 ring-gray-100 flex-shrink-0">
-                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-base sm:text-lg">
+                    <AvatarFallback
+                      className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-base sm:text-lg">
                       ИП
                     </AvatarFallback>
                   </Avatar>
@@ -499,7 +517,7 @@ export function CaseDetailView() {
                   </div>
                 </div>
 
-                <Separator className="my-3 sm:my-4 bg-gray-100" />
+                <Separator className="my-3 sm:my-4 bg-gray-100"/>
 
                 <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
                   <div className="flex justify-between">
@@ -522,14 +540,14 @@ export function CaseDetailView() {
                   onClick={handleClientProfile}
                 >
                   Профиль клиента
-                  <ChevronRight className="w-4 h-4 ml-2" strokeWidth={2} />
+                  <ChevronRight className="w-4 h-4 ml-2" strokeWidth={2}/>
                 </Button>
               </div>
             </Card>
 
             {/* Tasks Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-              <div className="p-4 sm:p-6">
+            <Card>
+              <div>
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <h3 className="text-base sm:text-lg tracking-tight">Задачи</h3>
                   <span className="text-xs sm:text-sm text-gray-500">2/4</span>
@@ -544,9 +562,9 @@ export function CaseDetailView() {
                       }`}
                     >
                       {task.completed ? (
-                        <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" strokeWidth={2} />
+                        <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" strokeWidth={2}/>
                       ) : (
-                        <Circle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 flex-shrink-0" strokeWidth={2} />
+                        <Circle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 flex-shrink-0" strokeWidth={2}/>
                       )}
                       <span className={`text-xs sm:text-sm ${
                         task.completed ? 'text-gray-400 line-through' : 'text-gray-900'
@@ -568,8 +586,8 @@ export function CaseDetailView() {
             </Card>
 
             {/* Finances Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-              <div className="p-4 sm:p-6">
+            <Card>
+              <div>
                 <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Финансы</h3>
 
                 <div className="space-y-3 sm:space-y-4">
@@ -584,10 +602,10 @@ export function CaseDetailView() {
                     </div>
                   </div>
 
-                  <Separator className="bg-gray-100" />
+                  <Separator className="bg-gray-100"/>
 
                   <div className="flex items-center gap-2 text-xs sm:text-sm">
-                    <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" strokeWidth={2} />
+                    <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" strokeWidth={2}/>
                     <span className="text-gray-500">Остаток:</span>
                     <span className="text-gray-900">75 000 ₽</span>
                   </div>
@@ -596,8 +614,8 @@ export function CaseDetailView() {
             </Card>
 
             {/* Comments Card */}
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-              <div className="p-4 sm:p-6">
+            <Card>
+              <div>
                 <div
                   className="flex items-center justify-between mb-3 sm:mb-4 cursor-pointer"
                   onClick={() => setIsCommentsDialogOpen(true)}
@@ -613,7 +631,7 @@ export function CaseDetailView() {
                   className="w-full rounded-xl border-gray-200 hover:bg-gray-50 text-sm sm:text-base"
                   onClick={() => setIsCommentsDialogOpen(true)}
                 >
-                  <MessageSquare className="w-4 h-4 mr-2" strokeWidth={2} />
+                  <MessageSquare className="w-4 h-4 mr-2" strokeWidth={2}/>
                   Добавить комментарий
                 </Button>
               </div>

@@ -24,7 +24,7 @@ export function CaseCard({ caseItem }: CaseCardProps) {
   return (
     <Link
       to={`/cases/${caseItem.id}`}
-      className="block rounded-lg border p-3 sm:p-4 transition-colors hover:bg-gray-50"
+      className="block rounded-xl border p-3 sm:p-4 transition-colors hover:bg-gray-50"
     >
       {/* Mobile layout (< 768px) */}
       <div className="md:hidden">
@@ -111,16 +111,16 @@ export function CaseCard({ caseItem }: CaseCardProps) {
           </div>
 
           {}
-          <div className="mt-3">
-            <div className="mb-2 flex items-center justify-between text-sm">
-              <span className="text-gray-600">Прогресс</span>
+          <div>
+            <div className="flex items-center gap-1.5 text-sm">
+              <span className="text-gray-600">Прогресс:</span>
               <span className="font-medium">{caseItem.progress}%</span>
             </div>
             <Progress value={caseItem.progress} />
           </div>
 
           {}
-          <div className="mt-3 flex items-center gap-6 text-sm text-gray-600">
+          <div className="flex items-center gap-5 text-sm text-gray-600">
             <div className="flex items-center gap-1">
               <FileText className="h-4 w-4" />
               {caseItem.documents} документов

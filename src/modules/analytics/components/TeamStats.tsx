@@ -12,9 +12,8 @@ const topLawyers: LawyerStatsInterface[] = [
 
 export function TeamStats() {
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-lg sm:rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-      <div className="p-3 sm:p-4 md:p-6">
-        <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Лучшие юристы</h3>
+    <Card>
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Лучшие юристы</h3>
         <div className="space-y-3 sm:space-y-4">
           {topLawyers.map((lawyer, index) => (
             <div
@@ -57,7 +56,6 @@ export function TeamStats() {
             </div>
           ))}
         </div>
-      </div>
     </Card>
   );
 }

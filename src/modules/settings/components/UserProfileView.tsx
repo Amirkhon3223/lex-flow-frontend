@@ -119,7 +119,7 @@ export function UserProfileView() {
         <div className="grid grid-cols-3 gap-6">
           {}
           <div className="space-y-6">
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
+            <Card>
               <div className="p-6 text-center">
                 <div className="relative inline-block mb-4">
                   <Avatar className="w-24 h-24 ring-4 ring-gray-100">
@@ -162,7 +162,7 @@ export function UserProfileView() {
               </div>
             </Card>
 
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
+            <Card >
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-4">Статистика</h3>
                 <div className="space-y-4">
@@ -181,7 +181,7 @@ export function UserProfileView() {
               </div>
             </Card>
 
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
+            <Card >
               <div className="p-6">
                 <h3 className="text-lg tracking-tight mb-2">Сессия</h3>
                 <p className="text-sm text-gray-500 mb-4">
@@ -216,7 +216,7 @@ export function UserProfileView() {
 
           {}
           <div className="col-span-2">
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
+            <Card >
               <Tabs defaultValue="profile" className="w-full">
                 <div className="border-b border-gray-100 px-6 pt-6">
                   <TabsList className="bg-gray-100 rounded-xl p-1">

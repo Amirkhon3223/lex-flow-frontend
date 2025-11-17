@@ -364,8 +364,8 @@ export function DocumentCompareView() {
         {/* Mobile layout - stacked */}
         <div className="lg:hidden space-y-4">
           {/* Changes summary for mobile */}
-          <Card className="bg-white border-0 shadow-sm">
-            <div className="p-4">
+          <Card>
+            <div>
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold tracking-tight text-sm flex items-center gap-2">
                   <History className="w-4 h-4 text-gray-500" strokeWidth={2} />
@@ -414,7 +414,7 @@ export function DocumentCompareView() {
           </Card>
 
           {/* Old version */}
-          <Card className="bg-white border-0 shadow-sm">
+          <Card >
             <div className="p-3 bg-gray-50 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <div>
@@ -439,7 +439,7 @@ export function DocumentCompareView() {
           </Card>
 
           {/* New version */}
-          <Card className="bg-white border-0 shadow-sm">
+          <Card >
             <div className="p-3 bg-green-50 border-b border-green-200">
               <div className="flex items-center justify-between">
                 <div>
@@ -465,8 +465,8 @@ export function DocumentCompareView() {
           </Card>
 
           {/* Legend for mobile */}
-          <Card className="bg-gray-50 border-0">
-            <div className="p-3">
+          <Card className="bg-gray-50">
+            <div>
               <div className="flex items-center gap-2 mb-2">
                 <Info className="w-3.5 h-3.5 text-gray-500" strokeWidth={2} />
                 <h4 className="text-xs font-semibold tracking-tight">Легенда</h4>
@@ -494,8 +494,8 @@ export function DocumentCompareView() {
           {}
           <div className="space-y-6">
             {}
-            <Card className="bg-white border-0 shadow-sm">
-              <div className="p-6">
+            <Card>
+              <div>
                 <h3 className="font-semibold tracking-tight mb-4 flex items-center gap-2">
                   <History className="w-4 h-4 text-gray-500" strokeWidth={2} />
                   Обнаружено изменений
@@ -534,8 +534,8 @@ export function DocumentCompareView() {
             </Card>
 
             {}
-            <Card className="bg-white border-0 shadow-sm">
-              <div className="p-6">
+            <Card>
+              <div>
                 <h3 className="font-semibold tracking-tight mb-4">Навигация</h3>
 
                 <div className="flex items-center gap-2 mb-4">
@@ -606,8 +606,8 @@ export function DocumentCompareView() {
             </Card>
 
             {}
-            <Card className="bg-gray-50 border-0">
-              <div className="p-4">
+            <Card className="bg-gray-50">
+              <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Info className="w-4 h-4 text-gray-500" strokeWidth={2} />
                   <h4 className="text-sm font-semibold tracking-tight">Легенда</h4>
@@ -632,7 +632,7 @@ export function DocumentCompareView() {
 
           {}
           <div className="col-span-3">
-            <Card className="bg-white border-0 shadow-sm">
+            <Card >
               <div className="grid grid-cols-2 divide-x divide-gray-200">
                 {}
                 <div>

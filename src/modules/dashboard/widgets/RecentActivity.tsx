@@ -10,11 +10,10 @@ const recentActivity: RecentActivityInterface[] = [
 
 export function RecentActivity() {
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-      <div className="p-4 sm:p-6">
-        <h3 className="text-lg sm:text-xl tracking-tight mb-4 sm:mb-6">Последняя активность</h3>
+    <Card>
+      <h3 className="text-lg sm:text-xl tracking-tight mb-4 sm:mb-6">Последняя активность</h3>
 
-        <div className="space-y-4">
+      <div className="space-y-4">
           {recentActivity.map((activity, index) => (
             <ActivityItem
               key={index}
@@ -26,7 +25,6 @@ export function RecentActivity() {
             />
           ))}
         </div>
-      </div>
     </Card>
   );
 }

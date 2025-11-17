@@ -169,8 +169,8 @@ export function AIAssistantView() {
           </TabsContent>
 
           <TabsContent value="analyze" className="space-y-4 sm:space-y-6">
-            <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-              <div className="p-4 sm:p-6 md:p-8 text-center">
+            <Card>
+              <div className="text-center w-full">
                 <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
                   <Upload className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" strokeWidth={2} />
                 </div>
@@ -192,9 +192,8 @@ export function AIAssistantView() {
           </TabsContent>
 
           <TabsContent value="research" className="space-y-4 sm:space-y-6">
-            <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-              <div className="p-4 sm:p-6 md:p-8">
-                <div className="max-w-2xl mx-auto">
+            <Card>
+              <div className="max-w-2xl mx-auto w-full">
                   <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-4 sm:mb-5 md:mb-6 text-center">
                     Поиск в правовой базе и судебной практике
                   </h3>
@@ -225,7 +224,6 @@ export function AIAssistantView() {
                     </Button>
                   </div>
                 </div>
-              </div>
             </Card>
           </TabsContent>
         </Tabs>

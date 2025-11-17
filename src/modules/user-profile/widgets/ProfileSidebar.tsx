@@ -12,7 +12,7 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
 }) {
   return (
     <div className="space-y-6">
-      <Card className="bg-white border-0 shadow-sm">
+      <Card >
         <div className="p-6 text-center">
           <div className="relative inline-block mb-4">
             <Avatar className="w-24 h-24 ring-4 ring-gray-100">
@@ -55,7 +55,7 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
         </div>
       </Card>
 
-      <Card className="bg-white border-0 shadow-sm">
+      <Card >
         <div className="p-6">
           <h3 className="text-lg tracking-tight mb-4">Статистика</h3>
           <div className="space-y-4">
@@ -74,7 +74,7 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
         </div>
       </Card>
 
-      <Card className="bg-white border-0 shadow-sm">
+      <Card >
         <div className="p-6">
           <h3 className="text-lg tracking-tight mb-2">Сессия</h3>
           <p className="text-sm text-gray-500 mb-4">

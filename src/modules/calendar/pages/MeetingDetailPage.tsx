@@ -90,10 +90,10 @@ export function MeetingDetailPage() {
 
   return (
     <div>
-      <UploadDocumentDialog open={isAddDocumentOpen} onOpenChange={setIsAddDocumentOpen} />
-      <CommentsDialog open={isAddNoteOpen} onOpenChange={setIsAddNoteOpen} />
-      <AddMeetingDialog open={isEditingOpen} onOpenChange={setIsEditingOpen} />
-      <AddMeetingDialog open={isRescheduleOpen} onOpenChange={setIsRescheduleOpen} />
+      <UploadDocumentDialog open={isAddDocumentOpen} onOpenChange={setIsAddDocumentOpen}/>
+      <CommentsDialog open={isAddNoteOpen} onOpenChange={setIsAddNoteOpen}/>
+      <AddMeetingDialog open={isEditingOpen} onOpenChange={setIsEditingOpen}/>
+      <AddMeetingDialog open={isRescheduleOpen} onOpenChange={setIsRescheduleOpen}/>
 
       <ConfirmDialog
         open={isCancelDialogOpen}
@@ -120,42 +120,21 @@ export function MeetingDetailPage() {
       {/* Header */}
       <header className="bg-white border-b border-gray-200/50 rounded-xl mb-4 sm:mb-6">
         <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
-          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(-1)}
-              className="rounded-lg sm:rounded-xl h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 flex-shrink-0"
-            >
-              <ArrowLeft className="w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5" strokeWidth={2} />
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <Button variant="ghost" className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2 text-sm sm:text-base"
+                    onClick={() => navigate(-1)}>
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" strokeWidth={2}/>
+              <span className="hidden sm:inline">Все встречи</span>
+              <span className="sm:hidden">Назад</span>
             </Button>
-            <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-tight mb-0.5 sm:mb-1 truncate">
-                {meeting.title}
-              </h1>
-              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 md:gap-3 text-xs sm:text-xs md:text-sm text-gray-500">
-                <span className="flex items-center gap-1 sm:gap-1 md:gap-1.5">
-                  <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" strokeWidth={2} />
-                  {meeting.date.toLocaleDateString('ru-RU', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
-                </span>
-                <span className="hidden md:inline">•</span>
-                <span className="flex items-center gap-1 sm:gap-1 md:gap-1.5">
-                  <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" strokeWidth={2} />
-                  {meeting.time}
-                </span>
-              </div>
-            </div>
+
             <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
               <Button
                 variant="outline"
                 onClick={handleEdit}
                 className="rounded-lg sm:rounded-xl border-gray-200 text-xs h-7 sm:h-8 md:h-9 px-2 sm:px-3"
               >
-                <Edit className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 md:mr-2" strokeWidth={2} />
+                <Edit className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 md:mr-2" strokeWidth={2}/>
                 <span className="hidden md:inline">Редактировать</span>
               </Button>
               <Button
@@ -163,13 +142,35 @@ export function MeetingDetailPage() {
                 onClick={handleDelete}
                 className="rounded-lg sm:rounded-xl border-red-200 text-red-600 hover:bg-red-50 text-xs h-7 sm:h-8 md:h-9 px-2 sm:px-3"
               >
-                <Trash2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 md:mr-2" strokeWidth={2} />
+                <Trash2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 md:mr-2" strokeWidth={2}/>
                 <span className="hidden md:inline">Удалить</span>
               </Button>
             </div>
           </div>
 
-          <MeetingBadges type={meeting.type} priority={meeting.priority} status={meeting.status} />
+          <div className="mb-3 sm:mb-4">
+            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-tight mb-0.5 sm:mb-1">
+              {meeting.title}
+            </h1>
+            <div
+              className="flex flex-wrap items-center gap-1.5 sm:gap-2 md:gap-3 text-xs sm:text-xs md:text-sm text-gray-500">
+              <span className="flex items-center gap-1 sm:gap-1 md:gap-1.5">
+                <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" strokeWidth={2}/>
+                {meeting.date.toLocaleDateString('ru-RU', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </span>
+              <span className="hidden md:inline">•</span>
+              <span className="flex items-center gap-1 sm:gap-1 md:gap-1.5">
+                <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" strokeWidth={2}/>
+                {meeting.time}
+              </span>
+            </div>
+          </div>
+
+          <MeetingBadges type={meeting.type} priority={meeting.priority} status={meeting.status}/>
         </div>
       </header>
 
@@ -178,14 +179,14 @@ export function MeetingDetailPage() {
         {/* Left Column */}
         <div className="lg:col-span-2 space-y-4 sm:space-y-6">
           {/* Meeting Info */}
-          <Card className="bg-white border-0 shadow-sm">
-            <CardHeader className="px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 md:pt-6">
+          <Card>
+            <CardHeader>
               <CardTitle className="text-sm sm:text-base md:text-lg">Информация о встрече</CardTitle>
             </CardHeader>
-            <CardContent className="px-3 sm:px-4 md:px-6 space-y-3 sm:space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                 <InfoBlock
-                  icon={<Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600" strokeWidth={2} />}
+                  icon={<Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-blue-600" strokeWidth={2}/>}
                   iconBgColor="bg-blue-100"
                   label="Длительность"
                   value={meeting.duration}
@@ -194,7 +195,7 @@ export function MeetingDetailPage() {
                 {meeting.location && (
                   <InfoBlock
                     icon={
-                      <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-purple-600" strokeWidth={2} />
+                      <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-purple-600" strokeWidth={2}/>
                     }
                     iconBgColor="bg-purple-100"
                     label="Место"
@@ -214,14 +215,14 @@ export function MeetingDetailPage() {
 
           {/* Participants */}
           {!!meeting.participants?.length && (
-            <Card className="bg-white border-0 shadow-sm">
-              <CardHeader className="px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 md:pt-6 ">
+            <Card>
+              <CardHeader>
                 <CardTitle className="text-sm sm:text-base md:text-lg">Участники</CardTitle>
               </CardHeader>
-              <CardContent className="px-3 sm:px-4 md:px-6">
+              <CardContent>
                 <div className="space-y-2 sm:space-y-3">
                   {meeting.participants.map((participant, index) => (
-                    <ParticipantItem key={index} name={participant} />
+                    <ParticipantItem key={index} name={participant}/>
                   ))}
                 </div>
               </CardContent>
@@ -229,8 +230,8 @@ export function MeetingDetailPage() {
           )}
 
           {/* Notes */}
-          <Card className="bg-white border-0 shadow-sm">
-            <CardHeader className="px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 md:pt-6 ">
+          <Card>
+            <CardHeader>
               <div className="flex items-center justify-between gap-2">
                 <CardTitle className="text-sm sm:text-base md:text-lg min-w-0">Заметки</CardTitle>
                 <Button
@@ -239,14 +240,14 @@ export function MeetingDetailPage() {
                   className="rounded-lg sm:rounded-xl text-xs h-7 sm:h-8 px-2 sm:px-3 flex-shrink-0"
                   onClick={() => setIsAddNoteOpen(true)}
                 >
-                  <MessageSquare className="w-3 h-3 sm:w-3.5 sm:h-3.5 sm:mr-2" strokeWidth={2} />
+                  <MessageSquare className="w-3 h-3 sm:w-3.5 sm:h-3.5 sm:mr-2" strokeWidth={2}/>
                   <span className="hidden sm:inline">Добавить заметку</span>
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="px-3 sm:px-4 md:px-6">
+            <CardContent>
               <EmptyState
-                icon={<MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" strokeWidth={2} />}
+                icon={<MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" strokeWidth={2}/>}
                 message="Заметок пока нет"
               />
             </CardContent>
@@ -256,11 +257,11 @@ export function MeetingDetailPage() {
         {/* Right Column */}
         <div className="space-y-4 sm:space-y-6">
           {/* Client Info */}
-          <Card className="bg-white border-0 shadow-sm">
-            <CardHeader className="px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 md:pt-6 ">
+          <Card>
+            <CardHeader>
               <CardTitle className="text-sm sm:text-base md:text-lg">Клиент</CardTitle>
             </CardHeader>
-            <CardContent className="px-3 sm:px-4 md:px-6">
+            <CardContent>
               <div
                 className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
                 onClick={() => navigate(`/clients/${meeting.client.name}`)}
@@ -280,18 +281,19 @@ export function MeetingDetailPage() {
 
           {/* Related Case */}
           {meeting.case && (
-            <Card className="bg-white border-0 shadow-sm">
-              <CardHeader className="px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 md:pt-6 ">
+            <Card>
+              <CardHeader>
                 <CardTitle className="text-sm sm:text-base md:text-lg">Связанное дело</CardTitle>
               </CardHeader>
-              <CardContent className="px-3 sm:px-4 md:px-6">
+              <CardContent>
                 <div
                   className="p-3 sm:p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
                   onClick={() => navigate('/cases/1')}
                 >
                   <div className="flex items-center gap-2 sm:gap-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
-                      <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" strokeWidth={2} />
+                    <div
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                      <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" strokeWidth={2}/>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-medium text-xs sm:text-sm mb-1">{meeting.case}</div>
@@ -304,9 +306,9 @@ export function MeetingDetailPage() {
           )}
 
           {/* Documents */}
-          <Card className="bg-white border-0 shadow-sm">
-            <CardHeader className="px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 md:pt-6 ">
-              <div className="flex items-center justify-between gap-2">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between gap-2 pb-2">
                 <CardTitle className="text-sm sm:text-base md:text-lg min-w-0 truncate">Документы</CardTitle>
                 <Button
                   size="sm"
@@ -314,15 +316,15 @@ export function MeetingDetailPage() {
                   className="rounded-lg sm:rounded-xl text-xs h-7 sm:h-8 px-2 sm:px-3 flex-shrink-0"
                   onClick={() => setIsAddDocumentOpen(true)}
                 >
-                  <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5 sm:mr-2" strokeWidth={2} />
+                  <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5 sm:mr-2" strokeWidth={2}/>
                   <span className="hidden sm:inline">Добавить</span>
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="px-3 sm:px-4 md:px-6">
+            <CardContent>
               <div className="rounded-xl bg-gray-50">
                 <EmptyState
-                  icon={<FileText className="w-6 h-6 sm:w-7 sm:h-7 text-gray-400" strokeWidth={2} />}
+                  icon={<FileText className="w-6 h-6 sm:w-7 sm:h-7 text-gray-400" strokeWidth={2}/>}
                   message="Документов нет"
                   size="sm"
                 />
@@ -331,7 +333,7 @@ export function MeetingDetailPage() {
           </Card>
 
           {/* Quick Actions */}
-          <QuickActionsCard onComplete={handleComplete} onReschedule={handleReschedule} onCancel={handleCancel} />
+          <QuickActionsCard onComplete={handleComplete} onReschedule={handleReschedule} onCancel={handleCancel}/>
         </div>
       </div>
     </div>

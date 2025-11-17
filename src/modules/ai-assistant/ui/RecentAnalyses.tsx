@@ -10,9 +10,8 @@ interface RecentAnalysesProps {
 
 export function RecentAnalyses({ analyses }: RecentAnalysesProps) {
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-      <div className="p-3 sm:p-4 md:p-6">
-        <h3 className="tracking-tight mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">Недавние анализы</h3>
+    <Card>
+      <h3 className="tracking-tight mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">Недавние анализы</h3>
         <div className="space-y-2 sm:space-y-3">
           {analyses.map((analysis, index) => (
             <div
@@ -43,7 +42,6 @@ export function RecentAnalyses({ analyses }: RecentAnalysesProps) {
             </div>
           ))}
         </div>
-      </div>
     </Card>
   );
 }

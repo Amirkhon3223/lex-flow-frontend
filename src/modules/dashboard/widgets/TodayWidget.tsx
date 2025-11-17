@@ -15,16 +15,15 @@ export function TodayWidget() {
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/30 text-white">
-      <div className="p-4 sm:p-6">
-        <div className="flex items-center justify-between mb-4 sm:mb-6">
+    <Card className="bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30 text-white">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
           <h3 className="text-lg sm:text-xl tracking-tight">Сегодня</h3>
           <Calendar className="w-4 h-4 sm:w-5 sm:h-5 opacity-80" strokeWidth={2} />
         </div>
 
         <div className="space-y-3 sm:space-y-4">
           {upcomingEvents.map((event, index) => (
-            <div key={index} className="flex gap-2 sm:gap-3">
+            <div key={index} className="flex gap-2 sm:gap-1 items-center">
               <div className="text-xs sm:text-sm opacity-80 w-12 sm:w-14 flex-shrink-0">{event.time}</div>
               <div className="flex-1 min-w-0">
                 <div className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/10 backdrop-blur-sm">
@@ -41,7 +40,6 @@ export function TodayWidget() {
         >
           Открыть календарь
         </Button>
-      </div>
     </Card>
   );
 }

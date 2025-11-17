@@ -29,8 +29,8 @@ export function SecurityTabContent() {
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Change Password */}
-      <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-        <div className="p-3 sm:p-4 md:p-6">
+      <Card>
+        <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Изменить пароль</h3>
 
           <form onSubmit={handlePasswordChange} className="space-y-3 sm:space-y-4">
@@ -79,8 +79,8 @@ export function SecurityTabContent() {
       </Card>
 
       {/* Two-Factor Authentication */}
-      <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-        <div className="p-3 sm:p-4 md:p-6">
+      <Card>
+        <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
             Двухфакторная аутентификация
           </h3>
@@ -111,8 +111,8 @@ export function SecurityTabContent() {
       </Card>
 
       {/* Active Sessions */}
-      <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-        <div className="p-3 sm:p-4 md:p-6">
+      <Card>
+        <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-3 md:mb-4">Активные сессии</h3>
           <p className="text-gray-500 mb-3 sm:mb-4 md:mb-6 text-xs sm:text-sm">
             Это устройства, на которых выполнен вход в ваш аккаунт

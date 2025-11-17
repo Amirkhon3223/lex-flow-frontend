@@ -30,11 +30,10 @@ export function DocumentCard({
 
   return (
     <Card
-      className="bg-white border-0 shadow-sm hover:shadow-md transition-all group cursor-pointer"
+      className="hover:shadow-md transition-all group cursor-pointer"
       onClick={handleCardClick}
     >
-      <div className="p-3 sm:p-5">
-        {/* Mobile layout */}
+      {/* Mobile layout */}
         <div className="md:hidden">
           <div className="flex items-start gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
@@ -162,7 +161,6 @@ export function DocumentCard({
             </DropdownMenu>
           </div>
         </div>
-      </div>
     </Card>
   );
 }

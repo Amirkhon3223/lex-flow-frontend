@@ -18,8 +18,8 @@ export function ProfileTabContent() {
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Personal Information */}
-      <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-        <div className="p-3 sm:p-4 md:p-6">
+      <Card>
+        <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Личная информация</h3>
 
           <form onSubmit={handleProfileSubmit}>
@@ -117,8 +117,8 @@ export function ProfileTabContent() {
       </Card>
 
       {/* Regional Settings */}
-      <Card className="bg-white border-0 shadow-sm rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-        <div className="p-3 sm:p-4 md:p-6">
+      <Card>
+        <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
             Региональные настройки
           </h3>
