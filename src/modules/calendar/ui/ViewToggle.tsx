@@ -1,27 +1,31 @@
-import { Calendar as CalendarIcon, List } from 'lucide-react';
+import { Grid3x3, List } from 'lucide-react';
+import type { ViewToggleProps } from '@/app/types/calendar/calendar.interfaces';
 import { Button } from '@/shared/ui/button';
-
-interface ViewToggleProps {
-    viewMode: 'calendar' | 'list';
-    onViewChange: (mode: 'calendar' | 'list') => void;
-}
 
 export function ViewToggle({ viewMode, onViewChange }: ViewToggleProps) {
     return (
-        <div className="flex gap-2">
+        <div className="flex items-center bg-gray-100 rounded-md sm:rounded-lg md:rounded-xl p-0.5 sm:p-1">
             <Button
-                variant={viewMode === 'calendar' ? 'default' : 'outline'}
-                size="icon"
+                variant="ghost"
+                size="sm"
                 onClick={() => onViewChange('calendar')}
+                className={`rounded-sm sm:rounded-md md:rounded-lg text-xs px-1.5 sm:px-2 md:px-3 h-6 sm:h-7 md:h-8 ${
+                    viewMode === 'calendar' ? 'bg-white shadow-sm' : 'hover:bg-transparent'
+                }`}
             >
-                <CalendarIcon className="h-4 w-4" />
+                <Grid3x3 className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 md:mr-2" strokeWidth={2} />
+                <span className="hidden md:inline">Календарь</span>
             </Button>
             <Button
-                variant={viewMode === 'list' ? 'default' : 'outline'}
-                size="icon"
+                variant="ghost"
+                size="sm"
                 onClick={() => onViewChange('list')}
+                className={`rounded-sm sm:rounded-md md:rounded-lg text-xs px-1.5 sm:px-2 md:px-3 h-6 sm:h-7 md:h-8 ${
+                    viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-transparent'
+                }`}
             >
-                <List className="h-4 w-4" />
+                <List className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 md:mr-2" strokeWidth={2} />
+                <span className="hidden md:inline">Список</span>
             </Button>
         </div>
     );

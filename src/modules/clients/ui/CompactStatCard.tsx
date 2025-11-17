@@ -17,16 +17,14 @@ export function CompactStatCard({ label, value, icon: Icon, color }: CompactStat
   };
 
   return (
-    <Card className="bg-white border-0 shadow-sm">
-      <div className="p-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className={`text-3xl tracking-tight mb-1 ${color}`}>{value}</div>
-            <div className="text-sm text-gray-500">{label}</div>
-          </div>
-          <div className={`w-12 h-12 rounded-2xl ${getIconBg(color)} flex items-center justify-center`}>
-            <Icon className={`w-6 h-6 ${color}`} strokeWidth={2} />
-          </div>
+    <Card>
+      <div className="flex items-center justify-between">
+        <div>
+          <div className={`text-3xl tracking-tight mb-1 ${color}`}>{value}</div>
+          <div className="text-sm text-gray-500">{label}</div>
+        </div>
+        <div className={`w-12 h-12 rounded-2xl ${getIconBg(color)} flex items-center justify-center`}>
+          <Icon className={`w-6 h-6 ${color}`} strokeWidth={2} />
         </div>
       </div>
     </Card>

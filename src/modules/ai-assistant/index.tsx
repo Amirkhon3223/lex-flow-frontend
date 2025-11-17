@@ -126,90 +126,104 @@ export function AIAssistantView() {
       <Header />
 
       <main className="">
-        <Tabs defaultValue="chat" className="space-y-4 mt-4">
-          <TabsList className="bg-gray-100 rounded-xl">
-            <TabsTrigger value="chat" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <MessageSquare className="w-4 h-4 mr-2" strokeWidth={2} />
-              Чат с AI
+        <Tabs defaultValue="chat" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+          <TabsList className="bg-gray-100 rounded-lg sm:rounded-xl p-0.5 sm:p-1 w-full sm:w-auto">
+            <TabsTrigger
+              value="chat"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
+            >
+              <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
+              <span className="hidden sm:inline">Чат с AI</span>
             </TabsTrigger>
-            <TabsTrigger value="analyze" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <FileText className="w-4 h-4 mr-2" strokeWidth={2} />
-              Анализ документов
+            <TabsTrigger
+              value="analyze"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
+            >
+              <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
+              <span className="hidden sm:inline">Анализ документов</span>
             </TabsTrigger>
-            <TabsTrigger value="research" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <Search className="w-4 h-4 mr-2" strokeWidth={2} />
-              Исследование
+            <TabsTrigger
+              value="research"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
+            >
+              <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
+              <span className="hidden sm:inline">Исследование</span>
             </TabsTrigger>
           </TabsList>
 
-          <div className="grid grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
             {features.map((feature, index) => (
               <FeatureCard key={index} {...feature} />
             ))}
           </div>
 
-          <TabsContent value="chat" className="space-y-6">
-            <div className="grid grid-cols-3 gap-6">
+          <TabsContent value="chat" className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               <ChatArea chatHistory={chatHistory} />
 
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <QuickCommands commands={quickActions} onCommandClick={setMessage} />
                 <RecentAnalyses analyses={recentAnalyses} />
               </div>
             </div>
           </TabsContent>
 
-          <TabsContent value="analyze" className="space-y-6">
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-              <div className="p-8 text-center">
-                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-6">
-                  <Upload className="w-10 h-10 text-white" strokeWidth={2} />
+          <TabsContent value="analyze" className="space-y-4 sm:space-y-6">
+            <Card>
+              <div className="text-center w-full">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
+                  <Upload className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" strokeWidth={2} />
                 </div>
-                <h3 className="text-2xl tracking-tight mb-2">Загрузите документ для анализа</h3>
-                <p className="text-gray-500 mb-6">
+                <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-1.5 sm:mb-2">
+                  Загрузите документ для анализа
+                </h3>
+                <p className="text-gray-500 mb-4 sm:mb-5 md:mb-6 text-xs sm:text-sm md:text-base">
                   AI проверит юридическую корректность, выявит риски и даст рекомендации
                 </p>
                 <Button
                   onClick={() => setUploadDialogOpen(true)}
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl shadow-lg shadow-purple-500/30"
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg sm:rounded-xl shadow-lg shadow-purple-500/30 text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-3 sm:px-4"
                 >
-                  <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
+                  <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
                   Выбрать документ
                 </Button>
               </div>
             </Card>
           </TabsContent>
 
-          <TabsContent value="research" className="space-y-6">
-            <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-              <div className="p-8">
-                <div className="max-w-2xl mx-auto">
-                  <h3 className="text-2xl tracking-tight mb-6 text-center">Поиск в правовой базе и судебной практике</h3>
-                  <div className="relative mb-8">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" strokeWidth={2} />
+          <TabsContent value="research" className="space-y-4 sm:space-y-6">
+            <Card>
+              <div className="max-w-2xl mx-auto w-full">
+                  <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-4 sm:mb-5 md:mb-6 text-center">
+                    Поиск в правовой базе и судебной практике
+                  </h3>
+                  <div className="relative mb-4 sm:mb-6 md:mb-8">
+                    <Search
+                      className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400"
+                      strokeWidth={2}
+                    />
                     <Input
                       placeholder="Введите запрос для поиска..."
-                      className="h-14 pl-12 pr-4 rounded-2xl border-gray-200 focus-visible:ring-purple-500 text-lg"
+                      className="h-10 sm:h-12 md:h-14 pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 rounded-xl sm:rounded-2xl border-gray-200 focus-visible:ring-purple-500 text-sm sm:text-base md:text-lg"
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                     <Button
                       variant="outline"
-                      className="h-14 rounded-xl border-gray-200 hover:bg-purple-50 hover:border-purple-200 justify-start"
+                      className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-gray-200 hover:bg-purple-50 hover:border-purple-200 justify-start text-xs sm:text-sm"
                     >
-                      <Scale className="w-5 h-5 mr-3 text-purple-500" strokeWidth={2} />
+                      <Scale className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-purple-500" strokeWidth={2} />
                       <span>Судебная практика</span>
                     </Button>
                     <Button
                       variant="outline"
-                      className="h-14 rounded-xl border-gray-200 hover:bg-blue-50 hover:border-blue-200 justify-start"
+                      className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-gray-200 hover:bg-blue-50 hover:border-blue-200 justify-start text-xs sm:text-sm"
                     >
-                      <BookOpen className="w-5 h-5 mr-3 text-blue-500" strokeWidth={2} />
+                      <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-blue-500" strokeWidth={2} />
                       <span>Законодательство</span>
                     </Button>
                   </div>
                 </div>
-              </div>
             </Card>
           </TabsContent>
         </Tabs>

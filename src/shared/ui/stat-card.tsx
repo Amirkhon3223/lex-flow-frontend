@@ -16,10 +16,9 @@ export function StatCard({
   const displayLabel = label || title;
 
   return (
-    <Card className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow">
-      <div className="p-3 sm:p-5">
-        {/* Mobile: layout like ContactInfoCard (icon left, label+value right) */}
-        <div className="flex items-start gap-2.5 md:hidden">
+    <Card className="hover:shadow-md transition-shadow">
+      {/* Mobile: layout like ContactInfoCard (icon left, label+value right) */}
+      <div className="flex items-start gap-2.5 md:hidden">
           <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center flex-shrink-0`}>
             <Icon className={`w-4 h-4 ${iconColor}`} strokeWidth={2} />
           </div>
@@ -42,29 +41,28 @@ export function StatCard({
           )}
         </div>
 
-        {/* Desktop: horizontal layout (original) */}
-        <div className="hidden md:block">
-          <div className="flex items-center justify-between mb-4">
-            <div className={`w-12 h-12 rounded-2xl ${iconBg} flex items-center justify-center`}>
-              <Icon className={`w-6 h-6 ${iconColor}`} strokeWidth={2} />
-            </div>
-            {trend && (
-              <Badge
-                className={
-                  variant === 'urgent'
-                    ? 'bg-red-50 text-red-700 border-0 text-xs'
-                    : 'bg-green-50 text-green-700 border-0 text-xs'
-                }
-              >
-                {variant === 'urgent' ? 'Срочно' : trend.value}
-              </Badge>
-            )}
+      {/* Desktop: horizontal layout (original) */}
+      <div className="hidden md:block">
+        <div className="flex items-center justify-between mb-4">
+          <div className={`w-12 h-12 rounded-2xl ${iconBg} flex items-center justify-center`}>
+            <Icon className={`w-6 h-6 ${iconColor}`} strokeWidth={2} />
           </div>
-          <div className={`text-3xl tracking-tight mb-1 ${valueColor || ''}`}>
-            {value}
-          </div>
-          <div className="text-sm text-gray-500">{displayLabel}</div>
+          {trend && (
+            <Badge
+              className={
+                variant === 'urgent'
+                  ? 'bg-red-50 text-red-700 border-0 text-xs'
+                  : 'bg-green-50 text-green-700 border-0 text-xs'
+              }
+            >
+              {variant === 'urgent' ? 'Срочно' : trend.value}
+            </Badge>
+          )}
         </div>
+        <div className={`text-3xl tracking-tight mb-1 ${valueColor || ''}`}>
+          {value}
+        </div>
+        <div className="text-sm text-gray-500">{displayLabel}</div>
       </div>
     </Card>
   );

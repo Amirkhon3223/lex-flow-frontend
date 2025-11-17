@@ -180,15 +180,15 @@ export default function ClientDetailPage() {
       {}
       <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-3">
         {}
-        <div className="lg:col-span-2 bg-white rounded-xl">
+        <div className="lg:col-span-2 rounded-xl !p-0">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between p-4 sm:p-6">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-base sm:text-lg">Дела клиента</CardTitle>
-              <span className="text-xs sm:text-sm text-gray-600">3 дел</span>
+              <Badge className="bg-blue-500 text-gray-100 border-0 text-md">3 дел</Badge>
             </CardHeader>
-            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6 pt-0 sm:pt-0">
+            <CardContent className="space-y-3 sm:space-y-4 mt-2">
               {cases.map((caseItem) => (
-                <CaseCard key={caseItem.id} caseItem={caseItem} />
+                <CaseCard key={caseItem.id} caseItem={caseItem}/>
               ))}
             </CardContent>
           </Card>

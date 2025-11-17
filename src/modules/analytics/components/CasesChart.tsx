@@ -13,9 +13,8 @@ const casesData: CaseStatDataInterface[] = [
 
 export function CasesChart() {
   return (
-    <Card className="md:col-span-2 bg-white border-0 shadow-sm rounded-lg sm:rounded-xl">
-      <div className="p-3 sm:p-4 md:p-6">
-        <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Статистика дел</h3>
+    <Card className="md:col-span-2">
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Статистика дел</h3>
         <ResponsiveContainer width="100%" height={200} className="sm:!h-[250px] md:!h-[300px]">
           <BarChart data={casesData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -34,7 +33,6 @@ export function CasesChart() {
             <Bar dataKey="lost" fill="#EF4444" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
-      </div>
     </Card>
   );
 }

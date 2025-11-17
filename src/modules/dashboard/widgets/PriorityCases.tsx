@@ -60,9 +60,8 @@ export function PriorityCases() {
     : allCases.filter(c => c.status === filterStatus);
 
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-      <div className="p-4 sm:p-6">
-        <div className="flex items-center justify-between mb-6">
+    <Card>
+      <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg sm:text-xl tracking-tight">Приоритетные дела</h3>
           <Button
             variant="ghost"
@@ -180,7 +179,6 @@ export function PriorityCases() {
             </div>
           ))}
         </div>
-      </div>
     </Card>
   );
 }

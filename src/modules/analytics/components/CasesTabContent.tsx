@@ -23,27 +23,24 @@ export function CasesTabContent() {
       {/* Status Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {casesByStatus.map((item) => (
-          <Card key={item.status} className="bg-white border-0 shadow-sm rounded-lg sm:rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-            <div className="p-3 sm:p-4 md:p-6">
-              <div className="flex items-center justify-between mb-2 sm:mb-3 md:mb-4">
-                <div className={`w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl ${item.bgColor} flex items-center justify-center`}>
-                  <item.icon className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${item.color}`} strokeWidth={2} />
-                </div>
-                <Badge className="bg-gray-100 text-gray-700 border-0 text-xs">
-                  {item.percentage}%
-                </Badge>
+          <Card key={item.status}>
+            <div className="flex items-center justify-between mb-2 sm:mb-3 md:mb-4">
+              <div className={`w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl ${item.bgColor} flex items-center justify-center`}>
+                <item.icon className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${item.color}`} strokeWidth={2} />
               </div>
-              <div className="text-xl sm:text-2xl md:text-3xl tracking-tight mb-0.5 sm:mb-1">{item.count}</div>
-              <div className="text-xs sm:text-sm text-gray-500">{item.status}</div>
+              <Badge className="bg-gray-100 text-gray-700 border-0 text-xs">
+                {item.percentage}%
+              </Badge>
             </div>
+            <div className="text-xl sm:text-2xl md:text-3xl tracking-tight mb-0.5 sm:mb-1">{item.count}</div>
+            <div className="text-xs sm:text-sm text-gray-500">{item.status}</div>
           </Card>
         ))}
       </div>
 
       {/* Cases by Practice Area */}
-      <Card className="bg-white border-0 shadow-sm rounded-lg sm:rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-        <div className="p-3 sm:p-4 md:p-6">
-          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Дела по практикам</h3>
+      <Card>
+        <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Дела по практикам</h3>
           <div className="space-y-3 sm:space-y-4 md:space-y-5">
             {casesByPractice.map((item) => {
               const winRate = Math.round((item.won / item.total) * 100);
@@ -73,7 +70,6 @@ export function CasesTabContent() {
               );
             })}
           </div>
-        </div>
       </Card>
     </div>
   );

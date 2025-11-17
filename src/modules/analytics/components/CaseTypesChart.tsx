@@ -1,8 +1,8 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import type { CaseTypeDataInterface } from '@/app/types/analytics/analytics.interfaces';
+import type { CaseTypeData } from "@/app/types/cases/cases.interfaces.ts";
 import { Card } from '@/shared/ui/card';
 
-const caseTypeData: CaseTypeDataInterface[] = [
+const caseTypeData: CaseTypeData[] = [
   { name: 'Трудовые споры', value: 35, color: '#3B82F6' },
   { name: 'Договорное право', value: 25, color: '#8B5CF6' },
   { name: 'Наследственные дела', value: 20, color: '#F59E0B' },
@@ -12,9 +12,8 @@ const caseTypeData: CaseTypeDataInterface[] = [
 
 export function CaseTypesChart() {
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-lg sm:rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-      <div className="p-3 sm:p-4 md:p-6">
-        <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Типы дел</h3>
+    <Card>
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Типы дел</h3>
         <ResponsiveContainer width="100%" height={200} className="sm:!h-[250px] md:!h-[300px]">
           <PieChart>
             <Pie
@@ -25,7 +24,6 @@ export function CaseTypesChart() {
               outerRadius={70}
               paddingAngle={5}
               dataKey="value"
-              className="sm:[&>path]:!innerRadius-[50px] sm:[&>path]:!outerRadius-[85px] md:[&>path]:!innerRadius-[60px] md:[&>path]:!outerRadius-[100px]"
             >
               {caseTypeData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
@@ -52,7 +50,6 @@ export function CaseTypesChart() {
             </div>
           ))}
         </div>
-      </div>
     </Card>
   );
 }

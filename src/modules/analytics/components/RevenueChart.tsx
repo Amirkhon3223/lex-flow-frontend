@@ -13,9 +13,8 @@ const revenueData: RevenueDataInterface[] = [
 
 export function RevenueChart() {
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-lg sm:rounded-xl px-2 sm:px-3 py-1.5 sm:py-2">
-      <div className="p-3 sm:p-4 md:p-6">
-        <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Динамика дохода</h3>
+    <Card>
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Динамика дохода</h3>
         <ResponsiveContainer width="100%" height={180} className="sm:!h-[220px] md:!h-[250px]">
           <LineChart data={revenueData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -40,7 +39,6 @@ export function RevenueChart() {
             />
           </LineChart>
         </ResponsiveContainer>
-      </div>
     </Card>
   );
 }

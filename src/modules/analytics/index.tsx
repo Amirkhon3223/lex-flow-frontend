@@ -58,9 +58,9 @@ export default function AnalyticsPage() {
         </div>
       </header>
 
-      <main className="p-3 sm:p-4 md:p-6 lg:p-8">
-        <Tabs defaultValue="overview" className="space-y-4 sm:space-y-6">
-          <TabsList className="bg-gray-100 rounded-lg sm:rounded-xl p-1 sm:p-1.5 w-full flex overflow-x-auto">
+      <main>
+        <Tabs defaultValue="overview" className="">
+          <TabsList className="bg-gray-100 rounded-lg sm:rounded-xl mt-2 w-full flex overflow-x-auto">
             <TabsTrigger
               value="overview"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"

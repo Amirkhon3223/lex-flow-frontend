@@ -10,11 +10,10 @@ interface QuickActionsProps {
 
 export function QuickActions({ onAddClient, onAddCase, onUploadDocument }: QuickActionsProps) {
   return (
-    <Card className="bg-white border-0 shadow-sm rounded-x  px-3 py-2">
-      <div className="p-4 sm:p-6">
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Быстрые действия</h3>
+    <Card>
+      <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Быстрые действия</h3>
 
-        <div className="space-y-2">
+      <div className="space-y-2">
           <Button
             className="w-full justify-start bg-gray-50 hover:bg-gray-100 text-gray-900 border-0 rounded-xl cursor-pointer text-sm sm:text-base py-2.5 sm:py-3"
             onClick={onAddClient}
@@ -37,7 +36,6 @@ export function QuickActions({ onAddClient, onAddCase, onUploadDocument }: Quick
             Загрузить документ
           </Button>
         </div>
-      </div>
     </Card>
   );
 }

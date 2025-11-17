@@ -22,21 +22,26 @@ export function ChatMessage({ chat }: ChatMessageProps) {
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
-      <div className={`max-w-[80%] group`}>
-        <div className={`rounded-2xl p-4 ${
-          isUser
-            ? 'bg-blue-500 text-white'
-            : 'bg-gray-100 text-gray-900'
-        }`}>
-          <p className="whitespace-pre-wrap text-sm leading-relaxed">{chat.message}</p>
+      <div className={`max-w-[90%] sm:max-w-[80%] group`}>
+        <div
+          className={`rounded-xl sm:rounded-2xl p-3 sm:p-4 ${
+            isUser ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-900'
+          }`}
+        >
+          <p className="whitespace-pre-wrap text-xs sm:text-sm leading-relaxed">{chat.message}</p>
           {chat.type === MessageTypeEnum.AI && chat.insights && (
-            <div className="mt-3 pt-3 border-t border-gray-200 space-y-2">
+            <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-200 space-y-1.5 sm:space-y-2">
               {chat.insights.map((insight, idx) => (
-                <div key={idx} className={`flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg ${
-                  insight.type === InsightTypeEnum.SUCCESS ? 'bg-green-50 text-green-700' :
-                  insight.type === InsightTypeEnum.WARNING ? 'bg-amber-50 text-amber-700' :
-                  'bg-red-50 text-red-700'
-                }`}>
+                <div
+                  key={idx}
+                  className={`flex items-center gap-1.5 sm:gap-2 text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-md sm:rounded-lg ${
+                    insight.type === InsightTypeEnum.SUCCESS
+                      ? 'bg-green-50 text-green-700'
+                      : insight.type === InsightTypeEnum.WARNING
+                        ? 'bg-amber-50 text-amber-700'
+                        : 'bg-red-50 text-red-700'
+                  }`}
+                >
                   {insight.type === InsightTypeEnum.SUCCESS && '✅'}
                   {insight.type === InsightTypeEnum.WARNING && '⚠️'}
                   {insight.type === InsightTypeEnum.ERROR && '❌'}
@@ -48,7 +53,7 @@ export function ChatMessage({ chat }: ChatMessageProps) {
         </div>
 
         {/* Время и кнопка копирования */}
-        <div className={`flex items-center gap-2 mt-1 px-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
+        <div className={`flex items-center gap-1.5 sm:gap-2 mt-1 px-1.5 sm:px-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
           <p className="text-xs text-gray-400">{chat.time}</p>
 
           {/* Кнопка копирования */}
@@ -56,7 +61,7 @@ export function ChatMessage({ chat }: ChatMessageProps) {
             onClick={handleCopy}
             className={`
               opacity-0 group-hover:opacity-100 transition-opacity
-              p-1.5 rounded-lg hover:bg-gray-200
+              p-1 sm:p-1.5 rounded-md sm:rounded-lg hover:bg-gray-200
               flex items-center gap-1 text-xs cursor-pointer
               ${copied ? 'text-green-600' : 'text-gray-500'}
             `}
@@ -64,13 +69,13 @@ export function ChatMessage({ chat }: ChatMessageProps) {
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5" strokeWidth={2} />
-                <span className="text-[10px]">Скопировано</span>
+                <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
+                <span className="text-[10px] hidden sm:inline">Скопировано</span>
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5" strokeWidth={2} />
-                <span className="text-[10px]">Копировать</span>
+                <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
+                <span className="text-[10px] hidden sm:inline">Копировать</span>
               </>
             )}
           </button>
