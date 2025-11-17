@@ -13,9 +13,9 @@ const revenueData: RevenueDataInterface[] = [
 
 export function RevenueChart() {
   return (
-    <Card>
+    <Card className="flex flex-col">
       <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Динамика дохода</h3>
-        <ResponsiveContainer width="100%" height={180} className="sm:!h-[220px] md:!h-[250px]">
+        <ResponsiveContainer width="100%" height={250} className="sm:!h-[220px] md:!h-[250px]">
           <LineChart data={revenueData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="month" stroke="#9ca3af" fontSize={12} />
