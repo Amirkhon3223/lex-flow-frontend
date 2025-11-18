@@ -1,18 +1,19 @@
 import { create } from 'zustand';
 import { clientService } from '../services/clients/clientService';
-import type { Client, CreateClientDto, UpdateClientDto } from '../types/clients/client.types';
+import type { ClientInterface, CreateClientInterface } from '../types/clients/clients.interfaces';
+import type { UpdateClientType } from '../types/clients/clients.types';
 
 interface ClientsState {
-  clients: Client[];
-  selectedClient: Client | null;
+  clients: ClientInterface[];
+  selectedClient: ClientInterface | null;
   loading: boolean;
   error: string | null;
   fetchClients: () => Promise<void>;
   fetchClientById: (id: string) => Promise<void>;
-  createClient: (data: CreateClientDto) => Promise<void>;
-  updateClient: (id: string, data: UpdateClientDto) => Promise<void>;
+  createClient: (data: CreateClientInterface) => Promise<void>;
+  updateClient: (id: string, data: UpdateClientType) => Promise<void>;
   deleteClient: (id: string) => Promise<void>;
-  selectClient: (client: Client | null) => void;
+  selectClient: (client: ClientInterface | null) => void;
 }
 
 export const useClientsStore = create<ClientsState>((set) => ({
@@ -41,7 +42,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
     }
   },
 
-  createClient: async (data: CreateClientDto) => {
+  createClient: async (data: CreateClientInterface) => {
     set({ loading: true, error: null });
     try {
       const client = await clientService.create(data);
@@ -54,7 +55,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
     }
   },
 
-  updateClient: async (id: string, data: UpdateClientDto) => {
+  updateClient: async (id: string, data: UpdateClientType) => {
     set({ loading: true, error: null });
     try {
       const updatedClient = await clientService.update(id, data);
@@ -86,7 +87,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
     }
   },
 
-  selectClient: (client: Client | null) => {
+  selectClient: (client: ClientInterface | null) => {
     set({ selectedClient: client });
   },
 }));

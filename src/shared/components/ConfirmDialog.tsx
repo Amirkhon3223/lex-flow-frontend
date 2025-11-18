@@ -7,7 +7,7 @@
  * - Подтверждение критических действий (удаление, отмена и т.д.)
  */
 
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,

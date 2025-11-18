@@ -39,7 +39,6 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Meeting created:', { ...formData, date });
     onOpenChange(false);
 
     setDate(undefined);

@@ -6,6 +6,7 @@ import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { Textarea } from '@/shared/ui/textarea';
+import { getDocumentStatusColor } from '@/shared/utils/styleHelpers';
 
 interface CaseTabsCardProps {
   documents: CaseDocumentInterface[];
@@ -54,15 +55,7 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
               <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onDocumentClick(doc.id)}>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
                   <h4 className="tracking-tight truncate text-sm sm:text-base">{doc.name}</h4>
-                  <Badge
-                    className={`${
-                      doc.status === DocumentStatusEnum.FINAL
-                        ? 'bg-green-100 text-green-700'
-                        : doc.status === DocumentStatusEnum.REVIEW
-                          ? 'bg-blue-100 text-blue-700'
-                          : 'bg-gray-200 text-gray-700'
-                    } border-0 text-xs w-fit`}
-                  >
+                  <Badge className={`${getDocumentStatusColor(doc.status)} border-0 text-xs w-fit`}>
                     {doc.status === DocumentStatusEnum.FINAL
                       ? 'Финал'
                       : doc.status === DocumentStatusEnum.REVIEW

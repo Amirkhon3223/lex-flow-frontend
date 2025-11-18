@@ -4,21 +4,7 @@ import type { CaseCardProps } from '@/app/types/cases/cases.interfaces';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Progress } from '@/shared/ui/progress';
-
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case 'urgent':
-      return 'bg-red-100 text-red-700 border-red-200';
-    case 'medium':
-      return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-    case 'low':
-      return 'bg-blue-100 text-blue-700 border-blue-200';
-    case 'completed':
-      return 'bg-green-100 text-green-700 border-green-200';
-    default:
-      return 'bg-gray-100 text-gray-700 border-gray-200';
-  }
-};
+import { getStatusColor } from '@/shared/utils/styleHelpers';
 
 export function CaseCard({ caseItem }: CaseCardProps) {
   return (
