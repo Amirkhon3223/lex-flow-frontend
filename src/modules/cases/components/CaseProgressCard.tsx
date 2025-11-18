@@ -10,7 +10,7 @@ export function CaseProgressCard() {
           <h3 className="text-base sm:text-lg tracking-tight">Прогресс дела</h3>
           <span className="text-xl sm:text-2xl tracking-tight">75%</span>
         </div>
-        <Progress value={75} className="h-1.5 sm:h-2 mb-3 sm:mb-4" />
+        <Progress value={75} className="h-1.5 sm:h-2 mb-3 sm:mb-4 bg-gray-200 [&>div]:bg-blue-500" />
         <div className="grid grid-cols-4 sm:grid-cols-4 gap-3 sm:gap-4 text-center">
           <div className="flex flex-col items-center">
             <Badge className="bg-blue-100 text-blue-700 border-0 text-base sm:text-lg px-2.5 sm:px-3 py-1 mb-1.5 sm:mb-2">
