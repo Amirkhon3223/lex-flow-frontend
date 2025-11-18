@@ -1,7 +1,9 @@
-import { CheckCircle, XCircle, Clock, TrendingUp } from 'lucide-react';
+import { CheckCircle, XCircle, Clock } from 'lucide-react';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
 import { Progress } from '@/shared/ui/progress';
+import { IconContainer } from '@/shared/ui/common/IconContainer';
+import { TrendingBadge } from '@/shared/ui/common/TrendingBadge';
 
 const casesByStatus = [
   { status: 'Выиграно', count: 42, percentage: 68, color: 'text-green-600', bgColor: 'bg-green-50', icon: CheckCircle },
@@ -25,9 +27,7 @@ export function CasesTabContent() {
         {casesByStatus.map((item) => (
           <Card key={item.status}>
             <div className="flex items-center justify-between mb-2 sm:mb-3 md:mb-4">
-              <div className={`w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl ${item.bgColor} flex items-center justify-center`}>
-                <item.icon className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${item.color}`} strokeWidth={2} />
-              </div>
+              <IconContainer icon={item.icon} bgColor={item.bgColor} iconColor={item.color}/>
               <Badge className="bg-gray-100 text-gray-700 border-0 text-xs">
                 {item.percentage}%
               </Badge>
@@ -41,35 +41,33 @@ export function CasesTabContent() {
       {/* Cases by Practice Area */}
       <Card>
         <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Дела по практикам</h3>
-          <div className="space-y-3 sm:space-y-4 md:space-y-5">
-            {casesByPractice.map((item) => {
-              const winRate = Math.round((item.won / item.total) * 100);
-              return (
-                <div key={item.practice} className="space-y-2 sm:space-y-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                    <div className="min-w-0">
-                      <h4 className="tracking-tight mb-0.5 sm:mb-1 text-sm sm:text-base truncate">{item.practice}</h4>
-                      <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
-                        <span className="text-green-600">{item.won} выиграно</span>
-                        <span className="hidden sm:inline">•</span>
-                        <span className="text-blue-600">{item.inProgress} в процессе</span>
-                        <span className="hidden sm:inline">•</span>
-                        <span className="text-red-600">{item.lost} проиграно</span>
-                      </div>
-                    </div>
-                    <div className="text-left sm:text-right flex sm:block items-center gap-2">
-                      <div className="text-lg sm:text-xl md:text-2xl tracking-tight sm:mb-1">{item.total}</div>
-                      <Badge className="bg-green-50 text-green-700 border-0 flex items-center gap-0.5 sm:gap-1 text-xs">
-                        <TrendingUp className="w-2.5 h-2.5 sm:w-3 sm:h-3" strokeWidth={2} />
-                        {winRate}%
-                      </Badge>
+        <div className="space-y-3 sm:space-y-4 md:space-y-5">
+          {casesByPractice.map((item) => {
+            const winRate = Math.round((item.won / item.total) * 100);
+            return (
+              <div key={item.practice}
+                   className="p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl bg-gray-50 hover:bg-gray-100 transition-all">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="min-w-0">
+                    <h4 className="tracking-tight mb-0.5 sm:mb-2 text-sm sm:text-base truncate">{item.practice}</h4>
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
+                      <span className="text-green-600">{item.won} выиграно</span>
+                      <span className="hidden sm:inline">•</span>
+                      <span className="text-blue-600">{item.inProgress} в процессе</span>
+                      <span className="hidden sm:inline">•</span>
+                      <span className="text-red-600">{item.lost} проиграно</span>
                     </div>
                   </div>
-                  <Progress value={winRate} className="h-1.5 sm:h-2" />
+                  <div className="text-left sm:text-right flex sm:block items-center gap-2">
+                    <div className="text-lg sm:text-xl md:text-2xl tracking-tight sm:mb-1">{item.total}</div>
+                    <TrendingBadge value={`${winRate}%`} variant="success"/>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
+                <Progress value={winRate} className="h-1.5 sm:h-2"/>
+              </div>
+            );
+          })}
+        </div>
       </Card>
     </div>
   );

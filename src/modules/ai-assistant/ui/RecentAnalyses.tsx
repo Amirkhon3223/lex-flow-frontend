@@ -1,8 +1,8 @@
 import { FileText } from 'lucide-react';
-import { AnalysisStatusEnum } from '@/app/types/ai-assistant/ai-assistant.enums';
 import type { RecentAnalysisInterface } from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
+import { getAnalysisStatusColor } from '@/shared/utils/styleHelpers';
 
 interface RecentAnalysesProps {
   analyses: RecentAnalysisInterface[];
@@ -26,15 +26,7 @@ export function RecentAnalyses({ analyses }: RecentAnalysesProps) {
                 </div>
               </div>
               <div className="flex items-center justify-between gap-2">
-                <Badge
-                  className={`text-xs border-0 ${
-                    analysis.status === AnalysisStatusEnum.SUCCESS
-                      ? 'bg-green-100 text-green-700'
-                      : analysis.status === AnalysisStatusEnum.WARNING
-                        ? 'bg-amber-100 text-amber-700'
-                        : 'bg-red-100 text-red-700'
-                  }`}
-                >
+                <Badge className={`text-xs border-0 ${getAnalysisStatusColor(analysis.status)}`}>
                   {analysis.result}
                 </Badge>
                 <span className="text-xs text-gray-400 flex-shrink-0">{analysis.date}</span>

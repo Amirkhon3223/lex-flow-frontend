@@ -2,6 +2,7 @@ import { Award } from 'lucide-react';
 import type { LawyerStatsInterface } from '@/app/types/analytics/analytics.interfaces';
 import { Card } from '@/shared/ui/card';
 import { Progress } from '@/shared/ui/progress';
+import { getMedalGradient } from '@/shared/utils/styleHelpers';
 
 const topLawyers: LawyerStatsInterface[] = [
   { name: 'Александр И.', cases: 47, winRate: 89, revenue: 2400000 },
@@ -21,17 +22,7 @@ export function TeamStats() {
               className="p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl bg-gray-50 hover:bg-gray-100 transition-all"
             >
               <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3 md:mb-4">
-                <div
-                  className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl flex items-center justify-center text-white flex-shrink-0 ${
-                    index === 0
-                      ? 'bg-gradient-to-br from-yellow-400 to-yellow-500'
-                      : index === 1
-                        ? 'bg-gradient-to-br from-gray-300 to-gray-400'
-                        : index === 2
-                          ? 'bg-gradient-to-br from-orange-400 to-orange-500'
-                          : 'bg-gradient-to-br from-blue-500 to-blue-600'
-                  }`}
-                >
+                <div className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl flex items-center justify-center text-white flex-shrink-0 ${getMedalGradient(index)}`}>
                   {index === 0 && <Award className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5" strokeWidth={2} />}
                   {index !== 0 && <span className="text-sm sm:text-base md:text-lg">#{index + 1}</span>}
                 </div>

@@ -1,6 +1,8 @@
-import { DollarSign, TrendingUp, CreditCard, Wallet } from 'lucide-react';
-import { Badge } from '@/shared/ui/badge';
+import { DollarSign, CreditCard, Wallet } from 'lucide-react';
 import { Card } from '@/shared/ui/card';
+import { IconContainer } from '@/shared/ui/common/IconContainer';
+import { TrendingBadge } from '@/shared/ui/common/TrendingBadge';
+import { getMedalGradient } from '@/shared/utils/styleHelpers';
 
 const revenueBySource = [
   { source: 'Консультации', amount: 1250000, percentage: 32, color: 'bg-blue-500' },
@@ -32,19 +34,12 @@ export function FinanceTabContent() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {paymentStats.map((stat) => (
           <Card key={stat.title}>
-            <div>
-              <div className="flex items-center justify-between mb-2 sm:mb-3 md:mb-4">
-                <div className={`w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl ${stat.bgColor} flex items-center justify-center`}>
-                  <stat.icon className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${stat.iconColor}`} strokeWidth={2} />
-                </div>
-                <Badge className="bg-green-50 text-green-700 border-0 flex items-center gap-0.5 sm:gap-1 text-xs">
-                  <TrendingUp className="w-2.5 h-2.5 sm:w-3 sm:h-3" strokeWidth={2} />
-                  {stat.change}
-                </Badge>
-              </div>
-              <div className="text-xl sm:text-2xl md:text-3xl tracking-tight mb-0.5 sm:mb-1">{stat.value}</div>
-              <div className="text-xs sm:text-sm text-gray-500">{stat.title}</div>
+            <div className="flex items-center justify-between mb-2 sm:mb-3 md:mb-4">
+              <IconContainer icon={stat.icon} bgColor={stat.bgColor} iconColor={stat.iconColor} />
+              <TrendingBadge value={stat.change} variant="success" />
             </div>
+            <div className="text-xl sm:text-2xl md:text-3xl tracking-tight mb-0.5 sm:mb-1">{stat.value}</div>
+            <div className="text-xs sm:text-sm text-gray-500">{stat.title}</div>
           </Card>
         ))}
       </div>
@@ -94,17 +89,7 @@ export function FinanceTabContent() {
                   key={client.name}
                   className="flex items-center gap-2 sm:gap-3 md:gap-4 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-gray-50 hover:bg-gray-100 transition-all"
                 >
-                  <div
-                    className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-white font-medium text-xs sm:text-sm flex-shrink-0 ${
-                      index === 0
-                        ? 'bg-gradient-to-br from-yellow-400 to-yellow-500'
-                        : index === 1
-                          ? 'bg-gradient-to-br from-gray-300 to-gray-400'
-                          : index === 2
-                            ? 'bg-gradient-to-br from-orange-400 to-orange-500'
-                            : 'bg-gradient-to-br from-blue-500 to-blue-600'
-                    }`}
-                  >
+                  <div className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-white font-medium text-xs sm:text-sm flex-shrink-0 ${getMedalGradient(index)}`}>
                     {index + 1}
                   </div>
                   <div className="flex-1 min-w-0">
