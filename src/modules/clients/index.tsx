@@ -65,7 +65,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/app/config/routes.config.ts";
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
-import { CompactStatCard } from '@/modules/clients/ui/CompactStatCard';
+import { StatCard } from '@/shared/ui/stat-card';
 import { AddClientDialog } from '@/shared/components/AddClientDialog';
 import { EditClientDialog } from '@/shared/components/EditClientDialog';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
@@ -372,12 +372,20 @@ export function ClientsPage() {
         { }
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
           {stats.map((stat, index) => (
-            <CompactStatCard
+            <StatCard
               key={index}
               label={stat.label}
               value={stat.value}
               icon={stat.icon}
-              color={stat.color}
+              iconColor={stat.color}
+              // Map the text color to a background color for consistency with other modules
+              iconBg={
+                stat.color === 'text-blue-500' ? 'bg-blue-50' :
+                  stat.color === 'text-green-500' ? 'bg-green-50' :
+                    stat.color === 'text-purple-500' ? 'bg-purple-50' :
+                      stat.color === 'text-orange-500' ? 'bg-orange-50' : 'bg-muted'
+              }
+              valueColor={stat.color}
             />
           ))}
         </div>

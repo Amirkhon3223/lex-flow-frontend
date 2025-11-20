@@ -46,9 +46,9 @@ export function CaseTypesChart() {
           <div key={item.name} className="flex items-center justify-between text-xs sm:text-sm">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }}></div>
-              <span className="text-gray-600 truncate">{item.name}</span>
+              <span className="text-muted-foreground truncate">{item.name}</span>
             </div>
-            <span className="text-gray-900 flex-shrink-0">{item.value}%</span>
+            <span className="text-foreground flex-shrink-0">{item.value}%</span>
           </div>
         ))}
       </div>

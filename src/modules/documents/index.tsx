@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ArrowUpDown, Clock, FileText, Filter, Sparkles, Star, Upload } from 'lucide-react';
 import { DocumentCategoryEnum, DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 import type { DocumentInterface } from '@/app/types/documents/documents.interfaces';
-import { CompactStatCard } from '@/modules/clients/ui/CompactStatCard';
+import { StatCard } from '@/shared/ui/stat-card';
 import { DocumentCard } from '@/modules/documents/ui/DocumentCard';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
@@ -165,7 +165,7 @@ export function DocumentsPage() {
           { }
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
             {stats.map((stat, index) => (
-              <CompactStatCard
+              <StatCard
                 key={index}
                 label={stat.label}
                 value={stat.value}

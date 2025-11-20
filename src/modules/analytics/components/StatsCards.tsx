@@ -1,7 +1,5 @@
 import { Briefcase, Users, DollarSign, Target } from 'lucide-react';
-import { Card } from '@/shared/ui/card';
-import { IconContainer } from '@/shared/ui/common/IconContainer';
-import { TrendingBadge } from '@/shared/ui/common/TrendingBadge';
+import { StatCard } from '@/shared/ui/stat-card';
 
 const stats = [
   {
@@ -42,20 +40,16 @@ export function StatsCards() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
       {stats.map((stat) => (
-        <Card key={stat.label}>
-          <div className="flex items-center justify-between mb-2 sm:mb-3">
-            <IconContainer
-              icon={stat.icon}
-              bgColor={stat.bgColor}
-              iconColor={stat.iconColor}
-            />
-            <TrendingBadge value={stat.trend} variant="success" />
-          </div>
-          <div className="text-xl sm:text-2xl md:text-3xl tracking-tight mb-0.5 sm:mb-1">
-            {stat.value}
-          </div>
-          <div className="text-xs sm:text-sm text-gray-500">{stat.label}</div>
-        </Card>
+        <StatCard
+          key={stat.label}
+          label={stat.label}
+          value={stat.value}
+          icon={stat.icon}
+          iconBg={stat.bgColor}
+          iconColor={stat.iconColor}
+          trend={stat.trend}
+          trendUp={true} // Assuming all are positive based on the "+" sign
+        />
       ))}
     </div>
   );

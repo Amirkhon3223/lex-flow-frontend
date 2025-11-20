@@ -48,7 +48,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
   return (
     <aside
       className={`
-        fixed left-0 top-0 h-full bg-background/80 backdrop-blur-2xl border-r border-border z-50 transition-all duration-300 ease-in-out
+        fixed left-0 top-0 h-full bg-white dark:bg-gradient-to-br from-gray-900 to-gray-950 border-r border-border z-50 transition-all duration-300 ease-in-out
         ${isCollapsed ? 'md:w-20 lg:w-72' : 'md:w-72'}
         ${isMobileOpen ? 'w-72 translate-x-0' : 'w-72 -translate-x-full md:translate-x-0'}
       `}

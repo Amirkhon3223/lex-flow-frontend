@@ -86,6 +86,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/ui/table';
+import { StatCard } from '@/shared/ui/stat-card';
 
 
 export function CasePage() {
@@ -356,23 +357,17 @@ export function CasePage() {
       <main className="py-4 sm:py-6">
         { }
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <Card key={index} className="bg-card border-border shadow-sm">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className={`text-2xl sm:text-3xl tracking-tight mb-1 ${stat.color}`}>{stat.value}</div>
-                    <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
-                  </div>
-                  <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl ${stat.iconBg} flex items-center justify-center flex-shrink-0`}>
-                    <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.iconColor}`} strokeWidth={2} />
-                  </div>
-                </div>
-              </Card>
-            );
-          })}
+          {stats.map((stat, index) => (
+            <StatCard
+              key={index}
+              label={stat.label}
+              value={stat.value}
+              icon={stat.icon}
+              iconBg={stat.iconBg}
+              iconColor={stat.iconColor}
+              valueColor={stat.color}
+            />
+          ))}
         </div>
 
         { }
