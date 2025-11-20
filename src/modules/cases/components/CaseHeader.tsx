@@ -18,7 +18,7 @@ interface CaseHeaderProps {
 
 export function CaseHeader({ onBack, onCopyLink, onShareEmail, onEdit, onAddDocument }: CaseHeaderProps) {
   return (
-    <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+    <header className="relative bg-card border-b border-border rounded-xl">
       <div className="px-4 py-4">
         <div className="flex items-center justify-between mb-4">
           <Button
@@ -34,7 +34,7 @@ export function CaseHeader({ onBack, onCopyLink, onShareEmail, onEdit, onAddDocu
           <div className="flex items-center gap-1 sm:gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
+                <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
                   <Share2 className="w-5 h-5" strokeWidth={2} />
                 </Button>
               </DropdownMenuTrigger>
@@ -52,7 +52,7 @@ export function CaseHeader({ onBack, onCopyLink, onShareEmail, onEdit, onAddDocu
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100">
+                <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
                   <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
                 </Button>
               </DropdownMenuTrigger>
@@ -75,7 +75,7 @@ export function CaseHeader({ onBack, onCopyLink, onShareEmail, onEdit, onAddDocu
               <Badge className="bg-amber-100 text-amber-700 border-0 w-fit">В работе</Badge>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-[15px] text-gray-500">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-[15px] text-muted-foreground">
               <span className="flex items-center gap-2">
                 <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
                 <span className="truncate">Иванов Петр Алексеевич</span>

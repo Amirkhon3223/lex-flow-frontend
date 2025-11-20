@@ -48,7 +48,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
   return (
     <aside
       className={`
-        fixed left-0 top-0 h-full bg-white/80 backdrop-blur-2xl border-r border-gray-200/50 z-50 transition-all duration-300 ease-in-out
+        fixed left-0 top-0 h-full bg-background/80 backdrop-blur-2xl border-r border-border z-50 transition-all duration-300 ease-in-out
         ${isCollapsed ? 'md:w-20 lg:w-72' : 'md:w-72'}
         ${isMobileOpen ? 'w-72 translate-x-0' : 'w-72 -translate-x-full md:translate-x-0'}
       `}
@@ -63,7 +63,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
             {/* Text visible on mobile and desktop, hidden on tablet collapsed */}
             <div className={`transition-all duration-300 ${isCollapsed ? 'hidden lg:block' : 'block'}`}>
               <h1 className="text-xl tracking-tight">LexFlow</h1>
-              <p className="text-xs text-gray-500">Legal Platform</p>
+              <p className="text-xs text-muted-foreground">Legal Platform</p>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
                   ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
                   ${isActive
                     ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    : 'text-muted-foreground hover:bg-muted'
                   }
                 `}
               >
@@ -117,7 +117,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
 
         {/* Bottom section */}
         <div className={`p-4 space-y-1 ${isCollapsed ? 'md:p-2 lg:p-4' : ''}`}>
-          <Separator className="mb-3 bg-gray-200" />
+          <Separator className="mb-3 bg-border" />
           <Link
             to={ROUTES.AI_ASSISTANT}
             onClick={onMobileClose}
@@ -126,7 +126,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
               ${location.pathname === ROUTES.AI_ASSISTANT
                 ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                : 'text-gray-700 hover:bg-gray-100'
+                : 'text-muted-foreground hover:bg-muted'
               }
             `}
           >
@@ -154,7 +154,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
               ${location.pathname === ROUTES.SETTINGS
                 ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                : 'text-gray-700 hover:bg-gray-100'
+                : 'text-muted-foreground hover:bg-muted'
               }
             `}
           >
@@ -165,7 +165,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
           </Link>
           <button
             className={`
-              w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-gray-700 hover:bg-red-50 hover:text-red-600 cursor-pointer
+              w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-muted-foreground hover:bg-red-50 hover:text-red-600 cursor-pointer
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
             `}
             onClick={() => {

@@ -58,7 +58,7 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
       <Card>
         <div className="text-center">
           <div className="relative inline-block mb-3 sm:mb-4">
-            <Avatar className="w-20 h-20 sm:w-24 sm:h-24 ring-4 ring-gray-100">
+            <Avatar className="w-20 h-20 sm:w-24 sm:h-24 ring-4 ring-border">
               {currentAvatarUrl && (
                 <AvatarImage
                   src={currentAvatarUrl}
@@ -89,23 +89,23 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
           <h3 className="text-lg sm:text-xl tracking-tight mb-1">
             {profileData.lastName} {profileData.firstName}
           </h3>
-          <p className="text-xs sm:text-sm text-gray-500 mb-2">{profileData.position}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-2">{profileData.position}</p>
           <Badge className="bg-purple-100 text-purple-700 border-0 mb-3 sm:mb-4 text-xs sm:text-sm">
             Pro аккаунт
           </Badge>
 
-          <Separator className="my-3 sm:my-4 bg-gray-100" />
+          <Separator className="my-3 sm:my-4 bg-border" />
 
           <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
-            <div className="flex items-center gap-2 text-gray-600 justify-center sm:justify-start">
+            <div className="flex items-center gap-2 text-muted-foreground justify-center sm:justify-start">
               <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
               <span className="truncate">{profileData.email}</span>
             </div>
-            <div className="flex items-center gap-2 text-gray-600 justify-center sm:justify-start">
+            <div className="flex items-center gap-2 text-muted-foreground justify-center sm:justify-start">
               <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
               <span>{profileData.phone}</span>
             </div>
-            <div className="flex items-center gap-2 text-gray-600 justify-center sm:justify-start">
+            <div className="flex items-center gap-2 text-muted-foreground justify-center sm:justify-start">
               <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
               <span>Москва, Россия</span>
             </div>
@@ -120,10 +120,10 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
             {stats.map((stat, index) => (
               <div key={index} className="flex items-center justify-between">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gray-50 flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
                     <stat.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${stat.color}`} strokeWidth={2} />
                   </div>
-                  <span className="text-xs sm:text-sm text-gray-600">{stat.label}</span>
+                  <span className="text-xs sm:text-sm text-muted-foreground">{stat.label}</span>
                 </div>
                 <span className={`text-base sm:text-lg tracking-tight ${stat.color}`}>{stat.value}</span>
               </div>
@@ -135,7 +135,7 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
       <Card>
         <div>
           <h3 className="text-base sm:text-lg tracking-tight mb-2">Сессия</h3>
-          <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
             Выйти из аккаунта на этом устройстве
           </p>
           <Button

@@ -41,7 +41,7 @@ export function SecurityTabContent() {
               <Input
                 id="currentPassword"
                 type="password"
-                className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
+                className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm"
               />
             </div>
             <div className="space-y-1.5 sm:space-y-2">
@@ -51,7 +51,7 @@ export function SecurityTabContent() {
               <Input
                 id="newPassword"
                 type="password"
-                className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
+                className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm"
               />
             </div>
             <div className="space-y-1.5 sm:space-y-2">
@@ -61,11 +61,11 @@ export function SecurityTabContent() {
               <Input
                 id="confirmPassword"
                 type="password"
-                className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
+                className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm"
               />
             </div>
 
-            <Separator className="my-4 sm:my-5 md:my-6 bg-gray-200" />
+            <Separator className="my-4 sm:my-5 md:my-6 bg-border" />
 
             <Button
               type="submit"
@@ -114,7 +114,7 @@ export function SecurityTabContent() {
       <Card>
         <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-3 md:mb-4">Активные сессии</h3>
-          <p className="text-gray-500 mb-3 sm:mb-4 md:mb-6 text-xs sm:text-sm">
+          <p className="text-muted-foreground mb-3 sm:mb-4 md:mb-6 text-xs sm:text-sm">
             Это устройства, на которых выполнен вход в ваш аккаунт
           </p>
 

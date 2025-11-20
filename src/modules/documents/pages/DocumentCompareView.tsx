@@ -217,8 +217,8 @@ export function DocumentCompareView() {
 
   return (
     <div ref={containerRef}>
-      {}
-      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+      { }
+      <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
             <Button
@@ -238,7 +238,7 @@ export function DocumentCompareView() {
                   size="icon"
                   onClick={handleZoomOut}
                   disabled={zoomLevel <= 70}
-                  className="rounded-xl border-gray-200 hover:bg-gray-50"
+                  className="rounded-xl border-border hover:bg-muted"
                 >
                   <ZoomOut className="w-4 h-4" strokeWidth={2} />
                 </Button>
@@ -248,17 +248,17 @@ export function DocumentCompareView() {
                   size="icon"
                   onClick={handleZoomIn}
                   disabled={zoomLevel >= 150}
-                  className="rounded-xl border-gray-200 hover:bg-gray-50"
+                  className="rounded-xl border-border hover:bg-muted"
                 >
                   <ZoomIn className="w-4 h-4" strokeWidth={2} />
                 </Button>
 
-                <Separator orientation="vertical" className="h-8 mx-2 bg-gray-200" />
+                <Separator orientation="vertical" className="h-8 mx-2 bg-border" />
               </div>
 
               <Button
                 variant="outline"
-                className="rounded-xl border-gray-200 hover:bg-gray-50 hidden md:flex"
+                className="rounded-xl border-border hover:bg-muted hidden md:flex"
                 onClick={handleToggleFullscreen}
               >
                 {isFullscreen ? (
@@ -282,11 +282,11 @@ export function DocumentCompareView() {
             </div>
             <div>
               <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-tight">Сравнение версий</h1>
-              <p className="text-xs sm:text-sm text-gray-500">Исковое заявление.pdf</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">Исковое заявление.pdf</p>
             </div>
           </div>
 
-          {}
+          { }
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex-1 min-w-0">
               <Select
@@ -295,16 +295,16 @@ export function DocumentCompareView() {
                 open={openSelect === 'version1'}
                 onOpenChange={(open) => setOpenSelect(open ? 'version1' : null)}
               >
-                <SelectTrigger className="h-10 sm:h-12 rounded-xl border-gray-200 bg-white">
+                <SelectTrigger className="h-10 sm:h-12 rounded-xl border-input bg-background">
                   <div className="flex items-center gap-2 sm:gap-3 w-full">
-                    <FileText className="w-4 h-4 text-gray-400 flex-shrink-0 hidden sm:block" strokeWidth={2} />
+                    <FileText className="w-4 h-4 text-muted-foreground flex-shrink-0 hidden sm:block" strokeWidth={2} />
                     <div className="flex-1 text-left min-w-0">
                       <div className="text-xs sm:text-sm font-semibold truncate">v{version1}</div>
-                      <div className="text-xs text-gray-500 hidden sm:block">
+                      <div className="text-xs text-muted-foreground hidden sm:block">
                         {documentVersions.find(v => v.version === parseInt(version1))?.date}
                       </div>
                     </div>
-                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" strokeWidth={2} />
+                    <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" strokeWidth={2} />
                   </div>
                 </SelectTrigger>
                 <SelectContent>
@@ -312,7 +312,7 @@ export function DocumentCompareView() {
                     <SelectItem key={v.version} value={v.version.toString()} disabled={v.version.toString() === version2}>
                       <div className="py-1">
                         <div>Версия {v.version}</div>
-                        <div className="text-xs text-gray-500">{v.date} • {v.author}</div>
+                        <div className="text-xs text-muted-foreground">{v.date} • {v.author}</div>
                       </div>
                     </SelectItem>
                   ))}
@@ -331,16 +331,16 @@ export function DocumentCompareView() {
                 open={openSelect === 'version2'}
                 onOpenChange={(open) => setOpenSelect(open ? 'version2' : null)}
               >
-                <SelectTrigger className="h-10 sm:h-12 rounded-xl border-gray-200 bg-white">
+                <SelectTrigger className="h-10 sm:h-12 rounded-xl border-input bg-background">
                   <div className="flex items-center gap-2 sm:gap-3 w-full">
-                    <FileText className="w-4 h-4 text-gray-400 flex-shrink-0 hidden sm:block" strokeWidth={2} />
+                    <FileText className="w-4 h-4 text-muted-foreground flex-shrink-0 hidden sm:block" strokeWidth={2} />
                     <div className="flex-1 text-left min-w-0">
                       <div className="text-xs sm:text-sm font-semibold truncate">v{version2}</div>
-                      <div className="text-xs text-gray-500 hidden sm:block">
+                      <div className="text-xs text-muted-foreground hidden sm:block">
                         {documentVersions.find(v => v.version === parseInt(version2))?.date}
                       </div>
                     </div>
-                    <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" strokeWidth={2} />
+                    <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" strokeWidth={2} />
                   </div>
                 </SelectTrigger>
                 <SelectContent>
@@ -348,7 +348,7 @@ export function DocumentCompareView() {
                     <SelectItem key={v.version} value={v.version.toString()} disabled={v.version.toString() === version1}>
                       <div className="py-1">
                         <div>Версия {v.version}</div>
-                        <div className="text-xs text-gray-500">{v.date} • {v.author}</div>
+                        <div className="text-xs text-muted-foreground">{v.date} • {v.author}</div>
                       </div>
                     </SelectItem>
                   ))}
@@ -359,7 +359,7 @@ export function DocumentCompareView() {
         </div>
       </header>
 
-      {}
+      { }
       <main className="p-4 sm:p-6 lg:p-8">
         {/* Mobile layout - stacked */}
         <div className="lg:hidden space-y-4">
@@ -368,7 +368,7 @@ export function DocumentCompareView() {
             <div>
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold tracking-tight text-sm flex items-center gap-2">
-                  <History className="w-4 h-4 text-gray-500" strokeWidth={2} />
+                  <History className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
                   Изменений: {changesSummary.total}
                 </h3>
                 <div className="flex items-center gap-2">
@@ -377,11 +377,11 @@ export function DocumentCompareView() {
                     size="icon"
                     onClick={handlePrevChange}
                     disabled={currentChangeIndex === 0}
-                    className="rounded-lg border-gray-200 h-8 w-8"
+                    className="rounded-lg border-border h-8 w-8"
                   >
                     <ChevronLeft className="w-4 h-4" strokeWidth={2} />
                   </Button>
-                  <span className="text-xs text-gray-600">
+                  <span className="text-xs text-muted-foreground">
                     {currentChangeIndex + 1}/{changes.length}
                   </span>
                   <Button
@@ -389,7 +389,7 @@ export function DocumentCompareView() {
                     size="icon"
                     onClick={handleNextChange}
                     disabled={currentChangeIndex === changes.length - 1}
-                    className="rounded-lg border-gray-200 h-8 w-8"
+                    className="rounded-lg border-border h-8 w-8"
                   >
                     <ChevronRight className="w-4 h-4" strokeWidth={2} />
                   </Button>
@@ -415,15 +415,15 @@ export function DocumentCompareView() {
 
           {/* Old version */}
           <Card >
-            <div className="p-3 bg-gray-50 border-b border-gray-200">
+            <div className="p-3 bg-muted/50 border-b border-border">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-semibold tracking-tight text-sm mb-0.5">Версия {version1}</h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     {documentVersions.find(v => v.version === parseInt(version1))?.date}
                   </p>
                 </div>
-                <Badge className="bg-gray-200 text-gray-700 border-0 text-xs">Старая</Badge>
+                <Badge className="bg-muted text-muted-foreground border-0 text-xs">Старая</Badge>
               </div>
             </div>
             <ScrollArea className="h-[300px] sm:h-[400px]">
@@ -431,7 +431,7 @@ export function DocumentCompareView() {
                 className="p-4 font-mono text-xs leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html: oldContent
-                    .replace(/<span class="removed">(.*?)<\/span>/g, '<span class="bg-red-100 text-red-900 px-1 rounded line-through">$1</span>')
+                    .replace(/<span class="removed">(.*?)<\/span>/g, '<span class="bg-destructive/20 text-destructive px-1 rounded line-through">$1</span>')
                     .replace(/\n/g, '<br />'),
                 }}
               />
@@ -440,11 +440,11 @@ export function DocumentCompareView() {
 
           {/* New version */}
           <Card >
-            <div className="p-3 bg-green-50 border-b border-green-200">
+            <div className="p-3 bg-green-500/10 border-b border-green-500/20">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-semibold tracking-tight text-sm mb-0.5">Версия {version2}</h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     {documentVersions.find(v => v.version === parseInt(version2))?.date}
                   </p>
                 </div>
@@ -456,8 +456,8 @@ export function DocumentCompareView() {
                 className="p-4 font-mono text-xs leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html: newContent
-                    .replace(/<span class="added">(.*?)<\/span>/g, '<span class="bg-green-100 text-green-900 px-1 rounded">$1</span>')
-                    .replace(/<span class="modified">(.*?)<\/span>/g, '<span class="bg-blue-100 text-blue-900 px-1 rounded">$1</span>')
+                    .replace(/<span class="added">(.*?)<\/span>/g, '<span class="bg-green-500/20 text-green-700 dark:text-green-400 px-1 rounded">$1</span>')
+                    .replace(/<span class="modified">(.*?)<\/span>/g, '<span class="bg-blue-500/20 text-blue-700 dark:text-blue-400 px-1 rounded">$1</span>')
                     .replace(/\n/g, '<br />'),
                 }}
               />
@@ -465,24 +465,24 @@ export function DocumentCompareView() {
           </Card>
 
           {/* Legend for mobile */}
-          <Card className="bg-gray-50">
+          <Card className="bg-muted/50">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Info className="w-3.5 h-3.5 text-gray-500" strokeWidth={2} />
+                <Info className="w-3.5 h-3.5 text-muted-foreground" strokeWidth={2} />
                 <h4 className="text-xs font-semibold tracking-tight">Легенда</h4>
               </div>
               <div className="flex flex-wrap gap-3 text-xs">
                 <div className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded bg-green-100 border border-green-200"></div>
-                  <span className="text-gray-600">Добавлено</span>
+                  <span className="text-muted-foreground">Добавлено</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded bg-red-100 border border-red-200"></div>
-                  <span className="text-gray-600">Удалено</span>
+                  <span className="text-muted-foreground">Удалено</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded bg-blue-100 border border-blue-200"></div>
-                  <span className="text-gray-600">Изменено</span>
+                  <span className="text-muted-foreground">Изменено</span>
                 </div>
               </div>
             </div>
@@ -491,13 +491,13 @@ export function DocumentCompareView() {
 
         {/* Desktop layout - side by side */}
         <div className="hidden lg:grid grid-cols-4 gap-6">
-          {}
+          { }
           <div className="space-y-6">
-            {}
+            { }
             <Card>
               <div>
                 <h3 className="font-semibold tracking-tight mb-4 flex items-center gap-2">
-                  <History className="w-4 h-4 text-gray-500" strokeWidth={2} />
+                  <History className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
                   Обнаружено изменений
                 </h3>
 
@@ -533,7 +533,7 @@ export function DocumentCompareView() {
               </div>
             </Card>
 
-            {}
+            { }
             <Card>
               <div>
                 <h3 className="font-semibold tracking-tight mb-4">Навигация</h3>
@@ -544,12 +544,12 @@ export function DocumentCompareView() {
                     size="icon"
                     onClick={handlePrevChange}
                     disabled={currentChangeIndex === 0}
-                    className="rounded-xl border-gray-200"
+                    className="rounded-xl border-border"
                   >
                     <ChevronLeft className="w-4 h-4" strokeWidth={2} />
                   </Button>
 
-                  <div className="flex-1 text-center text-sm text-gray-600">
+                  <div className="flex-1 text-center text-sm text-muted-foreground">
                     {currentChangeIndex + 1} из {changes.length}
                   </div>
 
@@ -558,7 +558,7 @@ export function DocumentCompareView() {
                     size="icon"
                     onClick={handleNextChange}
                     disabled={currentChangeIndex === changes.length - 1}
-                    className="rounded-xl border-gray-200"
+                    className="rounded-xl border-border"
                   >
                     <ChevronRight className="w-4 h-4" strokeWidth={2} />
                   </Button>
@@ -570,31 +570,29 @@ export function DocumentCompareView() {
                       <button
                         key={change.id}
                         onClick={() => setCurrentChangeIndex(index)}
-                        className={`w-full text-left p-3 rounded-xl transition-all ${
-                          currentChangeIndex === index
+                        className={`w-full text-left p-3 rounded-xl transition-all ${currentChangeIndex === index
                             ? 'bg-blue-50 border-2 border-blue-200'
-                            : 'bg-gray-50 hover:bg-gray-100 border-2 border-transparent'
-                        }`}
+                            : 'bg-muted/50 hover:bg-muted border-2 border-transparent'
+                          }`}
                       >
                         <div className="flex items-center gap-2 mb-2">
-                          <Badge className={`text-xs border-0 ${
-                            change.type === DocumentChangeTypeEnum.ADDED ? 'bg-green-100 text-green-700' :
-                            change.type === DocumentChangeTypeEnum.REMOVED ? 'bg-red-100 text-red-700' :
-                            'bg-blue-100 text-blue-700'
-                          }`}>
+                          <Badge className={`text-xs border-0 ${change.type === DocumentChangeTypeEnum.ADDED ? 'bg-green-100 text-green-700' :
+                              change.type === DocumentChangeTypeEnum.REMOVED ? 'bg-red-100 text-red-700' :
+                                'bg-blue-100 text-blue-700'
+                            }`}>
                             {change.type === DocumentChangeTypeEnum.ADDED ? 'Добавлено' :
-                             change.type === DocumentChangeTypeEnum.REMOVED ? 'Удалено' :
-                             'Изменено'}
+                              change.type === DocumentChangeTypeEnum.REMOVED ? 'Удалено' :
+                                'Изменено'}
                           </Badge>
-                          <span className="text-xs text-gray-500">Строка {change.lineNumber}</span>
+                          <span className="text-xs text-muted-foreground">Строка {change.lineNumber}</span>
                         </div>
                         {change.oldText && (
-                          <div className="text-xs text-gray-600 mb-1 line-through">
+                          <div className="text-xs text-muted-foreground mb-1 line-through">
                             {change.oldText.substring(0, 50)}...
                           </div>
                         )}
                         {change.newText && (
-                          <div className="text-xs text-gray-900">
+                          <div className="text-xs text-foreground">
                             {change.newText.substring(0, 50)}...
                           </div>
                         )}
@@ -605,46 +603,46 @@ export function DocumentCompareView() {
               </div>
             </Card>
 
-            {}
-            <Card className="bg-gray-50">
+            { }
+            <Card className="bg-muted/50">
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <Info className="w-4 h-4 text-gray-500" strokeWidth={2} />
+                  <Info className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
                   <h4 className="text-sm font-semibold tracking-tight">Легенда</h4>
                 </div>
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded bg-green-100 border border-green-200"></div>
-                    <span className="text-gray-600">Добавленный текст</span>
+                    <span className="text-muted-foreground">Добавленный текст</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded bg-red-100 border border-red-200"></div>
-                    <span className="text-gray-600">Удаленный текст</span>
+                    <span className="text-muted-foreground">Удаленный текст</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded bg-blue-100 border border-blue-200"></div>
-                    <span className="text-gray-600">Измененный текст</span>
+                    <span className="text-muted-foreground">Измененный текст</span>
                   </div>
                 </div>
               </div>
             </Card>
           </div>
 
-          {}
+          { }
           <div className="col-span-3">
             <Card >
-              <div className="grid grid-cols-2 divide-x divide-gray-200">
-                {}
+              <div className="grid grid-cols-2 divide-x divide-border">
+                { }
                 <div>
-                  <div className="p-4 bg-gray-50 border-b border-gray-200">
+                  <div className="p-4 bg-muted/50 border-b border-border">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold tracking-tight mb-1">Версия {version1}</h3>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-muted-foreground">
                           {documentVersions.find(v => v.version === parseInt(version1))?.date}
                         </p>
                       </div>
-                      <Badge className="bg-gray-200 text-gray-700 border-0">Старая</Badge>
+                      <Badge className="bg-muted text-muted-foreground border-0">Старая</Badge>
                     </div>
                   </div>
                   <ScrollArea className="h-[800px]">
@@ -653,20 +651,20 @@ export function DocumentCompareView() {
                       style={{ fontSize: `${zoomLevel}%` }}
                       dangerouslySetInnerHTML={{
                         __html: oldContent
-                          .replace(/<span class="removed">(.*?)<\/span>/g, '<span class="bg-red-100 text-red-900 px-1 rounded line-through">$1</span>')
+                          .replace(/<span class="removed">(.*?)<\/span>/g, '<span class="bg-destructive/20 text-destructive px-1 rounded line-through">$1</span>')
                           .replace(/\n/g, '<br />'),
                       }}
                     />
                   </ScrollArea>
                 </div>
 
-                {}
+                { }
                 <div>
-                  <div className="p-4 bg-green-50 border-b border-green-200">
+                  <div className="p-4 bg-green-500/10 border-b border-green-500/20">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold tracking-tight mb-1">Версия {version2}</h3>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-muted-foreground">
                           {documentVersions.find(v => v.version === parseInt(version2))?.date}
                         </p>
                       </div>
@@ -679,8 +677,8 @@ export function DocumentCompareView() {
                       style={{ fontSize: `${zoomLevel}%` }}
                       dangerouslySetInnerHTML={{
                         __html: newContent
-                          .replace(/<span class="added">(.*?)<\/span>/g, '<span class="bg-green-100 text-green-900 px-1 rounded">$1</span>')
-                          .replace(/<span class="modified">(.*?)<\/span>/g, '<span class="bg-blue-100 text-blue-900 px-1 rounded">$1</span>')
+                          .replace(/<span class="added">(.*?)<\/span>/g, '<span class="bg-green-500/20 text-green-700 dark:text-green-400 px-1 rounded">$1</span>')
+                          .replace(/<span class="modified">(.*?)<\/span>/g, '<span class="bg-blue-500/20 text-blue-700 dark:text-blue-400 px-1 rounded">$1</span>')
                           .replace(/\n/g, '<br />'),
                       }}
                     />

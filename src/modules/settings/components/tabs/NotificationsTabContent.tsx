@@ -22,11 +22,11 @@ export function NotificationsTabContent() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between gap-2 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-gray-50"
+                className="flex items-center justify-between gap-2 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-muted/50"
               >
                 <div className="min-w-0">
                   <h4 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">{item.label}</h4>
-                  <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">{item.description}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{item.description}</p>
                 </div>
                 <Switch defaultChecked={item.checked} className="flex-shrink-0" />
               </div>
@@ -48,11 +48,11 @@ export function NotificationsTabContent() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between gap-2 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-gray-50"
+                className="flex items-center justify-between gap-2 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-muted/50"
               >
                 <div className="min-w-0">
                   <h4 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">{item.label}</h4>
-                  <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">{item.description}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{item.description}</p>
                 </div>
                 <Switch defaultChecked={item.checked} className="flex-shrink-0" />
               </div>

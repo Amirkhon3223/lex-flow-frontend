@@ -19,8 +19,8 @@ export function FeatureCard({ icon: Icon, title, description, gradient, count }:
         <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2} />
       </div>
       <h3 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">{title}</h3>
-      <p className="text-xs text-gray-500 mb-2 sm:mb-3 line-clamp-2">{description}</p>
-      <Badge className="bg-gray-100 text-gray-700 border-0 text-xs">{count}</Badge>
+      <p className="text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-2">{description}</p>
+      <Badge className="bg-muted text-muted-foreground border-0 text-xs">{count}</Badge>
     </Card>
   );
 }

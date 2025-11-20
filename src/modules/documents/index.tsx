@@ -131,25 +131,25 @@ export function DocumentsPage() {
     { label: 'Всего', value: documents.length, icon: FileText, color: 'text-blue-500' },
     { label: 'На проверке', value: documents.filter(d => d.status === DocumentStatusEnum.REVIEW).length, icon: Clock, color: 'text-amber-500' },
     { label: 'Избранные', value: documents.filter(d => d.starred).length, icon: Star, color: 'text-yellow-500' },
-    { label: 'Черновиков', value: documents.filter(d => d.status === DocumentStatusEnum.DRAFT).length, icon: Filter, color: 'text-gray-500' },
+    { label: 'Черновиков', value: documents.filter(d => d.status === DocumentStatusEnum.DRAFT).length, icon: Filter, color: 'text-muted-foreground' },
   ];
 
   return (
     <div>
-      <UploadDocumentDialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen}/>
+      <UploadDocumentDialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen} />
 
-      {}
-      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+      { }
+      <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 py-4 sm:py-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4 sm:mb-6">
             <div className="flex items-center gap-3">
               <div
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
-                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5}/>
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">Документы</h1>
-                <p className="text-gray-500 text-sm sm:text-base lg:text-lg">Управление всеми документами</p>
+                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">Управление всеми документами</p>
               </div>
             </div>
 
@@ -157,12 +157,12 @@ export function DocumentsPage() {
               className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full sm:w-auto"
               onClick={() => setIsUploadDialogOpen(true)}
             >
-              <Upload className="w-4 h-4 mr-2" strokeWidth={2}/>
+              <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
               Загрузить документ
             </Button>
           </div>
 
-          {}
+          { }
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
             {stats.map((stat, index) => (
               <CompactStatCard

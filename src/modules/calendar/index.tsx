@@ -253,7 +253,7 @@ export function CalendarPage() {
     <div>
       <AddMeetingDialog open={isAddMeetingOpen} onOpenChange={setIsAddMeetingOpen} />
 
-      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+      <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between gap-3 mb-3 sm:mb-4">
             <div className="flex items-center gap-2 sm:gap-3">
@@ -262,7 +262,7 @@ export function CalendarPage() {
               </div>
               <div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">Календарь</h1>
-                <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg">Все встречи и события</p>
+                <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">Все встречи и события</p>
               </div>
             </div>
 

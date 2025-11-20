@@ -11,9 +11,9 @@ const getIconBg = (color: string) => {
     'text-red-500': 'bg-red-50',
     'text-amber-500': 'bg-amber-50',
     'text-yellow-500': 'bg-yellow-50',
-    'text-gray-500': 'bg-gray-50',
+    'text-muted-foreground': 'bg-muted',
   };
-  return colorMap[color] || 'bg-gray-50';
+  return colorMap[color] || 'bg-muted';
 };
 
 export function CompactStatCard({ label, value, icon, color }: CompactStatCardProps) {
@@ -22,7 +22,7 @@ export function CompactStatCard({ label, value, icon, color }: CompactStatCardPr
       <div className="flex items-center justify-between">
         <div>
           <div className={`text-3xl tracking-tight mb-1 ${color}`}>{value}</div>
-          <div className="text-sm text-gray-500">{label}</div>
+          <div className="text-sm text-muted-foreground">{label}</div>
         </div>
         <IconContainer
           icon={icon}

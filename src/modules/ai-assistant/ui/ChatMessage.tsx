@@ -24,23 +24,21 @@ export function ChatMessage({ chat }: ChatMessageProps) {
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div className={`max-w-[90%] sm:max-w-[80%] group`}>
         <div
-          className={`rounded-xl sm:rounded-2xl p-3 sm:p-4 ${
-            isUser ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-900'
-          }`}
+          className={`rounded-xl sm:rounded-2xl p-3 sm:p-4 ${isUser ? 'bg-blue-500 text-white' : 'bg-muted text-foreground'
+            }`}
         >
           <p className="whitespace-pre-wrap text-xs sm:text-sm leading-relaxed">{chat.message}</p>
           {chat.type === MessageTypeEnum.AI && chat.insights && (
-            <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-200 space-y-1.5 sm:space-y-2">
+            <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-border space-y-1.5 sm:space-y-2">
               {chat.insights.map((insight, idx) => (
                 <div
                   key={idx}
-                  className={`flex items-center gap-1.5 sm:gap-2 text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-md sm:rounded-lg ${
-                    insight.type === InsightTypeEnum.SUCCESS
-                      ? 'bg-green-50 text-green-700'
+                  className={`flex items-center gap-1.5 sm:gap-2 text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-md sm:rounded-lg ${insight.type === InsightTypeEnum.SUCCESS
+                      ? 'bg-green-500/10 text-green-600 dark:text-green-400'
                       : insight.type === InsightTypeEnum.WARNING
-                        ? 'bg-amber-50 text-amber-700'
-                        : 'bg-red-50 text-red-700'
-                  }`}
+                        ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                        : 'bg-destructive/10 text-destructive'
+                    }`}
                 >
                   {insight.type === InsightTypeEnum.SUCCESS && '✅'}
                   {insight.type === InsightTypeEnum.WARNING && '⚠️'}
@@ -54,16 +52,16 @@ export function ChatMessage({ chat }: ChatMessageProps) {
 
         {/* Время и кнопка копирования */}
         <div className={`flex items-center gap-1.5 sm:gap-2 mt-1 px-1.5 sm:px-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-          <p className="text-xs text-gray-400">{chat.time}</p>
+          <p className="text-xs text-muted-foreground">{chat.time}</p>
 
           {/* Кнопка копирования */}
           <button
             onClick={handleCopy}
             className={`
               opacity-0 group-hover:opacity-100 transition-opacity
-              p-1 sm:p-1.5 rounded-md sm:rounded-lg hover:bg-gray-200
+              p-1 sm:p-1.5 rounded-md sm:rounded-lg hover:bg-muted
               flex items-center gap-1 text-xs cursor-pointer
-              ${copied ? 'text-green-600' : 'text-gray-500'}
+              ${copied ? 'text-green-600' : 'text-muted-foreground'}
             `}
             title={copied ? 'Скопировано!' : 'Копировать сообщение'}
           >

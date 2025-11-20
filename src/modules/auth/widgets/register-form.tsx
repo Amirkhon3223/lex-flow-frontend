@@ -23,24 +23,24 @@ export function RegisterForm({
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <div className="space-y-1.5 sm:space-y-2">
-          <Label htmlFor="register-firstname" className="text-slate-700 text-sm sm:text-base">
+          <Label htmlFor="register-firstname" className="text-foreground text-sm sm:text-base">
             Имя
           </Label>
           <div className="relative">
-            <User className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+            <User className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
             <Input
               id="register-firstname"
               type="text"
               placeholder="Иван"
               value={firstName}
               onChange={(e) => onFirstNameChange(e.target.value)}
-              className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-slate-50/50 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
+              className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-muted/50 border-input focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
               required
             />
           </div>
         </div>
         <div className="space-y-1.5 sm:space-y-2">
-          <Label htmlFor="register-lastname" className="text-slate-700 text-sm sm:text-base">
+          <Label htmlFor="register-lastname" className="text-foreground text-sm sm:text-base">
             Фамилия
           </Label>
           <Input
@@ -49,14 +49,14 @@ export function RegisterForm({
             placeholder="Петров"
             value={lastName}
             onChange={(e) => onLastNameChange(e.target.value)}
-            className="h-11 sm:h-12 rounded-lg sm:rounded-xl bg-slate-50/50 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
+            className="h-11 sm:h-12 rounded-lg sm:rounded-xl bg-muted/50 border-input focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
             required
           />
         </div>
       </div>
 
       <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="register-email" className="text-slate-700 text-sm sm:text-base">
+        <Label htmlFor="register-email" className="text-foreground text-sm sm:text-base">
           Email
         </Label>
         <div className="relative">
@@ -74,7 +74,7 @@ export function RegisterForm({
       </div>
 
       <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="register-firm" className="text-slate-700 text-sm sm:text-base">
+        <Label htmlFor="register-firm" className="text-foreground text-sm sm:text-base">
           Название фирмы
         </Label>
         <div className="relative">
@@ -92,7 +92,7 @@ export function RegisterForm({
       </div>
 
       <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="register-password" className="text-slate-700 text-sm sm:text-base">
+        <Label htmlFor="register-password" className="text-foreground text-sm sm:text-base">
           Пароль
         </Label>
         <div className="relative">
@@ -107,7 +107,7 @@ export function RegisterForm({
             required
           />
         </div>
-        <p className="text-xs sm:text-xs text-slate-500">
+        <p className="text-xs sm:text-xs text-muted-foreground">
           Минимум 8 символов, включая буквы и цифры
         </p>
       </div>
@@ -115,12 +115,12 @@ export function RegisterForm({
       <div className="flex items-start space-x-2 pt-1 sm:pt-2">
         <Checkbox
           id="terms"
-          className="rounded-md border-slate-300 mt-0.5"
+          className="rounded-md border-input mt-0.5"
           required
         />
         <label
           htmlFor="terms"
-          className="text-xs sm:text-sm text-slate-600 cursor-pointer select-none"
+          className="text-xs sm:text-sm text-muted-foreground cursor-pointer select-none"
         >
           Я согласен с{' '}
           <Button
