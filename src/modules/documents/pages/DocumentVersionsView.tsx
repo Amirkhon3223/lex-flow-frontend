@@ -1,20 +1,10 @@
-import {
-  ArrowLeft,
-  Download,
-  Eye,
-  Clock,
-  User,
-  GitCompare,
-  FileText,
-  CheckCircle2,
-  MoreHorizontal,
-  Upload,
-  Trash2,
-} from 'lucide-react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Badge } from '@/shared/ui/badge.tsx';
-import { Button } from '@/shared/ui/button.tsx';
-import { Card } from '@/shared/ui/card.tsx';
+import { ArrowLeft, Calendar, Clock, Download, Eye, FileText, History, MoreHorizontal, Share2, Upload, CheckCircle2, GitCompare, Trash2, User } from 'lucide-react';
+import { BackButton } from '@/shared/components/BackButton';
+import { Button } from '@/shared/ui/button';
+import { Badge } from '@/shared/ui/badge';
+import { Card } from '@/shared/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -78,14 +68,7 @@ export function DocumentVersionsView() {
           {/* Mobile header row */}
           <div className="md:hidden">
             <div className="flex items-center justify-between gap-2 mb-3">
-              <Button
-                variant="ghost"
-                className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2"
-                onClick={onBack}
-              >
-                <ArrowLeft className="w-4 h-4 mr-1.5" strokeWidth={2} />
-                <span className="text-sm">Назад</span>
-              </Button>
+              <BackButton onClick={onBack} label="Назад к документам" />
 
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white px-3 py-1.5">
                 <div className="text-center">
@@ -105,14 +88,7 @@ export function DocumentVersionsView() {
 
           {/* Desktop header row */}
           <div className="hidden md:flex items-center justify-between gap-3 mb-4">
-            <Button
-              variant="ghost"
-              className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2"
-              onClick={onBack}
-            >
-              <ArrowLeft className="w-5 h-5 mr-2" strokeWidth={2} />
-              <span className="text-base">Назад к документам</span>
-            </Button>
+            <BackButton onClick={onBack} label="Назад к документам" />
 
             <div className="flex items-center gap-2">
               <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base">
@@ -198,8 +174,8 @@ export function DocumentVersionsView() {
                   <div className="flex items-start gap-3 mb-3">
                     <div className="flex flex-col items-center">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-medium ${version.isCurrent
-                          ? 'bg-blue-500 text-white'
-                          : 'bg-muted text-muted-foreground'
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-muted text-muted-foreground'
                         }`}>
                         v{version.version}
                       </div>
@@ -319,8 +295,8 @@ export function DocumentVersionsView() {
                   { }
                   <div className="flex flex-col items-center">
                     <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg ${version.isCurrent
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-muted text-muted-foreground'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-muted text-muted-foreground'
                       }`}>
                       v{version.version}
                     </div>

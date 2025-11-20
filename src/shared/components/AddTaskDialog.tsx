@@ -33,11 +33,11 @@ export function AddTaskDialog({ open, onOpenChange, onSubmit }: AddTaskDialogPro
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-white/95 backdrop-blur-2xl border-gray-200/50">
+      <DialogContent className="max-w-md bg-background/95 backdrop-blur-2xl border-border/50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-2xl">
-            <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center">
-              <CheckSquare className="w-6 h-6 text-green-600" strokeWidth={2} />
+            <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center">
+              <CheckSquare className="w-6 h-6 text-green-600 dark:text-green-400" strokeWidth={2} />
             </div>
             Новая задача
           </DialogTitle>
@@ -45,7 +45,7 @@ export function AddTaskDialog({ open, onOpenChange, onSubmit }: AddTaskDialogPro
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-sm text-gray-700">
+            <Label htmlFor="title" className="text-sm text-foreground">
               Название задачи *
             </Label>
             <Input
@@ -53,7 +53,7 @@ export function AddTaskDialog({ open, onOpenChange, onSubmit }: AddTaskDialogPro
               placeholder="Например: Подготовить документы"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="h-12 rounded-xl border-gray-200 focus-visible:ring-green-500"
+              className="h-12 rounded-xl border-input focus-visible:ring-green-500"
               required
             />
           </div>
@@ -64,7 +64,7 @@ export function AddTaskDialog({ open, onOpenChange, onSubmit }: AddTaskDialogPro
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="flex-1 h-12 rounded-xl border-gray-200 hover:bg-gray-50"
+              className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
               Отмена
             </Button>

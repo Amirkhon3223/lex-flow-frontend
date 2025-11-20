@@ -1,4 +1,5 @@
-import { ArrowLeft, Calendar, Edit, Link, Mail, MoreHorizontal, Paperclip, Share2, Tag, User } from 'lucide-react';
+import { Calendar, Edit, Link, Mail, MoreHorizontal, Paperclip, Share2, Tag, User } from 'lucide-react';
+import { BackButton } from '@/shared/components/BackButton';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import {
@@ -21,15 +22,7 @@ export function CaseHeader({ onBack, onCopyLink, onShareEmail, onEdit, onAddDocu
     <header className="relative bg-card border-b border-border rounded-xl">
       <div className="px-4 py-4">
         <div className="flex items-center justify-between mb-4">
-          <Button
-            variant="ghost"
-            className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2 text-sm sm:text-base"
-            onClick={onBack}
-          >
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" strokeWidth={2} />
-            <span className="hidden sm:inline">Все дела</span>
-            <span className="sm:hidden">Назад</span>
-          </Button>
+          <BackButton onClick={onBack} label="Все дела" />
 
           <div className="flex items-center gap-1 sm:gap-2">
             <DropdownMenu>

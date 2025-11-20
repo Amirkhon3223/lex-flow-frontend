@@ -127,7 +127,7 @@ export function AIAssistantView() {
 
       <main className="">
         <Tabs defaultValue="chat" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-          <TabsList className="bg-muted rounded-lg sm:rounded-xl p-0.5 sm:p-1 w-full sm:w-auto">
+          <TabsList className="rounded-lg sm:rounded-xl p-0.5 sm:p-1 w-full sm:w-auto">
             <TabsTrigger
               value="chat"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"

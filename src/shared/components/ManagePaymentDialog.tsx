@@ -33,15 +33,15 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-white/95 backdrop-blur-2xl border-gray-200/50">
+      <DialogContent className="max-w-md bg-background/95 backdrop-blur-2xl border-border/50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-2xl">
-            <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center">
-              <CreditCard className="w-6 h-6 text-green-600" strokeWidth={2} />
+            <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center">
+              <CreditCard className="w-6 h-6 text-green-600 dark:text-green-400" strokeWidth={2} />
             </div>
             Способ оплаты
           </DialogTitle>
-          <DialogDescription className="text-gray-500">
+          <DialogDescription className="text-muted-foreground">
             Обновите информацию о платёжной карте
           </DialogDescription>
         </DialogHeader>
@@ -50,14 +50,14 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
           <div className="space-y-2">
             <Label htmlFor="cardNumber">Номер карты</Label>
             <div className="relative">
-              <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
+              <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
               <Input
                 id="cardNumber"
                 type="text"
                 placeholder="1234 5678 9012 3456"
                 value={formData.cardNumber}
                 onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
-                className="h-12 pl-12 rounded-xl border-gray-200"
+                className="h-12 pl-12 rounded-xl border-input"
                 required
               />
             </div>
@@ -67,14 +67,14 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
             <div className="space-y-2">
               <Label htmlFor="expiry">Срок действия</Label>
               <div className="relative">
-                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
+                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
                 <Input
                   id="expiry"
                   type="text"
                   placeholder="MM/YY"
                   value={formData.expiry}
                   onChange={(e) => setFormData({ ...formData, expiry: e.target.value })}
-                  className="h-12 pl-12 rounded-xl border-gray-200"
+                  className="h-12 pl-12 rounded-xl border-input"
                   required
                 />
               </div>
@@ -88,7 +88,7 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
                 maxLength={3}
                 value={formData.cvv}
                 onChange={(e) => setFormData({ ...formData, cvv: e.target.value })}
-                className="h-12 rounded-xl border-gray-200"
+                className="h-12 rounded-xl border-input"
                 required
               />
             </div>
@@ -99,7 +99,7 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="flex-1 h-12 rounded-xl border-gray-200 hover:bg-gray-50"
+              className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
               Отмена
             </Button>

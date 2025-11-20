@@ -1,25 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
-import {
-  ArrowLeft,
-  GitCompare,
-  Download,
-  ChevronLeft,
-  ChevronRight,
-  FileText,
-  History,
-  ArrowRight,
-  ZoomIn,
-  ZoomOut,
-  Maximize2,
-  Minimize2,
-  Info,
-  ChevronDown,
-} from 'lucide-react';
-import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums.ts';
-import type { DocumentChangeInterface, DocumentVersionInterface } from '@/app/types/documents/documents.interfaces.ts';
-import { Badge } from '@/shared/ui/badge.tsx';
-import { Button } from '@/shared/ui/button.tsx';
-import { Card } from '@/shared/ui/card.tsx';
+import React, { useState, useRef, useEffect } from 'react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Download, Eye, FileText, Info, Maximize2, Minimize2, RotateCcw, Search, ZoomIn, ZoomOut } from 'lucide-react';
+import { BackButton } from '@/shared/components/BackButton';
+import { Button } from '@/shared/ui/button';
+import { Badge } from '@/shared/ui/badge';
+import { Card } from '@/shared/ui/card';
+import { cn } from '@/shared/lib/utils';
 import { ScrollArea } from '@/shared/ui/scroll-area.tsx';
 import {
   Select,
@@ -221,14 +206,7 @@ export function DocumentCompareView() {
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-            <Button
-              variant="ghost"
-              className="text-blue-500 hover:bg-blue-50 rounded-xl -ml-2 w-fit"
-              onClick={onBack}
-            >
-              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" strokeWidth={2} />
-              <span className="text-sm sm:text-base">Назад к версиям</span>
-            </Button>
+            <BackButton onClick={onBack} label="Назад к версиям" />
 
             <div className="flex items-center gap-2 flex-wrap">
               {/* Zoom controls - hidden on mobile */}
@@ -397,17 +375,17 @@ export function DocumentCompareView() {
               </div>
 
               <div className="flex gap-2">
-                <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-green-50">
+                <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-green-500/10">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                  <span className="text-xs text-green-900">+{changesSummary.added}</span>
+                  <span className="text-xs text-green-700 dark:text-green-400">+{changesSummary.added}</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-red-50">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
-                  <span className="text-xs text-red-900">-{changesSummary.removed}</span>
+                <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-destructive/10">
+                  <div className="w-1.5 h-1.5 rounded-full bg-destructive"></div>
+                  <span className="text-xs text-destructive">-{changesSummary.removed}</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-blue-50">
+                <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-blue-500/10">
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                  <span className="text-xs text-blue-900">~{changesSummary.modified}</span>
+                  <span className="text-xs text-blue-700 dark:text-blue-400">~{changesSummary.modified}</span>
                 </div>
               </div>
             </div>
@@ -473,15 +451,15 @@ export function DocumentCompareView() {
               </div>
               <div className="flex flex-wrap gap-3 text-xs">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded bg-green-100 border border-green-200"></div>
+                  <div className="w-3 h-3 rounded bg-green-500/20 border border-green-500/30"></div>
                   <span className="text-muted-foreground">Добавлено</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded bg-red-100 border border-red-200"></div>
+                  <div className="w-3 h-3 rounded bg-destructive/20 border border-destructive/30"></div>
                   <span className="text-muted-foreground">Удалено</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded bg-blue-100 border border-blue-200"></div>
+                  <div className="w-3 h-3 rounded bg-blue-500/20 border border-blue-500/30"></div>
                   <span className="text-muted-foreground">Изменено</span>
                 </div>
               </div>
@@ -506,28 +484,28 @@ export function DocumentCompareView() {
                 </div>
 
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-green-50">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/10">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                      <span className="text-sm text-green-900">Добавлено</span>
+                      <span className="text-sm text-green-700 dark:text-green-400">Добавлено</span>
                     </div>
-                    <span className="text-sm text-green-700">{changesSummary.added}</span>
+                    <span className="text-sm text-green-700 dark:text-green-400">{changesSummary.added}</span>
                   </div>
 
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-red-50">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-destructive/10">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                      <span className="text-sm text-red-900">Удалено</span>
+                      <div className="w-2 h-2 rounded-full bg-destructive"></div>
+                      <span className="text-sm text-destructive">Удалено</span>
                     </div>
-                    <span className="text-sm text-red-700">{changesSummary.removed}</span>
+                    <span className="text-sm text-destructive">{changesSummary.removed}</span>
                   </div>
 
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-blue-50">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-blue-500/10">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                      <span className="text-sm text-blue-900">Изменено</span>
+                      <span className="text-sm text-blue-700 dark:text-blue-400">Изменено</span>
                     </div>
-                    <span className="text-sm text-blue-700">{changesSummary.modified}</span>
+                    <span className="text-sm text-blue-700 dark:text-blue-400">{changesSummary.modified}</span>
                   </div>
                 </div>
               </div>
@@ -571,14 +549,14 @@ export function DocumentCompareView() {
                         key={change.id}
                         onClick={() => setCurrentChangeIndex(index)}
                         className={`w-full text-left p-3 rounded-xl transition-all ${currentChangeIndex === index
-                            ? 'bg-blue-50 border-2 border-blue-200'
-                            : 'bg-muted/50 hover:bg-muted border-2 border-transparent'
+                          ? 'bg-blue-50 border-2 border-blue-200'
+                          : 'bg-muted/50 hover:bg-muted border-2 border-transparent'
                           }`}
                       >
                         <div className="flex items-center gap-2 mb-2">
-                          <Badge className={`text-xs border-0 ${change.type === DocumentChangeTypeEnum.ADDED ? 'bg-green-100 text-green-700' :
-                              change.type === DocumentChangeTypeEnum.REMOVED ? 'bg-red-100 text-red-700' :
-                                'bg-blue-100 text-blue-700'
+                          <Badge className={`text-xs border-0 ${change.type === DocumentChangeTypeEnum.ADDED ? 'bg-green-500/10 text-green-700 dark:text-green-400' :
+                            change.type === DocumentChangeTypeEnum.REMOVED ? 'bg-destructive/10 text-destructive' :
+                              'bg-blue-500/10 text-blue-700 dark:text-blue-400'
                             }`}>
                             {change.type === DocumentChangeTypeEnum.ADDED ? 'Добавлено' :
                               change.type === DocumentChangeTypeEnum.REMOVED ? 'Удалено' :
@@ -612,15 +590,15 @@ export function DocumentCompareView() {
                 </div>
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-green-100 border border-green-200"></div>
+                    <div className="w-4 h-4 rounded bg-green-500/20 border border-green-500/30"></div>
                     <span className="text-muted-foreground">Добавленный текст</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-red-100 border border-red-200"></div>
+                    <div className="w-4 h-4 rounded bg-destructive/20 border border-destructive/30"></div>
                     <span className="text-muted-foreground">Удаленный текст</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-blue-100 border border-blue-200"></div>
+                    <div className="w-4 h-4 rounded bg-blue-500/20 border border-blue-500/30"></div>
                     <span className="text-muted-foreground">Измененный текст</span>
                   </div>
                 </div>

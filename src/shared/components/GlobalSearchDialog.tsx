@@ -48,18 +48,18 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl p-0 gap-0 bg-white/95 backdrop-blur-2xl border-gray-200/50">
+      <DialogContent className="max-w-3xl p-0 gap-0 bg-background/95 backdrop-blur-2xl border-border/50">
         <DialogTitle className="sr-only">Глобальный поиск</DialogTitle>
         <DialogDescription className="sr-only">Поиск по делам, клиентам и документам</DialogDescription>
 
         <div className="p-6 pb-4">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" strokeWidth={2} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" strokeWidth={2} />
             <Input
               placeholder="Поиск клиентов, дел, документов..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 pr-12 h-14 bg-gray-50/50 border-0 rounded-2xl text-lg focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="pl-12 pr-12 h-14 bg-muted/50 border-0 rounded-2xl text-lg focus-visible:ring-2 focus-visible:ring-blue-500"
               autoFocus
             />
             {searchQuery && (
@@ -75,16 +75,16 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
           </div>
         </div>
 
-        <Separator className="bg-gray-100" />
+        <Separator className="bg-border" />
 
         <ScrollArea className="max-h-[500px]">
           <div className="p-6 space-y-6">
-            {}
+            { }
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Briefcase className="w-5 h-5 text-blue-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-gray-700">Дела</h3>
-                <Badge className="bg-gray-100 text-gray-600 border-0 text-xs">
+                <h3 className="text-sm font-medium text-foreground">Дела</h3>
+                <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                   {searchResults.cases.length}
                 </Badge>
               </div>
@@ -92,7 +92,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
                 {searchResults.cases.map((caseItem) => (
                   <button
                     key={caseItem.id}
-                    className="w-full p-4 rounded-xl hover:bg-gray-50 transition-colors text-left group"
+                    className="w-full p-4 rounded-xl hover:bg-muted transition-colors text-left group"
                     onClick={() => onOpenChange(false)}
                   >
                     <div className="flex items-start justify-between gap-3">
@@ -100,7 +100,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
                         <h4 className="text-sm font-medium mb-1 group-hover:text-blue-600 transition-colors">
                           {caseItem.title}
                         </h4>
-                        <p className="text-xs text-gray-500">{caseItem.client}</p>
+                        <p className="text-xs text-muted-foreground">{caseItem.client}</p>
                       </div>
                       <Badge className="bg-blue-50 text-blue-700 border-0 text-xs">
                         {caseItem.status}
@@ -111,14 +111,14 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
               </div>
             </div>
 
-            <Separator className="bg-gray-100" />
+            <Separator className="bg-border" />
 
-            {}
+            { }
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Users className="w-5 h-5 text-purple-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-gray-700">Клиенты</h3>
-                <Badge className="bg-gray-100 text-gray-600 border-0 text-xs">
+                <h3 className="text-sm font-medium text-foreground">Клиенты</h3>
+                <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                   {searchResults.clients.length}
                 </Badge>
               </div>
@@ -126,7 +126,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
                 {searchResults.clients.map((client) => (
                   <button
                     key={client.id}
-                    className="w-full p-4 rounded-xl hover:bg-gray-50 transition-colors text-left group"
+                    className="w-full p-4 rounded-xl hover:bg-muted transition-colors text-left group"
                     onClick={() => onOpenChange(false)}
                   >
                     <div className="flex items-start justify-between gap-3">
@@ -134,9 +134,9 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
                         <h4 className="text-sm font-medium mb-1 group-hover:text-blue-600 transition-colors">
                           {client.name}
                         </h4>
-                        <p className="text-xs text-gray-500">{client.phone}</p>
+                        <p className="text-xs text-muted-foreground">{client.phone}</p>
                       </div>
-                      <Badge className="bg-gray-100 text-gray-600 border-0 text-xs">
+                      <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                         {client.cases} дел
                       </Badge>
                     </div>
@@ -145,14 +145,14 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
               </div>
             </div>
 
-            <Separator className="bg-gray-100" />
+            <Separator className="bg-border" />
 
-            {}
+            { }
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="w-5 h-5 text-orange-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-gray-700">Документы</h3>
-                <Badge className="bg-gray-100 text-gray-600 border-0 text-xs">
+                <h3 className="text-sm font-medium text-foreground">Документы</h3>
+                <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                   {searchResults.documents.length}
                 </Badge>
               </div>
@@ -160,7 +160,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
                 {searchResults.documents.map((doc) => (
                   <button
                     key={doc.id}
-                    className="w-full p-4 rounded-xl hover:bg-gray-50 transition-colors text-left group"
+                    className="w-full p-4 rounded-xl hover:bg-muted transition-colors text-left group"
                     onClick={() => onOpenChange(false)}
                   >
                     <div className="flex items-start justify-between gap-3">
@@ -168,7 +168,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
                         <h4 className="text-sm font-medium mb-1 group-hover:text-blue-600 transition-colors">
                           {doc.name}
                         </h4>
-                        <p className="text-xs text-gray-500">{doc.case} • {doc.size}</p>
+                        <p className="text-xs text-muted-foreground">{doc.case} • {doc.size}</p>
                       </div>
                     </div>
                   </button>

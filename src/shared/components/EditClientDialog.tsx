@@ -47,6 +47,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from '@/shared/ui/dialog'; // shared/ui в FSD
 import { Input } from '@/shared/ui/input'; // shared/ui в FSD
 import { Label } from '@/shared/ui/label'; // shared/ui в FSD
@@ -59,12 +60,11 @@ import {
 } from '@/shared/ui/select'; // shared/ui в FSD
 import { Separator } from '@/shared/ui/separator'; // shared/ui в FSD
 import { Textarea } from '@/shared/ui/textarea'; // shared/ui в FSD
+import { ScrollArea } from '@/shared/ui/scroll-area';
 
 interface EditClientDialogProps {
   open: boolean; // Состояние открытия диалога
   onOpenChange: (open: boolean) => void; // Callback для закрытия/открытия
-
-
 }
 
 export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) {
@@ -83,273 +83,237 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
     notes: '',
   });
 
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     console.log('Form submitted:', formData);
     onOpenChange(false);
   };
 
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col overflow-hidden bg-white border-0 shadow-2xl rounded-3xl p-0">
-        <DialogHeader className="flex-shrink-0 px-8 pt-8 pb-6">
-          <DialogTitle className="text-2xl tracking-tight">Редактирование клиента</DialogTitle>
-          <DialogDescription className="text-gray-500">
-            Обновите информацию о клиенте
+      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col overflow-hidden bg-background border-0 shadow-2xl rounded-3xl p-0">
+        <DialogHeader className="px-8 pt-8 pb-4 bg-background z-10">
+          <DialogTitle className="text-2xl font-bold tracking-tight flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+              <User className="w-5 h-5 text-blue-600 dark:text-blue-400" strokeWidth={2.5} />
+            </div>
+            Редактирование клиента
+          </DialogTitle>
+          <DialogDescription className="text-muted-foreground text-base ml-14">
+            Обновите информацию о клиенте. Все изменения будут сохранены в истории.
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
-          {}
-          <div className="space-y-6 px-8 pb-4 overflow-y-auto flex-1">
-            <div>
-              <h3 className="text-lg tracking-tight mb-4 flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center">
-                  <User className="w-4 h-4 text-blue-500" strokeWidth={2} />
+        <ScrollArea className="flex-1 px-8 -mx-6">
+          <form id="edit-client-form" onSubmit={handleSubmit} className="space-y-8 pb-8 px-6">
+            {/* Personal Data Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 pb-2 border-b border-border">
+                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                  <User className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 </div>
-                Личные данные
-              </h3>
+                <h3 className="font-semibold text-lg">Личные данные</h3>
+              </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="lastName" className="text-sm text-gray-600">
-                    Фамилия
-                  </Label>
+                  <Label htmlFor="lastName">Фамилия</Label>
                   <Input
                     id="lastName"
                     value={formData.lastName}
                     onChange={(e) => handleChange('lastName', e.target.value)}
-                    className="h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500"
-                    placeholder="Иванов"
+                    className="h-11 rounded-xl bg-muted/30 border-input focus:bg-background transition-colors"
                   />
                 </div>
-
                 <div className="space-y-2">
-                  <Label htmlFor="firstName" className="text-sm text-gray-600">
-                    Имя
-                  </Label>
+                  <Label htmlFor="firstName">Имя</Label>
                   <Input
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) => handleChange('firstName', e.target.value)}
-                    className="h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500"
-                    placeholder="Петр"
+                    className="h-11 rounded-xl bg-muted/30 border-input focus:bg-background transition-colors"
                   />
                 </div>
-
                 <div className="space-y-2">
-                  <Label htmlFor="middleName" className="text-sm text-gray-600">
-                    Отчество
-                  </Label>
+                  <Label htmlFor="middleName">Отчество</Label>
                   <Input
                     id="middleName"
                     value={formData.middleName}
                     onChange={(e) => handleChange('middleName', e.target.value)}
-                    className="h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500"
-                    placeholder="Алексеевич"
+                    className="h-11 rounded-xl bg-muted/30 border-input focus:bg-background transition-colors"
                   />
                 </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 mt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="birthDate" className="text-sm text-gray-600 flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-gray-400" strokeWidth={2} />
-                    Дата рождения
-                  </Label>
-                  <Input
-                    id="birthDate"
-                    type="date"
-                    value={formData.birthDate}
-                    onChange={(e) => handleChange('birthDate', e.target.value)}
-                    className="h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="inn" className="text-sm text-gray-600 flex items-center gap-2">
-                    <Hash className="w-4 h-4 text-gray-400" strokeWidth={2} />
-                    ИНН
-                  </Label>
-                  <Input
-                    id="inn"
-                    value={formData.inn}
-                    onChange={(e) => handleChange('inn', e.target.value)}
-                    className="h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500"
-                    placeholder="771234567890"
-                  />
+                  <Label htmlFor="birthDate">Дата рождения</Label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
+                    <Input
+                      id="birthDate"
+                      type="date"
+                      value={formData.birthDate}
+                      onChange={(e) => handleChange('birthDate', e.target.value)}
+                      className="h-11 pl-10 rounded-xl bg-muted/30 border-input focus:bg-background transition-colors"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
-            <Separator className="bg-gray-100" />
-
-            {}
-            <div>
-              <h3 className="text-lg tracking-tight mb-4 flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-green-50 flex items-center justify-center">
-                  <Phone className="w-4 h-4 text-green-500" strokeWidth={2} />
+            {/* Contact Data Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 pb-2 border-b border-border">
+                <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
+                  <Phone className="w-4 h-4 text-green-600 dark:text-green-400" />
                 </div>
-                Контактные данные
-              </h3>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm text-gray-600 flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-gray-400" strokeWidth={2} />
-                    Email
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    className="h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500"
-                    placeholder="ivanov@mail.ru"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-sm text-gray-600 flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-gray-400" strokeWidth={2} />
-                    Телефон
-                  </Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleChange('phone', e.target.value)}
-                    className="h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500"
-                    placeholder="+7 (999) 123-45-67"
-                  />
-                </div>
+                <h3 className="font-semibold text-lg">Контактные данные</h3>
               </div>
 
-              <div className="space-y-2 mt-4">
-                <Label htmlFor="address" className="text-sm text-gray-600 flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-gray-400" strokeWidth={2} />
-                  Адрес
-                </Label>
-                <Input
-                  id="address"
-                  value={formData.address}
-                  onChange={(e) => handleChange('address', e.target.value)}
-                  className="h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500"
-                  placeholder="г. Москва, ул. Ленина, д. 10, кв. 25"
-                />
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => handleChange('email', e.target.value)}
+                      className="h-11 pl-10 rounded-xl bg-muted/30 border-input focus:bg-background transition-colors"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Телефон</Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
+                    <Input
+                      id="phone"
+                      value={formData.phone}
+                      onChange={(e) => handleChange('phone', e.target.value)}
+                      className="h-11 pl-10 rounded-xl bg-muted/30 border-input focus:bg-background transition-colors"
+                    />
+                  </div>
+                </div>
+                <div className="col-span-2 space-y-2">
+                  <Label htmlFor="address">Адрес</Label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
+                    <Input
+                      id="address"
+                      value={formData.address}
+                      onChange={(e) => handleChange('address', e.target.value)}
+                      className="h-11 pl-10 rounded-xl bg-muted/30 border-input focus:bg-background transition-colors"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
-            <Separator className="bg-gray-100" />
-
-            {}
-            <div>
-              <h3 className="text-lg tracking-tight mb-4 flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-purple-50 flex items-center justify-center">
-                  <Tag className="w-4 h-4 text-purple-500" strokeWidth={2} />
+            {/* Additional Info Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 pb-2 border-b border-border">
+                <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
+                  <Tag className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 </div>
-                Дополнительная информация
-              </h3>
+                <h3 className="font-semibold text-lg">Дополнительно</h3>
+              </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="clientType" className="text-sm text-gray-600 flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-gray-400" strokeWidth={2} />
-                    Тип клиента
-                  </Label>
+                  <Label htmlFor="inn">ИНН</Label>
+                  <div className="relative">
+                    <Hash className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
+                    <Input
+                      id="inn"
+                      value={formData.inn}
+                      onChange={(e) => handleChange('inn', e.target.value)}
+                      className="h-11 pl-10 rounded-xl bg-muted/30 border-input focus:bg-background transition-colors"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="clientType">Тип клиента</Label>
                   <Select
                     value={formData.clientType}
                     onValueChange={(value) => handleChange('clientType', value)}
                   >
-                    <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:ring-blue-500">
-                      <SelectValue />
+                    <SelectTrigger className="h-11 rounded-xl bg-muted/30 border-input">
+                      <SelectValue placeholder="Выберите тип" />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl">
+                    <SelectContent>
                       <SelectItem value="individual">Физическое лицо</SelectItem>
-                      <SelectItem value="legal">Юридическое лицо</SelectItem>
-                      <SelectItem value="entrepreneur">ИП</SelectItem>
+                      <SelectItem value="entity">Юридическое лицо</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-
                 <div className="space-y-2">
-                  <Label htmlFor="category" className="text-sm text-gray-600">
-                    Категория
-                  </Label>
+                  <Label htmlFor="category">Категория</Label>
                   <Select
                     value={formData.category}
                     onValueChange={(value) => handleChange('category', value)}
                   >
-                    <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:ring-blue-500">
-                      <SelectValue />
+                    <SelectTrigger className="h-11 rounded-xl bg-muted/30 border-input">
+                      <SelectValue placeholder="Выберите категорию" />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl">
+                    <SelectContent>
                       <SelectItem value="standard">Стандарт</SelectItem>
-                      <SelectItem value="premium">Премиум</SelectItem>
                       <SelectItem value="vip">VIP</SelectItem>
+                      <SelectItem value="corporate">Корпоративный</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-
                 <div className="space-y-2">
-                  <Label htmlFor="source" className="text-sm text-gray-600">
-                    Источник
-                  </Label>
+                  <Label htmlFor="source">Источник</Label>
                   <Select
                     value={formData.source}
                     onValueChange={(value) => handleChange('source', value)}
                   >
-                    <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:ring-blue-500">
-                      <SelectValue />
+                    <SelectTrigger className="h-11 rounded-xl bg-muted/30 border-input">
+                      <SelectValue placeholder="Выберите источник" />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl">
+                    <SelectContent>
                       <SelectItem value="website">Сайт</SelectItem>
                       <SelectItem value="referral">Рекомендация</SelectItem>
-                      <SelectItem value="advertising">Реклама</SelectItem>
-                      <SelectItem value="other">Другое</SelectItem>
+                      <SelectItem value="adv">Реклама</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
-
-              <div className="space-y-2 mt-4">
-                <Label htmlFor="notes" className="text-sm text-gray-600">
-                  Заметки
-                </Label>
-                <Textarea
-                  id="notes"
-                  value={formData.notes}
-                  onChange={(e) => handleChange('notes', e.target.value)}
-                  className="min-h-[100px] rounded-xl border-gray-200 focus-visible:ring-blue-500 resize-none"
-                  placeholder="Дополнительная информация о клиенте..."
-                />
+                <div className="col-span-2 space-y-2">
+                  <Label htmlFor="notes">Заметки</Label>
+                  <Textarea
+                    id="notes"
+                    value={formData.notes}
+                    onChange={(e) => handleChange('notes', e.target.value)}
+                    className="min-h-[100px] rounded-xl bg-muted/30 border-input focus:bg-background transition-colors resize-none"
+                    placeholder="Дополнительная информация о клиенте..."
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          </form>
+        </ScrollArea>
 
-          {}
-          <div className="flex-shrink-0 flex items-center gap-3 px-8 py-6 bg-white border-t border-gray-100">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              className="flex-1 h-11 rounded-xl border-gray-200 hover:bg-gray-50"
-            >
-              Отмена
-            </Button>
-            <Button
-              type="submit"
-              className="flex-1 h-11 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
-            >
-              Сохранить изменения
-            </Button>
-          </div>
-        </form>
+        <DialogFooter className="px-8 py-6 bg-background border-t border-border">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            className="h-11 px-6 rounded-xl border-input hover:bg-muted"
+          >
+            Отмена
+          </Button>
+          <Button
+            type="submit"
+            form="edit-client-form"
+            className="h-11 px-8 rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20"
+          >
+            Сохранить изменения
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

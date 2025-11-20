@@ -85,16 +85,16 @@ export function SecurityTabContent() {
             Двухфакторная аутентификация
           </h3>
 
-          <div className="flex flex-col sm:flex-row items-start justify-between gap-3 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-green-50 border border-green-100">
+          <div className="flex flex-col sm:flex-row items-start justify-between gap-3 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-green-500/10 border border-green-500/20">
             <div className="flex items-start gap-2 sm:gap-3">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-green-100 flex items-center justify-center flex-shrink-0">
-                <Shield className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-green-600" strokeWidth={2} />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                <Shield className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-green-600 dark:text-green-400" strokeWidth={2} />
               </div>
               <div>
-                <h4 className="tracking-tight text-green-900 mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">
+                <h4 className="tracking-tight text-green-900 dark:text-green-300 mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">
                   2FA активирована
                 </h4>
-                <p className="text-xs sm:text-sm text-green-700">
+                <p className="text-xs sm:text-sm text-green-700 dark:text-green-400">
                   Ваш аккаунт защищен двухфакторной аутентификацией
                 </p>
               </div>
@@ -102,7 +102,7 @@ export function SecurityTabContent() {
             <Button
               variant="outline"
               onClick={handleToggle2FA}
-              className="rounded-lg sm:rounded-xl border-green-200 hover:bg-green-100 text-xs sm:text-sm h-8 sm:h-9 w-full sm:w-auto"
+              className="rounded-lg sm:rounded-xl border-green-500/30 hover:bg-green-500/20 text-xs sm:text-sm h-8 sm:h-9 w-full sm:w-auto"
             >
               Отключить
             </Button>
