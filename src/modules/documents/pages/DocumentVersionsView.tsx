@@ -1,9 +1,9 @@
 import React from 'react';
+import { Clock, Download, Eye, FileText, MoreHorizontal, Upload, CheckCircle2, GitCompare, Trash2, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock, Download, Eye, FileText, History, MoreHorizontal, Share2, Upload, CheckCircle2, GitCompare, Trash2, User } from 'lucide-react';
 import { BackButton } from '@/shared/components/BackButton';
-import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import {
   DropdownMenu,
@@ -16,7 +16,7 @@ import { Separator } from '@/shared/ui/separator.tsx';
 
 export function DocumentVersionsView() {
   const navigate = useNavigate();
-  const onBack = () => window.history.back();
+  const onBack = () => navigate(-1);
   const onCompare = () => navigate('/documents/1/compare');
 
   const documentInfo = {

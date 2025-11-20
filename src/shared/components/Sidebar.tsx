@@ -169,7 +169,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
             `}
             onClick={() => {
-              console.log('Logout clicked');
+              // console.log('Logout clicked');
             }}
           >
             <LogOut className="w-5 h-5 flex-shrink-0" strokeWidth={2} />

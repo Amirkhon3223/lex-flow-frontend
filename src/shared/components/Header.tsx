@@ -13,12 +13,12 @@ import { useState } from 'react';
 import { Search, Bell, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from "@/app/config/routes.config.ts";
+import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { GlobalSearchDialog } from './GlobalSearchDialog';
 import { NotificationsPanel } from './NotificationsPanel';
-import { ThemeToggle } from '@/shared/components/ThemeToggle';
 
 interface HeaderProps {
   onMenuClick?: () => void;

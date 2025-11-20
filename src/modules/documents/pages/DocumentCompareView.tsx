@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, Download, Eye, FileText, Info, Maximize2, Minimize2, RotateCcw, Search, ZoomIn, ZoomOut } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Download, Eye, FileText, Info, Maximize2, Minimize2, RotateCcw, Search, ZoomIn, ZoomOut, GitCompare, ChevronDown, ArrowRight, History } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@/shared/components/BackButton';
 import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
-import { cn } from '@/shared/lib/utils';
+import { cn } from '@/shared/ui/utils';
 import { ScrollArea } from '@/shared/ui/scroll-area.tsx';
 import {
   Select,
@@ -13,10 +14,12 @@ import {
   SelectTrigger,
 } from '@/shared/ui/select.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
-
+import type { DocumentVersionInterface, DocumentChangeInterface } from '@/app/types/documents/documents.interfaces';
+import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums';
 
 export function DocumentCompareView() {
-  const onBack = () => window.history.back();
+  const navigate = useNavigate();
+  const onBack = () => navigate(-1);
   const [currentChangeIndex, setCurrentChangeIndex] = useState(0);
   const [zoomLevel, setZoomLevel] = useState(100);
   const [version1, setVersion1] = useState('2');
@@ -549,7 +552,7 @@ export function DocumentCompareView() {
                         key={change.id}
                         onClick={() => setCurrentChangeIndex(index)}
                         className={`w-full text-left p-3 rounded-xl transition-all ${currentChangeIndex === index
-                          ? 'bg-blue-50 border-2 border-blue-200'
+                          ? 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800'
                           : 'bg-muted/50 hover:bg-muted border-2 border-transparent'
                           }`}
                       >

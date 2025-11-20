@@ -39,7 +39,7 @@
  */
 
 import { useState } from 'react';
-import { User, Mail, Phone, MapPin, Calendar, Building2, Hash, Tag } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Calendar, Hash, Tag } from 'lucide-react';
 import { Button } from '@/shared/ui/button'; // shared/ui в FSD
 import {
   Dialog,
@@ -51,6 +51,7 @@ import {
 } from '@/shared/ui/dialog'; // shared/ui в FSD
 import { Input } from '@/shared/ui/input'; // shared/ui в FSD
 import { Label } from '@/shared/ui/label'; // shared/ui в FSD
+import { ScrollArea } from '@/shared/ui/scroll-area';
 import {
   Select,
   SelectContent,
@@ -58,9 +59,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select'; // shared/ui в FSD
-import { Separator } from '@/shared/ui/separator'; // shared/ui в FSD
+// shared/ui в FSD
 import { Textarea } from '@/shared/ui/textarea'; // shared/ui в FSD
-import { ScrollArea } from '@/shared/ui/scroll-area';
 
 interface EditClientDialogProps {
   open: boolean; // Состояние открытия диалога
@@ -89,7 +89,7 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    // console.log('Form submitted:', formData);
     onOpenChange(false);
   };
 

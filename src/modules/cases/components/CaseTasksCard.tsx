@@ -16,7 +16,7 @@ export function CaseTasksCard({ tasks, onAddTask }: CaseTasksCardProps) {
       <div>
         <div className="flex items-center justify-between mb-3 sm:mb-4">
           <h3 className="text-base sm:text-lg tracking-tight">Задачи</h3>
-          <span className="text-xs sm:text-sm text-gray-500">
+          <span className="text-xs sm:text-sm text-muted-foreground">
             {completedCount}/{tasks.length}
           </span>
         </div>
@@ -25,9 +25,10 @@ export function CaseTasksCard({ tasks, onAddTask }: CaseTasksCardProps) {
           {tasks.map((task) => (
             <div
               key={task.id}
-              className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-xl transition-all ${
-                task.completed ? 'bg-gray-50' : 'bg-blue-50'
-              }`}
+              className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-xl transition-all ${task.completed
+                  ? 'bg-muted/50'
+                  : 'bg-blue-50 dark:bg-blue-900/20'
+                }`}
             >
               {task.completed ? (
                 <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" strokeWidth={2} />
@@ -35,7 +36,7 @@ export function CaseTasksCard({ tasks, onAddTask }: CaseTasksCardProps) {
                 <Circle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 flex-shrink-0" strokeWidth={2} />
               )}
               <span
-                className={`text-xs sm:text-sm ${task.completed ? 'text-gray-400 line-through' : 'text-gray-900'}`}
+                className={`text-xs sm:text-sm ${task.completed ? 'text-muted-foreground line-through' : 'text-foreground'}`}
               >
                 {task.title}
               </span>
@@ -45,7 +46,7 @@ export function CaseTasksCard({ tasks, onAddTask }: CaseTasksCardProps) {
 
         <Button
           variant="ghost"
-          className="w-full mt-3 text-blue-500 hover:bg-blue-50 rounded-xl text-sm sm:text-base"
+          className="w-full mt-3 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl text-sm sm:text-base"
           onClick={onAddTask}
         >
           Добавить задачу

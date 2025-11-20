@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
+import { getIconBgColor } from '@/shared/lib/color-utils';
 import { Card } from '@/shared/ui/card';
 import { cn } from '@/shared/ui/utils';
-import { getIconBgColor } from '@/shared/lib/color-utils';
 
 export interface StatCardProps {
   label?: string;

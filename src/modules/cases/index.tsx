@@ -78,6 +78,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { Progress } from '@/shared/ui/progress'; // shared/ui в FSD
+import { StatCard } from '@/shared/ui/stat-card';
 import {
   Table,
   TableBody,
@@ -86,7 +87,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/ui/table';
-import { StatCard } from '@/shared/ui/stat-card';
 
 
 export function CasePage() {

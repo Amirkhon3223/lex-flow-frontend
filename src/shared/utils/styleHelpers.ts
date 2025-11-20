@@ -1,44 +1,44 @@
-import { DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 import { AnalysisStatusEnum } from '@/app/types/ai-assistant/ai-assistant.enums';
+import { DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 
 export const getStatusColor = (status: string): string => {
   switch (status) {
     case 'urgent':
-      return 'bg-red-100 text-red-700 border-red-200';
+      return 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800';
     case 'medium':
-      return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+      return 'bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800';
     case 'low':
-      return 'bg-blue-100 text-blue-700 border-blue-200';
+      return 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800';
     case 'completed':
-      return 'bg-green-100 text-green-700 border-green-200';
+      return 'bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800';
     default:
-      return 'bg-gray-100 text-gray-700 border-gray-200';
+      return 'bg-muted text-muted-foreground border-border';
   }
 };
 
 export const getDocumentStatusColor = (status: DocumentStatusEnum): string => {
   switch (status) {
     case DocumentStatusEnum.FINAL:
-      return 'bg-green-100 text-green-700';
+      return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
     case DocumentStatusEnum.REVIEW:
-      return 'bg-blue-100 text-blue-700';
+      return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
     case DocumentStatusEnum.DRAFT:
-      return 'bg-gray-200 text-gray-700';
+      return 'bg-muted text-muted-foreground';
     default:
-      return 'bg-gray-200 text-gray-700';
+      return 'bg-muted text-muted-foreground';
   }
 };
 
 export const getAnalysisStatusColor = (status: AnalysisStatusEnum): string => {
   switch (status) {
     case AnalysisStatusEnum.SUCCESS:
-      return 'bg-green-100 text-green-700';
+      return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
     case AnalysisStatusEnum.WARNING:
-      return 'bg-amber-100 text-amber-700';
+      return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400';
     case AnalysisStatusEnum.ERROR:
-      return 'bg-red-100 text-red-700';
+      return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
     default:
-      return 'bg-gray-100 text-gray-700';
+      return 'bg-muted text-muted-foreground';
   }
 };
 

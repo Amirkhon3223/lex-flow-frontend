@@ -1,6 +1,6 @@
 import React from 'react';
-import { cn } from '@/shared/ui/utils';
 import type { LucideIcon } from 'lucide-react';
+import { cn } from '@/shared/ui/utils';
 
 interface IconContainerProps {
   icon: LucideIcon;

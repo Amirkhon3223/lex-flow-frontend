@@ -22,7 +22,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   return (
     <header
       className={cn(
-        'relative bg-white border-b border-gray-200/50 rounded-xl',
+        'relative bg-background border-b border-border rounded-xl',
         className
       )}
     >
@@ -42,7 +42,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                 {title}
               </h1>
               {subtitle && (
-                <p className="text-xs sm:text-sm text-gray-500 mt-0.5 truncate">
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 truncate">
                   {subtitle}
                 </p>
               )}

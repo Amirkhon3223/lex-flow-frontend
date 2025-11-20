@@ -16,7 +16,7 @@ export function BackButton({
     onClick,
     label = 'Все дела',
     mobileLabel = 'Назад',
-    className = ''
+    className = '',
 }: BackButtonProps) {
     return (
         <Button

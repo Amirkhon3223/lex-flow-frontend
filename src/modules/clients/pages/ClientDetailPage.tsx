@@ -184,7 +184,7 @@ export default function ClientDetailPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-base sm:text-lg">Дела клиента</CardTitle>
-              <Badge className="bg-blue-500 text-gray-100 border-0 text-md">3 дел</Badge>
+              <Badge className="bg-blue-500 text-white border-0 text-md">3 дел</Badge>
             </CardHeader>
             <CardContent className="space-y-3 sm:space-y-4 mt-2">
               {cases.map((caseItem) => (

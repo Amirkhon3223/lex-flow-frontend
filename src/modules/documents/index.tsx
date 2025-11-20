@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { ArrowUpDown, Clock, FileText, Filter, Sparkles, Star, Upload } from 'lucide-react';
 import { DocumentCategoryEnum, DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 import type { DocumentInterface } from '@/app/types/documents/documents.interfaces';
-import { StatCard } from '@/shared/ui/stat-card';
 import { DocumentCard } from '@/modules/documents/ui/DocumentCard';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { Button } from '@/shared/ui/button';
+import { StatCard } from '@/shared/ui/stat-card';
 
 
 export function DocumentsPage() {
