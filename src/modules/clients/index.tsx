@@ -293,7 +293,6 @@ export function ClientsPage() {
       <AddClientDialog open={isAddClientDialogOpen} onOpenChange={setIsAddClientDialogOpen} />
       <EditClientDialog open={isEditClientDialogOpen} onOpenChange={setIsEditClientDialogOpen} />
 
-      { }
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
@@ -378,13 +377,6 @@ export function ClientsPage() {
               value={stat.value}
               icon={stat.icon}
               iconColor={stat.color}
-              // Map the text color to a background color for consistency with other modules
-              iconBg={
-                stat.color === 'text-blue-500' ? 'bg-blue-50' :
-                  stat.color === 'text-green-500' ? 'bg-green-50' :
-                    stat.color === 'text-purple-500' ? 'bg-purple-50' :
-                      stat.color === 'text-orange-500' ? 'bg-orange-50' : 'bg-muted'
-              }
               valueColor={stat.color}
             />
           ))}

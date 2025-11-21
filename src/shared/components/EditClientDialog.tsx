@@ -40,7 +40,7 @@
 
 import { useState } from 'react';
 import { User, Mail, Phone, MapPin, Calendar, Hash, Tag } from 'lucide-react';
-import { Button } from '@/shared/ui/button'; // shared/ui в FSD
+import { Button } from '@/shared/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -48,9 +48,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/shared/ui/dialog'; // shared/ui в FSD
-import { Input } from '@/shared/ui/input'; // shared/ui в FSD
-import { Label } from '@/shared/ui/label'; // shared/ui в FSD
+} from '@/shared/ui/dialog';
+import { Input } from '@/shared/ui/input';
+import { Label } from '@/shared/ui/label';
 import { ScrollArea } from '@/shared/ui/scroll-area';
 import {
   Select,
@@ -58,13 +58,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/ui/select'; // shared/ui в FSD
-// shared/ui в FSD
-import { Textarea } from '@/shared/ui/textarea'; // shared/ui в FSD
+} from '@/shared/ui/select';
+import { Textarea } from '@/shared/ui/textarea';
 
 interface EditClientDialogProps {
-  open: boolean; // Состояние открытия диалога
-  onOpenChange: (open: boolean) => void; // Callback для закрытия/открытия
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) {
@@ -89,7 +88,6 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log('Form submitted:', formData);
     onOpenChange(false);
   };
 
@@ -110,7 +108,6 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
 
         <ScrollArea className="flex-1 px-8 -mx-6">
           <form id="edit-client-form" onSubmit={handleSubmit} className="space-y-8 pb-8 px-6">
-            {/* Personal Data Section */}
             <div className="space-y-6">
               <div className="flex items-center gap-3 pb-2 border-b border-border">
                 <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
@@ -163,7 +160,6 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
               </div>
             </div>
 
-            {/* Contact Data Section */}
             <div className="space-y-6">
               <div className="flex items-center gap-3 pb-2 border-b border-border">
                 <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
@@ -213,7 +209,6 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
               </div>
             </div>
 
-            {/* Additional Info Section */}
             <div className="space-y-6">
               <div className="flex items-center gap-3 pb-2 border-b border-border">
                 <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">

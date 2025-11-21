@@ -94,7 +94,6 @@ export function DocumentCard({
         </div>
       </div>
 
-      {/* Desktop layout */}
       <div className="hidden md:flex items-center gap-4">
         <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
           <FileText className="w-7 h-7 text-blue-600" strokeWidth={2} />

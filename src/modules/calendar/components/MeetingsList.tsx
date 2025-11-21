@@ -31,7 +31,7 @@ export function MeetingsList({
             <div
               key={meeting.id}
               onClick={() => navigate(`/calendar/meetings/${meeting.id}`)}
-              className="group p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-card hover:bg-muted/50 transition-all cursor-pointer border border-transparent hover:border-border"
+              className="group p-3 sm:p-5 rounded-xl bg-muted/80 sm:rounded-2xl bg-card hover:bg-muted/50 transition-all cursor-pointer border border-transparent hover:border-border"
             >
               {/* Mobile layout */}
               <div className="md:hidden">

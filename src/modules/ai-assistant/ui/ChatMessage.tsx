@@ -50,11 +50,8 @@ export function ChatMessage({ chat }: ChatMessageProps) {
           )}
         </div>
 
-        {/* Время и кнопка копирования */}
         <div className={`flex items-center gap-1.5 sm:gap-2 mt-1 px-1.5 sm:px-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
           <p className="text-xs text-muted-foreground">{chat.time}</p>
-
-          {/* Кнопка копирования */}
           <button
             onClick={handleCopy}
             className={`

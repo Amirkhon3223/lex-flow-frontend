@@ -24,8 +24,6 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      console.log('Выбран файл:', file.name, file.type, file.size);
-      // Создаем превью для обрезки
       const reader = new FileReader();
       reader.onloadend = () => {
         setSelectedImage(reader.result as string);
@@ -33,7 +31,7 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
       };
       reader.readAsDataURL(file);
     }
-    // Сбрасываем input чтобы можно было выбрать тот же файл повторно
+
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -42,7 +40,6 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
   const handleCropComplete = (croppedImageUrl: string) => {
     setAvatarPreview(croppedImageUrl);
     setSelectedImage(null);
-    // TODO: Загрузка обрезанного файла на сервер
   };
 
   const handleCropperClose = () => {
@@ -50,7 +47,6 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
     setSelectedImage(null);
   };
 
-  // Определяем URL аватарки: превью > из бекенда > null (показать инициалы)
   const currentAvatarUrl = avatarPreview || profileData.avatarUrl || null;
 
   return (

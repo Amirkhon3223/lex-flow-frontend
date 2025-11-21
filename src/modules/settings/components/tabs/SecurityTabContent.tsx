@@ -28,7 +28,6 @@ export function SecurityTabContent() {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Change Password */}
       <Card>
         <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Изменить пароль</h3>
@@ -78,7 +77,6 @@ export function SecurityTabContent() {
         </div>
       </Card>
 
-      {/* Two-Factor Authentication */}
       <Card>
         <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
@@ -110,7 +108,6 @@ export function SecurityTabContent() {
         </div>
       </Card>
 
-      {/* Active Sessions */}
       <Card>
         <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-3 md:mb-4">Активные сессии</h3>

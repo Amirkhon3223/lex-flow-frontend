@@ -41,7 +41,6 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
     priority: 'medium',
   });
 
-  // Update form data when initialData changes
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
@@ -67,7 +66,6 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
-          {/* Название дела */}
           <div className="space-y-2">
             <Label htmlFor="title" className="text-sm text-foreground">
               Название дела *
@@ -82,7 +80,6 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             />
           </div>
 
-          {/* Клиент и Категория */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="client" className="text-sm text-foreground">
@@ -131,7 +128,6 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             </div>
           </div>
 
-          {/* Срок и Гонорар */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="deadline" className="text-sm text-foreground">
@@ -167,7 +163,6 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             </div>
           </div>
 
-          {/* Приоритет */}
           <div className="space-y-2">
             <Label htmlFor="priority" className="text-sm text-foreground">
               Приоритет
@@ -188,7 +183,6 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             </Select>
           </div>
 
-          {/* Описание */}
           <div className="space-y-2">
             <Label htmlFor="description" className="text-sm text-foreground">
               Описание дела
@@ -202,7 +196,6 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             />
           </div>
 
-          {/* Кнопки */}
           <div className="flex items-center gap-3 pt-4">
             <Button
               type="button"

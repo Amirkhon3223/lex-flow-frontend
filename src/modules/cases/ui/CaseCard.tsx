@@ -14,7 +14,6 @@ export function CaseCard({ caseItem }: CaseCardProps) {
     >
       {/* Mobile layout (< 768px) */}
       <div className="md:hidden">
-        {/* Top zone: Avatar + Title, Badge under title */}
         <div className="flex items-start gap-3 mb-2">
           <Avatar className="h-10 w-10 flex-shrink-0">
             <AvatarFallback className="bg-blue-600 text-white text-sm">
@@ -28,14 +27,11 @@ export function CaseCard({ caseItem }: CaseCardProps) {
             </Badge>
           </div>
         </div>
-
-        {/* Category and deadline in one row */}
         <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
           <span>{caseItem.category}</span>
           <span className="font-medium">{caseItem.deadline}</span>
         </div>
 
-        {/* Progress */}
         <div className="mb-2">
           <div className="mb-1 flex items-center justify-between text-xs">
             <span className="text-muted-foreground">Прогресс</span>
@@ -44,7 +40,6 @@ export function CaseCard({ caseItem }: CaseCardProps) {
           <Progress value={caseItem.progress} className="h-1.5" />
         </div>
 
-        {/* Stats */}
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <FileText className="h-3.5 w-3.5" />
@@ -62,14 +57,12 @@ export function CaseCard({ caseItem }: CaseCardProps) {
 
       {/* Desktop/Tablet layout (>= 768px) */}
       <div className="hidden md:flex items-start gap-4">
-        { }
         <Avatar className="h-12 w-12 flex-shrink-0">
           <AvatarFallback className="bg-blue-600 text-white">
             {caseItem.clientInitials}
           </AvatarFallback>
         </Avatar>
 
-        { }
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1 min-w-0">
@@ -86,7 +79,6 @@ export function CaseCard({ caseItem }: CaseCardProps) {
               </div>
             </div>
 
-            { }
             <div className="text-right flex-shrink-0">
               <div className="text-sm text-muted-foreground">Дедлайн</div>
               <div className="font-medium text-foreground">{caseItem.deadline}</div>
@@ -96,7 +88,6 @@ export function CaseCard({ caseItem }: CaseCardProps) {
             </div>
           </div>
 
-          { }
           <div>
             <div className="flex items-center gap-1.5 text-sm">
               <span className="text-muted-foreground">Прогресс:</span>
@@ -105,7 +96,6 @@ export function CaseCard({ caseItem }: CaseCardProps) {
             <Progress value={caseItem.progress} />
           </div>
 
-          { }
           <div className="flex items-center gap-5 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <FileText className="h-4 w-4" />

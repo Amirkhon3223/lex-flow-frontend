@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs.tsx";
 export default function SettingsPage() {
   return (
     <div>
-      { }
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-3 sm:px-4 py-3 sm:py-4 md:py-6">
           <div className="flex items-center gap-2 sm:gap-3">
@@ -27,11 +26,10 @@ export default function SettingsPage() {
         </div>
       </header>
 
-      { }
-      <main className="p-3 sm:p-4 md:p-6 lg:p-8">
+      <main className="py-6">
         <div className="max-w-5xl mx-auto">
           <Tabs defaultValue="profile" className="space-y-4 sm:space-y-6">
-            <TabsList className="bg-muted rounded-lg sm:rounded-xl p-0.5 sm:p-1 md:p-1.5 grid grid-cols-5 w-full">
+            <TabsList className="rounded-lg sm:rounded-xl p-0.5 sm:p-1 md:p-1.5 grid grid-cols-5 w-full">
               <TabsTrigger
                 value="profile"
                 className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"

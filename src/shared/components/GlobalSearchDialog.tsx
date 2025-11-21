@@ -79,7 +79,6 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
 
         <ScrollArea className="max-h-[500px]">
           <div className="p-6 space-y-6">
-            { }
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Briefcase className="w-5 h-5 text-blue-500" strokeWidth={2} />
@@ -113,7 +112,6 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
 
             <Separator className="bg-border" />
 
-            { }
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Users className="w-5 h-5 text-purple-500" strokeWidth={2} />
@@ -147,7 +145,6 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
 
             <Separator className="bg-border" />
 
-            { }
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="w-5 h-5 text-orange-500" strokeWidth={2} />

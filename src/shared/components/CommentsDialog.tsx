@@ -34,7 +34,7 @@ interface CommentsDialogProps {
 export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogProps) {
   const [newComment, setNewComment] = useState('');
 
-  // Mock data - в продакшене будет из API
+
   const comments: Comment[] = [
     {
       id: 1,
@@ -80,7 +80,6 @@ export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogP
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          {/* Comments List */}
           <ScrollArea className="h-[400px] pr-4">
             <div className="space-y-4">
               {comments.map((comment, index) => (
@@ -112,7 +111,6 @@ export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogP
             </div>
           </ScrollArea>
 
-          {/* New Comment Form */}
           <form onSubmit={handleSubmit} className="space-y-3">
             <Textarea
               placeholder="Добавьте комментарий..."

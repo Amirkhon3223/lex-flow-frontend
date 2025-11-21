@@ -86,13 +86,12 @@ export default function ClientDetailPage() {
     <div className="space-y-4 sm:space-y-6">
       <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen} />
       <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen} />
-      { }
+
       <Link to="/clients" className="inline-flex items-center text-xs sm:text-sm text-gray-600 hover:text-gray-900">
         <ChevronLeft className="mr-1 h-3.5 w-3.5 sm:h-4 sm:w-4" />
         Все клиенты
       </Link>
 
-      { }
       <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
         <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
           <Avatar className="h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0">
@@ -138,48 +137,40 @@ export default function ClientDetailPage() {
         </div>
       </div>
 
-      { }
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
         <StatCard
           label="Активных дел"
           value={client.activeCases}
           icon={Briefcase}
-          iconBg="bg-blue-500/10"
-          iconColor="text-blue-600 dark:text-blue-400"
+          iconColor="text-blue-500"
         />
         <StatCard
           label="Документов"
           value={client.documents}
           icon={FileText}
-          iconBg="bg-purple-500/10"
-          iconColor="text-purple-600 dark:text-purple-400"
+          iconColor="text-purple-500"
         />
         <StatCard
           label="Общий гонорар"
           value={client.totalRevenue}
           icon={DollarSign}
-          iconBg="bg-green-500/10"
-          iconColor="text-green-600 dark:text-green-400"
+          iconColor="text-green-500"
         />
         <StatCard
           label="Часов работы"
           value={client.hoursWorked}
           icon={Clock}
-          iconBg="bg-orange-500/10"
-          iconColor="text-orange-600 dark:text-orange-400"
+          iconColor="text-orange-500"
         />
         <StatCard
           label="Взаимодействий"
           value={client.interactions}
           icon={TrendingUp}
-          iconBg="bg-red-500/10"
-          iconColor="text-red-600 dark:text-red-400"
+          iconColor="text-red-500"
         />
       </div>
 
-      { }
       <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-3">
-        { }
         <div className="lg:col-span-2 rounded-xl !p-0">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -194,7 +185,6 @@ export default function ClientDetailPage() {
           </Card>
         </div>
 
-        { }
         <div className="space-y-4 sm:space-y-6">
           <ContactInfoCard
             contactInfo={{

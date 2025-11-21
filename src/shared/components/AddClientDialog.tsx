@@ -91,7 +91,6 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
 
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
           <div className="space-y-6 px-6 overflow-y-auto flex-1">
-            { }
             <Tabs value={clientType} onValueChange={(v) => setClientType(v as ClientTypeEnum)}>
               <TabsList className="grid w-full grid-cols-2 bg-muted rounded-xl p-1">
                 <TabsTrigger value={ClientTypeEnum.INDIVIDUAL} className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
@@ -105,7 +104,6 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               </TabsList>
 
               <TabsContent value={ClientTypeEnum.INDIVIDUAL} className="space-y-4 mt-6">
-                { }
                 <div className="grid grid-cols-3 gap-3">
                   <div className="space-y-2">
                     <Label htmlFor="lastName" className="text-sm text-foreground">
@@ -149,7 +147,6 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               </TabsContent>
 
               <TabsContent value={ClientTypeEnum.LEGAL} className="space-y-4 mt-6">
-                { }
                 <div className="space-y-2">
                   <Label htmlFor="companyName" className="text-sm text-foreground">
                     Название организации *
@@ -193,7 +190,6 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               </TabsContent>
             </Tabs>
 
-            { }
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm text-foreground">
@@ -232,7 +228,6 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               </div>
             </div>
 
-            { }
             <div className="space-y-2">
               <Label htmlFor="address" className="text-sm text-foreground">
                 Адрес
@@ -249,7 +244,6 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               </div>
             </div>
 
-            { }
             <div className="space-y-2">
               <Label htmlFor="category" className="text-sm text-foreground">
                 Категория
@@ -271,7 +265,6 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               </Select>
             </div>
 
-            { }
             <div className="space-y-2">
               <Label htmlFor="notes" className="text-sm text-foreground">
                 Примечания
@@ -286,7 +279,6 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
             </div>
           </div>
 
-          { }
           <div className="flex items-center gap-3 px-6 py-6 border-t border-border flex-shrink-0 bg-background">
             <Button
               type="button"

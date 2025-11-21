@@ -45,10 +45,9 @@ export function Calendar({
   const endOfMonth = new Date(year, currentMonthIndex + 1, 0);
   const daysInMonth = endOfMonth.getDate();
 
-  const startDayOfWeek = (startOfMonth.getDay() + 6) % 7; // 0=Пн
+  const startDayOfWeek = (startOfMonth.getDay() + 6) % 7;
   const days: (Date | null)[] = [];
 
-  // предыдущий месяц
   const prevMonth = new Date(year, currentMonthIndex - 1, 1);
   const prevMonthDays = new Date(year, currentMonthIndex, 0).getDate();
 
@@ -60,12 +59,10 @@ export function Calendar({
     for (let i = 0; i < startDayOfWeek; i++) days.push(null);
   }
 
-  // дни текущего месяца
   for (let i = 1; i <= daysInMonth; i++) {
     days.push(new Date(year, currentMonthIndex, i));
   }
 
-  // остаток будущего месяца
   const remainder = 7 - (days.length % 7);
   if (remainder < 7) {
     if (showOutsideDays) {
@@ -110,7 +107,6 @@ export function Calendar({
         className
       )}
     >
-      {/* Навигация */}
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={handlePrev}
@@ -134,14 +130,12 @@ export function Calendar({
         </button>
       </div>
 
-      {/* Шапка дней недели */}
       <div className="grid grid-cols-7 text-center text-xs text-muted-foreground font-medium uppercase tracking-wide mb-2">
         {weekDays.map((d) => (
           <div key={d}>{d}</div>
         ))}
       </div>
 
-      {/* Сетка дней */}
       <div className="grid grid-cols-7 gap-1 text-sm">
         {days.map((date, index) => {
           if (!date) return <div key={index} className="h-10"></div>;

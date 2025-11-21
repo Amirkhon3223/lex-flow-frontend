@@ -138,7 +138,6 @@ export function DocumentsPage() {
     <div>
       <UploadDocumentDialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen} />
 
-      { }
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 py-4 sm:py-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4 sm:mb-6">
@@ -162,7 +161,6 @@ export function DocumentsPage() {
             </Button>
           </div>
 
-          { }
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
             {stats.map((stat, index) => (
               <StatCard

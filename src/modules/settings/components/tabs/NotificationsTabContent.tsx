@@ -4,7 +4,6 @@ import { Switch } from '@/shared/ui/switch';
 export function NotificationsTabContent() {
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Email Notifications */}
       <Card>
         <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
@@ -35,7 +34,6 @@ export function NotificationsTabContent() {
         </div>
       </Card>
 
-      {/* Push Notifications */}
       <Card>
         <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Push-уведомления</h3>

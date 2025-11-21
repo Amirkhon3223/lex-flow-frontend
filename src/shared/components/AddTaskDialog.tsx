@@ -57,8 +57,6 @@ export function AddTaskDialog({ open, onOpenChange, onSubmit }: AddTaskDialogPro
               required
             />
           </div>
-
-          {/* Submit Button */}
           <div className="flex items-center gap-3 pt-4">
             <Button
               type="button"

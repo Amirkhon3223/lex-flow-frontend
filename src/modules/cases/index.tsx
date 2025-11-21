@@ -65,10 +65,10 @@ import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
 import { CaseFilters } from '@/modules/cases/ui/CaseFilters';
 import { EditCaseDialog } from "@/modules/cases/ui/EditCaseDialog.tsx";
 import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
-import { Avatar, AvatarFallback } from '@/shared/ui/avatar'; // shared/ui в FSD
-import { Badge } from '@/shared/ui/badge'; // shared/ui в FSD
-import { Button } from '@/shared/ui/button'; // shared/ui в FSD
-import { Card } from '@/shared/ui/card'; // shared/ui в FSD
+import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
+import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
+import { Card } from '@/shared/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -77,7 +77,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
-import { Progress } from '@/shared/ui/progress'; // shared/ui в FSD
+import { Progress } from '@/shared/ui/progress';
 import { StatCard } from '@/shared/ui/stat-card';
 import {
   Table,
@@ -264,7 +264,6 @@ export function CasePage() {
       value: cases.length,
       color: 'text-blue-500',
       icon: Briefcase,
-      iconBg: 'bg-blue-50',
       iconColor: 'text-blue-600',
     },
     {
@@ -272,7 +271,6 @@ export function CasePage() {
       value: cases.filter(c => c.status === CaseStatusEnum.IN_PROGRESS).length,
       color: 'text-purple-500',
       icon: Clock,
-      iconBg: 'bg-purple-50',
       iconColor: 'text-purple-600',
     },
     {
@@ -280,7 +278,6 @@ export function CasePage() {
       value: cases.filter(c => c.status === CaseStatusEnum.COMPLETED).length,
       color: 'text-green-500',
       icon: CheckCircle2,
-      iconBg: 'bg-green-50',
       iconColor: 'text-green-600',
     },
     {
@@ -288,14 +285,12 @@ export function CasePage() {
       value: cases.filter(c => c.priority === CasePriorityEnum.HIGH).length,
       color: 'text-red-500',
       icon: AlertCircle,
-      iconBg: 'bg-red-50',
       iconColor: 'text-red-600',
     },
   ];
 
   return (
     <div>
-      { }
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
@@ -319,7 +314,6 @@ export function CasePage() {
             </Button>
           </div>
 
-          { }
           <div className="flex flex-col lg:flex-row lg:items-center gap-3 w-full">
             <CaseFilters
               searchQuery={searchQuery}
@@ -355,7 +349,6 @@ export function CasePage() {
       </header>
 
       <main className="py-4 sm:py-6">
-        { }
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5">
           {stats.map((stat, index) => (
             <StatCard
@@ -370,7 +363,6 @@ export function CasePage() {
           ))}
         </div>
 
-        { }
         {viewMode === 'table' ? (
           <Card className="hidden md:block">
             <Table>
@@ -560,7 +552,6 @@ export function CasePage() {
 
       </main>
 
-      {/* Dialogs */}
       <AddCaseDialog
         open={isAddCaseDialogOpen}
         onOpenChange={setIsAddCaseDialogOpen}

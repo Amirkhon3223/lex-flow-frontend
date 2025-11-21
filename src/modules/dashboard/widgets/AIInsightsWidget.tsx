@@ -8,43 +8,43 @@ export function AIInsightsWidget() {
   const navigate = useNavigate();
 
   return (
-    <Card>
-      <div className="flex items-center gap-2 mb-3 sm:mb-4">
-        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
-          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.5} />
+    <Card className="p-4 sm:p-6">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+          <Sparkles className="w-4 h-4 text-white" strokeWidth={2.5} />
         </div>
-        <h3 className="text-base sm:text-lg tracking-tight">AI Инсайты</h3>
+        <h3 className="text-lg tracking-tight text-foreground">AI Инсайты</h3>
       </div>
 
-      <div className="space-y-2.5 sm:space-y-3 mb-3 sm:mb-4">
-        <div className="p-3 sm:p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
-          <div className="flex items-start gap-2.5 sm:gap-3">
-            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-amber-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-600 dark:text-amber-400" strokeWidth={2.5} />
+      <div className="space-y-3 mb-4">
+        <div className="p-4 rounded-xl bg-insight-amber-bg border border-insight-amber-border">
+          <div className="flex items-center gap-3">
+            <div className="w-6 h-6 rounded-lg bg-insight-amber-icon-bg flex items-center justify-center">
+              <Star className="w-3.5 h-3.5 text-insight-amber-foreground" strokeWidth={2.5} />
             </div>
-            <p className="text-xs sm:text-sm text-amber-900 dark:text-amber-200">
+            <p className="text-sm text-insight-amber-foreground">
               Рекомендуется обновить договор для клиента ООО "ТехноСтрой"
             </p>
           </div>
         </div>
-
-        <div className="p-3 sm:p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
-          <div className="flex items-start gap-2.5 sm:gap-3">
-            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <Tag className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-600 dark:text-blue-400" strokeWidth={2.5} />
+        <div className="p-4 rounded-xl bg-insight-blue-bg border border-insight-blue-border">
+          <div className="flex items-center gap-3">
+            <div className="w-6 h-6 rounded-lg bg-insight-blue-icon-bg flex items-center justify-center">
+              <Tag className="w-3.5 h-3.5 text-insight-blue-foreground" strokeWidth={2.5} />
             </div>
-            <p className="text-xs sm:text-sm text-blue-900 dark:text-blue-200">
+            <p className="text-sm text-insight-blue-foreground">
               Найдено 3 похожих дела в архиве
             </p>
           </div>
         </div>
+
       </div>
 
       <Button
         onClick={() => navigate(ROUTES.AI_ASSISTANT)}
-        className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 rounded-xl shadow-md cursor-pointer text-sm sm:text-base"
+        className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl shadow-md cursor-pointer text-base border-0 flex items-center justify-center gap-2"
       >
-        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" strokeWidth={2.5} />
+        <Sparkles className="w-4 h-4" strokeWidth={2.5} />
         Спросить AI
       </Button>
     </Card>

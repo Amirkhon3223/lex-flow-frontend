@@ -151,16 +151,6 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 {unreadCount > 0 ? `${unreadCount} новых уведомлений` : 'Нет новых уведомлений'}
               </SheetDescription>
             </div>
-            {!!notifications.length && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-xl"
-                onClick={() => onOpenChange(false)}
-              >
-                <X className="w-5 h-5" strokeWidth={2} />
-              </Button>
-            )}
           </div>
         </SheetHeader>
 

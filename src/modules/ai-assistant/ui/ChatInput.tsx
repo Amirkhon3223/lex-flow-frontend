@@ -17,10 +17,9 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isRecording, setIsRecording] = useState(false);
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
-  const baseMessageRef = useRef<string>(''); // Базовый текст до начала записи
-  const [interimText, setInterimText] = useState<string>(''); // Промежуточный текст (серый)
+  const baseMessageRef = useRef<string>('');
+  const [interimText, setInterimText] = useState<string>('');
 
-  // 🔹 Автоматическая высота textarea
   useEffect(() => {
     const textarea = textareaRef.current;
     if (!textarea) return;
@@ -29,7 +28,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
     textarea.style.height = `${newHeight}px`;
   }, [message]);
 
-  // 🔹 Инициализация распознавания речи
   useEffect(() => {
     recognitionRef.current = createSpeechRecognition({
       lang: 'ru-RU',
@@ -41,13 +39,11 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
       setupSpeechRecognitionCallbacks(recognitionRef.current, {
         onResult: (transcript: string, isFinal: boolean) => {
           if (isFinal) {
-            // Финальный текст - добавляем к базовому
             const finalText = baseMessageRef.current + (baseMessageRef.current ? ' ' : '') + transcript.trim();
             setMessage(finalText);
-            baseMessageRef.current = finalText; // Обновляем базу
-            setInterimText(''); // Очищаем промежуточный
+            baseMessageRef.current = finalText;
+            setInterimText('');
           } else {
-            // Промежуточный текст - показываем серым
             setInterimText(transcript.trim());
           }
         },
@@ -68,7 +64,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
     };
   }, [setMessage]);
 
-  // 🔹 Добавление файлов
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files;
     if (!selected) return;
@@ -76,7 +71,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
     e.target.value = "";
   };
 
-  // 🔹 Отправка сообщения
   const handleSend = () => {
     if (!message.trim() && !files.length) return;
     onSend();
@@ -85,7 +79,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
     if (textareaRef.current) textareaRef.current.style.height = "40px";
   };
 
-  // 🔹 Управление голосовым вводом
   const handleVoiceInput = () => {
     if (!isSpeechRecognitionSupported()) {
       toast.error('Распознавание речи недоступно', {
@@ -99,7 +92,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
       setIsRecording(false);
       setInterimText('');
     } else {
-      // Сохраняем текущий текст как базовый
       baseMessageRef.current = message;
       setInterimText('');
       const started = startSpeechRecognition(recognitionRef.current);
@@ -170,7 +162,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
             onChange={handleFileSelect}
           />
 
-          {/* 📎 Прикрепить файл */}
           <button
             onClick={() => fileInputRef.current?.click()}
             className="p-1.5 sm:p-2 hover:bg-muted rounded-md sm:rounded-lg transition-colors cursor-pointer"
@@ -179,7 +170,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
             <Paperclip className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
           </button>
 
-          {/* 🎙 Микрофон */}
           <button
             onClick={handleVoiceInput}
             className={`p-1.5 sm:p-2 rounded-md sm:rounded-lg transition-colors cursor-pointer ${isRecording ? 'bg-destructive/10 hover:bg-destructive/20' : 'hover:bg-muted'
@@ -189,7 +179,6 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
             <Mic className={`w-4 h-4 sm:w-5 sm:h-5 ${isRecording ? 'text-destructive' : 'text-muted-foreground'}`} />
           </button>
 
-          {/* 🚀 Отправить */}
           <button
             onClick={handleSend}
             disabled={isDisabled}

@@ -22,7 +22,6 @@ const casesByPractice = [
 export function CasesTabContent() {
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Status Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {casesByStatus.map((item) => (
           <Card key={item.status}>
@@ -38,7 +37,6 @@ export function CasesTabContent() {
         ))}
       </div>
 
-      {/* Cases by Practice Area */}
       <Card>
         <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Дела по практикам</h3>
         <div className="space-y-3 sm:space-y-4 md:space-y-5">

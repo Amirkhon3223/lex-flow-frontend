@@ -5,12 +5,12 @@ import { cn } from '@/shared/ui/utils';
 
 export interface StatCardProps {
   label?: string;
-  title?: string; // Alias for label
+  title?: string; 
   value: string | number;
   icon: LucideIcon;
   iconBg?: string;
   iconColor?: string;
-  color?: string; // Alias for iconColor (for backward compatibility)
+  color?: string; 
   trend?: string | { value: string; isPositive?: boolean; label?: string };
   trendUp?: boolean;
   valueColor?: string;

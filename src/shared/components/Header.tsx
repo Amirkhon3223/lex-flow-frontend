@@ -32,7 +32,7 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-background/70 backdrop-blur-2xl border-b border-border">
+      <header className="sticky top-0 z-30 bg-card/70 backdrop-blur-2xl border-b border-border">
         <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 py-3 sm:py-4">
           {/* Hamburger menu button - visible only on mobile, hidden on tablet and desktop */}
           <Button
@@ -54,7 +54,6 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
             {isSidebarCollapsed ? <ChevronRight className="w-5 h-5" strokeWidth={2} /> : <ChevronLeft className="w-5 h-5" strokeWidth={2} />}
           </Button>
 
-          {/* Search */}
           <div className="flex-1 max-w-2xl">
             <div className="relative cursor-pointer" onClick={() => setIsSearchOpen(true)}>
               <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" strokeWidth={2} />
@@ -66,9 +65,7 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-2 sm:gap-3 ml-2 sm:ml-3">
-            {/* Notifications */}
             <Button
               variant="ghost"
               size="icon"
@@ -76,14 +73,9 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
               onClick={() => setIsNotificationsOpen(true)}
             >
               <Bell className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2} />
-              {/* Notification badge */}
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
             </Button>
-
-            {/* Theme Toggle */}
             <ThemeToggle />
-
-            {/* Profile */}
             <button
               className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
               onClick={() => navigate(ROUTES.USER_PROFILE)}
@@ -97,8 +89,6 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
           </div>
         </div>
       </header>
-
-      {/* Dialogs */}
       <NotificationsPanel open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen} />
       <GlobalSearchDialog open={isSearchOpen} onOpenChange={setIsSearchOpen} />
     </>

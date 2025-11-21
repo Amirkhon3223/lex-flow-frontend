@@ -62,7 +62,6 @@ export function DocumentVersionsView() {
 
   return (
     <div>
-      { }
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 sm:px-6 lg:px-8 py-4">
           {/* Mobile header row */}
@@ -142,10 +141,8 @@ export function DocumentVersionsView() {
         </div>
       </header>
 
-      { }
       <main className="p-4 sm:p-6 lg:p-8">
         <div className="max-w-5xl mx-auto">
-          { }
           <Card className="bg-blue-500/10 border-blue-500/20 mb-4 sm:mb-6">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
@@ -160,8 +157,6 @@ export function DocumentVersionsView() {
               </div>
             </div>
           </Card>
-
-          { }
           <div className="space-y-3 sm:space-y-4">
             {versions.map((version, index) => (
               <Card
@@ -169,7 +164,6 @@ export function DocumentVersionsView() {
                 className={`hover:shadow-md transition-all ${version.isCurrent ? 'ring-2 ring-blue-500' : ''
                   }`}
               >
-                {/* Mobile layout */}
                 <div className="md:hidden">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="flex flex-col items-center">
@@ -292,7 +286,6 @@ export function DocumentVersionsView() {
 
                 {/* Desktop layout */}
                 <div className="hidden md:flex items-start gap-6">
-                  { }
                   <div className="flex flex-col items-center">
                     <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg ${version.isCurrent
                       ? 'bg-blue-500 text-white'
@@ -305,7 +298,6 @@ export function DocumentVersionsView() {
                     )}
                   </div>
 
-                  { }
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-3">
                       <div>
@@ -382,7 +374,6 @@ export function DocumentVersionsView() {
 
                     <Separator className="mb-4 bg-border" />
 
-                    { }
                     <div className="flex items-center gap-2">
                       <Button
                         variant="outline"

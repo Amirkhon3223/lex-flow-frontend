@@ -75,7 +75,6 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
-          { }
           <div className="space-y-2">
             <Label htmlFor="title" className="text-sm text-foreground">
               Название дела *
@@ -139,7 +138,6 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
             </div>
           </div>
 
-          { }
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="deadline" className="text-sm text-foreground">
@@ -175,7 +173,6 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
             </div>
           </div>
 
-          { }
           <div className="space-y-2">
             <Label htmlFor="priority" className="text-sm text-foreground">
               Приоритет
@@ -196,7 +193,6 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
             </Select>
           </div>
 
-          { }
           <div className="space-y-2">
             <Label htmlFor="description" className="text-sm text-foreground">
               Описание дела
@@ -210,7 +206,6 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
             />
           </div>
 
-          { }
           <div className="flex items-center gap-3 pt-4">
             <Button
               type="button"

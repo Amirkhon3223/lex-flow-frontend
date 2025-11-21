@@ -3,7 +3,7 @@ import { Card } from '@/shared/ui/card';
 
 export function TodayCard({ meetingsCount }: TodayCardProps) {
     return (
-        <Card className="bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/20 text-white mb-4 sm:mb-6">
+        <Card className="bg-primary dark:bg-gradient-to-br dark:from-blue-500 dark:to-blue-600 shadow-lg text-white mb-4 sm:mb-6">
             <div className="flex items-center justify-between">
                 <div>
                     <h3 className="text-lg sm:text-xl tracking-tight mb-1">Сегодня</h3>

@@ -4,7 +4,6 @@ import { StatCard } from '@/shared/ui/stat-card';
 const stats = [
   {
     icon: Briefcase,
-    bgColor: 'bg-blue-50',
     iconColor: 'text-blue-500',
     trend: '+12%',
     value: '47',
@@ -12,7 +11,6 @@ const stats = [
   },
   {
     icon: Users,
-    bgColor: 'bg-purple-50',
     iconColor: 'text-purple-500',
     trend: '+8%',
     value: '24',
@@ -20,7 +18,6 @@ const stats = [
   },
   {
     icon: Target,
-    bgColor: 'bg-green-50',
     iconColor: 'text-green-500',
     trend: '+5%',
     value: '87%',
@@ -28,7 +25,6 @@ const stats = [
   },
   {
     icon: DollarSign,
-    bgColor: 'bg-amber-50',
     iconColor: 'text-amber-500',
     trend: '+23%',
     value: '3.8M ₽',
@@ -45,10 +41,9 @@ export function StatsCards() {
           label={stat.label}
           value={stat.value}
           icon={stat.icon}
-          iconBg={stat.bgColor}
           iconColor={stat.iconColor}
           trend={stat.trend}
-          trendUp={true} // Assuming all are positive based on the "+" sign
+          trendUp={true}
         />
       ))}
     </div>

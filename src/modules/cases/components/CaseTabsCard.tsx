@@ -55,12 +55,14 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
               <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onDocumentClick(doc.id)}>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
                   <h4 className="tracking-tight truncate text-sm sm:text-base">{doc.name}</h4>
-                  <Badge className={`${getDocumentStatusColor(doc.status)} border-0 text-xs w-fit`}>
+                  <Badge
+                    className={`${getDocumentStatusColor(doc.status)} text-xs w-fit`}
+                  >
                     {doc.status === DocumentStatusEnum.FINAL
-                      ? 'Финал'
+                      ? "Финал"
                       : doc.status === DocumentStatusEnum.REVIEW
-                        ? 'Проверка'
-                        : 'Черновик'}
+                        ? "Проверка"
+                        : "Черновик"}
                   </Badge>
                 </div>
                 <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground flex-wrap">

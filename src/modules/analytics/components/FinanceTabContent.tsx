@@ -30,7 +30,6 @@ export function FinanceTabContent() {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Payment Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {paymentStats.map((stat) => (
           <Card key={stat.title}>
@@ -45,7 +44,6 @@ export function FinanceTabContent() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-        {/* Revenue by Source */}
         <Card>
           <div>
             <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-2 md:mb-4">Доходы по источникам</h3>
@@ -79,7 +77,6 @@ export function FinanceTabContent() {
           </div>
         </Card>
 
-        {/* Top Clients by Revenue */}
         <Card>
           <div>
             <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-2 md:mb-4">ТОП клиенты по доходу</h3>

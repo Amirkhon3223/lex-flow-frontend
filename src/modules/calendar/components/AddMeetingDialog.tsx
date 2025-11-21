@@ -69,7 +69,6 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
 
         <form onSubmit={handleSubmit} className="px-4 sm:px-8 pb-6 sm:pb-8">
           <div className="space-y-4 sm:space-y-6">
-            { }
             <div className="space-y-2">
               <Label htmlFor="title" className="text-xs sm:text-sm text-muted-foreground">
                 Название встречи
@@ -84,7 +83,6 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               />
             </div>
 
-            { }
             <div className="space-y-2">
               <Label htmlFor="type" className="text-xs sm:text-sm text-muted-foreground">
                 Тип встречи
@@ -121,7 +119,6 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
 
             <Separator className="bg-border" />
 
-            { }
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
                 <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
@@ -162,7 +159,6 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </div>
             </div>
 
-            { }
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
                 <Label htmlFor="duration" className="text-xs sm:text-sm text-muted-foreground">
@@ -211,7 +207,6 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
 
             <Separator className="bg-border" />
 
-            { }
             {(formData.type === 'in_person' || formData.type === 'video') && (
               <div className="space-y-2">
                 <Label htmlFor="location" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
@@ -232,7 +227,6 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </div>
             )}
 
-            { }
             <div className="space-y-2">
               <Label htmlFor="notes" className="text-xs sm:text-sm text-muted-foreground">
                 Заметки
@@ -247,7 +241,6 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
             </div>
           </div>
 
-          { }
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-border">
             <Button
               type="button"

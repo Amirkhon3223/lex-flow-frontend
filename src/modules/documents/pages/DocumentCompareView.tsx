@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, Download, Eye, FileText, Info, Maximize2, Minimize2, RotateCcw, Search, ZoomIn, ZoomOut, GitCompare, ChevronDown, ArrowRight, History } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, FileText, Info, Maximize2, Minimize2, ZoomIn, ZoomOut, GitCompare, ChevronDown, ArrowRight, History } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums';
+import type { DocumentVersionInterface, DocumentChangeInterface } from '@/app/types/documents/documents.interfaces';
 import { BackButton } from '@/shared/components/BackButton';
-import { Button } from '@/shared/ui/button';
 import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
-import { cn } from '@/shared/ui/utils';
 import { ScrollArea } from '@/shared/ui/scroll-area.tsx';
 import {
   Select,
@@ -14,8 +15,6 @@ import {
   SelectTrigger,
 } from '@/shared/ui/select.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
-import type { DocumentVersionInterface, DocumentChangeInterface } from '@/app/types/documents/documents.interfaces';
-import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums';
 
 export function DocumentCompareView() {
   const navigate = useNavigate();
@@ -205,7 +204,6 @@ export function DocumentCompareView() {
 
   return (
     <div ref={containerRef}>
-      { }
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
@@ -267,7 +265,6 @@ export function DocumentCompareView() {
             </div>
           </div>
 
-          { }
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex-1 min-w-0">
               <Select
@@ -340,7 +337,6 @@ export function DocumentCompareView() {
         </div>
       </header>
 
-      { }
       <main className="p-4 sm:p-6 lg:p-8">
         {/* Mobile layout - stacked */}
         <div className="lg:hidden space-y-4">
@@ -393,8 +389,6 @@ export function DocumentCompareView() {
               </div>
             </div>
           </Card>
-
-          {/* Old version */}
           <Card >
             <div className="p-3 bg-muted/50 border-b border-border">
               <div className="flex items-center justify-between">
@@ -418,8 +412,6 @@ export function DocumentCompareView() {
               />
             </ScrollArea>
           </Card>
-
-          {/* New version */}
           <Card >
             <div className="p-3 bg-green-500/10 border-b border-green-500/20">
               <div className="flex items-center justify-between">
@@ -472,9 +464,7 @@ export function DocumentCompareView() {
 
         {/* Desktop layout - side by side */}
         <div className="hidden lg:grid grid-cols-4 gap-6">
-          { }
           <div className="space-y-6">
-            { }
             <Card>
               <div>
                 <h3 className="font-semibold tracking-tight mb-4 flex items-center gap-2">
@@ -514,7 +504,6 @@ export function DocumentCompareView() {
               </div>
             </Card>
 
-            { }
             <Card>
               <div>
                 <h3 className="font-semibold tracking-tight mb-4">Навигация</h3>
@@ -584,7 +573,6 @@ export function DocumentCompareView() {
               </div>
             </Card>
 
-            { }
             <Card className="bg-muted/50">
               <div>
                 <div className="flex items-center gap-2 mb-3">
@@ -609,11 +597,9 @@ export function DocumentCompareView() {
             </Card>
           </div>
 
-          { }
           <div className="col-span-3">
             <Card >
               <div className="grid grid-cols-2 divide-x divide-border">
-                { }
                 <div>
                   <div className="p-4 bg-muted/50 border-b border-border">
                     <div className="flex items-center justify-between">
@@ -639,7 +625,6 @@ export function DocumentCompareView() {
                   </ScrollArea>
                 </div>
 
-                { }
                 <div>
                   <div className="p-4 bg-green-500/10 border-b border-green-500/20">
                     <div className="flex items-center justify-between">
