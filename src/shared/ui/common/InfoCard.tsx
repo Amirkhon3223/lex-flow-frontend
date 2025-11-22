@@ -1,8 +1,7 @@
 import React from 'react';
-import { Card } from '@/shared/ui/card';
-import { Button } from '@/shared/ui/button';
 import type { LucideIcon } from 'lucide-react';
-import { cn } from '@/shared/ui/utils';
+import { Button } from '@/shared/ui/button';
+import { Card } from '@/shared/ui/card';
 
 interface InfoCardProps {
   title: string;

@@ -59,41 +59,39 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg bg-white border-0 shadow-2xl rounded-2xl sm:rounded-3xl p-0 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-lg bg-background border-border shadow-2xl rounded-2xl sm:rounded-3xl p-0 max-h-[90vh] overflow-y-auto">
         <DialogHeader className="px-4 sm:px-8 pt-6 sm:pt-8 pb-4 sm:pb-6">
           <DialogTitle className="text-xl sm:text-2xl tracking-tight">Новая встреча</DialogTitle>
-          <DialogDescription className="text-gray-500 text-sm">
+          <DialogDescription className="text-muted-foreground text-sm">
             Запланируйте встречу с клиентом
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="px-4 sm:px-8 pb-6 sm:pb-8">
           <div className="space-y-4 sm:space-y-6">
-            {}
             <div className="space-y-2">
-              <Label htmlFor="title" className="text-xs sm:text-sm text-gray-600">
+              <Label htmlFor="title" className="text-xs sm:text-sm text-muted-foreground">
                 Название встречи
               </Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => handleChange('title', e.target.value)}
-                className="h-10 sm:h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500 text-sm"
+                className="h-10 sm:h-11 rounded-xl border-input focus-visible:ring-blue-500 text-sm"
                 placeholder="Консультация по делу"
                 required
               />
             </div>
 
-            {}
             <div className="space-y-2">
-              <Label htmlFor="type" className="text-xs sm:text-sm text-gray-600">
+              <Label htmlFor="type" className="text-xs sm:text-sm text-muted-foreground">
                 Тип встречи
               </Label>
               <Select
                 value={formData.type}
                 onValueChange={(value) => handleChange('type', value)}
               >
-                <SelectTrigger className="h-10 sm:h-11 rounded-xl border-gray-200 focus:ring-blue-500 text-sm">
+                <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input focus:ring-blue-500 text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl">
@@ -119,20 +117,19 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </Select>
             </div>
 
-            <Separator className="bg-gray-100" />
+            <Separator className="bg-border" />
 
-            {}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
-                <Label className="text-xs sm:text-sm text-gray-600 flex items-center gap-2">
-                  <CalendarIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" strokeWidth={2} />
+                <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                  <CalendarIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
                   Дата
                 </Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      className="h-10 sm:h-11 w-full justify-start text-left rounded-xl border-gray-200 hover:bg-gray-50 text-sm"
+                      className="h-10 sm:h-11 w-full justify-start text-left rounded-xl border-input hover:bg-muted text-sm"
                     >
                       {date ? format(date, 'PPP', { locale: ru }) : 'Выберите дату'}
                     </Button>
@@ -147,8 +144,8 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="time" className="text-xs sm:text-sm text-gray-600 flex items-center gap-2">
-                  <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" strokeWidth={2} />
+                <Label htmlFor="time" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                  <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
                   Время
                 </Label>
                 <Input
@@ -156,23 +153,22 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
                   type="time"
                   value={formData.time}
                   onChange={(e) => handleChange('time', e.target.value)}
-                  className="h-10 sm:h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500 text-sm"
+                  className="h-10 sm:h-11 rounded-xl border-input focus-visible:ring-blue-500 text-sm"
                   required
                 />
               </div>
             </div>
 
-            {}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
-                <Label htmlFor="duration" className="text-xs sm:text-sm text-gray-600">
+                <Label htmlFor="duration" className="text-xs sm:text-sm text-muted-foreground">
                   Длительность
                 </Label>
                 <Select
                   value={formData.duration}
                   onValueChange={(value) => handleChange('duration', value)}
                 >
-                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-gray-200 focus:ring-blue-500 text-sm">
+                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input focus:ring-blue-500 text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl">
@@ -187,15 +183,15 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="reminder" className="text-xs sm:text-sm text-gray-600 flex items-center gap-2">
-                  <AlarmClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" strokeWidth={2} />
+                <Label htmlFor="reminder" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                  <AlarmClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
                   Напоминание
                 </Label>
                 <Select
                   value={formData.reminder}
                   onValueChange={(value) => handleChange('reminder', value)}
                 >
-                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-gray-200 focus:ring-blue-500 text-sm">
+                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input focus:ring-blue-500 text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl">
@@ -209,20 +205,19 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </div>
             </div>
 
-            <Separator className="bg-gray-100" />
+            <Separator className="bg-border" />
 
-            {}
             {(formData.type === 'in_person' || formData.type === 'video') && (
               <div className="space-y-2">
-                <Label htmlFor="location" className="text-xs sm:text-sm text-gray-600 flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" strokeWidth={2} />
+                <Label htmlFor="location" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                  <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
                   {formData.type === 'video' ? 'Ссылка' : 'Место встречи'}
                 </Label>
                 <Input
                   id="location"
                   value={formData.location}
                   onChange={(e) => handleChange('location', e.target.value)}
-                  className="h-10 sm:h-11 rounded-xl border-gray-200 focus-visible:ring-blue-500 text-sm"
+                  className="h-10 sm:h-11 rounded-xl border-input focus-visible:ring-blue-500 text-sm"
                   placeholder={
                     formData.type === 'video'
                       ? 'https://meet.google.com/...'
@@ -232,28 +227,26 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </div>
             )}
 
-            {}
             <div className="space-y-2">
-              <Label htmlFor="notes" className="text-xs sm:text-sm text-gray-600">
+              <Label htmlFor="notes" className="text-xs sm:text-sm text-muted-foreground">
                 Заметки
               </Label>
               <Textarea
                 id="notes"
                 value={formData.notes}
                 onChange={(e) => handleChange('notes', e.target.value)}
-                className="min-h-[60px] sm:min-h-[80px] rounded-xl border-gray-200 focus-visible:ring-blue-500 resize-none text-sm"
+                className="min-h-[60px] sm:min-h-[80px] rounded-xl border-input focus-visible:ring-blue-500 resize-none text-sm"
                 placeholder="Дополнительная информация о встрече..."
               />
             </div>
           </div>
 
-          {}
-          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-100">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-border">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="w-full sm:flex-1 h-10 sm:h-11 rounded-xl border-gray-200 hover:bg-gray-50 text-sm order-2 sm:order-1"
+              className="w-full sm:flex-1 h-10 sm:h-11 rounded-xl border-input hover:bg-muted text-sm order-2 sm:order-1"
             >
               Отмена
             </Button>

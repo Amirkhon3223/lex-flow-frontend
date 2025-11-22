@@ -48,13 +48,12 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
   return (
     <aside
       className={`
-        fixed left-0 top-0 h-full bg-white/80 backdrop-blur-2xl border-r border-gray-200/50 z-50 transition-all duration-300 ease-in-out
+          fixed left-0 top-0 h-full bg-card border-r border-border z-50 transition-all duration-300 ease-in-out
         ${isCollapsed ? 'md:w-20 lg:w-72' : 'md:w-72'}
         ${isMobileOpen ? 'w-72 translate-x-0' : 'w-72 -translate-x-full md:translate-x-0'}
       `}
     >
       <div className="flex flex-col h-full">
-        {/* Logo */}
         <div className={`px-6 py-8 transition-all duration-300 ${isCollapsed ? 'md:px-3 lg:px-6' : ''}`}>
           <div className={`flex items-center gap-3 ${isCollapsed ? 'md:justify-center lg:justify-start' : ''}`}>
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
@@ -63,12 +62,11 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
             {/* Text visible on mobile and desktop, hidden on tablet collapsed */}
             <div className={`transition-all duration-300 ${isCollapsed ? 'hidden lg:block' : 'block'}`}>
               <h1 className="text-xl tracking-tight">LexFlow</h1>
-              <p className="text-xs text-gray-500">Legal Platform</p>
+              <p className="text-xs text-muted-foreground">Legal Platform</p>
             </div>
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className={`flex-1 px-4 space-y-1 ${isCollapsed ? 'md:px-2 lg:px-4' : ''}`}>
           {navigationItems.map((item) => {
             const isActive = location.pathname === item.path;
@@ -82,7 +80,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
                   ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
                   ${isActive
                     ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
                   }
                 `}
               >
@@ -92,7 +90,6 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
                 </span>
                 {item.count && (
                   <>
-                    {/* Badge for collapsed mode (tablet only) - показываем над иконкой, скрыто на mobile */}
                     <span className={`
                       absolute top-0.5 right-0 w-5 h-5 flex items-center justify-center text-[10px] font-semibold rounded-full
                       ${isActive ? 'bg-white text-blue-500' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'}
@@ -100,7 +97,6 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
                     `}>
                       {item.count}
                     </span>
-                    {/* Badge for expanded mode */}
                     <span className={`
                       text-xs px-2 py-0.5 rounded-full font-bold
                       ${isActive ? 'bg-white text-black' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'}
@@ -115,9 +111,8 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
           })}
         </nav>
 
-        {/* Bottom section */}
         <div className={`p-4 space-y-1 ${isCollapsed ? 'md:p-2 lg:p-4' : ''}`}>
-          <Separator className="mb-3 bg-gray-200" />
+          <Separator className="mb-3 bg-border" />
           <Link
             to={ROUTES.AI_ASSISTANT}
             onClick={onMobileClose}
@@ -126,7 +121,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
               ${location.pathname === ROUTES.AI_ASSISTANT
                 ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                : 'text-gray-700 hover:bg-gray-100'
+                : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
               }
             `}
           >
@@ -140,7 +135,6 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
             `}>
               Новое
             </Badge>
-            {/* Badge indicator for collapsed mode (tablet only) */}
             <span className={`
               absolute top-1 right-1 w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full
               ${isCollapsed ? 'hidden md:block lg:hidden' : 'hidden'}
@@ -154,7 +148,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
               ${location.pathname === ROUTES.SETTINGS
                 ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                : 'text-gray-700 hover:bg-gray-100'
+                : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
               }
             `}
           >
@@ -165,12 +159,9 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
           </Link>
           <button
             className={`
-              w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-gray-700 hover:bg-red-50 hover:text-red-600 cursor-pointer
+              w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-slate-600 dark:text-muted-foreground hover:bg-red-50 hover:text-red-600 cursor-pointer
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
             `}
-            onClick={() => {
-              console.log('Logout clicked');
-            }}
           >
             <LogOut className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
             <span className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}>

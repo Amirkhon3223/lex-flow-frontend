@@ -18,25 +18,25 @@ export function LoginForm({
   return (
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
       <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="login-email" className="text-slate-700 text-sm sm:text-base">
+        <Label htmlFor="login-email" className="text-foreground text-sm sm:text-base">
           Email
         </Label>
         <div className="relative">
-          <Mail className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+          <Mail className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
           <Input
             id="login-email"
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => onEmailChange(e.target.value)}
-            className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-slate-50/50 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
+            className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-muted/50 border-input focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
             required
           />
         </div>
       </div>
 
       <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="login-password" className="text-slate-700 text-sm sm:text-base">
+        <Label htmlFor="login-password" className="text-foreground text-sm sm:text-base">
           Пароль
         </Label>
         <div className="relative">
@@ -59,11 +59,11 @@ export function LoginForm({
             id="remember"
             checked={rememberMe}
             onCheckedChange={(checked) => onRememberMeChange(Boolean(checked))}
-            className="rounded-md border-slate-300"
+            className="rounded-md border-input"
           />
           <label
             htmlFor="remember"
-            className="text-xs sm:text-sm text-slate-600 cursor-pointer select-none"
+            className="text-xs sm:text-sm text-muted-foreground cursor-pointer select-none"
           >
             Запомнить меня
           </label>

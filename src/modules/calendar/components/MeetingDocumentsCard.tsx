@@ -25,9 +25,9 @@ export function MeetingDocumentsCard({ onAddDocument }: MeetingDocumentsCardProp
         </div>
       </CardHeader>
       <CardContent>
-        <div className="rounded-xl bg-gray-50">
+        <div className="rounded-xl bg-muted/50">
           <EmptyState
-            icon={<FileText className="w-6 h-6 sm:w-7 sm:h-7 text-gray-400" strokeWidth={2} />}
+            icon={<FileText className="w-6 h-6 sm:w-7 sm:h-7 text-muted-foreground" strokeWidth={2} />}
             message="Документов нет"
             size="sm"
           />

@@ -17,7 +17,6 @@ export function ProfileTabContent() {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Personal Information */}
       <Card>
         <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Личная информация</h3>
@@ -116,7 +115,6 @@ export function ProfileTabContent() {
         </div>
       </Card>
 
-      {/* Regional Settings */}
       <Card>
         <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">

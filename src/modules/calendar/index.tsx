@@ -230,22 +230,22 @@ export function CalendarPage() {
   const getMeetingTypeColor = (type: MeetingInterface['type']) => {
     switch (type) {
       case 'video':
-        return 'bg-purple-100 text-purple-700';
+        return 'bg-purple-500/10 text-purple-600 dark:text-purple-400';
       case 'phone':
-        return 'bg-green-100 text-green-700';
+        return 'bg-green-500/10 text-green-600 dark:text-green-400';
       default:
-        return 'bg-blue-100 text-blue-700';
+        return 'bg-blue-500/10 text-blue-600 dark:text-blue-400';
     }
   };
 
   const getPriorityColor = (priority?: MeetingInterface['priority']) => {
     switch (priority) {
       case 'high':
-        return 'bg-red-100 text-red-700';
+        return 'bg-destructive/10 text-destructive';
       case 'medium':
-        return 'bg-amber-100 text-amber-700';
+        return 'bg-amber-500/10 text-amber-600 dark:text-amber-400';
       default:
-        return 'bg-gray-100 text-gray-700';
+        return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -253,7 +253,7 @@ export function CalendarPage() {
     <div>
       <AddMeetingDialog open={isAddMeetingOpen} onOpenChange={setIsAddMeetingOpen} />
 
-      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+      <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between gap-3 mb-3 sm:mb-4">
             <div className="flex items-center gap-2 sm:gap-3">
@@ -262,7 +262,7 @@ export function CalendarPage() {
               </div>
               <div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">Календарь</h1>
-                <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg">Все встречи и события</p>
+                <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">Все встречи и события</p>
               </div>
             </div>
 

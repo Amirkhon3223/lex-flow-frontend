@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/shared/ui/card';
 
 export function QuickActionsCard({ onComplete, onReschedule, onCancel }: QuickActionsCardProps) {
     return (
-        <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white overflow-hidden">
+        <Card className="dark:bg-blue-500/10 dark:border dark:border-blue-500/20 bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white overflow-hidden">
             <CardContent>
                 <h3 className="text-sm sm:text-base md:text-lg tracking-tight mb-2 sm:mb-3 md:mb-4">
                     Быстрые действия

@@ -41,7 +41,6 @@ export function BillingTabContent() {
       <ManagePaymentDialog open={isManagePaymentOpen} onOpenChange={setIsManagePaymentOpen} onSubmit={handlePaymentSubmit} />
 
       <div className="space-y-4 sm:space-y-6">
-        {/* Subscription Card */}
         <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/30 text-white">
           <div className="p-4 sm:p-6 md:p-8">
             <div className="flex flex-col sm:flex-row items-start justify-between gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
@@ -88,8 +87,6 @@ export function BillingTabContent() {
             </div>
           </div>
         </Card>
-
-        {/* Payment History */}
         <Card>
           <div>
             <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">История платежей</h3>

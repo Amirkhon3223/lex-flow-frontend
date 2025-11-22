@@ -1,4 +1,4 @@
-// Data interfaces
+
 export interface SubscriptionFeatures {
   clients: string;
   cases: string;
@@ -39,7 +39,7 @@ export interface PaymentHistoryInterface {
   invoice: string;
 }
 
-// Component Props interfaces
+
 export interface NotificationToggleItemProps {
   setting: NotificationSettingInterface;
   onToggle?: (checked: boolean) => void;

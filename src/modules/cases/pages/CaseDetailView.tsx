@@ -28,7 +28,7 @@ import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 
 export function CaseDetailView() {
   const navigate = useNavigate();
-  const onBack = () => window.history.back();
+  const onBack = () => navigate(-1);
 
   const [isUploadDocumentDialogOpen, setIsUploadDocumentDialogOpen] = useState(false);
   const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] = useState(false);

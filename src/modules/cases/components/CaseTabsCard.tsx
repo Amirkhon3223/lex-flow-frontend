@@ -19,23 +19,23 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
   return (
     <Card>
       <Tabs defaultValue="documents" className="w-full">
-        <div className="border-b border-gray-100 py-4">
-          <TabsList className="bg-gray-100 rounded-xl p-1 w-full sm:w-auto">
+        <div className="border-b border-border py-4">
+          <TabsList className="bg-muted rounded-xl p-1 w-full sm:w-auto">
             <TabsTrigger
               value="documents"
-              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
+              className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               Документы
             </TabsTrigger>
             <TabsTrigger
               value="timeline"
-              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
+              className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               История
             </TabsTrigger>
             <TabsTrigger
               value="notes"
-              className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
+              className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               Заметки
             </TabsTrigger>
@@ -46,7 +46,7 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
           {documents.map((doc) => (
             <div
               key={doc.id}
-              className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all"
+              className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-muted/50 hover:bg-muted transition-all"
             >
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
                 <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" strokeWidth={2} />
@@ -55,15 +55,17 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
               <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onDocumentClick(doc.id)}>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
                   <h4 className="tracking-tight truncate text-sm sm:text-base">{doc.name}</h4>
-                  <Badge className={`${getDocumentStatusColor(doc.status)} border-0 text-xs w-fit`}>
+                  <Badge
+                    className={`${getDocumentStatusColor(doc.status)} text-xs w-fit`}
+                  >
                     {doc.status === DocumentStatusEnum.FINAL
-                      ? 'Финал'
+                      ? "Финал"
                       : doc.status === DocumentStatusEnum.REVIEW
-                        ? 'Проверка'
-                        : 'Черновик'}
+                        ? "Проверка"
+                        : "Черновик"}
                   </Badge>
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-500 flex-wrap">
+                <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground flex-wrap">
                   <span>{doc.size}</span>
                   <span className="hidden sm:inline">•</span>
                   <span>{doc.date}</span>
@@ -103,18 +105,17 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
               <div key={index} className="flex gap-3 sm:gap-4">
                 <div className="flex flex-col items-center">
                   <div
-                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0 ${
-                      index === 0 ? 'bg-blue-500' : 'bg-gray-300'
-                    }`}
+                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0 ${index === 0 ? 'bg-blue-500' : 'bg-muted-foreground/30'
+                      }`}
                   ></div>
-                  {index < timeline.length - 1 && <div className="w-px h-full bg-gray-200 mt-2"></div>}
+                  {index < timeline.length - 1 && <div className="w-px h-full bg-border mt-2"></div>}
                 </div>
                 <div className="flex-1 pb-4 sm:pb-6 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
                     <h4 className="tracking-tight text-sm sm:text-base">{event.title}</h4>
-                    <span className="text-xs sm:text-sm text-gray-400 flex-shrink-0">{event.date}</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground/70 flex-shrink-0">{event.date}</span>
                   </div>
-                  <p className="text-xs sm:text-sm text-gray-500">{event.description}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{event.description}</p>
                 </div>
               </div>
             ))}
@@ -124,7 +125,7 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
         <TabsContent value="notes" className="p-2">
           <Textarea
             placeholder="Добавьте заметки о деле..."
-            className="min-h-[150px] sm:min-h-[200px] rounded-xl border-gray-200 focus-visible:ring-blue-500 resize-none text-sm sm:text-base"
+            className="min-h-[150px] sm:min-h-[200px] rounded-xl border-input focus-visible:ring-blue-500 resize-none text-sm sm:text-base"
           />
           <Button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm sm:text-base">
             Сохранить заметку

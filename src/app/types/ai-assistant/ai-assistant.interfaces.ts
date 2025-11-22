@@ -34,10 +34,6 @@ export interface ChatInputProps {
   onSend: () => void;
 }
 
-// ========================================
-// Speech Recognition Types
-// ========================================
-
 export interface SpeechRecognitionEvent extends Event {
   resultIndex: number;
   results: SpeechRecognitionResultList;

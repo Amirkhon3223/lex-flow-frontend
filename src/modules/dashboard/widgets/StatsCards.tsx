@@ -8,7 +8,6 @@ export function StatsCards() {
       value: 47,
       icon: Briefcase,
       iconColor: 'text-blue-500',
-      iconBg: 'bg-blue-50',
       trend: { value: '+8%', isPositive: true },
     },
     {
@@ -16,7 +15,6 @@ export function StatsCards() {
       value: 24,
       icon: Users,
       iconColor: 'text-purple-500',
-      iconBg: 'bg-purple-50',
       trend: { value: '+12%', isPositive: true },
     },
     {
@@ -24,7 +22,6 @@ export function StatsCards() {
       value: 156,
       icon: FileText,
       iconColor: 'text-orange-500',
-      iconBg: 'bg-orange-50',
       trend: { value: '+23%', isPositive: true },
     },
     {
@@ -32,7 +29,6 @@ export function StatsCards() {
       value: 5,
       icon: Clock,
       iconColor: 'text-red-500',
-      iconBg: 'bg-red-50',
       variant: 'urgent' as const,
       trend: { value: 'Срочно', isPositive: false },
     },

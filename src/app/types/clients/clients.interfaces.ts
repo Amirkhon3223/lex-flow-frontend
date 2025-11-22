@@ -90,13 +90,3 @@ export interface FinancialData {
 export interface FinancialCardProps {
   financialData: FinancialData;
 }
-
-/**
- * Пропсы для компактной статистической карточки
- */
-export interface CompactStatCardProps {
-  label: string;
-  value: string | number;
-  icon: import('lucide-react').LucideIcon;
-  color: string;
-}

@@ -1,69 +1,86 @@
-import type { StatCardProps } from '@/app/types/shared/shared.interfaces';
-import { Badge } from '@/shared/ui/badge';
+import type { LucideIcon } from 'lucide-react';
+import { getIconBgColor } from '@/shared/lib/color-utils';
 import { Card } from '@/shared/ui/card';
+import { cn } from '@/shared/ui/utils';
+
+export interface StatCardProps {
+  label?: string;
+  title?: string; 
+  value: string | number;
+  icon: LucideIcon;
+  iconBg?: string;
+  iconColor?: string;
+  color?: string; 
+  trend?: string | { value: string; isPositive?: boolean; label?: string };
+  trendUp?: boolean;
+  valueColor?: string;
+  className?: string;
+  variant?: 'default' | 'urgent';
+}
 
 export function StatCard({
   label,
   title,
   value,
   icon: Icon,
-  iconBg = 'bg-blue-50',
-  iconColor = 'text-blue-600',
-  valueColor,
-  variant = 'default',
+  iconBg,
+  iconColor,
+  color,
   trend,
+  trendUp,
+  valueColor,
+  className,
+  variant,
 }: StatCardProps) {
   const displayLabel = label || title;
+  const finalIconColor = iconColor || color || 'text-primary';
+  const finalIconBg = iconBg || getIconBgColor(finalIconColor);
+
+  let trendValue = '';
+  let isTrendPositive = trendUp;
+  let trendLabel = 'с прошлого месяца';
+
+  if (typeof trend === 'object' && trend !== null) {
+    trendValue = trend.value;
+    isTrendPositive = trend.isPositive;
+    if (trend.label) trendLabel = trend.label;
+  } else if (typeof trend === 'string') {
+    trendValue = trend;
+  }
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
-      {/* Mobile: layout like ContactInfoCard (icon left, label+value right) */}
-      <div className="flex items-start gap-2.5 md:hidden">
-          <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center flex-shrink-0`}>
-            <Icon className={`w-4 h-4 ${iconColor}`} strokeWidth={2} />
+    <Card className={cn(
+      "border border-border transition-all hover:shadow-md dark:hover:shadow-white/5",
+      className
+    )}>
+      <div className="flex items-center justify-between">
+        <div>
+          <div className={cn("text-2xl sm:text-3xl tracking-tight mb-1 font-semibold", valueColor)}>
+            {value}
           </div>
-          <div className="min-w-0">
-            <div className="text-xs text-gray-500">{displayLabel}</div>
-            <div className={`text-base font-medium ${valueColor || ''}`}>
-              {value}
-            </div>
+          <div className="text-xs sm:text-sm text-muted-foreground font-medium">
+            {displayLabel}
           </div>
-          {trend && (
-            <Badge
-              className={`ml-auto flex-shrink-0 ${
-                variant === 'urgent'
-                  ? 'bg-red-50 text-red-700 border-0 text-xs'
-                  : 'bg-green-50 text-green-700 border-0 text-xs'
-              }`}
-            >
-              {variant === 'urgent' ? 'Срочно' : trend.value}
-            </Badge>
-          )}
         </div>
-
-      {/* Desktop: horizontal layout (original) */}
-      <div className="hidden md:block">
-        <div className="flex items-center justify-between mb-4">
-          <div className={`w-12 h-12 rounded-2xl ${iconBg} flex items-center justify-center`}>
-            <Icon className={`w-6 h-6 ${iconColor}`} strokeWidth={2} />
-          </div>
-          {trend && (
-            <Badge
-              className={
-                variant === 'urgent'
-                  ? 'bg-red-50 text-red-700 border-0 text-xs'
-                  : 'bg-green-50 text-green-700 border-0 text-xs'
-              }
-            >
-              {variant === 'urgent' ? 'Срочно' : trend.value}
-            </Badge>
-          )}
+        <div className={cn(
+          "w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
+          finalIconBg
+        )}>
+          <Icon className={cn("w-5 h-5 sm:w-6 sm:h-6", finalIconColor)} strokeWidth={2} />
         </div>
-        <div className={`text-3xl tracking-tight mb-1 ${valueColor || ''}`}>
-          {value}
-        </div>
-        <div className="text-sm text-gray-500">{displayLabel}</div>
       </div>
+      {(trendValue || variant === 'urgent') && (
+        <div className={cn(
+          "mt-3 text-xs font-medium flex items-center gap-1",
+          variant === 'urgent' ? "text-red-600 dark:text-red-400" :
+            isTrendPositive === true ? "text-green-600 dark:text-green-400" :
+              isTrendPositive === false ? "text-red-600 dark:text-red-400" :
+                "text-muted-foreground"
+        )}>
+          {variant === 'urgent' ? 'Срочно' : trendValue}
+          {variant !== 'urgent' && <span className="text-muted-foreground font-normal">{trendLabel}</span>}
+        </div>
+      )}
     </Card>
   );
 }

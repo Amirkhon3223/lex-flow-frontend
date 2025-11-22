@@ -3,7 +3,7 @@ import { Badge } from '@/shared/ui/badge';
 
 export function Header() {
   return (
-    <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+    <header className="relative bg-card border-b border-border rounded-xl">
       <div className="p-3 sm:p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3 mb-2">
@@ -12,7 +12,7 @@ export function Header() {
             </div>
             <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">AI Помощник</h1>
-              <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg">
+              <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">
                 Интеллектуальный анализ и помощь юристу
               </p>
             </div>
