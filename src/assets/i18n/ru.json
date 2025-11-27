@@ -60,6 +60,7 @@
       "DAYS": "дней",
       "WEEKS": "недель",
       "MONTHS": "месяцев",
+      "SINCE_LAST_MONTH": "с прошлого месяца",
       "HOURS_AGO": "часа назад",
       "DAYS_AGO": "дней назад",
       "CREATED": "Создано"
@@ -100,6 +101,16 @@
     "RECENT_ACTIVITY": {
       "TITLE": "Недавняя активность"
     }
+    ,
+    "AI_INSIGHTS": {
+      "TITLE": "AI Инсайты",
+      "RECOMMENDATION_UPDATE_CONTRACT": "Рекомендуется обновить договор для клиента ООО \"ТехноСтрой\"",
+      "FOUND_SIMILAR_CASES": "Найдено {{count}} похожих дел в архиве",
+      "ACTION_ASK": "Спросить AI"
+    },
+    "TODAY": {
+      "OPEN_CALENDAR": "Открыть календарь"
+    }
   },
   "CASES": {
     "TITLE": "Дела",
@@ -110,6 +121,7 @@
     "TOTAL_CASES": "Всего дел",
     "IN_WORK": "В работе",
     "URGENT_CASES": "Срочные",
+    "COMPLETED": "Завершено",
     "OPEN_CASE": "Открыть дело",
     "SEARCH_PLACEHOLDER": "Поиск дел...",
     "DOCUMENTS_COUNT": "документов",
@@ -121,6 +133,13 @@
     "DAYS_UNTIL_TRIAL": "дней до суда",
     "SHARE_CASE": "Поделиться делом",
     "CHECK_THIS_CASE": "Посмотрите это дело",
+    "CREATED": "Создано",
+    "STATS": {
+      "TOTAL": "Всего дел",
+      "IN_WORK": "В работе",
+      "COMPLETED": "Завершено",
+      "URGENT": "Срочные"
+    },
     "FILTERS": {
       "ALL": "Все",
       "URGENT": "Срочные",
@@ -132,15 +151,34 @@
     },
     "FIELDS": {
       "TITLE": "Название дела",
+      "FEE": "Гонорар (₽)",
       "CASE": "Дело",
       "CLIENT": "Клиент",
       "CATEGORY": "Категория",
       "DEADLINE": "Дедлайн",
       "STATUS": "Статус",
       "PRIORITY": "Приоритет",
+      "DESCRIPTION": "Описание дела",
       "PROGRESS": "Прогресс",
       "DOCUMENTS": "Документы",
       "ACTIONS": "Действия"
+    },
+    "EDIT_DIALOG": {
+      "TITLE": "Редактировать дело",
+      "SAVE": "Сохранить изменения",
+      "TITLE_PLACEHOLDER": "Например: Трудовой спор - увольнение",
+      "SELECT_CLIENT_PLACEHOLDER": "Выберите клиента",
+      "SELECT_CATEGORY_PLACEHOLDER": "Категория дела",
+      "DESCRIPTION_PLACEHOLDER": "Краткое описание обстоятельств дела..."
+    },
+    "CATEGORIES": {
+      "LABOR": "Трудовое право",
+      "CIVIL": "Гражданское право",
+      "FAMILY": "Семейное право",
+      "INHERITANCE": "Наследственное право",
+      "CONTRACT": "Договорное право",
+      "CORPORATE": "Корпоративное право",
+      "CONSUMER": "Защита прав потребителей"
     },
     "DETAIL": {
       "OVERVIEW": "Обзор",
@@ -151,6 +189,42 @@
       "CLIENT_INFO": "Информация о клиенте",
       "CASE_PROGRESS": "Прогресс дела",
       "AI_INSIGHTS": "AI-анализ"
+    }
+    ,
+    "TABS": {
+      "DOCUMENTS": "Документы",
+      "TIMELINE": "История",
+      "NOTES": "Заметки"
+    },
+    "DOC_VERSION": {
+      "SINGULAR": "версия",
+      "PLURAL": "версии"
+    },
+    "NOTES": {
+      "PLACEHOLDER": "Добавьте заметки о деле...",
+      "SAVE": "Сохранить заметку"
+    },
+    "TASKS": {
+      "TITLE": "Задачи",
+      "ADD": "Добавить задачу"
+    },
+    "AI_INSIGHTS": {
+      "TITLE": "AI-анализ дела",
+      "VIEW_FULL": "Полный AI отчет"
+    },
+    "CLIENT": {
+      "TITLE": "Клиент",
+      "SINCE": "Клиент с",
+      "PHONE": "Телефон",
+      "EMAIL": "Email",
+      "TOTAL_CASES": "Всего дел",
+      "ACTIVE": "активных",
+      "PROFILE": "Профиль клиента"
+    }
+    ,
+    "SHARE": {
+      "SUBJECT": "Поделиться делом",
+      "BODY": "Посмотрите это дело: {{url}}"
     }
   },
   "CLIENTS": {
@@ -174,6 +248,12 @@
     "INTERACTIONS": "Взаимодействий",
     "CLIENT_CASES": "Дела клиента",
     "CASES_COUNT": "дел",
+    "STATS": {
+      "TOTAL": "Всего клиентов",
+      "ACTIVE": "Активные",
+      "VIP": "VIP",
+      "ACTIVE_CASES": "Активных дел"
+    },
     "FILTERS": {
       "ALL_TYPES": "Все типы",
       "INDIVIDUAL": "Физ. лицо",
@@ -230,6 +310,12 @@
       "PAID_AMOUNT": "Оплачено",
       "REMAINING_AMOUNT": "Остаток",
       "PAYMENT_PERCENTAGE": "Процент оплаты"
+    },
+    "ACTIONS": {
+      "PROFILE": "Профиль",
+      "EDIT": "Редактировать",
+      "WRITE": "Написать",
+      "DELETE": "Удалить"
     }
   },
   "DOCUMENTS": {
@@ -302,6 +388,7 @@
   },
   "CALENDAR": {
     "TITLE": "Календарь",
+    "SUBTITLE": "Все встречи и события",
     "NEW_EVENT": "Новое событие",
     "NEW_MEETING": "Новая встреча",
     "MEETINGS": "Встречи",
@@ -311,6 +398,7 @@
     "FIELDS": {
       "TITLE": "Название",
       "DATE": "Дата",
+      "SEARCH_PLACEHOLDER": "Поиск встреч...",
       "TIME": "Время",
       "LOCATION": "Место",
       "PARTICIPANTS": "Участники",
@@ -318,6 +406,23 @@
       "MEETING_INFO": "Информация о встрече",
       "CASE": "Дело",
       "CLIENT": "Клиент"
+    },
+    "FILTERS": {
+      "ALL_TYPES": "Все типы",
+      "IN_PERSON": "Личные встречи",
+      "VIDEO": "Видеозвонки",
+      "PHONE": "Телефонные звонки",
+      "CLIENT": "Клиент",
+      "ALL_CLIENTS": "Все клиенты"
+    },
+    "WEEK_DAYS": {
+      "MON": "Пн",
+      "TUE": "Вт",
+      "WED": "Ср",
+      "THU": "Чт",
+      "FRI": "Пт",
+      "SAT": "Сб",
+      "SUN": "Вс"
     },
     "VIEW": {
       "DAY": "День",

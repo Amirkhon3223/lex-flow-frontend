@@ -1,6 +1,6 @@
 import type { FilterTabsProps } from '@/app/types/cases/cases.interfaces';
-import { Button } from '@/shared/ui/button';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Button } from '@/shared/ui/button';
 
 export function FilterTabs({ filterStatus, setFilterStatus }: FilterTabsProps) {
   const { t } = useI18n();

@@ -1,6 +1,7 @@
 import { AlertCircle, ChevronRight, Clock, Sparkles, TrendingUp } from 'lucide-react';
 import { AIInsightPriorityEnum, AIInsightTypeEnum } from '@/app/types/cases/cases.enums';
 import type { AIInsightInterface } from '@/app/types/cases/cases.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 
@@ -10,6 +11,7 @@ interface CaseAIInsightsCardProps {
 }
 
 export function CaseAIInsightsCard({ insights, onViewFullReport }: CaseAIInsightsCardProps) {
+  const { t } = useI18n();
   return (
     <Card className="bg-gradient-to-br from-purple-500 to-pink-500 border-0 shadow-lg shadow-purple-500/20 text-white">
       <div>
@@ -17,7 +19,7 @@ export function CaseAIInsightsCard({ insights, onViewFullReport }: CaseAIInsight
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
             <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
           </div>
-          <h3 className="text-lg sm:text-xl tracking-tight">AI Анализ дела</h3>
+          <h3 className="text-lg sm:text-xl tracking-tight">{t('CASES.AI_INSIGHTS.TITLE')}</h3>
         </div>
 
         <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-5">
@@ -51,7 +53,7 @@ export function CaseAIInsightsCard({ insights, onViewFullReport }: CaseAIInsight
           className="w-full bg-white/20 hover:bg-white/30 border-0 rounded-xl backdrop-blur-sm text-white text-sm sm:text-base"
           onClick={onViewFullReport}
         >
-          Полный AI отчет
+          {t('CASES.AI_INSIGHTS.VIEW_FULL')}
           <ChevronRight className="w-4 h-4 ml-2" strokeWidth={2} />
         </Button>
       </div>

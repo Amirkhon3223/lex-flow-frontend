@@ -28,8 +28,12 @@ interface I18nProviderProps {
 export function I18nProvider({ children }: I18nProviderProps) {
   const [language, setLanguageState] = useState<Language>(i18nService.getCurrentLanguage());
   const [, forceUpdate] = useState({});
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    // Дождёмся начальной загрузки переводов
+    i18nService.ready.then(() => setReady(true));
+
     // Слушаем событие смены языка
     const handleLanguageChange = () => {
       setLanguageState(i18nService.getCurrentLanguage());
@@ -60,6 +64,11 @@ export function I18nProvider({ children }: I18nProviderProps) {
     setLanguage: handleSetLanguage,
     t,
   };
+
+  if (!ready) {
+    // Можно вернуть skeleton/placeholder, пока загрузка переводов не завершена
+    return null;
+  }
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }

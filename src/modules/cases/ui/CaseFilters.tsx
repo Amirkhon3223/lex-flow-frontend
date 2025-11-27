@@ -54,11 +54,11 @@ export function CaseFilters({
           width: 'w-[200px]',
           options: [
             { value: 'all', label: t('CASES.FILTERS.ALL_CATEGORIES') },
-            { value: 'Трудовое право', label: 'Трудовое право' },
-            { value: 'Договорное право', label: 'Договорное право' },
-            { value: 'Наследственное право', label: 'Наследственное право' },
-            { value: 'Семейное право', label: 'Семейное право' },
-            { value: 'Защита прав потребителей', label: 'Защита прав потребителей' },
+            { value: 'labor', label: t('CASES.CATEGORIES.LABOR') },
+            { value: 'contract', label: t('CASES.CATEGORIES.CONTRACT') },
+            { value: 'inheritance', label: t('CASES.CATEGORIES.INHERITANCE') },
+            { value: 'family', label: t('CASES.CATEGORIES.FAMILY') },
+            { value: 'consumer', label: t('CASES.CATEGORIES.CONSUMER') },
           ],
         },
       ]}

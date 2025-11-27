@@ -25,6 +25,7 @@ import { EditCaseDialog } from '@/modules/cases/ui/EditCaseDialog';
 import { AddTaskDialog } from '@/shared/components/AddTaskDialog';
 import { CommentsDialog } from '@/shared/components/CommentsDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function CaseDetailView() {
   const navigate = useNavigate();
@@ -157,10 +158,12 @@ export function CaseDetailView() {
 
   const handleShareEmail = () => {
     const url = window.location.href;
-    const subject = 'Поделиться делом';
-    const body = `Посмотрите это дело: ${url}`;
+    const subject = t('CASES.SHARE.SUBJECT');
+    const body = t('CASES.SHARE.BODY', { url });
     window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
+
+  const { t } = useI18n();
 
   return (
     <div>

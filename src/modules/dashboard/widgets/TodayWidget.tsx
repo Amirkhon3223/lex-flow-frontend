@@ -3,6 +3,7 @@ import { Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import type { UpcomingEventInterface } from '@/app/types/dashboard/dashboard.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 
@@ -15,6 +16,7 @@ const upcomingEvents: UpcomingEventInterface[] = [
 export function TodayWidget() {
   const navigate = useNavigate();
   const [isDark, setIsDark] = useState(false);
+  const { t } = useI18n();
 
   useEffect(() => {
     const html = document.documentElement;
@@ -39,7 +41,7 @@ export function TodayWidget() {
     <Card className={cardClasses}>
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <h3 className="text-lg sm:text-xl tracking-tight text-foreground">
-          Сегодня
+          {t('COMMON.TIME.TODAY')}
         </h3>
 
         <Calendar
@@ -76,7 +78,7 @@ export function TodayWidget() {
           border-0 rounded-xl cursor-pointer text-sm sm:text-base shadow-md
         "
       >
-        Открыть календарь
+        {t('DASHBOARD.TODAY.OPEN_CALENDAR')}
       </Button>
     </Card>
   );

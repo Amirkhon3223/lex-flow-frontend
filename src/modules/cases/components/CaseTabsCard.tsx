@@ -1,6 +1,7 @@
 import { Download, Eye, FileText, History } from 'lucide-react';
 import { DocumentStatusEnum } from '@/app/types/cases/cases.enums';
 import type { CaseDocumentInterface, TimelineEventInterface } from '@/app/types/cases/cases.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -16,6 +17,7 @@ interface CaseTabsCardProps {
 }
 
 export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadDocument }: CaseTabsCardProps) {
+  const { t } = useI18n();
   return (
     <Card>
       <Tabs defaultValue="documents" className="w-full">
@@ -25,19 +27,19 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
               value="documents"
               className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              Документы
+              {t('CASES.TABS.DOCUMENTS')}
             </TabsTrigger>
             <TabsTrigger
               value="timeline"
               className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              История
+              {t('CASES.TABS.TIMELINE')}
             </TabsTrigger>
             <TabsTrigger
               value="notes"
               className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              Заметки
+              {t('CASES.TABS.NOTES')}
             </TabsTrigger>
           </TabsList>
         </div>
@@ -59,10 +61,10 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
                     className={`${getDocumentStatusColor(doc.status)} text-xs w-fit`}
                   >
                     {doc.status === DocumentStatusEnum.FINAL
-                      ? "Финал"
+                      ? t('DOCUMENTS.STATUS.FINAL')
                       : doc.status === DocumentStatusEnum.REVIEW
-                        ? "Проверка"
-                        : "Черновик"}
+                        ? t('DOCUMENTS.STATUS.REVIEW')
+                        : t('DOCUMENTS.STATUS.DRAFT')}
                   </Badge>
                 </div>
                 <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground flex-wrap">
@@ -72,7 +74,7 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
                   <span className="hidden sm:inline">•</span>
                   <span className="flex items-center gap-1">
                     <History className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
-                    {doc.versions} {doc.versions === 1 ? 'версия' : 'версии'}
+                    {doc.versions} {doc.versions === 1 ? t('CASES.DOC_VERSION.SINGULAR') : t('CASES.DOC_VERSION.PLURAL')}
                   </span>
                 </div>
               </div>
@@ -124,11 +126,11 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
 
         <TabsContent value="notes" className="p-2">
           <Textarea
-            placeholder="Добавьте заметки о деле..."
+            placeholder={t('CASES.NOTES.PLACEHOLDER')}
             className="min-h-[150px] sm:min-h-[200px] rounded-xl border-input focus-visible:ring-blue-500 resize-none text-sm sm:text-base"
           />
           <Button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm sm:text-base">
-            Сохранить заметку
+            {t('CASES.NOTES.SAVE')}
           </Button>
         </TabsContent>
       </Tabs>

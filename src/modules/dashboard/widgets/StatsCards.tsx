@@ -1,6 +1,6 @@
 import { Briefcase, Users, FileText, Clock } from 'lucide-react';
-import { StatCard } from '@/shared/ui/stat-card';
 import { useI18n } from '@/shared/context/I18nContext';
+import { StatCard } from '@/shared/ui/stat-card';
 
 export function StatsCards() {
   const { t } = useI18n();

@@ -23,9 +23,9 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config.ts';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Separator } from '@/shared/ui/separator';
-import { useI18n } from '@/shared/context/I18nContext';
 
 interface SidebarProps {
   isCollapsed?: boolean;

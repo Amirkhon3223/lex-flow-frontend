@@ -9,6 +9,7 @@
  */
 
 import { Languages, Check } from 'lucide-react';
+import type { Language } from '@/app/services/i18n/i18nService';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
@@ -17,7 +18,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
-import type { Language } from '@/app/services/i18n/i18nService';
 
 export function LanguageSelector() {
   const { language, languageInfo, availableLanguages, setLanguage } = useI18n();

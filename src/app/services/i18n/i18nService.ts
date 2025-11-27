@@ -30,6 +30,7 @@ const DEFAULT_LANGUAGE: Language = 'ru';
 class I18nService {
   private currentLanguage: Language;
   private translations: Record<string, any> = {};
+  public ready: Promise<void>;
 
   constructor() {
     // Загружаем сохраненный язык из localStorage или используем дефолтный
@@ -38,7 +39,8 @@ class I18nService {
       ? savedLanguage
       : DEFAULT_LANGUAGE;
 
-    this.loadTranslations(this.currentLanguage);
+    // Запускаем загрузку переводов и сохраняем промис, чтобы другие части приложения могли дождаться
+    this.ready = this.loadTranslations(this.currentLanguage);
   }
 
   /**

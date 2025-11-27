@@ -1,5 +1,6 @@
 import type { RecentActivityInterface } from '@/app/types/dashboard/dashboard.interfaces';
 import { ActivityItem } from '@/modules/dashboard/ui/ActivityItem';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 
 const recentActivity: RecentActivityInterface[] = [
@@ -9,9 +10,10 @@ const recentActivity: RecentActivityInterface[] = [
 ];
 
 export function RecentActivity() {
+  const { t } = useI18n();
   return (
     <Card>
-      <h3 className="text-lg sm:text-xl tracking-tight mb-4 sm:mb-6">Последняя активность</h3>
+      <h3 className="text-lg sm:text-xl tracking-tight mb-4 sm:mb-6">{t('DASHBOARD.RECENT_ACTIVITY.TITLE')}</h3>
 
       <div className="space-y-4">
           {recentActivity.map((activity, index) => (
