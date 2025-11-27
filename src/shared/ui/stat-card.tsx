@@ -1,16 +1,17 @@
 import type { LucideIcon } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { getIconBgColor } from '@/shared/lib/color-utils';
 import { Card } from '@/shared/ui/card';
 import { cn } from '@/shared/ui/utils';
 
 export interface StatCardProps {
   label?: string;
-  title?: string; 
+  title?: string;
   value: string | number;
   icon: LucideIcon;
   iconBg?: string;
   iconColor?: string;
-  color?: string; 
+  color?: string;
   trend?: string | { value: string; isPositive?: boolean; label?: string };
   trendUp?: boolean;
   valueColor?: string;
@@ -32,13 +33,14 @@ export function StatCard({
   className,
   variant,
 }: StatCardProps) {
+  const { t } = useI18n();
   const displayLabel = label || title;
   const finalIconColor = iconColor || color || 'text-primary';
   const finalIconBg = iconBg || getIconBgColor(finalIconColor);
 
   let trendValue = '';
   let isTrendPositive = trendUp;
-  let trendLabel = 'с прошлого месяца';
+  let trendLabel = t('COMMON.TIME.SINCE_LAST_MONTH');
 
   if (typeof trend === 'object' && trend !== null) {
     trendValue = trend.value;
@@ -77,7 +79,7 @@ export function StatCard({
               isTrendPositive === false ? "text-red-600 dark:text-red-400" :
                 "text-muted-foreground"
         )}>
-          {variant === 'urgent' ? 'Срочно' : trendValue}
+          {variant === 'urgent' ? t('COMMON.STATUS.URGENT') : trendValue}
           {variant !== 'urgent' && <span className="text-muted-foreground font-normal">{trendLabel}</span>}
         </div>
       )}

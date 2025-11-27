@@ -13,7 +13,9 @@ import { useState } from 'react';
 import { Search, Bell, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from "@/app/config/routes.config.ts";
+import { LanguageSelector } from '@/shared/components/LanguageSelector';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
@@ -29,6 +31,7 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
   const navigate = useNavigate();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { t } = useI18n();
 
   return (
     <>
@@ -58,7 +61,7 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
             <div className="relative cursor-pointer" onClick={() => setIsSearchOpen(true)}>
               <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" strokeWidth={2} />
               <Input
-                placeholder="Поиск..."
+                placeholder={t('COMMON.ACTIONS.SEARCH')}
                 className="pl-10 sm:pl-12 h-10 sm:h-11 bg-muted/50 border-0 rounded-xl text-sm sm:text-[15px] placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:bg-background cursor-pointer"
                 readOnly
               />
@@ -76,6 +79,7 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
             </Button>
             <ThemeToggle />
+            <LanguageSelector />
             <button
               className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
               onClick={() => navigate(ROUTES.USER_PROFILE)}

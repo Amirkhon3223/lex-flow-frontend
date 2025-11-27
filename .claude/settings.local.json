@@ -11,7 +11,15 @@
       "Bash(mv:*)",
       "Bash(tree:*)",
       "Bash(xargs ls:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Skill(gemini_cli_skill)",
+      "Bash(gemini:*)",
+      "Bash(cd:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(npx tsc:*)",
+      "Bash(python3:*)",
+      "Bash(npm run:*)"
     ],
     "deny": [],
     "ask": []

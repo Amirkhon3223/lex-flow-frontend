@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useI18n } from '@/shared/context/I18nContext';
 import { cn } from "./utils";
 
 interface CalendarProps {
@@ -74,7 +75,16 @@ export function Calendar({
     }
   }
 
-  const weekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+  const { t, language } = useI18n();
+  const weekDays = [
+    t('CALENDAR.WEEK_DAYS.MON'),
+    t('CALENDAR.WEEK_DAYS.TUE'),
+    t('CALENDAR.WEEK_DAYS.WED'),
+    t('CALENDAR.WEEK_DAYS.THU'),
+    t('CALENDAR.WEEK_DAYS.FRI'),
+    t('CALENDAR.WEEK_DAYS.SAT'),
+    t('CALENDAR.WEEK_DAYS.SUN'),
+  ];
 
   const handlePrev = () => {
     const newMonth = new Date(year, currentMonthIndex - 1, 1);
@@ -116,10 +126,17 @@ export function Calendar({
         </button>
 
         <div className="text-lg font-semibold capitalize">
-          {currentMonth.toLocaleDateString("ru-RU", {
-            month: "long",
-            year: "numeric",
-          })}
+          {currentMonth.toLocaleDateString(
+            {
+              ru: 'ru-RU',
+              en: 'en-US',
+              tj: 'tg-TJ',
+            }[language] || 'en-US',
+            {
+              month: 'long',
+              year: 'numeric',
+            }
+          )}
         </div>
 
         <button

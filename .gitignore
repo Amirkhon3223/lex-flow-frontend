@@ -32,3 +32,7 @@ about_project.md
 *.njsproj
 *.sln
 *.sw?
+
+# Markdown files (except README.md)
+*.md
+!README.md
