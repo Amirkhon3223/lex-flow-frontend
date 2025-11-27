@@ -14,8 +14,10 @@ import { TodayWidget } from "@/modules/dashboard/widgets/TodayWidget";
 import { AddCaseDialog } from "@/shared/components/AddCaseDialog";
 import { AddClientDialog } from "@/shared/components/AddClientDialog";
 import { UploadDocumentDialog } from "@/shared/components/UploadDocumentDialog";
+import { useI18n } from "@/shared/context/I18nContext";
 
 export default function DashboardPage() {
+  const { t } = useI18n();
   const [isAddCaseOpen, setIsAddCaseOpen] = useState(false);
   const [isAddClientOpen, setIsAddClientOpen] = useState(false);
   const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
@@ -51,8 +53,8 @@ export default function DashboardPage() {
     <>
       <div className="space-y-8">
         <div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-2">Добро пожаловать, Александр</h2>
-          <p className="text-gray-500 text-base lg:text-lg">У вас 5 задач на сегодня</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-2">{t('DASHBOARD.WELCOME')}, Александр</h2>
+          <p className="text-gray-500 text-base lg:text-lg">{t('DASHBOARD.TASKS_TODAY', { count: 5 })}</p>
         </div>
 
         <StatsCards />

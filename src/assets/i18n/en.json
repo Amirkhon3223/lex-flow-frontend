@@ -1,0 +1,295 @@
+{
+  "COMMON": {
+    "ACTIONS": {
+      "VIEW": "View",
+      "OPEN": "Open",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "ARCHIVE": "Archive",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "ADD": "Add",
+      "SEARCH": "Search...",
+      "FILTER": "Filter",
+      "EXPORT": "Export",
+      "IMPORT": "Import",
+      "UPLOAD": "Upload",
+      "DOWNLOAD": "Download",
+      "LOGOUT": "Logout",
+      "CLOSE": "Close",
+      "SUBMIT": "Submit",
+      "CREATE": "Create",
+      "UPDATE": "Update",
+      "ACTIONS": "Actions"
+    },
+    "STATUS": {
+      "URGENT": "Urgent",
+      "COMPLETED": "Completed",
+      "IN_PROGRESS": "In Progress",
+      "PENDING": "Pending",
+      "ACTIVE": "Active",
+      "ARCHIVED": "Archived",
+      "ON_HOLD": "On Hold",
+      "REVIEW": "Under Review",
+      "STATUS": "Status"
+    },
+    "PRIORITY": {
+      "HIGH": "High",
+      "MEDIUM": "Medium",
+      "LOW": "Low",
+      "PRIORITY": "Priority"
+    },
+    "MESSAGES": {
+      "SUCCESS": "Operation completed successfully",
+      "ERROR": "An error occurred",
+      "LOADING": "Loading...",
+      "NO_DATA": "No data",
+      "CONFIRM_DELETE": "Are you sure you want to delete?",
+      "CONFIRM_ARCHIVE": "Are you sure you want to archive?"
+    },
+    "TIME": {
+      "TODAY": "Today",
+      "TOMORROW": "Tomorrow",
+      "YESTERDAY": "Yesterday",
+      "DAYS": "days",
+      "WEEKS": "weeks",
+      "MONTHS": "months",
+      "HOURS_AGO": "hours ago",
+      "DAYS_AGO": "days ago",
+      "CREATED": "Created"
+    },
+    "NAVIGATION": {
+      "OVERVIEW": "Overview",
+      "CASES": "Cases",
+      "CLIENTS": "Clients",
+      "DOCUMENTS": "Documents",
+      "CALENDAR": "Calendar",
+      "ANALYTICS": "Analytics",
+      "AI_ASSISTANT": "AI Assistant",
+      "SETTINGS": "Settings",
+      "NEW_BADGE": "New"
+    }
+  },
+  "DASHBOARD": {
+    "WELCOME": "Welcome",
+    "TASKS_TODAY": "You have {{count}} tasks for today",
+    "STATS": {
+      "ACTIVE_CASES": "Active Cases",
+      "CLIENTS": "Clients",
+      "DOCUMENTS": "Documents",
+      "TASKS_TODAY": "Tasks for Today"
+    },
+    "QUICK_ACTIONS": {
+      "TITLE": "Quick Actions",
+      "NEW_CLIENT": "New Client",
+      "NEW_CASE": "New Case",
+      "UPLOAD_DOCUMENT": "Upload Document"
+    },
+    "PRIORITY_CASES": {
+      "TITLE": "Priority Cases",
+      "ALL_CASES": "All Cases",
+      "PROGRESS": "Progress",
+      "OPEN_CASE": "Open Case"
+    },
+    "RECENT_ACTIVITY": {
+      "TITLE": "Recent Activity"
+    }
+  },
+  "CASES": {
+    "TITLE": "Cases",
+    "SUBTITLE": "Manage cases and documents",
+    "NEW_CASE": "New Case",
+    "ALL_CASES": "All Cases",
+    "MY_CASES": "My Cases",
+    "TOTAL_CASES": "Total Cases",
+    "IN_WORK": "In Progress",
+    "URGENT_CASES": "Urgent",
+    "OPEN_CASE": "Open Case",
+    "SEARCH_PLACEHOLDER": "Search cases...",
+    "DOCUMENTS_COUNT": "documents",
+    "EVENTS_COUNT": "events",
+    "OVERDUE": "Overdue",
+    "OVERDUE_BY": "Overdue by",
+    "REMAINING": "Remaining",
+    "DAYS_SHORT": "d.",
+    "DAYS_UNTIL_TRIAL": "days until trial",
+    "SHARE_CASE": "Share Case",
+    "CHECK_THIS_CASE": "Check out this case",
+    "FILTERS": {
+      "ALL": "All",
+      "URGENT": "Urgent",
+      "MEDIUM": "Medium",
+      "COMPLETED": "Completed",
+      "ALL_STATUSES": "All statuses",
+      "ALL_PRIORITIES": "All priorities",
+      "ALL_CATEGORIES": "All categories"
+    },
+    "FIELDS": {
+      "TITLE": "Case Title",
+      "CASE": "Case",
+      "CLIENT": "Client",
+      "CATEGORY": "Category",
+      "DEADLINE": "Deadline",
+      "STATUS": "Status",
+      "PRIORITY": "Priority",
+      "PROGRESS": "Progress",
+      "DOCUMENTS": "Documents",
+      "ACTIONS": "Actions"
+    },
+    "DETAIL": {
+      "OVERVIEW": "Overview",
+      "DOCUMENTS": "Documents",
+      "TASKS": "Tasks",
+      "FINANCES": "Finances",
+      "COMMENTS": "Comments",
+      "CLIENT_INFO": "Client Information",
+      "CASE_PROGRESS": "Case Progress",
+      "AI_INSIGHTS": "AI Insights"
+    }
+  },
+  "CLIENTS": {
+    "TITLE": "Clients",
+    "NEW_CLIENT": "New Client",
+    "ALL_CLIENTS": "All Clients",
+    "FIELDS": {
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "COMPANY": "Company",
+      "STATUS": "Status",
+      "CONTACT_INFO": "Contact Information",
+      "FINANCIAL_INFO": "Financial Information"
+    }
+  },
+  "DOCUMENTS": {
+    "TITLE": "Documents",
+    "UPLOAD_DOCUMENT": "Upload Document",
+    "ALL_DOCUMENTS": "All Documents",
+    "FIELDS": {
+      "NAME": "Name",
+      "TYPE": "Type",
+      "SIZE": "Size",
+      "DATE": "Date",
+      "STATUS": "Status",
+      "VERSION": "Version",
+      "VERSIONS": "Versions"
+    }
+  },
+  "CALENDAR": {
+    "TITLE": "Calendar",
+    "NEW_EVENT": "New Event",
+    "NEW_MEETING": "New Meeting",
+    "MEETINGS": "Meetings",
+    "UPCOMING_MEETINGS": "Upcoming Meetings",
+    "TODAY": "Today",
+    "QUICK_ACTIONS": "Quick Actions",
+    "FIELDS": {
+      "TITLE": "Title",
+      "DATE": "Date",
+      "TIME": "Time",
+      "LOCATION": "Location",
+      "PARTICIPANTS": "Participants",
+      "NOTES": "Notes",
+      "MEETING_INFO": "Meeting Information",
+      "CASE": "Case",
+      "CLIENT": "Client"
+    },
+    "VIEW": {
+      "DAY": "Day",
+      "WEEK": "Week",
+      "MONTH": "Month"
+    }
+  },
+  "ANALYTICS": {
+    "TITLE": "Analytics",
+    "TABS": {
+      "CASES": "Cases",
+      "FINANCE": "Finance",
+      "TEAM": "Team"
+    },
+    "STATS": {
+      "TOTAL_REVENUE": "Total Revenue",
+      "ACTIVE_CASES": "Active Cases",
+      "COMPLETED_CASES": "Completed Cases",
+      "SUCCESS_RATE": "Success Rate"
+    }
+  },
+  "AI_ASSISTANT": {
+    "TITLE": "AI Assistant",
+    "SUBTITLE": "Your smart legal assistant",
+    "CHAT_PLACEHOLDER": "Ask a question...",
+    "SEND": "Send",
+    "FEATURES": {
+      "TITLE": "Features",
+      "ANALYZE_DOCUMENT": "Analyze Documents",
+      "LEGAL_ADVICE": "Legal Consultation",
+      "SEARCH_CASES": "Search Cases",
+      "DRAFT_DOCUMENT": "Draft Documents"
+    },
+    "QUICK_COMMANDS": {
+      "TITLE": "Quick Commands"
+    },
+    "RECENT_ANALYSES": {
+      "TITLE": "Recent Analyses"
+    }
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "TABS": {
+      "PROFILE": "Profile",
+      "ACCOUNT": "Account",
+      "NOTIFICATIONS": "Notifications",
+      "TEAM": "Team",
+      "SECURITY": "Security",
+      "BILLING": "Billing"
+    },
+    "PROFILE": {
+      "PERSONAL_INFO": "Personal Information",
+      "FULL_NAME": "Full Name",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "POSITION": "Position",
+      "BIO": "Bio"
+    },
+    "TEAM": {
+      "INVITE_MEMBER": "Invite Member",
+      "MEMBERS": "Members",
+      "ROLE": "Role"
+    },
+    "SECURITY": {
+      "CHANGE_PASSWORD": "Change Password",
+      "TWO_FACTOR": "Two-Factor Authentication",
+      "SESSIONS": "Active Sessions",
+      "CURRENT_SESSION": "Current Session"
+    }
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Notifications",
+    "MARK_ALL_READ": "Mark all as read",
+    "NO_NOTIFICATIONS": "No notifications",
+    "CLEAR_ALL": "Clear all"
+  },
+  "USER_PROFILE": {
+    "TITLE": "User Profile",
+    "EDIT_PROFILE": "Edit Profile",
+    "CHANGE_AVATAR": "Change Avatar",
+    "TABS": {
+      "PROFILE": "Profile",
+      "BILLING": "Billing"
+    }
+  },
+  "AUTH": {
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "REMEMBER_ME": "Remember me",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "NO_ACCOUNT": "Don't have an account?",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "SIGN_IN": "Sign In",
+    "SIGN_UP": "Sign Up",
+    "OR": "or",
+    "CONTINUE_WITH": "Continue with"
+  }
+}

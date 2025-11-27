@@ -1,5 +1,6 @@
 import type { CaseFiltersProps } from '@/app/types/cases/cases.interfaces';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function CaseFilters({
   searchQuery,
@@ -11,47 +12,48 @@ export function CaseFilters({
   filterCategory,
   setFilterCategory,
 }: CaseFiltersProps) {
+  const { t } = useI18n();
   return (
     <FilterBar
       searchConfig={{
         value: searchQuery,
         onChange: setSearchQuery,
-        placeholder: 'Поиск дел...',
+        placeholder: t('CASES.SEARCH_PLACEHOLDER'),
         className: 'max-w-md',
       }}
       filters={[
         {
           value: filterStatus,
           onChange: setFilterStatus,
-          placeholder: 'Статус',
+          placeholder: t('COMMON.STATUS.STATUS'),
           width: 'w-[180px]',
           options: [
-            { value: 'all', label: 'Все статусы' },
-            { value: 'in_progress', label: 'В работе' },
-            { value: 'review', label: 'На проверке' },
-            { value: 'completed', label: 'Завершено' },
-            { value: 'on_hold', label: 'Приостановлено' },
+            { value: 'all', label: t('CASES.FILTERS.ALL_STATUSES') },
+            { value: 'in_progress', label: t('COMMON.STATUS.IN_PROGRESS') },
+            { value: 'review', label: t('COMMON.STATUS.REVIEW') },
+            { value: 'completed', label: t('COMMON.STATUS.COMPLETED') },
+            { value: 'on_hold', label: t('COMMON.STATUS.ON_HOLD') },
           ],
         },
         {
           value: filterPriority,
           onChange: setFilterPriority,
-          placeholder: 'Приоритет',
+          placeholder: t('COMMON.PRIORITY.PRIORITY'),
           width: 'w-[160px]',
           options: [
-            { value: 'all', label: 'Все приоритеты' },
-            { value: 'high', label: 'Высокий' },
-            { value: 'medium', label: 'Средний' },
-            { value: 'low', label: 'Низкий' },
+            { value: 'all', label: t('CASES.FILTERS.ALL_PRIORITIES') },
+            { value: 'high', label: t('COMMON.PRIORITY.HIGH') },
+            { value: 'medium', label: t('COMMON.PRIORITY.MEDIUM') },
+            { value: 'low', label: t('COMMON.PRIORITY.LOW') },
           ],
         },
         {
           value: filterCategory,
           onChange: setFilterCategory,
-          placeholder: 'Категория',
+          placeholder: t('CASES.FIELDS.CATEGORY'),
           width: 'w-[200px]',
           options: [
-            { value: 'all', label: 'Все категории' },
+            { value: 'all', label: t('CASES.FILTERS.ALL_CATEGORIES') },
             { value: 'Трудовое право', label: 'Трудовое право' },
             { value: 'Договорное право', label: 'Договорное право' },
             { value: 'Наследственное право', label: 'Наследственное право' },

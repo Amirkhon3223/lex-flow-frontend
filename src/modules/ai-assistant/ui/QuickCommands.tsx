@@ -1,4 +1,5 @@
 import { Zap } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 
 interface QuickCommandsProps {
@@ -7,9 +8,11 @@ interface QuickCommandsProps {
 }
 
 export function QuickCommands({ commands, onCommandClick }: QuickCommandsProps) {
+  const { t } = useI18n();
+
   return (
     <Card>
-      <h3 className="tracking-tight mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">Быстрые команды</h3>
+      <h3 className="tracking-tight mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">{t('AI_ASSISTANT.QUICK_COMMANDS.TITLE')}</h3>
         <div className="space-y-1.5 sm:space-y-2">
           {commands.map((action, index) => (
             <button

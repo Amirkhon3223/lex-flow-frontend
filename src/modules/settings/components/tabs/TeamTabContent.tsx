@@ -3,6 +3,7 @@ import { Users } from 'lucide-react';
 import type { TeamMemberInterface } from '@/app/types/settings/settings.interfaces';
 import { TeamMemberItem } from '@/modules/settings/components/TeamMemberItem';
 import { InviteTeamMemberDialog } from '@/shared/components/InviteTeamMemberDialog';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 
@@ -19,6 +20,7 @@ const TEAM_MEMBERS: TeamMemberInterface[] = [
 ];
 
 export function TeamTabContent() {
+  const { t } = useI18n();
   const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
 
   const handleInvite = () => {
@@ -45,13 +47,13 @@ export function TeamTabContent() {
         <Card>
           <div>
             <div className="flex items-center justify-between gap-2 mb-3 sm:mb-4 md:mb-6">
-              <h3 className="text-base sm:text-lg md:text-xl tracking-tight">Члены команды</h3>
+              <h3 className="text-base sm:text-lg md:text-xl tracking-tight">{t('SETTINGS.TEAM.MEMBERS')}</h3>
               <Button
                 onClick={handleInvite}
                 className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-2 sm:px-3 md:px-4"
               >
                 <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                <span className="hidden sm:inline">Пригласить</span>
+                <span className="hidden sm:inline">{t('SETTINGS.TEAM.INVITE_MEMBER')}</span>
               </Button>
             </div>
 

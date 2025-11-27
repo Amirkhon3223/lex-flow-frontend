@@ -5,8 +5,10 @@ import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Progress } from '@/shared/ui/progress';
 import { getStatusColor } from '@/shared/utils/styleHelpers';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function CaseCard({ caseItem }: CaseCardProps) {
+  const { t } = useI18n();
   return (
     <Link
       to={`/cases/${caseItem.id}`}
@@ -38,7 +40,7 @@ export function CaseCard({ caseItem }: CaseCardProps) {
         {/* Progress */}
         <div className="mb-2">
           <div className="mb-1 flex items-center justify-between text-xs">
-            <span className="text-gray-600">Прогресс</span>
+            <span className="text-gray-600">{t('CASES.FIELDS.PROGRESS')}</span>
             <span className="font-medium">{caseItem.progress}%</span>
           </div>
           <Progress value={caseItem.progress} className="h-1.5" />
@@ -48,14 +50,14 @@ export function CaseCard({ caseItem }: CaseCardProps) {
         <div className="flex items-center gap-3 text-xs text-gray-600">
           <div className="flex items-center gap-1">
             <FileText className="h-3.5 w-3.5" />
-            {caseItem.documents} документов.
+            {caseItem.documents} {t('CASES.DOCUMENTS_COUNT')}
           </div>
           <div className="flex items-center gap-1">
             <Calendar className="h-3.5 w-3.5" />
-            {caseItem.events} событий.
+            {caseItem.events} {t('CASES.EVENTS_COUNT')}
           </div>
           <div className={`ml-auto text-xs ${caseItem.daysLeft < 0 ? 'text-red-600' : caseItem.daysLeft < 7 ? 'text-orange-600' : 'text-gray-600'}`}>
-            {caseItem.daysLeft < 0 ? `Просрочено` : `${caseItem.daysLeft} дн.`}
+            {caseItem.daysLeft < 0 ? t('CASES.OVERDUE') : `${caseItem.daysLeft} ${t('CASES.DAYS_SHORT')}`}
           </div>
         </div>
       </div>
@@ -88,10 +90,10 @@ export function CaseCard({ caseItem }: CaseCardProps) {
 
             {}
             <div className="text-right flex-shrink-0">
-              <div className="text-sm text-gray-600">Дедлайн</div>
+              <div className="text-sm text-gray-600">{t('CASES.FIELDS.DEADLINE')}</div>
               <div className="font-medium text-gray-900">{caseItem.deadline}</div>
               <div className={`text-xs ${caseItem.daysLeft < 0 ? 'text-red-600' : caseItem.daysLeft < 7 ? 'text-orange-600' : 'text-gray-600'}`}>
-                {caseItem.daysLeft < 0 ? `Просрочено на ${Math.abs(caseItem.daysLeft)} дн.` : `Осталось ${caseItem.daysLeft} дн.`}
+                {caseItem.daysLeft < 0 ? `${t('CASES.OVERDUE_BY')} ${Math.abs(caseItem.daysLeft)} ${t('CASES.DAYS_SHORT')}` : `${t('CASES.REMAINING')} ${caseItem.daysLeft} ${t('CASES.DAYS_SHORT')}`}
               </div>
             </div>
           </div>
@@ -99,7 +101,7 @@ export function CaseCard({ caseItem }: CaseCardProps) {
           {}
           <div>
             <div className="flex items-center gap-1.5 text-sm">
-              <span className="text-gray-600">Прогресс:</span>
+              <span className="text-gray-600">{t('CASES.FIELDS.PROGRESS')}:</span>
               <span className="font-medium">{caseItem.progress}%</span>
             </div>
             <Progress value={caseItem.progress} />
@@ -109,15 +111,15 @@ export function CaseCard({ caseItem }: CaseCardProps) {
           <div className="flex items-center gap-5 text-sm text-gray-600">
             <div className="flex items-center gap-1">
               <FileText className="h-4 w-4" />
-              {caseItem.documents} документов
+              {caseItem.documents} {t('CASES.DOCUMENTS_COUNT')}
             </div>
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
-              {caseItem.events} событий
+              {caseItem.events} {t('CASES.EVENTS_COUNT')}
             </div>
             <div className="flex items-center gap-1">
               <Clock className="h-4 w-4" />
-              {caseItem.daysLeft < 0 ? 'Просрочено' : `${caseItem.daysLeft} дней до суда`}
+              {caseItem.daysLeft < 0 ? t('CASES.OVERDUE') : `${caseItem.daysLeft} ${t('CASES.DAYS_UNTIL_TRIAL')}`}
             </div>
           </div>
         </div>

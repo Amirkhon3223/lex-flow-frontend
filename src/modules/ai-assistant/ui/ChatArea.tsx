@@ -2,12 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { Sparkles } from "lucide-react";
 import { MessageTypeEnum } from "@/app/types/ai-assistant/ai-assistant.enums.ts";
 import type { ChatAreaProps } from "@/app/types/ai-assistant/ai-assistant.interfaces";
+import { useI18n } from "@/shared/context/I18nContext";
 import { Card } from "@/shared/ui/card";
 import { ScrollArea } from "@/shared/ui/scroll-area";
 import { ChatInput } from "./ChatInput";
 import { ChatMessage } from "./ChatMessage";
 
 export function ChatArea({ chatHistory }: ChatAreaProps) {
+  const { t } = useI18n();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState(chatHistory);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -51,8 +53,8 @@ export function ChatArea({ chatHistory }: ChatAreaProps) {
               <Sparkles className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white" strokeWidth={2.5} />
             </div>
             <div>
-              <h3 className="tracking-tight text-sm sm:text-base">Юридический ассистент</h3>
-              <p className="text-xs sm:text-sm text-gray-500">Всегда онлайн</p>
+              <h3 className="tracking-tight text-sm sm:text-base">{t('AI_ASSISTANT.CHAT.ASSISTANT_NAME')}</h3>
+              <p className="text-xs sm:text-sm text-gray-500">{t('AI_ASSISTANT.CHAT.ONLINE_STATUS')}</p>
             </div>
           </div>
         </div>

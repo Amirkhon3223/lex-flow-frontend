@@ -25,15 +25,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config.ts';
 import { Badge } from '@/shared/ui/badge';
 import { Separator } from '@/shared/ui/separator';
-
-const navigationItems = [
-  { icon: Home, label: 'Обзор', path: ROUTES.DASHBOARD, id: 'overview' },
-  { icon: Briefcase, label: 'Дела', path: ROUTES.CASES.BASE, id: 'cases', count: 47 },
-  { icon: Users, label: 'Клиенты', path: ROUTES.CLIENTS.BASE, id: 'clients', count: 24 },
-  { icon: FileText, label: 'Документы', path: ROUTES.DOCUMENTS.BASE, id: 'documents' },
-  { icon: Calendar, label: 'Календарь', path: ROUTES.CALENDAR, id: 'calendar' },
-  { icon: BarChart3, label: 'Аналитика', path: ROUTES.ANALYTICS, id: 'analytics' },
-];
+import { useI18n } from '@/shared/context/I18nContext';
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -44,6 +36,16 @@ interface SidebarProps {
 
 export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse, onMobileClose }: SidebarProps) {
   const location = useLocation();
+  const { t } = useI18n();
+
+  const navigationItems = [
+    { icon: Home, label: t('COMMON.NAVIGATION.OVERVIEW'), path: ROUTES.DASHBOARD, id: 'overview' },
+    { icon: Briefcase, label: t('COMMON.NAVIGATION.CASES'), path: ROUTES.CASES.BASE, id: 'cases', count: 47 },
+    { icon: Users, label: t('COMMON.NAVIGATION.CLIENTS'), path: ROUTES.CLIENTS.BASE, id: 'clients', count: 24 },
+    { icon: FileText, label: t('COMMON.NAVIGATION.DOCUMENTS'), path: ROUTES.DOCUMENTS.BASE, id: 'documents' },
+    { icon: Calendar, label: t('COMMON.NAVIGATION.CALENDAR'), path: ROUTES.CALENDAR, id: 'calendar' },
+    { icon: BarChart3, label: t('COMMON.NAVIGATION.ANALYTICS'), path: ROUTES.ANALYTICS, id: 'analytics' },
+  ];
 
   return (
     <aside
@@ -132,13 +134,13 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
           >
             <Sparkles className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
             <span className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}>
-              AI Помощник
+              {t('COMMON.NAVIGATION.AI_ASSISTANT')}
             </span>
             <Badge className={`
               ml-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs border-0
               ${isCollapsed ? 'md:hidden lg:flex' : ''}
             `}>
-              Новое
+              {t('COMMON.NAVIGATION.NEW_BADGE')}
             </Badge>
             {/* Badge indicator for collapsed mode (tablet only) */}
             <span className={`
@@ -160,7 +162,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
           >
             <Settings className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
             <span className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}>
-              Настройки
+              {t('COMMON.NAVIGATION.SETTINGS')}
             </span>
           </Link>
           <button
@@ -174,7 +176,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
           >
             <LogOut className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
             <span className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}>
-              Выход
+              {t('COMMON.ACTIONS.LOGOUT')}
             </span>
           </button>
         </div>

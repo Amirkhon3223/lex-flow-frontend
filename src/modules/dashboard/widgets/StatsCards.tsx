@@ -1,10 +1,13 @@
 import { Briefcase, Users, FileText, Clock } from 'lucide-react';
 import { StatCard } from '@/shared/ui/stat-card';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function StatsCards() {
+  const { t } = useI18n();
+
   const stats = [
     {
-      title: 'Активные дела',
+      title: t('DASHBOARD.STATS.ACTIVE_CASES'),
       value: 47,
       icon: Briefcase,
       iconColor: 'text-blue-500',
@@ -12,7 +15,7 @@ export function StatsCards() {
       trend: { value: '+8%', isPositive: true },
     },
     {
-      title: 'Клиенты',
+      title: t('DASHBOARD.STATS.CLIENTS'),
       value: 24,
       icon: Users,
       iconColor: 'text-purple-500',
@@ -20,7 +23,7 @@ export function StatsCards() {
       trend: { value: '+12%', isPositive: true },
     },
     {
-      title: 'Документы',
+      title: t('DASHBOARD.STATS.DOCUMENTS'),
       value: 156,
       icon: FileText,
       iconColor: 'text-orange-500',
@@ -28,13 +31,13 @@ export function StatsCards() {
       trend: { value: '+23%', isPositive: true },
     },
     {
-      title: 'Задачи на сегодня',
+      title: t('DASHBOARD.STATS.TASKS_TODAY'),
       value: 5,
       icon: Clock,
       iconColor: 'text-red-500',
       iconBg: 'bg-red-50',
       variant: 'urgent' as const,
-      trend: { value: 'Срочно', isPositive: false },
+      trend: { value: t('COMMON.STATUS.URGENT'), isPositive: false },
     },
   ];
 

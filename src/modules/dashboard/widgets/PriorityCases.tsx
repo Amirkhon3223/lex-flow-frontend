@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
 } from '@/shared/ui/dropdown-menu';
 import { Progress } from '@/shared/ui/progress';
+import { useI18n } from '@/shared/context/I18nContext';
 
 const allCases: PriorityCaseInterface[] = [
   {
@@ -53,6 +54,7 @@ const allCases: PriorityCaseInterface[] = [
 
 export function PriorityCases() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [filterStatus, setFilterStatus] = useState<'all' | 'urgent' | 'medium' | 'completed'>('all');
 
   const filteredCases = filterStatus === 'all'
@@ -62,15 +64,15 @@ export function PriorityCases() {
   return (
     <Card>
       <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg sm:text-xl tracking-tight">Приоритетные дела</h3>
+          <h3 className="text-lg sm:text-xl tracking-tight">{t('DASHBOARD.PRIORITY_CASES.TITLE')}</h3>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => navigate(ROUTES.CASES.BASE)}
             className="text-blue-500 hover:bg-blue-50 rounded-lg cursor-pointer text-sm sm:text-base"
           >
-            <span className="hidden sm:inline">Все дела</span>
-            <span className="sm:hidden">Все</span>
+            <span className="hidden sm:inline">{t('DASHBOARD.PRIORITY_CASES.ALL_CASES')}</span>
+            <span className="sm:hidden">{t('CASES.FILTERS.ALL')}</span>
             <ChevronRight className="w-4 h-4 ml-1" strokeWidth={2} />
           </Button>
         </div>
@@ -92,12 +94,12 @@ export function PriorityCases() {
                     <h4 className="tracking-tight text-sm sm:text-base truncate">{item.title}</h4>
                     {item.status === 'urgent' && (
                       <Badge className="bg-red-100 text-red-700 border-0 text-xs flex-shrink-0">
-                        Срочно
+                        {t('COMMON.STATUS.URGENT')}
                       </Badge>
                     )}
                     {item.status === 'completed' && (
                       <Badge className="bg-green-100 text-green-700 border-0 text-xs flex-shrink-0">
-                        Завершено
+                        {t('COMMON.STATUS.COMPLETED')}
                       </Badge>
                     )}
                   </div>
@@ -132,7 +134,7 @@ export function PriorityCases() {
                       className="cursor-pointer"
                     >
                       <Eye className="w-4 h-4 mr-2" />
-                      Открыть дело
+                      {t('DASHBOARD.PRIORITY_CASES.OPEN_CASE')}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={(e) => {
@@ -142,7 +144,7 @@ export function PriorityCases() {
                       className="cursor-pointer"
                     >
                       <Edit className="w-4 h-4 mr-2" />
-                      Редактировать
+                      {t('COMMON.ACTIONS.EDIT')}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={(e) => {
@@ -152,7 +154,7 @@ export function PriorityCases() {
                       className="cursor-pointer"
                     >
                       <Archive className="w-4 h-4 mr-2" />
-                      В архив
+                      {t('COMMON.ACTIONS.ARCHIVE')}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -163,7 +165,7 @@ export function PriorityCases() {
                       className="text-red-600 focus:text-red-600 cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
-                      Удалить
+                      {t('COMMON.ACTIONS.DELETE')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -171,7 +173,7 @@ export function PriorityCases() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Прогресс</span>
+                  <span className="text-gray-500">{t('DASHBOARD.PRIORITY_CASES.PROGRESS')}</span>
                   <span className="text-gray-900">{item.progress}%</span>
                 </div>
                 <Progress value={item.progress} className="h-2" />

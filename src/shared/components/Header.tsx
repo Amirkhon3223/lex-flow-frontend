@@ -18,6 +18,8 @@ import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { GlobalSearchDialog } from './GlobalSearchDialog';
 import { NotificationsPanel } from './NotificationsPanel';
+import { LanguageSelector } from './LanguageSelector';
+import { useI18n } from '@/shared/context/I18nContext';
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -26,6 +28,7 @@ interface HeaderProps {
 
 export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -58,7 +61,7 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
             <div className="relative cursor-pointer" onClick={() => setIsSearchOpen(true)}>
               <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" strokeWidth={2} />
               <Input
-                placeholder="Поиск..."
+                placeholder={t('COMMON.ACTIONS.SEARCH')}
                 className="pl-10 sm:pl-12 h-10 sm:h-11 bg-gray-100/80 border-0 rounded-xl text-sm sm:text-[15px] placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:bg-white cursor-pointer"
                 readOnly
               />
@@ -67,6 +70,9 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
 
           {/* Actions */}
           <div className="flex items-center gap-2 sm:gap-3 ml-2 sm:ml-3">
+            {/* Language Selector */}
+            <LanguageSelector />
+
             {/* Notifications */}
             <Button
               variant="ghost"

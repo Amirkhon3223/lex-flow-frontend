@@ -1,5 +1,6 @@
 import { FileText } from 'lucide-react';
 import type { RecentAnalysisInterface } from '@/app/types/ai-assistant/ai-assistant.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
 import { getAnalysisStatusColor } from '@/shared/utils/styleHelpers';
@@ -9,9 +10,11 @@ interface RecentAnalysesProps {
 }
 
 export function RecentAnalyses({ analyses }: RecentAnalysesProps) {
+  const { t } = useI18n();
+
   return (
     <Card>
-      <h3 className="tracking-tight mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">Недавние анализы</h3>
+      <h3 className="tracking-tight mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base">{t('AI_ASSISTANT.RECENT_ANALYSES.TITLE')}</h3>
         <div className="space-y-2 sm:space-y-3">
           {analyses.map((analysis, index) => (
             <div

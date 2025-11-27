@@ -1,0 +1,420 @@
+{
+  "COMMON": {
+    "ACTIONS": {
+      "VIEW": "Открыть",
+      "OPEN": "Открыть",
+      "EDIT": "Редактировать",
+      "DELETE": "Удалить",
+      "ARCHIVE": "В архив",
+      "SAVE": "Сохранить",
+      "CANCEL": "Отмена",
+      "ADD": "Добавить",
+      "SEARCH": "Поиск...",
+      "FILTER": "Фильтр",
+      "EXPORT": "Экспорт",
+      "IMPORT": "Импорт",
+      "UPLOAD": "Загрузить",
+      "DOWNLOAD": "Скачать",
+      "LOGOUT": "Выход",
+      "CLOSE": "Закрыть",
+      "SUBMIT": "Отправить",
+      "CREATE": "Создать",
+      "UPDATE": "Обновить",
+      "ACTIONS": "Действия",
+      "PROFILE": "Профиль",
+      "WRITE": "Написать",
+      "COMPARE": "Сравнить",
+      "RESTORE": "Восстановить",
+      "BACK": "Назад",
+      "PREVIEW": "Просмотр"
+    },
+    "STATUS": {
+      "URGENT": "Срочно",
+      "COMPLETED": "Завершено",
+      "IN_PROGRESS": "В работе",
+      "PENDING": "Ожидание",
+      "ACTIVE": "Активно",
+      "ARCHIVED": "В архиве",
+      "ON_HOLD": "Приостановлено",
+      "REVIEW": "На проверке",
+      "STATUS": "Статус"
+    },
+    "PRIORITY": {
+      "HIGH": "Высокий",
+      "MEDIUM": "Средний",
+      "LOW": "Низкий",
+      "PRIORITY": "Приоритет"
+    },
+    "MESSAGES": {
+      "SUCCESS": "Операция выполнена успешно",
+      "ERROR": "Произошла ошибка",
+      "LOADING": "Загрузка...",
+      "NO_DATA": "Нет данных",
+      "CONFIRM_DELETE": "Вы уверены, что хотите удалить?",
+      "CONFIRM_ARCHIVE": "Вы уверены, что хотите архивировать?"
+    },
+    "TIME": {
+      "TODAY": "Сегодня",
+      "TOMORROW": "Завтра",
+      "YESTERDAY": "Вчера",
+      "DAYS": "дней",
+      "WEEKS": "недель",
+      "MONTHS": "месяцев",
+      "HOURS_AGO": "часа назад",
+      "DAYS_AGO": "дней назад",
+      "CREATED": "Создано"
+    },
+    "NAVIGATION": {
+      "OVERVIEW": "Обзор",
+      "CASES": "Дела",
+      "CLIENTS": "Клиенты",
+      "DOCUMENTS": "Документы",
+      "CALENDAR": "Календарь",
+      "ANALYTICS": "Аналитика",
+      "AI_ASSISTANT": "AI Помощник",
+      "SETTINGS": "Настройки",
+      "NEW_BADGE": "Новое"
+    }
+  },
+  "DASHBOARD": {
+    "WELCOME": "Добро пожаловать",
+    "TASKS_TODAY": "У вас {{count}} задач на сегодня",
+    "STATS": {
+      "ACTIVE_CASES": "Активные дела",
+      "CLIENTS": "Клиенты",
+      "DOCUMENTS": "Документы",
+      "TASKS_TODAY": "Задачи на сегодня"
+    },
+    "QUICK_ACTIONS": {
+      "TITLE": "Быстрые действия",
+      "NEW_CLIENT": "Новый клиент",
+      "NEW_CASE": "Новое дело",
+      "UPLOAD_DOCUMENT": "Загрузить документ"
+    },
+    "PRIORITY_CASES": {
+      "TITLE": "Приоритетные дела",
+      "ALL_CASES": "Все дела",
+      "PROGRESS": "Прогресс",
+      "OPEN_CASE": "Открыть дело"
+    },
+    "RECENT_ACTIVITY": {
+      "TITLE": "Недавняя активность"
+    }
+  },
+  "CASES": {
+    "TITLE": "Дела",
+    "SUBTITLE": "Управление делами и документами",
+    "NEW_CASE": "Новое дело",
+    "ALL_CASES": "Все дела",
+    "MY_CASES": "Мои дела",
+    "TOTAL_CASES": "Всего дел",
+    "IN_WORK": "В работе",
+    "URGENT_CASES": "Срочные",
+    "OPEN_CASE": "Открыть дело",
+    "SEARCH_PLACEHOLDER": "Поиск дел...",
+    "DOCUMENTS_COUNT": "документов",
+    "EVENTS_COUNT": "событий",
+    "OVERDUE": "Просрочено",
+    "OVERDUE_BY": "Просрочено на",
+    "REMAINING": "Осталось",
+    "DAYS_SHORT": "дн.",
+    "DAYS_UNTIL_TRIAL": "дней до суда",
+    "SHARE_CASE": "Поделиться делом",
+    "CHECK_THIS_CASE": "Посмотрите это дело",
+    "FILTERS": {
+      "ALL": "Все",
+      "URGENT": "Срочные",
+      "MEDIUM": "Средние",
+      "COMPLETED": "Завершенные",
+      "ALL_STATUSES": "Все статусы",
+      "ALL_PRIORITIES": "Все приоритеты",
+      "ALL_CATEGORIES": "Все категории"
+    },
+    "FIELDS": {
+      "TITLE": "Название дела",
+      "CASE": "Дело",
+      "CLIENT": "Клиент",
+      "CATEGORY": "Категория",
+      "DEADLINE": "Дедлайн",
+      "STATUS": "Статус",
+      "PRIORITY": "Приоритет",
+      "PROGRESS": "Прогресс",
+      "DOCUMENTS": "Документы",
+      "ACTIONS": "Действия"
+    },
+    "DETAIL": {
+      "OVERVIEW": "Обзор",
+      "DOCUMENTS": "Документы",
+      "TASKS": "Задачи",
+      "FINANCES": "Финансы",
+      "COMMENTS": "Комментарии",
+      "CLIENT_INFO": "Информация о клиенте",
+      "CASE_PROGRESS": "Прогресс дела",
+      "AI_INSIGHTS": "AI-анализ"
+    }
+  },
+  "CLIENTS": {
+    "TITLE": "Клиенты",
+    "SUBTITLE": "База клиентов и контакты",
+    "NEW_CLIENT": "Новый клиент",
+    "ALL_CLIENTS": "Все клиенты",
+    "SEARCH_PLACEHOLDER": "Поиск клиентов...",
+    "TOTAL_CLIENTS": "Всего клиентов",
+    "ACTIVE_CLIENTS": "Активные",
+    "VIP_CLIENTS": "VIP",
+    "ACTIVE_CASES": "Активных дел",
+    "CLIENT_SINCE": "Клиент с",
+    "SINCE": "С",
+    "WRITE": "Написать",
+    "NEW_CASE": "Новое дело",
+    "ACTIVE_CASES_COUNT": "Активных дел",
+    "DOCUMENTS_COUNT": "Документов",
+    "TOTAL_FEE": "Общий гонорар",
+    "HOURS_WORKED": "Часов работы",
+    "INTERACTIONS": "Взаимодействий",
+    "CLIENT_CASES": "Дела клиента",
+    "CASES_COUNT": "дел",
+    "FILTERS": {
+      "ALL_TYPES": "Все типы",
+      "INDIVIDUAL": "Физ. лицо",
+      "LEGAL": "Юр. лицо",
+      "ENTREPRENEUR": "ИП",
+      "ALL_CATEGORIES": "Все категории",
+      "VIP": "VIP",
+      "PREMIUM": "Премиум",
+      "STANDARD": "Стандарт",
+      "ALL_STATUSES": "Все статусы",
+      "ACTIVE": "Активные",
+      "INACTIVE": "Неактивные",
+      "PENDING": "Ожидание"
+    },
+    "TYPES": {
+      "INDIVIDUAL": "Физ. лицо",
+      "LEGAL": "Юр. лицо",
+      "ENTREPRENEUR": "ИП"
+    },
+    "CATEGORIES": {
+      "VIP": "VIP",
+      "PREMIUM": "Премиум",
+      "STANDARD": "Стандарт"
+    },
+    "STATUS": {
+      "ACTIVE": "Активен",
+      "INACTIVE": "Неактивен",
+      "PENDING": "Ожидание",
+      "ACTIVE_CLIENT": "Активный клиент",
+      "VIP_CLIENT": "VIP клиент"
+    },
+    "FIELDS": {
+      "NAME": "Имя",
+      "EMAIL": "Email",
+      "PHONE": "Телефон",
+      "COMPANY": "Компания",
+      "STATUS": "Статус",
+      "CONTACT_INFO": "Контактная информация",
+      "FINANCIAL_INFO": "Финансовая информация",
+      "CLIENT": "Клиент",
+      "TYPE": "Тип",
+      "CATEGORY": "Категория",
+      "CONTACTS": "Контакты",
+      "CASES": "Дела",
+      "REVENUE": "Доход",
+      "LAST_CONTACT": "Последний контакт",
+      "ACTIONS": "Действия",
+      "ADDRESS": "Адрес",
+      "BIRTH_DATE": "Дата рождения"
+    },
+    "FINANCIAL": {
+      "TITLE": "Финансы",
+      "TOTAL_AMOUNT": "Всего к оплате",
+      "PAID_AMOUNT": "Оплачено",
+      "REMAINING_AMOUNT": "Остаток",
+      "PAYMENT_PERCENTAGE": "Процент оплаты"
+    }
+  },
+  "DOCUMENTS": {
+    "TITLE": "Документы",
+    "SUBTITLE": "Управление всеми документами",
+    "UPLOAD_DOCUMENT": "Загрузить документ",
+    "ALL_DOCUMENTS": "Все документы",
+    "SEARCH_PLACEHOLDER": "Поиск документов...",
+    "TOTAL": "Всего",
+    "ON_REVIEW": "На проверке",
+    "FAVORITES": "Избранные",
+    "DRAFTS": "Черновиков",
+    "BACK_TO_DOCUMENTS": "Назад к документам",
+    "BACK_TO_VERSIONS": "Назад к версиям",
+    "EXPORT_COMPARISON": "Экспорт сравнения",
+    "VERSION_COMPARISON": "Сравнение версий",
+    "UPLOAD_NEW_VERSION": "Загрузить новую версию",
+    "CURRENT_VERSION": "Текущая версия",
+    "VERSION_HISTORY": "История версий документа",
+    "VERSIONS_CREATED": "Всего создано",
+    "VERSION": "Версия",
+    "CURRENT": "Текущая",
+    "APPROVED": "Утверждена",
+    "OLD": "Старая",
+    "NEW": "Новая",
+    "COMPARE_WITH_CURRENT": "Сравнить с текущей",
+    "RESTORE_VERSION": "Восстановить эту версию",
+    "DELETE_VERSION": "Удалить версию",
+    "CHANGES_DETECTED": "Обнаружено изменений",
+    "ADDED": "Добавлено",
+    "REMOVED": "Удалено",
+    "MODIFIED": "Изменено",
+    "NAVIGATION": "Навигация",
+    "LEGEND": "Легенда",
+    "ADDED_TEXT": "Добавленный текст",
+    "REMOVED_TEXT": "Удаленный текст",
+    "MODIFIED_TEXT": "Измененный текст",
+    "FULLSCREEN": "Полный экран",
+    "EXIT_FULLSCREEN": "Выйти из полного экрана",
+    "LINE": "Строка",
+    "VIEW_DETAILS": "Вы можете просмотреть, скачать или сравнить любые версии",
+    "FILTERS": {
+      "ALL_CATEGORIES": "Все категории",
+      "LEGAL": "Иски",
+      "CONTRACTS": "Договоры",
+      "ADMINISTRATIVE": "Административные",
+      "SORT_BY": "Сортировка",
+      "SORT_BY_DATE": "По дате",
+      "SORT_BY_NAME": "По названию",
+      "SORT_BY_SIZE": "По размеру",
+      "SORT_BY_VERSIONS": "По версиям"
+    },
+    "STATUS": {
+      "FINAL": "Финал",
+      "REVIEW": "Проверка",
+      "DRAFT": "Черновик"
+    },
+    "FIELDS": {
+      "NAME": "Название",
+      "TYPE": "Тип",
+      "SIZE": "Размер",
+      "DATE": "Дата",
+      "STATUS": "Статус",
+      "VERSION": "Версия",
+      "VERSIONS": "Версии",
+      "CASE": "Дело",
+      "AUTHOR": "Автор",
+      "CHANGES": "Изменения"
+    }
+  },
+  "CALENDAR": {
+    "TITLE": "Календарь",
+    "NEW_EVENT": "Новое событие",
+    "NEW_MEETING": "Новая встреча",
+    "MEETINGS": "Встречи",
+    "UPCOMING_MEETINGS": "Предстоящие встречи",
+    "TODAY": "Сегодня",
+    "QUICK_ACTIONS": "Быстрые действия",
+    "FIELDS": {
+      "TITLE": "Название",
+      "DATE": "Дата",
+      "TIME": "Время",
+      "LOCATION": "Место",
+      "PARTICIPANTS": "Участники",
+      "NOTES": "Заметки",
+      "MEETING_INFO": "Информация о встрече",
+      "CASE": "Дело",
+      "CLIENT": "Клиент"
+    },
+    "VIEW": {
+      "DAY": "День",
+      "WEEK": "Неделя",
+      "MONTH": "Месяц"
+    }
+  },
+  "ANALYTICS": {
+    "TITLE": "Аналитика",
+    "TABS": {
+      "CASES": "Дела",
+      "FINANCE": "Финансы",
+      "TEAM": "Команда"
+    },
+    "STATS": {
+      "TOTAL_REVENUE": "Общая выручка",
+      "ACTIVE_CASES": "Активные дела",
+      "COMPLETED_CASES": "Завершенные дела",
+      "SUCCESS_RATE": "Процент успеха"
+    }
+  },
+  "AI_ASSISTANT": {
+    "TITLE": "AI-ассистент",
+    "SUBTITLE": "Ваш умный помощник в юридических вопросах",
+    "CHAT_PLACEHOLDER": "Задайте вопрос...",
+    "SEND": "Отправить",
+    "FEATURES": {
+      "TITLE": "Возможности",
+      "ANALYZE_DOCUMENT": "Анализ документов",
+      "LEGAL_ADVICE": "Юридическая консультация",
+      "SEARCH_CASES": "Поиск по делам",
+      "DRAFT_DOCUMENT": "Составление документов"
+    },
+    "QUICK_COMMANDS": {
+      "TITLE": "Быстрые команды"
+    },
+    "RECENT_ANALYSES": {
+      "TITLE": "Последние анализы"
+    }
+  },
+  "SETTINGS": {
+    "TITLE": "Настройки",
+    "TABS": {
+      "PROFILE": "Профиль",
+      "ACCOUNT": "Аккаунт",
+      "NOTIFICATIONS": "Уведомления",
+      "TEAM": "Команда",
+      "SECURITY": "Безопасность",
+      "BILLING": "Оплата"
+    },
+    "PROFILE": {
+      "PERSONAL_INFO": "Личная информация",
+      "FULL_NAME": "Полное имя",
+      "EMAIL": "Email",
+      "PHONE": "Телефон",
+      "POSITION": "Должность",
+      "BIO": "О себе"
+    },
+    "TEAM": {
+      "INVITE_MEMBER": "Пригласить участника",
+      "MEMBERS": "Участники",
+      "ROLE": "Роль"
+    },
+    "SECURITY": {
+      "CHANGE_PASSWORD": "Изменить пароль",
+      "TWO_FACTOR": "Двухфакторная аутентификация",
+      "SESSIONS": "Активные сессии",
+      "CURRENT_SESSION": "Текущая сессия"
+    }
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Уведомления",
+    "MARK_ALL_READ": "Отметить все как прочитанные",
+    "NO_NOTIFICATIONS": "Нет уведомлений",
+    "CLEAR_ALL": "Очистить все"
+  },
+  "USER_PROFILE": {
+    "TITLE": "Профиль пользователя",
+    "EDIT_PROFILE": "Редактировать профиль",
+    "CHANGE_AVATAR": "Изменить аватар",
+    "TABS": {
+      "PROFILE": "Профиль",
+      "BILLING": "Оплата"
+    }
+  },
+  "AUTH": {
+    "LOGIN": "Вход",
+    "REGISTER": "Регистрация",
+    "EMAIL": "Email",
+    "PASSWORD": "Пароль",
+    "REMEMBER_ME": "Запомнить меня",
+    "FORGOT_PASSWORD": "Забыли пароль?",
+    "NO_ACCOUNT": "Нет аккаунта?",
+    "HAVE_ACCOUNT": "Уже есть аккаунт?",
+    "SIGN_IN": "Войти",
+    "SIGN_UP": "Зарегистрироваться",
+    "OR": "или",
+    "CONTINUE_WITH": "Продолжить с"
+  }
+}

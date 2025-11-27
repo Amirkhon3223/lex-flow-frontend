@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Clock, Globe, Mail, Smartphone } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
@@ -8,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/shared/ui/separator';
 
 export function ProfileTabContent() {
+  const { t } = useI18n();
   const [openSelect, setOpenSelect] = useState<'language' | 'timezone' | null>(null);
 
   const handleProfileSubmit = (e: React.FormEvent) => {
@@ -20,14 +22,14 @@ export function ProfileTabContent() {
       {/* Personal Information */}
       <Card>
         <div>
-          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Личная информация</h3>
+          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">{t('SETTINGS.PROFILE.PERSONAL_INFO')}</h3>
 
           <form onSubmit={handleProfileSubmit}>
             <div className="space-y-3 sm:space-y-4 md:space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-1.5 sm:space-y-2">
                   <Label htmlFor="firstName" className="text-xs sm:text-sm">
-                    Имя
+                    {t('SETTINGS.PROFILE.FIRST_NAME')}
                   </Label>
                   <Input
                     id="firstName"
@@ -37,7 +39,7 @@ export function ProfileTabContent() {
                 </div>
                 <div className="space-y-1.5 sm:space-y-2">
                   <Label htmlFor="lastName" className="text-xs sm:text-sm">
-                    Фамилия
+                    {t('SETTINGS.PROFILE.LAST_NAME')}
                   </Label>
                   <Input
                     id="lastName"
@@ -49,7 +51,7 @@ export function ProfileTabContent() {
 
               <div className="space-y-1.5 sm:space-y-2">
                 <Label htmlFor="email" className="text-xs sm:text-sm">
-                  Email
+                  {t('SETTINGS.PROFILE.EMAIL')}
                 </Label>
                 <div className="relative">
                   <Mail
@@ -67,7 +69,7 @@ export function ProfileTabContent() {
 
               <div className="space-y-1.5 sm:space-y-2">
                 <Label htmlFor="phone" className="text-xs sm:text-sm">
-                  Телефон
+                  {t('SETTINGS.PROFILE.PHONE')}
                 </Label>
                 <div className="relative">
                   <Smartphone
@@ -85,7 +87,7 @@ export function ProfileTabContent() {
 
               <div className="space-y-1.5 sm:space-y-2">
                 <Label htmlFor="position" className="text-xs sm:text-sm">
-                  Должность
+                  {t('SETTINGS.PROFILE.POSITION')}
                 </Label>
                 <Input
                   id="position"
@@ -103,13 +105,13 @@ export function ProfileTabContent() {
                 variant="outline"
                 className="rounded-lg sm:rounded-xl border-gray-200 hover:bg-gray-50 text-xs sm:text-sm h-8 sm:h-9 md:h-10 order-2 sm:order-1"
               >
-                Отмена
+                {t('COMMON.ACTIONS.CANCEL')}
               </Button>
               <Button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-9 md:h-10 order-1 sm:order-2"
               >
-                Сохранить изменения
+                {t('SETTINGS.PROFILE.SAVE_CHANGES')}
               </Button>
             </div>
           </form>
@@ -120,13 +122,13 @@ export function ProfileTabContent() {
       <Card>
         <div>
           <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
-            Региональные настройки
+            {t('SETTINGS.PROFILE.REGIONAL_SETTINGS')}
           </h3>
 
           <div className="space-y-3 sm:space-y-4">
             <div className="space-y-1.5 sm:space-y-2">
               <Label htmlFor="language" className="text-xs sm:text-sm">
-                Язык
+                {t('SETTINGS.PROFILE.LANGUAGE')}
               </Label>
               <Select
                 defaultValue="ru"
@@ -146,7 +148,7 @@ export function ProfileTabContent() {
 
             <div className="space-y-1.5 sm:space-y-2">
               <Label htmlFor="timezone" className="text-xs sm:text-sm">
-                Часовой пояс
+                {t('SETTINGS.PROFILE.TIMEZONE')}
               </Label>
               <Select
                 defaultValue="msk"

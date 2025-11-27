@@ -53,7 +53,7 @@ src/
 │   ├── cases/
 │   ├── documents/
 │   ├── calendar/
-│   ├── analytics/
+│   ├── analytics[about.md](..%2F..%2FDownloads%2Fabout.md)/
 │   ├── ai-assistant/
 │   ├── settings/
 │   ├── reports/

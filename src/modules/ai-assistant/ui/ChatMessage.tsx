@@ -4,8 +4,10 @@ import { MessageTypeEnum, InsightTypeEnum } from '@/app/types/ai-assistant/ai-as
 import type {
   ChatMessageProps,
 } from '@/app/types/ai-assistant/ai-assistant.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function ChatMessage({ chat }: ChatMessageProps) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -65,17 +67,17 @@ export function ChatMessage({ chat }: ChatMessageProps) {
               flex items-center gap-1 text-xs cursor-pointer
               ${copied ? 'text-green-600' : 'text-gray-500'}
             `}
-            title={copied ? 'Скопировано!' : 'Копировать сообщение'}
+            title={copied ? t('AI_ASSISTANT.CHAT.COPIED') : t('AI_ASSISTANT.CHAT.COPY_MESSAGE')}
           >
             {copied ? (
               <>
                 <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
-                <span className="text-[10px] hidden sm:inline">Скопировано</span>
+                <span className="text-[10px] hidden sm:inline">{t('AI_ASSISTANT.CHAT.COPIED')}</span>
               </>
             ) : (
               <>
                 <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
-                <span className="text-[10px] hidden sm:inline">Копировать</span>
+                <span className="text-[10px] hidden sm:inline">{t('AI_ASSISTANT.CHAT.COPY')}</span>
               </>
             )}
           </button>

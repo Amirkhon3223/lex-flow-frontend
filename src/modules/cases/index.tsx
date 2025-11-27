@@ -86,10 +86,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/ui/table';
+import { useI18n } from '@/shared/context/I18nContext';
 
 
 export function CasePage() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterPriority, setFilterPriority] = useState('all');
@@ -235,10 +237,10 @@ export function CasePage() {
       [CaseStatusEnum.ON_HOLD]: 'bg-gray-100 text-gray-700',
     };
     const labels = {
-      [CaseStatusEnum.IN_PROGRESS]: 'В работе',
-      [CaseStatusEnum.REVIEW]: 'На проверке',
-      [CaseStatusEnum.COMPLETED]: 'Завершено',
-      [CaseStatusEnum.ON_HOLD]: 'Приостановлено',
+      [CaseStatusEnum.IN_PROGRESS]: t('COMMON.STATUS.IN_PROGRESS'),
+      [CaseStatusEnum.REVIEW]: t('COMMON.STATUS.REVIEW'),
+      [CaseStatusEnum.COMPLETED]: t('COMMON.STATUS.COMPLETED'),
+      [CaseStatusEnum.ON_HOLD]: t('COMMON.STATUS.ON_HOLD'),
     };
     return <Badge className={`${styles[status]} border-0`}>{labels[status]}</Badge>;
   };
@@ -250,16 +252,16 @@ export function CasePage() {
       [CasePriorityEnum.LOW]: 'bg-gray-100 text-gray-700',
     };
     const labels = {
-      [CasePriorityEnum.HIGH]: 'Высокий',
-      [CasePriorityEnum.MEDIUM]: 'Средний',
-      [CasePriorityEnum.LOW]: 'Низкий',
+      [CasePriorityEnum.HIGH]: t('COMMON.PRIORITY.HIGH'),
+      [CasePriorityEnum.MEDIUM]: t('COMMON.PRIORITY.MEDIUM'),
+      [CasePriorityEnum.LOW]: t('COMMON.PRIORITY.LOW'),
     };
     return <Badge className={`${styles[priority]} border-0 text-xs`}>{labels[priority]}</Badge>;
   };
 
   const stats = [
     {
-      label: 'Всего дел',
+      label: t('CASES.TOTAL_CASES'),
       value: cases.length,
       color: 'text-blue-500',
       icon: Briefcase,
@@ -267,7 +269,7 @@ export function CasePage() {
       iconColor: 'text-blue-600',
     },
     {
-      label: 'В работе',
+      label: t('CASES.IN_WORK'),
       value: cases.filter(c => c.status === CaseStatusEnum.IN_PROGRESS).length,
       color: 'text-purple-500',
       icon: Clock,
@@ -275,7 +277,7 @@ export function CasePage() {
       iconColor: 'text-purple-600',
     },
     {
-      label: 'Завершено',
+      label: t('COMMON.STATUS.COMPLETED'),
       value: cases.filter(c => c.status === CaseStatusEnum.COMPLETED).length,
       color: 'text-green-500',
       icon: CheckCircle2,
@@ -283,7 +285,7 @@ export function CasePage() {
       iconColor: 'text-green-600',
     },
     {
-      label: 'Срочные',
+      label: t('CASES.URGENT_CASES'),
       value: cases.filter(c => c.priority === CasePriorityEnum.HIGH).length,
       color: 'text-red-500',
       icon: AlertCircle,
@@ -304,8 +306,8 @@ export function CasePage() {
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5}/>
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">Дела</h1>
-                <p className="text-gray-500 text-sm sm:text-base lg:text-lg">Управление делами и документами</p>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">{t('CASES.TITLE')}</h1>
+                <p className="text-gray-500 text-sm sm:text-base lg:text-lg">{t('CASES.SUBTITLE')}</p>
               </div>
             </div>
 
@@ -314,7 +316,7 @@ export function CasePage() {
               className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md cursor-pointer w-full sm:w-auto"
             >
               <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
-              Новое дело
+              {t('CASES.NEW_CASE')}
             </Button>
           </div>
 
@@ -381,15 +383,15 @@ export function CasePage() {
             <Table>
               <TableHeader>
                 <TableRow className="border-b border-gray-100 hover:bg-transparent">
-                  <TableHead className="text-gray-600">Дело</TableHead>
-                  <TableHead className="text-gray-600">Клиент</TableHead>
-                  <TableHead className="text-gray-600">Категория</TableHead>
-                  <TableHead className="text-gray-600">Статус</TableHead>
-                  <TableHead className="text-gray-600">Приоритет</TableHead>
-                  <TableHead className="text-gray-600">Прогресс</TableHead>
-                  <TableHead className="text-gray-600">Дедлайн</TableHead>
-                  <TableHead className="text-gray-600">Документы</TableHead>
-                  <TableHead className="text-right text-gray-600">Действия</TableHead>
+                  <TableHead className="text-gray-600">{t('CASES.FIELDS.CASE')}</TableHead>
+                  <TableHead className="text-gray-600">{t('CASES.FIELDS.CLIENT')}</TableHead>
+                  <TableHead className="text-gray-600">{t('CASES.FIELDS.CATEGORY')}</TableHead>
+                  <TableHead className="text-gray-600">{t('CASES.FIELDS.STATUS')}</TableHead>
+                  <TableHead className="text-gray-600">{t('CASES.FIELDS.PRIORITY')}</TableHead>
+                  <TableHead className="text-gray-600">{t('CASES.FIELDS.PROGRESS')}</TableHead>
+                  <TableHead className="text-gray-600">{t('CASES.FIELDS.DEADLINE')}</TableHead>
+                  <TableHead className="text-gray-600">{t('CASES.FIELDS.DOCUMENTS')}</TableHead>
+                  <TableHead className="text-right text-gray-600">{t('CASES.FIELDS.ACTIONS')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -403,7 +405,7 @@ export function CasePage() {
                       <div className="max-w-[300px]">
                         <div className="tracking-tight mb-1 truncate">{caseItem.title}</div>
                         <div className="text-xs text-gray-500">
-                          Создано: {caseItem.createdAt}
+                          {t('COMMON.TIME.CREATED')}: {caseItem.createdAt}
                         </div>
                       </div>
                     </TableCell>
@@ -457,7 +459,7 @@ export function CasePage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="rounded-xl">
-                          <DropdownMenuLabel>Действия</DropdownMenuLabel>
+                          <DropdownMenuLabel>{t('COMMON.ACTIONS.ACTIONS')}</DropdownMenuLabel>
                           <DropdownMenuSeparator/>
                           <DropdownMenuItem
                             onClick={(e) => {
@@ -467,7 +469,7 @@ export function CasePage() {
                             className="cursor-pointer"
                           >
                             <Eye className="w-4 h-4 mr-2" strokeWidth={2}/>
-                            Открыть
+                            {t('COMMON.ACTIONS.OPEN')}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={(e) => {
@@ -477,7 +479,7 @@ export function CasePage() {
                             className="cursor-pointer"
                           >
                             <Edit className="w-4 h-4 mr-2" strokeWidth={2}/>
-                            Редактировать
+                            {t('COMMON.ACTIONS.EDIT')}
                           </DropdownMenuItem>
                           <DropdownMenuSeparator/>
                           <DropdownMenuItem
@@ -488,7 +490,7 @@ export function CasePage() {
                             className="cursor-pointer text-red-600"
                           >
                             <Trash2 className="w-4 h-4 mr-2" strokeWidth={2}/>
-                            Удалить
+                            {t('COMMON.ACTIONS.DELETE')}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -527,11 +529,11 @@ export function CasePage() {
 
                 <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
                   <div className="flex items-center justify-between text-xs sm:text-sm">
-                    <span className="text-gray-500">Статус</span>
+                    <span className="text-gray-500">{t('COMMON.STATUS.STATUS')}</span>
                     {getStatusBadge(caseItem.status)}
                   </div>
                   <div className="flex items-center justify-between text-xs sm:text-sm">
-                    <span className="text-gray-500">Прогресс</span>
+                    <span className="text-gray-500">{t('CASES.FIELDS.PROGRESS')}</span>
                     <span className="text-gray-900">{caseItem.progress}%</span>
                   </div>
                   <Progress value={caseItem.progress} className="h-1.5 sm:h-2"/>
@@ -556,7 +558,7 @@ export function CasePage() {
                   variant="outline"
                   className="w-full rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer text-xs sm:text-sm"
                 >
-                  Открыть дело
+                  {t('CASES.OPEN_CASE')}
                 </Button>
               </div>
             </Card>

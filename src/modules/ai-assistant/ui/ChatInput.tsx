@@ -10,8 +10,10 @@ import {
   cleanupSpeechRecognition,
   isSpeechRecognitionSupported,
 } from "@/app/utils/speechRecognition";
+import { useI18n } from "@/shared/context/I18nContext";
 
 export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
+  const { t } = useI18n();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -88,8 +90,8 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
   // 🔹 Управление голосовым вводом
   const handleVoiceInput = () => {
     if (!isSpeechRecognitionSupported()) {
-      toast.error('Распознавание речи недоступно', {
-        description: 'Ваш браузер не поддерживает эту функцию. Используйте Chrome или Edge.',
+      toast.error(t('AI_ASSISTANT.CHAT.VOICE_UNAVAILABLE'), {
+        description: t('AI_ASSISTANT.CHAT.VOICE_BROWSER_ERROR'),
       });
       return;
     }
@@ -137,7 +139,7 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
         <div className="flex-1 relative">
           <textarea
             ref={textareaRef}
-            placeholder={interimText ? '' : 'Введите сообщение...'}
+            placeholder={interimText ? '' : t('AI_ASSISTANT.CHAT.MESSAGE_PLACEHOLDER')}
             value={message}
             onChange={e => setMessage(e.target.value)}
             onKeyDown={e => {
