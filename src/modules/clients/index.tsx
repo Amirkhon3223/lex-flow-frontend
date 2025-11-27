@@ -65,7 +65,6 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/app/config/routes.config.ts";
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
-import { CompactStatCard } from '@/modules/clients/ui/CompactStatCard';
 import { AddClientDialog } from '@/shared/components/AddClientDialog';
 import { EditClientDialog } from '@/shared/components/EditClientDialog';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
@@ -74,6 +73,7 @@ import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
+import { StatCard } from '@/shared/ui/stat-card';
 import {
   Table,
   TableBody,
@@ -293,18 +293,17 @@ export function ClientsPage() {
       <AddClientDialog open={isAddClientDialogOpen} onOpenChange={setIsAddClientDialogOpen} />
       <EditClientDialog open={isEditClientDialogOpen} onOpenChange={setIsEditClientDialogOpen} />
 
-      {}
-      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+      <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-3">
               <div
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
-                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5}/>
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">Клиенты</h1>
-                <p className="text-gray-500 text-sm sm:text-base lg:text-lg">База клиентов и контакты</p>
+                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">База клиентов и контакты</p>
               </div>
             </div>
 
@@ -312,12 +311,12 @@ export function ClientsPage() {
               className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full sm:w-auto"
               onClick={() => setIsAddClientDialogOpen(true)}
             >
-              <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
+              <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
               Новый клиент
             </Button>
           </div>
 
-          {}
+          { }
           <FilterBar
             searchConfig={{
               value: searchQuery,
@@ -367,60 +366,61 @@ export function ClientsPage() {
         </div>
       </header>
 
-      {}
+      { }
       <main className="py-4 sm:py-6">
-        {}
+        { }
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
           {stats.map((stat, index) => (
-            <CompactStatCard
+            <StatCard
               key={index}
               label={stat.label}
               value={stat.value}
               icon={stat.icon}
-              color={stat.color}
+              iconColor={stat.color}
+              valueColor={stat.color}
             />
           ))}
         </div>
 
-        {}
+        { }
         <Card className="hidden md:block">
           <Table>
             <TableHeader>
-              <TableRow className="border-b border-gray-100 hover:bg-transparent">
-                <TableHead className="text-gray-600">Клиент</TableHead>
-                <TableHead className="text-gray-600">Тип</TableHead>
-                <TableHead className="text-gray-600">Категория</TableHead>
-                <TableHead className="text-gray-600">Контакты</TableHead>
-                <TableHead className="text-gray-600">Дела</TableHead>
-                <TableHead className="text-gray-600">Доход</TableHead>
-                <TableHead className="text-gray-600">Последний контакт</TableHead>
-                <TableHead className="text-gray-600">Статус</TableHead>
-                <TableHead className="text-right text-gray-600">Действия</TableHead>
+              <TableRow className="border-b border-border hover:bg-transparent">
+                <TableHead className="text-muted-foreground">Клиент</TableHead>
+                <TableHead className="text-muted-foreground">Тип</TableHead>
+                <TableHead className="text-muted-foreground">Категория</TableHead>
+                <TableHead className="text-muted-foreground">Контакты</TableHead>
+                <TableHead className="text-muted-foreground">Дела</TableHead>
+                <TableHead className="text-muted-foreground">Доход</TableHead>
+                <TableHead className="text-muted-foreground">Последний контакт</TableHead>
+                <TableHead className="text-muted-foreground">Статус</TableHead>
+                <TableHead className="text-right text-muted-foreground">Действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredClients.map((client) => (
                 <TableRow key={client.id}
-                          className="border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors"
-                          onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id.toString()))}
+                  className="border-b border-border hover:bg-muted/50 cursor-pointer transition-colors"
+                  onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id.toString()))}
                 >
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <Avatar className="w-10 h-10 ring-2 ring-gray-100">
+                      <Avatar className="w-10 h-10 ring-2 ring-border">
                         <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
                           {client.avatar}
                         </AvatarFallback>
                       </Avatar>
                       <div>
                         <div className="tracking-tight mb-0.5">{client.name}</div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-muted-foreground">
                           С {client.joinDate}
                         </div>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       {getTypeIcon(client.type)}
                       <span>
                         {client.type === ClientTypeEnum.INDIVIDUAL ? 'Физ. лицо' :
@@ -431,11 +431,11 @@ export function ClientsPage() {
                   <TableCell>{getCategoryBadge(client.category)}</TableCell>
                   <TableCell>
                     <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Mail className="w-3.5 h-3.5" strokeWidth={2} />
                         <span className="truncate max-w-[180px]">{client.email}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Phone className="w-3.5 h-3.5" strokeWidth={2} />
                         {client.phone}
                       </div>
@@ -444,19 +444,19 @@ export function ClientsPage() {
                   <TableCell>
                     <div className="text-sm">
                       <span className="text-blue-600">{client.activeCases}</span>
-                      <span className="text-gray-400"> / {client.totalCases}</span>
+                      <span className="text-muted-foreground"> / {client.totalCases}</span>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1.5 text-sm">
                       <DollarSign className="w-3.5 h-3.5 text-green-600" strokeWidth={2} />
-                      <span className="text-gray-900">
+                      <span className="text-foreground">
                         {client.totalRevenue.toLocaleString('ru-RU')} ₽
                       </span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-1.5 text-sm text-gray-600">
+                    <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
                       <Calendar className="w-3.5 h-3.5" strokeWidth={2} />
                       {client.lastContact}
                     </div>
@@ -468,7 +468,7 @@ export function ClientsPage() {
                         {
                           icon: Eye,
                           label: 'Профиль',
-                          onClick: () => {},
+                          onClick: () => { },
                         },
                         {
                           icon: Edit,
@@ -479,12 +479,12 @@ export function ClientsPage() {
                         {
                           icon: Mail,
                           label: 'Написать',
-                          onClick: () => {},
+                          onClick: () => { },
                         },
                         {
                           icon: Trash2,
                           label: 'Удалить',
-                          onClick: () => {},
+                          onClick: () => { },
                           variant: 'danger',
                           separator: true,
                         },
@@ -503,26 +503,26 @@ export function ClientsPage() {
             <Card
               key={client.id}
               onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id.toString()))}
-              className="bg-white border-0 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              className="bg-card border-0 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             >
               <div className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <Avatar className="w-10 h-10 ring-2 ring-gray-100 flex-shrink-0">
+                    <Avatar className="w-10 h-10 ring-2 ring-border flex-shrink-0">
                       <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-sm">
                         {client.avatar}
                       </AvatarFallback>
                     </Avatar>
                     <div className="min-w-0">
                       <div className="tracking-tight text-sm truncate">{client.name}</div>
-                      <div className="text-xs text-gray-500">С {client.joinDate}</div>
+                      <div className="text-xs text-muted-foreground">С {client.joinDate}</div>
                     </div>
                   </div>
                   {getCategoryBadge(client.category)}
                 </div>
 
                 <div className="space-y-2 mb-3">
-                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     {getTypeIcon(client.type)}
                     <span>
                       {client.type === ClientTypeEnum.INDIVIDUAL ? 'Физ. лицо' :
@@ -530,26 +530,26 @@ export function ClientsPage() {
                     </span>
                     <span className="ml-auto">{getStatusBadge(client.status)}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <Mail className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2} />
                     <span className="truncate">{client.email}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <Phone className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2} />
                     {client.phone}
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-xs border-t border-gray-100 pt-3">
+                <div className="flex items-center justify-between text-xs border-t border-border pt-3">
                   <div className="flex items-center gap-3">
                     <div>
-                      <span className="text-gray-500">Дела: </span>
+                      <span className="text-muted-foreground">Дела: </span>
                       <span className="text-blue-600">{client.activeCases}</span>
-                      <span className="text-gray-400">/{client.totalCases}</span>
+                      <span className="text-muted-foreground">/{client.totalCases}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <DollarSign className="w-3 h-3 text-green-600" strokeWidth={2} />
-                      <span className="text-gray-900">{client.totalRevenue.toLocaleString('ru-RU')} ₽</span>
+                      <span className="text-foreground">{client.totalRevenue.toLocaleString('ru-RU')} ₽</span>
                     </div>
                   </div>
                 </div>

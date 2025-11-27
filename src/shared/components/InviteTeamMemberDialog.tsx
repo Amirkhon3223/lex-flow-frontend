@@ -39,15 +39,15 @@ export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteT
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-white/95 backdrop-blur-2xl border-gray-200/50">
+      <DialogContent className="max-w-md bg-background/95 backdrop-blur-2xl border-border/50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-2xl">
-            <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center">
-              <UserPlus className="w-6 h-6 text-blue-600" strokeWidth={2} />
+            <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+              <UserPlus className="w-6 h-6 text-blue-600 dark:text-blue-400" strokeWidth={2} />
             </div>
             Пригласить в команду
           </DialogTitle>
-          <DialogDescription className="text-gray-500">
+          <DialogDescription className="text-muted-foreground">
             Отправьте приглашение новому члену команды
           </DialogDescription>
         </DialogHeader>
@@ -56,14 +56,14 @@ export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteT
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
               <Input
                 id="email"
                 type="email"
                 placeholder="email@example.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="h-12 pl-12 rounded-xl border-gray-200"
+                className="h-12 pl-12 rounded-xl border-input"
                 required
               />
             </div>
@@ -72,7 +72,7 @@ export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteT
           <div className="space-y-2">
             <Label htmlFor="role">Роль</Label>
             <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
-              <SelectTrigger className="h-12 rounded-xl border-gray-200">
+              <SelectTrigger className="h-12 rounded-xl border-input">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="rounded-xl">
@@ -88,7 +88,7 @@ export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteT
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="flex-1 h-12 rounded-xl border-gray-200 hover:bg-gray-50"
+              className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
               Отмена
             </Button>

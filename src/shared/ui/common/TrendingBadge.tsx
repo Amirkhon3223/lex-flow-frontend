@@ -1,6 +1,6 @@
 import React from 'react';
-import { Badge } from '@/shared/ui/badge';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { Badge } from '@/shared/ui/badge';
 import { cn } from '@/shared/ui/utils';
 
 interface TrendingBadgeProps {

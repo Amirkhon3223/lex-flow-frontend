@@ -20,15 +20,15 @@ interface CalendarProps {
 }
 
 export function Calendar({
-                           selected,
-                           onSelect,
-                           month,
-                           onMonthChange,
-                           showOutsideDays = true,
-                           className,
-                           modifiers,
-                           modifiersClassNames,
-                         }: CalendarProps) {
+  selected,
+  onSelect,
+  month,
+  onMonthChange,
+  showOutsideDays = true,
+  className,
+  modifiers,
+  modifiersClassNames,
+}: CalendarProps) {
   const [currentMonth, setCurrentMonth] = React.useState<Date>(
     month || new Date()
   );
@@ -45,10 +45,9 @@ export function Calendar({
   const endOfMonth = new Date(year, currentMonthIndex + 1, 0);
   const daysInMonth = endOfMonth.getDate();
 
-  const startDayOfWeek = (startOfMonth.getDay() + 6) % 7; // 0=Пн
+  const startDayOfWeek = (startOfMonth.getDay() + 6) % 7;
   const days: (Date | null)[] = [];
 
-  // предыдущий месяц
   const prevMonth = new Date(year, currentMonthIndex - 1, 1);
   const prevMonthDays = new Date(year, currentMonthIndex, 0).getDate();
 
@@ -60,12 +59,10 @@ export function Calendar({
     for (let i = 0; i < startDayOfWeek; i++) days.push(null);
   }
 
-  // дни текущего месяца
   for (let i = 1; i <= daysInMonth; i++) {
     days.push(new Date(year, currentMonthIndex, i));
   }
 
-  // остаток будущего месяца
   const remainder = 7 - (days.length % 7);
   if (remainder < 7) {
     if (showOutsideDays) {
@@ -106,17 +103,16 @@ export function Calendar({
   return (
     <div
       className={cn(
-        "p-5 bg-white rounded-2xl border border-gray-200 shadow-sm text-gray-900 select-none",
+        "p-5 bg-card rounded-2xl border border-border shadow-sm text-foreground select-none",
         className
       )}
     >
-      {/* Навигация */}
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={handlePrev}
-          className="p-2 rounded-lg hover:bg-gray-100 transition"
+          className="p-2 rounded-lg hover:bg-muted transition"
         >
-          <ChevronLeft className="w-4 h-4 text-gray-600" />
+          <ChevronLeft className="w-4 h-4 text-muted-foreground" />
         </button>
 
         <div className="text-lg font-semibold capitalize">
@@ -128,20 +124,18 @@ export function Calendar({
 
         <button
           onClick={handleNext}
-          className="p-2 rounded-lg hover:bg-gray-100 transition"
+          className="p-2 rounded-lg hover:bg-muted transition"
         >
-          <ChevronRight className="w-4 h-4 text-gray-600" />
+          <ChevronRight className="w-4 h-4 text-muted-foreground" />
         </button>
       </div>
 
-      {/* Шапка дней недели */}
-      <div className="grid grid-cols-7 text-center text-xs text-gray-500 font-medium uppercase tracking-wide mb-2">
+      <div className="grid grid-cols-7 text-center text-xs text-muted-foreground font-medium uppercase tracking-wide mb-2">
         {weekDays.map((d) => (
           <div key={d}>{d}</div>
         ))}
       </div>
 
-      {/* Сетка дней */}
       <div className="grid grid-cols-7 gap-1 text-sm">
         {days.map((date, index) => {
           if (!date) return <div key={index} className="h-10"></div>;
@@ -158,8 +152,8 @@ export function Calendar({
               onClick={() => onSelect?.(date)}
               className={cn(
                 "relative w-10 h-10 flex items-center justify-center rounded-xl transition-all cursor-pointer",
-                "hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
-                isOutside && "text-gray-400",
+                "hover:bg-muted focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
+                isOutside && "text-muted-foreground/50",
                 isToday && "bg-blue-50 text-blue-700 font-semibold",
                 isSelected &&
                 "bg-blue-500 text-white hover:bg-blue-600 ring-2 ring-blue-500 ring-offset-2"

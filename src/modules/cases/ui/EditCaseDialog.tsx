@@ -41,7 +41,6 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
     priority: 'medium',
   });
 
-  // Update form data when initialData changes
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
@@ -56,7 +55,7 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-white/95 backdrop-blur-2xl border-gray-200/50">
+      <DialogContent className="max-w-2xl bg-background/95 backdrop-blur-2xl border-border">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-2xl">
             <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center">
@@ -67,9 +66,8 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
-          {/* Название дела */}
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-sm text-gray-700">
+            <Label htmlFor="title" className="text-sm text-foreground">
               Название дела *
             </Label>
             <Input
@@ -77,15 +75,14 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
               placeholder="Например: Трудовой спор - увольнение"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="h-12 rounded-xl border-gray-200 focus-visible:ring-blue-500"
+              className="h-12 rounded-xl border-input focus-visible:ring-blue-500"
               required
             />
           </div>
 
-          {/* Клиент и Категория */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="client" className="text-sm text-gray-700">
+              <Label htmlFor="client" className="text-sm text-foreground">
                 Клиент *
               </Label>
               <Select
@@ -93,8 +90,8 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
                 onValueChange={(value) => setFormData({ ...formData, client: value })}
                 required
               >
-                <SelectTrigger className="h-12 rounded-xl border-gray-200">
-                  <User className="w-4 h-4 mr-2 text-gray-400" strokeWidth={2} />
+                <SelectTrigger className="h-12 rounded-xl border-input">
+                  <User className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
                   <SelectValue placeholder="Выберите клиента" />
                 </SelectTrigger>
                 <SelectContent>
@@ -107,7 +104,7 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="category" className="text-sm text-gray-700">
+              <Label htmlFor="category" className="text-sm text-foreground">
                 Категория *
               </Label>
               <Select
@@ -115,8 +112,8 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
                 onValueChange={(value) => setFormData({ ...formData, category: value })}
                 required
               >
-                <SelectTrigger className="h-12 rounded-xl border-gray-200">
-                  <Tag className="w-4 h-4 mr-2 text-gray-400" strokeWidth={2} />
+                <SelectTrigger className="h-12 rounded-xl border-input">
+                  <Tag className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
                   <SelectValue placeholder="Категория дела" />
                 </SelectTrigger>
                 <SelectContent>
@@ -131,52 +128,50 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             </div>
           </div>
 
-          {/* Срок и Гонорар */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="deadline" className="text-sm text-gray-700">
+              <Label htmlFor="deadline" className="text-sm text-foreground">
                 Срок выполнения
               </Label>
               <div className="relative">
-                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
+                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
                 <Input
                   id="deadline"
                   type="date"
                   value={formData.deadline}
                   onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
-                  className="h-12 pl-12 rounded-xl border-gray-200 focus-visible:ring-blue-500"
+                  className="h-12 pl-12 rounded-xl border-input focus-visible:ring-blue-500"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="fee" className="text-sm text-gray-700">
+              <Label htmlFor="fee" className="text-sm text-foreground">
                 Гонорар (₽)
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
+                <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
                 <Input
                   id="fee"
                   type="number"
                   placeholder="150000"
                   value={formData.fee}
                   onChange={(e) => setFormData({ ...formData, fee: e.target.value })}
-                  className="h-12 pl-12 rounded-xl border-gray-200 focus-visible:ring-blue-500"
+                  className="h-12 pl-12 rounded-xl border-input focus-visible:ring-blue-500"
                 />
               </div>
             </div>
           </div>
 
-          {/* Приоритет */}
           <div className="space-y-2">
-            <Label htmlFor="priority" className="text-sm text-gray-700">
+            <Label htmlFor="priority" className="text-sm text-foreground">
               Приоритет
             </Label>
             <Select
               value={formData.priority}
               onValueChange={(value) => setFormData({ ...formData, priority: value })}
             >
-              <SelectTrigger className="h-12 rounded-xl border-gray-200">
+              <SelectTrigger className="h-12 rounded-xl border-input">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -188,9 +183,8 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             </Select>
           </div>
 
-          {/* Описание */}
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-sm text-gray-700">
+            <Label htmlFor="description" className="text-sm text-foreground">
               Описание дела
             </Label>
             <Textarea
@@ -198,17 +192,16 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
               placeholder="Краткое описание обстоятельств дела..."
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="min-h-[120px] rounded-xl border-gray-200 focus-visible:ring-blue-500 resize-none"
+              className="min-h-[120px] rounded-xl border-input focus-visible:ring-blue-500 resize-none"
             />
           </div>
 
-          {/* Кнопки */}
           <div className="flex items-center gap-3 pt-4">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="flex-1 h-12 rounded-xl border-gray-200 hover:bg-gray-50"
+              className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
               Отмена
             </Button>

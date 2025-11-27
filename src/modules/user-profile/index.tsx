@@ -36,7 +36,7 @@ export default function UserProfilePage() {
 
   return (
     <div>
-      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+      <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
@@ -45,14 +45,14 @@ export default function UserProfilePage() {
                   variant="ghost"
                   size="icon"
                   onClick={onBack}
-                  className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg sm:rounded-xl hover:bg-gray-100 flex-shrink-0"
+                  className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg sm:rounded-xl hover:bg-muted flex-shrink-0"
                 >
                   <ArrowLeft className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5" strokeWidth={2} />
                 </Button>
               )}
               <div className="min-w-0">
                 <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight mb-0.5 sm:mb-1 truncate">Профиль</h1>
-                <p className="text-gray-500 text-xs sm:text-sm lg:text-base">Управление личными данными и настройками</p>
+                <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">Управление личными данными и настройками</p>
               </div>
             </div>
             <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md text-xs sm:text-sm lg:text-base h-8 sm:h-9 lg:h-10 px-3 sm:px-4 w-full sm:w-auto">

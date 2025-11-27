@@ -34,7 +34,7 @@ interface CommentsDialogProps {
 export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogProps) {
   const [newComment, setNewComment] = useState('');
 
-  // Mock data - в продакшене будет из API
+
   const comments: Comment[] = [
     {
       id: 1,
@@ -69,29 +69,27 @@ export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogP
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-white/95 backdrop-blur-2xl border-gray-200/50">
+      <DialogContent className="max-w-2xl bg-background/95 backdrop-blur-2xl border-border/50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-2xl">
-            <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center">
-              <MessageSquare className="w-6 h-6 text-blue-600" strokeWidth={2} />
+            <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+              <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400" strokeWidth={2} />
             </div>
             Комментарии ({comments.length})
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          {/* Comments List */}
           <ScrollArea className="h-[400px] pr-4">
             <div className="space-y-4">
               {comments.map((comment, index) => (
                 <div key={comment.id}>
                   <div className="flex items-start gap-3">
-                    <Avatar className="w-10 h-10 ring-2 ring-gray-100">
-                      <AvatarFallback className={`${
-                        comment.author === 'Вы'
+                    <Avatar className="w-10 h-10 ring-2 ring-border">
+                      <AvatarFallback className={`${comment.author === 'Вы'
                           ? 'bg-gradient-to-br from-blue-500 to-blue-600'
                           : 'bg-gradient-to-br from-purple-500 to-purple-600'
-                      } text-white text-sm`}>
+                        } text-white text-sm`}>
                         {comment.avatar}
                       </AvatarFallback>
                     </Avatar>
@@ -99,27 +97,26 @@ export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogP
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <h4 className="text-sm font-medium tracking-tight">{comment.author}</h4>
-                        <span className="text-xs text-gray-400">{comment.date}</span>
+                        <span className="text-xs text-muted-foreground">{comment.date}</span>
                       </div>
-                      <p className="text-sm text-gray-700 bg-gray-50 rounded-xl p-3">
+                      <p className="text-sm text-foreground bg-muted/50 rounded-xl p-3">
                         {comment.text}
                       </p>
                     </div>
                   </div>
 
-                  {index < comments.length - 1 && <Separator className="my-4 bg-gray-100" />}
+                  {index < comments.length - 1 && <Separator className="my-4 bg-border" />}
                 </div>
               ))}
             </div>
           </ScrollArea>
 
-          {/* New Comment Form */}
           <form onSubmit={handleSubmit} className="space-y-3">
             <Textarea
               placeholder="Добавьте комментарий..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              className="min-h-[100px] rounded-xl border-gray-200 focus-visible:ring-blue-500 resize-none"
+              className="min-h-[100px] rounded-xl border-input focus-visible:ring-blue-500 resize-none"
             />
 
             <div className="flex items-center gap-3">
@@ -127,7 +124,7 @@ export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogP
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
-                className="flex-1 h-12 rounded-xl border-gray-200 hover:bg-gray-50"
+                className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
               >
                 Закрыть
               </Button>

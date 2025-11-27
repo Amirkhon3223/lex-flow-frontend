@@ -123,7 +123,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
       case 'deadline':
         return <Clock className="w-5 h-5 text-red-500" strokeWidth={2} />;
       default:
-        return <Bell className="w-5 h-5 text-gray-500" strokeWidth={2} />;
+        return <Bell className="w-5 h-5 text-muted-foreground" strokeWidth={2} />;
     }
   };
 
@@ -142,8 +142,8 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-[500px] bg-white border-0 shadow-2xl p-0">
-        <SheetHeader className="px-6 pt-6 pb-4 border-b border-gray-100">
+      <SheetContent className="w-[500px] bg-background border-0 shadow-2xl p-0">
+        <SheetHeader className="px-6 pt-6 pb-4 border-b border-border">
           <div className="flex items-center justify-between">
             <div>
               <SheetTitle className="text-2xl tracking-tight">Уведомления</SheetTitle>
@@ -151,31 +151,21 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 {unreadCount > 0 ? `${unreadCount} новых уведомлений` : 'Нет новых уведомлений'}
               </SheetDescription>
             </div>
-            {!!notifications.length && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-xl"
-                onClick={() => onOpenChange(false)}
-              >
-                <X className="w-5 h-5" strokeWidth={2} />
-              </Button>
-            )}
           </div>
         </SheetHeader>
 
         <Tabs defaultValue="all" className="flex-1">
-          <div className="px-6 pt-4 pb-2 border-b border-gray-100">
-            <TabsList className="bg-gray-100 rounded-xl p-1 w-full">
-              <TabsTrigger value="all" className="flex-1 rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+          <div className="px-6 pt-4 pb-2 border-b border-border">
+            <TabsList className="bg-muted rounded-xl p-1 w-full">
+              <TabsTrigger value="all" className="flex-1 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
                 Все
                 {!!notifications.length && (
-                  <Badge className="ml-2 bg-gray-200 text-gray-700 border-0 text-xs">
+                  <Badge className="ml-2 bg-muted-foreground/20 text-foreground border-0 text-xs">
                     {notifications.length}
                   </Badge>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="unread" className="flex-1 rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              <TabsTrigger value="unread" className="flex-1 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
                 Новые
                 {unreadCount > 0 && (
                   <Badge className="ml-2 bg-blue-500 text-white border-0 text-xs">
@@ -187,12 +177,12 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
           </div>
 
           {!!notifications.length && (
-            <div className="px-6 py-3 flex items-center justify-between border-b border-gray-100">
+            <div className="px-6 py-3 flex items-center justify-between border-b border-border">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={markAllAsRead}
-                className="text-blue-500 hover:bg-blue-50 rounded-lg"
+                className="text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg"
                 disabled={unreadCount === 0}
               >
                 <CheckCircle2 className="w-4 h-4 mr-2" strokeWidth={2} />
@@ -202,7 +192,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 variant="ghost"
                 size="sm"
                 onClick={clearAll}
-                className="text-gray-500 hover:bg-gray-100 rounded-lg"
+                className="text-muted-foreground hover:bg-muted rounded-lg"
               >
                 <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
                 Очистить все
@@ -212,24 +202,23 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
 
           <TabsContent value="all" className="mt-0 h-[calc(100vh-280px)] overflow-y-auto">
             {notifications.length ? (
-              <div className="divide-y divide-gray-50">
+              <div className="divide-y divide-border">
                 {notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`group px-6 py-4 hover:bg-gray-50 transition-colors cursor-pointer ${
-                      !notification.read ? 'bg-blue-50/30' : ''
-                    } ${getPriorityColor(notification.priority)}`}
+                    className={`group px-6 py-4 hover:bg-muted/50 transition-colors cursor-pointer ${!notification.read ? 'bg-blue-50/30 dark:bg-blue-900/10' : ''
+                      } ${getPriorityColor(notification.priority)}`}
                     onClick={() => markAsRead(notification.id)}
                   >
                     <div className="flex items-start gap-3">
                       {notification.avatar ? (
-                        <Avatar className="w-10 h-10 ring-2 ring-gray-100 flex-shrink-0">
+                        <Avatar className="w-10 h-10 ring-2 ring-background flex-shrink-0">
                           <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-sm">
                             {notification.avatar}
                           </AvatarFallback>
                         </Avatar>
                       ) : (
-                        <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
                           {getNotificationIcon(notification.type)}
                         </div>
                       )}
@@ -243,9 +232,9 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                             <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0 mt-1"></div>
                           )}
                         </div>
-                        <p className="text-sm text-gray-600 mb-2">{notification.description}</p>
+                        <p className="text-sm text-muted-foreground mb-2">{notification.description}</p>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-400">{notification.time}</span>
+                          <span className="text-xs text-muted-foreground/70">{notification.time}</span>
                           <Button
                             variant="ghost"
                             size="icon"
@@ -265,33 +254,33 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-full py-16">
-                <div className="w-20 h-20 rounded-3xl bg-gray-100 flex items-center justify-center mb-4">
-                  <Bell className="w-10 h-10 text-gray-400" strokeWidth={2} />
+                <div className="w-20 h-20 rounded-3xl bg-muted flex items-center justify-center mb-4">
+                  <Bell className="w-10 h-10 text-muted-foreground/50" strokeWidth={2} />
                 </div>
                 <h3 className="text-lg tracking-tight mb-2">Нет уведомлений</h3>
-                <p className="text-sm text-gray-500">Все уведомления будут отображаться здесь</p>
+                <p className="text-sm text-muted-foreground">Все уведомления будут отображаться здесь</p>
               </div>
             )}
           </TabsContent>
 
           <TabsContent value="unread" className="mt-0 h-[calc(100vh-280px)] overflow-y-auto">
             {unreadNotifications.length ? (
-              <div className="divide-y divide-gray-50">
+              <div className="divide-y divide-border">
                 {unreadNotifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`group px-6 py-4 hover:bg-gray-50 transition-colors cursor-pointer bg-blue-50/30 ${getPriorityColor(notification.priority)}`}
+                    className={`group px-6 py-4 hover:bg-muted/50 transition-colors cursor-pointer bg-blue-50/30 dark:bg-blue-900/10 ${getPriorityColor(notification.priority)}`}
                     onClick={() => markAsRead(notification.id)}
                   >
                     <div className="flex items-start gap-3">
                       {notification.avatar ? (
-                        <Avatar className="w-10 h-10 ring-2 ring-gray-100 flex-shrink-0">
+                        <Avatar className="w-10 h-10 ring-2 ring-background flex-shrink-0">
                           <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-sm">
                             {notification.avatar}
                           </AvatarFallback>
                         </Avatar>
                       ) : (
-                        <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
                           {getNotificationIcon(notification.type)}
                         </div>
                       )}
@@ -303,9 +292,9 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                           </h4>
                           <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0 mt-1"></div>
                         </div>
-                        <p className="text-sm text-gray-600 mb-2">{notification.description}</p>
+                        <p className="text-sm text-muted-foreground mb-2">{notification.description}</p>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-400">{notification.time}</span>
+                          <span className="text-xs text-muted-foreground/70">{notification.time}</span>
                           <Button
                             variant="ghost"
                             size="icon"
@@ -325,21 +314,21 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-full py-16">
-                <div className="w-20 h-20 rounded-3xl bg-green-100 flex items-center justify-center mb-4">
+                <div className="w-20 h-20 rounded-3xl bg-green-100 dark:bg-green-900/20 flex items-center justify-center mb-4">
                   <CheckCircle2 className="w-10 h-10 text-green-500" strokeWidth={2} />
                 </div>
                 <h3 className="text-lg tracking-tight mb-2">Все прочитано!</h3>
-                <p className="text-sm text-gray-500">У вас нет новых уведомлений</p>
+                <p className="text-sm text-muted-foreground">У вас нет новых уведомлений</p>
               </div>
             )}
           </TabsContent>
         </Tabs>
 
         {!!notifications.length && (
-          <div className="px-6 py-4 border-t border-gray-100">
+          <div className="px-6 py-4 border-t border-border">
             <Button
               variant="outline"
-              className="w-full rounded-xl border-gray-200 hover:bg-gray-50"
+              className="w-full rounded-xl border-input hover:bg-muted"
             >
               <Settings className="w-4 h-4 mr-2" strokeWidth={2} />
               Настройки уведомлений

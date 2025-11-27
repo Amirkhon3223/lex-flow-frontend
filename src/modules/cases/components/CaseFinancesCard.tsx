@@ -11,21 +11,21 @@ export function CaseFinancesCard() {
         <div className="space-y-3 sm:space-y-4">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs sm:text-sm text-gray-500">Гонорар</span>
+              <span className="text-xs sm:text-sm text-muted-foreground">Гонорар</span>
               <span className="text-lg sm:text-xl tracking-tight">150 000 ₽</span>
             </div>
             <div className="flex items-center justify-between text-xs sm:text-sm">
-              <span className="text-gray-500">Оплачено</span>
-              <span className="text-green-600">75 000 ₽</span>
+              <span className="text-muted-foreground">Оплачено</span>
+              <span className="text-green-600 dark:text-green-400">75 000 ₽</span>
             </div>
           </div>
 
-          <Separator className="bg-gray-100" />
+          <Separator className="bg-border" />
 
           <div className="flex items-center gap-2 text-xs sm:text-sm">
-            <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" strokeWidth={2} />
-            <span className="text-gray-500">Остаток:</span>
-            <span className="text-gray-900">75 000 ₽</span>
+            <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
+            <span className="text-muted-foreground">Остаток:</span>
+            <span className="text-foreground">75 000 ₽</span>
           </div>
         </div>
       </div>

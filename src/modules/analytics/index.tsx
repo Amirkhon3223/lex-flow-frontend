@@ -17,24 +17,24 @@ export default function AnalyticsPage() {
 
   return (
     <div>
-      <header className="relative bg-white border-b border-gray-200/50 rounded-xl">
+      <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-6">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div className="flex items-center gap-2 sm:gap-3">
               <div
                 className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5}/>
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div className="min-w-0">
                 <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight truncate">Аналитика</h1>
-                <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg">Обзор эффективности работы и статистики</p>
+                <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">Обзор эффективности работы и статистики</p>
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 md:flex-col md:items-stretch lg:flex-row lg:items-center">
               <Select defaultValue="month">
-                <SelectTrigger className="w-32 sm:w-40 md:w-48 h-8 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm">
-                  <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 mr-1.5 sm:mr-2" strokeWidth={2}/>
-                  <SelectValue/>
+                <SelectTrigger className="w-32 sm:w-40 md:w-48 h-8 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm">
+                  <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
+                  <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="week">Эта неделя</SelectItem>
@@ -48,13 +48,13 @@ export default function AnalyticsPage() {
                 onClick={handleExportReport}
                 className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md px-2 sm:px-3 md:px-4 text-xs sm:text-sm"
               >
-                <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 sm:mr-2" strokeWidth={2}/>
+                <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 sm:mr-2" strokeWidth={2} />
                 <span className="hidden sm:inline">Экспорт отчета</span>
               </Button>
             </div>
           </div>
 
-          <StatsCards/>
+          <StatsCards />
         </div>
       </header>
 
@@ -63,52 +63,52 @@ export default function AnalyticsPage() {
           <TabsList>
             <TabsTrigger
               value="overview"
-              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2}/>
+              <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
               <span className="hidden sm:inline">Обзор</span>
             </TabsTrigger>
             <TabsTrigger
               value="cases"
-              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2}/>
+              <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
               <span className="hidden sm:inline">Дела</span>
             </TabsTrigger>
             <TabsTrigger
               value="finance"
-              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2}/>
+              <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
               <span className="hidden sm:inline">Финансы</span>
             </TabsTrigger>
             <TabsTrigger
               value="team"
-              className="rounded-md sm:rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
-              <Users className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2}/>
+              <Users className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
               <span className="hidden sm:inline">Команда</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4 sm:space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-              <CasesChart/>
-              <CaseTypesChart/>
+              <CasesChart />
+              <CaseTypesChart />
             </div>
-            <RevenueChart/>
+            <RevenueChart />
           </TabsContent>
 
           <TabsContent value="cases" className="space-y-4 sm:space-y-6">
-            <CasesTabContent/>
+            <CasesTabContent />
           </TabsContent>
 
           <TabsContent value="finance" className="space-y-4 sm:space-y-6">
-            <FinanceTabContent/>
+            <FinanceTabContent />
           </TabsContent>
 
           <TabsContent value="team" className="space-y-4 sm:space-y-6">
-            <TeamStats/>
+            <TeamStats />
           </TabsContent>
         </Tabs>
       </main>

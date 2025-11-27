@@ -84,15 +84,14 @@ export default function ClientDetailPage() {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen}/>
-      <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}/>
-      {}
+      <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen} />
+      <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen} />
+
       <Link to="/clients" className="inline-flex items-center text-xs sm:text-sm text-gray-600 hover:text-gray-900">
-        <ChevronLeft className="mr-1 h-3.5 w-3.5 sm:h-4 sm:w-4"/>
+        <ChevronLeft className="mr-1 h-3.5 w-3.5 sm:h-4 sm:w-4" />
         Все клиенты
       </Link>
 
-      {}
       <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
         <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
           <Avatar className="h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0">
@@ -102,23 +101,23 @@ export default function ClientDetailPage() {
           </Avatar>
           <div className="min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{client.name}</h1>
-              <Badge className="bg-green-100 text-green-700 border-green-200 w-fit">
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">{client.name}</h1>
+              <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20 w-fit">
                 {client.status}
               </Badge>
             </div>
-            <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+            <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
               <span>🏢 {client.type}</span>
               <span>📅 {client.since}</span>
               {client.vip && <span>⭐ VIP клиент</span>}
             </div>
             <div className="mt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
-              <div className="flex items-center gap-1 text-gray-600">
-                <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0"/>
+              <div className="flex items-center gap-1 text-muted-foreground">
+                <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
                 <span className="truncate">{client.email}</span>
               </div>
-              <div className="flex items-center gap-1 text-gray-600">
-                <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0"/>
+              <div className="flex items-center gap-1 text-muted-foreground">
+                <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
                 {client.phone}
               </div>
             </div>
@@ -132,69 +131,60 @@ export default function ClientDetailPage() {
             className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md flex-1 sm:flex-none text-sm sm:text-base"
             onClick={() => setIsAddCaseDialogOpen(true)}
           >
-            <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
+            <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
             Новое дело
           </Button>
         </div>
       </div>
 
-      {}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
         <StatCard
           label="Активных дел"
           value={client.activeCases}
           icon={Briefcase}
-          iconBg="bg-blue-50"
-          iconColor="text-blue-600"
+          iconColor="text-blue-500"
         />
         <StatCard
           label="Документов"
           value={client.documents}
           icon={FileText}
-          iconBg="bg-purple-50"
-          iconColor="text-purple-600"
+          iconColor="text-purple-500"
         />
         <StatCard
           label="Общий гонорар"
           value={client.totalRevenue}
           icon={DollarSign}
-          iconBg="bg-green-50"
-          iconColor="text-green-600"
+          iconColor="text-green-500"
         />
         <StatCard
           label="Часов работы"
           value={client.hoursWorked}
           icon={Clock}
-          iconBg="bg-orange-50"
-          iconColor="text-orange-600"
+          iconColor="text-orange-500"
         />
         <StatCard
           label="Взаимодействий"
           value={client.interactions}
           icon={TrendingUp}
-          iconBg="bg-red-50"
-          iconColor="text-red-600"
+          iconColor="text-red-500"
         />
       </div>
 
-      {}
       <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-3">
-        {}
         <div className="lg:col-span-2 rounded-xl !p-0">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-base sm:text-lg">Дела клиента</CardTitle>
-              <Badge className="bg-blue-500 text-gray-100 border-0 text-md">3 дел</Badge>
+              <Badge className="bg-blue-500 text-white border-0 text-md">3 дел</Badge>
             </CardHeader>
             <CardContent className="space-y-3 sm:space-y-4 mt-2">
               {cases.map((caseItem) => (
-                <CaseCard key={caseItem.id} caseItem={caseItem}/>
+                <CaseCard key={caseItem.id} caseItem={caseItem} />
               ))}
             </CardContent>
           </Card>
         </div>
 
-        {}
         <div className="space-y-4 sm:space-y-6">
           <ContactInfoCard
             contactInfo={{

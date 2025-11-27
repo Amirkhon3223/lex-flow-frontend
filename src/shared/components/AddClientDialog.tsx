@@ -79,11 +79,11 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] bg-white/95 backdrop-blur-2xl border-gray-200/50 flex flex-col overflow-hidden p-0">
+      <DialogContent className="max-w-2xl max-h-[90vh] bg-background/95 backdrop-blur-2xl border-border/50 flex flex-col overflow-hidden p-0">
         <DialogHeader className="px-6 pt-6 pb-4 flex-shrink-0">
           <DialogTitle className="flex items-center gap-3 text-2xl">
-            <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center">
-              <Users className="w-6 h-6 text-purple-600" strokeWidth={2} />
+            <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center">
+              <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" strokeWidth={2} />
             </div>
             Новый клиент
           </DialogTitle>
@@ -91,24 +91,22 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
 
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
           <div className="space-y-6 px-6 overflow-y-auto flex-1">
-            {}
             <Tabs value={clientType} onValueChange={(v) => setClientType(v as ClientTypeEnum)}>
-              <TabsList className="grid w-full grid-cols-2 bg-gray-100 rounded-xl p-1">
-                <TabsTrigger value={ClientTypeEnum.INDIVIDUAL} className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              <TabsList className="grid w-full grid-cols-2 bg-muted rounded-xl p-1">
+                <TabsTrigger value={ClientTypeEnum.INDIVIDUAL} className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
                   <User className="w-4 h-4 mr-2" strokeWidth={2} />
                   Физическое лицо
                 </TabsTrigger>
-                <TabsTrigger value={ClientTypeEnum.LEGAL} className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <TabsTrigger value={ClientTypeEnum.LEGAL} className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
                   <Building2 className="w-4 h-4 mr-2" strokeWidth={2} />
                   Юридическое лицо
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value={ClientTypeEnum.INDIVIDUAL} className="space-y-4 mt-6">
-                {}
                 <div className="grid grid-cols-3 gap-3">
                   <div className="space-y-2">
-                    <Label htmlFor="lastName" className="text-sm text-gray-700">
+                    <Label htmlFor="lastName" className="text-sm text-foreground">
                       Фамилия *
                     </Label>
                     <Input
@@ -116,12 +114,12 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                       placeholder="Иванов"
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className="h-12 rounded-xl border-gray-200 focus-visible:ring-purple-500"
+                      className="h-12 rounded-xl border-input focus-visible:ring-purple-500"
                       required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="firstName" className="text-sm text-gray-700">
+                    <Label htmlFor="firstName" className="text-sm text-foreground">
                       Имя *
                     </Label>
                     <Input
@@ -129,12 +127,12 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                       placeholder="Петр"
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      className="h-12 rounded-xl border-gray-200 focus-visible:ring-purple-500"
+                      className="h-12 rounded-xl border-input focus-visible:ring-purple-500"
                       required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="middleName" className="text-sm text-gray-700">
+                    <Label htmlFor="middleName" className="text-sm text-foreground">
                       Отчество
                     </Label>
                     <Input
@@ -142,16 +140,15 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                       placeholder="Алексеевич"
                       value={formData.middleName}
                       onChange={(e) => setFormData({ ...formData, middleName: e.target.value })}
-                      className="h-12 rounded-xl border-gray-200 focus-visible:ring-purple-500"
+                      className="h-12 rounded-xl border-input focus-visible:ring-purple-500"
                     />
                   </div>
                 </div>
               </TabsContent>
 
               <TabsContent value={ClientTypeEnum.LEGAL} className="space-y-4 mt-6">
-                {}
                 <div className="space-y-2">
-                  <Label htmlFor="companyName" className="text-sm text-gray-700">
+                  <Label htmlFor="companyName" className="text-sm text-foreground">
                     Название организации *
                   </Label>
                   <Input
@@ -159,14 +156,14 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                     placeholder='ООО "ТехноСтрой"'
                     value={formData.companyName}
                     onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                    className="h-12 rounded-xl border-gray-200 focus-visible:ring-purple-500"
+                    className="h-12 rounded-xl border-input focus-visible:ring-purple-500"
                     required={clientType === ClientTypeEnum.LEGAL}
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="inn" className="text-sm text-gray-700">
+                    <Label htmlFor="inn" className="text-sm text-foreground">
                       ИНН
                     </Label>
                     <Input
@@ -174,11 +171,11 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                       placeholder="1234567890"
                       value={formData.inn}
                       onChange={(e) => setFormData({ ...formData, inn: e.target.value })}
-                      className="h-12 rounded-xl border-gray-200 focus-visible:ring-purple-500"
+                      className="h-12 rounded-xl border-input focus-visible:ring-purple-500"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="kpp" className="text-sm text-gray-700">
+                    <Label htmlFor="kpp" className="text-sm text-foreground">
                       КПП
                     </Label>
                     <Input
@@ -186,80 +183,77 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                       placeholder="123456789"
                       value={formData.kpp}
                       onChange={(e) => setFormData({ ...formData, kpp: e.target.value })}
-                      className="h-12 rounded-xl border-gray-200 focus-visible:ring-purple-500"
+                      className="h-12 rounded-xl border-input focus-visible:ring-purple-500"
                     />
                   </div>
                 </div>
               </TabsContent>
             </Tabs>
 
-            {}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm text-gray-700">
+                <Label htmlFor="email" className="text-sm text-foreground">
                   Email *
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
                   <Input
                     id="email"
                     type="email"
                     placeholder="example@mail.ru"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="h-12 pl-12 rounded-xl border-gray-200 focus-visible:ring-purple-500"
+                    className="h-12 pl-12 rounded-xl border-input focus-visible:ring-purple-500"
                     required
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-sm text-gray-700">
+                <Label htmlFor="phone" className="text-sm text-foreground">
                   Телефон *
                 </Label>
                 <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" strokeWidth={2} />
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
                   <Input
                     id="phone"
                     type="tel"
                     placeholder="+7 (999) 123-45-67"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="h-12 pl-12 rounded-xl border-gray-200 focus-visible:ring-purple-500"
+                    className="h-12 pl-12 rounded-xl border-input focus-visible:ring-purple-500"
                     required
                   />
                 </div>
               </div>
             </div>
 
-            {}
             <div className="space-y-2">
-              <Label htmlFor="address" className="text-sm text-gray-700">
+              <Label htmlFor="address" className="text-sm text-foreground">
                 Адрес
               </Label>
               <div className="relative">
-                <MapPin className="absolute left-4 top-4 w-4 h-4 text-gray-400" strokeWidth={2} />
+                <MapPin className="absolute left-4 top-4 w-4 h-4 text-muted-foreground" strokeWidth={2} />
                 <Input
                   id="address"
                   placeholder="г. Москва, ул. Пушкина, д. 10"
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  className="h-12 pl-12 rounded-xl border-gray-200 focus-visible:ring-purple-500"
+                  className="h-12 pl-12 rounded-xl border-input focus-visible:ring-purple-500"
                 />
               </div>
             </div>
 
-            {}
             <div className="space-y-2">
-              <Label htmlFor="category" className="text-sm text-gray-700">
+              <Label htmlFor="category" className="text-sm text-foreground">
                 Категория
               </Label>
               <Select
                 value={formData.category}
                 onValueChange={(value) => setFormData({ ...formData, category: value })}
               >
-                <SelectTrigger className="h-12 rounded-xl border-gray-200">
-                  <Briefcase className="w-4 h-4 mr-2 text-gray-400" strokeWidth={2} />
+                <SelectTrigger className="h-12 rounded-xl border-input">
+                  <Briefcase className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
                   <SelectValue placeholder="Выберите категорию" />
                 </SelectTrigger>
                 <SelectContent>
@@ -271,9 +265,8 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               </Select>
             </div>
 
-            {}
             <div className="space-y-2">
-              <Label htmlFor="notes" className="text-sm text-gray-700">
+              <Label htmlFor="notes" className="text-sm text-foreground">
                 Примечания
               </Label>
               <Textarea
@@ -281,18 +274,17 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                 placeholder="Дополнительная информация о клиенте..."
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                className="min-h-[100px] rounded-xl border-gray-200 focus-visible:ring-purple-500 resize-none"
+                className="min-h-[100px] rounded-xl border-input focus-visible:ring-purple-500 resize-none"
               />
             </div>
           </div>
 
-          {}
-          <div className="flex items-center gap-3 px-6 py-6 border-t border-gray-100 flex-shrink-0 bg-white">
+          <div className="flex items-center gap-3 px-6 py-6 border-t border-border flex-shrink-0 bg-background">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="flex-1 h-12 rounded-xl border-gray-200 hover:bg-gray-50"
+              className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
               Отмена
             </Button>

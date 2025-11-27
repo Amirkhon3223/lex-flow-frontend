@@ -44,7 +44,7 @@ export const Layout = ({ children }: LayoutProps) => {
 
   return (
     <SelectProvider>
-      <div className="min-h-screen bg-[#f5f5f7]">
+      <div className="min-h-screen bg-background">
         {/* Mobile overlay */}
         {isMobileSidebarOpen && (
           <div
