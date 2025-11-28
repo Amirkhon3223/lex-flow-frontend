@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Download, FileText, Info, Maximize2, Minimiz
 import { useNavigate } from 'react-router-dom';
 import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums';
 import type { DocumentVersionInterface, DocumentChangeInterface } from '@/app/types/documents/documents.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { BackButton } from '@/shared/components/BackButton';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -17,6 +18,7 @@ import {
 import { Separator } from '@/shared/ui/separator.tsx';
 
 export function DocumentCompareView() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const onBack = () => navigate(-1);
   const [currentChangeIndex, setCurrentChangeIndex] = useState(0);
@@ -207,7 +209,7 @@ export function DocumentCompareView() {
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-            <BackButton onClick={onBack} label="Назад к версиям" />
+            <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_VERSIONS')} />
 
             <div className="flex items-center gap-2 flex-wrap">
               {/* Zoom controls - hidden on mobile */}
@@ -245,12 +247,12 @@ export function DocumentCompareView() {
                 ) : (
                   <Maximize2 className="w-4 h-4 mr-2" strokeWidth={2} />
                 )}
-                {isFullscreen ? 'Выйти из полного экрана' : 'Полный экран'}
+                {isFullscreen ? t('DOCUMENTS.EXIT_FULLSCREEN') : t('DOCUMENTS.FULLSCREEN')}
               </Button>
               <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm sm:text-base flex-1 sm:flex-none">
                 <Download className="w-4 h-4 mr-2" strokeWidth={2} />
-                <span className="hidden sm:inline">Экспорт сравнения</span>
-                <span className="sm:hidden">Экспорт</span>
+                <span className="hidden sm:inline">{t('DOCUMENTS.EXPORT_COMPARISON')}</span>
+                <span className="sm:hidden">{t('COMMON.ACTIONS.EXPORT')}</span>
               </Button>
             </div>
           </div>
@@ -260,7 +262,7 @@ export function DocumentCompareView() {
               <GitCompare className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" strokeWidth={2} />
             </div>
             <div>
-              <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-tight">Сравнение версий</h1>
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-tight">{t('DOCUMENTS.VERSION_COMPARISON')}</h1>
               <p className="text-xs sm:text-sm text-muted-foreground">Исковое заявление.pdf</p>
             </div>
           </div>
@@ -289,7 +291,7 @@ export function DocumentCompareView() {
                   {documentVersions.map((v) => (
                     <SelectItem key={v.version} value={v.version.toString()} disabled={v.version.toString() === version2}>
                       <div className="py-1">
-                        <div>Версия {v.version}</div>
+                        <div>{t('DOCUMENTS.VERSION')} {v.version}</div>
                         <div className="text-xs text-muted-foreground">{v.date} • {v.author}</div>
                       </div>
                     </SelectItem>
@@ -325,7 +327,7 @@ export function DocumentCompareView() {
                   {documentVersions.map((v) => (
                     <SelectItem key={v.version} value={v.version.toString()} disabled={v.version.toString() === version1}>
                       <div className="py-1">
-                        <div>Версия {v.version}</div>
+                        <div>{t('DOCUMENTS.VERSION')} {v.version}</div>
                         <div className="text-xs text-muted-foreground">{v.date} • {v.author}</div>
                       </div>
                     </SelectItem>
@@ -346,7 +348,7 @@ export function DocumentCompareView() {
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold tracking-tight text-sm flex items-center gap-2">
                   <History className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
-                  Изменений: {changesSummary.total}
+                  {t('DOCUMENTS.CHANGES_DETECTED')}: {changesSummary.total}
                 </h3>
                 <div className="flex items-center gap-2">
                   <Button
@@ -447,15 +449,15 @@ export function DocumentCompareView() {
               <div className="flex flex-wrap gap-3 text-xs">
                 <div className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded bg-green-500/20 border border-green-500/30"></div>
-                  <span className="text-muted-foreground">Добавлено</span>
+                  <span className="text-muted-foreground">{t('DOCUMENTS.ADDED')}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded bg-destructive/20 border border-destructive/30"></div>
-                  <span className="text-muted-foreground">Удалено</span>
+                  <span className="text-muted-foreground">{t('DOCUMENTS.REMOVED')}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded bg-blue-500/20 border border-blue-500/30"></div>
-                  <span className="text-muted-foreground">Изменено</span>
+                  <span className="text-muted-foreground">{t('DOCUMENTS.MODIFIED')}</span>
                 </div>
               </div>
             </div>
@@ -469,7 +471,7 @@ export function DocumentCompareView() {
               <div>
                 <h3 className="font-semibold tracking-tight mb-4 flex items-center gap-2">
                   <History className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
-                  Обнаружено изменений
+                  {t('DOCUMENTS.CHANGES_DETECTED')}
                 </h3>
 
                 <div className="text-4xl font-bold tracking-tight mb-6 text-center">
@@ -506,7 +508,7 @@ export function DocumentCompareView() {
 
             <Card>
               <div>
-                <h3 className="font-semibold tracking-tight mb-4">Навигация</h3>
+                <h3 className="font-semibold tracking-tight mb-4">{t('DOCUMENTS.NAVIGATION')}</h3>
 
                 <div className="flex items-center gap-2 mb-4">
                   <Button
@@ -520,7 +522,7 @@ export function DocumentCompareView() {
                   </Button>
 
                   <div className="flex-1 text-center text-sm text-muted-foreground">
-                    {currentChangeIndex + 1} из {changes.length}
+                    {currentChangeIndex + 1} {t('COMMON.OF')} {changes.length}
                   </div>
 
                   <Button
@@ -550,11 +552,11 @@ export function DocumentCompareView() {
                             change.type === DocumentChangeTypeEnum.REMOVED ? 'bg-destructive/10 text-destructive' :
                               'bg-blue-500/10 text-blue-700 dark:text-blue-400'
                             }`}>
-                            {change.type === DocumentChangeTypeEnum.ADDED ? 'Добавлено' :
-                              change.type === DocumentChangeTypeEnum.REMOVED ? 'Удалено' :
-                                'Изменено'}
+                            {change.type === DocumentChangeTypeEnum.ADDED ? t('DOCUMENTS.ADDED') :
+                              change.type === DocumentChangeTypeEnum.REMOVED ? t('DOCUMENTS.REMOVED') :
+                                t('DOCUMENTS.MODIFIED')}
                           </Badge>
-                          <span className="text-xs text-muted-foreground">Строка {change.lineNumber}</span>
+                          <span className="text-xs text-muted-foreground">{t('DOCUMENTS.LINE')} {change.lineNumber}</span>
                         </div>
                         {change.oldText && (
                           <div className="text-xs text-muted-foreground mb-1 line-through">
@@ -577,20 +579,20 @@ export function DocumentCompareView() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Info className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
-                  <h4 className="text-sm font-semibold tracking-tight">Легенда</h4>
+                  <h4 className="text-sm font-semibold tracking-tight">{t('DOCUMENTS.LEGEND')}</h4>
                 </div>
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded bg-green-500/20 border border-green-500/30"></div>
-                    <span className="text-muted-foreground">Добавленный текст</span>
+                    <span className="text-muted-foreground">{t('DOCUMENTS.ADDED_TEXT')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded bg-destructive/20 border border-destructive/30"></div>
-                    <span className="text-muted-foreground">Удаленный текст</span>
+                    <span className="text-muted-foreground">{t('DOCUMENTS.REMOVED_TEXT')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded bg-blue-500/20 border border-blue-500/30"></div>
-                    <span className="text-muted-foreground">Измененный текст</span>
+                    <span className="text-muted-foreground">{t('DOCUMENTS.MODIFIED_TEXT')}</span>
                   </div>
                 </div>
               </div>
@@ -604,12 +606,12 @@ export function DocumentCompareView() {
                   <div className="p-4 bg-muted/50 border-b border-border">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold tracking-tight mb-1">Версия {version1}</h3>
+                        <h3 className="font-semibold tracking-tight mb-1">{t('DOCUMENTS.VERSION')} {version1}</h3>
                         <p className="text-xs text-muted-foreground">
                           {documentVersions.find(v => v.version === parseInt(version1))?.date}
                         </p>
                       </div>
-                      <Badge className="bg-muted text-muted-foreground border-0">Старая</Badge>
+                      <Badge className="bg-muted text-muted-foreground border-0">{t('DOCUMENTS.OLD')}</Badge>
                     </div>
                   </div>
                   <ScrollArea className="h-[800px]">
@@ -629,12 +631,12 @@ export function DocumentCompareView() {
                   <div className="p-4 bg-green-500/10 border-b border-green-500/20">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold tracking-tight mb-1">Версия {version2}</h3>
+                        <h3 className="font-semibold tracking-tight mb-1">{t('DOCUMENTS.VERSION')} {version2}</h3>
                         <p className="text-xs text-muted-foreground">
                           {documentVersions.find(v => v.version === parseInt(version2))?.date}
                         </p>
                       </div>
-                      <Badge className="bg-green-500 text-white border-0">Новая</Badge>
+                      <Badge className="bg-green-500 text-white border-0">{t('DOCUMENTS.NEW')}</Badge>
                     </div>
                   </div>
                   <ScrollArea className="h-[800px]">

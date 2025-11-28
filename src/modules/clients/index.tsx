@@ -69,6 +69,7 @@ import { AddClientDialog } from '@/shared/components/AddClientDialog';
 import { EditClientDialog } from '@/shared/components/EditClientDialog';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { ActionsMenu } from '@/shared/components/menus/ActionsMenu';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -86,6 +87,7 @@ import {
 
 export function ClientsPage() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
@@ -249,9 +251,9 @@ export function ClientsPage() {
       [ClientCategoryEnum.STANDARD]: 'bg-gray-100 text-gray-700',
     };
     const labels = {
-      [ClientCategoryEnum.VIP]: 'VIP',
-      [ClientCategoryEnum.PREMIUM]: 'Премиум',
-      [ClientCategoryEnum.STANDARD]: 'Стандарт',
+      [ClientCategoryEnum.VIP]: t('CLIENTS.CATEGORIES.VIP'),
+      [ClientCategoryEnum.PREMIUM]: t('CLIENTS.CATEGORIES.PREMIUM'),
+      [ClientCategoryEnum.STANDARD]: t('CLIENTS.CATEGORIES.STANDARD'),
     };
     return <Badge className={`${styles[category]} border-0`}>{labels[category]}</Badge>;
   };
@@ -263,9 +265,9 @@ export function ClientsPage() {
       [ClientStatusEnum.PENDING]: 'bg-amber-100 text-amber-700',
     };
     const labels = {
-      [ClientStatusEnum.ACTIVE]: 'Активен',
-      [ClientStatusEnum.INACTIVE]: 'Неактивен',
-      [ClientStatusEnum.PENDING]: 'Ожидание',
+      [ClientStatusEnum.ACTIVE]: t('CLIENTS.STATUS.ACTIVE'),
+      [ClientStatusEnum.INACTIVE]: t('CLIENTS.STATUS.INACTIVE'),
+      [ClientStatusEnum.PENDING]: t('CLIENTS.STATUS.PENDING'),
     };
     return <Badge className={`${styles[status]} border-0 text-xs`}>{labels[status]}</Badge>;
   };
@@ -282,10 +284,10 @@ export function ClientsPage() {
   };
 
   const stats = [
-    { label: 'Всего клиентов', value: clients.length, icon: Users, color: 'text-blue-500' },
-    { label: 'Активные', value: clients.filter(c => c.status === ClientStatusEnum.ACTIVE).length, icon: TrendingUp, color: 'text-green-500' },
-    { label: 'VIP', value: clients.filter(c => c.category === ClientCategoryEnum.VIP).length, icon: Star, color: 'text-purple-500' },
-    { label: 'Активных дел', value: clients.reduce((sum, c) => sum + c.activeCases, 0), icon: Briefcase, color: 'text-orange-500' },
+    { label: t('CLIENTS.STATS.TOTAL'), value: clients.length, icon: Users, color: 'text-blue-500' },
+    { label: t('CLIENTS.STATS.ACTIVE'), value: clients.filter(c => c.status === ClientStatusEnum.ACTIVE).length, icon: TrendingUp, color: 'text-green-500' },
+    { label: t('CLIENTS.STATS.VIP'), value: clients.filter(c => c.category === ClientCategoryEnum.VIP).length, icon: Star, color: 'text-purple-500' },
+    { label: t('CLIENTS.STATS.ACTIVE_CASES'), value: clients.reduce((sum, c) => sum + c.activeCases, 0), icon: Briefcase, color: 'text-orange-500' },
   ];
 
   return (
@@ -302,8 +304,8 @@ export function ClientsPage() {
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">Клиенты</h1>
-                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">База клиентов и контакты</p>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">{t('CLIENTS.TITLE')}</h1>
+                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">{t('CLIENTS.SUBTITLE')}</p>
               </div>
             </div>
 
@@ -312,7 +314,7 @@ export function ClientsPage() {
               onClick={() => setIsAddClientDialogOpen(true)}
             >
               <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
-              Новый клиент
+              {t('CLIENTS.NEW_CLIENT')}
             </Button>
           </div>
 
@@ -321,44 +323,44 @@ export function ClientsPage() {
             searchConfig={{
               value: searchQuery,
               onChange: setSearchQuery,
-              placeholder: 'Поиск клиентов...',
+              placeholder: t('CLIENTS.SEARCH_PLACEHOLDER'),
               className: 'flex-1 max-w-md',
             }}
             filters={[
               {
                 value: filterType,
                 onChange: setFilterType,
-                placeholder: 'Тип',
+                placeholder: t('CLIENTS.FIELDS.TYPE'),
                 width: 'w-[180px]',
                 options: [
-                  { value: 'all', label: 'Все типы' },
-                  { value: 'individual', label: 'Физ. лицо' },
-                  { value: 'legal', label: 'Юр. лицо' },
-                  { value: 'entrepreneur', label: 'ИП' },
+                  { value: 'all', label: t('CLIENTS.FILTERS.ALL_TYPES') },
+                  { value: 'individual', label: t('CLIENTS.FILTERS.INDIVIDUAL') },
+                  { value: 'legal', label: t('CLIENTS.FILTERS.LEGAL') },
+                  { value: 'entrepreneur', label: t('CLIENTS.FILTERS.ENTREPRENEUR') },
                 ],
               },
               {
                 value: filterCategory,
                 onChange: setFilterCategory,
-                placeholder: 'Категория',
+                placeholder: t('CLIENTS.FIELDS.CATEGORY'),
                 width: 'w-[160px]',
                 options: [
-                  { value: 'all', label: 'Все категории' },
-                  { value: 'vip', label: 'VIP' },
-                  { value: 'premium', label: 'Премиум' },
-                  { value: 'standard', label: 'Стандарт' },
+                  { value: 'all', label: t('CLIENTS.FILTERS.ALL_CATEGORIES') },
+                  { value: 'vip', label: t('CLIENTS.FILTERS.VIP') },
+                  { value: 'premium', label: t('CLIENTS.FILTERS.PREMIUM') },
+                  { value: 'standard', label: t('CLIENTS.FILTERS.STANDARD') },
                 ],
               },
               {
                 value: filterStatus,
                 onChange: setFilterStatus,
-                placeholder: 'Статус',
+                placeholder: t('CLIENTS.FIELDS.STATUS'),
                 width: 'w-[160px]',
                 options: [
-                  { value: 'all', label: 'Все статусы' },
-                  { value: 'active', label: 'Активные' },
-                  { value: 'inactive', label: 'Неактивные' },
-                  { value: 'pending', label: 'Ожидание' },
+                  { value: 'all', label: t('CLIENTS.FILTERS.ALL_STATUSES') },
+                  { value: 'active', label: t('CLIENTS.FILTERS.ACTIVE') },
+                  { value: 'inactive', label: t('CLIENTS.FILTERS.INACTIVE') },
+                  { value: 'pending', label: t('CLIENTS.FILTERS.PENDING') },
                 ],
               },
             ]}
@@ -387,15 +389,15 @@ export function ClientsPage() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableHead className="text-muted-foreground">Клиент</TableHead>
-                <TableHead className="text-muted-foreground">Тип</TableHead>
-                <TableHead className="text-muted-foreground">Категория</TableHead>
-                <TableHead className="text-muted-foreground">Контакты</TableHead>
-                <TableHead className="text-muted-foreground">Дела</TableHead>
-                <TableHead className="text-muted-foreground">Доход</TableHead>
-                <TableHead className="text-muted-foreground">Последний контакт</TableHead>
-                <TableHead className="text-muted-foreground">Статус</TableHead>
-                <TableHead className="text-right text-muted-foreground">Действия</TableHead>
+                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.CLIENT')}</TableHead>
+                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.TYPE')}</TableHead>
+                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.CATEGORY')}</TableHead>
+                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.CONTACTS')}</TableHead>
+                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.CASES')}</TableHead>
+                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.REVENUE')}</TableHead>
+                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.LAST_CONTACT')}</TableHead>
+                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.STATUS')}</TableHead>
+                <TableHead className="text-right text-muted-foreground">{t('CLIENTS.FIELDS.ACTIONS')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -414,7 +416,7 @@ export function ClientsPage() {
                       <div>
                         <div className="tracking-tight mb-0.5">{client.name}</div>
                         <div className="text-xs text-muted-foreground">
-                          С {client.joinDate}
+                          {t('CLIENTS.SINCE')} {client.joinDate}
                         </div>
                       </div>
                     </div>
@@ -423,8 +425,8 @@ export function ClientsPage() {
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       {getTypeIcon(client.type)}
                       <span>
-                        {client.type === ClientTypeEnum.INDIVIDUAL ? 'Физ. лицо' :
-                          client.type === ClientTypeEnum.LEGAL ? 'Юр. лицо' : 'ИП'}
+                        {client.type === ClientTypeEnum.INDIVIDUAL ? t('CLIENTS.TYPES.INDIVIDUAL') :
+                          client.type === ClientTypeEnum.LEGAL ? t('CLIENTS.TYPES.LEGAL') : t('CLIENTS.TYPES.ENTREPRENEUR')}
                       </span>
                     </div>
                   </TableCell>
@@ -467,23 +469,23 @@ export function ClientsPage() {
                       items={[
                         {
                           icon: Eye,
-                          label: 'Профиль',
+                          label: t('CLIENTS.ACTIONS.PROFILE'),
                           onClick: () => { },
                         },
                         {
                           icon: Edit,
-                          label: 'Редактировать',
+                          label: t('CLIENTS.ACTIONS.EDIT'),
                           onClick: () => setIsEditClientDialogOpen(true),
                           separator: true,
                         },
                         {
                           icon: Mail,
-                          label: 'Написать',
+                          label: t('CLIENTS.ACTIONS.WRITE'),
                           onClick: () => { },
                         },
                         {
                           icon: Trash2,
-                          label: 'Удалить',
+                          label: t('CLIENTS.ACTIONS.DELETE'),
                           onClick: () => { },
                           variant: 'danger',
                           separator: true,
@@ -515,7 +517,7 @@ export function ClientsPage() {
                     </Avatar>
                     <div className="min-w-0">
                       <div className="tracking-tight text-sm truncate">{client.name}</div>
-                      <div className="text-xs text-muted-foreground">С {client.joinDate}</div>
+                      <div className="text-xs text-muted-foreground">{t('CLIENTS.SINCE')} {client.joinDate}</div>
                     </div>
                   </div>
                   {getCategoryBadge(client.category)}
@@ -525,8 +527,8 @@ export function ClientsPage() {
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     {getTypeIcon(client.type)}
                     <span>
-                      {client.type === ClientTypeEnum.INDIVIDUAL ? 'Физ. лицо' :
-                        client.type === ClientTypeEnum.LEGAL ? 'Юр. лицо' : 'ИП'}
+                      {client.type === ClientTypeEnum.INDIVIDUAL ? t('CLIENTS.TYPES.INDIVIDUAL') :
+                        client.type === ClientTypeEnum.LEGAL ? t('CLIENTS.TYPES.LEGAL') : t('CLIENTS.TYPES.ENTREPRENEUR')}
                     </span>
                     <span className="ml-auto">{getStatusBadge(client.status)}</span>
                   </div>
@@ -543,7 +545,7 @@ export function ClientsPage() {
                 <div className="flex items-center justify-between text-xs border-t border-border pt-3">
                   <div className="flex items-center gap-3">
                     <div>
-                      <span className="text-muted-foreground">Дела: </span>
+                      <span className="text-muted-foreground">{t('CLIENTS.FIELDS.CASES')}: </span>
                       <span className="text-blue-600">{client.activeCases}</span>
                       <span className="text-muted-foreground">/{client.totalCases}</span>
                     </div>

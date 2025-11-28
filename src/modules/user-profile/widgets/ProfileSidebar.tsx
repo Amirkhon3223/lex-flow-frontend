@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Mail, Phone, MapPin, Upload, LogOut, Trash2, Briefcase } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { AvatarCropperModal } from '@/modules/user-profile/ui/AvatarCropperModal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
@@ -12,6 +13,7 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
   stats: Array<{ label: string; value: string; icon: typeof Briefcase; color: string }>;
   onLogout: () => void;
 }) {
+  const { t } = useI18n();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [cropperOpen, setCropperOpen] = useState(false);
@@ -87,7 +89,7 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
           </h3>
           <p className="text-xs sm:text-sm text-muted-foreground mb-2">{profileData.position}</p>
           <Badge className="bg-purple-100 text-purple-700 border-0 mb-3 sm:mb-4 text-xs sm:text-sm">
-            Pro аккаунт
+            {t('USER_PROFILE.ACCOUNT_TYPE')}
           </Badge>
 
           <Separator className="my-3 sm:my-4 bg-border" />
@@ -111,7 +113,7 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
 
       <Card>
         <div>
-          <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Статистика</h3>
+          <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('USER_PROFILE.STATISTICS')}</h3>
           <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-4">
             {stats.map((stat, index) => (
               <div key={index} className="flex items-center justify-between">
@@ -130,32 +132,32 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
 
       <Card>
         <div>
-          <h3 className="text-base sm:text-lg tracking-tight mb-2">Сессия</h3>
+          <h3 className="text-base sm:text-lg tracking-tight mb-2">{t('USER_PROFILE.SESSION')}</h3>
           <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
-            Выйти из аккаунта на этом устройстве
+            {t('USER_PROFILE.SESSION_DESCRIPTION')}
           </p>
           <Button
             onClick={onLogout}
             className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-10"
           >
             <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
-            Выйти из аккаунта
+            {t('USER_PROFILE.LOGOUT')}
           </Button>
         </div>
       </Card>
 
       <Card className="bg-gradient-to-br from-red-500 to-red-600 border-0 shadow-lg shadow-red-500/20 text-white">
         <div>
-          <h3 className="text-base sm:text-lg tracking-tight mb-2">Удаление аккаунта</h3>
+          <h3 className="text-base sm:text-lg tracking-tight mb-2">{t('USER_PROFILE.DELETE_ACCOUNT')}</h3>
           <p className="text-xs sm:text-sm opacity-90 mb-3 sm:mb-4">
-            Это действие необратимо. Все ваши данные будут удалены.
+            {t('USER_PROFILE.DELETE_ACCOUNT_WARNING')}
           </p>
           <Button
             variant="outline"
             className="w-full border-white/20 text-white hover:bg-white/10 rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-10"
           >
             <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
-            Удалить аккаунт
+            {t('USER_PROFILE.DELETE_ACCOUNT_BUTTON')}
           </Button>
         </div>
       </Card>

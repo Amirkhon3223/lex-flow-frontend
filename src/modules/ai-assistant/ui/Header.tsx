@@ -1,7 +1,9 @@
 import { Sparkles, Zap } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 
 export function Header() {
+  const { t } = useI18n();
   return (
     <header className="relative bg-card border-b border-border rounded-xl">
       <div className="p-3 sm:p-4">
@@ -11,16 +13,16 @@ export function Header() {
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5} />
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">AI Помощник</h1>
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">{t('AI_ASSISTANT.HEADER.TITLE')}</h1>
               <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">
-                Интеллектуальный анализ и помощь юристу
+                {t('AI_ASSISTANT.HEADER.SUBTITLE')}
               </p>
             </div>
           </div>
 
           <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 text-xs sm:text-sm flex-shrink-0">
             <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 mr-1 sm:mr-1.5" strokeWidth={2} />
-            <span className="hidden sm:inline">Премиум доступ</span>
+            <span className="hidden sm:inline">{t('AI_ASSISTANT.HEADER.PREMIUM_ACCESS')}</span>
             <span className="sm:hidden">Pro</span>
           </Badge>
         </div>

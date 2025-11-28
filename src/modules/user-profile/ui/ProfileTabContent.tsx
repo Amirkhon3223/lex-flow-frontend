@@ -1,3 +1,4 @@
+import { useI18n } from '@/shared/context/I18nContext';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import {
@@ -25,14 +26,15 @@ interface ProfileTabContentProps {
 }
 
 export function ProfileTabContent({ profileData, handleProfileChange }: ProfileTabContentProps) {
+  const { t } = useI18n();
   return (
     <div className="space-y-4 sm:space-y-6">
       <div>
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Личная информация</h3>
+        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('USER_PROFILE.PERSONAL_INFO')}</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <div className="space-y-1.5 sm:space-y-2">
             <Label htmlFor="lastName" className="text-xs sm:text-sm text-gray-600">
-              Фамилия
+              {t('USER_PROFILE.LAST_NAME')}
             </Label>
             <Input
               id="lastName"
@@ -43,7 +45,7 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
           </div>
           <div className="space-y-1.5 sm:space-y-2">
             <Label htmlFor="firstName" className="text-xs sm:text-sm text-gray-600">
-              Имя
+              {t('USER_PROFILE.FIRST_NAME')}
             </Label>
             <Input
               id="firstName"
@@ -54,7 +56,7 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
           </div>
           <div className="space-y-1.5 sm:space-y-2 sm:col-span-2 lg:col-span-1">
             <Label htmlFor="middleName" className="text-xs sm:text-sm text-gray-600">
-              Отчество
+              {t('USER_PROFILE.MIDDLE_NAME')}
             </Label>
             <Input
               id="middleName"
@@ -69,11 +71,11 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
       <Separator className="bg-gray-100" />
 
       <div>
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Контактные данные</h3>
+        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('USER_PROFILE.CONTACT_INFO')}</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div className="space-y-1.5 sm:space-y-2">
             <Label htmlFor="email" className="text-xs sm:text-sm text-gray-600">
-              Email
+              {t('USER_PROFILE.EMAIL')}
             </Label>
             <Input
               id="email"
@@ -85,7 +87,7 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
           </div>
           <div className="space-y-1.5 sm:space-y-2">
             <Label htmlFor="phone" className="text-xs sm:text-sm text-gray-600">
-              Телефон
+              {t('USER_PROFILE.PHONE')}
             </Label>
             <Input
               id="phone"
@@ -100,12 +102,12 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
       <Separator className="bg-gray-100" />
 
       <div>
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Профессиональная информация</h3>
+        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('USER_PROFILE.PROFESSIONAL_INFO')}</h3>
         <div className="space-y-3 sm:space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="space-y-1.5 sm:space-y-2">
               <Label htmlFor="position" className="text-xs sm:text-sm text-gray-600">
-                Должность
+                {t('USER_PROFILE.POSITION')}
               </Label>
               <Input
                 id="position"
@@ -116,7 +118,7 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
             </div>
             <div className="space-y-1.5 sm:space-y-2">
               <Label htmlFor="specialization" className="text-xs sm:text-sm text-gray-600">
-                Специализация
+                {t('USER_PROFILE.SPECIALIZATION')}
               </Label>
               <Select
                 value={profileData.specialization}
@@ -126,17 +128,17 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="rounded-lg sm:rounded-xl">
-                  <SelectItem value="Трудовое право">Трудовое право</SelectItem>
-                  <SelectItem value="Договорное право">Договорное право</SelectItem>
-                  <SelectItem value="Семейное право">Семейное право</SelectItem>
-                  <SelectItem value="Уголовное право">Уголовное право</SelectItem>
+                  <SelectItem value="Трудовое право">{t('PRACTICE_TYPES.LABOR_DISPUTES')}</SelectItem>
+                  <SelectItem value="Договорное право">{t('PRACTICE_TYPES.CONTRACT_LAW')}</SelectItem>
+                  <SelectItem value="Семейное право">{t('PRACTICE_TYPES.FAMILY_LAW')}</SelectItem>
+                  <SelectItem value="Уголовное право">{t('PRACTICE_TYPES.CRIMINAL_LAW')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <div className="space-y-1.5 sm:space-y-2">
             <Label htmlFor="company" className="text-xs sm:text-sm text-gray-600">
-              Компания
+              {t('USER_PROFILE.COMPANY')}
             </Label>
             <Input
               id="company"
@@ -147,7 +149,7 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
           </div>
           <div className="space-y-1.5 sm:space-y-2">
             <Label htmlFor="address" className="text-xs sm:text-sm text-gray-600">
-              Адрес офиса
+              {t('USER_PROFILE.OFFICE_ADDRESS')}
             </Label>
             <Input
               id="address"

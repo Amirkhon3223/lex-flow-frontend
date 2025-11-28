@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { MessageSquare, Send } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Button } from '@/shared/ui/button';
 import {
@@ -32,6 +33,7 @@ interface CommentsDialogProps {
 }
 
 export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogProps) {
+  const { t } = useI18n();
   const [newComment, setNewComment] = useState('');
 
 
@@ -75,7 +77,7 @@ export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogP
             <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
               <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400" strokeWidth={2} />
             </div>
-            Комментарии ({comments.length})
+            {t('COMMENTS.TITLE')} ({comments.length})
           </DialogTitle>
         </DialogHeader>
 
@@ -113,7 +115,7 @@ export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogP
 
           <form onSubmit={handleSubmit} className="space-y-3">
             <Textarea
-              placeholder="Добавьте комментарий..."
+              placeholder={t('COMMENTS.ADD_PLACEHOLDER')}
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               className="min-h-[100px] rounded-xl border-input focus-visible:ring-blue-500 resize-none"
@@ -126,7 +128,7 @@ export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogP
                 onClick={() => onOpenChange(false)}
                 className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
               >
-                Закрыть
+                {t('COMMON.ACTIONS.CLOSE')}
               </Button>
               <Button
                 type="submit"
@@ -134,7 +136,7 @@ export function CommentsDialog({ open, onOpenChange, onSubmit }: CommentsDialogP
                 className="flex-1 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md disabled:opacity-50"
               >
                 <Send className="w-4 h-4 mr-2" strokeWidth={2} />
-                Отправить
+                {t('COMMENTS.SEND')}
               </Button>
             </div>
           </form>

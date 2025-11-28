@@ -5,11 +5,13 @@ import type { DocumentInterface } from '@/app/types/documents/documents.interfac
 import { DocumentCard } from '@/modules/documents/ui/DocumentCard';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { StatCard } from '@/shared/ui/stat-card';
 
 
 export function DocumentsPage() {
+  const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
@@ -128,10 +130,10 @@ export function DocumentsPage() {
   });
 
   const stats = [
-    { label: 'Всего', value: documents.length, icon: FileText, color: 'text-blue-500' },
-    { label: 'На проверке', value: documents.filter(d => d.status === DocumentStatusEnum.REVIEW).length, icon: Clock, color: 'text-amber-500' },
-    { label: 'Избранные', value: documents.filter(d => d.starred).length, icon: Star, color: 'text-yellow-500' },
-    { label: 'Черновиков', value: documents.filter(d => d.status === DocumentStatusEnum.DRAFT).length, icon: Filter, color: 'text-muted-foreground' },
+    { label: t('DOCUMENTS.STATS.TOTAL'), value: documents.length, icon: FileText, color: 'text-blue-500' },
+    { label: t('DOCUMENTS.STATS.ON_REVIEW'), value: documents.filter(d => d.status === DocumentStatusEnum.REVIEW).length, icon: Clock, color: 'text-amber-500' },
+    { label: t('DOCUMENTS.STATS.FAVORITES'), value: documents.filter(d => d.starred).length, icon: Star, color: 'text-yellow-500' },
+    { label: t('DOCUMENTS.STATS.DRAFTS'), value: documents.filter(d => d.status === DocumentStatusEnum.DRAFT).length, icon: Filter, color: 'text-muted-foreground' },
   ];
 
   return (
@@ -147,8 +149,8 @@ export function DocumentsPage() {
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">Документы</h1>
-                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">Управление всеми документами</p>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">{t('DOCUMENTS.TITLE')}</h1>
+                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">{t('DOCUMENTS.SUBTITLE')}</p>
               </div>
             </div>
 
@@ -157,7 +159,7 @@ export function DocumentsPage() {
               onClick={() => setIsUploadDialogOpen(true)}
             >
               <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-              Загрузить документ
+              {t('DOCUMENTS.UPLOAD_DOCUMENT')}
             </Button>
           </div>
 
@@ -177,34 +179,34 @@ export function DocumentsPage() {
             searchConfig={{
               value: searchQuery,
               onChange: setSearchQuery,
-              placeholder: 'Поиск документов...',
+              placeholder: t('DOCUMENTS.SEARCH_PLACEHOLDER'),
               className: 'flex-1',
             }}
             filters={[
               {
                 value: filterCategory,
                 onChange: setFilterCategory,
-                placeholder: 'Категория',
+                placeholder: t('DOCUMENTS.FIELDS.TYPE'),
                 width: 'w-[200px]',
                 icon: Filter,
                 options: [
-                  { value: 'all', label: 'Все категории' },
-                  { value: 'legal', label: 'Иски' },
-                  { value: 'contract', label: 'Договоры' },
-                  { value: 'administrative', label: 'Административные' },
+                  { value: 'all', label: t('DOCUMENTS.FILTERS.ALL_CATEGORIES') },
+                  { value: 'legal', label: t('DOCUMENTS.FILTERS.LEGAL') },
+                  { value: 'contract', label: t('DOCUMENTS.FILTERS.CONTRACTS') },
+                  { value: 'administrative', label: t('DOCUMENTS.FILTERS.ADMINISTRATIVE') },
                 ],
               },
               {
                 value: sortBy,
                 onChange: setSortBy,
-                placeholder: 'Сортировка',
+                placeholder: t('DOCUMENTS.FILTERS.SORT_BY'),
                 width: 'w-[180px]',
                 icon: ArrowUpDown,
                 options: [
-                  { value: 'date', label: 'По дате' },
-                  { value: 'name', label: 'По названию' },
-                  { value: 'size', label: 'По размеру' },
-                  { value: 'versions', label: 'По версиям' },
+                  { value: 'date', label: t('DOCUMENTS.FILTERS.SORT_BY_DATE') },
+                  { value: 'name', label: t('DOCUMENTS.FILTERS.SORT_BY_NAME') },
+                  { value: 'size', label: t('DOCUMENTS.FILTERS.SORT_BY_SIZE') },
+                  { value: 'versions', label: t('DOCUMENTS.FILTERS.SORT_BY_VERSIONS') },
                 ],
               },
             ]}

@@ -1,6 +1,7 @@
 import { Briefcase } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import { useI18n } from '@/shared/context/I18nContext';
 
 interface MeetingCaseCardProps {
   caseName: string;
@@ -8,11 +9,12 @@ interface MeetingCaseCardProps {
 
 export function MeetingCaseCard({ caseName }: MeetingCaseCardProps) {
   const navigate = useNavigate();
+  const { t } = useI18n();
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm sm:text-base md:text-lg">Связанное дело</CardTitle>
+        <CardTitle className="text-sm sm:text-base md:text-lg">{t('CALENDAR.MEETING_DETAILS.RELATED_CASE')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div
@@ -25,7 +27,7 @@ export function MeetingCaseCard({ caseName }: MeetingCaseCardProps) {
             </div>
             <div className="flex-1 min-w-0">
               <div className="font-medium text-xs sm:text-sm mb-1">{caseName}</div>
-              <div className="text-xs text-muted-foreground">Посмотреть дело →</div>
+              <div className="text-xs text-muted-foreground">{t('CALENDAR.MEETING_DETAILS.VIEW_CASE')}</div>
             </div>
           </div>
         </div>

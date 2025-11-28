@@ -1,11 +1,14 @@
 import type { UpcomingMeetingsProps } from "@/app/types/calendar/calendar.interfaces.ts";
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function UpcomingMeetings({ meetings, onSelectDate }: UpcomingMeetingsProps) {
+  const { t } = useI18n();
+
   return (
     <Card>
-      <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">Предстоящие встречи</h3>
+      <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('CALENDAR.UPCOMING_MEETINGS')}</h3>
 
       <div className="space-y-2 sm:space-y-3">
         {meetings.slice(0, 3).map((meeting) => (

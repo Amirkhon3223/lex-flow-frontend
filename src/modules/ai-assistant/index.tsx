@@ -11,6 +11,7 @@ import {
 import { MessageTypeEnum, AnalysisStatusEnum, InsightTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums';
 import type { ChatMessageInterface, RecentAnalysisInterface } from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
@@ -30,36 +31,7 @@ export function AIAssistantView() {
     // TODO: Добавить логику обработки загруженного документа
   };
 
-  const features = [
-    {
-      icon: FileText,
-      title: 'Анализ документов',
-      description: 'Проверка юридической корректности, выявление рисков',
-      gradient: 'from-blue-500 to-blue-600',
-      count: '156',
-    },
-    {
-      icon: Scale,
-      title: 'Судебная практика',
-      description: 'Поиск релевантных прецедентов и решений',
-      gradient: 'from-purple-500 to-purple-600',
-      count: '2.5k',
-    },
-    {
-      icon: BookOpen,
-      title: 'Правовая база',
-      description: 'Ссылки на нормативные акты и законодательство',
-      gradient: 'from-green-500 to-green-600',
-      count: '10k+',
-    },
-    {
-      icon: Lightbulb,
-      title: 'Рекомендации',
-      description: 'Советы по стратегии ведения дела',
-      gradient: 'from-amber-500 to-amber-600',
-      count: 'AI',
-    },
-  ];
+  // features are UI labels — use translations (titles/descriptions)
 
   const chatHistory: ChatMessageInterface[] = [
     {
@@ -121,6 +93,39 @@ export function AIAssistantView() {
     },
   ];
 
+  const { t } = useI18n();
+
+  const features = [
+    {
+      icon: FileText,
+      title: t('AI_ASSISTANT.FEATURES.ANALYZE_DOCUMENT'),
+      description: t('AI_ASSISTANT.FEATURES.ANALYZE_DESCRIPTION'),
+      gradient: 'from-blue-500 to-blue-600',
+      count: '156',
+    },
+    {
+      icon: Scale,
+      title: t('AI_ASSISTANT.FEATURES.PRACTICE'),
+      description: t('AI_ASSISTANT.FEATURES.PRACTICE_DESCRIPTION'),
+      gradient: 'from-purple-500 to-purple-600',
+      count: '2.5k',
+    },
+    {
+      icon: BookOpen,
+      title: t('AI_ASSISTANT.FEATURES.LEGAL_BASE'),
+      description: t('AI_ASSISTANT.FEATURES.LEGAL_BASE_DESCRIPTION'),
+      gradient: 'from-green-500 to-green-600',
+      count: '10k+',
+    },
+    {
+      icon: Lightbulb,
+      title: t('AI_ASSISTANT.FEATURES.RECOMMENDATIONS'),
+      description: t('AI_ASSISTANT.FEATURES.RECOMMENDATIONS_DESCRIPTION'),
+      gradient: 'from-amber-500 to-amber-600',
+      count: 'AI',
+    },
+  ];
+
   return (
     <div>
       <Header />
@@ -133,21 +138,21 @@ export function AIAssistantView() {
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
             >
               <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Чат с AI</span>
+              <span className="hidden sm:inline">{t('AI_ASSISTANT.TABS.CHAT')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="analyze"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
             >
               <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Анализ документов</span>
+              <span className="hidden sm:inline">{t('AI_ASSISTANT.TABS.ANALYZE')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="research"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
             >
               <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Исследование</span>
+              <span className="hidden sm:inline">{t('AI_ASSISTANT.TABS.RESEARCH')}</span>
             </TabsTrigger>
           </TabsList>
 
@@ -175,17 +180,17 @@ export function AIAssistantView() {
                   <Upload className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" strokeWidth={2} />
                 </div>
                 <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-1.5 sm:mb-2">
-                  Загрузите документ для анализа
+                  {t('AI_ASSISTANT.ANALYZE.UPLOAD_TITLE')}
                 </h3>
                 <p className="text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-xs sm:text-sm md:text-base">
-                  AI проверит юридическую корректность, выявит риски и даст рекомендации
+                  {t('AI_ASSISTANT.ANALYZE.DESCRIPTION')}
                 </p>
                 <Button
                   onClick={() => setUploadDialogOpen(true)}
                   className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg sm:rounded-xl shadow-lg shadow-purple-500/30 text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-3 sm:px-4"
                 >
                   <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
-                  Выбрать документ
+                  {t('COMMON.ACTIONS.UPLOAD')}
                 </Button>
               </div>
             </Card>
@@ -195,7 +200,7 @@ export function AIAssistantView() {
             <Card>
               <div className="max-w-2xl mx-auto w-full">
                 <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-4 sm:mb-5 md:mb-6 text-center">
-                  Поиск в правовой базе и судебной практике
+                  {t('AI_ASSISTANT.RESEARCH.TITLE')}
                 </h3>
                 <div className="relative mb-4 sm:mb-6 md:mb-8">
                   <Search
@@ -203,7 +208,7 @@ export function AIAssistantView() {
                     strokeWidth={2}
                   />
                   <Input
-                    placeholder="Введите запрос для поиска..."
+                    placeholder={t('AI_ASSISTANT.RESEARCH.SEARCH_PLACEHOLDER')}
                     className="h-10 sm:h-12 md:h-14 pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 rounded-xl sm:rounded-2xl border-input focus-visible:ring-purple-500 text-sm sm:text-base md:text-lg"
                   />
                 </div>
@@ -213,14 +218,14 @@ export function AIAssistantView() {
                     className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-input hover:bg-purple-500/10 hover:border-purple-500/20 justify-start text-xs sm:text-sm"
                   >
                     <Scale className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-purple-500" strokeWidth={2} />
-                    <span>Судебная практика</span>
+                    <span>{t('AI_ASSISTANT.RESEARCH.BUTTONS.PRACTICE')}</span>
                   </Button>
                   <Button
                     variant="outline"
                     className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-input hover:bg-blue-500/10 hover:border-blue-500/20 justify-start text-xs sm:text-sm"
                   >
                     <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-blue-500" strokeWidth={2} />
-                    <span>Законодательство</span>
+                    <span>{t('AI_ASSISTANT.RESEARCH.BUTTONS.LEGISLATION')}</span>
                   </Button>
                 </div>
               </div>

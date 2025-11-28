@@ -264,7 +264,7 @@ export function CalendarPage() {
               </div>
               <div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">{t('CALENDAR.TITLE')}</h1>
-                <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">{t('CALENDAR.SUBTITLE') || t('CALENDAR.MEETINGS')}</p>
+                <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">{t('CALENDAR.SUBTITLE')}</p>
               </div>
             </div>
 

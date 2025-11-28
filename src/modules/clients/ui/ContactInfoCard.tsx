@@ -1,14 +1,17 @@
 import { Mail, Phone, MapPin, Calendar, Edit } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import type { ContactInfoCardProps } from '@/app/types/clients/clients.interfaces';
 import { getIconBgColor } from '@/shared/lib/color-utils';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 export function ContactInfoCard({ contactInfo, onEdit }: ContactInfoCardProps) {
+  const { t } = useI18n();
+  
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-base sm:text-lg">Контактная информация</CardTitle>
+        <CardTitle className="text-base sm:text-lg">{t('CLIENTS.FIELDS.CONTACT_INFO')}</CardTitle>
         <Button variant="ghost" size="icon" onClick={onEdit} className="h-8 w-8 sm:h-10 sm:w-10">
           <Edit className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
         </Button>
@@ -19,7 +22,7 @@ export function ContactInfoCard({ contactInfo, onEdit }: ContactInfoCardProps) {
             <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-600" />
           </div>
           <div className="min-w-0">
-            <div className="text-xs sm:text-sm text-muted-foreground">Email</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">{t('CLIENTS.FIELDS.EMAIL')}</div>
             <div className="font-medium text-sm sm:text-base truncate">{contactInfo.email}</div>
           </div>
         </div>
@@ -28,7 +31,7 @@ export function ContactInfoCard({ contactInfo, onEdit }: ContactInfoCardProps) {
             <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-600" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm text-muted-foreground">Телефон</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">{t('CLIENTS.FIELDS.PHONE')}</div>
             <div className="font-medium text-sm sm:text-base">{contactInfo.phone}</div>
           </div>
         </div>
@@ -37,7 +40,7 @@ export function ContactInfoCard({ contactInfo, onEdit }: ContactInfoCardProps) {
             <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-purple-600" />
           </div>
           <div className="min-w-0">
-            <div className="text-xs sm:text-sm text-muted-foreground">Адрес</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">{t('CLIENTS.FIELDS.ADDRESS')}</div>
             <div className="font-medium text-sm sm:text-base">{contactInfo.address}</div>
           </div>
         </div>
@@ -46,7 +49,7 @@ export function ContactInfoCard({ contactInfo, onEdit }: ContactInfoCardProps) {
             <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-orange-600" />
           </div>
           <div>
-            <div className="text-xs sm:text-sm text-muted-foreground">Дата рождения</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">{t('CLIENTS.FIELDS.BIRTH_DATE')}</div>
             <div className="font-medium text-sm sm:text-base">{contactInfo.birthDate}</div>
           </div>
         </div>

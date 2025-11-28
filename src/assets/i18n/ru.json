@@ -4,6 +4,8 @@
       "VIEW": "Открыть",
       "OPEN": "Открыть",
       "EDIT": "Редактировать",
+      "COPY_LINK": "Скопировать ссылку",
+      "SHARE_EMAIL": "Поделиться по почте",
       "DELETE": "Удалить",
       "ARCHIVE": "В архив",
       "SAVE": "Сохранить",
@@ -27,6 +29,10 @@
       "RESTORE": "Восстановить",
       "BACK": "Назад",
       "PREVIEW": "Просмотр"
+    },
+    "OF": "из",
+    "COMMENTS": {
+      "ADD": "Добавить комментарий"
     },
     "STATUS": {
       "URGENT": "Срочно",
@@ -100,8 +106,7 @@
     },
     "RECENT_ACTIVITY": {
       "TITLE": "Недавняя активность"
-    }
-    ,
+    },
     "AI_INSIGHTS": {
       "TITLE": "AI Инсайты",
       "RECOMMENDATION_UPDATE_CONTRACT": "Рекомендуется обновить договор для клиента ООО \"ТехноСтрой\"",
@@ -163,6 +168,9 @@
       "DOCUMENTS": "Документы",
       "ACTIONS": "Действия"
     },
+    "COMMENTS": {
+      "ADD": "Добавить комментарий"
+    },
     "EDIT_DIALOG": {
       "TITLE": "Редактировать дело",
       "SAVE": "Сохранить изменения",
@@ -189,8 +197,7 @@
       "CLIENT_INFO": "Информация о клиенте",
       "CASE_PROGRESS": "Прогресс дела",
       "AI_INSIGHTS": "AI-анализ"
-    }
-    ,
+    },
     "TABS": {
       "DOCUMENTS": "Документы",
       "TIMELINE": "История",
@@ -198,7 +205,8 @@
     },
     "DOC_VERSION": {
       "SINGULAR": "версия",
-      "PLURAL": "версии"
+      "PLURAL": "версии",
+      "SHORT": "верс."
     },
     "NOTES": {
       "PLACEHOLDER": "Добавьте заметки о деле...",
@@ -220,8 +228,7 @@
       "TOTAL_CASES": "Всего дел",
       "ACTIVE": "активных",
       "PROFILE": "Профиль клиента"
-    }
-    ,
+    },
     "SHARE": {
       "SUBJECT": "Поделиться делом",
       "BODY": "Посмотрите это дело: {{url}}"
@@ -231,6 +238,9 @@
     "TITLE": "Клиенты",
     "SUBTITLE": "База клиентов и контакты",
     "NEW_CLIENT": "Новый клиент",
+    "CREATE_CLIENT": "Создать клиента",
+    "SELECT_CATEGORY": "Выберите категорию",
+    "NOTES_PLACEHOLDER": "Дополнительная информация о клиенте...",
     "ALL_CLIENTS": "Все клиенты",
     "SEARCH_PLACEHOLDER": "Поиск клиентов...",
     "TOTAL_CLIENTS": "Всего клиентов",
@@ -278,6 +288,12 @@
       "PREMIUM": "Премиум",
       "STANDARD": "Стандарт"
     },
+    "CATEGORY": {
+      "VIP": "VIP клиент",
+      "REGULAR": "Постоянный",
+      "NEW": "Новый",
+      "POTENTIAL": "Потенциальный"
+    },
     "STATUS": {
       "ACTIVE": "Активен",
       "INACTIVE": "Неактивен",
@@ -290,6 +306,9 @@
       "EMAIL": "Email",
       "PHONE": "Телефон",
       "COMPANY": "Компания",
+      "COMPANY_NAME": "Название компании",
+      "INN": "ИНН",
+      "KPP": "КПП",
       "STATUS": "Статус",
       "CONTACT_INFO": "Контактная информация",
       "FINANCIAL_INFO": "Финансовая информация",
@@ -302,7 +321,8 @@
       "LAST_CONTACT": "Последний контакт",
       "ACTIONS": "Действия",
       "ADDRESS": "Адрес",
-      "BIRTH_DATE": "Дата рождения"
+      "BIRTH_DATE": "Дата рождения",
+      "NOTES": "Примечания"
     },
     "FINANCIAL": {
       "TITLE": "Финансы",
@@ -316,6 +336,21 @@
       "EDIT": "Редактировать",
       "WRITE": "Написать",
       "DELETE": "Удалить"
+    },
+    "EDIT_DIALOG": {
+      "TITLE": "Редактирование клиента",
+      "DESCRIPTION": "Обновите информацию о клиенте. Все изменения будут сохранены в истории.",
+      "PERSONAL_INFO": "Личные данные",
+      "ADDITIONAL_INFO": "Дополнительно",
+      "CLIENT_TYPE": "Тип клиента",
+      "SELECT_TYPE": "Выберите тип",
+      "SOURCE": "Источник",
+      "SELECT_SOURCE": "Выберите источник",
+      "CORPORATE": "Корпоративный",
+      "SOURCE_WEBSITE": "Сайт",
+      "SOURCE_REFERRAL": "Рекомендация",
+      "SOURCE_ADVERTISING": "Реклама",
+      "SAVE_CHANGES": "Сохранить изменения"
     }
   },
   "DOCUMENTS": {
@@ -334,6 +369,7 @@
     "VERSION_COMPARISON": "Сравнение версий",
     "UPLOAD_NEW_VERSION": "Загрузить новую версию",
     "CURRENT_VERSION": "Текущая версия",
+    "EMPTY_STATE": "Документов нет",
     "VERSION_HISTORY": "История версий документа",
     "VERSIONS_CREATED": "Всего создано",
     "VERSION": "Версия",
@@ -357,6 +393,12 @@
     "EXIT_FULLSCREEN": "Выйти из полного экрана",
     "LINE": "Строка",
     "VIEW_DETAILS": "Вы можете просмотреть, скачать или сравнить любые версии",
+    "STATS": {
+      "TOTAL": "Всего",
+      "ON_REVIEW": "На проверке",
+      "FAVORITES": "Избранные",
+      "DRAFTS": "Черновиков"
+    },
     "FILTERS": {
       "ALL_CATEGORIES": "Все категории",
       "LEGAL": "Иски",
@@ -372,6 +414,14 @@
       "FINAL": "Финал",
       "REVIEW": "Проверка",
       "DRAFT": "Черновик"
+    },
+    "ACTIONS": {
+      "OPEN": "Открыть",
+      "DOWNLOAD": "Скачать",
+      "DELETE": "Удалить",
+      "VIEW": "Просмотр",
+      "VIEW_DETAILS": "Просмотреть",
+      "COMPARE": "Сравнить"
     },
     "FIELDS": {
       "NAME": "Название",
@@ -395,6 +445,26 @@
     "UPCOMING_MEETINGS": "Предстоящие встречи",
     "TODAY": "Сегодня",
     "QUICK_ACTIONS": "Быстрые действия",
+    "ACTIONS": {
+      "MARK_COMPLETE": "Отметить как завершённую",
+      "RESCHEDULE": "Перенести встречу",
+      "CANCEL": "Отменить встречу"
+    },
+    "MESSAGES": {
+      "COMPLETED": "Встреча отмечена как завершённая",
+      "CANCELLED": "Встреча отменена",
+      "NO_MEETINGS_TODAY": "Нет встреч на эту дату",
+      "SELECT_DATE": "Выберите дату"
+    },
+    "MEETING_STATUS": {
+      "MEETING": "встреча",
+      "MEETINGS": "встречи"
+    },
+    "PRIORITY": {
+      "HIGH": "Срочно",
+      "MEDIUM": "Средний",
+      "LOW": "Низкий"
+    },
     "FIELDS": {
       "TITLE": "Название",
       "DATE": "Дата",
@@ -427,21 +497,140 @@
     "VIEW": {
       "DAY": "День",
       "WEEK": "Неделя",
-      "MONTH": "Месяц"
+      "MONTH": "Месяц",
+      "CALENDAR": "Календарь",
+      "LIST": "Список"
+    },
+    "MEETING_TYPE": {
+      "VIDEO": "Видеовстреча",
+      "PHONE": "Телефонный звонок",
+      "IN_PERSON": "Личная встреча"
+    },
+    "MEETING_DETAILS": {
+      "DURATION": "Длительность",
+      "LOCATION": "Место",
+      "DESCRIPTION": "Описание",
+      "NOTES": "Заметки",
+      "NO_NOTES": "Заметок пока нет",
+      "ADD_NOTE": "Добавить заметку",
+      "PARTICIPANTS": "Участники",
+      "CLIENT": "Клиент",
+      "RELATED_CASE": "Связанное дело",
+      "VIEW_PROFILE": "Посмотреть профиль →",
+      "VIEW_CASE": "Посмотреть дело →",
+      "PARTICIPANT": "Участник",
+      "EDIT": "Редактировать",
+      "DELETE": "Удалить",
+      "ALL_MEETINGS": "Все встречи"
+    },
+    "STATUS": {
+      "COMPLETED": "Завершено",
+      "CANCELLED": "Отменено",
+      "SCHEDULED": "Запланировано"
+    },
+    "PRIORITY_DETAILS": {
+      "HIGH": "Высокий приоритет",
+      "MEDIUM": "Средний приоритет",
+      "LOW": "Низкий приоритет"
+    },
+    "FORMS": {
+      "NEW_MEETING": "Новая встреча",
+      "SCHEDULE_MEETING": "Запланируйте встречу с клиентом",
+      "TITLE": "Название встречи",
+      "TITLE_PLACEHOLDER": "Консультация по делу",
+      "MEETING_TYPE": "Тип встречи",
+      "DATE": "Дата встречи",
+      "TIME": "Время встречи",
+      "SELECT_DATE": "Выберите дату",
+      "DURATION": "Длительность встречи",
+      "DURATION_15": "15 минут",
+      "DURATION_30": "30 минут",
+      "DURATION_45": "45 минут",
+      "DURATION_60": "1 час",
+      "DURATION_90": "1 час 30 минут",
+      "DURATION_120": "2 часа",
+      "REMINDER": "Напоминание",
+      "REMINDER_NONE": "Без напоминания",
+      "REMINDER_15": "За 15 минут",
+      "REMINDER_30": "За 30 минут",
+      "REMINDER_60": "За 1 час",
+      "REMINDER_1440": "За 1 день",
+      "LINK_OR_LOCATION": "Ссылка",
+      "LINK_OR_LOCATION_ALT": "Место встречи",
+      "LINK_PLACEHOLDER": "https://zoom.us/j/...",
+      "LOCATION_PLACEHOLDER": "Офис, кабинет 305",
+      "DESCRIPTION_PLACEHOLDER": "Дополнительная информация о встрече...",
+      "CREATE_MEETING": "Создать встречу"
     }
   },
   "ANALYTICS": {
     "TITLE": "Аналитика",
+    "SUBTITLE": "Обзор эффективности работы и статистики",
+    "EXPORT_REPORT": "Экспорт отчета",
+    "PERIODS": {
+      "WEEK": "Эта неделя",
+      "MONTH": "Этот месяц",
+      "QUARTER": "Квартал",
+      "YEAR": "Год"
+    },
+    "OVERVIEW_TAB": "Обзор",
     "TABS": {
       "CASES": "Дела",
       "FINANCE": "Финансы",
       "TEAM": "Команда"
     },
     "STATS": {
-      "TOTAL_REVENUE": "Общая выручка",
       "ACTIVE_CASES": "Активные дела",
+      "NEW_CLIENTS": "Новых клиентов",
+      "SUCCESSFUL_CASES": "Успешных дел",
+      "REVENUE_FOR_PERIOD": "Доход за период",
+      "TOTAL_REVENUE": "Общая выручка",
       "COMPLETED_CASES": "Завершенные дела",
       "SUCCESS_RATE": "Процент успеха"
+    },
+    "CASE_STATUS": {
+      "WON": "Выиграно",
+      "IN_PROGRESS": "В процессе",
+      "LOST": "Проиграно"
+    },
+    "CASES_BY_PRACTICE": "Дела по практикам",
+    "PRACTICE_TYPES": {
+      "LABOR_DISPUTES": "Трудовые споры",
+      "CONTRACT_LAW": "Договорное право",
+      "INHERITANCE": "Наследственные дела",
+      "FAMILY_LAW": "Семейное право",
+      "CRIMINAL_LAW": "Уголовное право",
+      "OTHER": "Прочее"
+    },
+    "PRACTICE_STATS": {
+      "TOTAL": "всего",
+      "WON": "выиграно",
+      "IN_PROGRESS": "в процессе",
+      "LOST": "проиграно"
+    },
+    "PAYMENT_STATS": {
+      "RECEIVED": "Получено оплат",
+      "PENDING": "Ожидается оплат",
+      "AVERAGE_CHECK": "Средний чек"
+    },
+    "REVENUE_SOURCES": "Доходы по источникам",
+    "REVENUE_SOURCE_TYPES": {
+      "CONSULTATIONS": "Консультации",
+      "REPRESENTATION": "Представительство",
+      "LEGAL_SUPPORT": "Юридическое сопровождение",
+      "OTHER": "Прочее"
+    },
+    "TOP_CLIENTS": "ТОП клиенты по доходу",
+    "TOP_LAWYERS": "Лучшие юристы",
+    "LAWYER_STATS": {
+      "CASES": "дел",
+      "SUCCESS_RATE": "Процент успеха",
+      "REVENUE": "дохода"
+    },
+    "CHARTS": {
+      "CASE_STATISTICS": "Статистика дел",
+      "CASE_TYPES": "Типы дел",
+      "REVENUE_DYNAMICS": "Динамика дохода"
     }
   },
   "AI_ASSISTANT": {
@@ -452,9 +641,44 @@
     "FEATURES": {
       "TITLE": "Возможности",
       "ANALYZE_DOCUMENT": "Анализ документов",
+      "ANALYZE_DESCRIPTION": "Проверка юридической корректности и выявление рисков",
+      "PRACTICE": "Судебная практика",
+      "PRACTICE_DESCRIPTION": "Поиск релевантных прецедентов и решений",
+      "LEGAL_BASE": "Правовая база",
+      "LEGAL_BASE_DESCRIPTION": "Ссылки на нормативные акты и законодательство",
+      "RECOMMENDATIONS": "Рекомендации",
+      "RECOMMENDATIONS_DESCRIPTION": "Советы по стратегии и дальнейшим шагам",
       "LEGAL_ADVICE": "Юридическая консультация",
       "SEARCH_CASES": "Поиск по делам",
       "DRAFT_DOCUMENT": "Составление документов"
+    },
+    "TABS": {
+      "CHAT": "Чат с AI",
+      "ANALYZE": "Анализ документов",
+      "RESEARCH": "Исследование"
+    },
+    "HEADER": {
+      "TITLE": "AI Помощник",
+      "SUBTITLE": "Интеллектуальный анализ и помощь юристу",
+      "PREMIUM_ACCESS": "Премиум доступ"
+    },
+    "CHAT": {
+      "TITLE": "Юридический ассистент",
+      "STATUS": "Всегда онлайн",
+      "MESSAGE_PLACEHOLDER": "Напишите ваш вопрос здесь...",
+      "COPY": "Копировать"
+    },
+    "ANALYZE": {
+      "UPLOAD_TITLE": "Загрузите документ для анализа",
+      "DESCRIPTION": "AI проверит юридическую корректность, выявит риски и даст рекомендации"
+    },
+    "RESEARCH": {
+      "TITLE": "Поиск в правовой базе и судебной практике",
+      "SEARCH_PLACEHOLDER": "Введите запрос для поиска...",
+      "BUTTONS": {
+        "PRACTICE": "Судебная практика",
+        "LEGISLATION": "Законодательство"
+      }
     },
     "QUICK_COMMANDS": {
       "TITLE": "Быстрые команды"
@@ -465,6 +689,7 @@
   },
   "SETTINGS": {
     "TITLE": "Настройки",
+    "SUBTITLE": "Управление настройками аккаунта и предпочтениями",
     "TABS": {
       "PROFILE": "Профиль",
       "ACCOUNT": "Аккаунт",
@@ -475,11 +700,43 @@
     },
     "PROFILE": {
       "PERSONAL_INFO": "Личная информация",
+      "FIRST_NAME": "Имя",
+      "LAST_NAME": "Фамилия",
       "FULL_NAME": "Полное имя",
       "EMAIL": "Email",
       "PHONE": "Телефон",
       "POSITION": "Должность",
-      "BIO": "О себе"
+      "BIO": "О себе",
+      "REGIONAL_SETTINGS": "Региональные настройки",
+      "LANGUAGE": "Язык",
+      "TIMEZONE": "Часовой пояс",
+      "SAVE_CHANGES": "Сохранить изменения"
+    },
+    "NOTIFICATIONS": {
+      "EMAIL": {
+        "TITLE": "Email-уведомления",
+        "NEW_CASES_LABEL": "Новые дела",
+        "NEW_CASES_DESC": "Получать уведомления о новых назначенных делах",
+        "DEADLINES_LABEL": "Приближающиеся дедлайны",
+        "DEADLINES_DESC": "Напоминания о приближающихся сроках по делам",
+        "DOCUMENTS_LABEL": "Обновления документов",
+        "DOCUMENTS_DESC": "Уведомления при добавлении или изменении документов",
+        "COMMENTS_LABEL": "Комментарии и упоминания",
+        "COMMENTS_DESC": "Когда кто-то комментирует или упоминает вас в деле",
+        "WEEKLY_REPORT_LABEL": "Еженедельная сводка",
+        "WEEKLY_REPORT_DESC": "Получать еженедельный отчет о ваших активностях",
+        "EMAIL_ALERTS_LABEL": "Важные оповещения",
+        "EMAIL_ALERTS_DESC": "Критические уведомления, требующие немедленного внимания"
+      },
+      "PUSH": {
+        "TITLE": "Push-уведомления",
+        "URGENT_LABEL": "Срочные дела",
+        "URGENT_DESC": "Мгновенные оповещения о высокоприоритетных делах",
+        "MEETINGS_LABEL": "Предстоящие встречи",
+        "MEETINGS_DESC": "Напоминания за 15 минут до запланированных встреч",
+        "MESSAGES_LABEL": "Новые сообщения",
+        "MESSAGES_DESC": "Уведомления о новых личных сообщениях"
+      }
     },
     "TEAM": {
       "INVITE_MEMBER": "Пригласить участника",
@@ -488,8 +745,18 @@
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Изменить пароль",
+      "CURRENT_PASSWORD": "Текущий пароль",
+      "NEW_PASSWORD": "Новый пароль",
+      "CONFIRM_PASSWORD": "Подтвердите пароль",
+      "UPDATE_PASSWORD": "Обновить пароль",
       "TWO_FACTOR": "Двухфакторная аутентификация",
+      "TWO_FACTOR_AUTH": "Двухфакторная аутентификация",
+      "TWO_FACTOR_ENABLED": "Двухфакторная аутентификация включена",
+      "TWO_FACTOR_DESC": "Ваш аккаунт защищен двухфакторной аутентификацией",
+      "DISABLE": "Отключить",
       "SESSIONS": "Активные сессии",
+      "ACTIVE_SESSIONS": "Активные сессии",
+      "ACTIVE_SESSIONS_DESC": "Управление устройствами, на которых вы вошли в систему",
       "CURRENT_SESSION": "Текущая сессия"
     }
   },
@@ -501,11 +768,45 @@
   },
   "USER_PROFILE": {
     "TITLE": "Профиль пользователя",
+    "SUBTITLE": "Управление вашим профилем и настройками",
     "EDIT_PROFILE": "Редактировать профиль",
     "CHANGE_AVATAR": "Изменить аватар",
+    "SAVE_CHANGES": "Сохранить изменения",
+    "PERSONAL_INFO": "Личная информация",
+    "FIRST_NAME": "Имя",
+    "LAST_NAME": "Фамилия",
+    "MIDDLE_NAME": "Отчество",
+    "CONTACT_INFO": "Контактная информация",
+    "EMAIL": "Email",
+    "PHONE": "Телефон",
+    "PROFESSIONAL_INFO": "Профессиональная информация",
+    "POSITION": "Должность",
+    "SPECIALIZATION": "Специализация",
+    "COMPANY": "Компания",
+    "OFFICE_ADDRESS": "Адрес офиса",
+    "STATS": {
+      "ACTIVE_CASES": "Активные дела",
+      "CLIENTS": "Клиенты",
+      "COMPLETED_CASES": "Завершённые дела",
+      "DAYS_IN_SYSTEM": "Дней в системе"
+    },
+    "SESSION": "Сессия",
+    "SESSION_DESCRIPTION": "Выйти из аккаунта на этом устройстве",
+    "LOGOUT": "Выйти из аккаунта",
+    "DELETE_ACCOUNT": "Удаление аккаунта",
+    "DELETE_ACCOUNT_WARNING": "Это действие необратимо. Все ваши данные будут удалены.",
+    "DELETE_ACCOUNT_BUTTON": "Удалить аккаунт",
+    "STATISTICS": "Статистика",
+    "ACCOUNT_TYPE": "Pro аккаунт",
     "TABS": {
       "PROFILE": "Профиль",
       "BILLING": "Оплата"
+    },
+    "AVATAR_CROPPER": {
+      "TITLE": "Обрезка изображения",
+      "DESCRIPTION": "Выберите область для аватарки. Область обрезки будет квадратной.",
+      "CANCEL": "Отмена",
+      "CONFIRM": "Подтвердить"
     }
   },
   "AUTH": {
@@ -521,5 +822,77 @@
     "SIGN_UP": "Зарегистрироваться",
     "OR": "или",
     "CONTINUE_WITH": "Продолжить с"
+  },
+  "TASKS": {
+    "NEW_TASK": "Новая задача",
+    "TASK_TITLE": "Название задачи",
+    "TASK_TITLE_PLACEHOLDER": "Например: Подготовить документы",
+    "CREATE_TASK": "Создать задачу"
+  },
+  "COMMENTS": {
+    "TITLE": "Комментарии",
+    "ADD_PLACEHOLDER": "Добавьте комментарий...",
+    "SEND": "Отправить"
+  },
+  "UPLOAD": {
+    "TITLE": "Загрузить документ",
+    "DRAG_DROP": "Перетащите файл сюда или",
+    "SELECT_FILE": "выберите файл",
+    "SUPPORTED_FORMATS": "Поддерживаются: PDF, DOC, DOCX, TXT, JPG, PNG (до 25 МБ)",
+    "DOCUMENT_NAME": "Название документа",
+    "DOCUMENT_NAME_PLACEHOLDER": "Исковое заявление",
+    "SELECT_CASE": "Выберите дело",
+    "DOCUMENT_TYPE": "Тип документа",
+    "DOCUMENT_TYPES": {
+      "LAWSUIT": "Иск",
+      "CONTRACT": "Договор",
+      "ORDER": "Приказ",
+      "POWER": "Доверенность",
+      "RESPONSE": "Возражение",
+      "OTHER": "Другое"
+    },
+    "NOTES": "Примечания",
+    "NOTES_PLACEHOLDER": "Краткое описание документа или важные заметки..."
+  },
+  "SEARCH": {
+    "GLOBAL": "Глобальный поиск",
+    "PLACEHOLDER": "Поиск клиентов, дел, документов...",
+    "DESCRIPTION": "Поиск по делам, клиентам и документам"
+  },
+  "PLAN": {
+    "TITLE": "Выберите план подписки",
+    "SUBTITLE": "Выберите подходящий тарифный план для вашей команды",
+    "POPULAR": "Популярный",
+    "SELECT_PLAN": "Выбрать план",
+    "BASIC": {
+      "NAME": "Basic",
+      "PRICE": "4 990 ₽",
+      "FEATURES": {
+        "CLIENTS": "До 50 клиентов",
+        "CASES": "До 100 дел",
+        "STORAGE": "10 ГБ хранилища",
+        "USERS": "1 пользователь"
+      }
+    },
+    "PRO": {
+      "NAME": "Pro",
+      "PRICE": "12 990 ₽",
+      "FEATURES": {
+        "CLIENTS": "Безлимит клиентов",
+        "CASES": "Безлимит дел",
+        "STORAGE": "100 ГБ хранилища",
+        "USERS": "До 5 пользователей"
+      }
+    },
+    "ENTERPRISE": {
+      "NAME": "Enterprise",
+      "PRICE": "По запросу",
+      "FEATURES": {
+        "CLIENTS": "Безлимит клиентов",
+        "CASES": "Безлимит дел",
+        "STORAGE": "Безлимит хранилища",
+        "USERS": "Безлимит пользователей"
+      }
+    }
   }
 }

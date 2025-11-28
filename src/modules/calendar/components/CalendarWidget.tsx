@@ -4,6 +4,7 @@ import type { CalendarWidgetProps } from '@/app/types/calendar/calendar.interfac
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import { Card } from '@/shared/ui/card';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function CalendarWidget({
   date,
@@ -13,10 +14,12 @@ export function CalendarWidget({
   meetingDates,
   meetings,
 }: CalendarWidgetProps) {
+  const { t } = useI18n();
+
   return (
     <Card className="lg:col-span-3">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg sm:text-xl tracking-tight">Календарь</h3>
+        <h3 className="text-lg sm:text-xl tracking-tight">{t('CALENDAR.CALENDAR')}</h3>
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -27,7 +30,7 @@ export function CalendarWidget({
               setDate(new Date());
             }}
           >
-            Сегодня
+            {t('CALENDAR.TODAY')}
           </Button>
           <div className="flex items-center gap-1">
             <Button
@@ -77,19 +80,19 @@ export function CalendarWidget({
           <div className="text-lg sm:text-2xl tracking-tight text-blue-600 dark:text-blue-400 mb-1">
             {meetings.filter(m => m.status === MeetingStatusEnum.SCHEDULED).length}
           </div>
-          <div className="text-xs text-blue-600 dark:text-blue-400">Запланировано</div>
+          <div className="text-xs text-blue-600 dark:text-blue-400">{t('CALENDAR.MEETING_STATUS.SCHEDULED')}</div>
         </div>
         <div className="p-2 sm:p-3 rounded-xl bg-green-500/10 text-center">
           <div className="text-lg sm:text-2xl tracking-tight text-green-600 dark:text-green-400 mb-1">
             {meetings.filter(m => m.status === MeetingStatusEnum.COMPLETED).length}
           </div>
-          <div className="text-xs text-green-600 dark:text-green-400">Завершено</div>
+          <div className="text-xs text-green-600 dark:text-green-400">{t('CALENDAR.MEETING_STATUS.COMPLETED')}</div>
         </div>
         <div className="p-2 sm:p-3 rounded-xl bg-muted/50 text-center">
           <div className="text-lg sm:text-2xl tracking-tight text-muted-foreground mb-1">
             {meetings.length}
           </div>
-          <div className="text-xs text-muted-foreground">Всего</div>
+          <div className="text-xs text-muted-foreground">{t('CALENDAR.MEETING_STATUS.TOTAL')}</div>
         </div>
       </div>
     </Card>

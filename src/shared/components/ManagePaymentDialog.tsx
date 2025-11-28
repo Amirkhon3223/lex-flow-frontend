@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CreditCard, Calendar } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -18,6 +19,7 @@ interface ManagePaymentDialogProps {
 }
 
 export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaymentDialogProps) {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     cardNumber: '',
     expiry: '',
@@ -39,16 +41,16 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
             <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center">
               <CreditCard className="w-6 h-6 text-green-600 dark:text-green-400" strokeWidth={2} />
             </div>
-            Способ оплаты
+            {t('SETTINGS.BILLING.PAYMENT_METHOD')}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Обновите информацию о платёжной карте
+            {t('SETTINGS.BILLING.UPDATE_CARD_INFO')}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="cardNumber">Номер карты</Label>
+            <Label htmlFor="cardNumber">{t('SETTINGS.BILLING.CARD_NUMBER')}</Label>
             <div className="relative">
               <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
               <Input
@@ -65,7 +67,7 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="expiry">Срок действия</Label>
+              <Label htmlFor="expiry">{t('SETTINGS.BILLING.EXPIRY_DATE')}</Label>
               <div className="relative">
                 <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
                 <Input
@@ -101,13 +103,13 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
               onClick={() => onOpenChange(false)}
               className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
-              Отмена
+              {t('COMMON.ACTIONS.CANCEL')}
             </Button>
             <Button
               type="submit"
               className="flex-1 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
             >
-              Сохранить
+              {t('COMMON.ACTIONS.SAVE')}
             </Button>
           </div>
         </form>

@@ -1,4 +1,5 @@
 import { Check, Zap } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import {
@@ -15,29 +16,30 @@ interface ChangePlanDialogProps {
   onSubmit?: (plan: string) => void;
 }
 
-const PLANS = [
+const PLAN_KEYS = [
   {
     id: 'basic',
-    name: 'Basic',
-    price: '4 990 ₽',
-    features: ['До 50 клиентов', 'До 100 дел', '10 ГБ хранилища', '1 пользователь'],
+    nameKey: 'PLAN.BASIC.NAME',
+    priceKey: 'PLAN.BASIC.PRICE',
+    featureKeys: ['PLAN.BASIC.FEATURES.CLIENTS', 'PLAN.BASIC.FEATURES.CASES', 'PLAN.BASIC.FEATURES.STORAGE', 'PLAN.BASIC.FEATURES.USERS'],
   },
   {
     id: 'pro',
-    name: 'Pro',
-    price: '12 990 ₽',
-    features: ['Безлимит клиентов', 'Безлимит дел', '100 ГБ хранилища', 'До 5 пользователей'],
+    nameKey: 'PLAN.PRO.NAME',
+    priceKey: 'PLAN.PRO.PRICE',
+    featureKeys: ['PLAN.PRO.FEATURES.CLIENTS', 'PLAN.PRO.FEATURES.CASES', 'PLAN.PRO.FEATURES.STORAGE', 'PLAN.PRO.FEATURES.USERS'],
     popular: true,
   },
   {
     id: 'enterprise',
-    name: 'Enterprise',
-    price: 'По запросу',
-    features: ['Безлимит клиентов', 'Безлимит дел', 'Безлимит хранилища', 'Безлимит пользователей'],
+    nameKey: 'PLAN.ENTERPRISE.NAME',
+    priceKey: 'PLAN.ENTERPRISE.PRICE',
+    featureKeys: ['PLAN.ENTERPRISE.FEATURES.CLIENTS', 'PLAN.ENTERPRISE.FEATURES.CASES', 'PLAN.ENTERPRISE.FEATURES.STORAGE', 'PLAN.ENTERPRISE.FEATURES.USERS'],
   },
 ];
 
 export function ChangePlanDialog({ open, onOpenChange, onSubmit }: ChangePlanDialogProps) {
+  const { t } = useI18n();
   const handleSelectPlan = (planId: string) => {
     onSubmit?.(planId);
     onOpenChange(false);
@@ -51,15 +53,15 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit }: ChangePlanDia
             <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center">
               <Zap className="w-6 h-6 text-purple-600 dark:text-purple-400" strokeWidth={2} />
             </div>
-            Выберите план подписки
+            {t('PLAN.TITLE')}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Выберите подходящий тарифный план для вашей команды
+            {t('PLAN.SUBTITLE')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid grid-cols-3 gap-4 mt-6">
-          {PLANS.map((plan) => (
+          {PLAN_KEYS.map((plan) => (
             <Card
               key={plan.id}
               className={`p-6 border-2 ${plan.popular ? 'border-blue-500 bg-blue-500/5' : 'border-border'
@@ -67,16 +69,16 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit }: ChangePlanDia
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-xs px-3 py-1 rounded-full">
-                  Популярный
+                  {t('PLAN.POPULAR')}
                 </div>
               )}
-              <h3 className="text-xl tracking-tight mb-2">{plan.name}</h3>
-              <div className="text-3xl tracking-tight mb-6">{plan.price}</div>
+              <h3 className="text-xl tracking-tight mb-2">{t(plan.nameKey)}</h3>
+              <div className="text-3xl tracking-tight mb-6">{t(plan.priceKey)}</div>
               <div className="space-y-3 mb-6">
-                {plan.features.map((feature, index) => (
+                {plan.featureKeys.map((featureKey, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-green-600 dark:text-green-400" strokeWidth={2} />
-                    <span className="text-sm text-muted-foreground">{feature}</span>
+                    <span className="text-sm text-muted-foreground">{t(featureKey)}</span>
                   </div>
                 ))}
               </div>
@@ -87,7 +89,7 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit }: ChangePlanDia
                     : 'bg-muted hover:bg-muted/80 text-foreground'
                   }`}
               >
-                Выбрать план
+                {t('PLAN.SELECT_PLAN')}
               </Button>
             </Card>
           ))}

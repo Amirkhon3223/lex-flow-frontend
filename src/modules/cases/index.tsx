@@ -514,17 +514,17 @@ export function CasePage() {
                   {getPriorityBadge(caseItem.priority)}
                 </div>
 
-                  <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
-                    <div className="flex items-center justify-between text-xs sm:text-sm">
-                      <span className="text-muted-foreground">{t('CASES.FIELDS.STATUS')}</span>
-                      {getStatusBadge(caseItem.status)}
-                    </div>
-                    <div className="flex items-center justify-between text-xs sm:text-sm">
-                      <span className="text-gray-500">{t('CASES.FIELDS.PROGRESS')}</span>
-                      <span className="text-foreground">{caseItem.progress}%</span>
-                    </div>
-                    <Progress value={caseItem.progress} className="h-1.5 sm:h-2" />
+                <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <span className="text-muted-foreground">{t('CASES.FIELDS.STATUS')}</span>
+                    {getStatusBadge(caseItem.status)}
                   </div>
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <span className="text-gray-500">{t('CASES.FIELDS.PROGRESS')}</span>
+                    <span className="text-foreground">{caseItem.progress}%</span>
+                  </div>
+                  <Progress value={caseItem.progress} className="h-1.5 sm:h-2" />
+                </div>
 
                 <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
                   <div className="flex items-center gap-1.5">

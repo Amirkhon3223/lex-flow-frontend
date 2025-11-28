@@ -24,8 +24,10 @@ import {
 } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
 import { Textarea } from '@/shared/ui/textarea';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) {
+  const { t } = useI18n();
   const [date, setDate] = useState<Date>();
   const [formData, setFormData] = useState({
     title: '',
@@ -61,9 +63,9 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg bg-background border-border shadow-2xl rounded-2xl sm:rounded-3xl p-0 max-h-[90vh] overflow-y-auto">
         <DialogHeader className="px-4 sm:px-8 pt-6 sm:pt-8 pb-4 sm:pb-6">
-          <DialogTitle className="text-xl sm:text-2xl tracking-tight">Новая встреча</DialogTitle>
+          <DialogTitle className="text-xl sm:text-2xl tracking-tight">{t('CALENDAR.FORMS.NEW_MEETING')}</DialogTitle>
           <DialogDescription className="text-muted-foreground text-sm">
-            Запланируйте встречу с клиентом
+            {t('CALENDAR.FORMS.SCHEDULE_MEETING')}
           </DialogDescription>
         </DialogHeader>
 
@@ -71,21 +73,21 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
           <div className="space-y-4 sm:space-y-6">
             <div className="space-y-2">
               <Label htmlFor="title" className="text-xs sm:text-sm text-muted-foreground">
-                Название встречи
+                {t('CALENDAR.FORMS.TITLE')}
               </Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => handleChange('title', e.target.value)}
                 className="h-10 sm:h-11 rounded-xl border-input focus-visible:ring-blue-500 text-sm"
-                placeholder="Консультация по делу"
+                placeholder={t('CALENDAR.FORMS.TITLE_PLACEHOLDER')}
                 required
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="type" className="text-xs sm:text-sm text-muted-foreground">
-                Тип встречи
+                {t('CALENDAR.FORMS.MEETING_TYPE')}
               </Label>
               <Select
                 value={formData.type}
@@ -98,19 +100,19 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
                   <SelectItem value="in_person">
                     <div className="flex items-center gap-2">
                       <Users className="w-4 h-4" strokeWidth={2} />
-                      <span>Личная встреча</span>
+                      <span>{t('CALENDAR.MEETING_TYPE.IN_PERSON')}</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="video">
                     <div className="flex items-center gap-2">
                       <Video className="w-4 h-4" strokeWidth={2} />
-                      <span>Видеозвонок</span>
+                      <span>{t('CALENDAR.MEETING_TYPE.VIDEO')}</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="phone">
                     <div className="flex items-center gap-2">
                       <Phone className="w-4 h-4" strokeWidth={2} />
-                      <span>Телефонный звонок</span>
+                      <span>{t('CALENDAR.MEETING_TYPE.PHONE')}</span>
                     </div>
                   </SelectItem>
                 </SelectContent>
@@ -123,7 +125,7 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               <div className="space-y-2">
                 <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
                   <CalendarIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
-                  Дата
+                  {t('CALENDAR.FORMS.DATE')}
                 </Label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -131,7 +133,7 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
                       variant="outline"
                       className="h-10 sm:h-11 w-full justify-start text-left rounded-xl border-input hover:bg-muted text-sm"
                     >
-                      {date ? format(date, 'PPP', { locale: ru }) : 'Выберите дату'}
+                      {date ? format(date, 'PPP', { locale: ru }) : t('CALENDAR.FORMS.SELECT_DATE')}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 rounded-xl" align="start">
@@ -146,7 +148,7 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               <div className="space-y-2">
                 <Label htmlFor="time" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
                   <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
-                  Время
+                  {t('CALENDAR.FORMS.TIME')}
                 </Label>
                 <Input
                   id="time"
@@ -162,7 +164,7 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
                 <Label htmlFor="duration" className="text-xs sm:text-sm text-muted-foreground">
-                  Длительность
+                  {t('CALENDAR.FORMS.DURATION')}
                 </Label>
                 <Select
                   value={formData.duration}
@@ -172,12 +174,12 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl">
-                    <SelectItem value="15">15 минут</SelectItem>
-                    <SelectItem value="30">30 минут</SelectItem>
-                    <SelectItem value="45">45 минут</SelectItem>
-                    <SelectItem value="60">1 час</SelectItem>
-                    <SelectItem value="90">1.5 часа</SelectItem>
-                    <SelectItem value="120">2 часа</SelectItem>
+                    <SelectItem value="15">{t('CALENDAR.FORMS.DURATION_15')}</SelectItem>
+                    <SelectItem value="30">{t('CALENDAR.FORMS.DURATION_30')}</SelectItem>
+                    <SelectItem value="45">{t('CALENDAR.FORMS.DURATION_45')}</SelectItem>
+                    <SelectItem value="60">{t('CALENDAR.FORMS.DURATION_60')}</SelectItem>
+                    <SelectItem value="90">{t('CALENDAR.FORMS.DURATION_90')}</SelectItem>
+                    <SelectItem value="120">{t('CALENDAR.FORMS.DURATION_120')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -185,7 +187,7 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               <div className="space-y-2">
                 <Label htmlFor="reminder" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
                   <AlarmClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
-                  Напоминание
+                  {t('CALENDAR.FORMS.REMINDER')}
                 </Label>
                 <Select
                   value={formData.reminder}
@@ -195,11 +197,11 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl">
-                    <SelectItem value="0">Не напоминать</SelectItem>
-                    <SelectItem value="15">За 15 минут</SelectItem>
-                    <SelectItem value="30">За 30 минут</SelectItem>
-                    <SelectItem value="60">За 1 час</SelectItem>
-                    <SelectItem value="1440">За 1 день</SelectItem>
+                    <SelectItem value="0">{t('CALENDAR.FORMS.REMINDER_NONE')}</SelectItem>
+                    <SelectItem value="15">{t('CALENDAR.FORMS.REMINDER_15')}</SelectItem>
+                    <SelectItem value="30">{t('CALENDAR.FORMS.REMINDER_30')}</SelectItem>
+                    <SelectItem value="60">{t('CALENDAR.FORMS.REMINDER_60')}</SelectItem>
+                    <SelectItem value="1440">{t('CALENDAR.FORMS.REMINDER_1440')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -211,7 +213,7 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               <div className="space-y-2">
                 <Label htmlFor="location" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
                   <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
-                  {formData.type === 'video' ? 'Ссылка' : 'Место встречи'}
+                  {formData.type === 'video' ? t('CALENDAR.FORMS.LINK_OR_LOCATION') : t('CALENDAR.FORMS.LINK_OR_LOCATION_ALT')}
                 </Label>
                 <Input
                   id="location"
@@ -220,8 +222,8 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
                   className="h-10 sm:h-11 rounded-xl border-input focus-visible:ring-blue-500 text-sm"
                   placeholder={
                     formData.type === 'video'
-                      ? 'https://meet.google.com/...'
-                      : 'Офис, кабинет 305'
+                      ? t('CALENDAR.FORMS.LINK_PLACEHOLDER')
+                      : t('CALENDAR.FORMS.LOCATION_PLACEHOLDER')
                   }
                 />
               </div>
@@ -229,14 +231,14 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
 
             <div className="space-y-2">
               <Label htmlFor="notes" className="text-xs sm:text-sm text-muted-foreground">
-                Заметки
+                {t('CALENDAR.MEETING_DETAILS.NOTES')}
               </Label>
               <Textarea
                 id="notes"
                 value={formData.notes}
                 onChange={(e) => handleChange('notes', e.target.value)}
                 className="min-h-[60px] sm:min-h-[80px] rounded-xl border-input focus-visible:ring-blue-500 resize-none text-sm"
-                placeholder="Дополнительная информация о встрече..."
+                placeholder={t('CALENDAR.FORMS.DESCRIPTION_PLACEHOLDER')}
               />
             </div>
           </div>
@@ -248,13 +250,13 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               onClick={() => onOpenChange(false)}
               className="w-full sm:flex-1 h-10 sm:h-11 rounded-xl border-input hover:bg-muted text-sm order-2 sm:order-1"
             >
-              Отмена
+              {t('COMMON.ACTIONS.CANCEL')}
             </Button>
             <Button
               type="submit"
               className="w-full sm:flex-1 h-10 sm:h-11 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md text-sm order-1 sm:order-2"
             >
-              Создать встречу
+              {t('CALENDAR.FORMS.CREATE_MEETING')}
             </Button>
           </div>
         </form>

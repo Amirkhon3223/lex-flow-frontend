@@ -1,6 +1,7 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import type { CaseStatDataInterface } from '@/app/types/analytics/analytics.interfaces';
 import { Card } from '@/shared/ui/card';
+import { useI18n } from '@/shared/context/I18nContext';
 
 const casesData: CaseStatDataInterface[] = [
   { month: 'Янв', cases: 12, won: 8, lost: 2, pending: 2 },
@@ -12,9 +13,11 @@ const casesData: CaseStatDataInterface[] = [
 ];
 
 export function CasesChart() {
+  const { t } = useI18n();
+
   return (
     <Card className="lg:col-span-2 flex flex-col h-full">
-      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Статистика дел</h3>
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">{t('ANALYTICS.CHARTS.CASE_STATISTICS')}</h3>
       <div className="flex-1 min-h-[200px] sm:min-h-[250px] md:min-h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={casesData}>
