@@ -1,833 +1,913 @@
 {
-	"COMMON": {
-		"ACTIONS": {
-			"VIEW": "Намоиш",
-			"OPEN": "Кушодан",
-			"EDIT": "Вируст кардан",
-			"COPY_LINK": "Нусхабардории пайванд",
-			"SHARE_EMAIL": "Тақсим кардан бо почта",
-			"DELETE": "Ҳазф кардан",
-			"ARCHIVE": "Ба архив гузоштан",
-			"SAVE": "Сабт кардан",
-			"CANCEL": "Бекор кардан",
-			"ADD": "Илова кардан",
-			"SEARCH": "Ҷустуҷӯ...",
-			"FILTER": "Филтр",
-			"EXPORT": "Содирот",
-			"IMPORT": "Воридот",
-			"UPLOAD": "Боргирӣ",
-			"DOWNLOAD": "Зеркашӣ",
-			"LOGOUT": "Баромадан",
-			"CLOSE": "Пӯшидан",
-			"SUBMIT": "Ирсол",
-			"CREATE": "Эҷод кардан",
-			"UPDATE": "Навсозӣ",
-			"PROFILE": "Профил",
-			"WRITE": "Навиштан",
-			"COMPARE": "Муқоиса кардан",
-			"RESTORE": "Барқарор кардан",
-			"BACK": "Бозгашт",
-			"PREVIEW": "Пешнамоиш",
-			"ACTIONS": "Амалиётҳо"
-		},
-		"COMMENTS": {
-			"ADD": "Иловаи шарҳ"
-		},
-		"STATUS": {
-			"URGENT": "Зуд",
-			"COMPLETED": "Пурра",
-			"IN_PROGRESS": "Дар кор",
-			"PENDING": "Дар интизорӣ",
-			"ACTIVE": "Фаъол",
-			"ARCHIVED": "Архившуда",
-			"ON_HOLD": "Дар нигоҳдорӣ",
-			"REVIEW": "Баррасӣ",
-			"STATUS": "Ҳолат"
-		},
-		"PRIORITY": {
-			"HIGH": "Баланд",
-			"MEDIUM": "Миёна",
-			"LOW": "Паст",
-			"PRIORITY": "Афзалият"
-		},
-		"MESSAGES": {
-			"SUCCESS": "Амалиёт бомуваффақият анҷом ёфт",
-			"ERROR": "Хатогӣ рух дод",
-			"LOADING": "Боргирӣ...",
-			"NO_DATA": "Маълумот вуҷуд надорад",
-			"CONFIRM_DELETE": "Шумо дар ҳақиқат мехоҳед ҳазф кунед?",
-			"CONFIRM_ARCHIVE": "Шумо дар ҳақиқат мехоҳед ба архив гузоред?"
-		},
-		"TIME": {
-			"TODAY": "Имрӯз",
-			"TOMORROW": "Фардо",
-			"YESTERDAY": "Дирӯз",
-			"DAYS": "рӯзҳо",
-			"WEEKS": "ҳафтаҳо",
-			"MONTHS": "моҳҳо",
-			"HOURS_AGO": "соат пеш",
-			"DAYS_AGO": "рӯз пеш",
-			"SINCE_LAST_MONTH": "аз моҳи гузашта",
-			"CREATED": "Эҷод шудааст"
-		},
-		"NAVIGATION": {
-			"OVERVIEW": "Шарҳ",
-			"CASES": "Парвандаҳо",
-			"CLIENTS": "Мизоҷон",
-			"DOCUMENTS": "Ҳуҷҷатҳо",
-			"CALENDAR": "Тақвим",
-			"ANALYTICS": "Таҳлилҳо",
-			"AI_ASSISTANT": "Ёвари AI",
-			"SETTINGS": "Танзимот",
-			"NEW_BADGE": "Нав"
-		}
-	},
-	"DASHBOARD": {
-		"WELCOME": "Хуш омадед",
-		"TASKS_TODAY": "Шумо {{count}} вазифа барои имрӯз доред",
-		"STATS": {
-			"ACTIVE_CASES": "Парвандаҳои фаъол",
-			"CLIENTS": "Мизоҷон",
-			"DOCUMENTS": "Ҳуҷҷатҳо",
-			"TASKS_TODAY": "Вазифаҳо барои имрӯз"
-		},
-		"FIELDS": {
-			"FEE": "Ҳақ (₽)",
-			"DESCRIPTION": "Тавсифи парванда",
-			"TITLE": "Номи парванда",
-			"CASE": "Парванда",
-			"CLIENT": "Мизоҷ",
-			"CATEGORY": "Категория",
-			"DEADLINE": "Мӯҳлат",
-			"STATUS": "Ҳолат",
-			"PRIORITY": "Афзалият",
-			"PROGRESS": "Пешрафт",
-			"DOCUMENTS": "Ҳуҷҷатҳо",
-			"ACTIONS": "Амалиёт"
-		},
-		"EDIT_DIALOG": {
-			"TITLE": "Таҳрир кардани парванда",
-			"SAVE": "Сабт кардани тағйирот",
-			"TITLE_PLACEHOLDER": "Масалан: Мушкили меҳнатӣ - озод кардан",
-			"SELECT_CLIENT_PLACEHOLDER": "Мизочро интихоб кунед",
-			"SELECT_CATEGORY_PLACEHOLDER": "Категорияи парванда",
-			"DESCRIPTION_PLACEHOLDER": "Тавсифи мухтасари ҳолати парванда..."
-		},
-		"CATEGORIES": {
-			"LABOR": "Ҳуқуқи меҳнат",
-			"CIVIL": "Ҳуқуқи шаҳрвандӣ",
-			"FAMILY": "Ҳуқуқи оила",
-			"INHERITANCE": "Ҳуқуқи мерос",
-			"CONTRACT": "Ҳуқуқи шартнома",
-			"CORPORATE": "Ҳуқуқи корпоративӣ",
-			"CONSUMER": "Ҳифзи ҳуқуқи истеъмолкунандагон"
-		},
-		"QUICK_ACTIONS": {
-			"TITLE": "Амалиёти зуд",
-			"NEW_CLIENT": "Мизоҷи нав",
-			"NEW_CASE": "Парвандаи нав",
-			"UPLOAD_DOCUMENT": "Боргирии ҳуҷҷат"
-		},
-		"PRIORITY_CASES": {
-			"TITLE": "Парвандаҳои афзал",
-			"ALL_CASES": "Ҳама парвандаҳо",
-			"PROGRESS": "Пешрафт",
-			"OPEN_CASE": "Кушодани парванда"
-		},
-		"RECENT_ACTIVITY": {
-			"TITLE": "Фаъолияти охирин"
-		},
-		"AI_INSIGHTS": {
-			"TITLE": "AI инсайтҳо",
-			"RECOMMENDATION_UPDATE_CONTRACT": "Тавсия дода мешавад, созишномаро барои мизоҷ ООО \"ТехноСтрой\" навсозӣ кунед",
-			"FOUND_SIMILAR_CASES": "{{count}} парвандаи монанд дар архив пайдо шуданд",
-			"ACTION_ASK": "Пурсидан аз AI"
-		},
-		"TODAY": {
-			"OPEN_CALENDAR": "Кушодани тақвим"
-		}
-	},
-	"CASES": {
-		"TITLE": "Парвандаҳо",
-		"SUBTITLE": "Идоракунии парвандаҳо ва ҳуҷҷатҳо",
-		"NEW_CASE": "Парвандаи нав",
-		"ALL_CASES": "Ҳама парвандаҳо",
-		"MY_CASES": "Парвандаҳои ман",
-		"TOTAL_CASES": "Ҳамагӣ парвандаҳо",
-		"IN_WORK": "Дар кор",
-		"URGENT_CASES": "Зуд",
-		"COMPLETED": "Пурра",
-		"OPEN_CASE": "Кушодани парванда",
-		"SEARCH_PLACEHOLDER": "Ҷустуҷӯи парвандаҳо...",
-		"DOCUMENTS_COUNT": "ҳуҷҷатҳо",
-		"EVENTS_COUNT": "ҳодисаҳо",
-		"OVERDUE": "Мӯҳлати гузашта",
-		"OVERDUE_BY": "Пас аз муҳлат",
-		"REMAINING": "Боқӣ",
-		"DAYS_SHORT": "р.",
-		"DAYS_UNTIL_TRIAL": "рӯз то мурофиа",
-		"SHARE_CASE": "Тақсим кардани парванда",
-		"CHECK_THIS_CASE": "Ин парвандаро бинед",
-		"CREATED": "Эҷод шудааст",
-		"STATS": {
-			"TOTAL": "Ҳамагӣ парвандаҳо",
-			"IN_WORK": "Дар кор",
-			"COMPLETED": "Пурра",
-			"URGENT": "Зуд"
-		},
-		"FILTERS": {
-			"ALL": "Ҳама",
-			"URGENT": "Зуд",
-			"MEDIUM": "Миёна",
-			"COMPLETED": "Пурра",
-			"ALL_STATUSES": "Ҳама ҳолатҳо",
-			"ALL_PRIORITIES": "Ҳама афзалиятҳо",
-			"ALL_CATEGORIES": "Ҳама категорияҳо"
-		},
-		"FIELDS": {
-			"TITLE": "Номи парванда",
-			"CASE": "Парванда",
-			"CLIENT": "Мизоҷ",
-			"CATEGORY": "Категория",
-			"DEADLINE": "Мӯҳлат",
-			"STATUS": "Ҳолат",
-			"PRIORITY": "Афзалият",
-			"PROGRESS": "Пешрафт",
-			"DOCUMENTS": "Ҳуҷҷатҳо",
-			"ACTIONS": "Амалиёт"
-		},
-		"DETAIL": {
-			"OVERVIEW": "Шарҳ",
-			"DOCUMENTS": "Ҳуҷҷатҳо",
-			"TASKS": "Вазифаҳо",
-			"FINANCES": "Молия",
-			"COMMENTS": "Тафсирҳо",
-			"CLIENT_INFO": "Маълумоти мизоҷ",
-			"CASE_PROGRESS": "Пешрафти парванда",
-			"AI_INSIGHTS": "Ҳушдориҳои AI"
-		},
-		"TABS": {
-			"DOCUMENTS": "Ҳуҷҷатҳо",
-			"TIMELINE": "Таърихи чорабиниҳо",
-			"NOTES": "Ёддоштҳо"
-		},
-		"DOC_VERSION": {
-			"SINGULAR": "версия",
-			"PLURAL": "версияҳо"
-		},
-		"NOTES": {
-			"PLACEHOLDER": "Ёддоштҳо илова кунед...",
-			"SAVE": "Сабт кардани ёддошт"
-		},
-		"TASKS": {
-			"TITLE": "Вазифаҳо",
-			"ADD": "Иловаи вазифа"
-		},
-		"AI_INSIGHTS": {
-			"TITLE": "Таҳлили AI дар парванда",
-			"VIEW_FULL": "Намоиши пурраи гузориши AI"
-		},
-		"CLIENT": {
-			"TITLE": "Мизоҷ",
-			"SINCE": "Мизоҷ аз",
-			"PHONE": "Телефон",
-			"EMAIL": "Email",
-			"TOTAL_CASES": "Ҳамагӣ парвандаҳо",
-			"ACTIVE": "фаъол",
-			"PROFILE": "Профили мизоҷ"
-		},
-		"SHARE": {
-			"SUBJECT": "Тақсим кардани парванда",
-			"BODY": "Ин парвандаро бинед: {{url}}"
-		}
-	},
-	"CLIENTS": {
-		"TITLE": "Мизоҷон",
-		"SUBTITLE": "Пойгоҳи мизоҷон ва тамосҳо",
-		"NEW_CLIENT": "Мизоҷи нав",
-		"ALL_CLIENTS": "Ҳама мизоҷон",
-		"SEARCH_PLACEHOLDER": "Ҷустуҷӯи мизоҷон...",
-		"TOTAL_CLIENTS": "Ҳамагӣ мизоҷон",
-		"ACTIVE_CLIENTS": "Фаъол",
-		"VIP_CLIENTS": "VIP",
-		"ACTIVE_CASES": "Парвандаҳои фаъол",
-		"CLIENT_SINCE": "Мизоҷ аз",
-		"SINCE": "Аз",
-		"WRITE": "Навиштан",
-		"NEW_CASE": "Парвандаи нав",
-		"ACTIVE_CASES_COUNT": "Парвандаҳои фаъол",
-		"DOCUMENTS_COUNT": "Ҳуҷҷатҳо",
-		"TOTAL_FEE": "Ҳамагӣ ҳақ",
-		"HOURS_WORKED": "Соатҳои кор",
-		"INTERACTIONS": "Муносибатҳо",
-		"CLIENT_CASES": "Парвандаҳои мизоҷ",
-		"CASES_COUNT": "парванда",
-		"STATS": {
-			"TOTAL": "Ҳамагӣ мизоҷон",
-			"ACTIVE": "Фаъол",
-			"VIP": "VIP",
-			"ACTIVE_CASES": "Парвандаҳои фаъол"
-		},
-		"FILTERS": {
-			"ALL_TYPES": "Ҳама намудҳо",
-			"INDIVIDUAL": "Фардӣ",
-			"LEGAL": "Ҳуқуқӣ",
-			"ENTREPRENEUR": "Соҳибкор",
-			"ALL_CATEGORIES": "Ҳама категорияҳо",
-			"VIP": "VIP",
-			"PREMIUM": "Премиум",
-			"STANDARD": "Стандарт",
-			"ALL_STATUSES": "Ҳама ҳолатҳо",
-			"ACTIVE": "Фаъол",
-			"INACTIVE": "Нофаол",
-			"PENDING": "Интизорӣ"
-		},
-		"TYPES": {
-			"INDIVIDUAL": "Фардӣ",
-			"LEGAL": "Ҳуқуқӣ",
-			"ENTREPRENEUR": "Соҳибкор"
-		},
-		"CATEGORIES": {
-			"VIP": "VIP",
-			"PREMIUM": "Премиум",
-			"STANDARD": "Стандарт"
-		},
-		"STATUS": {
-			"ACTIVE": "Фаъол",
-			"INACTIVE": "Нофаол",
-			"PENDING": "Интизорӣ",
-			"ACTIVE_CLIENT": "Мизоҷи фаъол",
-			"VIP_CLIENT": "Мизоҷи VIP"
-		},
-		"FIELDS": {
-			"NAME": "Ном",
-			"EMAIL": "Email",
-			"PHONE": "Телефон",
-			"COMPANY": "Ширкат",
-			"STATUS": "Ҳолат",
-			"CONTACT_INFO": "Маълумоти тамос",
-			"FINANCIAL_INFO": "Маълумоти молиявӣ",
-			"CLIENT": "Мизоҷ",
-			"TYPE": "Намуд",
-			"CATEGORY": "Категория",
-			"CONTACTS": "Тамосҳо",
-			"CASES": "Парвандаҳо",
-			"REVENUE": "Даромад",
-			"LAST_CONTACT": "Охирин тамос",
-			"ACTIONS": "Амалиёт",
-			"ADDRESS": "Суроға",
-			"BIRTH_DATE": "Таърихи таваллуд"
-		},
-		"FINANCIAL": {
-			"TITLE": "Молия",
-			"TOTAL_AMOUNT": "Ҳамагӣ барои пардохт",
-			"PAID_AMOUNT": "Пардохтшуда",
-			"REMAINING_AMOUNT": "Боқимонда",
-			"PAYMENT_PERCENTAGE": "Фоизи пардохт"
-		},
-		"ACTIONS": {
-			"PROFILE": "Профил",
-			"EDIT": "Вируст кардан",
-			"WRITE": "Навиштан",
-			"DELETE": "Ҳазф кардан"
-		}
-	},
-	"DOCUMENTS": {
-		"TITLE": "Ҳуҷҷатҳо",
-		"SUBTITLE": "Идоракунии ҳамаи ҳуҷҷатҳо",
-		"UPLOAD_DOCUMENT": "Боргирии ҳуҷҷат",
-		"ALL_DOCUMENTS": "Ҳама ҳуҷҷатҳо",
-		"SEARCH_PLACEHOLDER": "Ҷустуҷӯи ҳуҷҷатҳо...",
-		"TOTAL": "Ҳамагӣ",
-		"ON_REVIEW": "Дар баррасӣ",
-		"FAVORITES": "Мафҳ",
-		"DRAFTS": "Лоиҳаҳо",
-		"BACK_TO_DOCUMENTS": "Баргашт ба ҳуҷҷатҳо",
-		"BACK_TO_VERSIONS": "Баргашт ба версияҳо",
-		"EXPORT_COMPARISON": "Экспорти муқоиса",
-		"VERSION_COMPARISON": "Муқоисаи версияҳо",
-		"UPLOAD_NEW_VERSION": "Боргирии версияи нав",
-		"CURRENT_VERSION": "Версияи ҳозира",
-		"EMPTY_STATE": "Ҳуҷҷатҳо нест",
-		"VERSION_HISTORY": "Таърихи версияҳо",
-		"VERSIONS_CREATED": "Ҳамагӣ сохта шудааст",
-		"VERSION": "Версия",
-		"CURRENT": "Ҳозира",
-		"APPROVED": "Тасдиқшуда",
-		"OLD": "Қадимӣ",
-		"NEW": "Нав",
-		"COMPARE_WITH_CURRENT": "Муқоиса бо ҳозира",
-		"RESTORE_VERSION": "Барқарор кардани ин версия",
-		"DELETE_VERSION": "Ҳазф кардани версия",
-		"CHANGES_DETECTED": "Тағйирот ошкор шуданд",
-		"ADDED": "Илова шуд",
-		"REMOVED": "Ҳазф шуд",
-		"MODIFIED": "Тағйирёфта",
-		"NAVIGATION": "Навигация",
-		"LEGEND": "Легенда",
-		"ADDED_TEXT": "Матни иловашуда",
-		"REMOVED_TEXT": "Матни ҳазфшуда",
-		"MODIFIED_TEXT": "Матни тағйирёфта",
-		"FULLSCREEN": "Пурра экран",
-		"EXIT_FULLSCREEN": "Хориҷ шудан аз пурра экран",
-		"LINE": "Сатр",
-		"VIEW_DETAILS": "Шумо метавонед версияҳоро тамошо, зеркашӣ ё муқоиса кунед",
-		"STATS": {
-			"TOTAL": "Ҳамагӣ",
-			"ON_REVIEW": "Дар баррасӣ",
-			"FAVORITES": "Мафҳ",
-			"DRAFTS": "Лоиҳаҳо"
-		},
-		"FILTERS": {
-			"ALL_CATEGORIES": "Ҳама категорияҳо",
-			"LEGAL": "Ҳуқуқӣ",
-			"CONTRACTS": "Шартномаҳо",
-			"ADMINISTRATIVE": "Маъмурӣ",
-			"SORT_BY": "Тартиб",
-			"SORT_BY_DATE": "Бо сана",
-			"SORT_BY_NAME": "Бо ном",
-			"SORT_BY_SIZE": "Бо андоза",
-			"SORT_BY_VERSIONS": "Бо версияҳо"
-		},
-		"STATUS": {
-			"FINAL": "Ниҳоӣ",
-			"REVIEW": "Баррасӣ",
-			"DRAFT": "Лоиҳа"
-		},
-		"FIELDS": {
-			"NAME": "Ном",
-			"TYPE": "Навъ",
-			"SIZE": "Андоза",
-			"DATE": "Сана",
-			"STATUS": "Ҳолат",
-			"VERSION": "Версия",
-			"VERSIONS": "Версияҳо",
-			"CASE": "Парванда",
-			"AUTHOR": "Муаллиф",
-			"CHANGES": "Тағйирот"
-		}
-	},
-	"CALENDAR": {
-		"TITLE": "Тақвим",
-		"SUBTITLE": "Ҳама вохӯриҳо ва рӯйдодҳо",
-		"NEW_EVENT": "Рӯйдоди нав",
-		"NEW_MEETING": "Вохӯрии нав",
-		"MEETINGS": "Вохӯриҳо",
-		"UPCOMING_MEETINGS": "Вохӯриҳои наздик",
-		"TODAY": "Имрӯз",
-		"QUICK_ACTIONS": "Амалиёти зуд",
-		"ACTIONS": {
-			"MARK_COMPLETE": "Қайд карда тамом",
-			"RESCHEDULE": "Аз нав ёрои гузоштан",
-			"CANCEL": "Қатъ карди вохӯрӣ"
-		},
-		"MESSAGES": {
-			"COMPLETED": "Вохӯрӣ қайд карда омадааст",
-			"CANCELLED": "Вохӯрӣ қатъ карда шудааст",
-			"NO_MEETINGS_TODAY": "Барои ин сана вохӯрӣ нест",
-			"SELECT_DATE": "Санаро интихоб кунед"
-		},
-		"MEETING_STATUS": {
-			"MEETING": "вохӯрӣ",
-			"MEETINGS": "вохӯриҳо"
-		},
-		"PRIORITY": {
-			"HIGH": "Фавқулоддаҳо",
-			"MEDIUM": "Миёнаҳол",
-			"LOW": "Паст"
-		},
-		"FIELDS": {
-			"TITLE": "Ном",
-			"DATE": "Сана",
-			"TIME": "Вақт",
-			"LOCATION": "Ҷой",
-			"SEARCH_PLACEHOLDER": "Ҷустуҷӯи вохӯриҳо...",
-			"PARTICIPANTS": "Иштирокчиён",
-			"NOTES": "Ёддоштҳо",
-			"MEETING_INFO": "Маълумот дар бораи вохӯрӣ",
-			"CASE": "Парванда",
-			"CLIENT": "Мизоҷ"
-		},
-		"FILTERS": {
-			"ALL_TYPES": "Ҳама намудҳо",
-			"IN_PERSON": "Вохӯриҳои шахсӣ",
-			"VIDEO": "Видеозвонҳо",
-			"PHONE": "Зангҳои телефонӣ",
-			"CLIENT": "Мизоҷ",
-			"ALL_CLIENTS": "Ҳама мизоҷон"
-		},
-		"WEEK_DAYS": {
-			"MON": "Дш",
-			"TUE": "Сш",
-			"WED": "Чш",
-			"THU": "Пш",
-			"FRI": "Ҷм",
-			"SAT": "Шб",
-			"SUN": "Як"
-		},
-		"VIEW": {
-			"DAY": "Рӯз",
-			"WEEK": "Ҳафта",
-			"MONTH": "Моҳ",
-			"CALENDAR": "Тақвим",
-			"LIST": "Рӯйхат"
-		},
-		"MEETING_TYPE": {
-			"VIDEO": "Видеозанг",
-			"PHONE": "Занги телефонӣ",
-			"IN_PERSON": "Вохӯрии шахсӣ"
-		},
-		"MEETING_DETAILS": {
-			"DURATION": "Муддати вақт",
-			"LOCATION": "Ҷой",
-			"DESCRIPTION": "Шарҳ",
-			"NOTES": "Ёддоштҳо",
-			"NO_NOTES": "Ёддоштҳо ҳалӣ нест",
-			"ADD_NOTE": "Ёддошт илова кунед",
-			"PARTICIPANTS": "Иштирокчиён",
-			"CLIENT": "Мизоҷ",
-			"RELATED_CASE": "Парвандаи алоқаманд",
-			"VIEW_PROFILE": "Профили дида баред →",
-			"VIEW_CASE": "Парвандаи дида баред →",
-			"PARTICIPANT": "Иштирокчӣ",
-			"EDIT": "Таҳрир",
-			"DELETE": "Ҳазф",
-			"ALL_MEETINGS": "Ҳама вохӯриҳо"
-		},
-		"STATUS": {
-			"COMPLETED": "Анҷомёфта",
-			"CANCELLED": "Қатъ карда шуда",
-			"SCHEDULED": "Ба роҳи қарорӣ"
-		},
-		"PRIORITY_DETAILS": {
-			"HIGH": "Приоритети баланд",
-			"MEDIUM": "Приоритети миёнаҳол",
-			"LOW": "Приоритети паст"
-		},
-		"FORMS": {
-			"NEW_MEETING": "Вохӯрии нав",
-			"SCHEDULE_MEETING": "Вохӯрие с мизоҷ хох пешниҳод шавад",
-			"TITLE": "Номи вохӯрӣ",
-			"TITLE_PLACEHOLDER": "Консультатсияи дар бораи парванда",
-			"MEETING_TYPE": "Намуди вохӯрӣ",
-			"DATE": "Санаи вохӯрӣ",
-			"TIME": "Вақти вохӯрӣ",
-			"SELECT_DATE": "Сананро интихоб кунед",
-			"DURATION": "Давоми вохӯрӣ",
-			"DURATION_15": "15 дақиқа",
-			"DURATION_30": "30 дақиқа",
-			"DURATION_45": "45 дақиқа",
-			"DURATION_60": "1 соат",
-			"DURATION_90": "1 соат 30 дақиқа",
-			"DURATION_120": "2 соат",
-			"REMINDER": "Ёдкунӣ",
-			"REMINDER_NONE": "Бе ёдкунӣ",
-			"REMINDER_15": "15 дақиқа қабл",
-			"REMINDER_30": "30 дақиқа қабл",
-			"REMINDER_60": "1 соат қабл",
-			"REMINDER_1440": "1 рӯз қабл",
-			"LINK_OR_LOCATION": "Пайванд",
-			"LINK_OR_LOCATION_ALT": "Ҷойи вохӯрӣ",
-			"LINK_PLACEHOLDER": "https://zoom.us/j/...",
-			"LOCATION_PLACEHOLDER": "Дафтар, кабинети 305",
-			"DESCRIPTION_PLACEHOLDER": "Маълумоти иловаги дар бораи вохӯрӣ...",
-			"CREATE_MEETING": "Вохӯрӣ сохтан"
-		}
-	},
-	"ANALYTICS": {
-		"TITLE": "Таҳлилҳо",
-		"SUBTITLE": "Бахши эффективности кор ва омор",
-		"EXPORT_REPORT": "Экспорти гузориш",
-		"PERIODS": {
-			"WEEK": "Ҳамин ҳафта",
-			"MONTH": "Ҳамин моҳ",
-			"QUARTER": "Квартал",
-			"YEAR": "Сол"
-		},
-		"OVERVIEW_TAB": "Шарҳ",
-		"TABS": {
-			"CASES": "Парвандаҳо",
-			"FINANCE": "Молия",
-			"TEAM": "Гурӯҳ"
-		},
-		"STATS": {
-			"ACTIVE_CASES": "Парвандаҳои фаъол",
-			"NEW_CLIENTS": "Клиентҳои нав",
-			"SUCCESSFUL_CASES": "Парвандаҳои муваффақ",
-			"REVENUE_FOR_PERIOD": "Даромад барои давра",
-			"TOTAL_REVENUE": "Ҳамагӣ даромад",
-			"COMPLETED_CASES": "Парвандаҳои анҷомдодашуда",
-			"SUCCESS_RATE": "Натиҷаи муваффақият"
-		},
-		"CASE_STATUS": {
-			"WON": "Ғалаба",
-			"IN_PROGRESS": "Дар раванда",
-			"LOST": "Партофташуда"
-		},
-		"CASES_BY_PRACTICE": "Парвандаҳо бо маҷалоҳо",
-		"PRACTICE_TYPES": {
-			"LABOR_DISPUTES": "Норезии кор",
-			"CONTRACT_LAW": "Қонуни қарордод",
-			"INHERITANCE": "Мамлакати мерос",
-			"FAMILY_LAW": "Қонуни оила",
-			"CRIMINAL_LAW": "Қонуни ҷинояҷоӣ",
-			"OTHER": "Дигарон"
-		},
-		"PRACTICE_STATS": {
-			"TOTAL": "ҷамъ",
-			"WON": "ғалаба",
-			"IN_PROGRESS": "дар раванда",
-			"LOST": "партофташуда"
-		},
-		"PAYMENT_STATS": {
-			"RECEIVED": "Пардохтҳо дарёфтшуда",
-			"PENDING": "Пардохтҳои интиҙор",
-			"AVERAGE_CHECK": "Асъории миёна"
-		},
-		"REVENUE_SOURCES": "Даромад аз манбаъҳо",
-		"REVENUE_SOURCE_TYPES": {
-			"CONSULTATIONS": "Шаврашавӣ",
-			"REPRESENTATION": "Намояндагӣ",
-			"LEGAL_SUPPORT": "Қатъи назари ҳуқуқӣ",
-			"OTHER": "Дигар"
-		},
-		"TOP_CLIENTS": "Клиентҳои аввалӣ аз даромад",
-		"TOP_LAWYERS": "Ҳуқуқшиносони бехтарин",
-		"LAWYER_STATS": {
-			"CASES": "парвандаҳо",
-			"SUCCESS_RATE": "Натиҷаи муваффақият",
-			"REVENUE": "даромад"
-		},
-		"CHARTS": {
-			"CASE_STATISTICS": "Омори парвандаҳо",
-			"CASE_TYPES": "Намудҳои парвандаҳо",
-			"REVENUE_DYNAMICS": "Динамики даромад"
-		}
-	},
-	"AI_ASSISTANT": {
-		"TITLE": "Ёвари AI",
-		"SUBTITLE": "Ёвари оқилонаи ҳуқуқии шумо",
-		"CHAT_PLACEHOLDER": "Савол диҳед...",
-		"SEND": "Ирсол",
-		"FEATURES": {
-			"TITLE": "Функсияҳо",
-			"ANALYZE_DOCUMENT": "Таҳлили ҳуҷҷатҳо",
-			"ANALYZE_DESCRIPTION": "Таҷҳизоти дурустии ҳуқуқиро санҷед ва хатарҳоро ошкор кунед",
-			"PRACTICE": "Амалиёти судӣ",
-			"PRACTICE_DESCRIPTION": "Ҷустуҷӯи прецедентҳои дахлдор ва қарорҳо",
-			"LEGAL_BASE": "Базаи ҳуқуқӣ",
-			"LEGAL_BASE_DESCRIPTION": "Пайвандҳо ба санадҳо ва қонунгузорӣ",
-			"RECOMMENDATIONS": "Тавсияҳо",
-			"RECOMMENDATIONS_DESCRIPTION": "Маслиҳатҳо оид ба стратегия ва қадамҳои минбаъда",
-			"LEGAL_ADVICE": "Маслиҳати ҳуқуқӣ",
-			"SEARCH_CASES": "Ҷустуҷӯ дар парвандаҳо",
-			"DRAFT_DOCUMENT": "Нақшаи ҳуҷҷатҳо"
-		},
-		"TABS": {
-			"CHAT": "Чат бо AI",
-			"ANALYZE": "Таҳлили ҳуҷҷатҳо",
-			"RESEARCH": "Таҳқиқот"
-		},
-		"HEADER": {
-			"TITLE": "Ёвари AI",
-			"SUBTITLE": "Таҳлили зеҳнӣ ва кӯмак ба ҳуқуқшиносон",
-			"PREMIUM_ACCESS": "Дастрасии премиум"
-		},
-		"CHAT": {
-			"TITLE": "Ёвари ҳуқуқӣ",
-			"STATUS": "Ҳамеша онлайн",
-			"MESSAGE_PLACEHOLDER": "Саволи худро ин ҷо нависед...",
-			"COPY": "Нусха"
-		},
-		"ANALYZE": {
-			"UPLOAD_TITLE": "Ҳуҷҷатро барои таҳлил бор кунед",
-			"DESCRIPTION": "AI дурустии ҳуқуқиро санҷида, хатарҳоро ошкор ва тавсияҳо диҳад"
-		},
-		"RESEARCH": {
-			"TITLE": "Ҷустуҷӯ дар базаи ҳуқуқӣ ва амалияи судӣ",
-			"SEARCH_PLACEHOLDER": "Ҷустуҷӯи худро ворид кунед...",
-			"BUTTONS": {
-				"PRACTICE": "Амалиёти судӣ",
-				"LEGISLATION": "Қонунгузорӣ"
-			}
-		},
-		"QUICK_COMMANDS": {
-			"TITLE": "Фармонҳои зуд"
-		},
-		"RECENT_ANALYSES": {
-			"TITLE": "Таҳлилҳои охирин"
-		}
-	},
-	"SETTINGS": {
-		"TITLE": "Танзимот",
-		"SUBTITLE": "Идоракунии танзимоти ҳисоб ва интихобҳо",
-		"TABS": {
-			"PROFILE": "Профил",
-			"ACCOUNT": "Ҳисоб",
-			"NOTIFICATIONS": "Огоҳиномҳо",
-			"TEAM": "Гурӯҳ",
-			"SECURITY": "Амният",
-			"BILLING": "Ҳисоббарорӣ"
-		},
-		"PROFILE": {
-			"PERSONAL_INFO": "Маълумоти шахсӣ",
-			"FIRST_NAME": "Ном",
-			"LAST_NAME": "Насаб",
-			"FULL_NAME": "Номи пурра",
-			"EMAIL": "Email",
-			"PHONE": "Телефон",
-			"POSITION": "Вазифа",
-			"BIO": "Дар бораи худ",
-			"REGIONAL_SETTINGS": "Танзимоти минтақавӣ",
-			"LANGUAGE": "Забон",
-			"TIMEZONE": "Минтақаи вақт",
-			"SAVE_CHANGES": "Сабт кардани тағйирот"
-		},
-		"NOTIFICATIONS": {
-			"EMAIL": {
-				"TITLE": "Огоҳиномаҳои Email",
-				"NEW_CASES_LABEL": "Парвандаҳои нав",
-				"NEW_CASES_DESC": "Гирифтани огоҳиномаҳо ҳангоми таъин кардани парвандаҳои нав",
-				"DEADLINES_LABEL": "Мӯҳлатҳои наздикшаванда",
-				"DEADLINES_DESC": "Ёдоварӣ дар бораи наздик шудани мӯҳлатҳои парвандаҳо",
-				"DOCUMENTS_LABEL": "Навсозии ҳуҷҷатҳо",
-				"DOCUMENTS_DESC": "Огоҳиномаҳо ҳангоми илова ё тағйир додани ҳуҷҷатҳо",
-				"COMMENTS_LABEL": "Тафсирҳо ва зикрҳо",
-				"COMMENTS_DESC": "Вақте ки касе шуморо дар парванда зикр ё тафсир мекунад",
-				"WEEKLY_REPORT_LABEL": "Гузориши ҳафтавӣ",
-				"WEEKLY_REPORT_DESC": "Гирифтани гузориши ҳафтавӣ дар бораи фаъолияти шумо",
-				"EMAIL_ALERTS_LABEL": "Огоҳиҳои муҳим",
-				"EMAIL_ALERTS_DESC": "Огоҳиномаҳои муҳиме, ки диққати фаврӣ талаб мекунанд"
-			},
-			"PUSH": {
-				"TITLE": "Огоҳиномаҳои Push",
-				"URGENT_LABEL": "Парвандаҳои зуд",
-				"URGENT_DESC": "Огоҳиҳои фаврӣ барои парвандаҳои афзалиятнок",
-				"MEETINGS_LABEL": "Вохӯриҳои наздикшаванда",
-				"MEETINGS_DESC": "Ёдоварӣ 15 дақиқа пеш аз вохӯриҳои барномарезишуда",
-				"MESSAGES_LABEL": "Паёмҳои нав",
-				"MESSAGES_DESC": "Огоҳиномаҳо дар бораи паёмҳои шахсии нав"
-			}
-		},
-		"TEAM": {
-			"INVITE_MEMBER": "Даъват ба аъзо",
-			"MEMBERS": "Аъзоҳо",
-			"ROLE": "Нақш"
-		},
-		"SECURITY": {
-			"CHANGE_PASSWORD": "Иваз кардани парол",
-			"CURRENT_PASSWORD": "Пароли ҷорӣ",
-			"NEW_PASSWORD": "Пароли нав",
-			"CONFIRM_PASSWORD": "Тасдиқи парол",
-			"UPDATE_PASSWORD": "Навсозии парол",
-			"TWO_FACTOR": "Тасдиқи дуфакторӣ",
-			"TWO_FACTOR_AUTH": "Тасдиқи дуфакторӣ",
-			"TWO_FACTOR_ENABLED": "Тасдиқи дуфакторӣ фаъол аст",
-			"TWO_FACTOR_DESC": "Ҳисоби шумо бо тасдиқи дуфакторӣ муҳофизат шудааст",
-			"DISABLE": "Хомӯш кардан",
-			"SESSIONS": "Сессияҳои фаъол",
-			"ACTIVE_SESSIONS": "Сессияҳои фаъол",
-			"ACTIVE_SESSIONS_DESC": "Идоракунии дастгоҳҳое, ки шумо дар онҳо ворид шудаед",
-			"CURRENT_SESSION": "Сессияи ҳозира"
-		}
-	},
-	"NOTIFICATIONS": {
-		"TITLE": "Огоҳиномаҳо",
-		"MARK_ALL_READ": "Ҳамаеро ҳамчун хондашуда қайд кунед",
-		"NO_NOTIFICATIONS": "Огоҳиномае нест",
-		"CLEAR_ALL": "Тоза кардан"
-	},
-	"USER_PROFILE": {
-		"TITLE": "Профили корбар",
-		"SUBTITLE": "Идоракунии профил ва танзимотҳои шумо",
-		"EDIT_PROFILE": "Таҳрир кардани профил",
-		"CHANGE_AVATAR": "Иваз кардани аватар",
-		"SAVE_CHANGES": "Қайд кардани тағйиротҳо",
-		"PERSONAL_INFO": "Маълумоти шахсӣ",
-		"FIRST_NAME": "Номи аввал",
-		"LAST_NAME": "Насаб",
-		"MIDDLE_NAME": "Насаби миёна",
-		"CONTACT_INFO": "Маълумоти тамос",
-		"EMAIL": "Email",
-		"PHONE": "Телефон",
-		"PROFESSIONAL_INFO": "Маълумоти касбии",
-		"POSITION": "Мансаб",
-		"SPECIALIZATION": "Мутахассисии",
-		"COMPANY": "Ширкат",
-		"OFFICE_ADDRESS": "Суроғаи офис",
-		"STATS": {
-			"ACTIVE_CASES": "Парвандаҳои фаъол",
-			"CLIENTS": "Мизоҷон",
-			"COMPLETED_CASES": "Парвандаҳои анҷомдодашуда",
-			"DAYS_IN_SYSTEM": "Рӯзҳо дар систем"
-		},
-		"SESSION": "Сеанс",
-		"SESSION_DESCRIPTION": "Берун омадан аз ҳисоби худ дар ин дастгоҳ",
-		"LOGOUT": "Берун омадан",
-		"DELETE_ACCOUNT": "Ҳадфи ҳисоб",
-		"DELETE_ACCOUNT_WARNING": "Ин амал ёддашт нест. Тамоми маълумотҳои шумо ҳадф карда мешавад.",
-		"DELETE_ACCOUNT_BUTTON": "Ҳадфи ҳисоб",
-		"STATISTICS": "Оморист",
-		"ACCOUNT_TYPE": "Ҳисоби Pro",
-		"TABS": {
-			"PROFILE": "Профил",
-			"BILLING": "Ҳисоббарорӣ"
-		},
-		"AVATAR_CROPPER": {
-			"TITLE": "Буридани сурат",
-			"DESCRIPTION": "Минтақаеро барои аватари худ интихоб кунед. Минтақаи бурида мураббаъ хоҳад буд.",
-			"CANCEL": "Бекор кунед",
-			"CONFIRM": "Тасдиқ кунед"
-		}
-	},
-	"AUTH": {
-		"LOGIN": "Вуруд",
-		"REGISTER": "Сабти ном",
-		"EMAIL": "Email",
-		"PASSWORD": "Парол",
-		"REMEMBER_ME": "Маро ба ёд дор",
-		"FORGOT_PASSWORD": "Паролро фаромӯш кардед?",
-		"NO_ACCOUNT": "Ҳисоб надоред?",
-		"HAVE_ACCOUNT": "Альҳол ҳисоби доред?",
-		"SIGN_IN": "Вуруд",
-		"SIGN_UP": "Сабт ном",
-		"OR": "ё",
-		"CONTINUE_WITH": "Идома бо"
-	},
-	"PLAN": {
-		"TITLE": "Интихоби нақшаи обуна",
-		"SUBTITLE": "Нақшаи тарифиро интихоб кунед, ки ба дастаи шумо мувофиқ аст",
-		"POPULAR": "Маъмул",
-		"SELECT_PLAN": "Интихоби нақша",
-		"BASIC": {
-			"NAME": "Basic",
-			"PRICE": "4 990 ₽",
-			"FEATURES": {
-				"CLIENTS": "То 50 мизоҷон",
-				"CASES": "То 100 парвандаҳо",
-				"STORAGE": "10 ГБ захирагоҳ",
-				"USERS": "1 корбар"
-			}
-		},
-		"PRO": {
-			"NAME": "Pro",
-			"PRICE": "12 990 ₽",
-			"FEATURES": {
-				"CLIENTS": "Бемаҳдуд мизоҷон",
-				"CASES": "Бемаҳдуд парвандаҳо",
-				"STORAGE": "100 ГБ захирагоҳ",
-				"USERS": "То 5 корбарон"
-			}
-		},
-		"ENTERPRISE": {
-			"NAME": "Enterprise",
-			"PRICE": "Бо дархост",
-			"FEATURES": {
-				"CLIENTS": "Бемаҳдуд мизоҷон",
-				"CASES": "Бемаҳдуд парвандаҳо",
-				"STORAGE": "Бемаҳдуд захирагоҳ",
-				"USERS": "Бемаҳдуд корбарон"
-			}
-		}
-	}
+  "COMMON": {
+    "ACTIONS": {
+      "VIEW": "Намоиш",
+      "OPEN": "Кушодан",
+      "EDIT": "Таҳрир кардан",
+      "COPY_LINK": "Нусхабардории пайванд",
+      "SHARE_EMAIL": "Тақсим кардан бо почта",
+      "DELETE": "Ҳазф кардан",
+      "ARCHIVE": "Ба архив гузоштан",
+      "SAVE": "Сабт кардан",
+      "CANCEL": "Бекор кардан",
+      "ADD": "Илова кардан",
+      "SEARCH": "Ҷустуҷӯ...",
+      "FILTER": "Филтр",
+      "EXPORT": "Содирот",
+      "IMPORT": "Воридот",
+      "UPLOAD": "Боргирӣ",
+      "DOWNLOAD": "Зеркашӣ",
+      "LOGOUT": "Баромадан",
+      "CLOSE": "Пӯшидан",
+      "SUBMIT": "Ирсол",
+      "CREATE": "Эҷод кардан",
+      "UPDATE": "Навсозӣ",
+      "ACTIONS": "Амалиётҳо",
+      "PROFILE": "Профил",
+      "WRITE": "Навиштан",
+      "COMPARE": "Муқоиса кардан",
+      "RESTORE": "Барқарор кардан",
+      "BACK": "Бозгашт",
+      "PREVIEW": "Пешнамоиш"
+    },
+    "OF": "аз",
+    "COMMENTS": {
+      "ADD": "Илова кардани шарҳ"
+    },
+    "STATUS": {
+      "URGENT": "Зуд",
+      "COMPLETED": "Пурра",
+      "IN_PROGRESS": "Дар кор",
+      "PENDING": "Дар интизорӣ",
+      "ACTIVE": "Фаъол",
+      "ARCHIVED": "Архившуда",
+      "ON_HOLD": "Дар нигоҳдорӣ",
+      "REVIEW": "Баррасӣ",
+      "STATUS": "Ҳолат"
+    },
+    "PRIORITY": {
+      "HIGH": "Баланд",
+      "MEDIUM": "Миёна",
+      "LOW": "Паст",
+      "PRIORITY": "Афзалият"
+    },
+    "MESSAGES": {
+      "SUCCESS": "Амалиёт бомуваффақият анҷом ёфт",
+      "ERROR": "Хатогӣ рух дод",
+      "LOADING": "Боргирӣ...",
+      "NO_DATA": "Маълумот вуҷуд надорад",
+      "CONFIRM_DELETE": "Шумо дар ҳақиқат мехоҳед ҳазф кунед?",
+      "CONFIRM_ARCHIVE": "Шумо дар ҳақиқат мехоҳед ба архив гузоред?"
+    },
+    "TIME": {
+      "TODAY": "Имрӯз",
+      "TOMORROW": "Фардо",
+      "YESTERDAY": "Дирӯз",
+      "DAYS": "рӯзҳо",
+      "WEEKS": "ҳафтаҳо",
+      "MONTHS": "моҳҳо",
+      "SINCE_LAST_MONTH": "аз моҳи гузашта",
+      "HOURS_AGO": "соат пеш",
+      "DAYS_AGO": "рӯз пеш",
+      "CREATED": "Эҷод шудааст"
+    },
+    "NAVIGATION": {
+      "OVERVIEW": "Шарҳ",
+      "CASES": "Парвандаҳо",
+      "CLIENTS": "Мизоҷон",
+      "DOCUMENTS": "Ҳуҷҷатҳо",
+      "CALENDAR": "Тақвим",
+      "ANALYTICS": "Таҳлилҳо",
+      "AI_ASSISTANT": "Ёвари AI",
+      "SETTINGS": "Танзимот",
+      "NEW_BADGE": "Нав"
+    }
+  },
+  "DASHBOARD": {
+    "WELCOME": "Хуш омадед",
+    "TASKS_TODAY": "Шумо {{count}} вазифа барои имрӯз доред",
+    "STATS": {
+      "ACTIVE_CASES": "Парвандаҳои фаъол",
+      "CLIENTS": "Мизоҷон",
+      "DOCUMENTS": "Ҳуҷҷатҳо",
+      "TASKS_TODAY": "Вазифаҳо барои имрӯз"
+    },
+    "QUICK_ACTIONS": {
+      "TITLE": "Амалиёти зуд",
+      "NEW_CLIENT": "Мизоҷи нав",
+      "NEW_CASE": "Парвандаи нав",
+      "UPLOAD_DOCUMENT": "Боргирии ҳуҷҷат"
+    },
+    "PRIORITY_CASES": {
+      "TITLE": "Парвандаҳои афзал",
+      "ALL_CASES": "Ҳама парвандаҳо",
+      "PROGRESS": "Пешрафт",
+      "OPEN_CASE": "Кушодани парванда"
+    },
+    "RECENT_ACTIVITY": {
+      "TITLE": "Фаъолияти охирин"
+    },
+    "AI_INSIGHTS": {
+      "TITLE": "Инсайтҳои AI",
+      "RECOMMENDATION_UPDATE_CONTRACT": "Тавсия дода мешавад, созишномаро барои мизоҷ ООО \"ТехноСтрой\" навсозӣ кунед",
+      "FOUND_SIMILAR_CASES": "{{count}} парвандаи монанд дар архив пайдо шуданд",
+      "ACTION_ASK": "Пурсидан аз AI"
+    },
+    "TODAY": {
+      "OPEN_CALENDAR": "Кушодани тақвим"
+    }
+  },
+  "CASES": {
+    "TITLE": "Парвандаҳо",
+    "SUBTITLE": "Идоракунии парвандаҳо ва ҳуҷҷатҳо",
+    "NEW_CASE": "Парвандаи нав",
+    "TITLE_PLACEHOLDER": "Масалан: Мушкили меҳнатӣ - озод кардан",
+    "SELECT_CLIENT": "Мизоҷро интихоб кунед",
+    "SELECT_CATEGORY": "Категорияи парванда",
+    "DESCRIPTION_PLACEHOLDER": "Тавсифи мухтасари ҳолати парванда...",
+    "CREATE_CASE": "Эҷод кардани парванда",
+    "ALL_CASES": "Ҳама парвандаҳо",
+    "MY_CASES": "Парвандаҳои ман",
+    "TOTAL_CASES": "Ҳамагӣ парвандаҳо",
+    "IN_WORK": "Дар кор",
+    "URGENT_CASES": "Зуд",
+    "COMPLETED": "Пурра",
+    "OPEN_CASE": "Кушодани парванда",
+    "SEARCH_PLACEHOLDER": "Ҷустуҷӯи парвандаҳо...",
+    "DOCUMENTS_COUNT": "ҳуҷҷатҳо",
+    "EVENTS_COUNT": "ҳодисаҳо",
+    "OVERDUE": "Мӯҳлати гузашта",
+    "OVERDUE_BY": "Пас аз муҳлат",
+    "REMAINING": "Боқӣ",
+    "DAYS_SHORT": "р.",
+    "DAYS_UNTIL_TRIAL": "рӯз то мурофиа",
+    "SHARE_CASE": "Тақсим кардани парванда",
+    "CHECK_THIS_CASE": "Ин парвандаро бинед",
+    "CREATED": "Эҷод шудааст",
+    "STATS": {
+      "TOTAL": "Ҳамагӣ парвандаҳо",
+      "IN_WORK": "Дар кор",
+      "COMPLETED": "Пурра",
+      "URGENT": "Зуд"
+    },
+    "FILTERS": {
+      "ALL": "Ҳама",
+      "URGENT": "Зуд",
+      "MEDIUM": "Миёна",
+      "COMPLETED": "Пурра",
+      "ALL_STATUSES": "Ҳама ҳолатҳо",
+      "ALL_PRIORITIES": "Ҳама афзалиятҳо",
+      "ALL_CATEGORIES": "Ҳама категорияҳо"
+    },
+    "FIELDS": {
+      "TITLE": "Номи парванда",
+      "FEE": "Ҳақ (₽)",
+      "CASE": "Парванда",
+      "CLIENT": "Мизоҷ",
+      "CATEGORY": "Категория",
+      "DEADLINE": "Мӯҳлат",
+      "STATUS": "Ҳолат",
+      "PRIORITY": "Афзалият",
+      "DESCRIPTION": "Тавсифи парванда",
+      "PROGRESS": "Пешрафт",
+      "DOCUMENTS": "Ҳуҷҷатҳо",
+      "ACTIONS": "Амалиёт"
+    },
+    "COMMENTS": {
+      "ADD": "Илова кардани шарҳ"
+    },
+    "EDIT_DIALOG": {
+      "TITLE": "Таҳрир кардани парванда",
+      "SAVE": "Сабт кардани тағйирот",
+      "TITLE_PLACEHOLDER": "Масалан: Мушкили меҳнатӣ - озод кардан",
+      "SELECT_CLIENT_PLACEHOLDER": "Мизоҷро интихоб кунед",
+      "SELECT_CATEGORY_PLACEHOLDER": "Категорияи парванда",
+      "DESCRIPTION_PLACEHOLDER": "Тавсифи мухтасари ҳолати парванда..."
+    },
+    "CATEGORIES": {
+      "LABOR": "Ҳуқуқи меҳнат",
+      "CIVIL": "Ҳуқуқи шаҳрвандӣ",
+      "FAMILY": "Ҳуқуқи оила",
+      "INHERITANCE": "Ҳуқуқи мерос",
+      "CONTRACT": "Ҳуқуқи шартнома",
+      "CORPORATE": "Ҳуқуқи корпоративӣ",
+      "CONSUMER": "Ҳифзи ҳуқуқи истеъмолкунандагон"
+    },
+    "PRIORITY": {
+      "LOW": "Паст",
+      "MEDIUM": "Миёна",
+      "HIGH": "Баланд",
+      "URGENT": "Фаврӣ"
+    },
+    "DETAIL": {
+      "OVERVIEW": "Шарҳ",
+      "DOCUMENTS": "Ҳуҷҷатҳо",
+      "TASKS": "Вазифаҳо",
+      "FINANCES": "Молия",
+      "COMMENTS": "Тафсирҳо",
+      "CLIENT_INFO": "Маълумоти мизоҷ",
+      "CASE_PROGRESS": "Пешрафти парванда",
+      "AI_INSIGHTS": "Таҳлили AI"
+    },
+    "TABS": {
+      "DOCUMENTS": "Ҳуҷҷатҳо",
+      "TIMELINE": "Таърихи чорабиниҳо",
+      "NOTES": "Ёддоштҳо"
+    },
+    "DOC_VERSION": {
+      "SINGULAR": "версия",
+      "PLURAL": "версияҳо",
+      "SHORT": "верс."
+    },
+    "NOTES": {
+      "PLACEHOLDER": "Ёддоштҳо илова кунед...",
+      "SAVE": "Сабт кардани ёддошт"
+    },
+    "TASKS": {
+      "TITLE": "Вазифаҳо",
+      "ADD": "Илова кардани вазифа"
+    },
+    "AI_INSIGHTS": {
+      "TITLE": "Таҳлили AI дар парванда",
+      "VIEW_FULL": "Намоиши пурраи гузориши AI"
+    },
+    "CLIENT": {
+      "TITLE": "Мизоҷ",
+      "SINCE": "Мизоҷ аз",
+      "PHONE": "Телефон",
+      "EMAIL": "Email",
+      "TOTAL_CASES": "Ҳамагӣ парвандаҳо",
+      "ACTIVE": "фаъол",
+      "PROFILE": "Профили мизоҷ"
+    },
+    "SHARE": {
+      "SUBJECT": "Тақсим кардани парванда",
+      "BODY": "Ин парвандаро бинед: {{url}}"
+    }
+  },
+  "CLIENTS": {
+    "TITLE": "Мизоҷон",
+    "SUBTITLE": "Пойгоҳи мизоҷон ва тамосҳо",
+    "NEW_CLIENT": "Мизоҷи нав",
+    "CREATE_CLIENT": "Эҷод кардани мизоҷ",
+    "SELECT_CATEGORY": "Интихоби категория",
+    "NOTES_PLACEHOLDER": "Маълумоти иловагӣ дар бораи мизоҷ...",
+    "ALL_CLIENTS": "Ҳама мизоҷон",
+    "SEARCH_PLACEHOLDER": "Ҷустуҷӯи мизоҷон...",
+    "TOTAL_CLIENTS": "Ҳамагӣ мизоҷон",
+    "ACTIVE_CLIENTS": "Фаъол",
+    "VIP_CLIENTS": "VIP",
+    "ACTIVE_CASES": "Парвандаҳои фаъол",
+    "CLIENT_SINCE": "Мизоҷ аз",
+    "SINCE": "Аз",
+    "WRITE": "Навиштан",
+    "NEW_CASE": "Парвандаи нав",
+    "ACTIVE_CASES_COUNT": "Парвандаҳои фаъол",
+    "DOCUMENTS_COUNT": "Ҳуҷҷатҳо",
+    "TOTAL_FEE": "Ҳамагӣ ҳақ",
+    "HOURS_WORKED": "Соатҳои кор",
+    "INTERACTIONS": "Муносибатҳо",
+    "CLIENT_CASES": "Парвандаҳои мизоҷ",
+    "CASES_COUNT": "парванда",
+    "STATS": {
+      "TOTAL": "Ҳамагӣ мизоҷон",
+      "ACTIVE": "Фаъол",
+      "VIP": "VIP",
+      "ACTIVE_CASES": "Парвандаҳои фаъол"
+    },
+    "FILTERS": {
+      "ALL_TYPES": "Ҳама намудҳо",
+      "INDIVIDUAL": "Фардӣ",
+      "LEGAL": "Ҳуқуқӣ",
+      "ENTREPRENEUR": "Соҳибкор",
+      "ALL_CATEGORIES": "Ҳама категорияҳо",
+      "VIP": "VIP",
+      "PREMIUM": "Премиум",
+      "STANDARD": "Стандарт",
+      "ALL_STATUSES": "Ҳама ҳолатҳо",
+      "ACTIVE": "Фаъол",
+      "INACTIVE": "Нофаъол",
+      "PENDING": "Интизорӣ"
+    },
+    "TYPES": {
+      "INDIVIDUAL": "Фардӣ",
+      "LEGAL": "Ҳуқуқӣ",
+      "ENTREPRENEUR": "Соҳибкор"
+    },
+    "CATEGORIES": {
+      "VIP": "VIP",
+      "PREMIUM": "Премиум",
+      "STANDARD": "Стандарт"
+    },
+    "CATEGORY": {
+      "VIP": "Мизоҷи VIP",
+      "REGULAR": "Доимӣ",
+      "NEW": "Нав",
+      "POTENTIAL": "Эҳтимолӣ"
+    },
+    "STATUS": {
+      "ACTIVE": "Фаъол",
+      "INACTIVE": "Нофаъол",
+      "PENDING": "Интизорӣ",
+      "ACTIVE_CLIENT": "Мизоҷи фаъол",
+      "VIP_CLIENT": "Мизоҷи VIP"
+    },
+    "FIELDS": {
+      "NAME": "Ном",
+      "EMAIL": "Email",
+      "PHONE": "Телефон",
+      "COMPANY": "Ширкат",
+      "COMPANY_NAME": "Номи ширкат",
+      "INN": "СТИР",
+      "KPP": "Рамзи сабаби қайд",
+      "STATUS": "Ҳолат",
+      "CONTACT_INFO": "Маълумоти тамос",
+      "FINANCIAL_INFO": "Маълумоти молиявӣ",
+      "CLIENT": "Мизоҷ",
+      "TYPE": "Намуд",
+      "CATEGORY": "Категория",
+      "CONTACTS": "Тамосҳо",
+      "CASES": "Парвандаҳо",
+      "REVENUE": "Даромад",
+      "LAST_CONTACT": "Охирин тамос",
+      "ACTIONS": "Амалиёт",
+      "ADDRESS": "Суроға",
+      "BIRTH_DATE": "Таърихи таваллуд",
+      "NOTES": "Ёддоштҳо"
+    },
+    "FINANCIAL": {
+      "TITLE": "Молия",
+      "TOTAL_AMOUNT": "Ҳамагӣ барои пардохт",
+      "PAID_AMOUNT": "Пардохтшуда",
+      "REMAINING_AMOUNT": "Боқимонда",
+      "PAYMENT_PERCENTAGE": "Фоизи пардохт"
+    },
+    "ACTIONS": {
+      "PROFILE": "Профил",
+      "EDIT": "Таҳрир кардан",
+      "WRITE": "Навиштан",
+      "DELETE": "Ҳазф кардан"
+    },
+    "EDIT_DIALOG": {
+      "TITLE": "Таҳрири мизоҷ",
+      "DESCRIPTION": "Навсозии маълумот дар бораи мизоҷ. Ҳама тағйирот дар таърих сабт мешаванд.",
+      "PERSONAL_INFO": "Маълумоти шахсӣ",
+      "ADDITIONAL_INFO": "Иловагӣ",
+      "CLIENT_TYPE": "Намуди мизоҷ",
+      "SELECT_TYPE": "Интихоби намуд",
+      "SOURCE": "Манбаъ",
+      "SELECT_SOURCE": "Интихоби манбаъ",
+      "CORPORATE": "Корпоративӣ",
+      "SOURCE_WEBSITE": "Сайт",
+      "SOURCE_REFERRAL": "Тавсия",
+      "SOURCE_ADVERTISING": "Реклама",
+      "SAVE_CHANGES": "Сабт кардани тағйирот"
+    }
+  },
+  "DOCUMENTS": {
+    "TITLE": "Ҳуҷҷатҳо",
+    "SUBTITLE": "Идоракунии ҳамаи ҳуҷҷатҳо",
+    "UPLOAD_DOCUMENT": "Боргирии ҳуҷҷат",
+    "ALL_DOCUMENTS": "Ҳама ҳуҷҷатҳо",
+    "SEARCH_PLACEHOLDER": "Ҷустуҷӯи ҳуҷҷатҳо...",
+    "TOTAL": "Ҳамагӣ",
+    "ON_REVIEW": "Дар баррасӣ",
+    "FAVORITES": "Мафҳ",
+    "DRAFTS": "Лоиҳаҳо",
+    "BACK_TO_DOCUMENTS": "Баргашт ба ҳуҷҷатҳо",
+    "BACK_TO_VERSIONS": "Баргашт ба версияҳо",
+    "EXPORT_COMPARISON": "Содироти муқоиса",
+    "VERSION_COMPARISON": "Муқоисаи версияҳо",
+    "UPLOAD_NEW_VERSION": "Боргирии версияи нав",
+    "CURRENT_VERSION": "Версияи ҳозира",
+    "EMPTY_STATE": "Ҳуҷҷатҳо нест",
+    "VERSION_HISTORY": "Таърихи версияҳои ҳуҷҷат",
+    "VERSIONS_CREATED": "Ҳамагӣ эҷод шудаанд",
+    "VERSION": "Версия",
+    "CURRENT": "Ҳозира",
+    "APPROVED": "Тасдиқшуда",
+    "OLD": "Қадимӣ",
+    "NEW": "Нав",
+    "COMPARE_WITH_CURRENT": "Муқоиса бо ҳозира",
+    "RESTORE_VERSION": "Барқарор кардани ин версия",
+    "DELETE_VERSION": "Ҳазф кардани версия",
+    "CHANGES_DETECTED": "Тағйирот ошкор шуданд",
+    "ADDED": "Илова шуд",
+    "REMOVED": "Ҳазф шуд",
+    "MODIFIED": "Тағйирёфта",
+    "NAVIGATION": "Навигатсия",
+    "LEGEND": "Шарҳи аломатҳо",
+    "ADDED_TEXT": "Матни иловашуда",
+    "REMOVED_TEXT": "Матни ҳазфшуда",
+    "MODIFIED_TEXT": "Матни тағйирёфта",
+    "FULLSCREEN": "Экрани пурра",
+    "EXIT_FULLSCREEN": "Хориҷ шудан аз экрани пурра",
+    "LINE": "Сатр",
+    "VIEW_DETAILS": "Шумо метавонед версияҳоро тамошо, зеркашӣ ё муқоиса кунед",
+    "STATS": {
+      "TOTAL": "Ҳамагӣ",
+      "ON_REVIEW": "Дар баррасӣ",
+      "FAVORITES": "Мафҳ",
+      "DRAFTS": "Лоиҳаҳо"
+    },
+    "FILTERS": {
+      "ALL_CATEGORIES": "Ҳама категорияҳо",
+      "LEGAL": "Ҳуқуқӣ",
+      "CONTRACTS": "Шартномаҳо",
+      "ADMINISTRATIVE": "Маъмурӣ",
+      "SORT_BY": "Тартиб",
+      "SORT_BY_DATE": "Бо сана",
+      "SORT_BY_NAME": "Бо ном",
+      "SORT_BY_SIZE": "Бо андоза",
+      "SORT_BY_VERSIONS": "Бо версияҳо"
+    },
+    "STATUS": {
+      "FINAL": "Ниҳоӣ",
+      "REVIEW": "Баррасӣ",
+      "DRAFT": "Лоиҳа"
+    },
+    "ACTIONS": {
+      "OPEN": "Кушодан",
+      "DOWNLOAD": "Зеркашӣ",
+      "DELETE": "Ҳазф кардан",
+      "VIEW": "Намоиш",
+      "VIEW_DETAILS": "Дидани тафсилот",
+      "COMPARE": "Муқоиса кардан"
+    },
+    "FIELDS": {
+      "NAME": "Ном",
+      "TYPE": "Навъ",
+      "SIZE": "Андоза",
+      "DATE": "Сана",
+      "STATUS": "Ҳолат",
+      "VERSION": "Версия",
+      "VERSIONS": "Версияҳо",
+      "CASE": "Парванда",
+      "AUTHOR": "Муаллиф",
+      "CHANGES": "Тағйирот"
+    }
+  },
+  "CALENDAR": {
+    "TITLE": "Тақвим",
+    "SUBTITLE": "Ҳама вохӯриҳо ва рӯйдодҳо",
+    "NEW_EVENT": "Рӯйдоди нав",
+    "NEW_MEETING": "Вохӯрии нав",
+    "MEETINGS": "Вохӯриҳо",
+    "UPCOMING_MEETINGS": "Вохӯриҳои наздик",
+    "TODAY": "Имрӯз",
+    "CALENDAR": "Тақвим",
+    "QUICK_ACTIONS": "Амалиёти зуд",
+    "ACTIONS": {
+      "MARK_COMPLETE": "Қайд кардан ҳамчун анҷомёфта",
+      "RESCHEDULE": "Аз нав барномарезӣ кардан",
+      "CANCEL": "Бекор кардани вохӯрӣ"
+    },
+    "MESSAGES": {
+      "COMPLETED": "Вохӯрӣ ҳамчун анҷомёфта қайд шуд",
+      "CANCELLED": "Вохӯрӣ бекор карда шуд",
+      "NO_MEETINGS_TODAY": "Барои ин сана вохӯрӣ нест",
+      "SELECT_DATE": "Санаро интихоб кунед"
+    },
+    "MEETING_STATUS": {
+      "MEETING": "вохӯрӣ",
+      "MEETINGS": "вохӯриҳо",
+      "SCHEDULED": "Барномарезишуда",
+      "COMPLETED": "Анҷомёфта",
+      "TOTAL": "Ҳамагӣ"
+    },
+    "PRIORITY": {
+      "HIGH": "Фавқулодда",
+      "MEDIUM": "Миёна",
+      "LOW": "Паст"
+    },
+    "FIELDS": {
+      "TITLE": "Ном",
+      "DATE": "Сана",
+      "TIME": "Вақт",
+      "LOCATION": "Ҷой",
+      "SEARCH_PLACEHOLDER": "Ҷустуҷӯи вохӯриҳо...",
+      "PARTICIPANTS": "Иштирокчиён",
+      "NOTES": "Ёддоштҳо",
+      "MEETING_INFO": "Маълумот дар бораи вохӯрӣ",
+      "CASE": "Парванда",
+      "CLIENT": "Мизоҷ"
+    },
+    "FILTERS": {
+      "ALL_TYPES": "Ҳама намудҳо",
+      "IN_PERSON": "Вохӯриҳои шахсӣ",
+      "VIDEO": "Видеозвонҳо",
+      "PHONE": "Зангҳои телефонӣ",
+      "CLIENT": "Мизоҷ",
+      "ALL_CLIENTS": "Ҳама мизоҷон"
+    },
+    "WEEK_DAYS": {
+      "MON": "Дш",
+      "TUE": "Сш",
+      "WED": "Чш",
+      "THU": "Пш",
+      "FRI": "Ҷм",
+      "SAT": "Шб",
+      "SUN": "Як"
+    },
+    "VIEW": {
+      "DAY": "Рӯз",
+      "WEEK": "Ҳафта",
+      "MONTH": "Моҳ",
+      "CALENDAR": "Тақвим",
+      "LIST": "Рӯйхат"
+    },
+    "MEETING_TYPE": {
+      "VIDEO": "Видеозанг",
+      "PHONE": "Занги телефонӣ",
+      "IN_PERSON": "Вохӯрии шахсӣ"
+    },
+    "MEETING_DETAILS": {
+      "DURATION": "Давомнокӣ",
+      "LOCATION": "Ҷой",
+      "DESCRIPTION": "Шарҳ",
+      "NOTES": "Ёддоштҳо",
+      "NO_NOTES": "Ёддоштҳо ҳанӯз нест",
+      "ADD_NOTE": "Илова кардани ёддошт",
+      "PARTICIPANTS": "Иштирокчиён",
+      "CLIENT": "Мизоҷ",
+      "RELATED_CASE": "Парвандаи алоқаманд",
+      "VIEW_PROFILE": "Дидани профил →",
+      "VIEW_CASE": "Дидани парванда →",
+      "PARTICIPANT": "Иштирокчӣ",
+      "EDIT": "Таҳрир",
+      "DELETE": "Ҳазф",
+      "ALL_MEETINGS": "Ҳама вохӯриҳо"
+    },
+    "STATUS": {
+      "COMPLETED": "Анҷомёфта",
+      "CANCELLED": "Бекоршуда",
+      "SCHEDULED": "Барномарезишуда"
+    },
+    "PRIORITY_DETAILS": {
+      "HIGH": "Афзалияти баланд",
+      "MEDIUM": "Афзалияти миёна",
+      "LOW": "Афзалияти паст"
+    },
+    "FORMS": {
+      "NEW_MEETING": "Вохӯрии нав",
+      "SCHEDULE_MEETING": "Вохӯриеро бо мизоҷ барномарезӣ кунед",
+      "TITLE": "Номи вохӯрӣ",
+      "TITLE_PLACEHOLDER": "Консултатсия оид ба парванда",
+      "MEETING_TYPE": "Намуди вохӯрӣ",
+      "DATE": "Санаи вохӯрӣ",
+      "TIME": "Вақти вохӯрӣ",
+      "SELECT_DATE": "Интихоби сана",
+      "DURATION": "Давомнокии вохӯрӣ",
+      "DURATION_15": "15 дақиқа",
+      "DURATION_30": "30 дақиқа",
+      "DURATION_45": "45 дақиқа",
+      "DURATION_60": "1 соат",
+      "DURATION_90": "1 соат 30 дақиқа",
+      "DURATION_120": "2 соат",
+      "REMINDER": "Ёдоварӣ",
+      "REMINDER_NONE": "Бе ёдоварӣ",
+      "REMINDER_15": "15 дақиқа пеш",
+      "REMINDER_30": "30 дақиқа пеш",
+      "REMINDER_60": "1 соат пеш",
+      "REMINDER_1440": "1 рӯз пеш",
+      "LINK_OR_LOCATION": "Пайванд",
+      "LINK_OR_LOCATION_ALT": "Ҷойи вохӯрӣ",
+      "LINK_PLACEHOLDER": "https://zoom.us/j/...",
+      "LOCATION_PLACEHOLDER": "Дафтар, кабинети 305",
+      "DESCRIPTION_PLACEHOLDER": "Маълумоти иловагӣ дар бораи вохӯрӣ...",
+      "CREATE_MEETING": "Эҷод кардани вохӯрӣ"
+    }
+  },
+  "ANALYTICS": {
+    "TITLE": "Таҳлилҳо",
+    "SUBTITLE": "Шарҳи самаранокии кор ва омор",
+    "EXPORT_REPORT": "Содироти гузориш",
+    "PERIODS": {
+      "WEEK": "Ҳамин ҳафта",
+      "MONTH": "Ҳамин моҳ",
+      "QUARTER": "Квартал",
+      "YEAR": "Сол"
+    },
+    "OVERVIEW_TAB": "Шарҳ",
+    "TABS": {
+      "CASES": "Парвандаҳо",
+      "FINANCE": "Молия",
+      "TEAM": "Гурӯҳ"
+    },
+    "STATS": {
+      "ACTIVE_CASES": "Парвандаҳои фаъол",
+      "NEW_CLIENTS": "Мизоҷони нав",
+      "SUCCESSFUL_CASES": "Парвандаҳои муваффақ",
+      "REVENUE_FOR_PERIOD": "Даромад барои давра",
+      "TOTAL_REVENUE": "Даромади умумӣ",
+      "COMPLETED_CASES": "Парвандаҳои анҷомёфта",
+      "SUCCESS_RATE": "Фоизи муваффақият"
+    },
+    "CASE_STATUS": {
+      "WON": "Ғолиб омада",
+      "IN_PROGRESS": "Дар раванд",
+      "LOST": "Бозуфта"
+    },
+    "CASES_BY_PRACTICE": "Парвандаҳо аз рӯи амалиятҳо",
+    "PRACTICE_TYPES": {
+      "LABOR_DISPUTES": "Низоъҳои меҳнатӣ",
+      "CONTRACT_LAW": "Ҳуқуқи шартнома",
+      "INHERITANCE": "Парвандаҳои мерос",
+      "FAMILY_LAW": "Ҳуқуқи оила",
+      "CRIMINAL_LAW": "Ҳуқуқи ҷиноӣ",
+      "OTHER": "Дигар"
+    },
+    "PRACTICE_STATS": {
+      "TOTAL": "ҳамагӣ",
+      "WON": "ғолиб омада",
+      "IN_PROGRESS": "дар раванд",
+      "LOST": "бозуфта"
+    },
+    "PAYMENT_STATS": {
+      "RECEIVED": "Пардохтҳои гирифташуда",
+      "PENDING": "Пардохтҳои интизоршаванда",
+      "AVERAGE_CHECK": "Чеки миёна"
+    },
+    "REVENUE_SOURCES": "Даромад аз рӯи манбаъҳо",
+    "REVENUE_SOURCE_TYPES": {
+      "CONSULTATIONS": "Консултатсияҳо",
+      "REPRESENTATION": "Намояндагӣ",
+      "LEGAL_SUPPORT": "Дастгирии ҳуқуқӣ",
+      "OTHER": "Дигар"
+    },
+    "TOP_CLIENTS": "Мизоҷони беҳтарин аз рӯи даромад",
+    "TOP_LAWYERS": "Ҳуқуқшиносони беҳтарин",
+    "LAWYER_STATS": {
+      "CASES": "парванда",
+      "SUCCESS_RATE": "Фоизи муваффақият",
+      "REVENUE": "даромад"
+    },
+    "CHARTS": {
+      "CASE_STATISTICS": "Омори парвандаҳо",
+      "CASE_TYPES": "Намудҳои парвандаҳо",
+      "REVENUE_DYNAMICS": "Динамикаи даромад"
+    }
+  },
+  "AI_ASSISTANT": {
+    "TITLE": "Ёвари AI",
+    "SUBTITLE": "Ёвари оқилонаи ҳуқуқии шумо",
+    "CHAT_PLACEHOLDER": "Савол диҳед...",
+    "SEND": "Ирсол",
+    "FEATURES": {
+      "TITLE": "Имкониятҳо",
+      "ANALYZE_DOCUMENT": "Таҳлили ҳуҷҷатҳо",
+      "ANALYZE_DESCRIPTION": "Санҷиши дурустии ҳуқуқӣ ва ошкор кардани хатарҳо",
+      "PRACTICE": "Амалиёти судӣ",
+      "PRACTICE_DESCRIPTION": "Ҷустуҷӯи прецедентҳои дахлдор ва қарорҳо",
+      "LEGAL_BASE": "Пойгоҳи ҳуқуқӣ",
+      "LEGAL_BASE_DESCRIPTION": "Пайвандҳо ба санадҳои меъёрӣ ва қонунгузорӣ",
+      "RECOMMENDATIONS": "Тавсияҳо",
+      "RECOMMENDATIONS_DESCRIPTION": "Маслиҳатҳо оид ба стратегия ва қадамҳои минбаъда",
+      "LEGAL_ADVICE": "Маслиҳати ҳуқуқӣ",
+      "SEARCH_CASES": "Ҷустуҷӯ дар парвандаҳо",
+      "DRAFT_DOCUMENT": "Тартиб додани ҳуҷҷатҳо"
+    },
+    "TABS": {
+      "CHAT": "Сӯҳбат бо AI",
+      "ANALYZE": "Таҳлили ҳуҷҷатҳо",
+      "RESEARCH": "Таҳқиқот"
+    },
+    "HEADER": {
+      "TITLE": "Ёвари AI",
+      "SUBTITLE": "Таҳлили зеҳнӣ ва кӯмак ба ҳуқуқшиносон",
+      "PREMIUM_ACCESS": "Дастрасии премиум"
+    },
+    "CHAT": {
+      "TITLE": "Ёвари ҳуқуқӣ",
+      "STATUS": "Ҳамеша онлайн",
+      "MESSAGE_PLACEHOLDER": "Саволи худро дар ин ҷо нависед...",
+      "COPY": "Нусхабардорӣ"
+    },
+    "ANALYZE": {
+      "UPLOAD_TITLE": "Ҳуҷҷатро барои таҳлил боргирӣ кунед",
+      "DESCRIPTION": "AI дурустии ҳуқуқиро санҷида, хатарҳоро ошкор ва тавсияҳо медиҳад"
+    },
+    "RESEARCH": {
+      "TITLE": "Ҷустуҷӯ дар пойгоҳи ҳуқуқӣ ва амалияи судӣ",
+      "SEARCH_PLACEHOLDER": "Дархости ҷустуҷӯро ворид кунед...",
+      "BUTTONS": {
+        "PRACTICE": "Амалиёти судӣ",
+        "LEGISLATION": "Қонунгузорӣ"
+      }
+    },
+    "QUICK_COMMANDS": {
+      "TITLE": "Фармонҳои зуд"
+    },
+    "RECENT_ANALYSES": {
+      "TITLE": "Таҳлилҳои охирин"
+    }
+  },
+  "SETTINGS": {
+    "TITLE": "Танзимот",
+    "SUBTITLE": "Идоракунии танзимоти ҳисоб ва хусусиятҳо",
+    "TABS": {
+      "PROFILE": "Профил",
+      "ACCOUNT": "Ҳисоб",
+      "NOTIFICATIONS": "Огоҳиномаҳо",
+      "TEAM": "Гурӯҳ",
+      "SECURITY": "Амният",
+      "BILLING": "Ҳисоббаробарӣ"
+    },
+    "PROFILE": {
+      "PERSONAL_INFO": "Маълумоти шахсӣ",
+      "FIRST_NAME": "Ном",
+      "LAST_NAME": "Насаб",
+      "FULL_NAME": "Номи пурра",
+      "EMAIL": "Email",
+      "PHONE": "Телефон",
+      "POSITION": "Вазифа",
+      "BIO": "Дар бораи худ",
+      "REGIONAL_SETTINGS": "Танзимоти минтақавӣ",
+      "LANGUAGE": "Забон",
+      "TIMEZONE": "Минтақаи вақт",
+      "SAVE_CHANGES": "Сабт кардани тағйирот"
+    },
+    "NOTIFICATIONS": {
+      "EMAIL": {
+        "TITLE": "Огоҳиномаҳои Email",
+        "NEW_CASES_LABEL": "Парвандаҳои нав",
+        "NEW_CASES_DESC": "Гирифтани огоҳиномаҳо ҳангоми таъин кардани парвандаҳои нав",
+        "DEADLINES_LABEL": "Мӯҳлатҳои наздикшаванда",
+        "DEADLINES_DESC": "Ёдоварӣ дар бораи наздик шудани мӯҳлатҳои парвандаҳо",
+        "DOCUMENTS_LABEL": "Навсозии ҳуҷҷатҳо",
+        "DOCUMENTS_DESC": "Огоҳиномаҳо ҳангоми илова ё тағйир додани ҳуҷҷатҳо",
+        "COMMENTS_LABEL": "Шарҳҳо ва зикрҳо",
+        "COMMENTS_DESC": "Вақте ки касе шуморо дар парванда зикр ё шарҳ мекунад",
+        "WEEKLY_REPORT_LABEL": "Хулосаи ҳафтавӣ",
+        "WEEKLY_REPORT_DESC": "Гирифтани гузориши ҳафтавӣ дар бораи фаъолияти шумо",
+        "EMAIL_ALERTS_LABEL": "Огоҳиҳои муҳим",
+        "EMAIL_ALERTS_DESC": "Огоҳиномаҳои муҳиме, ки диққати фаврӣ талаб мекунанд"
+      },
+      "PUSH": {
+        "TITLE": "Огоҳиномаҳои Push",
+        "URGENT_LABEL": "Парвандаҳои зуд",
+        "URGENT_DESC": "Огоҳиҳои фаврӣ барои парвандаҳои афзалиятнок",
+        "MEETINGS_LABEL": "Вохӯриҳои наздикшаванда",
+        "MEETINGS_DESC": "Ёдоварӣ 15 дақиқа пеш аз вохӯриҳои барномарезишуда",
+        "MESSAGES_LABEL": "Паёмҳои нав",
+        "MESSAGES_DESC": "Огоҳиномаҳо дар бораи паёмҳои шахсии нав"
+      }
+    },
+    "TEAM": {
+      "INVITE_MEMBER": "Даъват кардани аъзо",
+      "MEMBERS": "Аъзоҳо",
+      "ROLE": "Нақш"
+    },
+    "SECURITY": {
+      "CHANGE_PASSWORD": "Иваз кардани парол",
+      "CURRENT_PASSWORD": "Пароли ҷорӣ",
+      "NEW_PASSWORD": "Пароли нав",
+      "CONFIRM_PASSWORD": "Тасдиқи парол",
+      "UPDATE_PASSWORD": "Навсозии парол",
+      "TWO_FACTOR": "Тасдиқи дуамилагӣ",
+      "TWO_FACTOR_AUTH": "Тасдиқи дуамилагӣ",
+      "TWO_FACTOR_ENABLED": "Тасдиқи дуамилагӣ фаъол аст",
+      "TWO_FACTOR_DESC": "Ҳисоби шумо бо тасдиқи дуамилагӣ муҳофизат шудааст",
+      "DISABLE": "Хомӯш кардан",
+      "SESSIONS": "Сессияҳои фаъол",
+      "ACTIVE_SESSIONS": "Сессияҳои фаъол",
+      "ACTIVE_SESSIONS_DESC": "Идоракунии дастгоҳҳое, ки шумо дар онҳо ворид шудаед",
+      "CURRENT_SESSION": "Сессияи ҷорӣ"
+    }
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Огоҳиномаҳо",
+    "MARK_ALL_READ": "Ҳамаро ҳамчун хондашуда қайд кунед",
+    "NO_NOTIFICATIONS": "Огоҳиномае нест",
+    "CLEAR_ALL": "Тоза кардани ҳама"
+  },
+  "USER_PROFILE": {
+    "TITLE": "Профили корбар",
+    "SUBTITLE": "Идоракунии профил ва танзимоти шумо",
+    "EDIT_PROFILE": "Таҳрири профил",
+    "CHANGE_AVATAR": "Иваз кардани аватар",
+    "SAVE_CHANGES": "Сабт кардани тағйирот",
+    "PERSONAL_INFO": "Маълумоти шахсӣ",
+    "FIRST_NAME": "Номи аввал",
+    "LAST_NAME": "Насаб",
+    "MIDDLE_NAME": "Номи падар",
+    "CONTACT_INFO": "Маълумоти тамос",
+    "EMAIL": "Email",
+    "PHONE": "Телефон",
+    "PROFESSIONAL_INFO": "Маълумоти касбӣ",
+    "POSITION": "Мансаб",
+    "SPECIALIZATION": "Тахассус",
+    "COMPANY": "Ширкат",
+    "OFFICE_ADDRESS": "Суроғаи дафтар",
+    "STATS": {
+      "ACTIVE_CASES": "Парвандаҳои фаъол",
+      "CLIENTS": "Мизоҷон",
+      "COMPLETED_CASES": "Парвандаҳои анҷомёфта",
+      "DAYS_IN_SYSTEM": "Рӯзҳо дар система"
+    },
+    "SESSION": "Сессия",
+    "SESSION_DESCRIPTION": "Берун омадан аз ҳисоб дар ин дастгоҳ",
+    "LOGOUT": "Берун омадан",
+    "DELETE_ACCOUNT": "Ҳазф кардани ҳисоб",
+    "DELETE_ACCOUNT_WARNING": "Ин амал баргаштнопазир аст. Тамоми маълумотҳои шумо ҳазф карда мешаванд.",
+    "DELETE_ACCOUNT_BUTTON": "Ҳазф кардани ҳисоб",
+    "STATISTICS": "Омор",
+    "ACCOUNT_TYPE": "Ҳисоби Pro",
+    "TABS": {
+      "PROFILE": "Профил",
+      "BILLING": "Ҳисоббаробарӣ"
+    },
+    "AVATAR_CROPPER": {
+      "TITLE": "Буридани тасвир",
+      "DESCRIPTION": "Минтақаеро барои аватари худ интихоб кунед. Минтақаи буридашуда мураббаъ хоҳад буд.",
+      "CANCEL": "Бекор кардан",
+      "CONFIRM": "Тасдиқ кардан"
+    }
+  },
+  "AUTH": {
+    "LOGIN": "Вуруд",
+    "REGISTER": "Сабти ном",
+    "EMAIL": "Email",
+    "PASSWORD": "Парол",
+    "REMEMBER_ME": "Маро дар хотир нигоҳ дор",
+    "FORGOT_PASSWORD": "Паролро фаромӯш кардед?",
+    "NO_ACCOUNT": "Ҳисоб надоред?",
+    "HAVE_ACCOUNT": "Аллакай ҳисоб доред?",
+    "SIGN_IN": "Вуруд",
+    "SIGN_UP": "Сабти ном",
+    "OR": "ё",
+    "CONTINUE_WITH": "Идома бо"
+  },
+  "TASKS": {
+    "NEW_TASK": "Вазифаи нав",
+    "TASK_TITLE": "Номи вазифа",
+    "TASK_TITLE_PLACEHOLDER": "Масалан: Омода кардани ҳуҷҷатҳо",
+    "CREATE_TASK": "Эҷод кардани вазифа"
+  },
+  "COMMENTS": {
+    "TITLE": "Шарҳҳо",
+    "ADD_PLACEHOLDER": "Илова кардани шарҳ...",
+    "SEND": "Ирсол"
+  },
+  "UPLOAD": {
+    "TITLE": "Боргирии ҳуҷҷат",
+    "DRAG_DROP": "Файлро ин ҷо кашида баред ё",
+    "SELECT_FILE": "файлро интихоб кунед",
+    "SUPPORTED_FORMATS": "Дастгиришаванда: PDF, DOC, DOCX, TXT, JPG, PNG (то 25 МБ)",
+    "DOCUMENT_NAME": "Номи ҳуҷҷат",
+    "DOCUMENT_NAME_PLACEHOLDER": "Ариза",
+    "SELECT_CASE": "Интихоби парванда",
+    "DOCUMENT_TYPE": "Намуди ҳуҷҷат",
+    "DOCUMENT_TYPES": {
+      "LAWSUIT": "Ариза",
+      "CONTRACT": "Шартнома",
+      "ORDER": "Қарор",
+      "POWER": "Ваколатнома",
+      "RESPONSE": "Ҷавоб",
+      "OTHER": "Дигар"
+    },
+    "NOTES": "Ёддоштҳо",
+    "NOTES_PLACEHOLDER": "Тавсифи мухтасари ҳуҷҷат ё қайдҳои муҳим..."
+  },
+  "SEARCH": {
+    "GLOBAL": "Ҷустуҷӯи глобалӣ",
+    "PLACEHOLDER": "Ҷустуҷӯи мизоҷон, парвандаҳо, ҳуҷҷатҳо...",
+    "DESCRIPTION": "Ҷустуҷӯ дар парвандаҳо, мизоҷон ва ҳуҷҷатҳо"
+  },
+  "PLAN": {
+    "TITLE": "Интихоби нақшаи обуна",
+    "SUBTITLE": "Нақшаи тарифиро интихоб кунед, ки ба гурӯҳи шумо мувофиқ аст",
+    "POPULAR": "Маъмул",
+    "SELECT_PLAN": "Интихоби нақша",
+    "BASIC": {
+      "NAME": "Basic",
+      "PRICE": "4 990 ₽",
+      "FEATURES": {
+        "CLIENTS": "То 50 мизоҷон",
+        "CASES": "То 100 парвандаҳо",
+        "STORAGE": "10 ГБ захирагоҳ",
+        "USERS": "1 корбар"
+      }
+    },
+    "PRO": {
+      "NAME": "Pro",
+      "PRICE": "12 990 ₽",
+      "FEATURES": {
+        "CLIENTS": "Бемаҳдуд мизоҷон",
+        "CASES": "Бемаҳдуд парвандаҳо",
+        "STORAGE": "100 ГБ захирагоҳ",
+        "USERS": "То 5 корбарон"
+      }
+    },
+    "ENTERPRISE": {
+      "NAME": "Enterprise",
+      "PRICE": "Бо дархост",
+      "FEATURES": {
+        "CLIENTS": "Бемаҳдуд мизоҷон",
+        "CASES": "Бемаҳдуд парвандаҳо",
+        "STORAGE": "Бемаҳдуд захирагоҳ",
+        "USERS": "Бемаҳдуд корбарон"
+      }
+    }
+  }
 }

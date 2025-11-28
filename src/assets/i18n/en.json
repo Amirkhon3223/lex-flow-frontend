@@ -30,6 +30,7 @@
       "BACK": "Back",
       "PREVIEW": "Preview"
     },
+    "OF": "of",
     "COMMENTS": {
       "ADD": "Add comment"
     },
@@ -120,6 +121,11 @@
     "TITLE": "Cases",
     "SUBTITLE": "Manage cases and documents",
     "NEW_CASE": "New Case",
+    "TITLE_PLACEHOLDER": "E.g.: Labor dispute - dismissal",
+    "SELECT_CLIENT": "Select client",
+    "SELECT_CATEGORY": "Case category",
+    "DESCRIPTION_PLACEHOLDER": "Short description of the case circumstances...",
+    "CREATE_CASE": "Create Case",
     "ALL_CASES": "All Cases",
     "MY_CASES": "My Cases",
     "TOTAL_CASES": "Total Cases",
@@ -187,6 +193,12 @@
       "CORPORATE": "Corporate law",
       "CONSUMER": "Consumer protection"
     },
+    "PRIORITY": {
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
     "DETAIL": {
       "OVERVIEW": "Overview",
       "DOCUMENTS": "Documents",
@@ -204,7 +216,8 @@
     },
     "DOC_VERSION": {
       "SINGULAR": "version",
-      "PLURAL": "versions"
+      "PLURAL": "versions",
+      "SHORT": "ver."
     },
     "NOTES": {
       "PLACEHOLDER": "Add notes about the case...",
@@ -236,6 +249,9 @@
     "TITLE": "Clients",
     "SUBTITLE": "Client database and contacts",
     "NEW_CLIENT": "New Client",
+    "CREATE_CLIENT": "Create Client",
+    "SELECT_CATEGORY": "Select category",
+    "NOTES_PLACEHOLDER": "Additional information about the client...",
     "ALL_CLIENTS": "All Clients",
     "SEARCH_PLACEHOLDER": "Search clients...",
     "TOTAL_CLIENTS": "Total Clients",
@@ -283,6 +299,12 @@
       "PREMIUM": "Premium",
       "STANDARD": "Standard"
     },
+    "CATEGORY": {
+      "VIP": "VIP client",
+      "REGULAR": "Regular",
+      "NEW": "New",
+      "POTENTIAL": "Potential"
+    },
     "STATUS": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
@@ -295,6 +317,9 @@
       "EMAIL": "Email",
       "PHONE": "Phone",
       "COMPANY": "Company",
+      "COMPANY_NAME": "Company Name",
+      "INN": "TIN",
+      "KPP": "Tax Registration Reason Code",
       "STATUS": "Status",
       "CONTACT_INFO": "Contact Information",
       "FINANCIAL_INFO": "Financial Information",
@@ -307,7 +332,8 @@
       "LAST_CONTACT": "Last Contact",
       "ACTIONS": "Actions",
       "ADDRESS": "Address",
-      "BIRTH_DATE": "Birth date"
+      "BIRTH_DATE": "Birth date",
+      "NOTES": "Notes"
     },
     "FINANCIAL": {
       "TITLE": "Finance",
@@ -321,6 +347,21 @@
       "EDIT": "Edit",
       "WRITE": "Write",
       "DELETE": "Delete"
+    },
+    "EDIT_DIALOG": {
+      "TITLE": "Edit Client",
+      "DESCRIPTION": "Update client information. All changes will be saved in history.",
+      "PERSONAL_INFO": "Personal Information",
+      "ADDITIONAL_INFO": "Additional",
+      "CLIENT_TYPE": "Client Type",
+      "SELECT_TYPE": "Select type",
+      "SOURCE": "Source",
+      "SELECT_SOURCE": "Select source",
+      "CORPORATE": "Corporate",
+      "SOURCE_WEBSITE": "Website",
+      "SOURCE_REFERRAL": "Referral",
+      "SOURCE_ADVERTISING": "Advertising",
+      "SAVE_CHANGES": "Save Changes"
     }
   },
   "DOCUMENTS": {
@@ -385,6 +426,14 @@
       "REVIEW": "Review",
       "DRAFT": "Draft"
     },
+    "ACTIONS": {
+      "OPEN": "Open",
+      "DOWNLOAD": "Download",
+      "DELETE": "Delete",
+      "VIEW": "View",
+      "VIEW_DETAILS": "View Details",
+      "COMPARE": "Compare"
+    },
     "FIELDS": {
       "NAME": "Name",
       "TYPE": "Type",
@@ -406,6 +455,7 @@
     "MEETINGS": "Meetings",
     "UPCOMING_MEETINGS": "Upcoming Meetings",
     "TODAY": "Today",
+    "CALENDAR": "Calendar",
     "QUICK_ACTIONS": "Quick Actions",
     "ACTIONS": {
       "MARK_COMPLETE": "Mark as completed",
@@ -420,7 +470,10 @@
     },
     "MEETING_STATUS": {
       "MEETING": "meeting",
-      "MEETINGS": "meetings"
+      "MEETINGS": "meetings",
+      "SCHEDULED": "Scheduled",
+      "COMPLETED": "Completed",
+      "TOTAL": "Total"
     },
     "PRIORITY": {
       "HIGH": "Urgent",
@@ -642,7 +695,6 @@
         "LEGISLATION": "Legislation"
       }
     },
-    
     "QUICK_COMMANDS": {
       "TITLE": "Quick Commands"
     },
@@ -785,6 +837,42 @@
     "SIGN_UP": "Sign Up",
     "OR": "or",
     "CONTINUE_WITH": "Continue with"
+  },
+  "TASKS": {
+    "NEW_TASK": "New Task",
+    "TASK_TITLE": "Task Title",
+    "TASK_TITLE_PLACEHOLDER": "E.g.: Prepare documents",
+    "CREATE_TASK": "Create Task"
+  },
+  "COMMENTS": {
+    "TITLE": "Comments",
+    "ADD_PLACEHOLDER": "Add a comment...",
+    "SEND": "Send"
+  },
+  "UPLOAD": {
+    "TITLE": "Upload Document",
+    "DRAG_DROP": "Drag file here or",
+    "SELECT_FILE": "select file",
+    "SUPPORTED_FORMATS": "Supported: PDF, DOC, DOCX, TXT, JPG, PNG (up to 25 MB)",
+    "DOCUMENT_NAME": "Document Name",
+    "DOCUMENT_NAME_PLACEHOLDER": "Lawsuit",
+    "SELECT_CASE": "Select Case",
+    "DOCUMENT_TYPE": "Document Type",
+    "DOCUMENT_TYPES": {
+      "LAWSUIT": "Lawsuit",
+      "CONTRACT": "Contract",
+      "ORDER": "Order",
+      "POWER": "Power of Attorney",
+      "RESPONSE": "Response",
+      "OTHER": "Other"
+    },
+    "NOTES": "Notes",
+    "NOTES_PLACEHOLDER": "Brief description of the document or important notes..."
+  },
+  "SEARCH": {
+    "GLOBAL": "Global Search",
+    "PLACEHOLDER": "Search clients, cases, documents...",
+    "DESCRIPTION": "Search across cases, clients and documents"
   },
   "PLAN": {
     "TITLE": "Choose Subscription Plan",

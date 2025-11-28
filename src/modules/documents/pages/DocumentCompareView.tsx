@@ -395,7 +395,7 @@ export function DocumentCompareView() {
             <div className="p-3 bg-muted/50 border-b border-border">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-semibold tracking-tight text-sm mb-0.5">Версия {version1}</h3>
+                  <h3 className="font-semibold tracking-tight text-sm mb-0.5">{t('DOCUMENTS.VERSION_NUMBER', { version: version1 })}</h3>
                   <p className="text-xs text-muted-foreground">
                     {documentVersions.find(v => v.version === parseInt(version1))?.date}
                   </p>
@@ -418,7 +418,7 @@ export function DocumentCompareView() {
             <div className="p-3 bg-green-500/10 border-b border-green-500/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-semibold tracking-tight text-sm mb-0.5">Версия {version2}</h3>
+                  <h3 className="font-semibold tracking-tight text-sm mb-0.5">{t('DOCUMENTS.VERSION_NUMBER', { version: version2 })}</h3>
                   <p className="text-xs text-muted-foreground">
                     {documentVersions.find(v => v.version === parseInt(version2))?.date}
                   </p>
@@ -606,7 +606,7 @@ export function DocumentCompareView() {
                   <div className="p-4 bg-muted/50 border-b border-border">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold tracking-tight mb-1">{t('DOCUMENTS.VERSION')} {version1}</h3>
+                        <h3 className="font-semibold tracking-tight mb-1">{t('DOCUMENTS.VERSION', { version: version1 })}</h3>
                         <p className="text-xs text-muted-foreground">
                           {documentVersions.find(v => v.version === parseInt(version1))?.date}
                         </p>

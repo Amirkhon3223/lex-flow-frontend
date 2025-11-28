@@ -121,6 +121,11 @@
     "TITLE": "Дела",
     "SUBTITLE": "Управление делами и документами",
     "NEW_CASE": "Новое дело",
+    "TITLE_PLACEHOLDER": "Например: Трудовой спор - увольнение",
+    "SELECT_CLIENT": "Выберите клиента",
+    "SELECT_CATEGORY": "Категория дела",
+    "DESCRIPTION_PLACEHOLDER": "Краткое описание обстоятельств дела...",
+    "CREATE_CASE": "Создать дело",
     "ALL_CASES": "Все дела",
     "MY_CASES": "Мои дела",
     "TOTAL_CASES": "Всего дел",
@@ -187,6 +192,12 @@
       "CONTRACT": "Договорное право",
       "CORPORATE": "Корпоративное право",
       "CONSUMER": "Защита прав потребителей"
+    },
+    "PRIORITY": {
+      "LOW": "Низкий",
+      "MEDIUM": "Средний",
+      "HIGH": "Высокий",
+      "URGENT": "Срочный"
     },
     "DETAIL": {
       "OVERVIEW": "Обзор",
@@ -444,6 +455,7 @@
     "MEETINGS": "Встречи",
     "UPCOMING_MEETINGS": "Предстоящие встречи",
     "TODAY": "Сегодня",
+    "CALENDAR": "Календарь",
     "QUICK_ACTIONS": "Быстрые действия",
     "ACTIONS": {
       "MARK_COMPLETE": "Отметить как завершённую",
@@ -458,7 +470,10 @@
     },
     "MEETING_STATUS": {
       "MEETING": "встреча",
-      "MEETINGS": "встречи"
+      "MEETINGS": "встречи",
+      "SCHEDULED": "Запланировано",
+      "COMPLETED": "Завершено",
+      "TOTAL": "Всего"
     },
     "PRIORITY": {
       "HIGH": "Срочно",

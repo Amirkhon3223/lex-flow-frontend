@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ChevronLeft, Briefcase, FileText, DollarSign, Clock, TrendingUp, Plus, Mail, Phone } from 'lucide-react';
-import { useParams, Link } from 'react-router-dom';
+import { Briefcase, FileText, DollarSign, Clock, TrendingUp, Plus, Mail, Phone } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
 import type { CaseCardInterface } from "@/app/types/cases/cases.interfaces.ts";
 import { CaseCard } from "@/modules/cases/ui/CaseCard.tsx";
 import { ContactInfoCard } from "@/modules/clients/ui/ContactInfoCard.tsx";
 import { FinancialCard } from "@/modules/clients/widgets/FinancialCard.tsx";
 import { AddCaseDialog } from "@/shared/components/AddCaseDialog.tsx";
+import { BackButton } from "@/shared/components/BackButton.tsx";
 import { EditClientDialog } from "@/shared/components/EditClientDialog.tsx";
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
@@ -16,6 +17,7 @@ import { StatCard } from '@/shared/ui/stat-card';
 
 export default function ClientDetailPage() {
   const { t } = useI18n();
+  const navigate = useNavigate();
   const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { id: _id } = useParams();
@@ -89,10 +91,7 @@ export default function ClientDetailPage() {
       <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen} />
       <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen} />
 
-      <Link to="/clients" className="inline-flex items-center text-xs sm:text-sm text-gray-600 hover:text-gray-900">
-        <ChevronLeft className="mr-1 h-3.5 w-3.5 sm:h-4 sm:w-4" />
-        {t('CLIENTS.ALL_CLIENTS')}
-      </Link>
+      <BackButton onClick={() => navigate(-1)} label={t('CLIENTS.ALL_CLIENTS')} />
 
       <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
         <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
