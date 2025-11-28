@@ -1,7 +1,7 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import type { CaseTypeData } from "@/app/types/cases/cases.interfaces.ts";
-import { Card } from '@/shared/ui/card';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Card } from '@/shared/ui/card';
 
 const caseTypeData: CaseTypeData[] = [
   { name: 'LABOR_DISPUTES', value: 35, color: '#3B82F6' },

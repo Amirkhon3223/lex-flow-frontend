@@ -1,8 +1,8 @@
 import { Clock, MapPin } from 'lucide-react';
 import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
 import { InfoBlock } from '@/modules/calendar/ui/InfoBlock';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 interface MeetingInfoCardProps {
   meeting: MeetingInterface;

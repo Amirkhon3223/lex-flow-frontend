@@ -1,8 +1,8 @@
 import { Calendar, Download, BarChart3, Briefcase, DollarSign, Users, Sparkles } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { ManagedSelect as Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/managed-select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
-import { useI18n } from '@/shared/context/I18nContext';
 import { CasesChart } from './components/CasesChart';
 import { CasesTabContent } from './components/CasesTabContent';
 import { CaseTypesChart } from './components/CaseTypesChart';

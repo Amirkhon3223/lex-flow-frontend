@@ -1,5 +1,5 @@
-import { useI18n } from '@/shared/context/I18nContext';
 import type { FinancialCardProps } from '@/app/types/clients/clients.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 export function FinancialCard({ financialData }: FinancialCardProps) {

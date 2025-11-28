@@ -1,7 +1,7 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import type { RevenueDataInterface } from '@/app/types/analytics/analytics.interfaces';
-import { Card } from '@/shared/ui/card';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Card } from '@/shared/ui/card';
 
 const revenueData: RevenueDataInterface[] = [
   { month: 'Янв', revenue: 450000 },

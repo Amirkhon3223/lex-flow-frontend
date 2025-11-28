@@ -1,6 +1,6 @@
 import type { ParticipantItemProps } from '@/app/types/calendar/calendar.interfaces';
-import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 
 export function ParticipantItem({ name, role }: ParticipantItemProps) {
     const { t } = useI18n();

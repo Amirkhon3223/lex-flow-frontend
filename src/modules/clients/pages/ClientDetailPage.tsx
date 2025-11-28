@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { ChevronLeft, Briefcase, FileText, DollarSign, Clock, TrendingUp, Plus, Mail, Phone } from 'lucide-react';
 import { useParams, Link } from 'react-router-dom';
-import { useI18n } from '@/shared/context/I18nContext';
 import type { CaseCardInterface } from "@/app/types/cases/cases.interfaces.ts";
 import { CaseCard } from "@/modules/cases/ui/CaseCard.tsx";
 import { ContactInfoCard } from "@/modules/clients/ui/ContactInfoCard.tsx";
 import { FinancialCard } from "@/modules/clients/widgets/FinancialCard.tsx";
 import { AddCaseDialog } from "@/shared/components/AddCaseDialog.tsx";
 import { EditClientDialog } from "@/shared/components/EditClientDialog.tsx";
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';

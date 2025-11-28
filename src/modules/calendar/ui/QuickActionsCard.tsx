@@ -1,8 +1,8 @@
 import { Check, Calendar, X } from 'lucide-react';
 import type { QuickActionsCardProps } from '@/app/types/calendar/calendar.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent } from '@/shared/ui/card';
-import { useI18n } from '@/shared/context/I18nContext';
 
 export function QuickActionsCard({ onComplete, onReschedule, onCancel }: QuickActionsCardProps) {
     const { t } = useI18n();

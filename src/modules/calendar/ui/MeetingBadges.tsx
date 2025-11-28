@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 import { Check, X, Video, Phone, Users } from 'lucide-react';
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
 import type { MeetingInterface, MeetingBadgesProps } from '@/app/types/calendar/calendar.interfaces';
-import { Badge } from '@/shared/ui/badge';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Badge } from '@/shared/ui/badge';
 
 const getMeetingTypeIcon = (type: MeetingInterface['type']): ReactNode => {
     switch (type) {

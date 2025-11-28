@@ -3,8 +3,8 @@ import { ChevronLeft, ChevronRight, Download, FileText, Info, Maximize2, Minimiz
 import { useNavigate } from 'react-router-dom';
 import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums';
 import type { DocumentVersionInterface, DocumentChangeInterface } from '@/app/types/documents/documents.interfaces';
-import { useI18n } from '@/shared/context/I18nContext';
 import { BackButton } from '@/shared/components/BackButton';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -400,7 +400,7 @@ export function DocumentCompareView() {
                     {documentVersions.find(v => v.version === parseInt(version1))?.date}
                   </p>
                 </div>
-                <Badge className="bg-muted text-muted-foreground border-0 text-xs">Старая</Badge>
+                <Badge className="bg-muted text-muted-foreground border-0 text-xs">{t('DOCUMENTS.OLD')}</Badge>
               </div>
             </div>
             <ScrollArea className="h-[300px] sm:h-[400px]">
@@ -423,7 +423,7 @@ export function DocumentCompareView() {
                     {documentVersions.find(v => v.version === parseInt(version2))?.date}
                   </p>
                 </div>
-                <Badge className="bg-green-500 text-white border-0 text-xs">Новая</Badge>
+                <Badge className="bg-green-500 text-white border-0 text-xs">{t('DOCUMENTS.NEW')}</Badge>
               </div>
             </div>
             <ScrollArea className="h-[300px] sm:h-[400px]">
@@ -444,7 +444,7 @@ export function DocumentCompareView() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Info className="w-3.5 h-3.5 text-muted-foreground" strokeWidth={2} />
-                <h4 className="text-xs font-semibold tracking-tight">Легенда</h4>
+                <h4 className="text-xs font-semibold tracking-tight">{t('DOCUMENTS.LEGEND')}</h4>
               </div>
               <div className="flex flex-wrap gap-3 text-xs">
                 <div className="flex items-center gap-1.5">
@@ -482,7 +482,7 @@ export function DocumentCompareView() {
                   <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/10">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                      <span className="text-sm text-green-700 dark:text-green-400">Добавлено</span>
+                      <span className="text-sm text-green-700 dark:text-green-400">{t('DOCUMENTS.ADDED')}</span>
                     </div>
                     <span className="text-sm text-green-700 dark:text-green-400">{changesSummary.added}</span>
                   </div>
@@ -490,7 +490,7 @@ export function DocumentCompareView() {
                   <div className="flex items-center justify-between p-3 rounded-xl bg-destructive/10">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-destructive"></div>
-                      <span className="text-sm text-destructive">Удалено</span>
+                      <span className="text-sm text-destructive">{t('DOCUMENTS.REMOVED')}</span>
                     </div>
                     <span className="text-sm text-destructive">{changesSummary.removed}</span>
                   </div>
@@ -498,7 +498,7 @@ export function DocumentCompareView() {
                   <div className="flex items-center justify-between p-3 rounded-xl bg-blue-500/10">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                      <span className="text-sm text-blue-700 dark:text-blue-400">Изменено</span>
+                      <span className="text-sm text-blue-700 dark:text-blue-400">{t('DOCUMENTS.MODIFIED')}</span>
                     </div>
                     <span className="text-sm text-blue-700 dark:text-blue-400">{changesSummary.modified}</span>
                   </div>

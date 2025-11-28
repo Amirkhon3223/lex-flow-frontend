@@ -1,8 +1,8 @@
 import { FileText } from 'lucide-react';
 import { EmptyState } from '@/modules/calendar/ui/EmptyState';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { useI18n } from '@/shared/context/I18nContext';
 
 interface MeetingDocumentsCardProps {
   onAddDocument: () => void;

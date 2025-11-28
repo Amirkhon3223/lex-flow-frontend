@@ -1,11 +1,11 @@
 import { Briefcase, Calendar as CalendarIcon, Clock, MapPin, MoreHorizontal } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { SelectedDateMeetingsProps } from '@/app/types/calendar/calendar.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
-import { useI18n } from '@/shared/context/I18nContext';
 
 
 export function SelectedDateMeetings({

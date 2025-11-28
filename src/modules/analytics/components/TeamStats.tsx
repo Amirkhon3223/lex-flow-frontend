@@ -1,8 +1,8 @@
 import { Award } from 'lucide-react';
 import type { LawyerStatsInterface } from '@/app/types/analytics/analytics.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { Progress } from '@/shared/ui/progress';
-import { useI18n } from '@/shared/context/I18nContext';
 import { getMedalGradient } from '@/shared/utils/styleHelpers';
 
 const topLawyers: LawyerStatsInterface[] = [

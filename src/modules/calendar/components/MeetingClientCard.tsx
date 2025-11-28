@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { useI18n } from '@/shared/context/I18nContext';
 
 interface MeetingClientCardProps {
   client: MeetingInterface['client'];

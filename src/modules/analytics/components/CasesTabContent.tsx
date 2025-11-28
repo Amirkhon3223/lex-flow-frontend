@@ -1,10 +1,10 @@
 import { CheckCircle, XCircle, Clock } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
 import { IconContainer } from '@/shared/ui/common/IconContainer';
 import { TrendingBadge } from '@/shared/ui/common/TrendingBadge';
 import { Progress } from '@/shared/ui/progress';
-import { useI18n } from '@/shared/context/I18nContext';
 
 const casesByStatus = [
   { status: 'WON', count: 42, percentage: 68, color: 'text-green-600', bgColor: 'bg-green-50', icon: CheckCircle },

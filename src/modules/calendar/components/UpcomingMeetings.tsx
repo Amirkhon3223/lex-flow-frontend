@@ -1,7 +1,7 @@
 import type { UpcomingMeetingsProps } from "@/app/types/calendar/calendar.interfaces.ts";
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
-import { useI18n } from '@/shared/context/I18nContext';
 
 export function UpcomingMeetings({ meetings, onSelectDate }: UpcomingMeetingsProps) {
   const { t } = useI18n();

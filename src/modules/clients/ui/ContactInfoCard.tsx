@@ -1,13 +1,13 @@
 import { Mail, Phone, MapPin, Calendar, Edit } from 'lucide-react';
-import { useI18n } from '@/shared/context/I18nContext';
 import type { ContactInfoCardProps } from '@/app/types/clients/clients.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { getIconBgColor } from '@/shared/lib/color-utils';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 export function ContactInfoCard({ contactInfo, onEdit }: ContactInfoCardProps) {
   const { t } = useI18n();
-  
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">

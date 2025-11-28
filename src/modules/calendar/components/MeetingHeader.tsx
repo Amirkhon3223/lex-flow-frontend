@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
 import { MeetingBadges } from '@/modules/calendar/ui/MeetingBadges';
 import { BackButton } from '@/shared/components/BackButton';
-import { Button } from '@/shared/ui/button';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Button } from '@/shared/ui/button';
 
 interface MeetingHeaderProps {
   meeting: MeetingInterface;

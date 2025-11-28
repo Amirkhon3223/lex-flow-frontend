@@ -1,6 +1,6 @@
 import type { TodayCardProps } from '@/app/types/calendar/calendar.interfaces';
-import { Card } from '@/shared/ui/card';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Card } from '@/shared/ui/card';
 
 export function TodayCard({ meetingsCount }: TodayCardProps) {
     const { t } = useI18n();

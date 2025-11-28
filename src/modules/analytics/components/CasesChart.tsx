@@ -1,7 +1,7 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import type { CaseStatDataInterface } from '@/app/types/analytics/analytics.interfaces';
-import { Card } from '@/shared/ui/card';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Card } from '@/shared/ui/card';
 
 const casesData: CaseStatDataInterface[] = [
   { month: 'Янв', cases: 12, won: 8, lost: 2, pending: 2 },

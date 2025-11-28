@@ -6,11 +6,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
 import type { MeetingsListProps } from '@/app/types/calendar/calendar.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
-import { useI18n } from '@/shared/context/I18nContext';
 
 
 export function MeetingsList({

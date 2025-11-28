@@ -1,9 +1,9 @@
 import { DollarSign, CreditCard, Wallet } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { IconContainer } from '@/shared/ui/common/IconContainer';
 import { TrendingBadge } from '@/shared/ui/common/TrendingBadge';
 import { getMedalGradient } from '@/shared/utils/styleHelpers';
-import { useI18n } from '@/shared/context/I18nContext';
 
 const revenueBySource = [
   { source: 'CONSULTATIONS', amount: 1250000, percentage: 32, color: 'bg-blue-500' },

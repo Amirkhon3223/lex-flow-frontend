@@ -1,7 +1,7 @@
 import { Briefcase } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 interface MeetingCaseCardProps {
   caseName: string;

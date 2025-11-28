@@ -1,10 +1,10 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { MeetingStatusEnum } from '@/app/types/calendar/calendar.enums';
 import type { CalendarWidgetProps } from '@/app/types/calendar/calendar.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import { Card } from '@/shared/ui/card';
-import { useI18n } from '@/shared/context/I18nContext';
 
 export function CalendarWidget({
   date,

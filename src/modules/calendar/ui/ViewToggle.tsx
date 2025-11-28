@@ -1,7 +1,7 @@
 import { Grid3x3, List } from 'lucide-react';
 import type { ViewToggleProps } from '@/app/types/calendar/calendar.interfaces';
-import { Button } from '@/shared/ui/button';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Button } from '@/shared/ui/button';
 
 export function ViewToggle({ viewMode, onViewChange }: ViewToggleProps) {
     const { t } = useI18n();

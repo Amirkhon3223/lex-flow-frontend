@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Mail, Phone, MapPin, Upload, LogOut, Trash2, Briefcase } from 'lucide-react';
-import { useI18n } from '@/shared/context/I18nContext';
 import { AvatarCropperModal } from '@/modules/user-profile/ui/AvatarCropperModal';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';

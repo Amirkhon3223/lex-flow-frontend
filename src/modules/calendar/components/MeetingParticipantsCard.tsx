@@ -1,6 +1,6 @@
 import { ParticipantItem } from '@/modules/calendar/ui/ParticipantItem';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 interface MeetingParticipantsCardProps {
   participants: string[];
