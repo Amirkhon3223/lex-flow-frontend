@@ -11,6 +11,7 @@ import {
   Briefcase,
   X,
 } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import {
@@ -29,6 +30,7 @@ interface GlobalSearchDialogProps {
 }
 
 export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogProps) {
+  const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState('');
 
   const searchResults = {
@@ -49,14 +51,14 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl p-0 gap-0 bg-background/95 backdrop-blur-2xl border-border/50">
-        <DialogTitle className="sr-only">Глобальный поиск</DialogTitle>
-        <DialogDescription className="sr-only">Поиск по делам, клиентам и документам</DialogDescription>
+        <DialogTitle className="sr-only">{t('SEARCH.GLOBAL')}</DialogTitle>
+        <DialogDescription className="sr-only">{t('SEARCH.DESCRIPTION')}</DialogDescription>
 
         <div className="p-6 pb-4">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" strokeWidth={2} />
             <Input
-              placeholder="Поиск клиентов, дел, документов..."
+              placeholder={t('SEARCH.PLACEHOLDER')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-12 pr-12 h-14 bg-muted/50 border-0 rounded-2xl text-lg focus-visible:ring-2 focus-visible:ring-blue-500"
@@ -82,7 +84,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Briefcase className="w-5 h-5 text-blue-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-foreground">Дела</h3>
+                <h3 className="text-sm font-medium text-foreground">{t('COMMON.NAVIGATION.CASES')}</h3>
                 <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                   {searchResults.cases.length}
                 </Badge>
@@ -115,7 +117,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Users className="w-5 h-5 text-purple-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-foreground">Клиенты</h3>
+                <h3 className="text-sm font-medium text-foreground">{t('COMMON.NAVIGATION.CLIENTS')}</h3>
                 <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                   {searchResults.clients.length}
                 </Badge>
@@ -135,7 +137,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
                         <p className="text-xs text-muted-foreground">{client.phone}</p>
                       </div>
                       <Badge className="bg-muted text-muted-foreground border-0 text-xs">
-                        {client.cases} дел
+                        {client.cases} {t('CLIENTS.CASES_COUNT')}
                       </Badge>
                     </div>
                   </button>
@@ -148,7 +150,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="w-5 h-5 text-orange-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-foreground">Документы</h3>
+                <h3 className="text-sm font-medium text-foreground">{t('COMMON.NAVIGATION.DOCUMENTS')}</h3>
                 <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                   {searchResults.documents.length}
                 </Badge>

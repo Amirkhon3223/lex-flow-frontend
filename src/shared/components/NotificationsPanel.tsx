@@ -21,6 +21,7 @@ import {
   Trash2,
   CheckCircle2,
 } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -50,6 +51,7 @@ interface NotificationsPanelProps {
 }
 
 export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelProps) {
+  const { t } = useI18n();
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: 1,
@@ -146,9 +148,9 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
         <SheetHeader className="px-6 pt-6 pb-4 border-b border-border">
           <div className="flex items-center justify-between">
             <div>
-              <SheetTitle className="text-2xl tracking-tight">Уведомления</SheetTitle>
+              <SheetTitle className="text-2xl tracking-tight">{t('NOTIFICATIONS.TITLE')}</SheetTitle>
               <SheetDescription>
-                {unreadCount > 0 ? `${unreadCount} новых уведомлений` : 'Нет новых уведомлений'}
+                {unreadCount > 0 ? `${unreadCount} ${t('NOTIFICATIONS.TITLE')}` : t('NOTIFICATIONS.NO_NOTIFICATIONS')}
               </SheetDescription>
             </div>
           </div>
@@ -158,7 +160,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
           <div className="px-6 pt-4 pb-2 border-b border-border">
             <TabsList className="bg-muted rounded-xl p-1 w-full">
               <TabsTrigger value="all" className="flex-1 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
-                Все
+                {t('CASES.FILTERS.ALL')}
                 {!!notifications.length && (
                   <Badge className="ml-2 bg-muted-foreground/20 text-foreground border-0 text-xs">
                     {notifications.length}
@@ -166,7 +168,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 )}
               </TabsTrigger>
               <TabsTrigger value="unread" className="flex-1 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
-                Новые
+                {t('COMMON.NAVIGATION.NEW_BADGE')}
                 {unreadCount > 0 && (
                   <Badge className="ml-2 bg-blue-500 text-white border-0 text-xs">
                     {unreadCount}
@@ -186,7 +188,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 disabled={unreadCount === 0}
               >
                 <CheckCircle2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                Прочитать все
+                {t('NOTIFICATIONS.MARK_ALL_READ')}
               </Button>
               <Button
                 variant="ghost"
@@ -195,7 +197,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 className="text-muted-foreground hover:bg-muted rounded-lg"
               >
                 <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                Очистить все
+                {t('NOTIFICATIONS.CLEAR_ALL')}
               </Button>
             </div>
           )}
@@ -257,8 +259,8 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 <div className="w-20 h-20 rounded-3xl bg-muted flex items-center justify-center mb-4">
                   <Bell className="w-10 h-10 text-muted-foreground/50" strokeWidth={2} />
                 </div>
-                <h3 className="text-lg tracking-tight mb-2">Нет уведомлений</h3>
-                <p className="text-sm text-muted-foreground">Все уведомления будут отображаться здесь</p>
+                <h3 className="text-lg tracking-tight mb-2">{t('NOTIFICATIONS.NO_NOTIFICATIONS')}</h3>
+                <p className="text-sm text-muted-foreground">{t('NOTIFICATIONS.NO_NOTIFICATIONS')}</p>
               </div>
             )}
           </TabsContent>
@@ -317,8 +319,8 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 <div className="w-20 h-20 rounded-3xl bg-green-100 dark:bg-green-900/20 flex items-center justify-center mb-4">
                   <CheckCircle2 className="w-10 h-10 text-green-500" strokeWidth={2} />
                 </div>
-                <h3 className="text-lg tracking-tight mb-2">Все прочитано!</h3>
-                <p className="text-sm text-muted-foreground">У вас нет новых уведомлений</p>
+                <h3 className="text-lg tracking-tight mb-2">{t('NOTIFICATIONS.MARK_ALL_READ')}</h3>
+                <p className="text-sm text-muted-foreground">{t('NOTIFICATIONS.NO_NOTIFICATIONS')}</p>
               </div>
             )}
           </TabsContent>
@@ -331,7 +333,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
               className="w-full rounded-xl border-input hover:bg-muted"
             >
               <Settings className="w-4 h-4 mr-2" strokeWidth={2} />
-              Настройки уведомлений
+              {t('SETTINGS.TABS.NOTIFICATIONS')}
             </Button>
           </div>
         )}

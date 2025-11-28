@@ -1,4 +1,5 @@
 import { Calendar, Download, BarChart3, Briefcase, DollarSign, Users, Sparkles } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { ManagedSelect as Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/managed-select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
@@ -11,8 +12,10 @@ import { StatsCards } from './components/StatsCards';
 import { TeamStats } from './components/TeamStats';
 
 export default function AnalyticsPage() {
+  const { t } = useI18n();
+
   const handleExportReport = () => {
-    console.log('Экспорт отчета');
+    console.log('Export report');
   };
 
   return (
@@ -26,8 +29,8 @@ export default function AnalyticsPage() {
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div className="min-w-0">
-                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight truncate">Аналитика</h1>
-                <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">Обзор эффективности работы и статистики</p>
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight truncate">{t('ANALYTICS.TITLE')}</h1>
+                <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">{t('ANALYTICS.SUBTITLE')}</p>
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 md:flex-col md:items-stretch lg:flex-row lg:items-center">
@@ -37,10 +40,10 @@ export default function AnalyticsPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="week">Эта неделя</SelectItem>
-                  <SelectItem value="month">Этот месяц</SelectItem>
-                  <SelectItem value="quarter">Квартал</SelectItem>
-                  <SelectItem value="year">Год</SelectItem>
+                  <SelectItem value="week">{t('ANALYTICS.PERIODS.WEEK')}</SelectItem>
+                  <SelectItem value="month">{t('ANALYTICS.PERIODS.MONTH')}</SelectItem>
+                  <SelectItem value="quarter">{t('ANALYTICS.PERIODS.QUARTER')}</SelectItem>
+                  <SelectItem value="year">{t('ANALYTICS.PERIODS.YEAR')}</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -49,7 +52,7 @@ export default function AnalyticsPage() {
                 className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md px-2 sm:px-3 md:px-4 text-xs sm:text-sm"
               >
                 <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 sm:mr-2" strokeWidth={2} />
-                <span className="hidden sm:inline">Экспорт отчета</span>
+                <span className="hidden sm:inline">{t('ANALYTICS.EXPORT_REPORT')}</span>
               </Button>
             </div>
           </div>
@@ -66,28 +69,28 @@ export default function AnalyticsPage() {
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Обзор</span>
+              <span className="hidden sm:inline">{t('ANALYTICS.OVERVIEW_TAB')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="cases"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Дела</span>
+              <span className="hidden sm:inline">{t('ANALYTICS.TABS.CASES')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="finance"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Финансы</span>
+              <span className="hidden sm:inline">{t('ANALYTICS.TABS.FINANCE')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="team"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               <Users className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Команда</span>
+              <span className="hidden sm:inline">{t('ANALYTICS.TABS.TEAM')}</span>
             </TabsTrigger>
           </TabsList>
 

@@ -1,7 +1,10 @@
 import type { ParticipantItemProps } from '@/app/types/calendar/calendar.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 
-export function ParticipantItem({ name, role = 'Участник' }: ParticipantItemProps) {
+export function ParticipantItem({ name, role }: ParticipantItemProps) {
+    const { t } = useI18n();
+    const displayRole = role || t('CALENDAR.MEETING_DETAILS.PARTICIPANT');
     const initials = name
         .split(' ')
         .map(n => n[0])
@@ -16,7 +19,7 @@ export function ParticipantItem({ name, role = 'Участник' }: Participant
             </Avatar>
             <div>
                 <div className="font-medium text-xs sm:text-sm">{name}</div>
-                <div className="text-xs text-muted-foreground">{role}</div>
+                <div className="text-xs text-muted-foreground">{displayRole}</div>
             </div>
         </div>
     );

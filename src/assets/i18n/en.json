@@ -4,6 +4,8 @@
       "VIEW": "View",
       "OPEN": "Open",
       "EDIT": "Edit",
+      "COPY_LINK": "Copy link",
+      "SHARE_EMAIL": "Share by email",
       "DELETE": "Delete",
       "ARCHIVE": "Archive",
       "SAVE": "Save",
@@ -20,7 +22,17 @@
       "SUBMIT": "Submit",
       "CREATE": "Create",
       "UPDATE": "Update",
-      "ACTIONS": "Actions"
+      "ACTIONS": "Actions",
+      "PROFILE": "Profile",
+      "WRITE": "Write",
+      "COMPARE": "Compare",
+      "RESTORE": "Restore",
+      "BACK": "Back",
+      "PREVIEW": "Preview"
+    },
+    "OF": "of",
+    "COMMENTS": {
+      "ADD": "Add comment"
     },
     "STATUS": {
       "URGENT": "Urgent",
@@ -54,9 +66,9 @@
       "DAYS": "days",
       "WEEKS": "weeks",
       "MONTHS": "months",
+      "SINCE_LAST_MONTH": "since last month",
       "HOURS_AGO": "hours ago",
       "DAYS_AGO": "days ago",
-      "SINCE_LAST_MONTH": "since last month",
       "CREATED": "Created"
     },
     "NAVIGATION": {
@@ -94,8 +106,7 @@
     },
     "RECENT_ACTIVITY": {
       "TITLE": "Recent Activity"
-    }
-    ,
+    },
     "AI_INSIGHTS": {
       "TITLE": "AI Insights",
       "RECOMMENDATION_UPDATE_CONTRACT": "It's recommended to update the contract for client ООО \"ТехноСтрой\"",
@@ -110,6 +121,11 @@
     "TITLE": "Cases",
     "SUBTITLE": "Manage cases and documents",
     "NEW_CASE": "New Case",
+    "TITLE_PLACEHOLDER": "E.g.: Labor dispute - dismissal",
+    "SELECT_CLIENT": "Select client",
+    "SELECT_CATEGORY": "Case category",
+    "DESCRIPTION_PLACEHOLDER": "Short description of the case circumstances...",
+    "CREATE_CASE": "Create Case",
     "ALL_CASES": "All Cases",
     "MY_CASES": "My Cases",
     "TOTAL_CASES": "Total Cases",
@@ -157,6 +173,9 @@
       "DOCUMENTS": "Documents",
       "ACTIONS": "Actions"
     },
+    "COMMENTS": {
+      "ADD": "Add comment"
+    },
     "EDIT_DIALOG": {
       "TITLE": "Edit case",
       "SAVE": "Save changes",
@@ -174,6 +193,12 @@
       "CORPORATE": "Corporate law",
       "CONSUMER": "Consumer protection"
     },
+    "PRIORITY": {
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
     "DETAIL": {
       "OVERVIEW": "Overview",
       "DOCUMENTS": "Documents",
@@ -183,8 +208,7 @@
       "CLIENT_INFO": "Client Information",
       "CASE_PROGRESS": "Case Progress",
       "AI_INSIGHTS": "AI Insights"
-    }
-    ,
+    },
     "TABS": {
       "DOCUMENTS": "Documents",
       "TIMELINE": "Timeline",
@@ -192,7 +216,8 @@
     },
     "DOC_VERSION": {
       "SINGULAR": "version",
-      "PLURAL": "versions"
+      "PLURAL": "versions",
+      "SHORT": "ver."
     },
     "NOTES": {
       "PLACEHOLDER": "Add notes about the case...",
@@ -214,8 +239,7 @@
       "TOTAL_CASES": "Total cases",
       "ACTIVE": "active",
       "PROFILE": "Client profile"
-    }
-    ,
+    },
     "SHARE": {
       "SUBJECT": "Share case",
       "BODY": "Check this case: {{url}}"
@@ -225,6 +249,9 @@
     "TITLE": "Clients",
     "SUBTITLE": "Client database and contacts",
     "NEW_CLIENT": "New Client",
+    "CREATE_CLIENT": "Create Client",
+    "SELECT_CATEGORY": "Select category",
+    "NOTES_PLACEHOLDER": "Additional information about the client...",
     "ALL_CLIENTS": "All Clients",
     "SEARCH_PLACEHOLDER": "Search clients...",
     "TOTAL_CLIENTS": "Total Clients",
@@ -233,6 +260,15 @@
     "ACTIVE_CASES": "Active Cases",
     "CLIENT_SINCE": "Client Since",
     "SINCE": "Since",
+    "WRITE": "Write",
+    "NEW_CASE": "New Case",
+    "ACTIVE_CASES_COUNT": "Active Cases",
+    "DOCUMENTS_COUNT": "Documents",
+    "TOTAL_FEE": "Total Fee",
+    "HOURS_WORKED": "Hours Worked",
+    "INTERACTIONS": "Interactions",
+    "CLIENT_CASES": "Client Cases",
+    "CASES_COUNT": "cases",
     "STATS": {
       "TOTAL": "Total Clients",
       "ACTIVE": "Active",
@@ -263,16 +299,27 @@
       "PREMIUM": "Premium",
       "STANDARD": "Standard"
     },
+    "CATEGORY": {
+      "VIP": "VIP client",
+      "REGULAR": "Regular",
+      "NEW": "New",
+      "POTENTIAL": "Potential"
+    },
     "STATUS": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
-      "PENDING": "Pending"
+      "PENDING": "Pending",
+      "ACTIVE_CLIENT": "Active Client",
+      "VIP_CLIENT": "VIP Client"
     },
     "FIELDS": {
       "NAME": "Name",
       "EMAIL": "Email",
       "PHONE": "Phone",
       "COMPANY": "Company",
+      "COMPANY_NAME": "Company Name",
+      "INN": "TIN",
+      "KPP": "Tax Registration Reason Code",
       "STATUS": "Status",
       "CONTACT_INFO": "Contact Information",
       "FINANCIAL_INFO": "Financial Information",
@@ -283,25 +330,80 @@
       "CASES": "Cases",
       "REVENUE": "Revenue",
       "LAST_CONTACT": "Last Contact",
-      "ACTIONS": "Actions"
+      "ACTIONS": "Actions",
+      "ADDRESS": "Address",
+      "BIRTH_DATE": "Birth date",
+      "NOTES": "Notes"
+    },
+    "FINANCIAL": {
+      "TITLE": "Finance",
+      "TOTAL_AMOUNT": "Total Due",
+      "PAID_AMOUNT": "Paid",
+      "REMAINING_AMOUNT": "Remaining",
+      "PAYMENT_PERCENTAGE": "Payment Percentage"
     },
     "ACTIONS": {
       "PROFILE": "Profile",
       "EDIT": "Edit",
       "WRITE": "Write",
       "DELETE": "Delete"
+    },
+    "EDIT_DIALOG": {
+      "TITLE": "Edit Client",
+      "DESCRIPTION": "Update client information. All changes will be saved in history.",
+      "PERSONAL_INFO": "Personal Information",
+      "ADDITIONAL_INFO": "Additional",
+      "CLIENT_TYPE": "Client Type",
+      "SELECT_TYPE": "Select type",
+      "SOURCE": "Source",
+      "SELECT_SOURCE": "Select source",
+      "CORPORATE": "Corporate",
+      "SOURCE_WEBSITE": "Website",
+      "SOURCE_REFERRAL": "Referral",
+      "SOURCE_ADVERTISING": "Advertising",
+      "SAVE_CHANGES": "Save Changes"
     }
   },
   "DOCUMENTS": {
     "TITLE": "Documents",
     "SUBTITLE": "Manage all documents",
-    "UPLOAD_DOCUMENT": "Upload Document",
-    "ALL_DOCUMENTS": "All Documents",
+    "UPLOAD_DOCUMENT": "Upload document",
+    "ALL_DOCUMENTS": "All documents",
     "SEARCH_PLACEHOLDER": "Search documents...",
     "TOTAL": "Total",
-    "ON_REVIEW": "Under Review",
+    "ON_REVIEW": "On review",
     "FAVORITES": "Favorites",
     "DRAFTS": "Drafts",
+    "BACK_TO_DOCUMENTS": "Back to documents",
+    "BACK_TO_VERSIONS": "Back to versions",
+    "EXPORT_COMPARISON": "Export comparison",
+    "VERSION_COMPARISON": "Version comparison",
+    "UPLOAD_NEW_VERSION": "Upload new version",
+    "CURRENT_VERSION": "Current version",
+    "EMPTY_STATE": "No documents",
+    "VERSION_HISTORY": "Version History",
+    "VERSIONS_CREATED": "Total Created",
+    "VERSION": "Version",
+    "CURRENT": "Current",
+    "APPROVED": "Approved",
+    "OLD": "Old",
+    "NEW": "New",
+    "COMPARE_WITH_CURRENT": "Compare with Current",
+    "RESTORE_VERSION": "Restore this Version",
+    "DELETE_VERSION": "Delete Version",
+    "CHANGES_DETECTED": "Changes Detected",
+    "ADDED": "Added",
+    "REMOVED": "Removed",
+    "MODIFIED": "Modified",
+    "NAVIGATION": "Navigation",
+    "LEGEND": "Legend",
+    "ADDED_TEXT": "Added Text",
+    "REMOVED_TEXT": "Removed Text",
+    "MODIFIED_TEXT": "Modified Text",
+    "FULLSCREEN": "Fullscreen",
+    "EXIT_FULLSCREEN": "Exit Fullscreen",
+    "LINE": "Line",
+    "VIEW_DETAILS": "You can view, download, or compare any versions",
     "STATS": {
       "TOTAL": "Total",
       "ON_REVIEW": "Under Review",
@@ -319,6 +421,19 @@
       "SORT_BY_SIZE": "By size",
       "SORT_BY_VERSIONS": "By versions"
     },
+    "STATUS": {
+      "FINAL": "Final",
+      "REVIEW": "Review",
+      "DRAFT": "Draft"
+    },
+    "ACTIONS": {
+      "OPEN": "Open",
+      "DOWNLOAD": "Download",
+      "DELETE": "Delete",
+      "VIEW": "View",
+      "VIEW_DETAILS": "View Details",
+      "COMPARE": "Compare"
+    },
     "FIELDS": {
       "NAME": "Name",
       "TYPE": "Type",
@@ -328,7 +443,8 @@
       "VERSION": "Version",
       "VERSIONS": "Versions",
       "CASE": "Case",
-      "AUTHOR": "Author"
+      "AUTHOR": "Author",
+      "CHANGES": "Changes"
     }
   },
   "CALENDAR": {
@@ -339,7 +455,31 @@
     "MEETINGS": "Meetings",
     "UPCOMING_MEETINGS": "Upcoming Meetings",
     "TODAY": "Today",
+    "CALENDAR": "Calendar",
     "QUICK_ACTIONS": "Quick Actions",
+    "ACTIONS": {
+      "MARK_COMPLETE": "Mark as completed",
+      "RESCHEDULE": "Reschedule meeting",
+      "CANCEL": "Cancel meeting"
+    },
+    "MESSAGES": {
+      "COMPLETED": "Meeting marked as completed",
+      "CANCELLED": "Meeting cancelled",
+      "NO_MEETINGS_TODAY": "No meetings on this date",
+      "SELECT_DATE": "Select a date"
+    },
+    "MEETING_STATUS": {
+      "MEETING": "meeting",
+      "MEETINGS": "meetings",
+      "SCHEDULED": "Scheduled",
+      "COMPLETED": "Completed",
+      "TOTAL": "Total"
+    },
+    "PRIORITY": {
+      "HIGH": "Urgent",
+      "MEDIUM": "Medium",
+      "LOW": "Low"
+    },
     "FIELDS": {
       "TITLE": "Title",
       "DATE": "Date",
@@ -348,7 +488,7 @@
       "SEARCH_PLACEHOLDER": "Search meetings...",
       "PARTICIPANTS": "Participants",
       "NOTES": "Notes",
-      "MEETING_INFO": "Meeting Information",
+      "MEETING_INFO": "Meeting information",
       "CASE": "Case",
       "CLIENT": "Client"
     },
@@ -372,21 +512,140 @@
     "VIEW": {
       "DAY": "Day",
       "WEEK": "Week",
-      "MONTH": "Month"
+      "MONTH": "Month",
+      "CALENDAR": "Calendar",
+      "LIST": "List"
+    },
+    "MEETING_TYPE": {
+      "VIDEO": "Video call",
+      "PHONE": "Phone call",
+      "IN_PERSON": "In-person meeting"
+    },
+    "MEETING_DETAILS": {
+      "DURATION": "Duration",
+      "LOCATION": "Location",
+      "DESCRIPTION": "Description",
+      "NOTES": "Notes",
+      "NO_NOTES": "No notes yet",
+      "ADD_NOTE": "Add note",
+      "PARTICIPANTS": "Participants",
+      "CLIENT": "Client",
+      "RELATED_CASE": "Related case",
+      "VIEW_PROFILE": "View profile →",
+      "VIEW_CASE": "View case →",
+      "PARTICIPANT": "Participant",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "ALL_MEETINGS": "All meetings"
+    },
+    "STATUS": {
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled",
+      "SCHEDULED": "Scheduled"
+    },
+    "PRIORITY_DETAILS": {
+      "HIGH": "High priority",
+      "MEDIUM": "Medium priority",
+      "LOW": "Low priority"
+    },
+    "FORMS": {
+      "NEW_MEETING": "New meeting",
+      "SCHEDULE_MEETING": "Schedule a meeting with your client",
+      "TITLE": "Meeting title",
+      "TITLE_PLACEHOLDER": "Client consultation",
+      "MEETING_TYPE": "Meeting type",
+      "DATE": "Meeting date",
+      "TIME": "Meeting time",
+      "SELECT_DATE": "Select date",
+      "DURATION": "Meeting duration",
+      "DURATION_15": "15 minutes",
+      "DURATION_30": "30 minutes",
+      "DURATION_45": "45 minutes",
+      "DURATION_60": "1 hour",
+      "DURATION_90": "1 hour 30 minutes",
+      "DURATION_120": "2 hours",
+      "REMINDER": "Reminder",
+      "REMINDER_NONE": "No reminder",
+      "REMINDER_15": "15 minutes before",
+      "REMINDER_30": "30 minutes before",
+      "REMINDER_60": "1 hour before",
+      "REMINDER_1440": "1 day before",
+      "LINK_OR_LOCATION": "Link",
+      "LINK_OR_LOCATION_ALT": "Meeting location",
+      "LINK_PLACEHOLDER": "https://zoom.us/j/...",
+      "LOCATION_PLACEHOLDER": "Office, room 305",
+      "DESCRIPTION_PLACEHOLDER": "Additional information about the meeting...",
+      "CREATE_MEETING": "Create meeting"
     }
   },
   "ANALYTICS": {
     "TITLE": "Analytics",
+    "SUBTITLE": "Overview of work efficiency and statistics",
+    "EXPORT_REPORT": "Export report",
+    "PERIODS": {
+      "WEEK": "This week",
+      "MONTH": "This month",
+      "QUARTER": "Quarter",
+      "YEAR": "Year"
+    },
+    "OVERVIEW_TAB": "Overview",
     "TABS": {
       "CASES": "Cases",
       "FINANCE": "Finance",
       "TEAM": "Team"
     },
     "STATS": {
-      "TOTAL_REVENUE": "Total Revenue",
       "ACTIVE_CASES": "Active Cases",
+      "NEW_CLIENTS": "New Clients",
+      "SUCCESSFUL_CASES": "Successful Cases",
+      "REVENUE_FOR_PERIOD": "Revenue for Period",
+      "TOTAL_REVENUE": "Total Revenue",
       "COMPLETED_CASES": "Completed Cases",
       "SUCCESS_RATE": "Success Rate"
+    },
+    "CASE_STATUS": {
+      "WON": "Won",
+      "IN_PROGRESS": "In Progress",
+      "LOST": "Lost"
+    },
+    "CASES_BY_PRACTICE": "Cases by Practice",
+    "PRACTICE_TYPES": {
+      "LABOR_DISPUTES": "Labor Disputes",
+      "CONTRACT_LAW": "Contract Law",
+      "INHERITANCE": "Inheritance Cases",
+      "FAMILY_LAW": "Family Law",
+      "CRIMINAL_LAW": "Criminal Law",
+      "OTHER": "Other"
+    },
+    "PRACTICE_STATS": {
+      "TOTAL": "total",
+      "WON": "won",
+      "IN_PROGRESS": "in progress",
+      "LOST": "lost"
+    },
+    "PAYMENT_STATS": {
+      "RECEIVED": "Payments Received",
+      "PENDING": "Pending Payments",
+      "AVERAGE_CHECK": "Average Check"
+    },
+    "REVENUE_SOURCES": "Revenue by Source",
+    "REVENUE_SOURCE_TYPES": {
+      "CONSULTATIONS": "Consultations",
+      "REPRESENTATION": "Representation",
+      "LEGAL_SUPPORT": "Legal Support",
+      "OTHER": "Other"
+    },
+    "TOP_CLIENTS": "Top Clients by Revenue",
+    "TOP_LAWYERS": "Top Lawyers",
+    "LAWYER_STATS": {
+      "CASES": "cases",
+      "SUCCESS_RATE": "Success rate",
+      "REVENUE": "revenue"
+    },
+    "CHARTS": {
+      "CASE_STATISTICS": "Case Statistics",
+      "CASE_TYPES": "Case Types",
+      "REVENUE_DYNAMICS": "Revenue Dynamics"
     }
   },
   "AI_ASSISTANT": {
@@ -397,9 +656,44 @@
     "FEATURES": {
       "TITLE": "Features",
       "ANALYZE_DOCUMENT": "Analyze Documents",
+      "ANALYZE_DESCRIPTION": "Check legal correctness and detect risks",
+      "PRACTICE": "Case law",
+      "PRACTICE_DESCRIPTION": "Search for relevant precedents and rulings",
+      "LEGAL_BASE": "Legal database",
+      "LEGAL_BASE_DESCRIPTION": "Links to regulations and legislation",
+      "RECOMMENDATIONS": "Recommendations",
+      "RECOMMENDATIONS_DESCRIPTION": "Advice on strategy and next steps",
       "LEGAL_ADVICE": "Legal Consultation",
       "SEARCH_CASES": "Search Cases",
       "DRAFT_DOCUMENT": "Draft Documents"
+    },
+    "TABS": {
+      "CHAT": "Chat with AI",
+      "ANALYZE": "Analyze Documents",
+      "RESEARCH": "Research"
+    },
+    "HEADER": {
+      "TITLE": "AI Assistant",
+      "SUBTITLE": "Intelligent analysis and assistance for lawyers",
+      "PREMIUM_ACCESS": "Premium access"
+    },
+    "CHAT": {
+      "TITLE": "Legal assistant",
+      "STATUS": "Always online",
+      "MESSAGE_PLACEHOLDER": "Type your question here...",
+      "COPY": "Copy"
+    },
+    "ANALYZE": {
+      "UPLOAD_TITLE": "Upload a document for analysis",
+      "DESCRIPTION": "AI will check legal correctness, detect risks and provide recommendations"
+    },
+    "RESEARCH": {
+      "TITLE": "Search legal database and case law",
+      "SEARCH_PLACEHOLDER": "Enter search query...",
+      "BUTTONS": {
+        "PRACTICE": "Case law",
+        "LEGISLATION": "Legislation"
+      }
     },
     "QUICK_COMMANDS": {
       "TITLE": "Quick Commands"
@@ -410,6 +704,7 @@
   },
   "SETTINGS": {
     "TITLE": "Settings",
+    "SUBTITLE": "Manage your account settings and preferences",
     "TABS": {
       "PROFILE": "Profile",
       "ACCOUNT": "Account",
@@ -420,11 +715,43 @@
     },
     "PROFILE": {
       "PERSONAL_INFO": "Personal Information",
+      "FIRST_NAME": "First Name",
+      "LAST_NAME": "Last Name",
       "FULL_NAME": "Full Name",
       "EMAIL": "Email",
       "PHONE": "Phone",
       "POSITION": "Position",
-      "BIO": "Bio"
+      "BIO": "Bio",
+      "REGIONAL_SETTINGS": "Regional Settings",
+      "LANGUAGE": "Language",
+      "TIMEZONE": "Timezone",
+      "SAVE_CHANGES": "Save Changes"
+    },
+    "NOTIFICATIONS": {
+      "EMAIL": {
+        "TITLE": "Email Notifications",
+        "NEW_CASES_LABEL": "New Cases",
+        "NEW_CASES_DESC": "Receive notifications when a new case is assigned to you",
+        "DEADLINES_LABEL": "Upcoming Deadlines",
+        "DEADLINES_DESC": "Get reminders about approaching case deadlines",
+        "DOCUMENTS_LABEL": "Document Updates",
+        "DOCUMENTS_DESC": "Notifications when documents are added or modified",
+        "COMMENTS_LABEL": "Comments & Mentions",
+        "COMMENTS_DESC": "When someone comments on or mentions you in a case",
+        "WEEKLY_REPORT_LABEL": "Weekly Summary",
+        "WEEKLY_REPORT_DESC": "Receive a weekly digest of your activities",
+        "EMAIL_ALERTS_LABEL": "Important Alerts",
+        "EMAIL_ALERTS_DESC": "Critical notifications that require immediate attention"
+      },
+      "PUSH": {
+        "TITLE": "Push Notifications",
+        "URGENT_LABEL": "Urgent Cases",
+        "URGENT_DESC": "Instant alerts for high-priority cases",
+        "MEETINGS_LABEL": "Upcoming Meetings",
+        "MEETINGS_DESC": "Reminders 15 minutes before scheduled meetings",
+        "MESSAGES_LABEL": "New Messages",
+        "MESSAGES_DESC": "Notifications for new direct messages"
+      }
     },
     "TEAM": {
       "INVITE_MEMBER": "Invite Member",
@@ -433,8 +760,18 @@
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Change Password",
+      "CURRENT_PASSWORD": "Current Password",
+      "NEW_PASSWORD": "New Password",
+      "CONFIRM_PASSWORD": "Confirm Password",
+      "UPDATE_PASSWORD": "Update Password",
       "TWO_FACTOR": "Two-Factor Authentication",
+      "TWO_FACTOR_AUTH": "Two-Factor Authentication",
+      "TWO_FACTOR_ENABLED": "Two-Factor Authentication Enabled",
+      "TWO_FACTOR_DESC": "Your account is protected with two-factor authentication",
+      "DISABLE": "Disable",
       "SESSIONS": "Active Sessions",
+      "ACTIVE_SESSIONS": "Active Sessions",
+      "ACTIVE_SESSIONS_DESC": "Manage devices where you're currently logged in",
       "CURRENT_SESSION": "Current Session"
     }
   },
@@ -446,11 +783,45 @@
   },
   "USER_PROFILE": {
     "TITLE": "User Profile",
+    "SUBTITLE": "Manage your profile and settings",
     "EDIT_PROFILE": "Edit Profile",
     "CHANGE_AVATAR": "Change Avatar",
+    "SAVE_CHANGES": "Save Changes",
+    "PERSONAL_INFO": "Personal Information",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "MIDDLE_NAME": "Middle Name",
+    "CONTACT_INFO": "Contact Information",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "PROFESSIONAL_INFO": "Professional Information",
+    "POSITION": "Position",
+    "SPECIALIZATION": "Specialization",
+    "COMPANY": "Company",
+    "OFFICE_ADDRESS": "Office Address",
+    "STATS": {
+      "ACTIVE_CASES": "Active Cases",
+      "CLIENTS": "Clients",
+      "COMPLETED_CASES": "Completed Cases",
+      "DAYS_IN_SYSTEM": "Days in System"
+    },
+    "SESSION": "Session",
+    "SESSION_DESCRIPTION": "Sign out of your account on this device",
+    "LOGOUT": "Sign Out",
+    "DELETE_ACCOUNT": "Delete Account",
+    "DELETE_ACCOUNT_WARNING": "This action is irreversible. All your data will be deleted.",
+    "DELETE_ACCOUNT_BUTTON": "Delete Account",
+    "STATISTICS": "Statistics",
+    "ACCOUNT_TYPE": "Pro Account",
     "TABS": {
       "PROFILE": "Profile",
       "BILLING": "Billing"
+    },
+    "AVATAR_CROPPER": {
+      "TITLE": "Image Cropping",
+      "DESCRIPTION": "Select an area for your avatar. The cropping area will be square.",
+      "CANCEL": "Cancel",
+      "CONFIRM": "Confirm"
     }
   },
   "AUTH": {
@@ -466,5 +837,77 @@
     "SIGN_UP": "Sign Up",
     "OR": "or",
     "CONTINUE_WITH": "Continue with"
+  },
+  "TASKS": {
+    "NEW_TASK": "New Task",
+    "TASK_TITLE": "Task Title",
+    "TASK_TITLE_PLACEHOLDER": "E.g.: Prepare documents",
+    "CREATE_TASK": "Create Task"
+  },
+  "COMMENTS": {
+    "TITLE": "Comments",
+    "ADD_PLACEHOLDER": "Add a comment...",
+    "SEND": "Send"
+  },
+  "UPLOAD": {
+    "TITLE": "Upload Document",
+    "DRAG_DROP": "Drag file here or",
+    "SELECT_FILE": "select file",
+    "SUPPORTED_FORMATS": "Supported: PDF, DOC, DOCX, TXT, JPG, PNG (up to 25 MB)",
+    "DOCUMENT_NAME": "Document Name",
+    "DOCUMENT_NAME_PLACEHOLDER": "Lawsuit",
+    "SELECT_CASE": "Select Case",
+    "DOCUMENT_TYPE": "Document Type",
+    "DOCUMENT_TYPES": {
+      "LAWSUIT": "Lawsuit",
+      "CONTRACT": "Contract",
+      "ORDER": "Order",
+      "POWER": "Power of Attorney",
+      "RESPONSE": "Response",
+      "OTHER": "Other"
+    },
+    "NOTES": "Notes",
+    "NOTES_PLACEHOLDER": "Brief description of the document or important notes..."
+  },
+  "SEARCH": {
+    "GLOBAL": "Global Search",
+    "PLACEHOLDER": "Search clients, cases, documents...",
+    "DESCRIPTION": "Search across cases, clients and documents"
+  },
+  "PLAN": {
+    "TITLE": "Choose Subscription Plan",
+    "SUBTITLE": "Select the tariff plan that suits your team",
+    "POPULAR": "Popular",
+    "SELECT_PLAN": "Select Plan",
+    "BASIC": {
+      "NAME": "Basic",
+      "PRICE": "4,990 ₽",
+      "FEATURES": {
+        "CLIENTS": "Up to 50 clients",
+        "CASES": "Up to 100 cases",
+        "STORAGE": "10 GB storage",
+        "USERS": "1 user"
+      }
+    },
+    "PRO": {
+      "NAME": "Pro",
+      "PRICE": "12,990 ₽",
+      "FEATURES": {
+        "CLIENTS": "Unlimited clients",
+        "CASES": "Unlimited cases",
+        "STORAGE": "100 GB storage",
+        "USERS": "Up to 5 users"
+      }
+    },
+    "ENTERPRISE": {
+      "NAME": "Enterprise",
+      "PRICE": "On request",
+      "FEATURES": {
+        "CLIENTS": "Unlimited clients",
+        "CASES": "Unlimited cases",
+        "STORAGE": "Unlimited storage",
+        "USERS": "Unlimited users"
+      }
+    }
   }
 }

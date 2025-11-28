@@ -11,6 +11,7 @@ import {
   Calendar,
   DollarSign,
 } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -36,6 +37,7 @@ interface AddCaseDialogProps {
 }
 
 export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogProps) {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     title: '',
     client: '',
@@ -70,18 +72,18 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
             <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
               <Briefcase className="w-6 h-6 text-blue-600 dark:text-blue-400" strokeWidth={2} />
             </div>
-            Новое дело
+            {t('CASES.NEW_CASE')}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           <div className="space-y-2">
             <Label htmlFor="title" className="text-sm text-foreground">
-              Название дела *
+              {t('CASES.FIELDS.TITLE')} *
             </Label>
             <Input
               id="title"
-              placeholder="Например: Трудовой спор - увольнение"
+              placeholder={t('CASES.TITLE_PLACEHOLDER')}
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               className="h-12 rounded-xl border-input focus-visible:ring-blue-500"
@@ -93,7 +95,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="client" className="text-sm text-foreground">
-                Клиент *
+                {t('CASES.FIELDS.CLIENT')} *
               </Label>
               <Select
                 value={formData.client}
@@ -102,7 +104,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
               >
                 <SelectTrigger className="h-12 rounded-xl border-input">
                   <User className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
-                  <SelectValue placeholder="Выберите клиента" />
+                  <SelectValue placeholder={t('CASES.SELECT_CLIENT')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="client1">Иванов Петр Алексеевич</SelectItem>
@@ -115,7 +117,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
 
             <div className="space-y-2">
               <Label htmlFor="category" className="text-sm text-foreground">
-                Категория *
+                {t('CASES.FIELDS.CATEGORY')} *
               </Label>
               <Select
                 value={formData.category}
@@ -124,15 +126,15 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
               >
                 <SelectTrigger className="h-12 rounded-xl border-input">
                   <Tag className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
-                  <SelectValue placeholder="Категория дела" />
+                  <SelectValue placeholder={t('CASES.SELECT_CATEGORY')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="labor">Трудовое право</SelectItem>
-                  <SelectItem value="civil">Гражданское право</SelectItem>
-                  <SelectItem value="family">Семейное право</SelectItem>
-                  <SelectItem value="inheritance">Наследственное право</SelectItem>
-                  <SelectItem value="contract">Договорное право</SelectItem>
-                  <SelectItem value="corporate">Корпоративное право</SelectItem>
+                  <SelectItem value="labor">{t('CASES.CATEGORIES.LABOR')}</SelectItem>
+                  <SelectItem value="civil">{t('CASES.CATEGORIES.CIVIL')}</SelectItem>
+                  <SelectItem value="family">{t('CASES.CATEGORIES.FAMILY')}</SelectItem>
+                  <SelectItem value="inheritance">{t('CASES.CATEGORIES.INHERITANCE')}</SelectItem>
+                  <SelectItem value="contract">{t('CASES.CATEGORIES.CONTRACT')}</SelectItem>
+                  <SelectItem value="corporate">{t('CASES.CATEGORIES.CORPORATE')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -141,7 +143,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="deadline" className="text-sm text-foreground">
-                Срок выполнения
+                {t('CASES.FIELDS.DEADLINE')}
               </Label>
               <div className="relative">
                 <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
@@ -157,7 +159,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
 
             <div className="space-y-2">
               <Label htmlFor="fee" className="text-sm text-foreground">
-                Гонорар (₽)
+                {t('CASES.FIELDS.FEE')} (₽)
               </Label>
               <div className="relative">
                 <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
@@ -175,7 +177,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
 
           <div className="space-y-2">
             <Label htmlFor="priority" className="text-sm text-foreground">
-              Приоритет
+              {t('CASES.FIELDS.PRIORITY')}
             </Label>
             <Select
               value={formData.priority}
@@ -185,21 +187,21 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="low">Низкий</SelectItem>
-                <SelectItem value="medium">Средний</SelectItem>
-                <SelectItem value="high">Высокий</SelectItem>
-                <SelectItem value="urgent">Срочный</SelectItem>
+                <SelectItem value="low">{t('CASES.PRIORITY.LOW')}</SelectItem>
+                <SelectItem value="medium">{t('CASES.PRIORITY.MEDIUM')}</SelectItem>
+                <SelectItem value="high">{t('CASES.PRIORITY.HIGH')}</SelectItem>
+                <SelectItem value="urgent">{t('CASES.PRIORITY.URGENT')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="description" className="text-sm text-foreground">
-              Описание дела
+              {t('CASES.FIELDS.DESCRIPTION')}
             </Label>
             <Textarea
               id="description"
-              placeholder="Краткое описание обстоятельств дела..."
+              placeholder={t('CASES.DESCRIPTION_PLACEHOLDER')}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="min-h-[120px] rounded-xl border-input focus-visible:ring-blue-500 resize-none"
@@ -213,14 +215,14 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
               onClick={() => onOpenChange(false)}
               className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
-              Отмена
+              {t('COMMON.ACTIONS.CANCEL')}
             </Button>
             <Button
               type="submit"
               className="flex-1 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
             >
               <Briefcase className="w-4 h-4 mr-2" strokeWidth={2} />
-              Создать дело
+              {t('CASES.CREATE_CASE')}
             </Button>
           </div>
         </form>

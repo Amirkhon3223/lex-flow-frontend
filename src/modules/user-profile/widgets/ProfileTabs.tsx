@@ -3,6 +3,7 @@ import { NotificationsTabContent } from '@/modules/settings/components/tabs/Noti
 import { SecurityTabContent } from '@/modules/settings/components/tabs/SecurityTabContent';
 import { BillingTabContent } from '@/modules/user-profile/ui/BillingTabContent';
 import { ProfileTabContent } from '@/modules/user-profile/ui/ProfileTabContent';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 
@@ -23,6 +24,7 @@ export function ProfileTabs({
   };
   handleProfileChange: (field: string, value: string) => void;
 }) {
+  const { t } = useI18n();
   return (
     <Card>
       <Tabs defaultValue="profile" className="w-full">
@@ -33,28 +35,28 @@ export function ProfileTabs({
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Профиль</span>
+              <span className="hidden sm:inline">{t('SETTINGS.TABS.PROFILE')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="notifications"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Уведомления</span>
+              <span className="hidden sm:inline">{t('SETTINGS.TABS.NOTIFICATIONS')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="security"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Безопасность</span>
+              <span className="hidden sm:inline">{t('SETTINGS.TABS.SECURITY')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="billing"
               className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               <CreditCard className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-              <span className="hidden sm:inline">Подписка</span>
+              <span className="hidden sm:inline">{t('SETTINGS.TABS.BILLING')}</span>
             </TabsTrigger>
           </TabsList>
         </div>

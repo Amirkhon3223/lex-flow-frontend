@@ -2,6 +2,7 @@ import React from 'react';
 import { Clock, Download, Eye, FileText, MoreHorizontal, Upload, CheckCircle2, GitCompare, Trash2, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@/shared/components/BackButton';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -15,6 +16,7 @@ import { Separator } from '@/shared/ui/separator.tsx';
 
 
 export function DocumentVersionsView() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const onBack = () => navigate(-1);
   const onCompare = () => navigate('/documents/1/compare');
@@ -67,12 +69,12 @@ export function DocumentVersionsView() {
           {/* Mobile header row */}
           <div className="md:hidden">
             <div className="flex items-center justify-between gap-2 mb-3">
-              <BackButton onClick={onBack} label="Назад к документам" />
+              <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_DOCUMENTS')} />
 
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white px-3 py-1.5">
                 <div className="text-center">
                   <div className="text-base font-medium">v{documentInfo.currentVersion}</div>
-                  <div className="text-xs opacity-90">Текущая</div>
+                  <div className="text-xs opacity-90">{t('DOCUMENTS.CURRENT')}</div>
                 </div>
               </Card>
             </div>
@@ -80,19 +82,19 @@ export function DocumentVersionsView() {
             <div className="mb-3">
               <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl w-full text-sm">
                 <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-                Загрузить новую версию
+                {t('DOCUMENTS.UPLOAD_NEW_VERSION')}
               </Button>
             </div>
           </div>
 
           {/* Desktop header row */}
           <div className="hidden md:flex items-center justify-between gap-3 mb-4">
-            <BackButton onClick={onBack} label="Назад к документам" />
+            <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_DOCUMENTS')} />
 
             <div className="flex items-center gap-2">
               <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base">
                 <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-                Загрузить новую версию
+                {t('DOCUMENTS.UPLOAD_NEW_VERSION')}
               </Button>
             </div>
           </div>
@@ -134,7 +136,7 @@ export function DocumentVersionsView() {
             <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white px-6 py-4">
               <div className="text-center">
                 <div className="text-3xl tracking-tight mb-1">v{documentInfo.currentVersion}</div>
-                <div className="text-sm opacity-90">Текущая версия</div>
+                <div className="text-sm opacity-90">{t('DOCUMENTS.CURRENT_VERSION')}</div>
               </div>
             </Card>
           </div>
@@ -149,10 +151,10 @@ export function DocumentVersionsView() {
                 <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" strokeWidth={2} />
               </div>
               <div>
-                <h3 className="text-sm sm:text-base tracking-tight text-blue-700 dark:text-blue-400 mb-1">История версий документа</h3>
+                <h3 className="text-sm sm:text-base tracking-tight text-blue-700 dark:text-blue-400 mb-1">{t('DOCUMENTS.VERSION_HISTORY')}</h3>
                 <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-300">
-                  Всего создано {documentInfo.totalVersions} {documentInfo.totalVersions === 1 ? 'версия' : documentInfo.totalVersions < 5 ? 'версии' : 'версий'}.
-                  <span className="hidden sm:inline"> Вы можете просмотреть, скачать или сравнить любые версии.</span>
+                  {t('DOCUMENTS.VERSIONS_CREATED')} {documentInfo.totalVersions} {documentInfo.totalVersions === 1 ? t('CASES.DOC_VERSION.SINGULAR') : documentInfo.totalVersions < 5 ? t('CASES.DOC_VERSION.PLURAL') : t('CASES.DOC_VERSION.PLURAL')}.
+                  <span className="hidden sm:inline"> {t('DOCUMENTS.VIEW_DETAILS')}</span>
                 </p>
               </div>
             </div>
@@ -181,17 +183,17 @@ export function DocumentVersionsView() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-base tracking-tight mb-1">Версия {version.version}</h3>
+                          <h3 className="text-base tracking-tight mb-1">{t('DOCUMENTS.VERSION')} {version.version}</h3>
                           <div className="flex flex-wrap gap-1 mb-2">
                             {version.isCurrent && (
                               <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0 text-xs">
-                                Текущая
+                                {t('DOCUMENTS.CURRENT')}
                               </Badge>
                             )}
                             {version.approved && (
                               <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-0 flex items-center gap-1 text-xs">
                                 <CheckCircle2 className="w-2.5 h-2.5" strokeWidth={2} />
-                                Утверждена
+                                {t('DOCUMENTS.APPROVED')}
                               </Badge>
                             )}
                           </div>
@@ -210,25 +212,25 @@ export function DocumentVersionsView() {
                           <DropdownMenuContent align="end" className="w-56">
                             <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
                               <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
-                              Просмотреть
+                              {t('DOCUMENTS.ACTIONS.VIEW_DETAILS')}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                               <Download className="w-4 h-4 mr-2" strokeWidth={2} />
-                              Скачать
+                              {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
                               <GitCompare className="w-4 h-4 mr-2" strokeWidth={2} />
-                              Сравнить с текущей
+                              {t('DOCUMENTS.COMPARE_WITH_CURRENT')}
                             </DropdownMenuItem>
                             {!version.isCurrent && (
                               <>
                                 <DropdownMenuItem>
                                   <CheckCircle2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                                  Восстановить эту версию
+                                  {t('DOCUMENTS.RESTORE_VERSION')}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem className="text-red-600">
                                   <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                                  Удалить версию
+                                  {t('DOCUMENTS.DELETE_VERSION')}
                                 </DropdownMenuItem>
                               </>
                             )}
@@ -258,7 +260,7 @@ export function DocumentVersionsView() {
                           onClick={() => navigate('/documents/1/compare')}
                         >
                           <Eye className="w-3 h-3 mr-1" strokeWidth={2} />
-                          Просмотр
+                          {t('DOCUMENTS.ACTIONS.VIEW')}
                         </Button>
                         <Button
                           variant="outline"
@@ -266,7 +268,7 @@ export function DocumentVersionsView() {
                           className="rounded-lg border-border hover:bg-green-500/10 hover:border-green-500/20 hover:text-green-600 text-xs h-7"
                         >
                           <Download className="w-3 h-3 mr-1" strokeWidth={2} />
-                          Скачать
+                          {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
                         </Button>
                         {!version.isCurrent && (
                           <Button
@@ -276,7 +278,7 @@ export function DocumentVersionsView() {
                             onClick={onCompare}
                           >
                             <GitCompare className="w-3 h-3 mr-1" strokeWidth={2} />
-                            Сравнить
+                            {t('DOCUMENTS.ACTIONS.COMPARE')}
                           </Button>
                         )}
                       </div>
@@ -302,16 +304,16 @@ export function DocumentVersionsView() {
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <h3 className="text-lg tracking-tight">Версия {version.version}</h3>
+                          <h3 className="text-lg tracking-tight">{t('DOCUMENTS.VERSION')} {version.version}</h3>
                           {version.isCurrent && (
                             <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0">
-                              Текущая
+                              {t('DOCUMENTS.CURRENT')}
                             </Badge>
                           )}
                           {version.approved && (
                             <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-0 flex items-center gap-1">
                               <CheckCircle2 className="w-3 h-3" strokeWidth={2} />
-                              Утверждена
+                              {t('DOCUMENTS.APPROVED')}
                             </Badge>
                           )}
                         </div>
@@ -346,25 +348,25 @@ export function DocumentVersionsView() {
                         <DropdownMenuContent align="end" className="w-56">
                           <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
                             <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
-                            Просмотреть
+                            {t('DOCUMENTS.ACTIONS.VIEW_DETAILS')}
                           </DropdownMenuItem>
                           <DropdownMenuItem>
                             <Download className="w-4 h-4 mr-2" strokeWidth={2} />
-                            Скачать
+                            {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
                             <GitCompare className="w-4 h-4 mr-2" strokeWidth={2} />
-                            Сравнить с текущей
+                            {t('DOCUMENTS.COMPARE_WITH_CURRENT')}
                           </DropdownMenuItem>
                           {!version.isCurrent && (
                             <>
                               <DropdownMenuItem>
                                 <CheckCircle2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                                Восстановить эту версию
+                                {t('DOCUMENTS.RESTORE_VERSION')}
                               </DropdownMenuItem>
                               <DropdownMenuItem className="text-red-600">
                                 <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                                Удалить версию
+                                {t('DOCUMENTS.DELETE_VERSION')}
                               </DropdownMenuItem>
                             </>
                           )}
@@ -382,7 +384,7 @@ export function DocumentVersionsView() {
                         onClick={() => navigate('/documents/1/compare')}
                       >
                         <Eye className="w-3.5 h-3.5 mr-1.5" strokeWidth={2} />
-                        Просмотр
+                        {t('DOCUMENTS.ACTIONS.VIEW')}
                       </Button>
                       <Button
                         variant="outline"
@@ -390,7 +392,7 @@ export function DocumentVersionsView() {
                         className="rounded-lg border-border hover:bg-green-500/10 hover:border-green-500/20 hover:text-green-600"
                       >
                         <Download className="w-3.5 h-3.5 mr-1.5" strokeWidth={2} />
-                        Скачать
+                        {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
                       </Button>
                       {!version.isCurrent && (
                         <Button
@@ -400,7 +402,7 @@ export function DocumentVersionsView() {
                           onClick={onCompare}
                         >
                           <GitCompare className="w-3.5 h-3.5 mr-1.5" strokeWidth={2} />
-                          Сравнить
+                          {t('DOCUMENTS.ACTIONS.COMPARE')}
                         </Button>
                       )}
                     </div>

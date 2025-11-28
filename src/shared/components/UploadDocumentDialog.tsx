@@ -12,6 +12,7 @@ import {
   X,
   CheckCircle2,
 } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -37,6 +38,7 @@ interface UploadDocumentDialogProps {
 }
 
 export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDocumentDialogProps) {
+  const { t } = useI18n();
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -110,7 +112,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
             <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center">
               <Upload className="w-6 h-6 text-orange-600 dark:text-orange-400" strokeWidth={2} />
             </div>
-            Загрузить документ
+            {t('UPLOAD.TITLE')}
           </DialogTitle>
         </DialogHeader>
 
@@ -142,11 +144,11 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                   </div>
                   <div className="text-center">
                     <p className="text-lg text-foreground mb-1">
-                      Перетащите файл сюда или{' '}
-                      <span className="text-blue-500 hover:text-blue-600">выберите файл</span>
+                      {t('UPLOAD.DRAG_DROP')}{' '}
+                      <span className="text-blue-500 hover:text-blue-600">{t('UPLOAD.SELECT_FILE')}</span>
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Поддерживаются: PDF, DOC, DOCX, TXT, JPG, PNG (до 25 МБ)
+                      {t('UPLOAD.SUPPORTED_FORMATS')}
                     </p>
                   </div>
                 </div>
@@ -182,11 +184,11 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
             <>
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-sm text-foreground">
-                  Название документа *
+                  {t('UPLOAD.DOCUMENT_NAME')} *
                 </Label>
                 <Input
                   id="name"
-                  placeholder="Исковое заявление"
+                  placeholder={t('UPLOAD.DOCUMENT_NAME_PLACEHOLDER')}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="h-12 rounded-xl border-input focus-visible:ring-orange-500"
@@ -197,7 +199,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="case" className="text-sm text-foreground">
-                    Дело *
+                    {t('CASES.FIELDS.CASE')} *
                   </Label>
                   <Select
                     value={formData.case}
@@ -206,7 +208,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                   >
                     <SelectTrigger className="h-12 rounded-xl border-input">
                       <Briefcase className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
-                      <SelectValue placeholder="Выберите дело" />
+                      <SelectValue placeholder={t('UPLOAD.SELECT_CASE')} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="case1">Трудовой спор - увольнение</SelectItem>
@@ -218,7 +220,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
 
                 <div className="space-y-2">
                   <Label htmlFor="type" className="text-sm text-foreground">
-                    Тип документа *
+                    {t('UPLOAD.DOCUMENT_TYPE')} *
                   </Label>
                   <Select
                     value={formData.type}
@@ -227,15 +229,15 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                   >
                     <SelectTrigger className="h-12 rounded-xl border-input">
                       <Tag className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
-                      <SelectValue placeholder="Тип" />
+                      <SelectValue placeholder={t('DOCUMENTS.FIELDS.TYPE')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="lawsuit">Иск</SelectItem>
-                      <SelectItem value="contract">Договор</SelectItem>
-                      <SelectItem value="order">Приказ</SelectItem>
-                      <SelectItem value="power">Доверенность</SelectItem>
-                      <SelectItem value="response">Возражение</SelectItem>
-                      <SelectItem value="other">Другое</SelectItem>
+                      <SelectItem value="lawsuit">{t('UPLOAD.DOCUMENT_TYPES.LAWSUIT')}</SelectItem>
+                      <SelectItem value="contract">{t('UPLOAD.DOCUMENT_TYPES.CONTRACT')}</SelectItem>
+                      <SelectItem value="order">{t('UPLOAD.DOCUMENT_TYPES.ORDER')}</SelectItem>
+                      <SelectItem value="power">{t('UPLOAD.DOCUMENT_TYPES.POWER')}</SelectItem>
+                      <SelectItem value="response">{t('UPLOAD.DOCUMENT_TYPES.RESPONSE')}</SelectItem>
+                      <SelectItem value="other">{t('UPLOAD.DOCUMENT_TYPES.OTHER')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -243,7 +245,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
 
               <div className="space-y-2">
                 <Label htmlFor="status" className="text-sm text-foreground">
-                  Статус
+                  {t('DOCUMENTS.FIELDS.STATUS')}
                 </Label>
                 <Select
                   value={formData.status}
@@ -253,20 +255,20 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="draft">Черновик</SelectItem>
-                    <SelectItem value="review">На проверке</SelectItem>
-                    <SelectItem value="final">Финальная версия</SelectItem>
+                    <SelectItem value="draft">{t('DOCUMENTS.STATUS.DRAFT')}</SelectItem>
+                    <SelectItem value="review">{t('DOCUMENTS.STATUS.REVIEW')}</SelectItem>
+                    <SelectItem value="final">{t('DOCUMENTS.STATUS.FINAL')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="notes" className="text-sm text-foreground">
-                  Примечания
+                  {t('UPLOAD.NOTES')}
                 </Label>
                 <Textarea
                   id="notes"
-                  placeholder="Краткое описание документа или важные заметки..."
+                  placeholder={t('UPLOAD.NOTES_PLACEHOLDER')}
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   className="min-h-[100px] rounded-xl border-input focus-visible:ring-orange-500 resize-none"
@@ -282,7 +284,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
               onClick={() => onOpenChange(false)}
               className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
-              Отмена
+              {t('COMMON.ACTIONS.CANCEL')}
             </Button>
             <Button
               type="submit"
@@ -290,7 +292,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
               className="flex-1 h-12 bg-orange-500 hover:bg-orange-600 text-white rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-              Загрузить
+              {t('COMMON.ACTIONS.UPLOAD')}
             </Button>
           </div>
         </form>

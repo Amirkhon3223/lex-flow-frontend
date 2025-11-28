@@ -1,6 +1,7 @@
 import { FileText, Star, FolderOpen, User, Tag, History, MoreHorizontal, Eye, Download, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { DocumentCardProps } from '@/app/types/documents/documents.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/shared/ui/dropdown-menu';
@@ -18,6 +19,7 @@ export function DocumentCard({
   status,
   favorite,
 }: DocumentCardProps) {
+  const { t } = useI18n();
   const navigate = useNavigate();
 
   const handleCardClick = () => {
@@ -57,15 +59,15 @@ export function DocumentCard({
             <DropdownMenuContent align="end" className="rounded-xl">
               <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleOpenDocument(); }}>
                 <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
-                Открыть
+                {t('DOCUMENTS.ACTIONS.OPEN')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
                 <Download className="w-4 h-4 mr-2" strokeWidth={2} />
-                Скачать
+                {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
               </DropdownMenuItem>
               <DropdownMenuItem className="text-destructive" onClick={(e) => e.stopPropagation()}>
                 <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                Удалить
+                {t('DOCUMENTS.ACTIONS.DELETE')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -89,7 +91,7 @@ export function DocumentCard({
           </div>
           <div className="flex items-center gap-1 px-2 py-1 rounded bg-muted">
             <History className="w-3 h-3" strokeWidth={2} />
-            <span>{versions} верс.</span>
+            <span>{versions} {t('CASES.DOC_VERSION.SHORT')}</span>
           </div>
         </div>
       </div>
@@ -134,7 +136,7 @@ export function DocumentCard({
 
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted">
             <History className="w-3.5 h-3.5" strokeWidth={2} />
-            <span className="text-xs">{versions} версий</span>
+            <span className="text-xs">{versions} {t('CASES.DOC_VERSION.PLURAL')}</span>
           </div>
 
           <DropdownMenu>
@@ -146,15 +148,15 @@ export function DocumentCard({
             <DropdownMenuContent align="end" className="rounded-xl">
               <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleOpenDocument(); }}>
                 <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
-                Открыть
+                {t('DOCUMENTS.ACTIONS.OPEN')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
                 <Download className="w-4 h-4 mr-2" strokeWidth={2} />
-                Скачать
+                {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
               </DropdownMenuItem>
               <DropdownMenuItem className="text-destructive" onClick={(e) => e.stopPropagation()}>
                 <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                Удалить
+                {t('DOCUMENTS.ACTIONS.DELETE')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

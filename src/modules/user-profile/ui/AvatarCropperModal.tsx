@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import ReactCrop, { centerCrop, makeAspectCrop } from 'react-image-crop';
 import type { Crop, PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -41,6 +42,7 @@ export function AvatarCropperModal({
                                      imageSrc,
                                      onCropComplete,
                                    }: AvatarCropperModalProps) {
+  const { t } = useI18n();
   const imgRef = useRef<HTMLImageElement>(null);
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
@@ -103,9 +105,9 @@ export function AvatarCropperModal({
     <Dialog open={isOpen} onOpenChange={handleCancel}>
       <DialogContent className="sm:max-w-xl bg-white">
         <DialogHeader>
-          <DialogTitle>Обрезка изображения</DialogTitle>
+          <DialogTitle>{t('USER_PROFILE.AVATAR_CROPPER.TITLE')}</DialogTitle>
           <DialogDescription>
-            Выберите область для аватарки. Область обрезки будет квадратной.
+            {t('USER_PROFILE.AVATAR_CROPPER.DESCRIPTION')}
           </DialogDescription>
         </DialogHeader>
 
@@ -135,14 +137,14 @@ export function AvatarCropperModal({
             onClick={handleCancel}
             className="rounded-lg sm:rounded-xl"
           >
-            Отмена
+            {t('USER_PROFILE.AVATAR_CROPPER.CANCEL')}
           </Button>
           <Button
             onClick={handleConfirm}
             className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl"
             disabled={!completedCrop}
           >
-            Подтвердить
+            {t('USER_PROFILE.AVATAR_CROPPER.CONFIRM')}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,20 +1,23 @@
 import { Award } from 'lucide-react';
 import type { LawyerStatsInterface } from '@/app/types/analytics/analytics.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { Progress } from '@/shared/ui/progress';
 import { getMedalGradient } from '@/shared/utils/styleHelpers';
 
 const topLawyers: LawyerStatsInterface[] = [
-  { name: 'Александр И.', cases: 47, winRate: 89, revenue: 2400000 },
-  { name: 'Мария С.', cases: 42, winRate: 86, revenue: 2100000 },
-  { name: 'Дмитрий П.', cases: 38, winRate: 82, revenue: 1900000 },
-  { name: 'Елена В.', cases: 35, winRate: 91, revenue: 1800000 },
+  { name: 'Alexander I.', cases: 47, winRate: 89, revenue: 2400000 },
+  { name: 'Maria S.', cases: 42, winRate: 86, revenue: 2100000 },
+  { name: 'Dmitry P.', cases: 38, winRate: 82, revenue: 1900000 },
+  { name: 'Elena V.', cases: 35, winRate: 91, revenue: 1800000 },
 ];
 
 export function TeamStats() {
+  const { t } = useI18n();
+
   return (
     <Card>
-      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Лучшие юристы</h3>
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">{t('ANALYTICS.TOP_LAWYERS')}</h3>
       <div className="space-y-3 sm:space-y-4">
         {topLawyers.map((lawyer, index) => (
           <div
@@ -29,17 +32,17 @@ export function TeamStats() {
               <div className="flex-1 min-w-0">
                 <h4 className="tracking-tight mb-0.5 sm:mb-1 text-sm sm:text-base truncate">{lawyer.name}</h4>
                 <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
-                  <span>{lawyer.cases} дел</span>
+                  <span>{lawyer.cases} {t('ANALYTICS.LAWYER_STATS.CASES')}</span>
                   <span className="hidden sm:inline">•</span>
-                  <span className="text-green-600 dark:text-green-400">{lawyer.winRate}% успеха</span>
+                  <span className="text-green-600 dark:text-green-400">{lawyer.winRate}% {t('ANALYTICS.LAWYER_STATS.SUCCESS_RATE').toLowerCase()}</span>
                   <span className="hidden sm:inline">•</span>
-                  <span>{(lawyer.revenue / 1000000).toFixed(1)}M ₽ дохода</span>
+                  <span>{(lawyer.revenue / 1000000).toFixed(1)}M ₽ {t('ANALYTICS.LAWYER_STATS.REVENUE')}</span>
                 </div>
               </div>
             </div>
             <div className="space-y-1.5 sm:space-y-2">
               <div className="flex items-center justify-between text-xs sm:text-sm">
-                <span className="text-muted-foreground">Процент успеха</span>
+                <span className="text-muted-foreground">{t('ANALYTICS.LAWYER_STATS.SUCCESS_RATE')}</span>
                 <span className="text-foreground">{lawyer.winRate}%</span>
               </div>
               <Progress value={lawyer.winRate} className="h-1.5 sm:h-2" />

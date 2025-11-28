@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { ArrowLeft, Save, Briefcase, User, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { ProfileSidebar } from './widgets/ProfileSidebar';
 import { ProfileTabs } from './widgets/ProfileTabs';
 
 export default function UserProfilePage() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const onBack = () => navigate(-1);
   const onLogout = () => console.log('Logout clicked');
@@ -28,10 +30,10 @@ export default function UserProfilePage() {
   };
 
   const stats = [
-    { label: 'Активных дел', value: '47', icon: Briefcase, color: 'text-blue-500' },
-    { label: 'Клиентов', value: '24', icon: User, color: 'text-purple-500' },
-    { label: 'Завершено дел', value: '128', icon: Briefcase, color: 'text-green-500' },
-    { label: 'Дней в системе', value: '342', icon: Calendar, color: 'text-orange-500' },
+    { label: t('USER_PROFILE.STATS.ACTIVE_CASES'), value: '47', icon: Briefcase, color: 'text-blue-500' },
+    { label: t('USER_PROFILE.STATS.CLIENTS'), value: '24', icon: User, color: 'text-purple-500' },
+    { label: t('USER_PROFILE.STATS.COMPLETED_CASES'), value: '128', icon: Briefcase, color: 'text-green-500' },
+    { label: t('USER_PROFILE.STATS.DAYS_IN_SYSTEM'), value: '342', icon: Calendar, color: 'text-orange-500' },
   ];
 
   return (
@@ -51,13 +53,13 @@ export default function UserProfilePage() {
                 </Button>
               )}
               <div className="min-w-0">
-                <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight mb-0.5 sm:mb-1 truncate">Профиль</h1>
-                <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">Управление личными данными и настройками</p>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight mb-0.5 sm:mb-1 truncate">{t('USER_PROFILE.TITLE')}</h1>
+                <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">{t('USER_PROFILE.SUBTITLE')}</p>
               </div>
             </div>
             <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md text-xs sm:text-sm lg:text-base h-8 sm:h-9 lg:h-10 px-3 sm:px-4 w-full sm:w-auto">
               <Save className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
-              Сохранить изменения
+              {t('USER_PROFILE.SAVE_CHANGES')}
             </Button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { Briefcase, Calendar as CalendarIcon, Clock, MapPin, MoreHorizontal } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { SelectedDateMeetingsProps } from '@/app/types/calendar/calendar.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -15,6 +16,7 @@ export function SelectedDateMeetings({
   getPriorityColor,
 }: SelectedDateMeetingsProps) {
   const navigate = useNavigate();
+  const { t } = useI18n();
 
   return (
     <Card>
@@ -24,7 +26,7 @@ export function SelectedDateMeetings({
             day: 'numeric',
             month: 'long',
           })
-          : 'Выберите дату'}
+          : t('CALENDAR.MESSAGES.SELECT_DATE')}
       </h3>
 
       {meetings.length ? (
@@ -48,10 +50,10 @@ export function SelectedDateMeetings({
                 {meeting.priority && (
                   <Badge className={`${getPriorityColor(meeting.priority)} border-0 text-xs flex-shrink-0`}>
                     {meeting.priority === 'high'
-                      ? 'Срочно'
+                      ? t('CALENDAR.PRIORITY.HIGH')
                       : meeting.priority === 'medium'
-                        ? 'Средний'
-                        : 'Низкий'}
+                        ? t('CALENDAR.PRIORITY.MEDIUM')
+                        : t('CALENDAR.PRIORITY.LOW')}
                   </Badge>
                 )}
               </div>
@@ -97,7 +99,7 @@ export function SelectedDateMeetings({
           <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-3">
             <CalendarIcon className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" strokeWidth={2} />
           </div>
-          <p className="text-xs sm:text-sm text-muted-foreground">Нет встреч на эту дату</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">{t('CALENDAR.MESSAGES.NO_MEETINGS_TODAY')}</p>
         </div>
       )}
     </Card>

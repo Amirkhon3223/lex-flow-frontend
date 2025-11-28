@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { ClientTypeEnum } from '@/app/types/clients/clients.enums';
 import type { CreateClientInterface } from "@/app/types/clients/clients.interfaces.ts";
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -41,6 +42,7 @@ interface AddClientDialogProps {
 }
 
 export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialogProps) {
+  const { t } = useI18n();
   const [clientType, setClientType] = useState<ClientTypeEnum>(ClientTypeEnum.INDIVIDUAL);
 
   const [formData, setFormData] = useState({
@@ -85,7 +87,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
             <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center">
               <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" strokeWidth={2} />
             </div>
-            Новый клиент
+            {t('CLIENTS.NEW_CLIENT')}
           </DialogTitle>
         </DialogHeader>
 
@@ -95,11 +97,11 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               <TabsList className="grid w-full grid-cols-2 bg-muted rounded-xl p-1">
                 <TabsTrigger value={ClientTypeEnum.INDIVIDUAL} className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
                   <User className="w-4 h-4 mr-2" strokeWidth={2} />
-                  Физическое лицо
+                  {t('CLIENTS.TYPES.INDIVIDUAL')}
                 </TabsTrigger>
                 <TabsTrigger value={ClientTypeEnum.LEGAL} className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
                   <Building2 className="w-4 h-4 mr-2" strokeWidth={2} />
-                  Юридическое лицо
+                  {t('CLIENTS.TYPES.LEGAL')}
                 </TabsTrigger>
               </TabsList>
 
@@ -107,7 +109,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                 <div className="grid grid-cols-3 gap-3">
                   <div className="space-y-2">
                     <Label htmlFor="lastName" className="text-sm text-foreground">
-                      Фамилия *
+                      {t('USER_PROFILE.LAST_NAME')} *
                     </Label>
                     <Input
                       id="lastName"
@@ -120,7 +122,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="firstName" className="text-sm text-foreground">
-                      Имя *
+                      {t('USER_PROFILE.FIRST_NAME')} *
                     </Label>
                     <Input
                       id="firstName"
@@ -133,7 +135,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="middleName" className="text-sm text-foreground">
-                      Отчество
+                      {t('USER_PROFILE.MIDDLE_NAME')}
                     </Label>
                     <Input
                       id="middleName"
@@ -149,7 +151,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               <TabsContent value={ClientTypeEnum.LEGAL} className="space-y-4 mt-6">
                 <div className="space-y-2">
                   <Label htmlFor="companyName" className="text-sm text-foreground">
-                    Название организации *
+                    {t('CLIENTS.FIELDS.COMPANY_NAME')} *
                   </Label>
                   <Input
                     id="companyName"
@@ -164,7 +166,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="inn" className="text-sm text-foreground">
-                      ИНН
+                      {t('CLIENTS.FIELDS.INN')}
                     </Label>
                     <Input
                       id="inn"
@@ -176,7 +178,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="kpp" className="text-sm text-foreground">
-                      КПП
+                      {t('CLIENTS.FIELDS.KPP')}
                     </Label>
                     <Input
                       id="kpp"
@@ -193,7 +195,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm text-foreground">
-                  Email *
+                  {t('CLIENTS.FIELDS.EMAIL')} *
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
@@ -211,7 +213,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
 
               <div className="space-y-2">
                 <Label htmlFor="phone" className="text-sm text-foreground">
-                  Телефон *
+                  {t('CLIENTS.FIELDS.PHONE')} *
                 </Label>
                 <div className="relative">
                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
@@ -230,7 +232,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
 
             <div className="space-y-2">
               <Label htmlFor="address" className="text-sm text-foreground">
-                Адрес
+                {t('CLIENTS.FIELDS.ADDRESS')}
               </Label>
               <div className="relative">
                 <MapPin className="absolute left-4 top-4 w-4 h-4 text-muted-foreground" strokeWidth={2} />
@@ -246,7 +248,7 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
 
             <div className="space-y-2">
               <Label htmlFor="category" className="text-sm text-foreground">
-                Категория
+                {t('CLIENTS.FIELDS.CATEGORY')}
               </Label>
               <Select
                 value={formData.category}
@@ -254,24 +256,24 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               >
                 <SelectTrigger className="h-12 rounded-xl border-input">
                   <Briefcase className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
-                  <SelectValue placeholder="Выберите категорию" />
+                  <SelectValue placeholder={t('CLIENTS.SELECT_CATEGORY')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="vip">VIP клиент</SelectItem>
-                  <SelectItem value="regular">Постоянный</SelectItem>
-                  <SelectItem value="new">Новый</SelectItem>
-                  <SelectItem value="potential">Потенциальный</SelectItem>
+                  <SelectItem value="vip">{t('CLIENTS.CATEGORY.VIP')}</SelectItem>
+                  <SelectItem value="regular">{t('CLIENTS.CATEGORY.REGULAR')}</SelectItem>
+                  <SelectItem value="new">{t('CLIENTS.CATEGORY.NEW')}</SelectItem>
+                  <SelectItem value="potential">{t('CLIENTS.CATEGORY.POTENTIAL')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="notes" className="text-sm text-foreground">
-                Примечания
+                {t('CLIENTS.FIELDS.NOTES')}
               </Label>
               <Textarea
                 id="notes"
-                placeholder="Дополнительная информация о клиенте..."
+                placeholder={t('CLIENTS.NOTES_PLACEHOLDER')}
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 className="min-h-[100px] rounded-xl border-input focus-visible:ring-purple-500 resize-none"
@@ -286,14 +288,14 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
               onClick={() => onOpenChange(false)}
               className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
-              Отмена
+              {t('COMMON.ACTIONS.CANCEL')}
             </Button>
             <Button
               type="submit"
               className="flex-1 h-12 bg-purple-500 hover:bg-purple-600 text-white rounded-xl shadow-md"
             >
               <Users className="w-4 h-4 mr-2" strokeWidth={2} />
-              Создать клиента
+              {t('CLIENTS.CREATE_CLIENT')}
             </Button>
           </div>
         </form>

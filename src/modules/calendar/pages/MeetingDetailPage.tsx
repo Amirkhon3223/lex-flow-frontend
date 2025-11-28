@@ -15,10 +15,12 @@ import { QuickActionsCard } from '@/modules/calendar/ui/QuickActionsCard';
 import { CommentsDialog } from '@/shared/components/CommentsDialog';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function MeetingDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [isEditingOpen, setIsEditingOpen] = useState(false);
   const [isAddNoteOpen, setIsAddNoteOpen] = useState(false);
   const [isAddDocumentOpen, setIsAddDocumentOpen] = useState(false);
@@ -44,8 +46,8 @@ export function MeetingDetailPage() {
   };
 
   const handleComplete = () => {
-    console.log('Встреча отмечена как завершённая, ID:', id);
-    toast.success('Встреча отмечена как завершённая');
+    console.log(t('CALENDAR.MESSAGES.COMPLETED'), 'ID:', id);
+    toast.success(t('CALENDAR.MESSAGES.COMPLETED'));
     navigate('/calendar');
   };
 
@@ -58,8 +60,8 @@ export function MeetingDetailPage() {
   };
 
   const confirmCancel = () => {
-    console.log('Встреча отменена, ID:', id);
-    toast.success('Встреча отменена');
+    console.log(t('CALENDAR.MESSAGES.CANCELLED'), 'ID:', id);
+    toast.success(t('CALENDAR.MESSAGES.CANCELLED'));
     navigate('/calendar');
   };
 
@@ -72,8 +74,8 @@ export function MeetingDetailPage() {
   };
 
   const confirmDelete = () => {
-    console.log('Встреча удалена, ID:', id);
-    toast.success('Встреча удалена');
+    console.log(t('CALENDAR.MESSAGES.CANCELLED'), 'ID:', id);
+    toast.success(t('CALENDAR.MESSAGES.CANCELLED'));
     navigate('/calendar');
   };
 
@@ -87,10 +89,10 @@ export function MeetingDetailPage() {
       <ConfirmDialog
         open={isCancelDialogOpen}
         onOpenChange={setIsCancelDialogOpen}
-        title="Отменить встречу?"
-        description="Вы уверены, что хотите отменить эту встречу? Это действие можно будет отменить позже."
-        confirmText="Да, отменить"
-        cancelText="Не отменять"
+        title={`${t('CALENDAR.ACTIONS.CANCEL')}?`}
+        description={t('COMMON.MESSAGES.CONFIRM_DELETE')}
+        confirmText={t('COMMON.ACTIONS.DELETE')}
+        cancelText={t('COMMON.ACTIONS.CANCEL')}
         onConfirm={confirmCancel}
         variant="destructive"
       />
@@ -98,10 +100,10 @@ export function MeetingDetailPage() {
       <ConfirmDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
-        title="Удалить встречу?"
-        description="Вы уверены, что хотите удалить эту встречу? Это действие нельзя будет отменить."
-        confirmText="Да, удалить"
-        cancelText="Не удалять"
+        title={`${t('COMMON.ACTIONS.DELETE')} ${t('CALENDAR.MEETINGS')}?`}
+        description={t('COMMON.MESSAGES.CONFIRM_DELETE')}
+        confirmText={t('COMMON.ACTIONS.DELETE')}
+        cancelText={t('COMMON.ACTIONS.CANCEL')}
         onConfirm={confirmDelete}
         variant="destructive"
       />

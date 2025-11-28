@@ -4,8 +4,9 @@ import {
   Briefcase,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { MeetingStatusEnum } from '@/app/types/calendar/calendar.enums';
+import { MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
 import type { MeetingsListProps } from '@/app/types/calendar/calendar.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
@@ -19,10 +20,11 @@ export function MeetingsList({
   getPriorityColor,
 }: MeetingsListProps) {
   const navigate = useNavigate();
+  const { t } = useI18n();
 
   return (
     <Card>
-      <h3 className="text-lg sm:text-xl tracking-tight mb-4 sm:mb-6">Все встречи</h3>
+      <h3 className="text-lg sm:text-xl tracking-tight mb-4 sm:mb-6">{t('CALENDAR.MEETING_DETAILS.ALL_MEETINGS')}</h3>
 
       <div className="space-y-3">
         {meetings
@@ -62,7 +64,7 @@ export function MeetingsList({
                 <div className="flex flex-wrap gap-1 mb-2">
                   {meeting.priority && (
                     <Badge className={`${getPriorityColor(meeting.priority)} border-0 text-xs`}>
-                      {meeting.priority === 'high' ? 'Срочно' : meeting.priority === 'medium' ? 'Средний' : 'Низкий'}
+                      {meeting.priority === MeetingPriorityEnum.HIGH ? t('CALENDAR.PRIORITY_DETAILS.HIGH') : meeting.priority === MeetingPriorityEnum.MEDIUM ? t('CALENDAR.PRIORITY_DETAILS.MEDIUM') : t('CALENDAR.PRIORITY_DETAILS.LOW')}
                     </Badge>
                   )}
                   <Badge className={`${getMeetingTypeColor(meeting.type)} border-0 text-xs`}>
@@ -72,7 +74,7 @@ export function MeetingsList({
                     ? 'bg-green-500/10 text-green-700 dark:text-green-400'
                     : 'bg-blue-500/10 text-blue-700 dark:text-blue-400'
                     } border-0 text-xs`}>
-                    {meeting.status === MeetingStatusEnum.COMPLETED ? 'Завершено' : 'Запланировано'}
+                    {meeting.status === MeetingStatusEnum.COMPLETED ? t('CALENDAR.STATUS.COMPLETED') : t('CALENDAR.STATUS.SCHEDULED')}
                   </Badge>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
@@ -122,7 +124,7 @@ export function MeetingsList({
                     <div className="flex items-center gap-2">
                       {meeting.priority && (
                         <Badge className={`${getPriorityColor(meeting.priority)} border-0 text-xs`}>
-                          {meeting.priority === 'high' ? 'Срочно' : meeting.priority === 'medium' ? 'Средний' : 'Низкий'}
+                          {meeting.priority === MeetingPriorityEnum.HIGH ? t('CALENDAR.PRIORITY_DETAILS.HIGH') : meeting.priority === MeetingPriorityEnum.MEDIUM ? t('CALENDAR.PRIORITY_DETAILS.MEDIUM') : t('CALENDAR.PRIORITY_DETAILS.LOW')}
                         </Badge>
                       )}
                       <Badge className={`${getMeetingTypeColor(meeting.type)} border-0`}>
@@ -132,7 +134,7 @@ export function MeetingsList({
                         ? 'bg-green-500/10 text-green-700 dark:text-green-400'
                         : 'bg-blue-500/10 text-blue-700 dark:text-blue-400'
                         } border-0`}>
-                        {meeting.status === MeetingStatusEnum.COMPLETED ? 'Завершено' : 'Запланировано'}
+                        {meeting.status === MeetingStatusEnum.COMPLETED ? t('CALENDAR.STATUS.COMPLETED') : t('CALENDAR.STATUS.SCHEDULED')}
                       </Badge>
                     </div>
                   </div>

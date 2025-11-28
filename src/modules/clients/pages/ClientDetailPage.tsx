@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { ChevronLeft, Briefcase, FileText, DollarSign, Clock, TrendingUp, Plus, Mail, Phone } from 'lucide-react';
-import { useParams, Link } from 'react-router-dom';
+import { Briefcase, FileText, DollarSign, Clock, TrendingUp, Plus, Mail, Phone } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
 import type { CaseCardInterface } from "@/app/types/cases/cases.interfaces.ts";
 import { CaseCard } from "@/modules/cases/ui/CaseCard.tsx";
 import { ContactInfoCard } from "@/modules/clients/ui/ContactInfoCard.tsx";
 import { FinancialCard } from "@/modules/clients/widgets/FinancialCard.tsx";
 import { AddCaseDialog } from "@/shared/components/AddCaseDialog.tsx";
+import { BackButton } from "@/shared/components/BackButton.tsx";
 import { EditClientDialog } from "@/shared/components/EditClientDialog.tsx";
+import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -14,6 +16,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { StatCard } from '@/shared/ui/stat-card';
 
 export default function ClientDetailPage() {
+  const { t } = useI18n();
+  const navigate = useNavigate();
   const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { id: _id } = useParams();
@@ -87,10 +91,7 @@ export default function ClientDetailPage() {
       <AddCaseDialog open={isAddCaseDialogOpen} onOpenChange={setIsAddCaseDialogOpen} />
       <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen} />
 
-      <Link to="/clients" className="inline-flex items-center text-xs sm:text-sm text-gray-600 hover:text-gray-900">
-        <ChevronLeft className="mr-1 h-3.5 w-3.5 sm:h-4 sm:w-4" />
-        Все клиенты
-      </Link>
+      <BackButton onClick={() => navigate(-1)} label={t('CLIENTS.ALL_CLIENTS')} />
 
       <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
         <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
@@ -103,13 +104,13 @@ export default function ClientDetailPage() {
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
               <h1 className="text-xl sm:text-2xl font-bold text-foreground">{client.name}</h1>
               <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20 w-fit">
-                {client.status}
+                {t('CLIENTS.STATUS.ACTIVE_CLIENT')}
               </Badge>
             </div>
             <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
-              <span>🏢 {client.type}</span>
-              <span>📅 {client.since}</span>
-              {client.vip && <span>⭐ VIP клиент</span>}
+              <span>🏢 {t('CLIENTS.TYPES.INDIVIDUAL')}</span>
+              <span>📅 {t('CLIENTS.CLIENT_SINCE')} {client.since.split('с ')[1]}</span>
+              {client.vip && <span>⭐ {t('CLIENTS.STATUS.VIP_CLIENT')}</span>}
             </div>
             <div className="mt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
               <div className="flex items-center gap-1 text-muted-foreground">
@@ -125,45 +126,45 @@ export default function ClientDetailPage() {
         </div>
         <div className="flex gap-2 w-full sm:w-auto">
           <Button variant="outline" className="flex-1 sm:flex-none text-sm sm:text-base">
-            Написать
+            {t('CLIENTS.WRITE')}
           </Button>
           <Button
             className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md flex-1 sm:flex-none text-sm sm:text-base"
             onClick={() => setIsAddCaseDialogOpen(true)}
           >
             <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
-            Новое дело
+            {t('CLIENTS.NEW_CASE')}
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
         <StatCard
-          label="Активных дел"
+          label={t('CLIENTS.ACTIVE_CASES_COUNT')}
           value={client.activeCases}
           icon={Briefcase}
           iconColor="text-blue-500"
         />
         <StatCard
-          label="Документов"
+          label={t('CLIENTS.DOCUMENTS_COUNT')}
           value={client.documents}
           icon={FileText}
           iconColor="text-purple-500"
         />
         <StatCard
-          label="Общий гонорар"
+          label={t('CLIENTS.TOTAL_FEE')}
           value={client.totalRevenue}
           icon={DollarSign}
           iconColor="text-green-500"
         />
         <StatCard
-          label="Часов работы"
+          label={t('CLIENTS.HOURS_WORKED')}
           value={client.hoursWorked}
           icon={Clock}
           iconColor="text-orange-500"
         />
         <StatCard
-          label="Взаимодействий"
+          label={t('CLIENTS.INTERACTIONS')}
           value={client.interactions}
           icon={TrendingUp}
           iconColor="text-red-500"
@@ -174,8 +175,8 @@ export default function ClientDetailPage() {
         <div className="lg:col-span-2 rounded-xl !p-0">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-base sm:text-lg">Дела клиента</CardTitle>
-              <Badge className="bg-blue-500 text-white border-0 text-md">3 дел</Badge>
+              <CardTitle className="text-base sm:text-lg">{t('CLIENTS.CLIENT_CASES')}</CardTitle>
+              <Badge className="bg-blue-500 text-white border-0 text-md">3 {t('CLIENTS.CASES_COUNT')}</Badge>
             </CardHeader>
             <CardContent className="space-y-3 sm:space-y-4 mt-2">
               {cases.map((caseItem) => (

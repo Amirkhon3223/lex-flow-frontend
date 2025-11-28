@@ -1,4 +1,5 @@
 import { ParticipantItem } from '@/modules/calendar/ui/ParticipantItem';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 interface MeetingParticipantsCardProps {
@@ -6,6 +7,8 @@ interface MeetingParticipantsCardProps {
 }
 
 export function MeetingParticipantsCard({ participants }: MeetingParticipantsCardProps) {
+  const { t } = useI18n();
+
   if (!participants?.length) {
     return null;
   }
@@ -13,7 +16,7 @@ export function MeetingParticipantsCard({ participants }: MeetingParticipantsCar
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm sm:text-base md:text-lg">Участники</CardTitle>
+        <CardTitle className="text-sm sm:text-base md:text-lg">{t('CALENDAR.MEETING_DETAILS.PARTICIPANTS')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2 sm:space-y-3">

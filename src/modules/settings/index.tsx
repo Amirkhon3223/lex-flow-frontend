@@ -4,10 +4,12 @@ import { NotificationsTabContent } from '@/modules/settings/components/tabs/Noti
 import { ProfileTabContent } from '@/modules/settings/components/tabs/ProfileTabContent';
 import { SecurityTabContent } from '@/modules/settings/components/tabs/SecurityTabContent';
 import { TeamTabContent } from '@/modules/settings/components/tabs/TeamTabContent';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs.tsx";
 
 
 export default function SettingsPage() {
+  const { t } = useI18n();
   return (
     <div>
       <header className="relative bg-card border-b border-border rounded-xl">
@@ -17,9 +19,9 @@ export default function SettingsPage() {
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5} />
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">Настройки</h1>
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">{t('SETTINGS.TITLE')}</h1>
               <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">
-                Управление аккаунтом и предпочтениями
+                {t('SETTINGS.SUBTITLE')}
               </p>
             </div>
           </div>
@@ -35,35 +37,35 @@ export default function SettingsPage() {
                 className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"
               >
                 <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                <span className="hidden sm:inline">Профиль</span>
+                <span className="hidden sm:inline">{t('SETTINGS.TABS.PROFILE')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="notifications"
                 className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"
               >
                 <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                <span className="hidden sm:inline">Уведомления</span>
+                <span className="hidden sm:inline">{t('SETTINGS.TABS.NOTIFICATIONS')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="security"
                 className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"
               >
                 <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                <span className="hidden sm:inline">Безопасность</span>
+                <span className="hidden sm:inline">{t('SETTINGS.TABS.SECURITY')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="team"
                 className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"
               >
                 <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                <span className="hidden sm:inline">Команда</span>
+                <span className="hidden sm:inline">{t('SETTINGS.TABS.TEAM')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="billing"
                 className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"
               >
                 <CreditCard className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                <span className="hidden sm:inline">Подписка</span>
+                <span className="hidden sm:inline">{t('SETTINGS.TABS.BILLING')}</span>
               </TabsTrigger>
             </TabsList>
 

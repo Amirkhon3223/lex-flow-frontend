@@ -40,6 +40,7 @@
 
 import { useState } from 'react';
 import { User, Mail, Phone, MapPin, Calendar, Hash, Tag } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -67,6 +68,7 @@ interface EditClientDialogProps {
 }
 
 export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     firstName: 'Петр',
     lastName: 'Иванов',
@@ -99,10 +101,10 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
             <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
               <User className="w-5 h-5 text-blue-600 dark:text-blue-400" strokeWidth={2.5} />
             </div>
-            Редактирование клиента
+            {t('CLIENTS.EDIT_DIALOG.TITLE')}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground text-base ml-14">
-            Обновите информацию о клиенте. Все изменения будут сохранены в истории.
+            {t('CLIENTS.EDIT_DIALOG.DESCRIPTION')}
           </DialogDescription>
         </DialogHeader>
 
@@ -113,12 +115,12 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                 <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
                   <User className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="font-semibold text-lg">Личные данные</h3>
+                <h3 className="font-semibold text-lg">{t('CLIENTS.EDIT_DIALOG.PERSONAL_INFO')}</h3>
               </div>
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Фамилия</Label>
+                  <Label htmlFor="lastName">{t('USER_PROFILE.LAST_NAME')}</Label>
                   <Input
                     id="lastName"
                     value={formData.lastName}
@@ -127,7 +129,7 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">Имя</Label>
+                  <Label htmlFor="firstName">{t('USER_PROFILE.FIRST_NAME')}</Label>
                   <Input
                     id="firstName"
                     value={formData.firstName}
@@ -136,7 +138,7 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="middleName">Отчество</Label>
+                  <Label htmlFor="middleName">{t('USER_PROFILE.MIDDLE_NAME')}</Label>
                   <Input
                     id="middleName"
                     value={formData.middleName}
@@ -145,7 +147,7 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="birthDate">Дата рождения</Label>
+                  <Label htmlFor="birthDate">{t('CLIENTS.FIELDS.BIRTH_DATE')}</Label>
                   <div className="relative">
                     <Calendar className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
                     <Input
@@ -165,12 +167,12 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                 <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
                   <Phone className="w-4 h-4 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="font-semibold text-lg">Контактные данные</h3>
+                <h3 className="font-semibold text-lg">{t('CLIENTS.FIELDS.CONTACT_INFO')}</h3>
               </div>
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t('CLIENTS.FIELDS.EMAIL')}</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
                     <Input
@@ -183,7 +185,7 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Телефон</Label>
+                  <Label htmlFor="phone">{t('CLIENTS.FIELDS.PHONE')}</Label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
                     <Input
@@ -195,7 +197,7 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                   </div>
                 </div>
                 <div className="col-span-2 space-y-2">
-                  <Label htmlFor="address">Адрес</Label>
+                  <Label htmlFor="address">{t('CLIENTS.FIELDS.ADDRESS')}</Label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
                     <Input
@@ -214,12 +216,12 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                 <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
                   <Tag className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h3 className="font-semibold text-lg">Дополнительно</h3>
+                <h3 className="font-semibold text-lg">{t('CLIENTS.EDIT_DIALOG.ADDITIONAL_INFO')}</h3>
               </div>
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="inn">ИНН</Label>
+                  <Label htmlFor="inn">{t('CLIENTS.FIELDS.INN')}</Label>
                   <div className="relative">
                     <Hash className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
                     <Input
@@ -231,60 +233,60 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="clientType">Тип клиента</Label>
+                  <Label htmlFor="clientType">{t('CLIENTS.EDIT_DIALOG.CLIENT_TYPE')}</Label>
                   <Select
                     value={formData.clientType}
                     onValueChange={(value) => handleChange('clientType', value)}
                   >
                     <SelectTrigger className="h-11 rounded-xl bg-muted/30 border-input">
-                      <SelectValue placeholder="Выберите тип" />
+                      <SelectValue placeholder={t('CLIENTS.EDIT_DIALOG.SELECT_TYPE')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="individual">Физическое лицо</SelectItem>
-                      <SelectItem value="entity">Юридическое лицо</SelectItem>
+                      <SelectItem value="individual">{t('CLIENTS.TYPES.INDIVIDUAL')}</SelectItem>
+                      <SelectItem value="entity">{t('CLIENTS.TYPES.LEGAL')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="category">Категория</Label>
+                  <Label htmlFor="category">{t('CLIENTS.FIELDS.CATEGORY')}</Label>
                   <Select
                     value={formData.category}
                     onValueChange={(value) => handleChange('category', value)}
                   >
                     <SelectTrigger className="h-11 rounded-xl bg-muted/30 border-input">
-                      <SelectValue placeholder="Выберите категорию" />
+                      <SelectValue placeholder={t('CLIENTS.SELECT_CATEGORY')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="standard">Стандарт</SelectItem>
-                      <SelectItem value="vip">VIP</SelectItem>
-                      <SelectItem value="corporate">Корпоративный</SelectItem>
+                      <SelectItem value="standard">{t('CLIENTS.CATEGORIES.STANDARD')}</SelectItem>
+                      <SelectItem value="vip">{t('CLIENTS.CATEGORIES.VIP')}</SelectItem>
+                      <SelectItem value="corporate">{t('CLIENTS.EDIT_DIALOG.CORPORATE')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="source">Источник</Label>
+                  <Label htmlFor="source">{t('CLIENTS.EDIT_DIALOG.SOURCE')}</Label>
                   <Select
                     value={formData.source}
                     onValueChange={(value) => handleChange('source', value)}
                   >
                     <SelectTrigger className="h-11 rounded-xl bg-muted/30 border-input">
-                      <SelectValue placeholder="Выберите источник" />
+                      <SelectValue placeholder={t('CLIENTS.EDIT_DIALOG.SELECT_SOURCE')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="website">Сайт</SelectItem>
-                      <SelectItem value="referral">Рекомендация</SelectItem>
-                      <SelectItem value="adv">Реклама</SelectItem>
+                      <SelectItem value="website">{t('CLIENTS.EDIT_DIALOG.SOURCE_WEBSITE')}</SelectItem>
+                      <SelectItem value="referral">{t('CLIENTS.EDIT_DIALOG.SOURCE_REFERRAL')}</SelectItem>
+                      <SelectItem value="adv">{t('CLIENTS.EDIT_DIALOG.SOURCE_ADVERTISING')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="col-span-2 space-y-2">
-                  <Label htmlFor="notes">Заметки</Label>
+                  <Label htmlFor="notes">{t('CLIENTS.FIELDS.NOTES')}</Label>
                   <Textarea
                     id="notes"
                     value={formData.notes}
                     onChange={(e) => handleChange('notes', e.target.value)}
                     className="min-h-[100px] rounded-xl bg-muted/30 border-input focus:bg-background transition-colors resize-none"
-                    placeholder="Дополнительная информация о клиенте..."
+                    placeholder={t('CLIENTS.NOTES_PLACEHOLDER')}
                   />
                 </div>
               </div>
@@ -299,14 +301,14 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
             onClick={() => onOpenChange(false)}
             className="h-11 px-6 rounded-xl border-input hover:bg-muted"
           >
-            Отмена
+            {t('COMMON.ACTIONS.CANCEL')}
           </Button>
           <Button
             type="submit"
             form="edit-client-form"
             className="h-11 px-8 rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20"
           >
-            Сохранить изменения
+            {t('CLIENTS.EDIT_DIALOG.SAVE_CHANGES')}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Check, X, Video, Phone, Users } from 'lucide-react';
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
 import type { MeetingInterface, MeetingBadgesProps } from '@/app/types/calendar/calendar.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 
 const getMeetingTypeIcon = (type: MeetingInterface['type']): ReactNode => {
@@ -26,14 +27,14 @@ const getMeetingTypeColor = (type: MeetingInterface['type']): string => {
     }
 };
 
-const getMeetingTypeLabel = (type: MeetingInterface['type']): string => {
+const getMeetingTypeLabel = (type: MeetingInterface['type'], t: (key: string) => string): string => {
     switch (type) {
         case MeetingTypeEnum.VIDEO:
-            return 'Видеовстреча';
+            return t('CALENDAR.MEETING_TYPE.VIDEO');
         case MeetingTypeEnum.PHONE:
-            return 'Телефонный звонок';
+            return t('CALENDAR.MEETING_TYPE.PHONE');
         default:
-            return 'Личная встреча';
+            return t('CALENDAR.MEETING_TYPE.IN_PERSON');
     }
 };
 
@@ -48,39 +49,42 @@ const getPriorityColor = (priority?: MeetingInterface['priority']): string => {
     }
 };
 
-const getPriorityLabel = (priority?: MeetingInterface['priority']): string => {
+const getPriorityLabel = (priority?: MeetingInterface['priority'], t?: (key: string) => string): string => {
+    if (!t) return '';
     switch (priority) {
         case MeetingPriorityEnum.HIGH:
-            return 'Высокий приоритет';
+            return t('CALENDAR.PRIORITY_DETAILS.HIGH');
         case MeetingPriorityEnum.MEDIUM:
-            return 'Средний приоритет';
+            return t('CALENDAR.PRIORITY_DETAILS.MEDIUM');
         default:
-            return 'Низкий приоритет';
+            return t('CALENDAR.PRIORITY_DETAILS.LOW');
     }
 };
 
 export function MeetingBadges({ type, priority, status }: MeetingBadgesProps) {
+    const { t } = useI18n();
+
     return (
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
             <Badge className={`${getMeetingTypeColor(type)} border-0 text-xs`}>
                 {getMeetingTypeIcon(type)}
-                <span className="ml-1">{getMeetingTypeLabel(type)}</span>
+                <span className="ml-1">{getMeetingTypeLabel(type, t)}</span>
             </Badge>
             {priority && (
                 <Badge className={`${getPriorityColor(priority)} border-0 text-xs`}>
-                    {getPriorityLabel(priority)}
+                    {getPriorityLabel(priority, t)}
                 </Badge>
             )}
             {status === MeetingStatusEnum.COMPLETED && (
                 <Badge className="bg-green-100 text-green-700 border-0 text-xs">
                     <Check className="w-3 h-3 mr-1" strokeWidth={2} />
-                    Завершено
+                    {t('CALENDAR.STATUS.COMPLETED')}
                 </Badge>
             )}
             {status === MeetingStatusEnum.CANCELLED && (
                 <Badge className="bg-gray-100 text-gray-700 border-0 text-xs">
                     <X className="w-3 h-3 mr-1" strokeWidth={2} />
-                    Отменено
+                    {t('CALENDAR.STATUS.CANCELLED')}
                 </Badge>
             )}
         </div>

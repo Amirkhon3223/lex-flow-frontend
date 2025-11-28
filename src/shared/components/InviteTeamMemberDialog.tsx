@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, UserPlus } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -25,6 +26,7 @@ interface InviteTeamMemberDialogProps {
 }
 
 export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteTeamMemberDialogProps) {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     email: '',
     role: 'lawyer',
@@ -45,16 +47,16 @@ export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteT
             <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
               <UserPlus className="w-6 h-6 text-blue-600 dark:text-blue-400" strokeWidth={2} />
             </div>
-            Пригласить в команду
+            {t('SETTINGS.TEAM.INVITE_MEMBER')}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Отправьте приглашение новому члену команды
+            {t('SETTINGS.TEAM.INVITE_DESCRIPTION')}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('CLIENTS.FIELDS.EMAIL')}</Label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
               <Input
@@ -70,15 +72,15 @@ export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteT
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="role">Роль</Label>
+            <Label htmlFor="role">{t('SETTINGS.TEAM.ROLE')}</Label>
             <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
               <SelectTrigger className="h-12 rounded-xl border-input">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="rounded-xl">
-                <SelectItem value="admin">Администратор</SelectItem>
-                <SelectItem value="lawyer">Юрист</SelectItem>
-                <SelectItem value="assistant">Ассистент</SelectItem>
+                <SelectItem value="admin">{t('SETTINGS.TEAM.ROLES.ADMIN')}</SelectItem>
+                <SelectItem value="lawyer">{t('SETTINGS.TEAM.ROLES.LAWYER')}</SelectItem>
+                <SelectItem value="assistant">{t('SETTINGS.TEAM.ROLES.ASSISTANT')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -90,13 +92,13 @@ export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteT
               onClick={() => onOpenChange(false)}
               className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
-              Отмена
+              {t('COMMON.ACTIONS.CANCEL')}
             </Button>
             <Button
               type="submit"
               className="flex-1 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
             >
-              Отправить приглашение
+              {t('SETTINGS.TEAM.SEND_INVITE')}
             </Button>
           </div>
         </form>

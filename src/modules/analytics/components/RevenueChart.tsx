@@ -1,5 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import type { RevenueDataInterface } from '@/app/types/analytics/analytics.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 
 const revenueData: RevenueDataInterface[] = [
@@ -12,9 +13,11 @@ const revenueData: RevenueDataInterface[] = [
 ];
 
 export function RevenueChart() {
+  const { t } = useI18n();
+
   return (
     <Card className="flex flex-col">
-      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">Динамика дохода</h3>
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">{t('ANALYTICS.CHARTS.REVENUE_DYNAMICS')}</h3>
         <ResponsiveContainer width="100%" height={250} className="sm:!h-[220px] md:!h-[250px]">
           <LineChart data={revenueData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
