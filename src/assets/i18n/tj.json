@@ -681,7 +681,9 @@
       "TITLE": "Ёвари ҳуқуқӣ",
       "STATUS": "Ҳамеша онлайн",
       "MESSAGE_PLACEHOLDER": "Саволи худро дар ин ҷо нависед...",
-      "COPY": "Нусхабардорӣ"
+      "COPY": "Нусхабардорӣ",
+      "COPY_MESSAGE": "Нусхабардории паём",
+      "COPIED": "Нусхабардорӣ шуд"
     },
     "ANALYZE": {
       "UPLOAD_TITLE": "Ҳуҷҷатро барои таҳлил боргирӣ кунед",
@@ -755,8 +757,29 @@
     },
     "TEAM": {
       "INVITE_MEMBER": "Даъват кардани аъзо",
+      "INVITE_DESCRIPTION": "Фиристодани даъватнома ба аъзои нави гурӯҳ тавассути email",
       "MEMBERS": "Аъзоҳо",
-      "ROLE": "Нақш"
+      "ROLE": "Нақш",
+      "SEND_INVITE": "Фиристодани даъватнома",
+      "ROLES": {
+        "ADMIN": "Маъмур",
+        "LAWYER": "Ҳуқуқшинос",
+        "ASSISTANT": "Ёрдамчӣ"
+      }
+    },
+    "BILLING": {
+      "PREMIUM": "Премиум",
+      "UNLIMITED_ACCESS": "Дастрасии бемаҳдуд ба ҳамаи имкониятҳо",
+      "PER_MONTH": "дар моҳ",
+      "NEXT_PAYMENT": "Пардохти навбатӣ",
+      "PAYMENT_METHOD": "Усули пардохт",
+      "CHANGE_PLAN": "Иваз кардани нақша",
+      "MANAGE_PAYMENT": "Идоракунии пардохт",
+      "PAYMENT_HISTORY": "Таърихи пардохтҳо",
+      "PAID": "Пардохтшуда",
+      "UPDATE_CARD_INFO": "Навсозии маълумоти корт",
+      "CARD_NUMBER": "Рақами корт",
+      "EXPIRY_DATE": "Санаи интиҳо"
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Иваз кардани парол",
@@ -772,7 +795,9 @@
       "SESSIONS": "Сессияҳои фаъол",
       "ACTIVE_SESSIONS": "Сессияҳои фаъол",
       "ACTIVE_SESSIONS_DESC": "Идоракунии дастгоҳҳое, ки шумо дар онҳо ворид шудаед",
-      "CURRENT_SESSION": "Сессияи ҷорӣ"
+      "CURRENT_SESSION": "Сессияи ҷорӣ",
+      "CURRENT": "Ҷорӣ",
+      "TERMINATE_SESSION": "Анҷом додан"
     }
   },
   "NOTIFICATIONS": {

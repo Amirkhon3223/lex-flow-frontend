@@ -681,7 +681,9 @@
       "TITLE": "Legal assistant",
       "STATUS": "Always online",
       "MESSAGE_PLACEHOLDER": "Type your question here...",
-      "COPY": "Copy"
+      "COPY": "Copy",
+      "COPY_MESSAGE": "Copy message",
+      "COPIED": "Copied"
     },
     "ANALYZE": {
       "UPLOAD_TITLE": "Upload a document for analysis",
@@ -755,8 +757,29 @@
     },
     "TEAM": {
       "INVITE_MEMBER": "Invite Member",
+      "INVITE_DESCRIPTION": "Send an invitation to a new team member via email",
       "MEMBERS": "Members",
-      "ROLE": "Role"
+      "ROLE": "Role",
+      "SEND_INVITE": "Send Invite",
+      "ROLES": {
+        "ADMIN": "Administrator",
+        "LAWYER": "Lawyer",
+        "ASSISTANT": "Assistant"
+      }
+    },
+    "BILLING": {
+      "PREMIUM": "Premium",
+      "UNLIMITED_ACCESS": "Unlimited access to all features",
+      "PER_MONTH": "per month",
+      "NEXT_PAYMENT": "Next payment",
+      "PAYMENT_METHOD": "Payment method",
+      "CHANGE_PLAN": "Change plan",
+      "MANAGE_PAYMENT": "Manage payment",
+      "PAYMENT_HISTORY": "Payment history",
+      "PAID": "Paid",
+      "UPDATE_CARD_INFO": "Update your card information",
+      "CARD_NUMBER": "Card number",
+      "EXPIRY_DATE": "Expiry date"
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Change Password",
@@ -772,7 +795,9 @@
       "SESSIONS": "Active Sessions",
       "ACTIVE_SESSIONS": "Active Sessions",
       "ACTIVE_SESSIONS_DESC": "Manage devices where you're currently logged in",
-      "CURRENT_SESSION": "Current Session"
+      "CURRENT_SESSION": "Current Session",
+      "CURRENT": "Current",
+      "TERMINATE_SESSION": "Terminate"
     }
   },
   "NOTIFICATIONS": {

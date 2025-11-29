@@ -1,9 +1,11 @@
 import { Download } from 'lucide-react';
 import type { PaymentHistoryItemProps } from '@/app/types/settings/settings.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 
 export function PaymentHistoryItem({ payment, onDownload }: PaymentHistoryItemProps) {
+  const { t } = useI18n();
   const handleDownload = () => {
     console.log('Скачать чек:', payment.invoice);
     onDownload?.();
@@ -18,7 +20,7 @@ export function PaymentHistoryItem({ payment, onDownload }: PaymentHistoryItemPr
       <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-shrink-0">
         <div className="text-right">
           <p className="tracking-tight text-xs sm:text-sm md:text-base">{payment.amount}</p>
-          <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-0 text-xs">{payment.status}</Badge>
+          <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-0 text-xs">{t(payment.status)}</Badge>
         </div>
         <Button
           variant="ghost"
