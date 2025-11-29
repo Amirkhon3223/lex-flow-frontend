@@ -681,7 +681,9 @@
       "TITLE": "Юридический ассистент",
       "STATUS": "Всегда онлайн",
       "MESSAGE_PLACEHOLDER": "Напишите ваш вопрос здесь...",
-      "COPY": "Копировать"
+      "COPY": "Копировать",
+      "COPY_MESSAGE": "Копировать сообщение",
+      "COPIED": "Скопировано"
     },
     "ANALYZE": {
       "UPLOAD_TITLE": "Загрузите документ для анализа",
@@ -755,8 +757,29 @@
     },
     "TEAM": {
       "INVITE_MEMBER": "Пригласить участника",
+      "INVITE_DESCRIPTION": "Отправьте приглашение новому члену команды по email",
       "MEMBERS": "Участники",
-      "ROLE": "Роль"
+      "ROLE": "Роль",
+      "SEND_INVITE": "Отправить приглашение",
+      "ROLES": {
+        "ADMIN": "Администратор",
+        "LAWYER": "Юрист",
+        "ASSISTANT": "Ассистент"
+      }
+    },
+    "BILLING": {
+      "PREMIUM": "Премиум",
+      "UNLIMITED_ACCESS": "Безлимитный доступ ко всем функциям",
+      "PER_MONTH": "в месяц",
+      "NEXT_PAYMENT": "Следующая оплата",
+      "PAYMENT_METHOD": "Метод оплаты",
+      "CHANGE_PLAN": "Изменить план",
+      "MANAGE_PAYMENT": "Управление оплатой",
+      "PAYMENT_HISTORY": "История платежей",
+      "PAID": "Оплачено",
+      "UPDATE_CARD_INFO": "Обновите информацию о вашей карте",
+      "CARD_NUMBER": "Номер карты",
+      "EXPIRY_DATE": "Срок действия"
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Изменить пароль",
@@ -772,7 +795,9 @@
       "SESSIONS": "Активные сессии",
       "ACTIVE_SESSIONS": "Активные сессии",
       "ACTIVE_SESSIONS_DESC": "Управление устройствами, на которых вы вошли в систему",
-      "CURRENT_SESSION": "Текущая сессия"
+      "CURRENT_SESSION": "Текущая сессия",
+      "CURRENT": "Текущее",
+      "TERMINATE_SESSION": "Завершить"
     }
   },
   "NOTIFICATIONS": {
