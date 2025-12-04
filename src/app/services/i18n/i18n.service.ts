@@ -1,5 +1,5 @@
 /**
- * @file i18nService.ts
+ * @file i18n.service.ts
  * @description Сервис для управления интернационализацией приложения
  *
  * НАЗНАЧЕНИЕ:

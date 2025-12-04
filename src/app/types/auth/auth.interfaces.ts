@@ -1,3 +1,35 @@
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  avatar: string | null;
+  createdAt: string;
+}
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  name: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  phone: string;
+  firmName: string;
+  position: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: User;
+}
+
 export interface AuthCardProps {
   isLoading: boolean;
 

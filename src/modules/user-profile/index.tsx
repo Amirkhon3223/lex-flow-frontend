@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Save, Briefcase, User, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { handleLogout } from '@/app/utils/authUtils';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { ProfileSidebar } from './widgets/ProfileSidebar';
@@ -9,8 +10,12 @@ import { ProfileTabs } from './widgets/ProfileTabs';
 export default function UserProfilePage() {
   const { t } = useI18n();
   const navigate = useNavigate();
+
   const onBack = () => navigate(-1);
-  const onLogout = () => console.log('Logout clicked');
+
+  const onLogout = () => {
+    handleLogout(navigate);
+  };
 
   const [profileData, setProfileData] = useState({
     firstName: 'Александр',

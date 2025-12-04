@@ -10,12 +10,13 @@
  */
 
 import { useState, type ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
 import { SelectProvider } from "@/shared/context/SelectContext.tsx";
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 
 interface LayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const Layout = ({ children }: LayoutProps) => {
@@ -69,10 +70,11 @@ export const Layout = ({ children }: LayoutProps) => {
           <Header onMenuClick={handleMenuClick} isSidebarCollapsed={isSidebarCollapsed} />
 
           <main className="p-4 sm:p-6 md:p-8">
-            {children}
+            {children || <Outlet />}
           </main>
         </div>
       </div>
     </SelectProvider>
   );
 };
+

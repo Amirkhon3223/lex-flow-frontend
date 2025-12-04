@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/app/store/auth.store';
 import { BrandHeader } from '@/modules/auth/ui/brand-header.tsx';
 import { GradientBackground } from '@/modules/auth/ui/gradient-background.tsx';
 import { AuthCard } from '@/modules/auth/widgets/auth-card.tsx';
@@ -7,12 +8,12 @@ import { PageFooter } from '@/modules/auth/widgets/page-footer.tsx';
 
 export default function AuthPage() {
   const navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { login, register, loading, isAuthenticated, error } = useAuthStore();
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [localError, setLocalError] = useState('');
 
   const [registerFirstName, setRegisterFirstName] = useState('');
   const [registerLastName, setRegisterLastName] = useState('');
@@ -20,29 +21,44 @@ export default function AuthPage() {
   const [registerPassword, setRegisterPassword] = useState('');
   const [registerFirmName, setRegisterFirmName] = useState('');
 
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      navigate('/');
+    }
+  }, [isAuthenticated, loading, navigate]);
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate('/');
-    }, 1500);
+    setLocalError('');
+    try {
+      await login({
+        email: loginEmail,
+        password: loginPassword,
+        rememberMe,
+      });
+    } catch (error) {
+      setLocalError((error as Error).message || 'Login failed');
+    }
   };
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      console.log('Register:', {
-        firstName: registerFirstName,
-        lastName: registerLastName,
+    setLocalError('');
+    try {
+      await register({
         email: registerEmail,
         password: registerPassword,
+        name: `${registerFirstName} ${registerLastName}`,
+        firstName: registerFirstName,
+        lastName: registerLastName,
+        middleName: '',
+        phone: '',
         firmName: registerFirmName,
+        position: '',
       });
-      navigate('/');
-    }, 1500);
+    } catch (error) {
+      setLocalError((error as Error).message || 'Registration failed');
+    }
   };
 
   return (
@@ -54,7 +70,7 @@ export default function AuthPage() {
           <BrandHeader />
 
           <AuthCard
-            isLoading={isLoading}
+            isLoading={loading}
             loginEmail={loginEmail}
             loginPassword={loginPassword}
             rememberMe={rememberMe}

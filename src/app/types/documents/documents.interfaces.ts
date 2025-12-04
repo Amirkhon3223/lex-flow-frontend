@@ -1,4 +1,5 @@
 import { DocumentChangeTypeEnum, DocumentStatusEnum, DocumentCategoryEnum } from './documents.enums';
+import type { Pagination } from '../api/api.types';
 
 export interface DocumentChangeInterface {
   id: number;
@@ -9,24 +10,38 @@ export interface DocumentChangeInterface {
 }
 
 export interface DocumentVersionInterface {
-  version: number;
-  date: string;
+  id: string;
+  documentId: string;
+  version: string;
+  fileUrl: string;
+  fileSize: number;
   author: string;
+  authorName: string;
+  createdAt: string;
 }
 
 export interface DocumentInterface {
-  id: number;
+  id: string;
   name: string;
-  case: string;
-  client: string;
+  caseId: string | null;
+  caseName: string | null;
+  clientId: string | null;
+  clientName: string | null;
   type: string;
-  size: string;
-  date: string;
-  versions: number;
-  status: DocumentStatusEnum;
   category: DocumentCategoryEnum;
-  lastModified: string;
+  status: DocumentStatusEnum;
+  fileUrl: string;
+  fileSize: number;
+  mimeType: string;
+  version: string;
+  versions: number;
+  notes: string | null;
   starred: boolean;
+  uploadedBy: string;
+  uploadedByName: string;
+  createdAt: string;
+  updatedAt: string;
+  lastModified: string;
 }
 
 export interface FilterPanelProps {
@@ -36,9 +51,6 @@ export interface FilterPanelProps {
   onFilterChange: (filter: 'all' | 'favorite') => void;
 }
 
-/**
- * Пропсы для DocumentCard компонента
- */
 export interface DocumentCardProps {
   id: number;
   title: string;
@@ -53,9 +65,6 @@ export interface DocumentCardProps {
   favorite: boolean;
 }
 
-/**
- * Пропсы для StatusBadge компонента
- */
 export interface StatusBadgeProps {
   status: DocumentStatusEnum;
 }
@@ -67,4 +76,42 @@ export interface UploadDocumentFormData {
   status?: string;
   notes?: string;
   file: File;
+}
+
+export interface CreateDocumentInterface {
+  name: string;
+  caseId?: string;
+  clientId?: string;
+  type: string;
+  category: DocumentCategoryEnum;
+  status: DocumentStatusEnum;
+  fileUrl: string;
+  fileSize: number;
+  mimeType: string;
+  notes?: string;
+}
+
+export interface UpdateDocumentInterface {
+  name?: string;
+  status?: DocumentStatusEnum;
+  notes?: string;
+  starred?: boolean;
+}
+
+export interface UploadDocumentResponse {
+  fileUrl: string;
+  fileSize: number;
+  mimeType: string;
+  fileName: string;
+}
+
+export interface DocumentListResponse {
+  documents: DocumentInterface[];
+  pagination: Pagination;
+}
+
+export interface CreateDocumentVersionInterface {
+  fileUrl: string;
+  fileSize: number;
+  version: string;
 }

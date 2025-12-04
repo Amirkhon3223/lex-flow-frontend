@@ -6,6 +6,7 @@ import {
   AIInsightTypeEnum,
   AIInsightPriorityEnum,
 } from './cases.enums';
+import type { Pagination } from '../api/api.types';
 
 export interface ClientInfoInterface {
   name: string;
@@ -13,16 +14,23 @@ export interface ClientInfoInterface {
 }
 
 export interface CaseInterface {
-  id: number;
+  id: string;
   title: string;
-  client: ClientInfoInterface;
+  clientId: string;
+  clientName: string;
+  clientAvatar: string | null;
   category: string;
   status: CaseStatusEnum;
   priority: CasePriorityEnum;
   deadline: string;
   progress: number;
+  description: string;
+  fee: number;
   documents: number;
+  createdBy: string;
+  assignedTo: string | null;
   createdAt: string;
+  updatedAt: string;
   lastUpdate: string;
 }
 
@@ -36,10 +44,13 @@ export interface CaseDocumentInterface {
 }
 
 export interface TimelineEventInterface {
-  date: string;
+  id: string;
+  caseId: string;
+  eventDate: string;
   title: string;
   description: string;
-  type: TimelineEventTypeEnum;
+  eventType: TimelineEventTypeEnum;
+  createdAt: string;
 }
 
 export interface CaseTaskInterface {
@@ -123,4 +134,38 @@ export interface CaseTypeData {
   value: number;
   color: string;
   [key: string]: string | number;
+}
+
+export interface CreateCaseInterface {
+  title: string;
+  clientId: string;
+  category: string;
+  priority: CasePriorityEnum;
+  deadline: string;
+  description: string;
+  fee: number;
+  assignedTo?: string;
+}
+
+export interface UpdateCaseInterface {
+  title?: string;
+  status?: CaseStatusEnum;
+  priority?: CasePriorityEnum;
+  deadline?: string;
+  progress?: number;
+  description?: string;
+  fee?: number;
+  assignedTo?: string;
+}
+
+export interface CaseListResponse {
+  cases: CaseInterface[];
+  pagination: Pagination;
+}
+
+export interface CreateTimelineEventInterface {
+  eventDate: string;
+  title: string;
+  description: string;
+  eventType: TimelineEventTypeEnum;
 }

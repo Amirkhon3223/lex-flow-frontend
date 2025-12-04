@@ -20,10 +20,9 @@ export const handleApiError = (error: AxiosError<ErrorResponse>) => {
         break;
       case 401:
         toast.error('Не авторизован', {
-          description: 'Пожалуйста, войдите в систему',
+          description: message || 'Пожалуйста, войдите в систему',
         });
         localStorage.removeItem('access_token');
-        window.location.href = '/login';
         break;
       case 403:
         toast.error('Доступ запрещен', {
@@ -57,7 +56,7 @@ export const handleApiError = (error: AxiosError<ErrorResponse>) => {
     }
   } else if (error.request) {
     toast.error('Ошибка сети', {
-      description: 'Не удалось соединиться с сервером',
+      description: 'Не удалось соединиться с сервером. Проверьте подключение и убедитесь, что сервер запущен на http://localhost:8080',
     });
   } else {
     toast.error('Ошибка', {

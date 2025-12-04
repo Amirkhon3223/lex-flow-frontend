@@ -9,8 +9,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
+import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
 
 interface CaseHeaderProps {
+  title?: string;
+  clientName?: string;
+  category?: string;
+  deadline?: string;
+  priority?: CasePriorityEnum;
   onBack: () => void;
   onCopyLink: () => void;
   onShareEmail: () => void;
@@ -18,8 +24,45 @@ interface CaseHeaderProps {
   onAddDocument: () => void;
 }
 
-export function CaseHeader({ onBack, onCopyLink, onShareEmail, onEdit, onAddDocument }: CaseHeaderProps) {
+const getPriorityBadgeColor = (priority?: CasePriorityEnum) => {
+  switch (priority) {
+    case CasePriorityEnum.HIGH:
+      return 'bg-red-100 text-red-700';
+    case CasePriorityEnum.MEDIUM:
+      return 'bg-amber-100 text-amber-700';
+    case CasePriorityEnum.LOW:
+      return 'bg-green-100 text-green-700';
+    default:
+      return 'bg-gray-100 text-gray-700';
+  }
+};
+
+const getCategoryLabel = (category?: string, t?: (key: string) => string) => {
+  if (!category) return 'Не указано';
+  const categoryKey = `CASES.CATEGORIES.${category.toUpperCase()}`;
+  return t ? t(categoryKey) : category;
+};
+
+export function CaseHeader({
+  title = 'Без названия',
+  clientName = 'Не указано',
+  category,
+  deadline,
+  priority,
+  onBack,
+  onCopyLink,
+  onShareEmail,
+  onEdit,
+  onAddDocument,
+}: CaseHeaderProps) {
   const { t } = useI18n();
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'Не указана';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
   return (
     <header className="relative bg-card border-b border-border rounded-xl">
       <div className="px-4 py-4">
@@ -34,7 +77,7 @@ export function CaseHeader({ onBack, onCopyLink, onShareEmail, onEdit, onAddDocu
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={onCopyLink}>
+                <DropdownMenuItem onClick={onCopyLink}>
                   <Link className="w-4 h-4 mr-2" strokeWidth={2} />
                   {t('COMMON.ACTIONS.COPY_LINK')}
                 </DropdownMenuItem>
@@ -64,24 +107,22 @@ export function CaseHeader({ onBack, onCopyLink, onShareEmail, onEdit, onAddDocu
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight">
-                Трудовой спор - незаконное увольнение
-              </h1>
-              <Badge className="bg-amber-100 text-amber-700 border-0 w-fit">{t('CASES.IN_WORK')}</Badge>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight">{title}</h1>
+              <Badge className={`${getPriorityBadgeColor(priority)} border-0 w-fit`}>{t('CASES.IN_WORK')}</Badge>
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-[15px] text-muted-foreground">
               <span className="flex items-center gap-2">
                 <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
-                <span className="truncate">Иванов Петр Алексеевич</span>
+                <span className="truncate">{clientName}</span>
               </span>
               <span className="flex items-center gap-2">
                 <Tag className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
-                {t('CASES.CATEGORIES.LABOR')}
+                {getCategoryLabel(category, t)}
               </span>
               <span className="flex items-center gap-2">
                 <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
-                <span className="hidden sm:inline">{t('CASES.FIELDS.DEADLINE')}:</span> 20 октября 2025
+                <span className="hidden sm:inline">{t('CASES.FIELDS.DEADLINE')}:</span> {formatDate(deadline)}
               </span>
             </div>
           </div>

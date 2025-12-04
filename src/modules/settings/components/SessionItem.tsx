@@ -13,7 +13,9 @@ export function SessionItem({ session, onTerminate }: SessionItemProps) {
           <h4 className="tracking-tight text-xs sm:text-sm md:text-base truncate">{session.device}</h4>
           {session.current && (
             <Badge
-              className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0 text-xs flex-shrink-0">{t('SETTINGS.SECURITY.CURRENT')}</Badge>
+              className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0 text-xs flex-shrink-0">
+              {t('SETTINGS.SECURITY.CURRENT')}
+            </Badge>
           )}
         </div>
         <p className="text-xs sm:text-sm text-muted-foreground">

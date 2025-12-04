@@ -115,7 +115,7 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
                 <div className="flex-1 pb-4 sm:pb-6 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
                     <h4 className="tracking-tight text-sm sm:text-base">{event.title}</h4>
-                    <span className="text-xs sm:text-sm text-muted-foreground/70 flex-shrink-0">{event.date}</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground/70 flex-shrink-0">{event.eventDate}</span>
                   </div>
                   <p className="text-xs sm:text-sm text-muted-foreground">{event.description}</p>
                 </div>

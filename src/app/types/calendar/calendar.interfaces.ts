@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from './calendar.enums';
+import type { Pagination } from '../api/api.types';
 
 export interface MeetingClientInterface {
   name: string;
@@ -7,19 +8,27 @@ export interface MeetingClientInterface {
 }
 
 export interface MeetingInterface {
-  id: number;
+  id: string;
   title: string;
-  client: MeetingClientInterface;
-  case?: string;
-  date: Date;
+  clientId: string;
+  clientName: string;
+  clientAvatar: string | null;
+  caseId: string | null;
+  caseName: string | null;
+  date: string;
   time: string;
   duration: string;
   type: MeetingTypeEnum;
-  location?: string;
-  participants?: string[];
   status: MeetingStatusEnum;
-  priority?: MeetingPriorityEnum;
-  description?: string;
+  priority: MeetingPriorityEnum;
+  location: string | null;
+  videoLink: string | null;
+  participants: string | null;
+  description: string | null;
+  notes: string | null;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface AddMeetingDialogProps {
@@ -127,4 +136,103 @@ export interface QuickActionsCardProps {
   onComplete: () => void;
   onReschedule: () => void;
   onCancel: () => void;
+}
+
+export interface CreateMeetingInterface {
+  title: string;
+  clientId: string;
+  caseId?: string;
+  date: string;
+  time: string;
+  duration: string;
+  type: MeetingTypeEnum;
+  priority: MeetingPriorityEnum;
+  location?: string;
+  videoLink?: string;
+  participants?: string;
+  description?: string;
+  notes?: string;
+}
+
+export interface UpdateMeetingInterface {
+  title?: string;
+  date?: string;
+  time?: string;
+  duration?: string;
+  status?: MeetingStatusEnum;
+  priority?: MeetingPriorityEnum;
+  location?: string;
+  videoLink?: string;
+  participants?: string;
+  description?: string;
+  notes?: string;
+}
+
+export interface MeetingListResponse {
+  meetings: MeetingInterface[];
+  pagination: Pagination;
+}
+
+export interface CalendarDayMeeting {
+  id: string;
+  title: string;
+  time: string;
+  duration: string;
+  clientName: string;
+  type: MeetingTypeEnum;
+  status: MeetingStatusEnum;
+}
+
+export interface CalendarDayResponse {
+  date: string;
+  meetings: CalendarDayMeeting[];
+  totalMeetings: number;
+}
+
+export interface CalendarWeekDay {
+  date: string;
+  meetings: CalendarDayMeeting[];
+  totalMeetings: number;
+}
+
+export interface CalendarWeekResponse {
+  startDate: string;
+  endDate: string;
+  days: CalendarWeekDay[];
+  totalMeetings: number;
+}
+
+export interface CalendarMonthDay {
+  date: string;
+  meetingsCount: number;
+}
+
+export interface CalendarMonthResponse {
+  year: number;
+  month: number;
+  days: CalendarMonthDay[];
+  totalMeetings: number;
+}
+
+export interface MeetingStatsByType {
+  in_person: number;
+  video: number;
+  phone: number;
+}
+
+export interface MeetingStatsByPriority {
+  low: number;
+  medium: number;
+  high: number;
+}
+
+export interface MeetingStatsResponse {
+  total: number;
+  scheduled: number;
+  completed: number;
+  cancelled: number;
+  byType: MeetingStatsByType;
+  byPriority: MeetingStatsByPriority;
+  thisWeek: number;
+  thisMonth: number;
 }
