@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import {
   DocumentStatusEnum,
@@ -26,109 +26,76 @@ import { AddTaskDialog } from '@/shared/components/AddTaskDialog';
 import { CommentsDialog } from '@/shared/components/CommentsDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
+import { useCasesStore } from '@/app/store/cases.store';
 
 export function CaseDetailView() {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const onBack = () => navigate(-1);
 
   const [isUploadDocumentDialogOpen, setIsUploadDocumentDialogOpen] = useState(false);
   const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] = useState(false);
   const [isCommentsDialogOpen, setIsCommentsDialogOpen] = useState(false);
   const [isEditCaseDialogOpen, setIsEditCaseDialogOpen] = useState(false);
+  const [initialized, setInitialized] = useState(false);
 
-  const clientId = 1;
+  const { selectedCase, timeline, loading, fetchCaseById, fetchTimeline, updateCase } = useCasesStore();
 
-  const caseData = {
-    title: 'Трудовой спор - незаконное увольнение',
-    client: 'client1',
-    category: 'labor',
-    deadline: '2025-10-20',
-    fee: '75000',
-    description: 'Дело о незаконном увольнении работника',
-    priority: 'high',
+  useEffect(() => {
+    if (!id || initialized) return;
+
+    const loadData = async () => {
+      await fetchCaseById(id);
+      await fetchTimeline(id);
+      setInitialized(true);
+    };
+
+    loadData();
+  }, [id, initialized, fetchCaseById, fetchTimeline]);
+
+  const handleEditCaseSubmit = async (caseData: any) => {
+    if (!id) return;
+    try {
+      await updateCase(id, {
+        title: caseData.title,
+        description: caseData.description,
+        deadline: caseData.deadline,
+        fee: Number(caseData.fee),
+        priority: caseData.priority,
+      });
+      setIsEditCaseDialogOpen(false);
+    } catch (error) {
+      console.error('Error updating case:', error);
+    }
   };
 
-  const documents: CaseDocumentInterface[] = [
-    {
-      id: 1,
-      name: 'Исковое заявление.pdf',
-      size: '2.4 MB',
-      date: '12 окт 2025',
-      versions: 3,
-      status: DocumentStatusEnum.FINAL,
-    },
-    {
-      id: 2,
-      name: 'Трудовой договор.pdf',
-      size: '1.8 MB',
-      date: '10 окт 2025',
-      versions: 2,
-      status: DocumentStatusEnum.REVIEW,
-    },
-    {
-      id: 3,
-      name: 'Приказ об увольнении.pdf',
-      size: '856 KB',
-      date: '8 окт 2025',
-      versions: 1,
-      status: DocumentStatusEnum.DRAFT,
-    },
-  ];
+  const clientId = selectedCase?.clientId || '';
 
-  const timeline: TimelineEventInterface[] = [
-    {
-      date: '15 окт 2025, 14:30',
-      title: 'Документ отправлен клиенту',
-      description: 'Исковое заявление.pdf',
-      type: TimelineEventTypeEnum.DOCUMENT,
-    },
-    {
-      date: '14 окт 2025, 11:00',
-      title: 'Встреча с клиентом',
-      description: 'Обсуждение стратегии защиты',
-      type: TimelineEventTypeEnum.MEETING,
-    },
-    {
-      date: '12 окт 2025, 16:45',
-      title: 'Создан новый документ',
-      description: 'Исковое заявление.pdf (версия 3)',
-      type: TimelineEventTypeEnum.DOCUMENT,
-    },
-    {
-      date: '10 окт 2025, 09:15',
-      title: 'Дело создано',
-      description: 'Трудовой спор - незаконное увольнение',
-      type: TimelineEventTypeEnum.SYSTEM,
-    },
-  ];
+  const caseData = selectedCase
+    ? {
+        title: selectedCase.title,
+        client: selectedCase.clientId,
+        category: selectedCase.category,
+        deadline: selectedCase.deadline,
+        fee: selectedCase.fee.toString(),
+        description: selectedCase.description,
+        priority: selectedCase.priority,
+      }
+    : {
+        title: '',
+        client: '',
+        category: '',
+        deadline: '',
+        fee: '',
+        description: '',
+        priority: '',
+      };
 
-  const tasks: CaseTaskInterface[] = [
-    { id: 1, title: 'Подготовить возражение на иск', completed: true },
-    { id: 2, title: 'Собрать доказательства', completed: true },
-    { id: 3, title: 'Встретиться с клиентом', completed: false },
-    { id: 4, title: 'Подать документы в суд', completed: false },
-  ];
+  const documents: CaseDocumentInterface[] = []; // TODO: Добавить документы в сторе
 
-  const aiInsights: AIInsightInterface[] = [
-    {
-      type: AIInsightTypeEnum.RISK,
-      title: 'Выявлен риск',
-      description: 'Отсутствует уведомление о сокращении за 2 месяца',
-      priority: AIInsightPriorityEnum.HIGH,
-    },
-    {
-      type: AIInsightTypeEnum.OPPORTUNITY,
-      title: 'Сильная позиция',
-      description: 'Есть свидетели нарушения процедуры увольнения',
-      priority: AIInsightPriorityEnum.MEDIUM,
-    },
-    {
-      type: AIInsightTypeEnum.DEADLINE,
-      title: 'Приближается срок',
-      description: 'Подача в суд через 5 дней',
-      priority: AIInsightPriorityEnum.HIGH,
-    },
-  ];
+  const tasks: CaseTaskInterface[] = []; // TODO: Добавить задачи в сторе
+
+  const aiInsights: AIInsightInterface[] = []; // TODO: Добавить insights в сторе
 
   const handleAIReport = () => {
     navigate(ROUTES.AI_ASSISTANT);
@@ -170,9 +137,14 @@ export function CaseDetailView() {
       <UploadDocumentDialog open={isUploadDocumentDialogOpen} onOpenChange={setIsUploadDocumentDialogOpen} />
       <AddTaskDialog open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen} />
       <CommentsDialog open={isCommentsDialogOpen} onOpenChange={setIsCommentsDialogOpen} />
-      <EditCaseDialog open={isEditCaseDialogOpen} onOpenChange={setIsEditCaseDialogOpen} initialData={caseData} />
+      <EditCaseDialog open={isEditCaseDialogOpen} onOpenChange={setIsEditCaseDialogOpen} initialData={caseData} onSubmit={handleEditCaseSubmit} />
 
       <CaseHeader
+        title={selectedCase?.title}
+        clientName={selectedCase?.clientName}
+        category={selectedCase?.category}
+        deadline={selectedCase?.deadline}
+        priority={selectedCase?.priority}
         onBack={onBack}
         onCopyLink={handleCopyLink}
         onShareEmail={handleShareEmail}
@@ -183,7 +155,13 @@ export function CaseDetailView() {
       <main className="py-4 sm:py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-            <CaseProgressCard />
+            <CaseProgressCard
+              progress={selectedCase?.progress}
+              documentsCount={selectedCase?.documents}
+              eventsCount={timeline.length}
+              daysUntilTrial={selectedCase?.deadline ? Math.ceil((new Date(selectedCase.deadline).getTime() - new Date().getTime()) / (1000 * 3600 * 24)) : 0}
+              tasksCount={0}
+            />
             <CaseAIInsightsCard insights={aiInsights} onViewFullReport={handleAIReport} />
             <CaseTabsCard
               documents={documents}
@@ -194,9 +172,17 @@ export function CaseDetailView() {
           </div>
 
           <div className="space-y-4 sm:space-y-6">
-            <CaseClientCard onViewProfile={handleClientProfile} />
+            <CaseClientCard
+              clientName={selectedCase?.clientName}
+              clientAvatar={selectedCase?.clientAvatar}
+              clientPhone=""
+              clientEmail=""
+              clientCases={0}
+              clientSince={selectedCase?.createdAt ? new Date(selectedCase.createdAt).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) : ''}
+              onViewProfile={handleClientProfile}
+            />
             <CaseTasksCard tasks={tasks} onAddTask={() => setIsAddTaskDialogOpen(true)} />
-            <CaseFinancesCard />
+            <CaseFinancesCard fee={selectedCase?.fee} paidAmount={0} />
             <CaseCommentsCard commentsCount={3} onOpenComments={() => setIsCommentsDialogOpen(true)} />
           </div>
         </div>

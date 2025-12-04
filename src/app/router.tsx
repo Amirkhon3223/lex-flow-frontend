@@ -16,131 +16,85 @@ import NotificationsPage from '@/pages/NotificationsPage';
 import SettingsPage from '@/pages/SettingsPage';
 import UserProfilePage from '@/pages/UserProfilePage';
 import { Layout } from '@/shared/components/Layout';
+import { AuthGuard } from './guards/auth.guard';
 import { ROUTES } from './config/routes.config';
 
 export const router = createBrowserRouter([
+  // Публичные маршруты
   {
     path: ROUTES.AUTH.LOGIN,
-    element: <AuthPage/>,
+    element: <AuthPage />,
   },
+  // Защищенные маршруты с Layout
   {
-    path: ROUTES.DASHBOARD,
     element: (
-      <Layout>
-        <DashboardPage />
-      </Layout>
+      <AuthGuard>
+        <Layout />
+      </AuthGuard>
     ),
-  },
-  {
-    path: ROUTES.CLIENTS.BASE,
-    element: (
-      <Layout>
-        <ClientsPage />
-      </Layout>
-    ),
-  },
-  {
-    path: '/clients/:id',
-    element: (
-      <Layout>
-        <ClientDetailPage />
-      </Layout>
-    ),
-  },
-  {
-    path: ROUTES.CASES.BASE,
-    element: (
-      <Layout>
-        <CasesPage />
-      </Layout>
-    ),
-  },
-  {
-    path: '/cases/:id',
-    element: (
-      <Layout>
-        <CaseDetailPage />
-      </Layout>
-    ),
-  },
-  {
-    path: ROUTES.DOCUMENTS.BASE,
-    element: (
-      <Layout>
-        <DocumentsPage />
-      </Layout>
-    ),
-  },
-  {
-    path: '/documents/:id/versions',
-    element: (
-      <Layout>
-        <DocumentVersionsPage />
-      </Layout>
-    ),
-  },
-  {
-    path: '/documents/:id/compare',
-    element: (
-      <Layout>
-        <DocumentComparePage />
-      </Layout>
-    ),
-  },
-  {
-    path: ROUTES.CALENDAR,
-    element: (
-      <Layout>
-        <CalendarPage />
-      </Layout>
-    ),
-  },
-  {
-    path: '/calendar/meetings/:id',
-    element: (
-      <Layout>
-        <MeetingDetailPage />
-      </Layout>
-    ),
-  },
-  {
-    path: ROUTES.ANALYTICS,
-    element: (
-      <Layout>
-        <AnalyticsPage />
-      </Layout>
-    ),
-  },
-  {
-    path: ROUTES.AI_ASSISTANT,
-    element: (
-      <Layout>
-        <AiAssistantPage />
-      </Layout>
-    ),
-  },
-  {
-    path: ROUTES.NOTIFICATIONS,
-    element: (
-      <Layout>
-        <NotificationsPage />
-      </Layout>
-    ),
-  },
-  {
-    path: ROUTES.SETTINGS,
-    element: (
-      <Layout>
-        <SettingsPage />
-      </Layout>
-    ),
-  },
-  {
-    path: ROUTES.USER_PROFILE,
-    element: (
-      <Layout>
-        <UserProfilePage />
-      </Layout>
-    ),
+    children: [
+      {
+        path: ROUTES.DASHBOARD,
+        element: <DashboardPage />,
+      },
+      {
+        path: ROUTES.CLIENTS.BASE,
+        element: <ClientsPage />,
+      },
+      {
+        path: '/clients/:id',
+        element: <ClientDetailPage />,
+      },
+      {
+        path: ROUTES.CASES.BASE,
+        element: <CasesPage />,
+      },
+      {
+        path: '/cases/:id',
+        element: <CaseDetailPage />,
+      },
+      {
+        path: ROUTES.DOCUMENTS.BASE,
+        element: <DocumentsPage />,
+      },
+      {
+        path: '/documents/:id/versions',
+        element: <DocumentVersionsPage />,
+      },
+      {
+        path: '/documents/:id/compare',
+        element: <DocumentComparePage />,
+      },
+      {
+        path: ROUTES.CALENDAR,
+        element: <CalendarPage />,
+      },
+      {
+        path: '/calendar/meetings/:id',
+        element: <MeetingDetailPage />,
+      },
+      {
+        path: ROUTES.ANALYTICS,
+        element: <AnalyticsPage />,
+      },
+      {
+        path: ROUTES.AI_ASSISTANT,
+        element: <AiAssistantPage />,
+      },
+      {
+        path: ROUTES.NOTIFICATIONS,
+        element: <NotificationsPage />,
+      },
+      {
+        path: ROUTES.SETTINGS,
+        element: <SettingsPage />,
+      },
+      {
+        path: ROUTES.USER_PROFILE,
+        element: <UserProfilePage />,
+      },
+    ],
   },
 ]);
+
+

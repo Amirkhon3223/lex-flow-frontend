@@ -1,19 +1,30 @@
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from './clients.enums';
+import type { Pagination } from '../api/api.types';
 
 export interface ClientInterface {
-  id: number;
-  name: string;
-  avatar: string;
+  id: string;
+  firstName: string | null;
+  lastName: string | null;
+  middleName: string | null;
+  companyName: string | null;
   type: ClientTypeEnum;
   category: ClientCategoryEnum;
+  status: ClientStatusEnum;
   email: string;
   phone: string;
+  address: string | null;
+  inn: string | null;
+  kpp: string | null;
   activeCases: number;
   totalCases: number;
   totalRevenue: number;
-  lastContact: string;
-  status: ClientStatusEnum;
+  avatar: string | null;
+  notes: string | null;
+  birthDate: string | null;
+  lastContact: string | null;
   joinDate: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ClientFormInterface {
@@ -42,13 +53,35 @@ export interface CreateClientInterface {
   middleName?: string;
   companyName?: string;
   type: ClientTypeEnum;
-  inn?: string;
-  kpp?: string;
+  category?: ClientCategoryEnum;
   email: string;
   phone: string;
   address?: string;
-  category?: string;
+  inn?: string;
+  kpp?: string;
   notes?: string;
+  birthDate?: string;
+}
+
+export interface UpdateClientInterface {
+  firstName?: string;
+  lastName?: string;
+  middleName?: string;
+  companyName?: string;
+  category?: ClientCategoryEnum;
+  status?: ClientStatusEnum;
+  email?: string;
+  phone?: string;
+  address?: string;
+  inn?: string;
+  kpp?: string;
+  notes?: string;
+  birthDate?: string;
+}
+
+export interface ClientListResponse {
+  clients: ClientInterface[];
+  pagination: Pagination;
 }
 
 export interface EditClientDialogProps {
@@ -56,9 +89,6 @@ export interface EditClientDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-/**
- * Контактная информация клиента
- */
 export interface ContactInfo {
   email: string;
   phone: string;
@@ -66,17 +96,11 @@ export interface ContactInfo {
   birthDate: string;
 }
 
-/**
- * Пропсы для ContactInfoCard компонента
- */
 export interface ContactInfoCardProps {
   contactInfo: ContactInfo;
   onEdit: () => void;
 }
 
-/**
- * Финансовые данные клиента
- */
 export interface FinancialData {
   totalAmount: number;
   paidAmount: number;
@@ -84,9 +108,6 @@ export interface FinancialData {
   paymentPercentage: number;
 }
 
-/**
- * Пропсы для FinancialCard компонента
- */
 export interface FinancialCardProps {
   financialData: FinancialData;
 }

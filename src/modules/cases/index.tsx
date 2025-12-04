@@ -1,48 +1,4 @@
-/**
- * @file CasesListView.tsx
- * @description Страница списка всех дел с фильтрацией, поиском и статистикой
- *
- * НАЗНАЧЕНИЕ:
- * - Отображение всех дел юриста в табличном или Grid виде
- * - Фильтрация по статусу, приоритету, категории
- * - Поиск дел по названию и клиенту
- * - Статистика по делам (всего, в работе, завершено, срочные)
- * - Переключение режима отображения (таблица/сетка)
- *
- * ИСПОЛЬЗОВАНИЕ:
- * - Открывается при клике на "Дела" в Sidebar
- * - Используется в App.tsx через viewMode === 'casesList'
- * - Роут в FSD: /cases
- *
- * МИГРАЦИЯ В FSD:
- * - Перенести в src/pages/CasesListPage/ui/CasesListView.tsx
- * - Список дел вынести в src/widgets/CasesList
- * - Фильтры в src/features/CasesFilters
- * - Статистику в src/widgets/CasesStats
- * - Логику в src/pages/CasesListPage/model/useCasesList.ts
- * - API в src/entities/case/api/getCases.ts
- *
- * ПЕРЕИСПОЛЬЗУЕМОСТЬ:
- * - Page компонент (специфичен для LexFlow)
- * - Виджеты (CasesList, CasesStats) можно переиспользовать
- *
- * ОСОБЕННОСТИ:
- * - Два режима просмотра: таблица (Table) и сетка (Grid)
- * - Множественные фильтры (статус, приоритет, категория)
- * - Поиск в реальном времени
- * - Статистика в header (4 карточки)
- * - Dropdown меню действий (открыть, редактировать, удалить)
- * - Прогресс бар для каждого дела
- * - Mock data (в продакшене - из API)
- *
- * TODO:
- * - Добавить пагинацию/бесконечный скролл
- * - Сортировка по колонкам
- * - Экспорт данных (Excel, PDF)
- * - Массовые действия (выбрать несколько дел)
- */
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Plus,
   MoreHorizontal,
@@ -56,10 +12,12 @@ import {
   Briefcase,
   Clock,
   CheckCircle2,
-  AlertCircle, Sparkles,
+  AlertCircle,
+  Sparkles,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
+import { useCasesStore } from '@/app/store/cases.store';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
 import { CaseFilters } from '@/modules/cases/ui/CaseFilters';
@@ -89,10 +47,12 @@ import {
   TableRow,
 } from '@/shared/ui/table';
 
-
 export function CasePage() {
   const navigate = useNavigate();
   const { t } = useI18n();
+  const { cases, loading, fetchCases, deleteCase } = useCasesStore();
+  const [initialized, setInitialized] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterPriority, setFilterPriority] = useState('all');
@@ -100,129 +60,20 @@ export function CasePage() {
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
   const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
   const [isEditCaseDialogOpen, setIsEditCaseDialogOpen] = useState(false);
+  const [selectedCase, setSelectedCase] = useState<CaseInterface | null>(null);
 
-  const caseData = {
-    title: 'Трудовой спор - незаконное увольнение',
-    client: 'client1',
-    category: 'labor',
-    deadline: '2025-10-20',
-    fee: '75000',
-    description: 'Дело о незаконном увольнении работника',
-    priority: 'high',
-  };
-
-  const cases: CaseInterface[] = [
-    {
-      id: 1,
-      title: 'Трудовой спор - незаконное увольнение',
-      client: { name: 'Иванов П.А.', avatar: 'ИП' },
-      category: 'Трудовое право',
-      status: CaseStatusEnum.IN_PROGRESS,
-      priority: CasePriorityEnum.HIGH,
-      deadline: '20 окт 2025',
-      progress: 75,
-      documents: 8,
-      createdAt: '5 окт 2025',
-      lastUpdate: '2 часа назад',
-    },
-    {
-      id: 2,
-      title: 'Договор аренды помещения',
-      client: { name: 'ООО "ТехноСтрой"', avatar: 'ТС' },
-      category: 'Договорное право',
-      status: CaseStatusEnum.REVIEW,
-      priority: CasePriorityEnum.MEDIUM,
-      deadline: '25 окт 2025',
-      progress: 60,
-      documents: 12,
-      createdAt: '8 окт 2025',
-      lastUpdate: '1 день назад',
-    },
-    {
-      id: 3,
-      title: 'Наследственное дело',
-      client: { name: 'Смирнова А.В.', avatar: 'СА' },
-      category: 'Наследственное право',
-      status: CaseStatusEnum.IN_PROGRESS,
-      priority: CasePriorityEnum.MEDIUM,
-      deadline: '30 окт 2025',
-      progress: 45,
-      documents: 15,
-      createdAt: '10 окт 2025',
-      lastUpdate: '3 часа назад',
-    },
-    {
-      id: 4,
-      title: 'Взыскание задолженности по зарплате',
-      client: { name: 'Иванов П.А.', avatar: 'ИП' },
-      category: 'Трудовое право',
-      status: CaseStatusEnum.COMPLETED,
-      priority: CasePriorityEnum.LOW,
-      deadline: '5 окт 2025',
-      progress: 100,
-      documents: 10,
-      createdAt: '1 сен 2025',
-      lastUpdate: '5 дней назад',
-    },
-    {
-      id: 5,
-      title: 'Восстановление на работе',
-      client: { name: 'Петрова М.И.', avatar: 'ПМ' },
-      category: 'Трудовое право',
-      status: CaseStatusEnum.ON_HOLD,
-      priority: CasePriorityEnum.MEDIUM,
-      deadline: '15 ноя 2025',
-      progress: 30,
-      documents: 6,
-      createdAt: '12 окт 2025',
-      lastUpdate: '2 дня назад',
-    },
-    {
-      id: 6,
-      title: 'Расторжение договора подряда',
-      client: { name: 'ООО "Строй+"', avatar: 'СП' },
-      category: 'Договорное право',
-      status: CaseStatusEnum.IN_PROGRESS,
-      priority: CasePriorityEnum.HIGH,
-      deadline: '18 окт 2025',
-      progress: 80,
-      documents: 9,
-      createdAt: '7 окт 2025',
-      lastUpdate: '4 часа назад',
-    },
-    {
-      id: 7,
-      title: 'Раздел имущества',
-      client: { name: 'Козлов Д.М.', avatar: 'КД' },
-      category: 'Семейное право',
-      status: CaseStatusEnum.REVIEW,
-      priority: CasePriorityEnum.HIGH,
-      deadline: '22 окт 2025',
-      progress: 70,
-      documents: 14,
-      createdAt: '9 окт 2025',
-      lastUpdate: '1 час назад',
-    },
-    {
-      id: 8,
-      title: 'Защита прав потребителей',
-      client: { name: 'Соколова Е.П.', avatar: 'СЕ' },
-      category: 'Защита прав потребителей',
-      status: CaseStatusEnum.IN_PROGRESS,
-      priority: CasePriorityEnum.LOW,
-      deadline: '5 ноя 2025',
-      progress: 25,
-      documents: 4,
-      createdAt: '14 окт 2025',
-      lastUpdate: '1 день назад',
-    },
-  ];
+  useEffect(() => {
+    if (!initialized) {
+      fetchCases({ page: 1, limit: 100 });
+      setInitialized(true);
+    }
+  }, [initialized, fetchCases]);
 
 
   const filteredCases = cases.filter(caseItem => {
     const matchesSearch = searchQuery === '' ||
       caseItem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      caseItem.client.name.toLowerCase().includes(searchQuery.toLowerCase());
+      caseItem.clientName.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = filterStatus === 'all' || caseItem.status === filterStatus;
     const matchesPriority = filterPriority === 'all' || caseItem.priority === filterPriority;
     const matchesCategory = filterCategory === 'all' || caseItem.category === filterCategory;
@@ -232,18 +83,24 @@ export function CasePage() {
 
   const getStatusBadge = (status: CaseStatusEnum) => {
     const styles = {
+      [CaseStatusEnum.NEW]: 'bg-gray-100 text-gray-700',
       [CaseStatusEnum.IN_PROGRESS]: 'bg-blue-100 text-blue-700',
-      [CaseStatusEnum.REVIEW]: 'bg-purple-100 text-purple-700',
-      [CaseStatusEnum.COMPLETED]: 'bg-green-100 text-green-700',
-      [CaseStatusEnum.ON_HOLD]: 'bg-gray-100 text-gray-700',
+      [CaseStatusEnum.WAITING]: 'bg-amber-100 text-amber-700',
+      [CaseStatusEnum.CLOSED]: 'bg-green-100 text-green-700',
+      [CaseStatusEnum.WON]: 'bg-green-100 text-green-700',
+      [CaseStatusEnum.LOST]: 'bg-red-100 text-red-700',
+      [CaseStatusEnum.SETTLED]: 'bg-purple-100 text-purple-700',
     };
     const labels = {
+      [CaseStatusEnum.NEW]: t('COMMON.STATUS.NEW'),
       [CaseStatusEnum.IN_PROGRESS]: t('COMMON.STATUS.IN_PROGRESS'),
-      [CaseStatusEnum.REVIEW]: t('COMMON.STATUS.REVIEW'),
-      [CaseStatusEnum.COMPLETED]: t('COMMON.STATUS.COMPLETED'),
-      [CaseStatusEnum.ON_HOLD]: t('COMMON.STATUS.ON_HOLD'),
+      [CaseStatusEnum.WAITING]: t('COMMON.STATUS.WAITING'),
+      [CaseStatusEnum.CLOSED]: t('COMMON.STATUS.CLOSED'),
+      [CaseStatusEnum.WON]: t('COMMON.STATUS.WON'),
+      [CaseStatusEnum.LOST]: t('COMMON.STATUS.LOST'),
+      [CaseStatusEnum.SETTLED]: t('COMMON.STATUS.SETTLED'),
     };
-    return <Badge className={`${styles[status]} border-0`}>{labels[status]}</Badge>;
+    return <Badge className={`${styles[status] || 'bg-gray-100 text-gray-700'} border-0`}>{labels[status] || status}</Badge>;
   };
 
   const getPriorityBadge = (priority: CasePriorityEnum) => {
@@ -267,6 +124,7 @@ export function CasePage() {
       color: 'text-blue-500',
       icon: Briefcase,
       iconColor: 'text-blue-600',
+      iconBg: 'bg-blue-50 dark:bg-muted',
     },
     {
       label: t('CASES.STATS.IN_WORK'),
@@ -274,13 +132,15 @@ export function CasePage() {
       color: 'text-purple-500',
       icon: Clock,
       iconColor: 'text-purple-600',
+      iconBg: 'bg-purple-50 dark:bg-muted',
     },
     {
       label: t('CASES.STATS.COMPLETED'),
-      value: cases.filter(c => c.status === CaseStatusEnum.COMPLETED).length,
+      value: cases.filter(c => [CaseStatusEnum.CLOSED, CaseStatusEnum.WON, CaseStatusEnum.SETTLED].includes(c.status)).length,
       color: 'text-green-500',
       icon: CheckCircle2,
       iconColor: 'text-green-600',
+      iconBg: 'bg-green-50 dark:bg-muted',
     },
     {
       label: t('CASES.STATS.URGENT'),
@@ -288,6 +148,7 @@ export function CasePage() {
       color: 'text-red-500',
       icon: AlertCircle,
       iconColor: 'text-red-600',
+      iconBg: 'bg-red-50 dark:bg-muted',
     },
   ];
 
@@ -400,10 +261,10 @@ export function CasePage() {
                       <div className="flex items-center gap-2">
                         <Avatar className="w-8 h-8 ring-2 ring-border">
                           <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs">
-                            {caseItem.client.avatar}
+                            {caseItem.clientName?.substring(0, 2).toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
-                        <span className="text-sm">{caseItem.client.name}</span>
+                        <span className="text-sm">{caseItem.clientName}</span>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -461,6 +322,7 @@ export function CasePage() {
                           <DropdownMenuItem
                             onClick={(e) => {
                               e.stopPropagation();
+                              setSelectedCase(caseItem);
                               setIsEditCaseDialogOpen(true);
                             }}
                             className="cursor-pointer"
@@ -472,7 +334,7 @@ export function CasePage() {
                           <DropdownMenuItem
                             onClick={(e) => {
                               e.stopPropagation();
-                              console.log('Delete case:', caseItem.id);
+                              deleteCase(caseItem.id);
                             }}
                             className="cursor-pointer text-red-600"
                           >
@@ -489,7 +351,6 @@ export function CasePage() {
           </Card>
         ) : null}
 
-        {/* Mobile grid view (always visible on mobile) or Desktop grid when selected */}
         <div
           className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 ${viewMode === 'table' ? 'md:hidden' : ''}`}>
           {filteredCases.map((caseItem) => (
@@ -502,13 +363,13 @@ export function CasePage() {
                 <div className="flex items-start justify-between mb-3 sm:mb-4">
                   <div className="flex-1 min-w-0">
                     <h3 className="tracking-tight mb-2 line-clamp-2 text-sm sm:text-base">{caseItem.title}</h3>
-                    <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2 mb-3">
                       <Avatar className="w-5 h-5 sm:w-6 sm:h-6 ring-2 ring-border flex-shrink-0">
                         <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs">
-                          {caseItem.client.avatar}
+                          {caseItem.clientName?.substring(0, 2).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
-                      <span className="text-xs sm:text-sm text-muted-foreground truncate">{caseItem.client.name}</span>
+                      <span className="text-xs sm:text-sm text-muted-foreground truncate">{caseItem.clientName}</span>
                     </div>
                   </div>
                   {getPriorityBadge(caseItem.priority)}
@@ -561,7 +422,15 @@ export function CasePage() {
       <EditCaseDialog
         open={isEditCaseDialogOpen}
         onOpenChange={setIsEditCaseDialogOpen}
-        initialData={caseData}
+        initialData={selectedCase ? {
+          title: selectedCase.title,
+          client: selectedCase.clientName,
+          category: selectedCase.category,
+          deadline: selectedCase.deadline,
+          fee: selectedCase.fee.toString(),
+          description: selectedCase.description,
+          priority: selectedCase.priority,
+        } : undefined}
       />
     </div>
   );

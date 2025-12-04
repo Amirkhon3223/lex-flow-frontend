@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import { caseService } from "@/app/services/cases/caseService";
-import { clientService } from "@/app/services/clients/clientService";
-import { documentService } from "@/app/services/documents/documentService";
 import type { CaseFormData } from "@/app/types/cases/cases.interfaces";
 import type { CreateClientInterface } from "@/app/types/clients/clients.interfaces";
 import type { UploadDocumentFormData } from "@/app/types/documents/documents.interfaces";

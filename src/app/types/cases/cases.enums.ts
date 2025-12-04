@@ -1,8 +1,11 @@
 export enum CaseStatusEnum {
+  NEW = 'new',
   IN_PROGRESS = 'in_progress',
-  REVIEW = 'review',
-  COMPLETED = 'completed',
-  ON_HOLD = 'on_hold',
+  WAITING = 'waiting',
+  CLOSED = 'closed',
+  WON = 'won',
+  LOST = 'lost',
+  SETTLED = 'settled',
 }
 
 export enum CasePriorityEnum {

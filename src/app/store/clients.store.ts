@@ -1,17 +1,16 @@
 import { create } from 'zustand';
-import { clientService } from '../services/clients/clientService';
-import type { ClientInterface, CreateClientInterface } from '../types/clients/clients.interfaces';
-import type { UpdateClientType } from '../types/clients/clients.types';
+import { clientsService } from '../services/clients/clients.service';
+import type { ClientInterface, CreateClientInterface, UpdateClientInterface } from '../types/clients/clients.interfaces';
 
 interface ClientsState {
   clients: ClientInterface[];
   selectedClient: ClientInterface | null;
   loading: boolean;
   error: string | null;
-  fetchClients: () => Promise<void>;
+  fetchClients: (params?: { page?: number; limit?: number; search?: string }) => Promise<void>;
   fetchClientById: (id: string) => Promise<void>;
   createClient: (data: CreateClientInterface) => Promise<void>;
-  updateClient: (id: string, data: UpdateClientType) => Promise<void>;
+  updateClient: (id: string, data: UpdateClientInterface) => Promise<void>;
   deleteClient: (id: string) => Promise<void>;
   selectClient: (client: ClientInterface | null) => void;
 }
@@ -22,11 +21,11 @@ export const useClientsStore = create<ClientsState>((set) => ({
   loading: false,
   error: null,
 
-  fetchClients: async () => {
+  fetchClients: async (params) => {
     set({ loading: true, error: null });
     try {
-      const clients = await clientService.getAll();
-      set({ clients, loading: false });
+      const response = await clientsService.list(params);
+      set({ clients: response.clients, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }
@@ -35,7 +34,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
   fetchClientById: async (id: string) => {
     set({ loading: true, error: null });
     try {
-      const client = await clientService.getById(id);
+      const client = await clientsService.getById(id);
       set({ selectedClient: client, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
@@ -45,7 +44,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
   createClient: async (data: CreateClientInterface) => {
     set({ loading: true, error: null });
     try {
-      const client = await clientService.create(data);
+      const client = await clientsService.create(data);
       set((state) => ({
         clients: [...state.clients, client],
         loading: false,
@@ -55,19 +54,15 @@ export const useClientsStore = create<ClientsState>((set) => ({
     }
   },
 
-  updateClient: async (id: string, data: UpdateClientType) => {
+  updateClient: async (id: string, data: UpdateClientInterface) => {
     set({ loading: true, error: null });
     try {
-      const updatedClient = await clientService.update(id, data);
-      if (updatedClient) {
-        set((state) => ({
-          clients: state.clients.map((c) => (c.id === id ? updatedClient : c)),
-          selectedClient: state.selectedClient?.id === id ? updatedClient : state.selectedClient,
-          loading: false,
-        }));
-      } else {
-        set({ error: 'Клиент не найден', loading: false });
-      }
+      const updatedClient = await clientsService.update(id, data);
+      set((state) => ({
+        clients: state.clients.map((c) => (c.id === id ? updatedClient : c)),
+        selectedClient: state.selectedClient?.id === id ? updatedClient : state.selectedClient,
+        loading: false,
+      }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }
@@ -76,7 +71,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
   deleteClient: async (id: string) => {
     set({ loading: true, error: null });
     try {
-      await clientService.delete(id);
+      await clientsService.delete(id);
       set((state) => ({
         clients: state.clients.filter((c) => c.id !== id),
         selectedClient: state.selectedClient?.id === id ? null : state.selectedClient,

@@ -9,7 +9,7 @@
  */
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { i18nService, type Language, type LanguageInfo } from '@/app/services/i18n/i18nService';
+import { i18nService, type Language, type LanguageInfo } from "@/app/services/i18n/i18n.service.ts";
 
 interface I18nContextValue {
   language: Language;

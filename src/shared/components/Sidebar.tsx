@@ -21,8 +21,9 @@ import {
   Settings,
   LogOut, Scale,
 } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config.ts';
+import { handleLogout } from '@/app/utils/authUtils';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Separator } from '@/shared/ui/separator';
@@ -36,7 +37,12 @@ interface SidebarProps {
 
 export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse, onMobileClose }: SidebarProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useI18n();
+
+  const handleLogoutClick = () => {
+    handleLogout(navigate);
+  };
 
   const navigationItems = [
     { icon: Home, label: t('COMMON.NAVIGATION.OVERVIEW'), path: ROUTES.DASHBOARD, id: 'overview' },
@@ -160,6 +166,7 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
             </span>
           </Link>
           <button
+            onClick={handleLogoutClick}
             className={`
               w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-slate-600 dark:text-muted-foreground hover:bg-red-50 hover:text-red-600 cursor-pointer
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}

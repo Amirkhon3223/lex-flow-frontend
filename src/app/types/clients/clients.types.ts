@@ -1,3 +1,3 @@
-import type { CreateClientInterface } from './clients.interfaces';
+import type { UpdateClientInterface } from './clients.interfaces';
 
-export type UpdateClientType = Partial<CreateClientInterface>;
+export type UpdateClientType = UpdateClientInterface;
