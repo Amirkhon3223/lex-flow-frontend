@@ -45,7 +45,7 @@
  * - Режим сетки (Grid view)
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Plus,
   Mail,
@@ -65,6 +65,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/app/config/routes.config.ts";
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
+import { useClientsStore } from '@/app/store/clients.store';
 import { AddClientDialog } from '@/shared/components/AddClientDialog';
 import { EditClientDialog } from '@/shared/components/EditClientDialog';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
@@ -83,166 +84,63 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/ui/table';
+import { Pagination } from '@/shared/ui/pagination';
 
 
 export function ClientsPage() {
   const navigate = useNavigate();
   const { t } = useI18n();
+  const { clients, pagination, fetchClients, deleteClient, selectClient } = useClientsStore();
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
   const [isAddClientDialogOpen, setIsAddClientDialogOpen] = useState(false);
   const [isEditClientDialogOpen, setIsEditClientDialogOpen] = useState(false);
 
-  const clients: ClientInterface[] = [
-    {
-      id: 1,
-      name: 'Иванов Петр Алексеевич',
-      avatar: 'ИП',
-      type: ClientTypeEnum.INDIVIDUAL,
-      category: ClientCategoryEnum.VIP,
-      email: 'ivanov@mail.ru',
-      phone: '+7 (999) 123-45-67',
-      activeCases: 3,
-      totalCases: 5,
-      totalRevenue: 250000,
-      lastContact: '2 часа назад',
-      status: ClientStatusEnum.ACTIVE,
-      joinDate: 'Янв 2024',
-    },
-    {
-      id: 2,
-      name: 'ООО "ТехноСтрой"',
-      avatar: 'ТС',
-      type: ClientTypeEnum.LEGAL,
-      category: ClientCategoryEnum.PREMIUM,
-      email: 'info@tehnostroy.ru',
-      phone: '+7 (495) 123-45-67',
-      activeCases: 2,
-      totalCases: 8,
-      totalRevenue: 850000,
-      lastContact: '1 день назад',
-      status: ClientStatusEnum.ACTIVE,
-      joinDate: 'Мар 2023',
-    },
-    {
-      id: 3,
-      name: 'Смирнова Анна Викторовна',
-      avatar: 'СА',
-      type: ClientTypeEnum.INDIVIDUAL,
-      category: ClientCategoryEnum.STANDARD,
-      email: 'smirnova@gmail.com',
-      phone: '+7 (999) 234-56-78',
-      activeCases: 1,
-      totalCases: 2,
-      totalRevenue: 120000,
-      lastContact: '3 часа назад',
-      status: ClientStatusEnum.ACTIVE,
-      joinDate: 'Июн 2024',
-    },
-    {
-      id: 4,
-      name: 'ИП Козлов Дмитрий Михайлович',
-      avatar: 'КД',
-      type: ClientTypeEnum.ENTREPRENEUR,
-      category: ClientCategoryEnum.PREMIUM,
-      email: 'kozlov.ip@yandex.ru',
-      phone: '+7 (999) 345-67-89',
-      activeCases: 2,
-      totalCases: 4,
-      totalRevenue: 320000,
-      lastContact: '5 дней назад',
-      status: ClientStatusEnum.ACTIVE,
-      joinDate: 'Фев 2024',
-    },
-    {
-      id: 5,
-      name: 'Петрова Мария Ивановна',
-      avatar: 'ПМ',
-      type: ClientTypeEnum.INDIVIDUAL,
-      category: ClientCategoryEnum.STANDARD,
-      email: 'petrova.mi@mail.ru',
-      phone: '+7 (999) 456-78-90',
-      activeCases: 1,
-      totalCases: 1,
-      totalRevenue: 75000,
-      lastContact: '2 дня назад',
-      status: ClientStatusEnum.ACTIVE,
-      joinDate: 'Окт 2025',
-    },
-    {
-      id: 6,
-      name: 'ООО "Строй+"',
-      avatar: 'СП',
-      type: ClientTypeEnum.LEGAL,
-      category: ClientCategoryEnum.VIP,
-      email: 'legal@stroyplus.ru',
-      phone: '+7 (495) 234-56-78',
-      activeCases: 4,
-      totalCases: 12,
-      totalRevenue: 1250000,
-      lastContact: '4 часа назад',
-      status: ClientStatusEnum.ACTIVE,
-      joinDate: 'Янв 2023',
-    },
-    {
-      id: 7,
-      name: 'Соколова Екатерина Петровна',
-      avatar: 'СЕ',
-      type: ClientTypeEnum.INDIVIDUAL,
-      category: ClientCategoryEnum.STANDARD,
-      email: 'sokolova@inbox.ru',
-      phone: '+7 (999) 567-89-01',
-      activeCases: 1,
-      totalCases: 1,
-      totalRevenue: 45000,
-      lastContact: '1 день назад',
-      status: ClientStatusEnum.ACTIVE,
-      joinDate: 'Окт 2025',
-    },
-    {
-      id: 8,
-      name: 'Васильев Андрей Сергеевич',
-      avatar: 'ВА',
-      type: ClientTypeEnum.INDIVIDUAL,
-      category: ClientCategoryEnum.STANDARD,
-      email: 'vasiliev@gmail.com',
-      phone: '+7 (999) 678-90-12',
-      activeCases: 0,
-      totalCases: 2,
-      totalRevenue: 95000,
-      lastContact: '2 недели назад',
-      status: ClientStatusEnum.INACTIVE,
-      joinDate: 'Май 2024',
-    },
-    {
-      id: 9,
-      name: 'ООО "ИнвестГрупп"',
-      avatar: 'ИГ',
-      type: ClientTypeEnum.LEGAL,
-      category: ClientCategoryEnum.PREMIUM,
-      email: 'office@investgroup.ru',
-      phone: '+7 (495) 345-67-89',
-      activeCases: 0,
-      totalCases: 0,
-      totalRevenue: 0,
-      lastContact: 'Нет контактов',
-      status: ClientStatusEnum.PENDING,
-      joinDate: 'Окт 2025',
-    },
-  ];
+  const limit = 10;
 
-  const filteredClients = clients.filter(client => {
-    const matchesSearch = searchQuery === '' ||
-      client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      client.email.toLowerCase().includes(searchQuery.toLowerCase());
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchClients({
+        page: currentPage,
+        limit,
+        search: debouncedSearch || undefined,
+      });
+    };
+    fetchData();
+  }, [currentPage, debouncedSearch, fetchClients]);
+
+  const filteredClients = clients?.filter(client => {
     const matchesType = filterType === 'all' || client.type === filterType;
     const matchesCategory = filterCategory === 'all' || client.category === filterCategory;
     const matchesStatus = filterStatus === 'all' || client.status === filterStatus;
+    return matchesType && matchesCategory && matchesStatus;
+  }) || [];
 
-    return matchesSearch && matchesType && matchesCategory && matchesStatus;
-  });
+  const getClientName = (client: ClientInterface) => {
+    if (client.companyName) return client.companyName;
+    return `${client.lastName || ''} ${client.firstName || ''} ${client.middleName || ''}`.trim();
+  };
+
+  const getClientInitials = (client: ClientInterface) => {
+    if (client.companyName) {
+      const words = client.companyName.split(' ').filter(w => w.length > 0);
+      return words.slice(0, 2).map(w => w[0]).join('').toUpperCase();
+    }
+    const firstInitial = client.firstName?.[0] || '';
+    const lastInitial = client.lastName?.[0] || '';
+    return (firstInitial + lastInitial).toUpperCase() || 'CL';
+  };
 
   const getCategoryBadge = (category: ClientCategoryEnum) => {
     const styles = {
@@ -284,10 +182,10 @@ export function ClientsPage() {
   };
 
   const stats = [
-    { label: t('CLIENTS.STATS.TOTAL'), value: clients.length, icon: Users, color: 'text-blue-500' },
-    { label: t('CLIENTS.STATS.ACTIVE'), value: clients.filter(c => c.status === ClientStatusEnum.ACTIVE).length, icon: TrendingUp, color: 'text-green-500' },
-    { label: t('CLIENTS.STATS.VIP'), value: clients.filter(c => c.category === ClientCategoryEnum.VIP).length, icon: Star, color: 'text-purple-500' },
-    { label: t('CLIENTS.STATS.ACTIVE_CASES'), value: clients.reduce((sum, c) => sum + c.activeCases, 0), icon: Briefcase, color: 'text-orange-500' },
+    { label: t('CLIENTS.STATS.TOTAL'), value: filteredClients.length, icon: Users, color: 'text-blue-500' },
+    { label: t('CLIENTS.STATS.ACTIVE'), value: filteredClients.filter(c => c.status === ClientStatusEnum.ACTIVE).length, icon: TrendingUp, color: 'text-green-500' },
+    { label: t('CLIENTS.STATS.VIP'), value: filteredClients.filter(c => c.category === ClientCategoryEnum.VIP).length, icon: Star, color: 'text-purple-500' },
+    { label: t('CLIENTS.STATS.ACTIVE_CASES'), value: filteredClients.reduce((sum, c) => sum + c.activeCases, 0), icon: Briefcase, color: 'text-orange-500' },
   ];
 
   return (
@@ -404,19 +302,19 @@ export function ClientsPage() {
               {filteredClients.map((client) => (
                 <TableRow key={client.id}
                   className="border-b border-border hover:bg-muted/50 cursor-pointer transition-colors"
-                  onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id.toString()))}
+                  onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id))}
                 >
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="w-10 h-10 ring-2 ring-border">
                         <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-                          {client.avatar}
+                          {getClientInitials(client)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="tracking-tight mb-0.5">{client.name}</div>
+                        <div className="tracking-tight mb-0.5">{getClientName(client)}</div>
                         <div className="text-xs text-muted-foreground">
-                          {t('CLIENTS.SINCE')} {client.joinDate}
+                          {t('CLIENTS.SINCE')} {new Date(client.joinDate).toLocaleDateString('ru-RU', { month: 'short', year: 'numeric' })}
                         </div>
                       </div>
                     </div>
@@ -460,7 +358,7 @@ export function ClientsPage() {
                   <TableCell>
                     <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
                       <Calendar className="w-3.5 h-3.5" strokeWidth={2} />
-                      {client.lastContact}
+                      {client.lastContact ? new Date(client.lastContact).toLocaleDateString('ru-RU') : t('COMMON.NO_DATA')}
                     </div>
                   </TableCell>
                   <TableCell>{getStatusBadge(client.status)}</TableCell>
@@ -470,23 +368,37 @@ export function ClientsPage() {
                         {
                           icon: Eye,
                           label: t('CLIENTS.ACTIONS.PROFILE'),
-                          onClick: () => { },
+                          onClick: (e) => {
+                            e?.stopPropagation();
+                            navigate(ROUTES.CLIENTS.DETAIL(client.id));
+                          },
                         },
                         {
                           icon: Edit,
                           label: t('CLIENTS.ACTIONS.EDIT'),
-                          onClick: () => setIsEditClientDialogOpen(true),
+                          onClick: (e) => {
+                            e?.stopPropagation();
+                            selectClient(client);
+                            setIsEditClientDialogOpen(true);
+                          },
                           separator: true,
                         },
                         {
                           icon: Mail,
                           label: t('CLIENTS.ACTIONS.WRITE'),
-                          onClick: () => { },
+                          onClick: (e) => {
+                            e?.stopPropagation();
+                          },
                         },
                         {
                           icon: Trash2,
                           label: t('CLIENTS.ACTIONS.DELETE'),
-                          onClick: () => { },
+                          onClick: async (e) => {
+                            e?.stopPropagation();
+                            if (confirm(t('CLIENTS.CONFIRM_DELETE'))) {
+                              await deleteClient(client.id);
+                            }
+                          },
                           variant: 'danger',
                           separator: true,
                         },
@@ -504,7 +416,7 @@ export function ClientsPage() {
           {filteredClients.map((client) => (
             <Card
               key={client.id}
-              onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id.toString()))}
+              onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id))}
               className="bg-card border-0 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             >
               <div className="p-4">
@@ -512,12 +424,12 @@ export function ClientsPage() {
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <Avatar className="w-10 h-10 ring-2 ring-border flex-shrink-0">
                       <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-sm">
-                        {client.avatar}
+                        {getClientInitials(client)}
                       </AvatarFallback>
                     </Avatar>
                     <div className="min-w-0">
-                      <div className="tracking-tight text-sm truncate">{client.name}</div>
-                      <div className="text-xs text-muted-foreground">{t('CLIENTS.SINCE')} {client.joinDate}</div>
+                      <div className="tracking-tight text-sm truncate">{getClientName(client)}</div>
+                      <div className="text-xs text-muted-foreground">{t('CLIENTS.SINCE')} {new Date(client.joinDate).toLocaleDateString('ru-RU', { month: 'short', year: 'numeric' })}</div>
                     </div>
                   </div>
                   {getCategoryBadge(client.category)}
@@ -559,6 +471,16 @@ export function ClientsPage() {
             </Card>
           ))}
         </div>
+
+        {pagination && pagination.totalPages > 1 && (
+          <div className="mt-6">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        )}
       </main>
     </div>
   );

@@ -1,14 +1,23 @@
 import { create } from 'zustand';
 import { casesService } from '../services/cases/cases.service';
+import type { Pagination } from '../types/api/api.types';
 import type { CaseInterface, CreateCaseInterface, UpdateCaseInterface, TimelineEventInterface } from '../types/cases/cases.interfaces';
 
 interface CasesState {
   cases: CaseInterface[];
   selectedCase: CaseInterface | null;
   timeline: TimelineEventInterface[];
+  pagination: Pagination | null;
   loading: boolean;
   error: string | null;
-  fetchCases: (params?: { page?: number; limit?: number; status?: string; priority?: string }) => Promise<void>;
+  fetchCases: (params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    priority?: string;
+    clientId?: string;
+    search?: string;
+  }) => Promise<void>;
   fetchCaseById: (id: string) => Promise<void>;
   createCase: (data: CreateCaseInterface) => Promise<void>;
   updateCase: (id: string, data: UpdateCaseInterface) => Promise<void>;
@@ -21,6 +30,7 @@ export const useCasesStore = create<CasesState>((set) => ({
   cases: [],
   selectedCase: null,
   timeline: [],
+  pagination: null,
   loading: false,
   error: null,
 
@@ -28,7 +38,7 @@ export const useCasesStore = create<CasesState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await casesService.list(params);
-      set({ cases: response.cases, loading: false });
+      set({ cases: response.cases, pagination: response.pagination, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }
@@ -47,11 +57,13 @@ export const useCasesStore = create<CasesState>((set) => ({
   createCase: async (data: CreateCaseInterface) => {
     set({ loading: true, error: null });
     try {
-      const newCase = await casesService.create(data);
-      set((state) => ({
-        cases: [...state.cases, newCase],
-        loading: false,
-      }));
+      await casesService.create(data);
+      const response = await casesService.list({ page: 1, limit: 10 });
+      set({
+        cases: response.cases,
+        pagination: response.pagination,
+        loading: false
+      });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }

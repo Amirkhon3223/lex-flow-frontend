@@ -13,8 +13,9 @@ import {
   User,
   Briefcase,
 } from 'lucide-react';
-import { ClientTypeEnum } from '@/app/types/clients/clients.enums';
+import { ClientTypeEnum, ClientCategoryEnum } from '@/app/types/clients/clients.enums';
 import type { CreateClientInterface } from "@/app/types/clients/clients.interfaces.ts";
+import { useClientsStore } from '@/app/store/clients.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
@@ -22,6 +23,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
@@ -43,6 +45,7 @@ interface AddClientDialogProps {
 
 export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialogProps) {
   const { t } = useI18n();
+  const { createClient } = useClientsStore();
   const [clientType, setClientType] = useState<ClientTypeEnum>(ClientTypeEnum.INDIVIDUAL);
 
   const [formData, setFormData] = useState({
@@ -59,24 +62,51 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
     category: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit?.({ ...formData, type: clientType });
-    onOpenChange(false);
 
-    setFormData({
-      firstName: '',
-      lastName: '',
-      middleName: '',
-      companyName: '',
-      inn: '',
-      kpp: '',
-      email: '',
-      phone: '',
-      address: '',
-      notes: '',
-      category: '',
-    });
+    try {
+      const clientData: CreateClientInterface = {
+        type: clientType,
+        email: formData.email,
+        phone: formData.phone,
+      };
+
+      if (clientType === ClientTypeEnum.INDIVIDUAL) {
+        clientData.firstName = formData.firstName || undefined;
+        clientData.lastName = formData.lastName || undefined;
+        clientData.middleName = formData.middleName || undefined;
+      } else {
+        clientData.companyName = formData.companyName || undefined;
+        clientData.inn = formData.inn || undefined;
+        clientData.kpp = formData.kpp || undefined;
+      }
+
+      if (formData.address) clientData.address = formData.address;
+      if (formData.notes) clientData.notes = formData.notes;
+      if (formData.category) clientData.category = formData.category as ClientCategoryEnum;
+
+      await createClient(clientData);
+
+      onSubmit?.(clientData);
+      onOpenChange(false);
+
+      setFormData({
+        firstName: '',
+        lastName: '',
+        middleName: '',
+        companyName: '',
+        inn: '',
+        kpp: '',
+        email: '',
+        phone: '',
+        address: '',
+        notes: '',
+        category: '',
+      });
+    } catch (error) {
+      console.error('Failed to create client:', error);
+    }
   };
 
   return (
@@ -89,6 +119,9 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
             </div>
             {t('CLIENTS.NEW_CLIENT')}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            {t('CLIENTS.ADD_DIALOG.DESCRIPTION')}
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">

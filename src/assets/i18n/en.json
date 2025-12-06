@@ -43,6 +43,12 @@
       "ARCHIVED": "Archived",
       "ON_HOLD": "On Hold",
       "REVIEW": "Under Review",
+      "NEW": "New",
+      "WAITING": "Waiting",
+      "CLOSED": "Closed",
+      "WON": "Won",
+      "LOST": "Lost",
+      "SETTLED": "Settled",
       "STATUS": "Status"
     },
     "PRIORITY": {
@@ -57,7 +63,8 @@
       "LOADING": "Loading...",
       "NO_DATA": "No data",
       "CONFIRM_DELETE": "Are you sure you want to delete?",
-      "CONFIRM_ARCHIVE": "Are you sure you want to archive?"
+      "CONFIRM_ARCHIVE": "Are you sure you want to archive?",
+      "DELETED": "Successfully deleted"
     },
     "TIME": {
       "TODAY": "Today",
@@ -178,6 +185,7 @@
     },
     "EDIT_DIALOG": {
       "TITLE": "Edit case",
+      "DESCRIPTION": "Update case information",
       "SAVE": "Save changes",
       "TITLE_PLACEHOLDER": "E.g.: Labor dispute - dismissal",
       "SELECT_CLIENT_PLACEHOLDER": "Select client",
@@ -234,6 +242,7 @@
     "CLIENT": {
       "TITLE": "Client",
       "SINCE": "Client since",
+      "NEW": "New client",
       "PHONE": "Phone",
       "EMAIL": "Email",
       "TOTAL_CASES": "Total cases",

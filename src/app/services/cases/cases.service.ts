@@ -17,7 +17,10 @@ export const casesService = {
     clientId?: string;
     search?: string;
   }): Promise<CaseListResponse> => {
-    const response = await httpClient.get<CaseListResponse>('/cases', { params });
+    const cleanParams = params ? Object.fromEntries(
+      Object.entries(params).filter(([_, value]) => value !== undefined && value !== '' && value !== 'all')
+    ) : {};
+    const response = await httpClient.get<CaseListResponse>('/cases', { params: cleanParams });
     return response.data;
   },
 
