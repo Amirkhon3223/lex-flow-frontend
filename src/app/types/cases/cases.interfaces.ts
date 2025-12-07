@@ -26,7 +26,10 @@ export interface CaseInterface {
   progress: number;
   description: string;
   fee: number;
+  paidAmount: number;
   documents: number;
+  commentsCount: number;
+  tasksCount: number;
   createdBy: string;
   assignedTo: string | null;
   createdAt: string;
