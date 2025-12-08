@@ -66,8 +66,8 @@ import { ROUTES } from "@/app/config/routes.config.ts";
 import { useClientsStore } from '@/app/store/clients.store';
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
-import { AddClientDialog } from '@/shared/components/AddClientDialog';
-import { EditClientDialog } from '@/shared/components/EditClientDialog';
+import { ClientFormModal } from '@/shared/components/ClientFormModal';
+import { DataPagination } from '@/shared/components/DataPagination';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { ActionsMenu } from '@/shared/components/menus/ActionsMenu';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -75,15 +75,6 @@ import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/shared/ui/pagination';
 import { StatCard } from '@/shared/ui/stat-card';
 import {
   Table,
@@ -98,15 +89,15 @@ import {
 export function ClientsPage() {
   const navigate = useNavigate();
   const { t } = useI18n();
-  const { clients, pagination, loading, fetchClients, deleteClient, selectClient } = useClientsStore();
+  const { clients, selectedClient, pagination, loading, fetchClients, deleteClient, selectClient } = useClientsStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const [isAddClientDialogOpen, setIsAddClientDialogOpen] = useState(false);
-  const [isEditClientDialogOpen, setIsEditClientDialogOpen] = useState(false);
+  const [clientFormMode, setClientFormMode] = useState<'create' | 'edit'>('create');
+  const [isClientFormOpen, setIsClientFormOpen] = useState(false);
 
   const limit = 20;
 
@@ -125,18 +116,15 @@ export function ClientsPage() {
 
   // Загрузка данных с бэкенда
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchClients({
-        page: currentPage,
-        limit,
-        type: filterType !== 'all' ? filterType : undefined,
-        category: filterCategory !== 'all' ? filterCategory : undefined,
-        status: filterStatus !== 'all' ? filterStatus : undefined,
-        search: debouncedSearch || undefined,
-      });
-    };
-    fetchData();
-  }, [currentPage, debouncedSearch, filterType, filterCategory, filterStatus, fetchClients]);
+    fetchClients({
+      page: currentPage,
+      limit,
+      type: filterType !== 'all' ? filterType : undefined,
+      category: filterCategory !== 'all' ? filterCategory : undefined,
+      status: filterStatus !== 'all' ? filterStatus : undefined,
+      search: debouncedSearch || undefined,
+    });
+  }, [currentPage, debouncedSearch, filterType, filterCategory, filterStatus]);
 
   const getClientName = (client: ClientInterface) => {
     if (client.companyName) return client.companyName;
@@ -220,69 +208,14 @@ export function ClientsPage() {
     },
   ];
 
-  // Функция для рендеринга пагинации
-  const renderPagination = () => {
-    if (!pagination || pagination.totalPages <= 1) return null;
-
-    const pages: (number | string)[] = [];
-    const showEllipsisStart = currentPage > 3;
-    const showEllipsisEnd = currentPage < pagination.totalPages - 2;
-
-    if (showEllipsisStart) {
-      pages.push(1);
-      if (currentPage > 4) pages.push('ellipsis-start');
-    }
-
-    for (let i = Math.max(1, currentPage - 1); i <= Math.min(pagination.totalPages, currentPage + 1); i++) {
-      pages.push(i);
-    }
-
-    if (showEllipsisEnd) {
-      if (currentPage < pagination.totalPages - 3) pages.push('ellipsis-end');
-      pages.push(pagination.totalPages);
-    }
-
-    return (
-      <Pagination className="mt-6">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
-              className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-            />
-          </PaginationItem>
-          {pages.map((page, index) =>
-            typeof page === 'string' ? (
-              <PaginationItem key={page}>
-                <PaginationEllipsis/>
-              </PaginationItem>
-            ) : (
-              <PaginationItem key={page}>
-                <PaginationLink
-                  onClick={() => setCurrentPage(page)}
-                  isActive={currentPage === page}
-                  className="cursor-pointer"
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            )
-          )}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => currentPage < pagination.totalPages && setCurrentPage(currentPage + 1)}
-              className={currentPage === pagination.totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    );
-  };
-
   return (
     <div>
-      <AddClientDialog open={isAddClientDialogOpen} onOpenChange={setIsAddClientDialogOpen}/>
-      <EditClientDialog open={isEditClientDialogOpen} onOpenChange={setIsEditClientDialogOpen}/>
+      <ClientFormModal
+        open={isClientFormOpen}
+        onOpenChange={setIsClientFormOpen}
+        mode={clientFormMode}
+        client={clientFormMode === 'edit' ? selectedClient || undefined : undefined}
+      />
 
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 py-4">
@@ -300,7 +233,10 @@ export function ClientsPage() {
 
             <Button
               className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full sm:w-auto"
-              onClick={() => setIsAddClientDialogOpen(true)}
+              onClick={() => {
+                setClientFormMode('create');
+                setIsClientFormOpen(true);
+              }}
             >
               <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
               {t('CLIENTS.NEW_CLIENT')}
@@ -570,7 +506,8 @@ export function ClientsPage() {
                               onClick: (e) => {
                                 e?.stopPropagation();
                                 selectClient(client);
-                                setIsEditClientDialogOpen(true);
+                                setClientFormMode('edit');
+                                setIsClientFormOpen(true);
                               },
                               separator: true,
                             },
@@ -686,7 +623,12 @@ export function ClientsPage() {
             <div className="text-sm text-muted-foreground">
               {t('COMMON.SHOWING')} {((currentPage - 1) * limit) + 1} - {Math.min(currentPage * limit, pagination.total)} {t('COMMON.OF')} {pagination.total}
             </div>
-            {renderPagination()}
+            <DataPagination
+              currentPage={currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={setCurrentPage}
+              className="mt-6"
+            />
           </div>
         )}
       </main>

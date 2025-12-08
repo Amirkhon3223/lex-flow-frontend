@@ -6,9 +6,9 @@ import './styles/calendar.css';
 import App from './App.tsx';
 
 createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <App />
-        </ThemeProvider>
-    </StrictMode>
+  <StrictMode>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <App/>
+    </ThemeProvider>
+  </StrictMode>
 );

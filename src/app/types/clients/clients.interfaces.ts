@@ -53,6 +53,7 @@ export interface CreateClientInterface {
   companyName?: string;
   type: ClientTypeEnum;
   category?: ClientCategoryEnum;
+  status?: ClientStatusEnum;
   email: string;
   phone: string;
   address?: string;

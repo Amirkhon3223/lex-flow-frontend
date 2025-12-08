@@ -10,22 +10,14 @@ import { ContactInfoCard } from "@/modules/clients/ui/ContactInfoCard.tsx";
 import { FinancialCard } from "@/modules/clients/widgets/FinancialCard.tsx";
 import { AddCaseDialog } from "@/shared/components/AddCaseDialog.tsx";
 import { BackButton } from "@/shared/components/BackButton.tsx";
-import { EditClientDialog } from "@/shared/components/EditClientDialog.tsx";
+import { ClientFormModal } from '@/shared/components/ClientFormModal';
+import { DataPagination } from '@/shared/components/DataPagination';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  PaginationEllipsis,
-} from '@/shared/ui/pagination';
 import { StatCard } from '@/shared/ui/stat-card';
 
 export default function ClientDetailPage() {
@@ -33,7 +25,7 @@ export default function ClientDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -45,7 +37,6 @@ export default function ClientDetailPage() {
   const { selectedClient, fetchClientById, selectClient } = useClientsStore();
   const { cases, pagination, loading, fetchCases } = useCasesStore();
 
-  // Debounce поиска
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
@@ -53,12 +44,10 @@ export default function ClientDetailPage() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Сброс страницы при изменении фильтров
   useEffect(() => {
     setCurrentPage(1);
   }, [filterStatus, filterPriority, debouncedSearch]);
 
-  // Загрузка клиента
   useEffect(() => {
     if (id) {
       fetchClientById(id);
@@ -66,9 +55,8 @@ export default function ClientDetailPage() {
     return () => {
       selectClient(null);
     };
-  }, [id, fetchClientById, selectClient]);
+  }, [id]);
 
-  // Загрузка дел с фильтрацией и пагинацией
   useEffect(() => {
     if (id) {
       fetchCases({
@@ -80,7 +68,7 @@ export default function ClientDetailPage() {
         search: debouncedSearch || undefined,
       });
     }
-  }, [id, currentPage, filterStatus, filterPriority, debouncedSearch, fetchCases]);
+  }, [id, currentPage, filterStatus, filterPriority, debouncedSearch]);
 
   if (!selectedClient) {
     return <div className="p-8 text-center">{t('COMMON.LOADING')}</div>;
@@ -101,65 +89,6 @@ export default function ClientDetailPage() {
     return (firstInitial + lastInitial).toUpperCase() || 'CL';
   };
 
-  // Функция для рендеринга пагинации
-  const renderPagination = () => {
-    if (!pagination || pagination.totalPages <= 1) return null;
-
-    const pages: (number | string)[] = [];
-    const showEllipsisStart = currentPage > 3;
-    const showEllipsisEnd = currentPage < pagination.totalPages - 2;
-
-    if (showEllipsisStart) {
-      pages.push(1);
-      if (currentPage > 4) pages.push('ellipsis-start');
-    }
-
-    for (let i = Math.max(1, currentPage - 1); i <= Math.min(pagination.totalPages, currentPage + 1); i++) {
-      pages.push(i);
-    }
-
-    if (showEllipsisEnd) {
-      if (currentPage < pagination.totalPages - 3) pages.push('ellipsis-end');
-      pages.push(pagination.totalPages);
-    }
-
-    return (
-      <Pagination className="mt-4">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
-              className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-            />
-          </PaginationItem>
-          {pages.map((page, index) =>
-            typeof page === 'string' ? (
-              <PaginationItem key={page}>
-                <PaginationEllipsis />
-              </PaginationItem>
-            ) : (
-              <PaginationItem key={page}>
-                <PaginationLink
-                  onClick={() => setCurrentPage(page)}
-                  isActive={currentPage === page}
-                  className="cursor-pointer"
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            )
-          )}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => currentPage < pagination.totalPages && setCurrentPage(currentPage + 1)}
-              className={currentPage === pagination.totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    );
-  };
-
   return (
     <div className="space-y-4 sm:space-y-6">
       <AddCaseDialog
@@ -167,7 +96,12 @@ export default function ClientDetailPage() {
         onOpenChange={setIsAddCaseDialogOpen}
         preselectedClientId={id}
       />
-      <EditClientDialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen} />
+      <ClientFormModal
+        open={isClientFormOpen}
+        onOpenChange={setIsClientFormOpen}
+        mode="edit"
+        client={selectedClient}
+      />
 
       <BackButton onClick={() => navigate(-1)} label={t('CLIENTS.ALL_CLIENTS')} />
 
@@ -383,7 +317,12 @@ export default function ClientDetailPage() {
                   ))}
                   {pagination && pagination.totalPages > 1 && (
                     <div className="pt-4">
-                      {renderPagination()}
+                      <DataPagination
+                        currentPage={currentPage}
+                        totalPages={pagination.totalPages}
+                        onPageChange={setCurrentPage}
+                        className="mt-4"
+                      />
                     </div>
                   )}
                 </>
@@ -402,7 +341,7 @@ export default function ClientDetailPage() {
             }}
             onEdit={() => {
               selectClient(selectedClient);
-              setIsEditDialogOpen(true);
+              setIsClientFormOpen(true);
             }}
           />
 
@@ -419,7 +358,7 @@ export default function ClientDetailPage() {
             client={selectedClient}
             onEdit={() => {
               selectClient(selectedClient);
-              setIsEditDialogOpen(true);
+              setIsClientFormOpen(true);
             }}
           />
         </div>

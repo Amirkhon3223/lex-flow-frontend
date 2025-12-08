@@ -22,6 +22,7 @@ import { useCasesStore } from '@/app/store/cases.store';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import { CaseFilters } from '@/modules/cases/ui/CaseFilters';
 import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
+import { DataPagination } from '@/shared/components/DataPagination';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
@@ -35,15 +36,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  PaginationEllipsis,
-} from '@/shared/ui/pagination';
 import { Progress } from '@/shared/ui/progress';
 import { StatCard } from '@/shared/ui/stat-card';
 import {
@@ -106,69 +98,12 @@ export function CasePage() {
       priority: filterPriority !== 'all' ? filterPriority : undefined,
       search: debouncedSearch || undefined,
     });
-  }, [currentPage, limit, filterStatus, filterPriority, debouncedSearch, fetchCases]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, limit, filterStatus, filterPriority, debouncedSearch]);
 
   const filteredCases = filterCategory === 'all'
     ? cases
     : cases.filter(c => c.category === filterCategory);
-
-  const renderPagination = () => {
-    if (!pagination || pagination.totalPages <= 1) return null;
-
-    const pages = [];
-    const showEllipsisStart = currentPage > 3;
-    const showEllipsisEnd = currentPage < pagination.totalPages - 2;
-
-    if (showEllipsisStart) {
-      pages.push(1);
-      if (currentPage > 4) pages.push('ellipsis-start');
-    }
-
-    for (let i = Math.max(1, currentPage - 1); i <= Math.min(pagination.totalPages, currentPage + 1); i++) {
-      pages.push(i);
-    }
-
-    if (showEllipsisEnd) {
-      if (currentPage < pagination.totalPages - 3) pages.push('ellipsis-end');
-      pages.push(pagination.totalPages);
-    }
-
-    return (
-      <Pagination className="mt-4">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
-              className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-            />
-          </PaginationItem>
-          {pages.map((page, index) =>
-            typeof page === 'string' ? (
-              <PaginationItem key={page}>
-                <PaginationEllipsis />
-              </PaginationItem>
-            ) : (
-              <PaginationItem key={page}>
-                <PaginationLink
-                  onClick={() => setCurrentPage(page)}
-                  isActive={currentPage === page}
-                  className="cursor-pointer"
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            )
-          )}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => currentPage < pagination.totalPages && setCurrentPage(currentPage + 1)}
-              className={currentPage === pagination.totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    );
-  };
 
   const getStatusBadge = (status: CaseStatusEnum) => {
     const styles = {
@@ -444,7 +379,14 @@ export function CasePage() {
               </TableBody>
             </Table>
           </Card>
-          {renderPagination()}
+          {pagination && pagination.totalPages > 1 && (
+            <DataPagination
+              currentPage={currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={setCurrentPage}
+              className="mt-4"
+            />
+          )}
         </div>
         )}
 
@@ -509,7 +451,14 @@ export function CasePage() {
             </Card>
           ))}
         </div>
-        {viewMode === 'grid' && renderPagination()}
+        {viewMode === 'grid' && pagination && pagination.totalPages > 1 && (
+          <DataPagination
+            currentPage={currentPage}
+            totalPages={pagination.totalPages}
+            onPageChange={setCurrentPage}
+            className="mt-4"
+          />
+        )}
 
       </main>
 

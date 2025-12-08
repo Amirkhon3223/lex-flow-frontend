@@ -55,22 +55,26 @@ export function CaseDetailView() {
     if (!id || initialized) return;
 
     const loadData = async () => {
-      await fetchCaseById(id);
-      await fetchTimeline(id);
-      await fetchTasks(id);
-      await fetchComments(id);
+      await Promise.all([
+        fetchCaseById(id),
+        fetchTimeline(id),
+        fetchTasks(id),
+        fetchComments(id),
+      ]);
       setInitialized(true);
     };
 
     loadData();
-  }, [id, initialized, fetchCaseById, fetchTimeline, fetchTasks, fetchComments]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, initialized]);
 
   // Загружаем клиента когда получили кейс
   useEffect(() => {
     if (selectedCase?.clientId) {
       fetchClientById(selectedCase.clientId);
     }
-  }, [selectedCase?.clientId, fetchClientById]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCase?.clientId]);
 
   const handleEditCaseSubmit = async (caseData: {
     title: string;
