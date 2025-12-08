@@ -32,6 +32,10 @@
     },
     "OF": "of",
     "LOADING": "Loading...",
+    "NO_DATA": "No data",
+    "SHOWING": "Showing",
+    "ACTIVE_FILTERS": "Active filters",
+    "SEARCH": "Search",
     "COMMENTS": {
       "ADD": "Add comment"
     },
@@ -144,6 +148,7 @@
     "SEARCH_PLACEHOLDER": "Search cases...",
     "DOCUMENTS_COUNT": "documents",
     "EVENTS_COUNT": "events",
+    "COMMENTS_COUNT": "comments",
     "OVERDUE": "Overdue",
     "OVERDUE_BY": "Overdue by",
     "REMAINING": "Remaining",
@@ -324,10 +329,9 @@
       "STANDARD": "Standard"
     },
     "CATEGORY": {
-      "VIP": "VIP client",
-      "REGULAR": "Regular",
-      "NEW": "New",
-      "POTENTIAL": "Potential"
+      "STANDARD": "Standard",
+      "PREMIUM": "Premium",
+      "VIP": "VIP"
     },
     "STATUS": {
       "ACTIVE": "Active",
@@ -372,6 +376,10 @@
       "WRITE": "Write",
       "DELETE": "Delete"
     },
+    "ADD_DIALOG": {
+      "DESCRIPTION": "Fill in information about the new client"
+    },
+    "SELECT_STATUS": "Select status",
     "EDIT_DIALOG": {
       "TITLE": "Edit Client",
       "DESCRIPTION": "Update client information. All changes will be saved in history.",
@@ -386,7 +394,11 @@
       "SOURCE_REFERRAL": "Referral",
       "SOURCE_ADVERTISING": "Advertising",
       "SAVE_CHANGES": "Save Changes"
-    }
+    },
+    "NO_CASES": "Client has no cases yet",
+    "NO_NOTES": "No additional notes about the client",
+    "CONFIRM_DELETE": "Are you sure you want to delete this client?",
+    "NO_CLIENTS": "No clients found"
   },
   "DOCUMENTS": {
     "TITLE": "Documents",

@@ -1,14 +1,53 @@
 import { FileText, Calendar, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import type { CaseCardProps } from '@/app/types/cases/cases.interfaces';
+import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Progress } from '@/shared/ui/progress';
+import { formatDate } from '@/shared/utils';
 import { getStatusColor } from '@/shared/utils/styleHelpers';
+
+interface CaseCardProps {
+  caseItem: CaseInterface;
+}
 
 export function CaseCard({ caseItem }: CaseCardProps) {
   const { t } = useI18n();
+
+  // Вычисляем количество дней до дедлайна
+  const calculateDaysLeft = (deadline: string): number => {
+    const deadlineDate = new Date(deadline);
+    const today = new Date();
+    const diffTime = deadlineDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  const daysLeft = calculateDaysLeft(caseItem.deadline);
+  const formattedDeadline = formatDate(caseItem.deadline);
+
+  // Получаем инициалы клиента
+  const getClientInitials = (clientName: string): string => {
+    const words = clientName.split(' ').filter(w => w.length > 0);
+    return words.slice(0, 2).map(w => w[0]).join('').toUpperCase();
+  };
+
+  const clientInitials = getClientInitials(caseItem.clientName);
+
+  // Получаем текст статуса
+  const getStatusText = (status: string): string => {
+    const statusMap: Record<string, string> = {
+      'new': t('COMMON.STATUS.NEW'),
+      'in_progress': t('COMMON.STATUS.IN_PROGRESS'),
+      'waiting': t('COMMON.STATUS.WAITING'),
+      'closed': t('COMMON.STATUS.CLOSED'),
+      'won': t('COMMON.STATUS.WON'),
+      'lost': t('COMMON.STATUS.LOST'),
+      'settled': t('COMMON.STATUS.SETTLED'),
+    };
+    return statusMap[status] || status;
+  };
   return (
     <Link
       to={`/cases/${caseItem.id}`}
@@ -19,19 +58,19 @@ export function CaseCard({ caseItem }: CaseCardProps) {
         <div className="flex items-start gap-3 mb-2">
           <Avatar className="h-10 w-10 flex-shrink-0">
             <AvatarFallback className="bg-blue-600 text-white text-sm">
-              {caseItem.clientInitials}
+              {clientInitials}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
             <h3 className="font-semibold text-foreground text-sm mb-1">{caseItem.title}</h3>
             <Badge className={`${getStatusColor(caseItem.status)} text-xs`}>
-              {caseItem.statusText}
+              {getStatusText(caseItem.status)}
             </Badge>
           </div>
         </div>
         <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
           <span>{caseItem.category}</span>
-          <span className="font-medium">{caseItem.deadline}</span>
+          <span className="font-medium">{formattedDeadline}</span>
         </div>
 
         <div className="mb-2">
@@ -49,10 +88,10 @@ export function CaseCard({ caseItem }: CaseCardProps) {
           </div>
           <div className="flex items-center gap-1">
             <Calendar className="h-3.5 w-3.5" />
-            {caseItem.events} {t('CASES.EVENTS_COUNT')}.
+            {caseItem.commentsCount} {t('CASES.COMMENTS_COUNT')}.
           </div>
-          <div className={`ml-auto text-xs ${caseItem.daysLeft < 0 ? 'text-destructive' : caseItem.daysLeft < 7 ? 'text-orange-600 dark:text-orange-400' : 'text-muted-foreground'}`}>
-            {caseItem.daysLeft < 0 ? t('CASES.OVERDUE') : `${caseItem.daysLeft} ${t('CASES.DAYS_SHORT')}`}
+          <div className={`ml-auto text-xs ${daysLeft < 0 ? 'text-destructive' : daysLeft < 7 ? 'text-orange-600 dark:text-orange-400' : 'text-muted-foreground'}`}>
+            {daysLeft < 0 ? t('CASES.OVERDUE') : `${daysLeft} ${t('CASES.DAYS_SHORT')}`}
           </div>
         </div>
       </div>
@@ -61,7 +100,7 @@ export function CaseCard({ caseItem }: CaseCardProps) {
       <div className="hidden md:flex items-start gap-4">
         <Avatar className="h-12 w-12 flex-shrink-0">
           <AvatarFallback className="bg-blue-600 text-white">
-            {caseItem.clientInitials}
+            {clientInitials}
           </AvatarFallback>
         </Avatar>
 
@@ -71,11 +110,11 @@ export function CaseCard({ caseItem }: CaseCardProps) {
               <div className="flex items-center gap-2">
                 <h3 className="font-semibold text-foreground">{caseItem.title}</h3>
                 <Badge className={getStatusColor(caseItem.status)}>
-                  {caseItem.statusText}
+                  {getStatusText(caseItem.status)}
                 </Badge>
               </div>
               <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
-                <span>👤 {caseItem.client}</span>
+                <span>👤 {caseItem.clientName}</span>
                 <span>•</span>
                 <span>{caseItem.category}</span>
               </div>
@@ -83,9 +122,9 @@ export function CaseCard({ caseItem }: CaseCardProps) {
 
             <div className="text-right flex-shrink-0">
               <div className="text-sm text-muted-foreground">{t('CASES.FIELDS.DEADLINE')}</div>
-              <div className="font-medium text-foreground">{caseItem.deadline}</div>
-              <div className={`text-xs ${caseItem.daysLeft < 0 ? 'text-destructive' : caseItem.daysLeft < 7 ? 'text-orange-600 dark:text-orange-400' : 'text-muted-foreground'}`}>
-                {caseItem.daysLeft < 0 ? `${t('CASES.OVERDUE')} ${Math.abs(caseItem.daysLeft)} ${t('CASES.DAYS_SHORT')}` : `${t('CASES.REMAINING')} ${caseItem.daysLeft} ${t('CASES.DAYS_SHORT')}`}
+              <div className="font-medium text-foreground">{formattedDeadline}</div>
+              <div className={`text-xs ${daysLeft < 0 ? 'text-destructive' : daysLeft < 7 ? 'text-orange-600 dark:text-orange-400' : 'text-muted-foreground'}`}>
+                {daysLeft < 0 ? `${t('CASES.OVERDUE')} ${Math.abs(daysLeft)} ${t('CASES.DAYS_SHORT')}` : `${t('CASES.REMAINING')} ${daysLeft} ${t('CASES.DAYS_SHORT')}`}
               </div>
             </div>
           </div>
@@ -105,11 +144,11 @@ export function CaseCard({ caseItem }: CaseCardProps) {
             </div>
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
-              {caseItem.events} {t('CASES.EVENTS_COUNT')}
+              {caseItem.commentsCount} {t('CASES.COMMENTS_COUNT')}
             </div>
             <div className="flex items-center gap-1">
               <Clock className="h-4 w-4" />
-              {caseItem.daysLeft < 0 ? t('CASES.OVERDUE') : `${caseItem.daysLeft} ${t('CASES.DAYS_UNTIL_TRIAL')}`}
+              {daysLeft < 0 ? t('CASES.OVERDUE') : `${daysLeft} ${t('CASES.DAYS_UNTIL_TRIAL')}`}
             </div>
           </div>
         </div>

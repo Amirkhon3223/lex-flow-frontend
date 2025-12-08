@@ -15,7 +15,7 @@ interface CaseTabsCardProps {
   caseId: string;
   documents: CaseDocumentInterface[];
   timeline: TimelineEventInterface[];
-  onDocumentClick: (docId: number) => void;
+  onDocumentClick: (docId: string) => void;
   onDownloadDocument: (docName: string) => void;
 }
 

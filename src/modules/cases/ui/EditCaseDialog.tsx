@@ -14,7 +14,6 @@ import {
 import { useClientsStore } from '@/app/store/clients.store';
 import type { EditCaseDialogProps } from '@/app/types/cases/cases.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
-import { formatDescription } from '@/shared/utils/textFormatting';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -33,6 +32,7 @@ import {
   SelectValue,
 } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
+import { formatDescription } from '@/shared/utils/textFormatting';
 
 export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: EditCaseDialogProps) {
   const { t } = useI18n();

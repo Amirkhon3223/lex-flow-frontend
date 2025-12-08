@@ -112,7 +112,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       set({
         cases: response.cases,
         pagination: response.pagination,
-        loading: false
+        loading: false,
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });

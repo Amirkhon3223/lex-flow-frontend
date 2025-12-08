@@ -26,7 +26,7 @@ export interface FilterBarProps {
 export interface ActionMenuItem {
   icon: LucideIcon;
   label: string;
-  onClick: () => void;
+  onClick?: (e?: React.MouseEvent) => void;
   variant?: 'default' | 'danger';
   separator?: boolean;
 }

@@ -44,7 +44,7 @@ export function ActionsMenu({
               className={`cursor-pointer ${item.variant === 'danger' ? 'text-red-600' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
-                item.onClick();
+                item.onClick?.(e);
               }}
             >
               <item.icon className="w-4 h-4 mr-2" strokeWidth={2} />

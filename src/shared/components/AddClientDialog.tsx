@@ -13,9 +13,9 @@ import {
   User,
   Briefcase,
 } from 'lucide-react';
+import { useClientsStore } from '@/app/store/clients.store';
 import { ClientTypeEnum, ClientCategoryEnum } from '@/app/types/clients/clients.enums';
 import type { CreateClientInterface } from "@/app/types/clients/clients.interfaces.ts";
-import { useClientsStore } from '@/app/store/clients.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
@@ -292,10 +292,9 @@ export function AddClientDialog({ open, onOpenChange, onSubmit }: AddClientDialo
                   <SelectValue placeholder={t('CLIENTS.SELECT_CATEGORY')} />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="standard">{t('CLIENTS.CATEGORY.STANDARD')}</SelectItem>
+                  <SelectItem value="premium">{t('CLIENTS.CATEGORY.PREMIUM')}</SelectItem>
                   <SelectItem value="vip">{t('CLIENTS.CATEGORY.VIP')}</SelectItem>
-                  <SelectItem value="regular">{t('CLIENTS.CATEGORY.REGULAR')}</SelectItem>
-                  <SelectItem value="new">{t('CLIENTS.CATEGORY.NEW')}</SelectItem>
-                  <SelectItem value="potential">{t('CLIENTS.CATEGORY.POTENTIAL')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
