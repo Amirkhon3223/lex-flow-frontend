@@ -11,9 +11,10 @@ import {
   Calendar,
   DollarSign,
 } from 'lucide-react';
-import type { EditCaseDialogProps } from '@/app/types/cases/cases.interfaces';
 import { useClientsStore } from '@/app/store/clients.store';
+import type { EditCaseDialogProps } from '@/app/types/cases/cases.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
+import { formatDescription } from '@/shared/utils/textFormatting';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -60,7 +61,11 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit?.(formData);
+    const formattedData = {
+      ...formData,
+      description: formatDescription(formData.description),
+    };
+    onSubmit?.(formattedData);
     onOpenChange(false);
   };
 

@@ -31,6 +31,7 @@
       "PREVIEW": "Preview"
     },
     "OF": "of",
+    "LOADING": "Loading...",
     "COMMENTS": {
       "ADD": "Add comment"
     },
@@ -220,8 +221,10 @@
     "TABS": {
       "DOCUMENTS": "Documents",
       "TIMELINE": "Timeline",
-      "NOTES": "Notes"
+      "NOTES": "Notes",
+      "DESCRIPTION": "Description"
     },
+    "NO_DESCRIPTION": "No description available",
     "DOC_VERSION": {
       "SINGULAR": "version",
       "PLURAL": "versions",
@@ -229,11 +232,23 @@
     },
     "NOTES": {
       "PLACEHOLDER": "Add notes about the case...",
-      "SAVE": "Save note"
+      "SAVE": "Save note",
+      "SAVING": "Saving...",
+      "SAVED": "Saved",
+      "ERROR": "Save error",
+      "LAST_SAVED": "Saved",
+      "SECONDS_AGO": "s ago",
+      "MINUTES_AGO": "m ago",
+      "CHARACTERS": "characters",
+      "CHARACTER": "character",
+      "AUTO_SAVE_INFO": "Notes are automatically saved 2 seconds after editing",
+      "SAVE_NOW": "Save now",
+      "DETAILED_PLACEHOLDER": "Add important notes about the case, key points, discussion details..."
     },
     "TASKS": {
       "TITLE": "Tasks",
-      "ADD": "Add task"
+      "ADD": "Add task",
+      "EMPTY": "No tasks yet"
     },
     "AI_INSIGHTS": {
       "TITLE": "AI Case Analysis",
@@ -881,7 +896,8 @@
   "COMMENTS": {
     "TITLE": "Comments",
     "ADD_PLACEHOLDER": "Add a comment...",
-    "SEND": "Send"
+    "SEND": "Send",
+    "EMPTY": "No comments yet"
   },
   "UPLOAD": {
     "TITLE": "Upload Document",

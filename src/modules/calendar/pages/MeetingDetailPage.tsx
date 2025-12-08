@@ -82,7 +82,7 @@ export function MeetingDetailPage() {
   return (
     <div>
       <UploadDocumentDialog open={isAddDocumentOpen} onOpenChange={setIsAddDocumentOpen} />
-      <CommentsDialog open={isAddNoteOpen} onOpenChange={setIsAddNoteOpen} />
+      <CommentsDialog open={isAddNoteOpen} onOpenChange={setIsAddNoteOpen}  caseId={id}/>
       <AddMeetingDialog open={isEditingOpen} onOpenChange={setIsEditingOpen} />
       <AddMeetingDialog open={isRescheduleOpen} onOpenChange={setIsRescheduleOpen} />
 

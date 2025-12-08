@@ -1,4 +1,5 @@
 import { Calendar, Edit, Link, Mail, MoreHorizontal, Paperclip, Share2, Tag, User } from 'lucide-react';
+import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import { BackButton } from '@/shared/components/BackButton';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
@@ -9,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
-import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
 
 interface CaseHeaderProps {
   title?: string;

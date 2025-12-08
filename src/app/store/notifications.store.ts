@@ -7,7 +7,7 @@ interface NotificationsState {
   unreadCount: number;
   loading: boolean;
   error: string | null;
-  fetchNotifications: (page?: number; limit?: number) => Promise<void>;
+  fetchNotifications: (page?: number, limit?: number) => Promise<void>;
   fetchUnread: (limit?: number) => Promise<void>;
   markAsRead: (id: string) => Promise<void>;
   markAllAsRead: () => Promise<void>;

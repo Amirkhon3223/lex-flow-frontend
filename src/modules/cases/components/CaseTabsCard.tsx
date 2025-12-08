@@ -1,4 +1,6 @@
-import { Download, Eye, FileText, History } from 'lucide-react';
+import { useEffect, useState, useCallback } from "react";
+import { Download, Eye, FileText, History, Save, Check, Clock } from 'lucide-react';
+import { useCasesStore } from "@/app/store/cases.store.ts";
 import { DocumentStatusEnum } from '@/app/types/cases/cases.enums';
 import type { CaseDocumentInterface, TimelineEventInterface } from '@/app/types/cases/cases.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -10,14 +12,77 @@ import { Textarea } from '@/shared/ui/textarea';
 import { getDocumentStatusColor } from '@/shared/utils/styleHelpers';
 
 interface CaseTabsCardProps {
+  caseId: string;
   documents: CaseDocumentInterface[];
   timeline: TimelineEventInterface[];
   onDocumentClick: (docId: number) => void;
   onDownloadDocument: (docName: string) => void;
 }
 
-export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadDocument }: CaseTabsCardProps) {
+export function CaseTabsCard({ caseId, documents, timeline, onDocumentClick, onDownloadDocument }: CaseTabsCardProps) {
   const { t } = useI18n();
+  const { selectedCase, updateCase } = useCasesStore();
+  const [notes, setNotes] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
+  useEffect(() => {
+    if (selectedCase?.notes) {
+      setNotes(selectedCase.notes);
+    }
+  }, [selectedCase]);
+
+  // Auto-save with debounce
+  useEffect(() => {
+    if (notes === selectedCase?.notes) return; // Don't save if unchanged
+
+    const timer = setTimeout(() => {
+      saveNotes();
+    }, 2000); // Auto-save after 2 seconds of inactivity
+
+    return () => clearTimeout(timer);
+  }, [notes]);
+
+  const saveNotes = useCallback(async () => {
+    if (notes === selectedCase?.notes) return; // Skip if no changes
+
+    setIsSaving(true);
+    setSaveStatus('saving');
+
+    try {
+      await updateCase(caseId, { notes });
+
+      setLastSaved(new Date());
+      setSaveStatus('saved');
+
+      // Reset to idle after 2 seconds
+      setTimeout(() => {
+        setSaveStatus('idle');
+      }, 2000);
+    } catch (error) {
+      console.error('Failed to save notes:', error);
+      setSaveStatus('error');
+    } finally {
+      setIsSaving(false);
+    }
+  }, [notes, selectedCase?.notes, caseId, updateCase]);
+
+  const formatLastSaved = () => {
+    if (!lastSaved) return '';
+
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - lastSaved.getTime()) / 1000);
+
+    if (diffInSeconds < 60) return `${diffInSeconds}${t('CASES.NOTES.SECONDS_AGO')}`;
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}${t('CASES.NOTES.MINUTES_AGO')}`;
+
+    return lastSaved.toLocaleTimeString('ru-RU', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   return (
     <Card>
       <Tabs defaultValue="documents" className="w-full">
@@ -34,6 +99,12 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
               className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
             >
               {t('CASES.TABS.TIMELINE')}
+            </TabsTrigger>
+            <TabsTrigger
+              value="description"
+              className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
+            >
+              {t('CASES.TABS.DESCRIPTION')}
             </TabsTrigger>
             <TabsTrigger
               value="notes"
@@ -124,14 +195,83 @@ export function CaseTabsCard({ documents, timeline, onDocumentClick, onDownloadD
           </div>
         </TabsContent>
 
-        <TabsContent value="notes" className="p-2">
-          <Textarea
-            placeholder={t('CASES.NOTES.PLACEHOLDER')}
-            className="min-h-[150px] sm:min-h-[200px] rounded-xl border-input focus-visible:ring-blue-500 resize-none text-sm sm:text-base"
-          />
-          <Button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm sm:text-base">
-            {t('CASES.NOTES.SAVE')}
-          </Button>
+        <TabsContent value="description" className="p-4 sm:p-6">
+          <div className="prose prose-sm sm:prose max-w-none">
+            <p className="whitespace-pre-wrap text-sm sm:text-base text-foreground leading-relaxed">
+              {selectedCase?.description || t('CASES.NO_DESCRIPTION')}
+            </p>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="notes" className="p-4 space-y-4">
+          {/* Notes Header with Status */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-medium text-muted-foreground">
+                {t('CASES.NOTES.PLACEHOLDER')}
+              </h3>
+
+              {/* Save Status Indicator */}
+              {saveStatus !== 'idle' && (
+                <div className="flex items-center gap-1.5 text-xs">
+                  {saveStatus === 'saving' && (
+                    <>
+                      <Clock className="w-3.5 h-3.5 text-blue-500 animate-pulse" />
+                      <span className="text-blue-500">{t('CASES.NOTES.SAVING')}</span>
+                    </>
+                  )}
+                  {saveStatus === 'saved' && (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-green-500" />
+                      <span className="text-green-500">{t('CASES.NOTES.SAVED')}</span>
+                    </>
+                  )}
+                  {saveStatus === 'error' && (
+                    <span className="text-red-500">{t('CASES.NOTES.ERROR')}</span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Character Count & Last Saved */}
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              {lastSaved && saveStatus === 'idle' && (
+                <span className="hidden sm:inline">
+                  {t('CASES.NOTES.LAST_SAVED')} {formatLastSaved()}
+                </span>
+              )}
+              <span>
+                {notes.length} {notes.length === 1 ? t('CASES.NOTES.CHARACTER') : t('CASES.NOTES.CHARACTERS')}
+              </span>
+            </div>
+          </div>
+
+          {/* Notes Textarea */}
+          <div className="relative">
+            <Textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="min-h-[300px] rounded-xl resize-none focus:ring-2 focus:ring-blue-500 transition-all"
+              placeholder={t('CASES.NOTES.DETAILED_PLACEHOLDER')}
+            />
+          </div>
+
+          {/* Manual Save Button */}
+          <div className="flex items-center justify-between pt-2">
+            <p className="text-xs text-muted-foreground">
+              💡 {t('CASES.NOTES.AUTO_SAVE_INFO')}
+            </p>
+
+            <Button
+              onClick={saveNotes}
+              disabled={isSaving || notes === selectedCase?.notes}
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl disabled:opacity-50"
+              size="sm"
+            >
+              <Save className="w-4 h-4 mr-2" />
+              {isSaving ? t('CASES.NOTES.SAVING') : t('CASES.NOTES.SAVE_NOW')}
+            </Button>
+          </div>
         </TabsContent>
       </Tabs>
     </Card>

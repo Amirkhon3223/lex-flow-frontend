@@ -14,6 +14,7 @@ import {
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
 import { useI18n } from '@/shared/context/I18nContext';
+import { formatDescription } from '@/shared/utils/textFormatting';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -87,7 +88,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId }: AddCaseD
         category: formData.category,
         deadline: formData.deadline,
         fee: parseFloat(formData.fee) || 0,
-        description: formData.description,
+        description: formatDescription(formData.description),
         priority: formData.priority as any,
       };
 

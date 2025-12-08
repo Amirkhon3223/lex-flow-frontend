@@ -1,10 +1,6 @@
-/**
- * @file AddTaskDialog.tsx
- * @description Диалог для добавления новой задачи к делу
- */
-
 import { useState } from 'react';
 import { CheckSquare } from 'lucide-react';
+import { useCasesStore } from '@/app/store/cases.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
@@ -19,27 +15,34 @@ import { Label } from '@/shared/ui/label';
 interface AddTaskDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit?: (taskData: { title: string }) => void;
+  caseId: string;
 }
 
-export function AddTaskDialog({ open, onOpenChange, onSubmit }: AddTaskDialogProps) {
+export function AddTaskDialog({ open, onOpenChange, caseId }: AddTaskDialogProps) {
   const { t } = useI18n();
+
+  const { addTask, fetchTasks } = useCasesStore();
   const [title, setTitle] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit?.({ title });
-    onOpenChange(false);
+
+    if (!title.trim()) return;
+
+    await addTask(caseId, title);
+    await fetchTasks(caseId);
+
     setTitle('');
+    onOpenChange(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-background/95 backdrop-blur-2xl border-border/50">
+      <DialogContent className="max-w-md bg-background/95 backdrop-blur-xl border-border/50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-2xl">
             <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center">
-              <CheckSquare className="w-6 h-6 text-green-600 dark:text-green-400" strokeWidth={2} />
+              <CheckSquare className="w-6 h-6 text-green-600" strokeWidth={2} />
             </div>
             {t('TASKS.NEW_TASK')}
           </DialogTitle>
@@ -47,32 +50,21 @@ export function AddTaskDialog({ open, onOpenChange, onSubmit }: AddTaskDialogPro
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-sm text-foreground">
-              {t('TASKS.TASK_TITLE')} *
-            </Label>
+            <Label htmlFor="title">{t('TASKS.TASK_TITLE')} *</Label>
             <Input
               id="title"
               placeholder={t('TASKS.TASK_TITLE_PLACEHOLDER')}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="h-12 rounded-xl border-input focus-visible:ring-green-500"
+              className="h-12 rounded-xl"
               required
             />
           </div>
-          <div className="flex items-center gap-3 pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
-            >
+          <div className="flex gap-3">
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
               {t('COMMON.ACTIONS.CANCEL')}
             </Button>
-            <Button
-              type="submit"
-              className="flex-1 h-12 bg-green-500 hover:bg-green-600 text-white rounded-xl shadow-md"
-            >
-              <CheckSquare className="w-4 h-4 mr-2" strokeWidth={2} />
+            <Button type="submit" className="flex-1 bg-green-500 hover:bg-green-600 text-white">
               {t('TASKS.CREATE_TASK')}
             </Button>
           </div>
