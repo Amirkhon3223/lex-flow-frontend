@@ -26,37 +26,65 @@ export interface CaseInterface {
   progress: number;
   description: string;
   fee: number;
+  paidAmount: number;
   documents: number;
+  commentsCount: number;
+  tasksCount: number;
   createdBy: string;
   assignedTo: string | null;
   createdAt: string;
   updatedAt: string;
   lastUpdate: string;
+  notes?: string;
 }
 
 export interface CaseDocumentInterface {
-  id: number;
+  id: string;  // UUID from backend
+  caseId: string;
   name: string;
-  size: string;
+  size: string;  // Formatted size (e.g., "2.5 MB")
+  fileSize: number;  // Size in bytes from backend
   date: string;
   versions: number;
   status: DocumentStatusEnum;
+  fileUrl: string;
+  mimeType: string;
+  type: string;
+  category: string;
+  uploadedBy: string;
+  createdAt: string;
+  updatedAt: string;
+  lastModified: string;
 }
 
 export interface TimelineEventInterface {
-  id: string;
-  caseId: string;
+  id: string;  // UUID from backend
+  caseId: string;  // UUID from backend
   eventDate: string;
   title: string;
   description: string;
   eventType: TimelineEventTypeEnum;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface CaseTaskInterface {
-  id: number;
+  id: string;  // UUID from backend
+  caseId: string;  // UUID from backend
   title: string;
   completed: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CommentInterface {
+  id: string;  // UUID from backend
+  caseId: string;  // UUID from backend
+  content: string;
+  createdBy: string;  // API returns createdBy, not authorId
+  userName: string;  // API returns userName, not authorName
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface AIInsightInterface {
@@ -67,7 +95,7 @@ export interface AIInsightInterface {
 }
 
 export interface CaseCardInterface {
-  id: number;
+  id: string;  // UUID from backend
   title: string;
   client: string;
   clientInitials: string;
@@ -156,6 +184,7 @@ export interface UpdateCaseInterface {
   description?: string;
   fee?: number;
   assignedTo?: string;
+  notes?: string;
 }
 
 export interface CaseListResponse {

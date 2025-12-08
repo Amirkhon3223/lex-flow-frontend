@@ -11,14 +11,17 @@ import {
   Calendar,
   DollarSign,
 } from 'lucide-react';
+import { useClientsStore } from '@/app/store/clients.store';
 import type { EditCaseDialogProps } from '@/app/types/cases/cases.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
+import { formatDescription } from '@/shared/utils/textFormatting';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
@@ -33,6 +36,7 @@ import { Textarea } from '@/shared/ui/textarea';
 
 export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: EditCaseDialogProps) {
   const { t } = useI18n();
+  const { clients, fetchClients } = useClientsStore();
   const [formData, setFormData] = useState({
     title: '',
     client: '',
@@ -44,6 +48,12 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
   });
 
   useEffect(() => {
+    if (open) {
+      fetchClients({ limit: 100 });
+    }
+  }, [open, fetchClients]);
+
+  useEffect(() => {
     if (initialData) {
       setFormData(initialData);
     }
@@ -51,7 +61,11 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit?.(formData);
+    const formattedData = {
+      ...formData,
+      description: formatDescription(formData.description),
+    };
+    onSubmit?.(formattedData);
     onOpenChange(false);
   };
 
@@ -65,6 +79,9 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             </div>
             {t('CASES.EDIT_DIALOG.TITLE')}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            {t('CASES.EDIT_DIALOG.DESCRIPTION')}
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
@@ -97,10 +114,11 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
                   <SelectValue placeholder={t('CASES.EDIT_DIALOG.SELECT_CLIENT_PLACEHOLDER')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="client1">Иванов Петр Алексеевич</SelectItem>
-                  <SelectItem value="client2">ООО "ТехноСтрой"</SelectItem>
-                  <SelectItem value="client3">Смирнова Анна Викторовна</SelectItem>
-                  <SelectItem value="client4">ИП Петров М.И.</SelectItem>
+                  {clients?.map((client) => (
+                    <SelectItem key={client.id} value={client.id}>
+                      {client.companyName || `${client.firstName} ${client.lastName}`}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

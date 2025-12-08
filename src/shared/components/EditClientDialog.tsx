@@ -38,8 +38,10 @@
  * - Diff текущих и новых данных перед сохранением
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { User, Mail, Phone, MapPin, Calendar, Hash, Tag } from 'lucide-react';
+import { useClientsStore } from '@/app/store/clients.store';
+import { ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
@@ -69,29 +71,73 @@ interface EditClientDialogProps {
 
 export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) {
   const { t } = useI18n();
+  const { selectedClient, updateClient } = useClientsStore();
+
   const [formData, setFormData] = useState({
-    firstName: 'Петр',
-    lastName: 'Иванов',
-    middleName: 'Алексеевич',
-    email: 'ivanov@mail.ru',
-    phone: '+7 (999) 123-45-67',
-    address: 'г. Москва, ул. Ленина, д. 10, кв. 25',
-    birthDate: '1985-03-15',
-    inn: '771234567890',
-    clientType: 'individual',
-    category: 'vip',
-    source: 'referral',
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    email: '',
+    phone: '',
+    address: '',
+    birthDate: '',
+    inn: '',
+    category: '',
+    status: '',
     notes: '',
   });
+
+  useEffect(() => {
+    if (selectedClient && open) {
+      setFormData({
+        firstName: selectedClient.firstName || '',
+        lastName: selectedClient.lastName || '',
+        middleName: selectedClient.middleName || '',
+        email: selectedClient.email || '',
+        phone: selectedClient.phone || '',
+        address: selectedClient.address || '',
+        birthDate: selectedClient.birthDate || '',
+        inn: selectedClient.inn || '',
+        category: selectedClient.category || '',
+        status: selectedClient.status || '',
+        notes: selectedClient.notes || '',
+      });
+    }
+  }, [selectedClient, open]);
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onOpenChange(false);
+
+    if (!selectedClient) return;
+
+    try {
+      await updateClient(selectedClient.id, {
+        firstName: formData.firstName || undefined,
+        lastName: formData.lastName || undefined,
+        middleName: formData.middleName || undefined,
+        email: formData.email || undefined,
+        phone: formData.phone || undefined,
+        address: formData.address || undefined,
+        birthDate: formData.birthDate || undefined,
+        inn: formData.inn || undefined,
+        category: formData.category as ClientCategoryEnum || undefined,
+        status: formData.status as ClientStatusEnum || undefined,
+        notes: formData.notes || undefined,
+      });
+
+      onOpenChange(false);
+    } catch (error) {
+      console.error('Failed to update client:', error);
+    }
   };
+
+  if (!selectedClient) {
+    return null;
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -233,17 +279,18 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="clientType">{t('CLIENTS.EDIT_DIALOG.CLIENT_TYPE')}</Label>
+                  <Label htmlFor="status">{t('CLIENTS.FIELDS.STATUS')}</Label>
                   <Select
-                    value={formData.clientType}
-                    onValueChange={(value) => handleChange('clientType', value)}
+                    value={formData.status}
+                    onValueChange={(value) => handleChange('status', value)}
                   >
                     <SelectTrigger className="h-11 rounded-xl bg-muted/30 border-input">
-                      <SelectValue placeholder={t('CLIENTS.EDIT_DIALOG.SELECT_TYPE')} />
+                      <SelectValue placeholder={t('CLIENTS.SELECT_STATUS')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="individual">{t('CLIENTS.TYPES.INDIVIDUAL')}</SelectItem>
-                      <SelectItem value="entity">{t('CLIENTS.TYPES.LEGAL')}</SelectItem>
+                      <SelectItem value="active">{t('CLIENTS.STATUS.ACTIVE')}</SelectItem>
+                      <SelectItem value="inactive">{t('CLIENTS.STATUS.INACTIVE')}</SelectItem>
+                      <SelectItem value="pending">{t('CLIENTS.STATUS.PENDING')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -258,27 +305,12 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="standard">{t('CLIENTS.CATEGORIES.STANDARD')}</SelectItem>
+                      <SelectItem value="premium">{t('CLIENTS.CATEGORIES.PREMIUM')}</SelectItem>
                       <SelectItem value="vip">{t('CLIENTS.CATEGORIES.VIP')}</SelectItem>
-                      <SelectItem value="corporate">{t('CLIENTS.EDIT_DIALOG.CORPORATE')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="source">{t('CLIENTS.EDIT_DIALOG.SOURCE')}</Label>
-                  <Select
-                    value={formData.source}
-                    onValueChange={(value) => handleChange('source', value)}
-                  >
-                    <SelectTrigger className="h-11 rounded-xl bg-muted/30 border-input">
-                      <SelectValue placeholder={t('CLIENTS.EDIT_DIALOG.SELECT_SOURCE')} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="website">{t('CLIENTS.EDIT_DIALOG.SOURCE_WEBSITE')}</SelectItem>
-                      <SelectItem value="referral">{t('CLIENTS.EDIT_DIALOG.SOURCE_REFERRAL')}</SelectItem>
-                      <SelectItem value="adv">{t('CLIENTS.EDIT_DIALOG.SOURCE_ADVERTISING')}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                <div className="space-y-2"></div>
                 <div className="col-span-2 space-y-2">
                   <Label htmlFor="notes">{t('CLIENTS.FIELDS.NOTES')}</Label>
                   <Textarea

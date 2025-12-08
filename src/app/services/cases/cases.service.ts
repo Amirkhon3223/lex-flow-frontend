@@ -6,6 +6,8 @@ import type {
   CaseListResponse,
   TimelineEventInterface,
   CreateTimelineEventInterface,
+  CommentInterface,
+  CaseTaskInterface,
 } from '../../types/cases/cases.interfaces';
 
 export const casesService = {
@@ -17,7 +19,10 @@ export const casesService = {
     clientId?: string;
     search?: string;
   }): Promise<CaseListResponse> => {
-    const response = await httpClient.get<CaseListResponse>('/cases', { params });
+    const cleanParams = params ? Object.fromEntries(
+      Object.entries(params).filter(([_, value]) => value !== undefined && value !== '' && value !== 'all')
+    ) : {};
+    const response = await httpClient.get<CaseListResponse>('/cases', { params: cleanParams });
     return response.data;
   },
 
@@ -54,5 +59,65 @@ export const casesService = {
       data
     );
     return response.data;
+  },
+
+  // Comments API Methods
+  getComments: async (caseId: string): Promise<CommentInterface[]> => {
+    const response = await httpClient.get<CommentInterface[]>(`/cases/${caseId}/comments`);
+    return response.data;
+  },
+
+  addComment: async (caseId: string, content: string): Promise<CommentInterface> => {
+    const response = await httpClient.post<CommentInterface>(
+      `/cases/${caseId}/comments`,
+      { content }
+    );
+    return response.data;
+  },
+
+  updateComment: async (
+    caseId: string,
+    commentId: string,
+    content: string
+  ): Promise<CommentInterface> => {
+    const response = await httpClient.put<CommentInterface>(
+      `/cases/${caseId}/comments/${commentId}`,
+      { content }
+    );
+    return response.data;
+  },
+
+  deleteComment: async (caseId: string, commentId: string): Promise<void> => {
+    await httpClient.delete(`/cases/${caseId}/comments/${commentId}`);
+  },
+
+  // Tasks API Methods
+  getTasks: async (caseId: string): Promise<CaseTaskInterface[]> => {
+    const response = await httpClient.get<CaseTaskInterface[]>(`/cases/${caseId}/tasks`);
+    return response.data;
+  },
+
+  addTask: async (caseId: string, title: string): Promise<CaseTaskInterface> => {
+    const response = await httpClient.post<CaseTaskInterface>(
+      `/cases/${caseId}/tasks`,
+      { title, completed: false }
+    );
+    return response.data;
+  },
+
+  updateTask: async (
+    caseId: string,
+    taskId: string,
+    data: { title?: string; completed?: boolean }
+  ): Promise<CaseTaskInterface> => {
+    const response = await httpClient.put<CaseTaskInterface>(
+      `/cases/${caseId}/tasks/${taskId}`,
+      data
+    );
+    return response.data;
+  },
+
+  deleteTask: async (caseId: string, taskId: string): Promise<void> => {
+    await httpClient.delete(`/cases/${caseId}/tasks/${taskId}`);
   },
 };

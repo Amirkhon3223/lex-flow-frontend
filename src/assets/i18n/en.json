@@ -31,6 +31,7 @@
       "PREVIEW": "Preview"
     },
     "OF": "of",
+    "LOADING": "Loading...",
     "COMMENTS": {
       "ADD": "Add comment"
     },
@@ -43,6 +44,12 @@
       "ARCHIVED": "Archived",
       "ON_HOLD": "On Hold",
       "REVIEW": "Under Review",
+      "NEW": "New",
+      "WAITING": "Waiting",
+      "CLOSED": "Closed",
+      "WON": "Won",
+      "LOST": "Lost",
+      "SETTLED": "Settled",
       "STATUS": "Status"
     },
     "PRIORITY": {
@@ -57,7 +64,8 @@
       "LOADING": "Loading...",
       "NO_DATA": "No data",
       "CONFIRM_DELETE": "Are you sure you want to delete?",
-      "CONFIRM_ARCHIVE": "Are you sure you want to archive?"
+      "CONFIRM_ARCHIVE": "Are you sure you want to archive?",
+      "DELETED": "Successfully deleted"
     },
     "TIME": {
       "TODAY": "Today",
@@ -178,6 +186,7 @@
     },
     "EDIT_DIALOG": {
       "TITLE": "Edit case",
+      "DESCRIPTION": "Update case information",
       "SAVE": "Save changes",
       "TITLE_PLACEHOLDER": "E.g.: Labor dispute - dismissal",
       "SELECT_CLIENT_PLACEHOLDER": "Select client",
@@ -212,8 +221,10 @@
     "TABS": {
       "DOCUMENTS": "Documents",
       "TIMELINE": "Timeline",
-      "NOTES": "Notes"
+      "NOTES": "Notes",
+      "DESCRIPTION": "Description"
     },
+    "NO_DESCRIPTION": "No description available",
     "DOC_VERSION": {
       "SINGULAR": "version",
       "PLURAL": "versions",
@@ -221,11 +232,23 @@
     },
     "NOTES": {
       "PLACEHOLDER": "Add notes about the case...",
-      "SAVE": "Save note"
+      "SAVE": "Save note",
+      "SAVING": "Saving...",
+      "SAVED": "Saved",
+      "ERROR": "Save error",
+      "LAST_SAVED": "Saved",
+      "SECONDS_AGO": "s ago",
+      "MINUTES_AGO": "m ago",
+      "CHARACTERS": "characters",
+      "CHARACTER": "character",
+      "AUTO_SAVE_INFO": "Notes are automatically saved 2 seconds after editing",
+      "SAVE_NOW": "Save now",
+      "DETAILED_PLACEHOLDER": "Add important notes about the case, key points, discussion details..."
     },
     "TASKS": {
       "TITLE": "Tasks",
-      "ADD": "Add task"
+      "ADD": "Add task",
+      "EMPTY": "No tasks yet"
     },
     "AI_INSIGHTS": {
       "TITLE": "AI Case Analysis",
@@ -234,6 +257,7 @@
     "CLIENT": {
       "TITLE": "Client",
       "SINCE": "Client since",
+      "NEW": "New client",
       "PHONE": "Phone",
       "EMAIL": "Email",
       "TOTAL_CASES": "Total cases",
@@ -872,7 +896,8 @@
   "COMMENTS": {
     "TITLE": "Comments",
     "ADD_PLACEHOLDER": "Add a comment...",
-    "SEND": "Send"
+    "SEND": "Send",
+    "EMPTY": "No comments yet"
   },
   "UPLOAD": {
     "TITLE": "Upload Document",

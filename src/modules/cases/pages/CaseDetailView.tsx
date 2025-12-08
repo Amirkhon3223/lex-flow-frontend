@@ -1,16 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
-import {
-  DocumentStatusEnum,
-  TimelineEventTypeEnum,
-  AIInsightTypeEnum,
-  AIInsightPriorityEnum,
-} from '@/app/types/cases/cases.enums';
+import { useCasesStore } from '@/app/store/cases.store';
+import { useClientsStore } from '@/app/store/clients.store';
 import type {
   CaseDocumentInterface,
-  TimelineEventInterface,
-  CaseTaskInterface,
   AIInsightInterface,
 } from '@/app/types/cases/cases.interfaces';
 import { CaseAIInsightsCard } from '@/modules/cases/components/CaseAIInsightsCard';
@@ -26,11 +20,12 @@ import { AddTaskDialog } from '@/shared/components/AddTaskDialog';
 import { CommentsDialog } from '@/shared/components/CommentsDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
-import { useCasesStore } from '@/app/store/cases.store';
 
 export function CaseDetailView() {
+  // ВАЖНО: правильный вариант — гарантированно string
+  const { id = "" } = useParams<{ id: string }>();
+
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
   const onBack = () => navigate(-1);
 
   const [isUploadDocumentDialogOpen, setIsUploadDocumentDialogOpen] = useState(false);
@@ -39,7 +34,21 @@ export function CaseDetailView() {
   const [isEditCaseDialogOpen, setIsEditCaseDialogOpen] = useState(false);
   const [initialized, setInitialized] = useState(false);
 
-  const { selectedCase, timeline, loading, fetchCaseById, fetchTimeline, updateCase } = useCasesStore();
+  const {
+    selectedCase,
+    timeline,
+    fetchCaseById,
+    fetchTimeline,
+    updateCase,
+    tasks,
+    comments,
+    fetchTasks,
+    fetchComments,
+    tasksLoading,
+  } = useCasesStore();
+
+  const { selectedClient, fetchClientById } = useClientsStore();
+  const { t } = useI18n();
 
   useEffect(() => {
     if (!id || initialized) return;
@@ -47,13 +56,28 @@ export function CaseDetailView() {
     const loadData = async () => {
       await fetchCaseById(id);
       await fetchTimeline(id);
+      await fetchTasks(id);
+      await fetchComments(id);
       setInitialized(true);
     };
 
     loadData();
-  }, [id, initialized, fetchCaseById, fetchTimeline]);
+  }, [id, initialized, fetchCaseById, fetchTimeline, fetchTasks, fetchComments]);
 
-  const handleEditCaseSubmit = async (caseData: any) => {
+  // Загружаем клиента когда получили кейс
+  useEffect(() => {
+    if (selectedCase?.clientId) {
+      fetchClientById(selectedCase.clientId);
+    }
+  }, [selectedCase?.clientId, fetchClientById]);
+
+  const handleEditCaseSubmit = async (caseData: {
+    title: string;
+    description: string;
+    deadline: string;
+    fee: string;
+    priority: string;
+  }) => {
     if (!id) return;
     try {
       await updateCase(id, {
@@ -73,37 +97,29 @@ export function CaseDetailView() {
 
   const caseData = selectedCase
     ? {
-        title: selectedCase.title,
-        client: selectedCase.clientId,
-        category: selectedCase.category,
-        deadline: selectedCase.deadline,
-        fee: selectedCase.fee.toString(),
-        description: selectedCase.description,
-        priority: selectedCase.priority,
-      }
+      title: selectedCase.title,
+      client: selectedCase.clientId,
+      category: selectedCase.category,
+      deadline: selectedCase.deadline,
+      fee: selectedCase.fee.toString(),
+      description: selectedCase.description,
+      priority: selectedCase.priority,
+    }
     : {
-        title: '',
-        client: '',
-        category: '',
-        deadline: '',
-        fee: '',
-        description: '',
-        priority: '',
-      };
+      title: '',
+      client: '',
+      category: '',
+      deadline: '',
+      fee: '',
+      description: '',
+      priority: '',
+    };
 
-  const documents: CaseDocumentInterface[] = []; // TODO: Добавить документы в сторе
+  const documents: CaseDocumentInterface[] = []; // TODO: Подключить API документов
+  const aiInsights: AIInsightInterface[] = []; // TODO: Подключить AI-insights
 
-  const tasks: CaseTaskInterface[] = []; // TODO: Добавить задачи в сторе
-
-  const aiInsights: AIInsightInterface[] = []; // TODO: Добавить insights в сторе
-
-  const handleAIReport = () => {
-    navigate(ROUTES.AI_ASSISTANT);
-  };
-
-  const handleClientProfile = () => {
-    navigate(`${ROUTES.CLIENTS.BASE}/${clientId}`);
-  };
+  const handleAIReport = () => navigate(ROUTES.AI_ASSISTANT);
+  const handleClientProfile = () => navigate(`${ROUTES.CLIENTS.BASE}/${clientId}`);
 
   const handleDocumentClick = (docId: number) => {
     navigate(ROUTES.DOCUMENTS.DETAIL(docId.toString()));
@@ -114,31 +130,48 @@ export function CaseDetailView() {
     link.href = '#';
     link.download = docName;
     link.click();
-    console.log('Downloading:', docName);
   };
 
-  const handleCopyLink = () => {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url);
-    console.log('Link copied:', url);
-  };
+  const handleCopyLink = () => navigator.clipboard.writeText(window.location.href);
 
   const handleShareEmail = () => {
     const url = window.location.href;
-    const subject = t('CASES.SHARE.SUBJECT');
-    const body = t('CASES.SHARE.BODY', { url });
-    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:?subject=${encodeURIComponent(
+      t('CASES.SHARE.SUBJECT')
+    )}&body=${encodeURIComponent(t('CASES.SHARE.BODY', { url }))}`;
   };
 
-  const { t } = useI18n();
+  const clientSince = selectedClient?.joinDate
+    ? new Date(selectedClient.joinDate).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })
+    : selectedClient?.createdAt
+      ? new Date(selectedClient.createdAt).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })
+      : '';
 
   return (
     <div>
+      {/* ДИАЛОГИ */}
       <UploadDocumentDialog open={isUploadDocumentDialogOpen} onOpenChange={setIsUploadDocumentDialogOpen} />
-      <AddTaskDialog open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen} />
-      <CommentsDialog open={isCommentsDialogOpen} onOpenChange={setIsCommentsDialogOpen} />
-      <EditCaseDialog open={isEditCaseDialogOpen} onOpenChange={setIsEditCaseDialogOpen} initialData={caseData} onSubmit={handleEditCaseSubmit} />
 
+      <AddTaskDialog
+        caseId={id}     // теперь всегда string
+        open={isAddTaskDialogOpen}
+        onOpenChange={setIsAddTaskDialogOpen}
+      />
+
+      <CommentsDialog
+        caseId={id}     // теперь всегда string
+        open={isCommentsDialogOpen}
+        onOpenChange={setIsCommentsDialogOpen}
+      />
+
+      <EditCaseDialog
+        open={isEditCaseDialogOpen}
+        onOpenChange={setIsEditCaseDialogOpen}
+        initialData={caseData}
+        onSubmit={handleEditCaseSubmit}
+      />
+
+      {/* ХЕДЕР */}
       <CaseHeader
         title={selectedCase?.title}
         clientName={selectedCase?.clientName}
@@ -152,6 +185,7 @@ export function CaseDetailView() {
         onAddDocument={() => setIsUploadDocumentDialogOpen(true)}
       />
 
+      {/* ОСНОВНОЙ КОНТЕНТ */}
       <main className="py-4 sm:py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
@@ -159,11 +193,18 @@ export function CaseDetailView() {
               progress={selectedCase?.progress}
               documentsCount={selectedCase?.documents}
               eventsCount={timeline.length}
-              daysUntilTrial={selectedCase?.deadline ? Math.ceil((new Date(selectedCase.deadline).getTime() - new Date().getTime()) / (1000 * 3600 * 24)) : 0}
-              tasksCount={0}
+              daysUntilTrial={
+                selectedCase?.deadline
+                  ? Math.ceil((new Date(selectedCase.deadline).getTime() - Date.now()) / (1000 * 3600 * 24))
+                  : 0
+              }
+              tasksCount={selectedCase?.tasksCount ?? 0}
             />
+
             <CaseAIInsightsCard insights={aiInsights} onViewFullReport={handleAIReport} />
+
             <CaseTabsCard
+              caseId={id}
               documents={documents}
               timeline={timeline}
               onDocumentClick={handleDocumentClick}
@@ -175,15 +216,29 @@ export function CaseDetailView() {
             <CaseClientCard
               clientName={selectedCase?.clientName}
               clientAvatar={selectedCase?.clientAvatar}
-              clientPhone=""
-              clientEmail=""
-              clientCases={0}
-              clientSince={selectedCase?.createdAt ? new Date(selectedCase.createdAt).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) : ''}
+              clientPhone={selectedClient?.phone || ''}
+              clientEmail={selectedClient?.email || ''}
+              clientCases={selectedClient?.totalCases ?? 0}
+              clientSince={clientSince}
               onViewProfile={handleClientProfile}
             />
-            <CaseTasksCard tasks={tasks} onAddTask={() => setIsAddTaskDialogOpen(true)} />
-            <CaseFinancesCard fee={selectedCase?.fee} paidAmount={0} />
-            <CaseCommentsCard commentsCount={3} onOpenComments={() => setIsCommentsDialogOpen(true)} />
+
+            <CaseTasksCard
+              tasks={tasks}
+              loading={tasksLoading}
+              caseId={id}
+              onAddTask={() => setIsAddTaskDialogOpen(true)}
+            />
+
+            <CaseFinancesCard
+              fee={selectedCase?.fee}
+              paidAmount={selectedCase?.paidAmount ?? 0}
+            />
+
+            <CaseCommentsCard
+              commentsCount={comments.length}
+              onOpenComments={() => setIsCommentsDialogOpen(true)}
+            />
           </div>
         </div>
       </main>

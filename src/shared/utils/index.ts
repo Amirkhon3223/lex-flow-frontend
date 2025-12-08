@@ -8,6 +8,17 @@ export const formatDateTime = (date: string | Date): string => {
   return d.toLocaleString('ru-RU');
 };
 
+export const formatDateToInput = (dateString: string): string => {
+  if (!dateString) return '';
+
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
 export const debounce = <T extends (...args: unknown[]) => void>(
   func: T,
   wait: number

@@ -16,12 +16,11 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { ROUTES } from '@/app/config/routes.config';
 import { useCasesStore } from '@/app/store/cases.store';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
-import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
 import { CaseFilters } from '@/modules/cases/ui/CaseFilters';
-import { EditCaseDialog } from "@/modules/cases/ui/EditCaseDialog.tsx";
 import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
@@ -36,6 +35,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationEllipsis,
+} from '@/shared/ui/pagination';
 import { Progress } from '@/shared/ui/progress';
 import { StatCard } from '@/shared/ui/stat-card';
 import {
@@ -46,40 +54,121 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/ui/table';
+import { formatDate } from "@/shared/utils";
 
 export function CasePage() {
   const navigate = useNavigate();
   const { t } = useI18n();
-  const { cases, loading, fetchCases, deleteCase } = useCasesStore();
-  const [initialized, setInitialized] = useState(false);
+  const { cases, pagination, loading, fetchCases, deleteCase } = useCasesStore();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterPriority, setFilterPriority] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
-  const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
-  const [isEditCaseDialogOpen, setIsEditCaseDialogOpen] = useState(false);
-  const [selectedCase, setSelectedCase] = useState<CaseInterface | null>(null);
+  const [isCaseDialogOpen, setIsCaseDialogOpen] = useState(false);
+  const [editingCaseId, setEditingCaseId] = useState<string | undefined>();
+
+  const limit = viewMode === 'grid' ? 12 : 10;
+
+  const handleDelete = async (caseId: string) => {
+    try {
+      await deleteCase(caseId);
+      toast.success(t('COMMON.MESSAGES.DELETED'));
+    } catch (error) {
+      toast.error(t('COMMON.MESSAGES.ERROR'));
+    }
+  };
+
+  const handleEdit = (caseId: string) => {
+    setEditingCaseId(caseId);
+    setIsCaseDialogOpen(true);
+  };
 
   useEffect(() => {
-    if (!initialized) {
-      fetchCases({ page: 1, limit: 100 });
-      setInitialized(true);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterStatus, filterPriority, filterCategory, debouncedSearch, viewMode]);
+
+  useEffect(() => {
+    fetchCases({
+      page: currentPage,
+      limit,
+      status: filterStatus !== 'all' ? filterStatus : undefined,
+      priority: filterPriority !== 'all' ? filterPriority : undefined,
+      search: debouncedSearch || undefined,
+    });
+  }, [currentPage, limit, filterStatus, filterPriority, debouncedSearch, fetchCases]);
+
+  const filteredCases = filterCategory === 'all'
+    ? cases
+    : cases.filter(c => c.category === filterCategory);
+
+  const renderPagination = () => {
+    if (!pagination || pagination.totalPages <= 1) return null;
+
+    const pages = [];
+    const showEllipsisStart = currentPage > 3;
+    const showEllipsisEnd = currentPage < pagination.totalPages - 2;
+
+    if (showEllipsisStart) {
+      pages.push(1);
+      if (currentPage > 4) pages.push('ellipsis-start');
     }
-  }, [initialized, fetchCases]);
 
+    for (let i = Math.max(1, currentPage - 1); i <= Math.min(pagination.totalPages, currentPage + 1); i++) {
+      pages.push(i);
+    }
 
-  const filteredCases = cases.filter(caseItem => {
-    const matchesSearch = searchQuery === '' ||
-      caseItem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      caseItem.clientName.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = filterStatus === 'all' || caseItem.status === filterStatus;
-    const matchesPriority = filterPriority === 'all' || caseItem.priority === filterPriority;
-    const matchesCategory = filterCategory === 'all' || caseItem.category === filterCategory;
+    if (showEllipsisEnd) {
+      if (currentPage < pagination.totalPages - 3) pages.push('ellipsis-end');
+      pages.push(pagination.totalPages);
+    }
 
-    return matchesSearch && matchesStatus && matchesPriority && matchesCategory;
-  });
+    return (
+      <Pagination className="mt-4">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
+              className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+            />
+          </PaginationItem>
+          {pages.map((page, index) =>
+            typeof page === 'string' ? (
+              <PaginationItem key={page}>
+                <PaginationEllipsis />
+              </PaginationItem>
+            ) : (
+              <PaginationItem key={page}>
+                <PaginationLink
+                  onClick={() => setCurrentPage(page)}
+                  isActive={currentPage === page}
+                  className="cursor-pointer"
+                >
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            )
+          )}
+          <PaginationItem>
+            <PaginationNext
+              onClick={() => currentPage < pagination.totalPages && setCurrentPage(currentPage + 1)}
+              className={currentPage === pagination.totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    );
+  };
 
   const getStatusBadge = (status: CaseStatusEnum) => {
     const styles = {
@@ -100,16 +189,19 @@ export function CasePage() {
       [CaseStatusEnum.LOST]: t('COMMON.STATUS.LOST'),
       [CaseStatusEnum.SETTLED]: t('COMMON.STATUS.SETTLED'),
     };
-    return <Badge className={`${styles[status] || 'bg-gray-100 text-gray-700'} border-0`}>{labels[status] || status}</Badge>;
+    return <Badge
+      className={`${styles[status] || 'bg-gray-100 text-gray-700'} border-0`}>{labels[status] || status}</Badge>;
   };
 
   const getPriorityBadge = (priority: CasePriorityEnum) => {
     const styles = {
+      [CasePriorityEnum.URGENT]: 'bg-red-500 text-white',
       [CasePriorityEnum.HIGH]: 'bg-red-100 text-red-700',
       [CasePriorityEnum.MEDIUM]: 'bg-amber-100 text-amber-700',
       [CasePriorityEnum.LOW]: 'bg-gray-100 text-gray-700',
     };
     const labels = {
+      [CasePriorityEnum.URGENT]: t('COMMON.STATUS.URGENT'),
       [CasePriorityEnum.HIGH]: t('COMMON.PRIORITY.HIGH'),
       [CasePriorityEnum.MEDIUM]: t('COMMON.PRIORITY.MEDIUM'),
       [CasePriorityEnum.LOW]: t('COMMON.PRIORITY.LOW'),
@@ -160,7 +252,7 @@ export function CasePage() {
             <div className="flex items-center gap-3">
               <div
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
-                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5}/>
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">{t('CASES.TITLE')}</h1>
@@ -169,10 +261,13 @@ export function CasePage() {
             </div>
 
             <Button
-              onClick={() => setIsAddCaseDialogOpen(true)}
+              onClick={() => {
+                setEditingCaseId(undefined);
+                setIsCaseDialogOpen(true);
+              }}
               className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md cursor-pointer w-full sm:w-auto"
             >
-              <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+              <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
               {t('CASES.NEW_CASE')}
             </Button>
           </div>
@@ -196,7 +291,7 @@ export function CasePage() {
                 className="rounded-xl cursor-pointer"
                 onClick={() => setViewMode('table')}
               >
-                <List className="w-4 h-4" strokeWidth={2} />
+                <List className="w-4 h-4" strokeWidth={2}/>
               </Button>
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
@@ -204,7 +299,7 @@ export function CasePage() {
                 className="rounded-xl cursor-pointer"
                 onClick={() => setViewMode('grid')}
               >
-                <Grid3x3 className="w-4 h-4" strokeWidth={2} />
+                <Grid3x3 className="w-4 h-4" strokeWidth={2}/>
               </Button>
             </div>
           </div>
@@ -226,24 +321,25 @@ export function CasePage() {
           ))}
         </div>
 
-        {viewMode === 'table' ? (
-          <Card className="hidden md:block">
-            <Table>
-              <TableHeader>
-                <TableRow className="border-b border-border hover:bg-transparent">
-                  <TableHead className="text-muted-foreground">{t('CASES.FIELDS.TITLE')}</TableHead>
-                  <TableHead className="text-muted-foreground">{t('CASES.FIELDS.CLIENT')}</TableHead>
-                  <TableHead className="text-muted-foreground">{t('CASES.FIELDS.CATEGORY')}</TableHead>
-                  <TableHead className="text-muted-foreground">{t('CASES.FIELDS.STATUS')}</TableHead>
-                  <TableHead className="text-muted-foreground">{t('CASES.FIELDS.PRIORITY')}</TableHead>
-                  <TableHead className="text-muted-foreground">{t('CASES.FIELDS.PROGRESS')}</TableHead>
-                  <TableHead className="text-muted-foreground">{t('CASES.FIELDS.DEADLINE')}</TableHead>
-                  <TableHead className="text-muted-foreground">{t('CASES.FIELDS.DOCUMENTS')}</TableHead>
-                  <TableHead className="text-right text-muted-foreground">{t('COMMON.ACTIONS.ACTIONS')}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredCases.map((caseItem) => (
+        {viewMode === 'table' && (
+          <div className="hidden md:block">
+            <Card>
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-b border-border hover:bg-transparent">
+                    <TableHead className="text-muted-foreground">{t('CASES.FIELDS.TITLE')}</TableHead>
+                    <TableHead className="text-muted-foreground">{t('CASES.FIELDS.CLIENT')}</TableHead>
+                    <TableHead className="text-muted-foreground">{t('CASES.FIELDS.CATEGORY')}</TableHead>
+                    <TableHead className="text-muted-foreground">{t('CASES.FIELDS.STATUS')}</TableHead>
+                    <TableHead className="text-muted-foreground">{t('CASES.FIELDS.PRIORITY')}</TableHead>
+                    <TableHead className="text-muted-foreground">{t('CASES.FIELDS.PROGRESS')}</TableHead>
+                    <TableHead className="text-muted-foreground">{t('CASES.FIELDS.DEADLINE')}</TableHead>
+                    <TableHead className="text-muted-foreground">{t('CASES.FIELDS.DOCUMENTS')}</TableHead>
+                    <TableHead className="text-right text-muted-foreground">{t('COMMON.ACTIONS.ACTIONS')}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredCases.map((caseItem) => (
                   <TableRow
                     key={caseItem.id}
                     onClick={() => navigate(ROUTES.CASES.DETAIL(caseItem.id.toString()))}
@@ -253,7 +349,7 @@ export function CasePage() {
                       <div className="max-w-[300px]">
                         <div className="tracking-tight mb-1 truncate">{caseItem.title}</div>
                         <div className="text-xs text-muted-foreground">
-                          Создано: {caseItem.createdAt}
+                          Создано: {formatDate(caseItem.createdAt)}
                         </div>
                       </div>
                     </TableCell>
@@ -279,18 +375,18 @@ export function CasePage() {
                         <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
                           <span>{caseItem.progress}%</span>
                         </div>
-                        <Progress value={caseItem.progress} className="h-1.5" />
+                        <Progress value={caseItem.progress} className="h-1.5"/>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                        <Calendar className="w-3.5 h-3.5" strokeWidth={2} />
-                        {caseItem.deadline}
+                        <Calendar className="w-3.5 h-3.5" strokeWidth={2}/>
+                        {formatDate(caseItem.deadline)}
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                        <FileText className="w-3.5 h-3.5" strokeWidth={2} />
+                        <FileText className="w-3.5 h-3.5" strokeWidth={2}/>
                         {caseItem.documents}
                       </div>
                     </TableCell>
@@ -303,12 +399,12 @@ export function CasePage() {
                             className="rounded-xl cursor-pointer focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <MoreHorizontal className="w-4 h-4" strokeWidth={2} />
+                            <MoreHorizontal className="w-4 h-4" strokeWidth={2}/>
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="rounded-xl">
                           <DropdownMenuLabel>{t('COMMON.ACTIONS.ACTIONS')}</DropdownMenuLabel>
-                          <DropdownMenuSeparator />
+                          <DropdownMenuSeparator/>
                           <DropdownMenuItem
                             onClick={(e) => {
                               e.stopPropagation();
@@ -316,29 +412,28 @@ export function CasePage() {
                             }}
                             className="cursor-pointer"
                           >
-                            <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
+                            <Eye className="w-4 h-4 mr-2" strokeWidth={2}/>
                             {t('COMMON.ACTIONS.OPEN')}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={(e) => {
                               e.stopPropagation();
-                              setSelectedCase(caseItem);
-                              setIsEditCaseDialogOpen(true);
+                              handleEdit(caseItem.id);
                             }}
                             className="cursor-pointer"
                           >
-                            <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
+                            <Edit className="w-4 h-4 mr-2" strokeWidth={2}/>
                             {t('COMMON.ACTIONS.EDIT')}
                           </DropdownMenuItem>
-                          <DropdownMenuSeparator />
+                          <DropdownMenuSeparator/>
                           <DropdownMenuItem
                             onClick={(e) => {
                               e.stopPropagation();
-                              deleteCase(caseItem.id);
+                              handleDelete(caseItem.id);
                             }}
                             className="cursor-pointer text-red-600"
                           >
-                            <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
+                            <Trash2 className="w-4 h-4 mr-2" strokeWidth={2}/>
                             {t('COMMON.ACTIONS.DELETE')}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -349,7 +444,9 @@ export function CasePage() {
               </TableBody>
             </Table>
           </Card>
-        ) : null}
+          {renderPagination()}
+        </div>
+        )}
 
         <div
           className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 ${viewMode === 'table' ? 'md:hidden' : ''}`}>
@@ -363,7 +460,7 @@ export function CasePage() {
                 <div className="flex items-start justify-between mb-3 sm:mb-4">
                   <div className="flex-1 min-w-0">
                     <h3 className="tracking-tight mb-2 line-clamp-2 text-sm sm:text-base">{caseItem.title}</h3>
-                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex items-center gap-2 mb-3">
                       <Avatar className="w-5 h-5 sm:w-6 sm:h-6 ring-2 ring-border flex-shrink-0">
                         <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs">
                           {caseItem.clientName?.substring(0, 2).toUpperCase()}
@@ -384,16 +481,16 @@ export function CasePage() {
                     <span className="text-gray-500">{t('CASES.FIELDS.PROGRESS')}</span>
                     <span className="text-foreground">{caseItem.progress}%</span>
                   </div>
-                  <Progress value={caseItem.progress} className="h-1.5 sm:h-2" />
+                  <Progress value={caseItem.progress} className="h-1.5 sm:h-2"/>
                 </div>
 
                 <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
                   <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
+                    <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2}/>
                     {caseItem.deadline}
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
+                    <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2}/>
                     {caseItem.documents}
                   </div>
                 </div>
@@ -412,25 +509,14 @@ export function CasePage() {
             </Card>
           ))}
         </div>
+        {viewMode === 'grid' && renderPagination()}
 
       </main>
 
       <AddCaseDialog
-        open={isAddCaseDialogOpen}
-        onOpenChange={setIsAddCaseDialogOpen}
-      />
-      <EditCaseDialog
-        open={isEditCaseDialogOpen}
-        onOpenChange={setIsEditCaseDialogOpen}
-        initialData={selectedCase ? {
-          title: selectedCase.title,
-          client: selectedCase.clientName,
-          category: selectedCase.category,
-          deadline: selectedCase.deadline,
-          fee: selectedCase.fee.toString(),
-          description: selectedCase.description,
-          priority: selectedCase.priority,
-        } : undefined}
+        open={isCaseDialogOpen}
+        onOpenChange={setIsCaseDialogOpen}
+        caseId={editingCaseId}
       />
     </div>
   );

@@ -3,7 +3,7 @@
  * @description Диалог для создания нового юридического дела
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Briefcase,
   User,
@@ -11,13 +11,17 @@ import {
   Calendar,
   DollarSign,
 } from 'lucide-react';
+import { useCasesStore } from '@/app/store/cases.store';
+import { useClientsStore } from '@/app/store/clients.store';
 import { useI18n } from '@/shared/context/I18nContext';
+import { formatDescription } from '@/shared/utils/textFormatting';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
@@ -34,10 +38,13 @@ interface AddCaseDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit?: (caseData: any) => void;
+  caseId?: string;
 }
 
-export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogProps) {
+export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId }: AddCaseDialogProps) {
   const { t } = useI18n();
+  const { clients, fetchClients } = useClientsStore();
+  const { createCase, updateCase, fetchCaseById, selectedCase } = useCasesStore();
   const [formData, setFormData] = useState({
     title: '',
     client: '',
@@ -48,20 +55,66 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
     priority: 'medium',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit?.(formData);
-    onOpenChange(false);
+  useEffect(() => {
+    if (open) {
+      fetchClients({ limit: 100 });
+      if (caseId) {
+        fetchCaseById(caseId);
+      }
+    }
+  }, [open, fetchClients, caseId, fetchCaseById]);
 
-    setFormData({
-      title: '',
-      client: '',
-      category: '',
-      deadline: '',
-      fee: '',
-      description: '',
-      priority: 'medium',
-    });
+  useEffect(() => {
+    if (caseId && selectedCase && open) {
+      setFormData({
+        title: selectedCase.title,
+        client: selectedCase.clientId,
+        category: selectedCase.category,
+        deadline: selectedCase.deadline?.split('T')[0] || '',
+        fee: selectedCase.fee?.toString() || '',
+        description: selectedCase.description || '',
+        priority: selectedCase.priority,
+      });
+    }
+  }, [caseId, selectedCase, open]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const caseData = {
+        title: formData.title,
+        clientId: formData.client,
+        category: formData.category,
+        deadline: formData.deadline,
+        fee: parseFloat(formData.fee) || 0,
+        description: formatDescription(formData.description),
+        priority: formData.priority as any,
+      };
+
+      if (caseId) {
+        await updateCase(caseId, caseData);
+      } else {
+        await createCase(caseData);
+      }
+
+      onSubmit?.(formData);
+      onOpenChange(false);
+
+      if (!caseId) {
+        setFormData({
+          title: '',
+          client: '',
+          category: '',
+          deadline: '',
+          fee: '',
+          description: '',
+          priority: 'medium',
+        });
+      }
+    } catch (error) {
+      console.error('Failed to save case:', error);
+    }
   };
 
   return (
@@ -72,8 +125,11 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
             <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
               <Briefcase className="w-6 h-6 text-blue-600 dark:text-blue-400" strokeWidth={2} />
             </div>
-            {t('CASES.NEW_CASE')}
+            {caseId ? t('CASES.EDIT_DIALOG.TITLE') : t('CASES.NEW_CASE')}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            {t('CASES.SUBTITLE')}
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
@@ -107,10 +163,11 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
                   <SelectValue placeholder={t('CASES.SELECT_CLIENT')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="client1">Иванов Петр Алексеевич</SelectItem>
-                  <SelectItem value="client2">ООО "ТехноСтрой"</SelectItem>
-                  <SelectItem value="client3">Смирнова Анна Викторовна</SelectItem>
-                  <SelectItem value="client4">ИП Петров М.И.</SelectItem>
+                  {clients?.map((client) => (
+                    <SelectItem key={client.id} value={client.id}>
+                      {client.companyName || `${client.firstName} ${client.lastName}`}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -222,7 +279,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit }: AddCaseDialogPro
               className="flex-1 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
             >
               <Briefcase className="w-4 h-4 mr-2" strokeWidth={2} />
-              {t('CASES.CREATE_CASE')}
+              {caseId ? t('CASES.EDIT_DIALOG.SAVE') : t('CASES.CREATE_CASE')}
             </Button>
           </div>
         </form>

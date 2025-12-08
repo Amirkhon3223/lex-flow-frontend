@@ -7,6 +7,12 @@ interface ClientsState {
   selectedClient: ClientInterface | null;
   loading: boolean;
   error: string | null;
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  } | null;
   fetchClients: (params?: { page?: number; limit?: number; search?: string }) => Promise<void>;
   fetchClientById: (id: string) => Promise<void>;
   createClient: (data: CreateClientInterface) => Promise<void>;
@@ -20,12 +26,22 @@ export const useClientsStore = create<ClientsState>((set) => ({
   selectedClient: null,
   loading: false,
   error: null,
+  pagination: null,
 
   fetchClients: async (params) => {
     set({ loading: true, error: null });
     try {
       const response = await clientsService.list(params);
-      set({ clients: response.clients, loading: false });
+      set({
+        clients: response.data,
+        pagination: {
+          page: response.page,
+          limit: response.limit,
+          total: response.total,
+          totalPages: response.totalPages,
+        },
+        loading: false
+      });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }

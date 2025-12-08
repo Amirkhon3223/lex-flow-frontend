@@ -24,5 +24,12 @@
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": [
+    "context7",
+    "playwright",
+    "figma-dev-mode-mcp-server",
+    "sequential-thinking"
+  ],
+  "enableAllProjectMcpServers": true
 }

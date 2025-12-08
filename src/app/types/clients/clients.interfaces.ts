@@ -80,8 +80,11 @@ export interface UpdateClientInterface {
 }
 
 export interface ClientListResponse {
-  clients: ClientInterface[];
-  pagination: Pagination;
+  data: ClientInterface[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }
 
 export interface EditClientDialogProps {
