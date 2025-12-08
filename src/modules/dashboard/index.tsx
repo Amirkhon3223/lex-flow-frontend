@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { CaseFormData } from "@/app/types/cases/cases.interfaces";
-import type { CreateClientInterface } from "@/app/types/clients/clients.interfaces";
 import type { UploadDocumentFormData } from "@/app/types/documents/documents.interfaces";
 import { AIInsightsWidget } from "@/modules/dashboard/widgets/AIInsightsWidget";
 import { PriorityCases } from "@/modules/dashboard/widgets/PriorityCases";
@@ -9,7 +8,7 @@ import { RecentActivity } from "@/modules/dashboard/widgets/RecentActivity";
 import { StatsCards } from "@/modules/dashboard/widgets/StatsCards";
 import { TodayWidget } from "@/modules/dashboard/widgets/TodayWidget";
 import { AddCaseDialog } from "@/shared/components/AddCaseDialog";
-import { AddClientDialog } from "@/shared/components/AddClientDialog";
+import { ClientFormModal } from "@/shared/components/ClientFormModal";
 import { UploadDocumentDialog } from "@/shared/components/UploadDocumentDialog";
 import { useI18n } from "@/shared/context/I18nContext";
 
@@ -25,15 +24,6 @@ export default function DashboardPage() {
       console.log('Дело успешно создано:', newCase);
     } catch (error) {
       console.error('Ошибка при создании дела:', error);
-    }
-  };
-
-  const handleAddClient = async (clientData: CreateClientInterface) => {
-    try {
-      const newClient = await clientService.create(clientData);
-      console.log('Клиент успешно создан:', newClient);
-    } catch (error) {
-      console.error('Ошибка при создании клиента:', error);
     }
   };
 
@@ -80,10 +70,10 @@ export default function DashboardPage() {
         onOpenChange={setIsAddCaseOpen}
         onSubmit={handleAddCase}
       />
-      <AddClientDialog
+      <ClientFormModal
         open={isAddClientOpen}
         onOpenChange={setIsAddClientOpen}
-        onSubmit={handleAddClient}
+        mode="create"
       />
       <UploadDocumentDialog
         open={isUploadDocOpen}
