@@ -1,11 +1,11 @@
 import { httpClient } from '../../interceptors/http.interceptor';
+import type { SuccessResponse } from '../../types/api/api.types';
 import type {
   NotificationInterface,
   CreateNotificationInterface,
   NotificationListResponse,
   NotificationStatsResponse,
 } from '../../types/notifications/notifications.interfaces';
-import type { SuccessResponse } from '../../types/api/api.types';
 
 export const notificationsService = {
   create: async (data: CreateNotificationInterface): Promise<NotificationInterface> => {

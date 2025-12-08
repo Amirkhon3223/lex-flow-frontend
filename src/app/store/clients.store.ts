@@ -13,7 +13,14 @@ interface ClientsState {
     total: number;
     totalPages: number;
   } | null;
-  fetchClients: (params?: { page?: number; limit?: number; search?: string }) => Promise<void>;
+  fetchClients: (params?: {
+    page?: number;
+    limit?: number;
+    type?: string;
+    category?: string;
+    status?: string;
+    search?: string;
+  }) => Promise<void>;
   fetchClientById: (id: string) => Promise<void>;
   createClient: (data: CreateClientInterface) => Promise<void>;
   updateClient: (id: string, data: UpdateClientInterface) => Promise<void>;
@@ -40,7 +47,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
           total: response.total,
           totalPages: response.totalPages,
         },
-        loading: false
+        loading: false,
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });

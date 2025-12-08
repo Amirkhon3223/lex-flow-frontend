@@ -141,7 +141,7 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col overflow-hidden bg-background border-0 shadow-2xl rounded-3xl p-0">
+      <DialogContent className="max-w-3xl max-h-[90vh] flex flex-col bg-background border-0 shadow-2xl rounded-3xl p-0">
         <DialogHeader className="px-8 pt-8 pb-4 bg-background z-10">
           <DialogTitle className="text-2xl font-bold tracking-tight flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
@@ -304,9 +304,9 @@ export function EditClientDialog({ open, onOpenChange }: EditClientDialogProps) 
                       <SelectValue placeholder={t('CLIENTS.SELECT_CATEGORY')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="standard">{t('CLIENTS.CATEGORIES.STANDARD')}</SelectItem>
-                      <SelectItem value="premium">{t('CLIENTS.CATEGORIES.PREMIUM')}</SelectItem>
-                      <SelectItem value="vip">{t('CLIENTS.CATEGORIES.VIP')}</SelectItem>
+                      <SelectItem value="standard">{t('CLIENTS.CATEGORY.STANDARD')}</SelectItem>
+                      <SelectItem value="premium">{t('CLIENTS.CATEGORY.PREMIUM')}</SelectItem>
+                      <SelectItem value="vip">{t('CLIENTS.CATEGORY.VIP')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

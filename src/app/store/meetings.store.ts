@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { calendarService } from '../services/calendar/calendar.service';
+import type { Pagination } from '../types/api/api.types';
 import type {
   MeetingInterface,
   CreateMeetingInterface,
   UpdateMeetingInterface,
 } from '../types/calendar/calendar.interfaces';
-import type { Pagination } from '../types/api/api.types';
 
 interface MeetingsState {
   meetings: MeetingInterface[];

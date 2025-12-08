@@ -22,8 +22,27 @@ export const casesService = {
     const cleanParams = params ? Object.fromEntries(
       Object.entries(params).filter(([_, value]) => value !== undefined && value !== '' && value !== 'all')
     ) : {};
-    const response = await httpClient.get<CaseListResponse>('/cases', { params: cleanParams });
-    return response.data;
+    const response = await httpClient.get<{
+      cases: CaseInterface[];
+      pagination: {
+        page: number;
+        limit: number;
+        totalItems?: number;
+        total?: number;
+        totalPages: number;
+      };
+    }>('/cases', { params: cleanParams });
+    
+    // Маппинг ответа API к нашему типу
+    return {
+      cases: response.data.cases,
+      pagination: {
+        page: response.data.pagination.page,
+        limit: response.data.pagination.limit,
+        total: response.data.pagination.totalItems ?? response.data.pagination.total ?? 0,
+        totalPages: response.data.pagination.totalPages,
+      },
+    };
   },
 
   getById: async (id: string): Promise<CaseInterface> => {

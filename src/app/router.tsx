@@ -16,8 +16,8 @@ import NotificationsPage from '@/pages/NotificationsPage';
 import SettingsPage from '@/pages/SettingsPage';
 import UserProfilePage from '@/pages/UserProfilePage';
 import { Layout } from '@/shared/components/Layout';
-import { AuthGuard } from './guards/auth.guard';
 import { ROUTES } from './config/routes.config';
+import { AuthGuard } from './guards/auth.guard';
 
 export const router = createBrowserRouter([
   // Публичные маршруты

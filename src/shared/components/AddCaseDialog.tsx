@@ -14,7 +14,6 @@ import {
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
 import { useI18n } from '@/shared/context/I18nContext';
-import { formatDescription } from '@/shared/utils/textFormatting';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -33,21 +32,23 @@ import {
   SelectValue,
 } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
+import { formatDescription } from '@/shared/utils/textFormatting';
 
 interface AddCaseDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit?: (caseData: any) => void;
   caseId?: string;
+  preselectedClientId?: string; // ID клиента для автовыбора
 }
 
-export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId }: AddCaseDialogProps) {
+export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselectedClientId }: AddCaseDialogProps) {
   const { t } = useI18n();
   const { clients, fetchClients } = useClientsStore();
   const { createCase, updateCase, fetchCaseById, selectedCase } = useCasesStore();
   const [formData, setFormData] = useState({
     title: '',
-    client: '',
+    client: preselectedClientId || '', // Устанавливаем предвыбранного клиента
     category: '',
     deadline: '',
     fee: '',
@@ -75,8 +76,11 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId }: AddCaseD
         description: selectedCase.description || '',
         priority: selectedCase.priority,
       });
+    } else if (!caseId && preselectedClientId && open) {
+      // Если это новое дело и есть предвыбранный клиент
+      setFormData(prev => ({ ...prev, client: preselectedClientId }));
     }
-  }, [caseId, selectedCase, open]);
+  }, [caseId, selectedCase, open, preselectedClientId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,6 +160,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId }: AddCaseD
               <Select
                 value={formData.client}
                 onValueChange={(value) => setFormData({ ...formData, client: value })}
+                disabled={!!preselectedClientId && !caseId}
                 required
               >
                 <SelectTrigger className="h-12 rounded-xl border-input">
@@ -207,7 +212,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId }: AddCaseD
                 <Input
                   id="deadline"
                   type="date"
-                  value={formData.deadline}
+                  value={formData.deadline.split('T')[0] || formData.deadline}
                   onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
                   className="h-12 pl-12 rounded-xl border-input focus-visible:ring-blue-500"
                 />

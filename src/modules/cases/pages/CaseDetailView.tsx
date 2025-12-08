@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
+import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import type {
   CaseDocumentInterface,
   AIInsightInterface,
@@ -85,7 +86,7 @@ export function CaseDetailView() {
         description: caseData.description,
         deadline: caseData.deadline,
         fee: Number(caseData.fee),
-        priority: caseData.priority,
+        priority: caseData.priority as CasePriorityEnum,
       });
       setIsEditCaseDialogOpen(false);
     } catch (error) {
@@ -121,8 +122,8 @@ export function CaseDetailView() {
   const handleAIReport = () => navigate(ROUTES.AI_ASSISTANT);
   const handleClientProfile = () => navigate(`${ROUTES.CLIENTS.BASE}/${clientId}`);
 
-  const handleDocumentClick = (docId: number) => {
-    navigate(ROUTES.DOCUMENTS.DETAIL(docId.toString()));
+  const handleDocumentClick = (docId: string) => {
+    navigate(ROUTES.DOCUMENTS.DETAIL(docId));
   };
 
   const handleDownloadDocument = (docName: string) => {

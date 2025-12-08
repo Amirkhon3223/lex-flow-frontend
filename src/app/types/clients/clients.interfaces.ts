@@ -1,5 +1,4 @@
 import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from './clients.enums';
-import type { Pagination } from '../api/api.types';
 
 export interface ClientInterface {
   id: string;
