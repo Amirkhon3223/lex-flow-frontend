@@ -13,15 +13,9 @@ export const createHttpClient = (): AxiosInstance => {
     },
   });
 
-  client.interceptors.request.use(
-    authInterceptor.onFulfilled,
-    authInterceptor.onRejected
-  );
+  client.interceptors.request.use(authInterceptor.onFulfilled, authInterceptor.onRejected);
 
-  client.interceptors.response.use(
-    errorInterceptor.onFulfilled,
-    errorInterceptor.onRejected
-  );
+  client.interceptors.response.use(errorInterceptor.onFulfilled, errorInterceptor.onRejected);
 
   return client;
 };

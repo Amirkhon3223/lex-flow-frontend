@@ -55,9 +55,7 @@ export function ConfirmDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="rounded-xl">
-            {cancelText}
-          </AlertDialogCancel>
+          <AlertDialogCancel className="rounded-xl">{cancelText}</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
             className={

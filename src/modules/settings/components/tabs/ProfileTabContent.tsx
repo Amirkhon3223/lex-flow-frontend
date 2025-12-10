@@ -21,7 +21,9 @@ export function ProfileTabContent() {
     <div className="space-y-4 sm:space-y-6">
       <Card>
         <div>
-          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">{t('SETTINGS.PROFILE.PERSONAL_INFO')}</h3>
+          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
+            {t('SETTINGS.PROFILE.PERSONAL_INFO')}
+          </h3>
 
           <form onSubmit={handleProfileSubmit}>
             <div className="space-y-3 sm:space-y-4 md:space-y-6">
@@ -131,7 +133,7 @@ export function ProfileTabContent() {
               <Select
                 defaultValue="ru"
                 open={openSelect === 'language'}
-                onOpenChange={open => setOpenSelect(open ? 'language' : null)}
+                onOpenChange={(open) => setOpenSelect(open ? 'language' : null)}
               >
                 <SelectTrigger className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm">
                   <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 text-gray-400" strokeWidth={2} />
@@ -151,7 +153,7 @@ export function ProfileTabContent() {
               <Select
                 defaultValue="msk"
                 open={openSelect === 'timezone'}
-                onOpenChange={open => setOpenSelect(open ? 'timezone' : null)}
+                onOpenChange={(open) => setOpenSelect(open ? 'timezone' : null)}
               >
                 <SelectTrigger className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm">
                   <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 text-gray-400" strokeWidth={2} />

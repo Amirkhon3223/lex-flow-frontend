@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
-import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
+import { useMeetingsStore } from '@/app/store/meetings.store';
+import { MeetingStatusEnum } from '@/app/types/calendar/calendar.enums';
 import { AddMeetingDialog } from '@/modules/calendar/components/AddMeetingDialog';
 import { MeetingCaseCard } from '@/modules/calendar/components/MeetingCaseCard';
 import { MeetingClientCard } from '@/modules/calendar/components/MeetingClientCard';
@@ -18,9 +18,12 @@ import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
 
 export function MeetingDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useI18n();
+  const { selectedMeeting, loading, fetchMeetingById, updateMeeting, deleteMeeting } =
+    useMeetingsStore();
+
   const [isEditingOpen, setIsEditingOpen] = useState(false);
   const [isAddNoteOpen, setIsAddNoteOpen] = useState(false);
   const [isAddDocumentOpen, setIsAddDocumentOpen] = useState(false);
@@ -28,27 +31,31 @@ export function MeetingDetailPage() {
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-  const meeting: MeetingInterface = {
-    id: Number(id),
-    title: 'Консультация по трудовому спору',
-    client: { name: 'Иванов П.А.', avatar: 'ИП' },
-    case: 'Трудовой спор - незаконное увольнение',
-    date: new Date(2025, 9, 15, 10, 0),
-    time: '10:00',
-    duration: '1 час',
-    type: MeetingTypeEnum.IN_PERSON,
-    location: 'Офис, кабинет 305',
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.HIGH,
-    description:
-      'Первичная консультация клиента по вопросу незаконного увольнения. Необходимо обсудить обстоятельства дела, собрать документы и определить дальнейшую стратегию.',
-    participants: ['Иванов П.А.', 'Петров А.С. (юрист)'],
-  };
+  useEffect(() => {
+    if (id) {
+      fetchMeetingById(id);
+    }
+  }, [id, fetchMeetingById]);
 
-  const handleComplete = () => {
-    console.log(t('CALENDAR.MESSAGES.COMPLETED'), 'ID:', id);
-    toast.success(t('CALENDAR.MESSAGES.COMPLETED'));
-    navigate('/calendar');
+  if (loading || !selectedMeeting) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-muted-foreground">{t('COMMON.LOADING')}</p>
+      </div>
+    );
+  }
+
+  const meeting = selectedMeeting;
+
+  const handleComplete = async () => {
+    if (!id) return;
+    try {
+      await updateMeeting(id, { status: MeetingStatusEnum.COMPLETED });
+      toast.success(t('CALENDAR.MESSAGES.COMPLETED'));
+      navigate('/calendar');
+    } catch (error) {
+      toast.error(t('COMMON.MESSAGES.ERROR'));
+    }
   };
 
   const handleReschedule = () => {
@@ -59,10 +66,15 @@ export function MeetingDetailPage() {
     setIsCancelDialogOpen(true);
   };
 
-  const confirmCancel = () => {
-    console.log(t('CALENDAR.MESSAGES.CANCELLED'), 'ID:', id);
-    toast.success(t('CALENDAR.MESSAGES.CANCELLED'));
-    navigate('/calendar');
+  const confirmCancel = async () => {
+    if (!id) return;
+    try {
+      await updateMeeting(id, { status: MeetingStatusEnum.CANCELLED });
+      toast.success(t('CALENDAR.MESSAGES.CANCELLED'));
+      navigate('/calendar');
+    } catch (error) {
+      toast.error(t('COMMON.MESSAGES.ERROR'));
+    }
   };
 
   const handleEdit = () => {
@@ -73,16 +85,21 @@ export function MeetingDetailPage() {
     setIsDeleteDialogOpen(true);
   };
 
-  const confirmDelete = () => {
-    console.log(t('CALENDAR.MESSAGES.CANCELLED'), 'ID:', id);
-    toast.success(t('CALENDAR.MESSAGES.CANCELLED'));
-    navigate('/calendar');
+  const confirmDelete = async () => {
+    if (!id) return;
+    try {
+      await deleteMeeting(id);
+      toast.success(t('COMMON.MESSAGES.DELETED'));
+      navigate('/calendar');
+    } catch (error) {
+      toast.error(t('COMMON.MESSAGES.ERROR'));
+    }
   };
 
   return (
     <div>
       <UploadDocumentDialog open={isAddDocumentOpen} onOpenChange={setIsAddDocumentOpen} />
-      <CommentsDialog open={isAddNoteOpen} onOpenChange={setIsAddNoteOpen}  caseId={id}/>
+      <CommentsDialog open={isAddNoteOpen} onOpenChange={setIsAddNoteOpen} caseId={id} />
       <AddMeetingDialog open={isEditingOpen} onOpenChange={setIsEditingOpen} />
       <AddMeetingDialog open={isRescheduleOpen} onOpenChange={setIsRescheduleOpen} />
 
@@ -113,15 +130,29 @@ export function MeetingDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="lg:col-span-2 space-y-4 sm:space-y-6">
           <MeetingInfoCard meeting={meeting} />
-          <MeetingParticipantsCard participants={meeting.participants || []} />
+          <MeetingParticipantsCard
+            participants={
+              meeting.participants ? meeting.participants.split(',').map((p) => p.trim()) : []
+            }
+          />
           <MeetingNotesCard onAddNote={() => setIsAddNoteOpen(true)} />
         </div>
 
         <div className="space-y-4 sm:space-y-6">
-          <MeetingClientCard client={meeting.client} />
-          {meeting.case && <MeetingCaseCard caseName={meeting.case} />}
+          <MeetingClientCard
+            clientName={meeting.clientName}
+            clientAvatar={meeting.clientAvatar}
+            clientId={meeting.clientId}
+          />
+          {meeting.caseName && (
+            <MeetingCaseCard caseName={meeting.caseName} caseId={meeting.caseId} />
+          )}
           <MeetingDocumentsCard onAddDocument={() => setIsAddDocumentOpen(true)} />
-          <QuickActionsCard onComplete={handleComplete} onReschedule={handleReschedule} onCancel={handleCancel} />
+          <QuickActionsCard
+            onComplete={handleComplete}
+            onReschedule={handleReschedule}
+            onCancel={handleCancel}
+          />
         </div>
       </div>
     </div>

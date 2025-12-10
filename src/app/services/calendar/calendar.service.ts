@@ -39,10 +39,7 @@ export const calendarService = {
   },
 
   update: async (id: string, data: UpdateMeetingInterface): Promise<MeetingInterface> => {
-    const response = await httpClient.put<MeetingInterface>(
-      `/calendar/meetings/${id}`,
-      data
-    );
+    const response = await httpClient.put<MeetingInterface>(`/calendar/meetings/${id}`, data);
     return response.data;
   },
 

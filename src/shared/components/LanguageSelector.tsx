@@ -48,9 +48,7 @@ export function LanguageSelector() {
               <span className="text-lg">{lang.flag}</span>
               <span>{lang.nativeName}</span>
             </div>
-            {language === lang.code && (
-              <Check className="w-4 h-4 text-blue-500" strokeWidth={2} />
-            )}
+            {language === lang.code && <Check className="w-4 h-4 text-blue-500" strokeWidth={2} />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

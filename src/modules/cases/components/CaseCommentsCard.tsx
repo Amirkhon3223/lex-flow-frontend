@@ -14,7 +14,10 @@ export function CaseCommentsCard({ commentsCount, onOpenComments }: CaseComments
   return (
     <Card>
       <div>
-        <div className="flex items-center justify-between mb-3 sm:mb-4 cursor-pointer" onClick={onOpenComments}>
+        <div
+          className="flex items-center justify-between mb-3 sm:mb-4 cursor-pointer"
+          onClick={onOpenComments}
+        >
           <h3 className="text-base sm:text-lg tracking-tight">{t('CASES.DETAIL.COMMENTS')}</h3>
           <Badge className="bg-blue-100 text-blue-700 border-0">{commentsCount}</Badge>
         </div>

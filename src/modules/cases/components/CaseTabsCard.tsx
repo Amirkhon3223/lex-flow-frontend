@@ -1,8 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from 'react';
 import { Download, Eye, FileText, History, Save, Check, Clock } from 'lucide-react';
-import { useCasesStore } from "@/app/store/cases.store.ts";
+import { useCasesStore } from '@/app/store/cases.store.ts';
 import { DocumentStatusEnum } from '@/app/types/cases/cases.enums';
-import type { CaseDocumentInterface, TimelineEventInterface } from '@/app/types/cases/cases.interfaces';
+import type {
+  CaseDocumentInterface,
+  TimelineEventInterface,
+} from '@/app/types/cases/cases.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -19,7 +22,13 @@ interface CaseTabsCardProps {
   onDownloadDocument: (docName: string) => void;
 }
 
-export function CaseTabsCard({ caseId, documents, timeline, onDocumentClick, onDownloadDocument }: CaseTabsCardProps) {
+export function CaseTabsCard({
+  caseId,
+  documents,
+  timeline,
+  onDocumentClick,
+  onDownloadDocument,
+}: CaseTabsCardProps) {
   const { t } = useI18n();
   const { selectedCase, updateCase } = useCasesStore();
   const [notes, setNotes] = useState('');
@@ -75,7 +84,8 @@ export function CaseTabsCard({ caseId, documents, timeline, onDocumentClick, onD
     const diffInSeconds = Math.floor((now.getTime() - lastSaved.getTime()) / 1000);
 
     if (diffInSeconds < 60) return `${diffInSeconds}${t('CASES.NOTES.SECONDS_AGO')}`;
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}${t('CASES.NOTES.MINUTES_AGO')}`;
+    if (diffInSeconds < 3600)
+      return `${Math.floor(diffInSeconds / 60)}${t('CASES.NOTES.MINUTES_AGO')}`;
 
     return lastSaved.toLocaleTimeString('ru-RU', {
       hour: '2-digit',
@@ -125,12 +135,13 @@ export function CaseTabsCard({ caseId, documents, timeline, onDocumentClick, onD
                 <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" strokeWidth={2} />
               </div>
 
-              <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onDocumentClick(doc.id)}>
+              <div
+                className="flex-1 min-w-0 cursor-pointer"
+                onClick={() => onDocumentClick(doc.id)}
+              >
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
                   <h4 className="tracking-tight truncate text-sm sm:text-base">{doc.name}</h4>
-                  <Badge
-                    className={`${getDocumentStatusColor(doc.status)} text-xs w-fit`}
-                  >
+                  <Badge className={`${getDocumentStatusColor(doc.status)} text-xs w-fit`}>
                     {doc.status === DocumentStatusEnum.FINAL
                       ? t('DOCUMENTS.STATUS.FINAL')
                       : doc.status === DocumentStatusEnum.REVIEW
@@ -145,7 +156,10 @@ export function CaseTabsCard({ caseId, documents, timeline, onDocumentClick, onD
                   <span className="hidden sm:inline">•</span>
                   <span className="flex items-center gap-1">
                     <History className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
-                    {doc.versions} {doc.versions === 1 ? t('CASES.DOC_VERSION.SINGULAR') : t('CASES.DOC_VERSION.PLURAL')}
+                    {doc.versions}{' '}
+                    {doc.versions === 1
+                      ? t('CASES.DOC_VERSION.SINGULAR')
+                      : t('CASES.DOC_VERSION.PLURAL')}
                   </span>
                 </div>
               </div>
@@ -172,21 +186,29 @@ export function CaseTabsCard({ caseId, documents, timeline, onDocumentClick, onD
           ))}
         </TabsContent>
 
-        <TabsContent value="timeline" className="p-4 sm:p-6 max-h-[400px] sm:max-h-[500px] overflow-y-auto">
+        <TabsContent
+          value="timeline"
+          className="p-4 sm:p-6 max-h-[400px] sm:max-h-[500px] overflow-y-auto"
+        >
           <div className="space-y-4 sm:space-y-6">
             {timeline.map((event, index) => (
               <div key={index} className="flex gap-3 sm:gap-4">
                 <div className="flex flex-col items-center">
                   <div
-                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0 ${index === 0 ? 'bg-blue-500' : 'bg-muted-foreground/30'
-                      }`}
+                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0 ${
+                      index === 0 ? 'bg-blue-500' : 'bg-muted-foreground/30'
+                    }`}
                   ></div>
-                  {index < timeline.length - 1 && <div className="w-px h-full bg-border mt-2"></div>}
+                  {index < timeline.length - 1 && (
+                    <div className="w-px h-full bg-border mt-2"></div>
+                  )}
                 </div>
                 <div className="flex-1 pb-4 sm:pb-6 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
                     <h4 className="tracking-tight text-sm sm:text-base">{event.title}</h4>
-                    <span className="text-xs sm:text-sm text-muted-foreground/70 flex-shrink-0">{event.eventDate}</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground/70 flex-shrink-0">
+                      {event.eventDate}
+                    </span>
                   </div>
                   <p className="text-xs sm:text-sm text-muted-foreground">{event.description}</p>
                 </div>
@@ -241,7 +263,8 @@ export function CaseTabsCard({ caseId, documents, timeline, onDocumentClick, onD
                 </span>
               )}
               <span>
-                {notes.length} {notes.length === 1 ? t('CASES.NOTES.CHARACTER') : t('CASES.NOTES.CHARACTERS')}
+                {notes.length}{' '}
+                {notes.length === 1 ? t('CASES.NOTES.CHARACTER') : t('CASES.NOTES.CHARACTERS')}
               </span>
             </div>
           </div>
@@ -258,9 +281,7 @@ export function CaseTabsCard({ caseId, documents, timeline, onDocumentClick, onD
 
           {/* Manual Save Button */}
           <div className="flex items-center justify-between pt-2">
-            <p className="text-xs text-muted-foreground">
-              💡 {t('CASES.NOTES.AUTO_SAVE_INFO')}
-            </p>
+            <p className="text-xs text-muted-foreground">💡 {t('CASES.NOTES.AUTO_SAVE_INFO')}</p>
 
             <Button
               onClick={saveNotes}

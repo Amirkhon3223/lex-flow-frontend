@@ -9,10 +9,7 @@ import type {
 
 export const notificationsService = {
   create: async (data: CreateNotificationInterface): Promise<NotificationInterface> => {
-    const response = await httpClient.post<NotificationInterface>(
-      '/notifications',
-      data
-    );
+    const response = await httpClient.post<NotificationInterface>('/notifications', data);
     return response.data;
   },
 
@@ -29,10 +26,9 @@ export const notificationsService = {
   },
 
   getUnread: async (limit?: number): Promise<NotificationInterface[]> => {
-    const response = await httpClient.get<NotificationInterface[]>(
-      '/notifications/unread',
-      { params: { limit } }
-    );
+    const response = await httpClient.get<NotificationInterface[]>('/notifications/unread', {
+      params: { limit },
+    });
     return response.data;
   },
 
@@ -57,9 +53,7 @@ export const notificationsService = {
   },
 
   getStats: async (): Promise<NotificationStatsResponse> => {
-    const response = await httpClient.get<NotificationStatsResponse>(
-      '/notifications/stats'
-    );
+    const response = await httpClient.get<NotificationStatsResponse>('/notifications/stats');
     return response.data;
   },
 };

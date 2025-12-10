@@ -14,13 +14,17 @@ export function PaymentHistoryItem({ payment, onDownload }: PaymentHistoryItemPr
   return (
     <div className="flex items-center justify-between gap-2 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-muted/50">
       <div className="min-w-0">
-        <h4 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">{payment.invoice}</h4>
+        <h4 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">
+          {payment.invoice}
+        </h4>
         <p className="text-xs sm:text-sm text-muted-foreground">{payment.date}</p>
       </div>
       <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-shrink-0">
         <div className="text-right">
           <p className="tracking-tight text-xs sm:text-sm md:text-base">{payment.amount}</p>
-          <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-0 text-xs">{t(payment.status)}</Badge>
+          <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-0 text-xs">
+            {t(payment.status)}
+          </Badge>
         </div>
         <Button
           variant="ghost"

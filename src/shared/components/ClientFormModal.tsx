@@ -33,8 +33,16 @@ import {
   Shield,
 } from 'lucide-react';
 import { useClientsStore } from '@/app/store/clients.store';
-import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
-import type { ClientInterface, CreateClientInterface, UpdateClientInterface } from '@/app/types/clients/clients.interfaces';
+import {
+  ClientTypeEnum,
+  ClientCategoryEnum,
+  ClientStatusEnum,
+} from '@/app/types/clients/clients.enums';
+import type {
+  ClientInterface,
+  CreateClientInterface,
+  UpdateClientInterface,
+} from '@/app/types/clients/clients.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -47,13 +55,7 @@ import {
 } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { Textarea } from '@/shared/ui/textarea';
 
@@ -176,8 +178,8 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
         updateData.email = formData.email || undefined;
         updateData.phone = formData.phone || undefined;
         updateData.address = formData.address || undefined;
-        updateData.category = formData.category as ClientCategoryEnum || undefined;
-        updateData.status = formData.status as ClientStatusEnum || undefined;
+        updateData.category = (formData.category as ClientCategoryEnum) || undefined;
+        updateData.status = (formData.status as ClientStatusEnum) || undefined;
         updateData.notes = formData.notes || undefined;
 
         await updateClient(client.id, updateData);
@@ -213,9 +215,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
             </div>
             {getDialogTitle()}
           </DialogTitle>
-          <DialogDescription className="sr-only">
-            {getDialogDescription()}
-          </DialogDescription>
+          <DialogDescription className="sr-only">{getDialogDescription()}</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
@@ -312,7 +312,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                       {t('CLIENTS.FIELDS.INN')}
                     </Label>
                     <div className="relative">
-                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                      <Hash
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                        strokeWidth={2}
+                      />
                       <Input
                         id="inn"
                         placeholder="1234567890"
@@ -327,7 +330,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                       {t('CLIENTS.FIELDS.KPP')}
                     </Label>
                     <div className="relative">
-                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                      <Hash
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                        strokeWidth={2}
+                      />
                       <Input
                         id="kpp"
                         placeholder="123456789"
@@ -342,7 +348,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                       {t('CLIENTS.FIELDS.BIRTH_DATE')}
                     </Label>
                     <div className="relative">
-                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                      <Calendar
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                        strokeWidth={2}
+                      />
                       <Input
                         id="birthDate"
                         type="date"
@@ -381,7 +390,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                       {t('CLIENTS.FIELDS.INN')}
                     </Label>
                     <div className="relative">
-                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                      <Hash
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                        strokeWidth={2}
+                      />
                       <Input
                         id="inn"
                         placeholder="1234567890"
@@ -396,7 +408,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                       {t('CLIENTS.FIELDS.KPP')}
                     </Label>
                     <div className="relative">
-                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                      <Hash
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                        strokeWidth={2}
+                      />
                       <Input
                         id="kpp"
                         placeholder="123456789"
@@ -418,7 +433,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   {t('CLIENTS.FIELDS.EMAIL')} {mode === 'create' && '*'}
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                  <Mail
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                    strokeWidth={2}
+                  />
                   <Input
                     id="email"
                     type="email"
@@ -436,7 +454,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   {t('CLIENTS.FIELDS.PHONE')} {mode === 'create' && '*'}
                 </Label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                  <Phone
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                    strokeWidth={2}
+                  />
                   <Input
                     id="phone"
                     type="tel"
@@ -497,7 +518,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   {t('CLIENTS.FIELDS.ADDRESS')}
                 </Label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                  <MapPin
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                    strokeWidth={2}
+                  />
                   <Input
                     id="address"
                     placeholder="г. Москва, ул. Пушкина, д. 10"

@@ -14,7 +14,9 @@ export function MeetingDocumentsCard({ onAddDocument }: MeetingDocumentsCardProp
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between gap-2 pb-2">
-          <CardTitle className="text-sm sm:text-base md:text-lg min-w-0 truncate">{t('COMMON.NAVIGATION.DOCUMENTS')}</CardTitle>
+          <CardTitle className="text-sm sm:text-base md:text-lg min-w-0 truncate">
+            {t('COMMON.NAVIGATION.DOCUMENTS')}
+          </CardTitle>
           <Button
             size="sm"
             variant="outline"
@@ -29,7 +31,9 @@ export function MeetingDocumentsCard({ onAddDocument }: MeetingDocumentsCardProp
       <CardContent>
         <div className="rounded-xl bg-muted/50">
           <EmptyState
-            icon={<FileText className="w-6 h-6 sm:w-7 sm:h-7 text-muted-foreground" strokeWidth={2} />}
+            icon={
+              <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-muted-foreground" strokeWidth={2} />
+            }
             message={t('DOCUMENTS.EMPTY_STATE')}
             size="sm"
           />

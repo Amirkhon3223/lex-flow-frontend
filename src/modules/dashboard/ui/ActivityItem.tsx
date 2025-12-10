@@ -5,9 +5,7 @@ export function ActivityItem({ action, item, client, time, isLast = false }: Act
     <div className="flex gap-3 sm:gap-4">
       <div className="flex flex-col items-center">
         <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
-        {!isLast && (
-          <div className="w-px h-full bg-border mt-2"></div>
-        )}
+        {!isLast && <div className="w-px h-full bg-border mt-2"></div>}
       </div>
       <div className="flex-1 pb-4 min-w-0">
         <p className="text-sm sm:text-[15px] mb-1">

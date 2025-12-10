@@ -14,7 +14,9 @@ export function QuickActions({ onAddClient, onAddCase, onUploadDocument }: Quick
 
   return (
     <Card>
-      <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('DASHBOARD.QUICK_ACTIONS.TITLE')}</h3>
+      <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">
+        {t('DASHBOARD.QUICK_ACTIONS.TITLE')}
+      </h3>
 
       <div className="space-y-2">
         <Button

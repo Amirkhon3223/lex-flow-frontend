@@ -4,22 +4,11 @@
  */
 
 import { useState } from 'react';
-import {
-  Search,
-  FileText,
-  Users,
-  Briefcase,
-  X,
-} from 'lucide-react';
+import { Search, FileText, Users, Briefcase, X } from 'lucide-react';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from '@/shared/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { ScrollArea } from '@/shared/ui/scroll-area';
 import { Separator } from '@/shared/ui/separator';
@@ -35,7 +24,12 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
 
   const searchResults = {
     cases: [
-      { id: 1, title: 'Трудовой спор - незаконное увольнение', client: 'Иванов П.А.', status: 'В работе' },
+      {
+        id: 1,
+        title: 'Трудовой спор - незаконное увольнение',
+        client: 'Иванов П.А.',
+        status: 'В работе',
+      },
       { id: 2, title: 'Договор аренды помещения', client: 'ООО "ТехноСтрой"', status: 'Новое' },
     ],
     clients: [
@@ -56,7 +50,10 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
 
         <div className="p-6 pb-4">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" strokeWidth={2} />
+            <Search
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground"
+              strokeWidth={2}
+            />
             <Input
               placeholder={t('SEARCH.PLACEHOLDER')}
               value={searchQuery}
@@ -84,7 +81,9 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Briefcase className="w-5 h-5 text-blue-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-foreground">{t('COMMON.NAVIGATION.CASES')}</h3>
+                <h3 className="text-sm font-medium text-foreground">
+                  {t('COMMON.NAVIGATION.CASES')}
+                </h3>
                 <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                   {searchResults.cases.length}
                 </Badge>
@@ -117,7 +116,9 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Users className="w-5 h-5 text-purple-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-foreground">{t('COMMON.NAVIGATION.CLIENTS')}</h3>
+                <h3 className="text-sm font-medium text-foreground">
+                  {t('COMMON.NAVIGATION.CLIENTS')}
+                </h3>
                 <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                   {searchResults.clients.length}
                 </Badge>
@@ -150,7 +151,9 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="w-5 h-5 text-orange-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-foreground">{t('COMMON.NAVIGATION.DOCUMENTS')}</h3>
+                <h3 className="text-sm font-medium text-foreground">
+                  {t('COMMON.NAVIGATION.DOCUMENTS')}
+                </h3>
                 <Badge className="bg-muted text-muted-foreground border-0 text-xs">
                   {searchResults.documents.length}
                 </Badge>
@@ -167,7 +170,9 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
                         <h4 className="text-sm font-medium mb-1 group-hover:text-blue-600 transition-colors">
                           {doc.name}
                         </h4>
-                        <p className="text-xs text-muted-foreground">{doc.case} • {doc.size}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {doc.case} • {doc.size}
+                        </p>
                       </div>
                     </div>
                   </button>

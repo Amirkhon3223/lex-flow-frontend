@@ -1,5 +1,5 @@
 import { Mail, Lock, User, Building2, Sparkles } from 'lucide-react';
-import type { RegisterFormProps } from "@/app/types/auth/auth.interfaces.ts";
+import type { RegisterFormProps } from '@/app/types/auth/auth.interfaces.ts';
 import { Button } from '@/shared/ui/button.tsx';
 import { Checkbox } from '@/shared/ui/checkbox.tsx';
 import { Input } from '@/shared/ui/input.tsx';
@@ -113,11 +113,7 @@ export function RegisterForm({
       </div>
 
       <div className="flex items-start space-x-2 pt-1 sm:pt-2">
-        <Checkbox
-          id="terms"
-          className="rounded-md border-input mt-0.5"
-          required
-        />
+        <Checkbox id="terms" className="rounded-md border-input mt-0.5" required />
         <label
           htmlFor="terms"
           className="text-xs sm:text-sm text-muted-foreground cursor-pointer select-none"

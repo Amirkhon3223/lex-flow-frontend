@@ -1,3 +1,3 @@
-import { CasePage } from "@/modules/cases";
+import { CasePage } from '@/modules/cases';
 
 export default CasePage;

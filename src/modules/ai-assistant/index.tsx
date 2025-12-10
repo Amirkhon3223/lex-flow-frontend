@@ -1,15 +1,14 @@
 import { useState } from 'react';
+import { FileText, Upload, BookOpen, Scale, Search, Lightbulb, MessageSquare } from 'lucide-react';
 import {
-  FileText,
-  Upload,
-  BookOpen,
-  Scale,
-  Search,
-  Lightbulb,
-  MessageSquare,
-} from 'lucide-react';
-import { MessageTypeEnum, AnalysisStatusEnum, InsightTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums';
-import type { ChatMessageInterface, RecentAnalysisInterface } from '@/app/types/ai-assistant/ai-assistant.interfaces';
+  MessageTypeEnum,
+  AnalysisStatusEnum,
+  InsightTypeEnum,
+} from '@/app/types/ai-assistant/ai-assistant.enums';
+import type {
+  ChatMessageInterface,
+  RecentAnalysisInterface,
+} from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
@@ -41,7 +40,8 @@ export function AIAssistantView() {
     },
     {
       type: MessageTypeEnum.AI,
-      message: 'Я проанализировал документ. Обнаружены следующие моменты:\n\n1. ✅ Договор содержит все обязательные условия согласно ст. 57 ТК РФ\n2. ⚠️ Отсутствует условие об испытательном сроке (рекомендуется добавить)\n3. ❌ Условие о материальной ответственности не соответствует ст. 243 ТК РФ\n\nРекомендую внести корректировки в п. 4.2 договора.',
+      message:
+        'Я проанализировал документ. Обнаружены следующие моменты:\n\n1. ✅ Договор содержит все обязательные условия согласно ст. 57 ТК РФ\n2. ⚠️ Отсутствует условие об испытательном сроке (рекомендуется добавить)\n3. ❌ Условие о материальной ответственности не соответствует ст. 243 ТК РФ\n\nРекомендую внести корректировки в п. 4.2 договора.',
       time: '10:31',
       insights: [
         { type: InsightTypeEnum.SUCCESS, text: 'Соответствует требованиям ТК РФ' },
@@ -56,7 +56,8 @@ export function AIAssistantView() {
     },
     {
       type: MessageTypeEnum.AI,
-      message: 'Найдено 15 релевантных судебных дел:\n\n📋 Дело № А40-12345/2024\n• Суд: Арбитражный суд Московской области\n• Решение в пользу истца\n• Взысканы: заработная плата за вынужденный прогул, моральный вред\n\n📋 Дело № 2-567/2024  \n• Суд: Басманный районный суд г. Москвы\n• Решение в пользу истца\n• Восстановление на работе + компенсация\n\nХотите подробный анализ?',
+      message:
+        'Найдено 15 релевантных судебных дел:\n\n📋 Дело № А40-12345/2024\n• Суд: Арбитражный суд Московской области\n• Решение в пользу истца\n• Взысканы: заработная плата за вынужденный прогул, моральный вред\n\n📋 Дело № 2-567/2024  \n• Суд: Басманный районный суд г. Москвы\n• Решение в пользу истца\n• Восстановление на работе + компенсация\n\nХотите подробный анализ?',
       time: '10:36',
     },
   ];
@@ -177,7 +178,10 @@ export function AIAssistantView() {
             <Card>
               <div className="text-center w-full">
                 <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
-                  <Upload className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" strokeWidth={2} />
+                  <Upload
+                    className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white"
+                    strokeWidth={2}
+                  />
                 </div>
                 <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-1.5 sm:mb-2">
                   {t('AI_ASSISTANT.ANALYZE.UPLOAD_TITLE')}
@@ -217,14 +221,20 @@ export function AIAssistantView() {
                     variant="outline"
                     className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-input hover:bg-purple-500/10 hover:border-purple-500/20 justify-start text-xs sm:text-sm"
                   >
-                    <Scale className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-purple-500" strokeWidth={2} />
+                    <Scale
+                      className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-purple-500"
+                      strokeWidth={2}
+                    />
                     <span>{t('AI_ASSISTANT.RESEARCH.BUTTONS.PRACTICE')}</span>
                   </Button>
                   <Button
                     variant="outline"
                     className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-input hover:bg-blue-500/10 hover:border-blue-500/20 justify-start text-xs sm:text-sm"
                   >
-                    <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-blue-500" strokeWidth={2} />
+                    <BookOpen
+                      className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-blue-500"
+                      strokeWidth={2}
+                    />
                     <span>{t('AI_ASSISTANT.RESEARCH.BUTTONS.LEGISLATION')}</span>
                   </Button>
                 </div>

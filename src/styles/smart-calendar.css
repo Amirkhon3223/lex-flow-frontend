@@ -4,7 +4,7 @@
 }
 
 .calendar-with-indicators .rdp-day.has-meeting::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 5px;
   left: 50%;

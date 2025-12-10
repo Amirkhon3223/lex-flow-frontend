@@ -1,7 +1,10 @@
-import { useRef, useEffect, useState } from "react";
-import { Send, Paperclip, Mic, X } from "lucide-react";
-import { toast } from "sonner";
-import type { ChatInputProps, SpeechRecognitionInstance } from "@/app/types/ai-assistant/ai-assistant.interfaces";
+import { useRef, useEffect, useState } from 'react';
+import { Send, Paperclip, Mic, X } from 'lucide-react';
+import { toast } from 'sonner';
+import type {
+  ChatInputProps,
+  SpeechRecognitionInstance,
+} from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import {
   createSpeechRecognition,
   setupSpeechRecognitionCallbacks,
@@ -9,8 +12,8 @@ import {
   stopSpeechRecognition,
   cleanupSpeechRecognition,
   isSpeechRecognitionSupported,
-} from "@/app/utils/speechRecognition";
-import { useI18n } from "@/shared/context/I18nContext";
+} from '@/app/utils/speechRecognition';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
   const { t } = useI18n();
@@ -25,7 +28,7 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
   useEffect(() => {
     const textarea = textareaRef.current;
     if (!textarea) return;
-    textarea.style.height = "auto";
+    textarea.style.height = 'auto';
     const newHeight = Math.min(textarea.scrollHeight, window.innerHeight * 0.4);
     textarea.style.height = `${newHeight}px`;
   }, [message]);
@@ -41,7 +44,8 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
       setupSpeechRecognitionCallbacks(recognitionRef.current, {
         onResult: (transcript: string, isFinal: boolean) => {
           if (isFinal) {
-            const finalText = baseMessageRef.current + (baseMessageRef.current ? ' ' : '') + transcript.trim();
+            const finalText =
+              baseMessageRef.current + (baseMessageRef.current ? ' ' : '') + transcript.trim();
             setMessage(finalText);
             baseMessageRef.current = finalText;
             setInterimText('');
@@ -70,15 +74,15 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
     const selected = e.target.files;
     if (!selected) return;
     setFiles((prev) => [...prev, ...Array.from(selected)]);
-    e.target.value = "";
+    e.target.value = '';
   };
 
   const handleSend = () => {
     if (!message.trim() && !files.length) return;
     onSend();
-    setMessage("");
+    setMessage('');
     setFiles([]);
-    if (textareaRef.current) textareaRef.current.style.height = "40px";
+    if (textareaRef.current) textareaRef.current.style.height = '40px';
   };
 
   const handleVoiceInput = () => {
@@ -115,9 +119,11 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
               className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-muted rounded-md sm:rounded-lg text-xs shadow-sm"
             >
               <Paperclip className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" />
-              <span className="text-foreground truncate max-w-[100px] sm:max-w-[150px]">{file.name}</span>
+              <span className="text-foreground truncate max-w-[100px] sm:max-w-[150px]">
+                {file.name}
+              </span>
               <button
-                onClick={() => setFiles(prev => prev.filter((_, i) => i !== index))}
+                onClick={() => setFiles((prev) => prev.filter((_, i) => i !== index))}
                 className="text-muted-foreground hover:text-foreground cursor-pointer"
               >
                 <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -133,8 +139,8 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
             ref={textareaRef}
             placeholder={interimText ? '' : t('AI_ASSISTANT.CHAT.MESSAGE_PLACEHOLDER')}
             value={message}
-            onChange={e => setMessage(e.target.value)}
-            onKeyDown={e => {
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 handleSend();
@@ -174,20 +180,24 @@ export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
 
           <button
             onClick={handleVoiceInput}
-            className={`p-1.5 sm:p-2 rounded-md sm:rounded-lg transition-colors cursor-pointer ${isRecording ? 'bg-destructive/10 hover:bg-destructive/20' : 'hover:bg-muted'
-              }`}
+            className={`p-1.5 sm:p-2 rounded-md sm:rounded-lg transition-colors cursor-pointer ${
+              isRecording ? 'bg-destructive/10 hover:bg-destructive/20' : 'hover:bg-muted'
+            }`}
             type="button"
           >
-            <Mic className={`w-4 h-4 sm:w-5 sm:h-5 ${isRecording ? 'text-destructive' : 'text-muted-foreground'}`} />
+            <Mic
+              className={`w-4 h-4 sm:w-5 sm:h-5 ${isRecording ? 'text-destructive' : 'text-muted-foreground'}`}
+            />
           </button>
 
           <button
             onClick={handleSend}
             disabled={isDisabled}
-            className={`p-1.5 sm:p-2 rounded-md sm:rounded-lg transition-all ${isDisabled
+            className={`p-1.5 sm:p-2 rounded-md sm:rounded-lg transition-all ${
+              isDisabled
                 ? 'bg-muted text-muted-foreground cursor-not-allowed'
                 : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-md shadow-purple-500/30 cursor-pointer'
-              }`}
+            }`}
           >
             <Send className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>

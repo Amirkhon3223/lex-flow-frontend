@@ -25,7 +25,8 @@ export const API_CONFIG = {
       DOWNLOAD: (id: string) => `/documents/${id}/download`,
       VERSIONS: (id: string) => `/documents/${id}/versions`,
       VERSION: (id: string, versionId: string) => `/documents/${id}/versions/${versionId}`,
-      VERSION_DOWNLOAD: (id: string, versionId: string) => `/documents/${id}/versions/${versionId}/download`,
+      VERSION_DOWNLOAD: (id: string, versionId: string) =>
+        `/documents/${id}/versions/${versionId}/download`,
     },
     CALENDAR: {
       MEETINGS: '/calendar/meetings',
@@ -55,4 +56,3 @@ export const API_CONFIG = {
     },
   },
 };
-

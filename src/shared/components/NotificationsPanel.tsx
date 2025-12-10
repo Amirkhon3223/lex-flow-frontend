@@ -25,13 +25,7 @@ import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from '@/shared/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/shared/ui/sheet';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 
 interface Notification {
@@ -92,20 +86,18 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
     },
   ]);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const markAsRead = (id: number) => {
-    setNotifications(notifications.map(n =>
-      n.id === id ? { ...n, read: true } : n
-    ));
+    setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
   };
 
   const markAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })));
+    setNotifications(notifications.map((n) => ({ ...n, read: true })));
   };
 
   const deleteNotification = (id: number) => {
-    setNotifications(notifications.filter(n => n.id !== id));
+    setNotifications(notifications.filter((n) => n.id !== id));
   };
 
   const clearAll = () => {
@@ -140,7 +132,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
     }
   };
 
-  const unreadNotifications = notifications.filter(n => !n.read);
+  const unreadNotifications = notifications.filter((n) => !n.read);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -148,9 +140,13 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
         <SheetHeader className="px-6 pt-6 pb-4 border-b border-border">
           <div className="flex items-center justify-between">
             <div>
-              <SheetTitle className="text-2xl tracking-tight">{t('NOTIFICATIONS.TITLE')}</SheetTitle>
+              <SheetTitle className="text-2xl tracking-tight">
+                {t('NOTIFICATIONS.TITLE')}
+              </SheetTitle>
               <SheetDescription>
-                {unreadCount > 0 ? `${unreadCount} ${t('NOTIFICATIONS.TITLE')}` : t('NOTIFICATIONS.NO_NOTIFICATIONS')}
+                {unreadCount > 0
+                  ? `${unreadCount} ${t('NOTIFICATIONS.TITLE')}`
+                  : t('NOTIFICATIONS.NO_NOTIFICATIONS')}
               </SheetDescription>
             </div>
           </div>
@@ -159,7 +155,10 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
         <Tabs defaultValue="all" className="flex-1">
           <div className="px-6 pt-4 pb-2 border-b border-border">
             <TabsList className="bg-muted rounded-xl p-1 w-full">
-              <TabsTrigger value="all" className="flex-1 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
+              <TabsTrigger
+                value="all"
+                className="flex-1 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm"
+              >
                 {t('CASES.FILTERS.ALL')}
                 {!!notifications.length && (
                   <Badge className="ml-2 bg-muted-foreground/20 text-foreground border-0 text-xs">
@@ -167,7 +166,10 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                   </Badge>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="unread" className="flex-1 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
+              <TabsTrigger
+                value="unread"
+                className="flex-1 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm"
+              >
                 {t('COMMON.NAVIGATION.NEW_BADGE')}
                 {unreadCount > 0 && (
                   <Badge className="ml-2 bg-blue-500 text-white border-0 text-xs">
@@ -208,8 +210,9 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 {notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`group px-6 py-4 hover:bg-muted/50 transition-colors cursor-pointer ${!notification.read ? 'bg-blue-50/30 dark:bg-blue-900/10' : ''
-                      } ${getPriorityColor(notification.priority)}`}
+                    className={`group px-6 py-4 hover:bg-muted/50 transition-colors cursor-pointer ${
+                      !notification.read ? 'bg-blue-50/30 dark:bg-blue-900/10' : ''
+                    } ${getPriorityColor(notification.priority)}`}
                     onClick={() => markAsRead(notification.id)}
                   >
                     <div className="flex items-start gap-3">
@@ -227,16 +230,22 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-1">
-                          <h4 className={`text-sm tracking-tight ${!notification.read ? 'font-medium' : ''}`}>
+                          <h4
+                            className={`text-sm tracking-tight ${!notification.read ? 'font-medium' : ''}`}
+                          >
                             {notification.title}
                           </h4>
                           {!notification.read && (
                             <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0 mt-1"></div>
                           )}
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">{notification.description}</p>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {notification.description}
+                        </p>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-muted-foreground/70">{notification.time}</span>
+                          <span className="text-xs text-muted-foreground/70">
+                            {notification.time}
+                          </span>
                           <Button
                             variant="ghost"
                             size="icon"
@@ -259,8 +268,12 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                 <div className="w-20 h-20 rounded-3xl bg-muted flex items-center justify-center mb-4">
                   <Bell className="w-10 h-10 text-muted-foreground/50" strokeWidth={2} />
                 </div>
-                <h3 className="text-lg tracking-tight mb-2">{t('NOTIFICATIONS.NO_NOTIFICATIONS')}</h3>
-                <p className="text-sm text-muted-foreground">{t('NOTIFICATIONS.NO_NOTIFICATIONS')}</p>
+                <h3 className="text-lg tracking-tight mb-2">
+                  {t('NOTIFICATIONS.NO_NOTIFICATIONS')}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {t('NOTIFICATIONS.NO_NOTIFICATIONS')}
+                </p>
               </div>
             )}
           </TabsContent>
@@ -294,9 +307,13 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                           </h4>
                           <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0 mt-1"></div>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">{notification.description}</p>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {notification.description}
+                        </p>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-muted-foreground/70">{notification.time}</span>
+                          <span className="text-xs text-muted-foreground/70">
+                            {notification.time}
+                          </span>
                           <Button
                             variant="ghost"
                             size="icon"
@@ -320,7 +337,9 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                   <CheckCircle2 className="w-10 h-10 text-green-500" strokeWidth={2} />
                 </div>
                 <h3 className="text-lg tracking-tight mb-2">{t('NOTIFICATIONS.MARK_ALL_READ')}</h3>
-                <p className="text-sm text-muted-foreground">{t('NOTIFICATIONS.NO_NOTIFICATIONS')}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t('NOTIFICATIONS.NO_NOTIFICATIONS')}
+                </p>
               </div>
             )}
           </TabsContent>
@@ -328,10 +347,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
 
         {!!notifications.length && (
           <div className="px-6 py-4 border-t border-border">
-            <Button
-              variant="outline"
-              className="w-full rounded-xl border-input hover:bg-muted"
-            >
+            <Button variant="outline" className="w-full rounded-xl border-input hover:bg-muted">
               <Settings className="w-4 h-4 mr-2" strokeWidth={2} />
               {t('SETTINGS.TABS.NOTIFICATIONS')}
             </Button>

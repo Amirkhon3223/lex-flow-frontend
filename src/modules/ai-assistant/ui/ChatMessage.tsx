@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { MessageTypeEnum, InsightTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums';
-import type {
-  ChatMessageProps,
-} from '@/app/types/ai-assistant/ai-assistant.interfaces';
+import type { ChatMessageProps } from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 
 export function ChatMessage({ chat }: ChatMessageProps) {
@@ -26,8 +24,9 @@ export function ChatMessage({ chat }: ChatMessageProps) {
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div className={`max-w-[90%] sm:max-w-[80%] group`}>
         <div
-          className={`rounded-xl sm:rounded-2xl p-3 sm:p-4 ${isUser ? 'bg-blue-500 text-white' : 'bg-muted text-foreground'
-            }`}
+          className={`rounded-xl sm:rounded-2xl p-3 sm:p-4 ${
+            isUser ? 'bg-blue-500 text-white' : 'bg-muted text-foreground'
+          }`}
         >
           <p className="whitespace-pre-wrap text-xs sm:text-sm leading-relaxed">{chat.message}</p>
           {chat.type === MessageTypeEnum.AI && chat.insights && (
@@ -35,12 +34,13 @@ export function ChatMessage({ chat }: ChatMessageProps) {
               {chat.insights.map((insight, idx) => (
                 <div
                   key={idx}
-                  className={`flex items-center gap-1.5 sm:gap-2 text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-md sm:rounded-lg ${insight.type === InsightTypeEnum.SUCCESS
+                  className={`flex items-center gap-1.5 sm:gap-2 text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-md sm:rounded-lg ${
+                    insight.type === InsightTypeEnum.SUCCESS
                       ? 'bg-green-500/10 text-green-600 dark:text-green-400'
                       : insight.type === InsightTypeEnum.WARNING
                         ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
                         : 'bg-destructive/10 text-destructive'
-                    }`}
+                  }`}
                 >
                   {insight.type === InsightTypeEnum.SUCCESS && '✅'}
                   {insight.type === InsightTypeEnum.WARNING && '⚠️'}
@@ -52,7 +52,9 @@ export function ChatMessage({ chat }: ChatMessageProps) {
           )}
         </div>
 
-        <div className={`flex items-center gap-1.5 sm:gap-2 mt-1 px-1.5 sm:px-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
+        <div
+          className={`flex items-center gap-1.5 sm:gap-2 mt-1 px-1.5 sm:px-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
+        >
           <p className="text-xs text-muted-foreground">{chat.time}</p>
           <button
             onClick={handleCopy}
@@ -67,7 +69,9 @@ export function ChatMessage({ chat }: ChatMessageProps) {
             {copied ? (
               <>
                 <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
-                <span className="text-[10px] hidden sm:inline">{t('AI_ASSISTANT.CHAT.COPIED')}</span>
+                <span className="text-[10px] hidden sm:inline">
+                  {t('AI_ASSISTANT.CHAT.COPIED')}
+                </span>
               </>
             ) : (
               <>

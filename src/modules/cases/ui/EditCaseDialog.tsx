@@ -4,13 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import {
-  Briefcase,
-  User,
-  Tag,
-  Calendar,
-  DollarSign,
-} from 'lucide-react';
+import { Briefcase, User, Tag, Calendar, DollarSign, Scale } from 'lucide-react';
 import { useClientsStore } from '@/app/store/clients.store';
 import type { EditCaseDialogProps } from '@/app/types/cases/cases.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -24,13 +18,7 @@ import {
 } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
 import { formatDescription } from '@/shared/utils/textFormatting';
 
@@ -42,6 +30,7 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
     client: '',
     category: '',
     deadline: '',
+    courtDate: '',
     fee: '',
     description: '',
     priority: 'medium',
@@ -55,7 +44,11 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
 
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      setFormData({
+        ...initialData,
+        deadline: initialData.deadline?.split('T')[0] || initialData.deadline || '',
+        courtDate: initialData.courtDate?.split('T')[0] || initialData.courtDate || '',
+      });
     }
   }, [initialData]);
 
@@ -73,7 +66,7 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl bg-background/95 backdrop-blur-2xl border-border">
         <DialogHeader>
-            <DialogTitle className="flex items-center gap-3 text-2xl">
+          <DialogTitle className="flex items-center gap-3 text-2xl">
             <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center">
               <Briefcase className="w-6 h-6 text-blue-600" strokeWidth={2} />
             </div>
@@ -154,11 +147,14 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
                 {t('CASES.FIELDS.DEADLINE')}
               </Label>
               <div className="relative">
-                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                <Calendar
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                  strokeWidth={2}
+                />
                 <Input
                   id="deadline"
                   type="date"
-                  value={formData.deadline}
+                  value={formData.deadline?.split('T')[0] || formData.deadline || ''}
                   onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
                   className="h-12 pl-12 rounded-xl border-input focus-visible:ring-blue-500"
                 />
@@ -166,11 +162,35 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="courtDate" className="text-sm text-foreground">
+                {t('CASES.FIELDS.COURT_DATE')}
+              </Label>
+              <div className="relative">
+                <Scale
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                  strokeWidth={2}
+                />
+                <Input
+                  id="courtDate"
+                  type="date"
+                  value={formData.courtDate?.split('T')[0] || formData.courtDate || ''}
+                  onChange={(e) => setFormData({ ...formData, courtDate: e.target.value })}
+                  className="h-12 pl-12 rounded-xl border-input focus-visible:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
               <Label htmlFor="fee" className="text-sm text-foreground">
                 {t('CASES.FIELDS.FEE')}
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                <DollarSign
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                  strokeWidth={2}
+                />
                 <Input
                   id="fee"
                   type="number"

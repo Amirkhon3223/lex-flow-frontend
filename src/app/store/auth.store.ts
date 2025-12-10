@@ -50,7 +50,13 @@ export const useAuthStore = create<AuthState>()(
           set({ user: null, token: null, isAuthenticated: false, loading: false });
         } catch (error) {
           // Даже если произошла ошибка, очищаем локальное состояние
-          set({ user: null, token: null, isAuthenticated: false, loading: false, error: (error as Error).message });
+          set({
+            user: null,
+            token: null,
+            isAuthenticated: false,
+            loading: false,
+            error: (error as Error).message,
+          });
         }
       },
 

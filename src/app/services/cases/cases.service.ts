@@ -19,9 +19,13 @@ export const casesService = {
     clientId?: string;
     search?: string;
   }): Promise<CaseListResponse> => {
-    const cleanParams = params ? Object.fromEntries(
-      Object.entries(params).filter(([_, value]) => value !== undefined && value !== '' && value !== 'all')
-    ) : {};
+    const cleanParams = params
+      ? Object.fromEntries(
+          Object.entries(params).filter(
+            ([_, value]) => value !== undefined && value !== '' && value !== 'all'
+          )
+        )
+      : {};
     const response = await httpClient.get<{
       cases: CaseInterface[];
       pagination: {
@@ -32,7 +36,7 @@ export const casesService = {
         totalPages: number;
       };
     }>('/cases', { params: cleanParams });
-    
+
     // Маппинг ответа API к нашему типу
     return {
       cases: response.data.cases,
@@ -73,10 +77,7 @@ export const casesService = {
     id: string,
     data: CreateTimelineEventInterface
   ): Promise<TimelineEventInterface> => {
-    const response = await httpClient.post<TimelineEventInterface>(
-      `/cases/${id}/timeline`,
-      data
-    );
+    const response = await httpClient.post<TimelineEventInterface>(`/cases/${id}/timeline`, data);
     return response.data;
   },
 
@@ -87,10 +88,9 @@ export const casesService = {
   },
 
   addComment: async (caseId: string, content: string): Promise<CommentInterface> => {
-    const response = await httpClient.post<CommentInterface>(
-      `/cases/${caseId}/comments`,
-      { content }
-    );
+    const response = await httpClient.post<CommentInterface>(`/cases/${caseId}/comments`, {
+      content,
+    });
     return response.data;
   },
 
@@ -117,10 +117,10 @@ export const casesService = {
   },
 
   addTask: async (caseId: string, title: string): Promise<CaseTaskInterface> => {
-    const response = await httpClient.post<CaseTaskInterface>(
-      `/cases/${caseId}/tasks`,
-      { title, completed: false }
-    );
+    const response = await httpClient.post<CaseTaskInterface>(`/cases/${caseId}/tasks`, {
+      title,
+      completed: false,
+    });
     return response.data;
   },
 

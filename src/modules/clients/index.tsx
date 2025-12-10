@@ -59,12 +59,17 @@ import {
   Star,
   TrendingUp,
   Users,
-  Building2, Sparkles,
+  Building2,
+  Sparkles,
 } from 'lucide-react';
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@/app/config/routes.config.ts";
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/app/config/routes.config.ts';
 import { useClientsStore } from '@/app/store/clients.store';
-import { ClientTypeEnum, ClientCategoryEnum, ClientStatusEnum } from '@/app/types/clients/clients.enums';
+import {
+  ClientTypeEnum,
+  ClientCategoryEnum,
+  ClientStatusEnum,
+} from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
 import { ClientFormModal } from '@/shared/components/ClientFormModal';
 import { DataPagination } from '@/shared/components/DataPagination';
@@ -76,20 +81,13 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { StatCard } from '@/shared/ui/stat-card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/shared/ui/table';
-
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
 
 export function ClientsPage() {
   const navigate = useNavigate();
   const { t } = useI18n();
-  const { clients, selectedClient, pagination, loading, fetchClients, deleteClient, selectClient } = useClientsStore();
+  const { clients, selectedClient, pagination, loading, fetchClients, deleteClient, selectClient } =
+    useClientsStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filterType, setFilterType] = useState('all');
@@ -101,7 +99,6 @@ export function ClientsPage() {
 
   const limit = 20;
 
-  // Debounce поиска
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
@@ -109,12 +106,10 @@ export function ClientsPage() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Сброс страницы при изменении фильтров
   useEffect(() => {
     setCurrentPage(1);
   }, [filterType, filterCategory, filterStatus, debouncedSearch]);
 
-  // Загрузка данных с бэкенда
   useEffect(() => {
     fetchClients({
       page: currentPage,
@@ -133,8 +128,12 @@ export function ClientsPage() {
 
   const getClientInitials = (client: ClientInterface) => {
     if (client.companyName) {
-      const words = client.companyName.split(' ').filter(w => w.length > 0);
-      return words.slice(0, 2).map(w => w[0]).join('').toUpperCase();
+      const words = client.companyName.split(' ').filter((w) => w.length > 0);
+      return words
+        .slice(0, 2)
+        .map((w) => w[0])
+        .join('')
+        .toUpperCase();
     }
     const firstInitial = client.firstName?.[0] || '';
     const lastInitial = client.lastName?.[0] || '';
@@ -172,15 +171,14 @@ export function ClientsPage() {
   const getTypeIcon = (type: ClientTypeEnum) => {
     switch (type) {
       case ClientTypeEnum.LEGAL:
-        return <Building2 className="w-4 h-4" strokeWidth={2}/>;
+        return <Building2 className="w-4 h-4" strokeWidth={2} />;
       case ClientTypeEnum.ENTREPRENEUR:
-        return <Briefcase className="w-4 h-4" strokeWidth={2}/>;
+        return <Briefcase className="w-4 h-4" strokeWidth={2} />;
       default:
-        return <Users className="w-4 h-4" strokeWidth={2}/>;
+        return <Users className="w-4 h-4" strokeWidth={2} />;
     }
   };
 
-  // Статистика на основе текущих данных с бэкенда
   const stats = [
     {
       label: t('CLIENTS.STATS.TOTAL'),
@@ -190,13 +188,13 @@ export function ClientsPage() {
     },
     {
       label: t('CLIENTS.STATS.ACTIVE'),
-      value: clients.filter(c => c.status === ClientStatusEnum.ACTIVE).length,
+      value: clients.filter((c) => c.status === ClientStatusEnum.ACTIVE).length,
       icon: TrendingUp,
       color: 'text-green-500',
     },
     {
       label: t('CLIENTS.STATS.VIP'),
-      value: clients.filter(c => c.category === ClientCategoryEnum.VIP).length,
+      value: clients.filter((c) => c.category === ClientCategoryEnum.VIP).length,
       icon: Star,
       color: 'text-purple-500',
     },
@@ -221,13 +219,16 @@ export function ClientsPage() {
         <div className="px-4 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
-                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5}/>
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">{t('CLIENTS.TITLE')}</h1>
-                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">{t('CLIENTS.SUBTITLE')}</p>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">
+                  {t('CLIENTS.TITLE')}
+                </h1>
+                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
+                  {t('CLIENTS.SUBTITLE')}
+                </p>
               </div>
             </div>
 
@@ -238,7 +239,7 @@ export function ClientsPage() {
                 setIsClientFormOpen(true);
               }}
             >
-              <Plus className="w-4 h-4 mr-2" strokeWidth={2}/>
+              <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
               {t('CLIENTS.NEW_CLIENT')}
             </Button>
           </div>
@@ -296,7 +297,10 @@ export function ClientsPage() {
       {}
       <main className="py-4 sm:py-6">
         {/* Индикаторы активных фильтров */}
-        {(filterType !== 'all' || filterCategory !== 'all' || filterStatus !== 'all' || debouncedSearch) && (
+        {(filterType !== 'all' ||
+          filterCategory !== 'all' ||
+          filterStatus !== 'all' ||
+          debouncedSearch) && (
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <span className="text-sm text-muted-foreground">{t('COMMON.ACTIVE_FILTERS')}:</span>
             {filterType !== 'all' && (
@@ -313,7 +317,8 @@ export function ClientsPage() {
             )}
             {filterCategory !== 'all' && (
               <Badge variant="secondary" className="gap-1">
-                {t('CLIENTS.FIELDS.CATEGORY')}: {t(`CLIENTS.FILTERS.${filterCategory.toUpperCase()}`)}
+                {t('CLIENTS.FIELDS.CATEGORY')}:{' '}
+                {t(`CLIENTS.FILTERS.${filterCategory.toUpperCase()}`)}
                 <button
                   onClick={() => setFilterCategory('all')}
                   className="ml-1 hover:text-destructive"
@@ -380,10 +385,9 @@ export function ClientsPage() {
         {}
         <Card className="hidden md:block relative">
           {loading && clients.length > 0 && (
-            <div
-              className="absolute inset-0 bg-background/50 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
+            <div className="absolute inset-0 bg-background/50 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
               <div className="flex flex-col items-center gap-2">
-                <div className="w-8 h-8 border-4 border-primary-50 border-t-primary-600 rounded-full animate-spin"/>
+                <div className="w-8 h-8 border-4 border-primary-50 border-t-primary-600 rounded-full animate-spin" />
                 <p className="text-sm text-muted-foreground">{t('COMMON.LOADING')}</p>
               </div>
             </div>
@@ -391,15 +395,29 @@ export function ClientsPage() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.CLIENT')}</TableHead>
+                <TableHead className="text-muted-foreground">
+                  {t('CLIENTS.FIELDS.CLIENT')}
+                </TableHead>
                 <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.TYPE')}</TableHead>
-                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.CATEGORY')}</TableHead>
-                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.CONTACTS')}</TableHead>
+                <TableHead className="text-muted-foreground">
+                  {t('CLIENTS.FIELDS.CATEGORY')}
+                </TableHead>
+                <TableHead className="text-muted-foreground">
+                  {t('CLIENTS.FIELDS.CONTACTS')}
+                </TableHead>
                 <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.CASES')}</TableHead>
-                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.REVENUE')}</TableHead>
-                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.LAST_CONTACT')}</TableHead>
-                <TableHead className="text-muted-foreground">{t('CLIENTS.FIELDS.STATUS')}</TableHead>
-                <TableHead className="text-right text-muted-foreground">{t('CLIENTS.FIELDS.ACTIONS')}</TableHead>
+                <TableHead className="text-muted-foreground">
+                  {t('CLIENTS.FIELDS.REVENUE')}
+                </TableHead>
+                <TableHead className="text-muted-foreground">
+                  {t('CLIENTS.FIELDS.LAST_CONTACT')}
+                </TableHead>
+                <TableHead className="text-muted-foreground">
+                  {t('CLIENTS.FIELDS.STATUS')}
+                </TableHead>
+                <TableHead className="text-right text-muted-foreground">
+                  {t('CLIENTS.FIELDS.ACTIONS')}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -407,8 +425,7 @@ export function ClientsPage() {
                 <TableRow>
                   <TableCell colSpan={9} className="h-32 text-center">
                     <div className="flex flex-col items-center justify-center gap-2">
-                      <div
-                        className="w-8 h-8 border-4 border-primary-50 border-t-primary-600 rounded-full animate-spin"/>
+                      <div className="w-8 h-8 border-4 border-primary-50 border-t-primary-600 rounded-full animate-spin" />
                       <p className="text-sm text-muted-foreground">{t('COMMON.LOADING')}</p>
                     </div>
                   </TableCell>
@@ -417,125 +434,132 @@ export function ClientsPage() {
                 <TableRow>
                   <TableCell colSpan={9} className="h-32 text-center">
                     <div className="flex flex-col items-center justify-center gap-2">
-                      <Users className="w-12 h-12 text-muted-foreground/50"/>
+                      <Users className="w-12 h-12 text-muted-foreground/50" />
                       <p className="text-sm text-muted-foreground">{t('CLIENTS.NO_CLIENTS')}</p>
                     </div>
                   </TableCell>
                 </TableRow>
               ) : (
                 clients.map((client) => (
-                    <TableRow key={client.id}
-                              className="border-b border-border hover:bg-muted/50 cursor-pointer transition-colors"
-                              onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id))}
-                    >
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <Avatar className="w-10 h-10 ring-2 ring-border">
-                            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-                              {getClientInitials(client)}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <div className="tracking-tight mb-0.5">{getClientName(client)}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {t('CLIENTS.SINCE')} {new Date(client.joinDate).toLocaleDateString('ru-RU', {
+                  <TableRow
+                    key={client.id}
+                    className="border-b border-border hover:bg-muted/50 cursor-pointer transition-colors"
+                    onClick={() => navigate(ROUTES.CLIENTS.DETAIL(client.id))}
+                  >
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-10 h-10 ring-2 ring-border">
+                          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+                            {getClientInitials(client)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="tracking-tight mb-0.5">{getClientName(client)}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {t('CLIENTS.SINCE')}{' '}
+                            {new Date(client.joinDate).toLocaleDateString('ru-RU', {
                               month: 'short',
                               year: 'numeric',
                             })}
-                            </div>
                           </div>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        {getTypeIcon(client.type)}
+                        <span>
+                          {client.type === ClientTypeEnum.INDIVIDUAL
+                            ? t('CLIENTS.TYPES.INDIVIDUAL')
+                            : client.type === ClientTypeEnum.LEGAL
+                              ? t('CLIENTS.TYPES.LEGAL')
+                              : t('CLIENTS.TYPES.ENTREPRENEUR')}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>{getCategoryBadge(client.category)}</TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          {getTypeIcon(client.type)}
-                          <span>
-                        {client.type === ClientTypeEnum.INDIVIDUAL ? t('CLIENTS.TYPES.INDIVIDUAL') :
-                          client.type === ClientTypeEnum.LEGAL ? t('CLIENTS.TYPES.LEGAL') : t('CLIENTS.TYPES.ENTREPRENEUR')}
-                      </span>
+                          <Mail className="w-3.5 h-3.5" strokeWidth={2} />
+                          <span className="truncate max-w-[180px]">{client.email}</span>
                         </div>
-                      </TableCell>
-                      <TableCell>{getCategoryBadge(client.category)}</TableCell>
-                      <TableCell>
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Mail className="w-3.5 h-3.5" strokeWidth={2}/>
-                            <span className="truncate max-w-[180px]">{client.email}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Phone className="w-3.5 h-3.5" strokeWidth={2}/>
-                            {client.phone}
-                          </div>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Phone className="w-3.5 h-3.5" strokeWidth={2} />
+                          {client.phone}
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-sm">
-                          <span className="text-blue-600">{client.activeCases}</span>
-                          <span className="text-muted-foreground"> / {client.totalCases}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-1.5 text-sm">
-                          <DollarSign className="w-3.5 h-3.5 text-green-600" strokeWidth={2}/>
-                          <span className="text-foreground">
-                        {client.totalRevenue.toLocaleString('ru-RU')} ₽
-                      </span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                          <Calendar className="w-3.5 h-3.5" strokeWidth={2}/>
-                          {client.lastContact ? new Date(client.lastContact).toLocaleDateString('ru-RU') : t('COMMON.NO_DATA')}
-                        </div>
-                      </TableCell>
-                      <TableCell>{getStatusBadge(client.status)}</TableCell>
-                      <TableCell className="text-right">
-                        <ActionsMenu
-                          items={[
-                            {
-                              icon: Eye,
-                              label: t('CLIENTS.ACTIONS.PROFILE'),
-                              onClick: (e) => {
-                                e?.stopPropagation();
-                                navigate(ROUTES.CLIENTS.DETAIL(client.id));
-                              },
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-sm">
+                        <span className="text-blue-600">{client.activeCases}</span>
+                        <span className="text-muted-foreground"> / {client.totalCases}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1.5 text-sm">
+                        <DollarSign className="w-3.5 h-3.5 text-green-600" strokeWidth={2} />
+                        <span className="text-foreground">
+                          {client.totalRevenue.toLocaleString('ru-RU')} ₽
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5" strokeWidth={2} />
+                        {client.lastContact
+                          ? new Date(client.lastContact).toLocaleDateString('ru-RU')
+                          : t('COMMON.NO_DATA')}
+                      </div>
+                    </TableCell>
+                    <TableCell>{getStatusBadge(client.status)}</TableCell>
+                    <TableCell className="text-right">
+                      <ActionsMenu
+                        items={[
+                          {
+                            icon: Eye,
+                            label: t('CLIENTS.ACTIONS.PROFILE'),
+                            onClick: (e) => {
+                              e?.stopPropagation();
+                              navigate(ROUTES.CLIENTS.DETAIL(client.id));
                             },
-                            {
-                              icon: Edit,
-                              label: t('CLIENTS.ACTIONS.EDIT'),
-                              onClick: (e) => {
-                                e?.stopPropagation();
-                                selectClient(client);
-                                setClientFormMode('edit');
-                                setIsClientFormOpen(true);
-                              },
-                              separator: true,
+                          },
+                          {
+                            icon: Edit,
+                            label: t('CLIENTS.ACTIONS.EDIT'),
+                            onClick: (e) => {
+                              e?.stopPropagation();
+                              selectClient(client);
+                              setClientFormMode('edit');
+                              setIsClientFormOpen(true);
                             },
-                            {
-                              icon: Mail,
-                              label: t('CLIENTS.ACTIONS.WRITE'),
-                              onClick: (e) => {
-                                e?.stopPropagation();
-                              },
+                            separator: true,
+                          },
+                          {
+                            icon: Mail,
+                            label: t('CLIENTS.ACTIONS.WRITE'),
+                            onClick: (e) => {
+                              e?.stopPropagation();
                             },
-                            {
-                              icon: Trash2,
-                              label: t('CLIENTS.ACTIONS.DELETE'),
-                              onClick: async (e) => {
-                                e?.stopPropagation();
-                                if (confirm(t('CLIENTS.CONFIRM_DELETE'))) {
-                                  await deleteClient(client.id);
-                                }
-                              },
-                              variant: 'danger',
-                              separator: true,
+                          },
+                          {
+                            icon: Trash2,
+                            label: t('CLIENTS.ACTIONS.DELETE'),
+                            onClick: async (e) => {
+                              e?.stopPropagation();
+                              if (confirm(t('CLIENTS.CONFIRM_DELETE'))) {
+                                await deleteClient(client.id);
+                              }
                             },
-                          ]}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
+                            variant: 'danger',
+                            separator: true,
+                          },
+                        ]}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </Card>
@@ -544,12 +568,12 @@ export function ClientsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:hidden">
           {loading && clients.length === 0 ? (
             <div className="col-span-2 flex flex-col items-center justify-center h-32 gap-2">
-              <div className="w-8 h-8 border-4 border-primary-50 border-t-primary-600 rounded-full animate-spin"/>
+              <div className="w-8 h-8 border-4 border-primary-50 border-t-primary-600 rounded-full animate-spin" />
               <p className="text-sm text-muted-foreground">{t('COMMON.LOADING')}</p>
             </div>
           ) : clients.length === 0 ? (
             <div className="col-span-2 flex flex-col items-center justify-center h-32 gap-2">
-              <Users className="w-12 h-12 text-muted-foreground/50"/>
+              <Users className="w-12 h-12 text-muted-foreground/50" />
               <p className="text-sm text-muted-foreground">{t('CLIENTS.NO_CLIENTS')}</p>
             </div>
           ) : (
@@ -568,12 +592,16 @@ export function ClientsPage() {
                         </AvatarFallback>
                       </Avatar>
                       <div className="min-w-0">
-                        <div className="tracking-tight text-sm truncate">{getClientName(client)}</div>
-                        <div
-                          className="text-xs text-muted-foreground">{t('CLIENTS.SINCE')} {new Date(client.joinDate).toLocaleDateString('ru-RU', {
-                          month: 'short',
-                          year: 'numeric',
-                        })}</div>
+                        <div className="tracking-tight text-sm truncate">
+                          {getClientName(client)}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {t('CLIENTS.SINCE')}{' '}
+                          {new Date(client.joinDate).toLocaleDateString('ru-RU', {
+                            month: 'short',
+                            year: 'numeric',
+                          })}
+                        </div>
                       </div>
                     </div>
                     {getCategoryBadge(client.category)}
@@ -583,17 +611,20 @@ export function ClientsPage() {
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       {getTypeIcon(client.type)}
                       <span>
-                      {client.type === ClientTypeEnum.INDIVIDUAL ? t('CLIENTS.TYPES.INDIVIDUAL') :
-                        client.type === ClientTypeEnum.LEGAL ? t('CLIENTS.TYPES.LEGAL') : t('CLIENTS.TYPES.ENTREPRENEUR')}
-                    </span>
+                        {client.type === ClientTypeEnum.INDIVIDUAL
+                          ? t('CLIENTS.TYPES.INDIVIDUAL')
+                          : client.type === ClientTypeEnum.LEGAL
+                            ? t('CLIENTS.TYPES.LEGAL')
+                            : t('CLIENTS.TYPES.ENTREPRENEUR')}
+                      </span>
                       <span className="ml-auto">{getStatusBadge(client.status)}</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Mail className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2}/>
+                      <Mail className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2} />
                       <span className="truncate">{client.email}</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Phone className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2}/>
+                      <Phone className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2} />
                       {client.phone}
                     </div>
                   </div>
@@ -606,8 +637,10 @@ export function ClientsPage() {
                         <span className="text-muted-foreground">/{client.totalCases}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <DollarSign className="w-3 h-3 text-green-600" strokeWidth={2}/>
-                        <span className="text-foreground">{client.totalRevenue.toLocaleString('ru-RU')} ₽</span>
+                        <DollarSign className="w-3 h-3 text-green-600" strokeWidth={2} />
+                        <span className="text-foreground">
+                          {client.totalRevenue.toLocaleString('ru-RU')} ₽
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -621,7 +654,8 @@ export function ClientsPage() {
         {pagination && pagination.totalPages > 1 && (
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm text-muted-foreground">
-              {t('COMMON.SHOWING')} {((currentPage - 1) * limit) + 1} - {Math.min(currentPage * limit, pagination.total)} {t('COMMON.OF')} {pagination.total}
+              {t('COMMON.SHOWING')} {(currentPage - 1) * limit + 1} -{' '}
+              {Math.min(currentPage * limit, pagination.total)} {t('COMMON.OF')} {pagination.total}
             </div>
             <DataPagination
               currentPage={currentPage}

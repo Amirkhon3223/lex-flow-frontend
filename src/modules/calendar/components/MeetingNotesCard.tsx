@@ -14,7 +14,9 @@ export function MeetingNotesCard({ onAddNote }: MeetingNotesCardProps) {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
-          <CardTitle className="text-sm sm:text-base md:text-lg min-w-0">{t('CALENDAR.MEETING_DETAILS.NOTES')}</CardTitle>
+          <CardTitle className="text-sm sm:text-base md:text-lg min-w-0">
+            {t('CALENDAR.MEETING_DETAILS.NOTES')}
+          </CardTitle>
           <Button
             size="sm"
             variant="outline"

@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Plus, Sparkles, Video, Phone, Users, User } from 'lucide-react';
-import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
+import { Plus, Sparkles, Video, Phone, Users, User, Scale } from 'lucide-react';
+import { useMeetingsStore } from '@/app/store/meetings.store';
+import {
+  MeetingTypeEnum,
+  MeetingStatusEnum,
+  MeetingPriorityEnum,
+} from '@/app/types/calendar/calendar.enums';
 import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
 import { AddMeetingDialog } from '@/modules/calendar/components/AddMeetingDialog';
 import { CalendarWidget } from '@/modules/calendar/components/CalendarWidget';
@@ -13,138 +18,24 @@ import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 
-const allMeetings: MeetingInterface[] = [
-  {
-    id: 1,
-    title: 'Консультация по трудовому спору',
-    client: { name: 'Иванов П.А.', avatar: 'ИП' },
-    case: 'Трудовой спор - незаконное увольнение',
-    date: new Date(2025, 10, 9, 10, 0),
-    time: '10:00',
-    duration: '1 час',
-    type: MeetingTypeEnum.IN_PERSON,
-    location: 'Офис, кабинет 305',
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.HIGH,
-  },
-  {
-    id: 2,
-    title: 'Видео-встреча: обсуждение договора',
-    client: { name: 'Смирнова А.В.', avatar: 'СА' },
-    case: 'Наследственное дело',
-    date: new Date(2025, 10, 9, 14, 30),
-    time: '14:30',
-    duration: '45 минут',
-    type: MeetingTypeEnum.VIDEO,
-    location: 'Google Meet',
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.MEDIUM,
-  },
-  {
-    id: 3,
-    title: 'Телефонная консультация',
-    client: { name: 'ООО "ТехноСтрой"', avatar: 'ТС' },
-    case: 'Договор аренды помещения',
-    date: new Date(2025, 10, 12, 11, 0),
-    time: '11:00',
-    duration: '30 минут',
-    type: MeetingTypeEnum.PHONE,
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.LOW,
-  },
-  {
-    id: 4,
-    title: 'Подписание документов',
-    client: { name: 'Козлов Д.М.', avatar: 'КД' },
-    case: 'Взыскание задолженности',
-    date: new Date(2025, 10, 15, 15, 0),
-    time: '15:00',
-    duration: '30 минут',
-    type: MeetingTypeEnum.IN_PERSON,
-    location: 'Офис, кабинет 305',
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.HIGH,
-  },
-  {
-    id: 5,
-    title: 'Встреча с клиентом',
-    client: { name: 'Иванов П.А.', avatar: 'ИП' },
-    case: 'Трудовой спор - незаконное увольнение',
-    date: new Date(2025, 10, 20, 16, 0),
-    time: '16:00',
-    duration: '1 час',
-    type: MeetingTypeEnum.IN_PERSON,
-    location: 'Офис, кабинет 305',
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.MEDIUM,
-  },
-  {
-    id: 6,
-    title: 'Консультация завершена',
-    client: { name: 'Смирнова А.В.', avatar: 'СА' },
-    date: new Date(2025, 10, 5, 11, 0),
-    time: '11:00',
-    duration: '30 минут',
-    type: MeetingTypeEnum.IN_PERSON,
-    location: 'Офис, кабинет 305',
-    status: MeetingStatusEnum.COMPLETED,
-  },
-  {
-    id: 7,
-    title: 'Заседание в суде',
-    client: { name: 'Иванов П.А.', avatar: 'ИП' },
-    case: 'Трудовой спор - незаконное увольнение',
-    date: new Date(2025, 9, 22, 10, 0),
-    time: '10:00',
-    duration: '2 часа',
-    type: MeetingTypeEnum.IN_PERSON,
-    location: 'Районный суд',
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.HIGH,
-  },
-  {
-    id: 8,
-    title: 'Заседание в суде',
-    client: { name: 'Иванов П.А.', avatar: 'ИП' },
-    case: 'Трудовой спор - незаконное увольнение',
-    date: new Date(2025, 10, 17, 16, 0),
-    time: '10:00',
-    duration: '2 часа',
-    type: MeetingTypeEnum.IN_PERSON,
-    location: 'Районный суд',
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.HIGH,
-  },
-  {
-    id: 9,
-    title: 'Заседание в суде',
-    client: { name: 'Иванов П.А.', avatar: 'ИП' },
-    case: 'Трудовой спор - незаконное увольнение',
-    date: new Date(2025, 10, 17, 16, 0),
-    time: '10:00',
-    duration: '2 часа',
-    type: MeetingTypeEnum.IN_PERSON,
-    location: 'Районный суд',
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.HIGH,
-  },
-  {
-    id: 10,
-    title: 'Заседание в суде',
-    client: { name: 'Иванов П.А.', avatar: 'ИП' },
-    case: 'Трудовой спор - незаконное увольнение',
-    date: new Date(2025, 10, 17, 16, 0),
-    time: '10:00',
-    duration: '2 часа',
-    type: MeetingTypeEnum.IN_PERSON,
-    location: 'Районный суд',
-    status: MeetingStatusEnum.SCHEDULED,
-    priority: MeetingPriorityEnum.HIGH,
-  },
-];
-
+// Helper function to check if meeting is a court session
+const isCourtSession = (title: string): boolean => {
+  return title.toLowerCase().includes('судебное заседание') || title.toLowerCase().includes('суд');
+};
 export function CalendarPage() {
   const { t } = useI18n();
+  const {
+    meetings,
+    todayMeetings,
+    upcomingMeetings,
+    monthMeetings,
+    loading,
+    fetchMeetings,
+    fetchToday,
+    fetchUpcoming,
+    fetchMonth,
+  } = useMeetingsStore();
+
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isAddMeetingOpen, setIsAddMeetingOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -152,6 +43,19 @@ export function CalendarPage() {
   const [filterType, setFilterType] = useState<string>('all');
   const [filterClient, setFilterClient] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Load initial data
+  useEffect(() => {
+    fetchMeetings();
+    fetchToday();
+    fetchUpcoming(10);
+    fetchMonth(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1);
+  }, [fetchMeetings, fetchToday, fetchUpcoming, fetchMonth]);
+
+  // Update month data when selectedMonth changes
+  useEffect(() => {
+    fetchMonth(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1);
+  }, [selectedMonth, fetchMonth]);
 
   useEffect(() => {
     const style = document.createElement('style');
@@ -177,48 +81,43 @@ export function CalendarPage() {
     };
   }, []);
 
-  const filteredMeetings = allMeetings.filter(meeting => {
+  const filteredMeetings = meetings.filter((meeting) => {
     const matchesType = filterType === 'all' || meeting.type === filterType;
-    const matchesClient = filterClient === 'all' || meeting.client.name === filterClient;
+    const matchesClient = filterClient === 'all' || meeting.clientName === filterClient;
     const matchesSearch =
       searchQuery === '' ||
       meeting.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      meeting.client.name.toLowerCase().includes(searchQuery.toLowerCase());
+      meeting.clientName.toLowerCase().includes(searchQuery.toLowerCase());
 
     return matchesType && matchesClient && matchesSearch;
   });
 
   const selectedDateMeetings = filteredMeetings
-    .filter(meeting => {
+    .filter((meeting) => {
       if (!date) return false;
+      const meetingDate = new Date(meeting.date);
       return (
-        meeting.date.getDate() === date.getDate() &&
-        meeting.date.getMonth() === date.getMonth() &&
-        meeting.date.getFullYear() === date.getFullYear()
+        meetingDate.getDate() === date.getDate() &&
+        meetingDate.getMonth() === date.getMonth() &&
+        meetingDate.getFullYear() === date.getFullYear()
       );
     })
-    .sort((a, b) => a.date.getTime() - b.date.getTime());
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  const upcomingMeetings = filteredMeetings
-    .filter(m => m.status === MeetingStatusEnum.SCHEDULED && m.date >= new Date())
-    .sort((a, b) => a.date.getTime() - b.date.getTime())
-    .slice(0, 5);
+  // Create meeting dates for calendar indicators - normalize to midnight to avoid timezone issues
+  const meetingDates = filteredMeetings.map((m) => {
+    const date = new Date(m.date);
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  });
 
-  const today = new Date();
-  const todayMeetings = filteredMeetings
-    .filter(
-      meeting =>
-        meeting.date.getDate() === today.getDate() &&
-        meeting.date.getMonth() === today.getMonth() &&
-        meeting.date.getFullYear() === today.getFullYear() &&
-        meeting.status === MeetingStatusEnum.SCHEDULED
-    )
-    .sort((a, b) => a.date.getTime() - b.date.getTime());
+  const uniqueClients = Array.from(new Set(meetings.map((m) => m.clientName)));
 
-  const meetingDates = filteredMeetings.map(m => m.date);
-  const uniqueClients = Array.from(new Set(allMeetings.map(m => m.client.name)));
+  const getMeetingTypeIcon = (type: MeetingInterface['type'], title?: string) => {
+    // Check if this is a court session
+    if (title && isCourtSession(title)) {
+      return <Scale className="w-4 h-4" strokeWidth={2} />;
+    }
 
-  const getMeetingTypeIcon = (type: MeetingInterface['type']) => {
     switch (type) {
       case 'video':
         return <Video className="w-4 h-4" strokeWidth={2} />;
@@ -260,11 +159,18 @@ export function CalendarPage() {
           <div className="flex items-center justify-between gap-3 mb-3 sm:mb-4">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5} />
+                <Sparkles
+                  className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white"
+                  strokeWidth={2.5}
+                />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">{t('CALENDAR.TITLE')}</h1>
-                <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">{t('CALENDAR.SUBTITLE')}</p>
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">
+                  {t('CALENDAR.TITLE')}
+                </h1>
+                <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">
+                  {t('CALENDAR.SUBTITLE')}
+                </p>
               </div>
             </div>
 
@@ -281,75 +187,83 @@ export function CalendarPage() {
             </div>
           </div>
 
-            <FilterBar
-              searchConfig={{
-                value: searchQuery,
-                onChange: setSearchQuery,
-                placeholder: t('CALENDAR.FIELDS.SEARCH_PLACEHOLDER'),
-                className: 'flex-1',
-              }}
-              filters={[
-                {
-                  value: filterType,
-                  onChange: setFilterType,
-                  placeholder: t('CALENDAR.FILTERS.ALL_TYPES'),
-                  width: 'w-full sm:w-[180px]',
-                  options: [
-                    { value: 'all', label: t('CALENDAR.FILTERS.ALL_TYPES') },
-                    { value: 'in_person', label: t('CALENDAR.FILTERS.IN_PERSON') },
-                    { value: 'video', label: t('CALENDAR.FILTERS.VIDEO') },
-                    { value: 'phone', label: t('CALENDAR.FILTERS.PHONE') },
-                  ],
-                },
-                {
-                  value: filterClient,
-                  onChange: setFilterClient,
-                  placeholder: t('CALENDAR.FILTERS.CLIENT'),
-                  width: 'w-full sm:w-[200px]',
-                  icon: User,
-                  options: [
-                    { value: 'all', label: t('CALENDAR.FILTERS.ALL_CLIENTS') },
-                    ...uniqueClients.map(client => ({ value: client, label: client })),
-                  ],
-                },
-              ]}
-            />
+          <FilterBar
+            searchConfig={{
+              value: searchQuery,
+              onChange: setSearchQuery,
+              placeholder: t('CALENDAR.FIELDS.SEARCH_PLACEHOLDER'),
+              className: 'flex-1',
+            }}
+            filters={[
+              {
+                value: filterType,
+                onChange: setFilterType,
+                placeholder: t('CALENDAR.FILTERS.ALL_TYPES'),
+                width: 'w-full sm:w-[180px]',
+                options: [
+                  { value: 'all', label: t('CALENDAR.FILTERS.ALL_TYPES') },
+                  { value: 'in_person', label: t('CALENDAR.FILTERS.IN_PERSON') },
+                  { value: 'video', label: t('CALENDAR.FILTERS.VIDEO') },
+                  { value: 'phone', label: t('CALENDAR.FILTERS.PHONE') },
+                ],
+              },
+              {
+                value: filterClient,
+                onChange: setFilterClient,
+                placeholder: t('CALENDAR.FILTERS.CLIENT'),
+                width: 'w-full sm:w-[200px]',
+                icon: User,
+                options: [
+                  { value: 'all', label: t('CALENDAR.FILTERS.ALL_CLIENTS') },
+                  ...uniqueClients.map((client) => ({ value: client, label: client })),
+                ],
+              },
+            ]}
+          />
         </div>
       </header>
 
       <main className="py-4 sm:py-6">
-        <TodayCard meetingsCount={todayMeetings.length} />
+        {loading && meetings.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">{t('COMMON.LOADING')}</p>
+          </div>
+        ) : (
+          <>
+            <TodayCard meetingsCount={todayMeetings.length} />
 
-        {viewMode === 'calendar' ? (
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
-            <CalendarWidget
-              date={date}
-              setDate={setDate}
-              selectedMonth={selectedMonth}
-              setSelectedMonth={setSelectedMonth}
-              meetingDates={meetingDates}
-              meetings={filteredMeetings}
-            />
+            {viewMode === 'calendar' ? (
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
+                <CalendarWidget
+                  date={date}
+                  setDate={setDate}
+                  selectedMonth={selectedMonth}
+                  setSelectedMonth={setSelectedMonth}
+                  meetingDates={meetingDates}
+                  meetings={filteredMeetings}
+                />
 
-            <div className="lg:col-span-2 space-y-4">
-              <SelectedDateMeetings
-                date={date}
-                meetings={selectedDateMeetings}
+                <div className="lg:col-span-2 space-y-4">
+                  <SelectedDateMeetings
+                    date={date}
+                    meetings={selectedDateMeetings}
+                    getMeetingTypeIcon={getMeetingTypeIcon}
+                    getMeetingTypeColor={getMeetingTypeColor}
+                    getPriorityColor={getPriorityColor}
+                  />
+
+                  <UpcomingMeetings meetings={upcomingMeetings} onSelectDate={setDate} />
+                </div>
+              </div>
+            ) : (
+              <MeetingsList
+                meetings={filteredMeetings}
                 getMeetingTypeIcon={getMeetingTypeIcon}
                 getMeetingTypeColor={getMeetingTypeColor}
                 getPriorityColor={getPriorityColor}
               />
-
-              <UpcomingMeetings meetings={upcomingMeetings} onSelectDate={setDate} />
-            </div>
-          </div>
-        ) : (
-          <MeetingsList
-            meetings={filteredMeetings}
-            getMeetingTypeIcon={getMeetingTypeIcon}
-            getMeetingTypeColor={getMeetingTypeColor}
-            getPriorityColor={getPriorityColor}
-          />
+            )}
+          </>
         )}
       </main>
     </div>

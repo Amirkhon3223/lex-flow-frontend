@@ -35,9 +35,8 @@ class I18nService {
   constructor() {
     // Загружаем сохраненный язык из localStorage или используем дефолтный
     const savedLanguage = localStorage.getItem(STORAGE_KEY) as Language;
-    this.currentLanguage = savedLanguage && this.isValidLanguage(savedLanguage)
-      ? savedLanguage
-      : DEFAULT_LANGUAGE;
+    this.currentLanguage =
+      savedLanguage && this.isValidLanguage(savedLanguage) ? savedLanguage : DEFAULT_LANGUAGE;
 
     // Запускаем загрузку переводов и сохраняем промис, чтобы другие части приложения могли дождаться
     this.ready = this.loadTranslations(this.currentLanguage);
@@ -78,7 +77,7 @@ class I18nService {
    * Получает информацию о текущем языке
    */
   getCurrentLanguageInfo(): LanguageInfo {
-    return LANGUAGES.find(lang => lang.code === this.currentLanguage) || LANGUAGES[0];
+    return LANGUAGES.find((lang) => lang.code === this.currentLanguage) || LANGUAGES[0];
   }
 
   /**

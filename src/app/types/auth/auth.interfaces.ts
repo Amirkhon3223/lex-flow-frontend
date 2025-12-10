@@ -55,7 +55,6 @@ export interface AuthCardProps {
   onRegisterSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-
 export interface LoginFormProps {
   isLoading: boolean;
   email: string;

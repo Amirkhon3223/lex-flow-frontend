@@ -56,7 +56,8 @@ export const handleApiError = (error: AxiosError<ErrorResponse>) => {
     }
   } else if (error.request) {
     toast.error('Ошибка сети', {
-      description: 'Не удалось соединиться с сервером. Проверьте подключение и убедитесь, что сервер запущен на http://localhost:8080',
+      description:
+        'Не удалось соединиться с сервером. Проверьте подключение и убедитесь, что сервер запущен на http://localhost:8080',
     });
   } else {
     toast.error('Ошибка', {

@@ -21,8 +21,6 @@ export function StatusBadge({ status }: StatusBadgeProps) {
   };
 
   return (
-    <Badge className={`${getDocumentStatusColor(status)} border-0`}>
-      {getStatusText(status)}
-    </Badge>
+    <Badge className={`${getDocumentStatusColor(status)} border-0`}>{getStatusText(status)}</Badge>
   );
 }

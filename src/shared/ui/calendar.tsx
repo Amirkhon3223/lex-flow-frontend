@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import * as React from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useI18n } from '@/shared/context/I18nContext';
-import { cn } from "./utils";
+import { cn } from './utils';
 
 interface CalendarProps {
   selected?: Date;
@@ -30,9 +30,7 @@ export function Calendar({
   modifiers,
   modifiersClassNames,
 }: CalendarProps) {
-  const [currentMonth, setCurrentMonth] = React.useState<Date>(
-    month || new Date()
-  );
+  const [currentMonth, setCurrentMonth] = React.useState<Date>(month || new Date());
 
   React.useEffect(() => {
     if (month) setCurrentMonth(month);
@@ -107,21 +105,17 @@ export function Calendar({
 
   const meetingDates = modifiers?.meeting || [];
 
-  const isMeetingDay = (date: Date) =>
-    meetingDates.some((d) => isSameDay(d, date));
+  const isMeetingDay = (date: Date) => meetingDates.some((d) => isSameDay(d, date));
 
   return (
     <div
       className={cn(
-        "p-5 bg-card rounded-2xl border border-border shadow-sm text-foreground select-none",
+        'p-5 bg-card rounded-2xl border border-border shadow-sm text-foreground select-none',
         className
       )}
     >
       <div className="flex items-center justify-between mb-4">
-        <button
-          onClick={handlePrev}
-          className="p-2 rounded-lg hover:bg-muted transition"
-        >
+        <button onClick={handlePrev} className="p-2 rounded-lg hover:bg-muted transition">
           <ChevronLeft className="w-4 h-4 text-muted-foreground" />
         </button>
 
@@ -139,10 +133,7 @@ export function Calendar({
           )}
         </div>
 
-        <button
-          onClick={handleNext}
-          className="p-2 rounded-lg hover:bg-muted transition"
-        >
+        <button onClick={handleNext} className="p-2 rounded-lg hover:bg-muted transition">
           <ChevronRight className="w-4 h-4 text-muted-foreground" />
         </button>
       </div>
@@ -168,20 +159,20 @@ export function Calendar({
               disabled={false}
               onClick={() => onSelect?.(date)}
               className={cn(
-                "relative w-10 h-10 flex items-center justify-center rounded-xl transition-all cursor-pointer",
-                "hover:bg-muted focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
-                isOutside && "text-muted-foreground/50",
-                isToday && "bg-blue-50 text-blue-700 font-semibold",
+                'relative w-10 h-10 flex items-center justify-center rounded-xl transition-all cursor-pointer',
+                'hover:bg-muted focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2',
+                isOutside && 'text-muted-foreground/50',
+                isToday && 'bg-blue-50 text-blue-700 font-semibold',
                 isSelected &&
-                "bg-blue-500 text-white hover:bg-blue-600 ring-2 ring-blue-500 ring-offset-2"
+                  'bg-blue-500 text-white hover:bg-blue-600 ring-2 ring-blue-500 ring-offset-2'
               )}
             >
               {date.getDate()}
               {hasMeeting && (
                 <span
                   className={cn(
-                    "absolute bottom-[3px] left-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full",
-                    modifiersClassNames?.meeting || "bg-blue-500"
+                    'absolute bottom-[3px] left-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full',
+                    modifiersClassNames?.meeting || 'bg-blue-500'
                   )}
                 ></span>
               )}

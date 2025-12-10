@@ -9,9 +9,7 @@ import type {
 
 export const analyticsService = {
   getDashboardStats: async (): Promise<DashboardStatsResponse> => {
-    const response = await httpClient.get<DashboardStatsResponse>(
-      '/analytics/dashboard'
-    );
+    const response = await httpClient.get<DashboardStatsResponse>('/analytics/dashboard');
     return response.data;
   },
 
@@ -21,23 +19,17 @@ export const analyticsService = {
   },
 
   getClientsAnalytics: async (): Promise<ClientAnalyticsResponse> => {
-    const response = await httpClient.get<ClientAnalyticsResponse>(
-      '/analytics/clients'
-    );
+    const response = await httpClient.get<ClientAnalyticsResponse>('/analytics/clients');
     return response.data;
   },
 
   getDocumentsAnalytics: async (): Promise<DocumentAnalyticsResponse> => {
-    const response = await httpClient.get<DocumentAnalyticsResponse>(
-      '/analytics/documents'
-    );
+    const response = await httpClient.get<DocumentAnalyticsResponse>('/analytics/documents');
     return response.data;
   },
 
   getMeetingsAnalytics: async (): Promise<MeetingAnalyticsResponse> => {
-    const response = await httpClient.get<MeetingAnalyticsResponse>(
-      '/analytics/meetings'
-    );
+    const response = await httpClient.get<MeetingAnalyticsResponse>('/analytics/meetings');
     return response.data;
   },
 };

@@ -1,5 +1,5 @@
 import { Mail, Lock, ArrowRight } from 'lucide-react';
-import type { LoginFormProps } from "@/app/types/auth/auth.interfaces.ts";
+import type { LoginFormProps } from '@/app/types/auth/auth.interfaces.ts';
 import { Button } from '@/shared/ui/button.tsx';
 import { Checkbox } from '@/shared/ui/checkbox.tsx';
 import { Input } from '@/shared/ui/input.tsx';

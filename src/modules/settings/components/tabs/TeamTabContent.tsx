@@ -47,7 +47,9 @@ export function TeamTabContent() {
         <Card>
           <div>
             <div className="flex items-center justify-between gap-2 mb-3 sm:mb-4 md:mb-6">
-              <h3 className="text-base sm:text-lg md:text-xl tracking-tight">{t('SETTINGS.TEAM.MEMBERS')}</h3>
+              <h3 className="text-base sm:text-lg md:text-xl tracking-tight">
+                {t('SETTINGS.TEAM.MEMBERS')}
+              </h3>
               <Button
                 onClick={handleInvite}
                 className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-2 sm:px-3 md:px-4"
@@ -59,7 +61,11 @@ export function TeamTabContent() {
 
             <div className="space-y-2 sm:space-y-3">
               {TEAM_MEMBERS.map((member, index) => (
-                <TeamMemberItem key={index} member={member} onSettings={() => handleMemberSettings(member.name)} />
+                <TeamMemberItem
+                  key={index}
+                  member={member}
+                  onSettings={() => handleMemberSettings(member.name)}
+                />
               ))}
             </div>
           </div>

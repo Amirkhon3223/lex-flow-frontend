@@ -77,7 +77,7 @@ export interface SpeechRecognitionInstance extends EventTarget {
 }
 
 export interface SpeechRecognitionConstructor {
-  new(): SpeechRecognitionInstance;
+  new (): SpeechRecognitionInstance;
 }
 
 export interface SpeechRecognitionConfig {

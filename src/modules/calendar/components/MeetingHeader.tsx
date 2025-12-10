@@ -20,7 +20,10 @@ export function MeetingHeader({ meeting, onEdit, onDelete }: MeetingHeaderProps)
     <header className="bg-card border-b border-border rounded-xl mb-4 sm:mb-6">
       <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between mb-3 sm:mb-4">
-          <BackButton onClick={() => navigate(-1)} label={t('CALENDAR.MEETING_DETAILS.ALL_MEETINGS')} />
+          <BackButton
+            onClick={() => navigate(-1)}
+            label={t('CALENDAR.MEETING_DETAILS.ALL_MEETINGS')}
+          />
 
           <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
             <Button

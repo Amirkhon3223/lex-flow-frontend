@@ -52,7 +52,11 @@ interface CasesState {
   // Tasks actions
   fetchTasks: (caseId: string) => Promise<void>;
   addTask: (caseId: string, title: string) => Promise<void>;
-  updateTask: (caseId: string, taskId: string, data: { title?: string; completed?: boolean }) => Promise<void>;
+  updateTask: (
+    caseId: string,
+    taskId: string,
+    data: { title?: string; completed?: boolean }
+  ) => Promise<void>;
   deleteTask: (caseId: string, taskId: string) => Promise<void>;
   toggleTask: (caseId: string, taskId: string) => Promise<void>;
 }
@@ -253,7 +257,11 @@ export const useCasesStore = create<CasesState>((set, get) => ({
     }
   },
 
-  updateTask: async (caseId: string, taskId: string, data: { title?: string; completed?: boolean }) => {
+  updateTask: async (
+    caseId: string,
+    taskId: string,
+    data: { title?: string; completed?: boolean }
+  ) => {
     set({ tasksLoading: true, tasksError: null });
     try {
       const updatedTask = await casesService.updateTask(caseId, taskId, data);

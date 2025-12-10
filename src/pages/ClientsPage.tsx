@@ -1,3 +1,3 @@
-import { ClientsPage } from "@/modules/clients";
+import { ClientsPage } from '@/modules/clients';
 
 export default ClientsPage;

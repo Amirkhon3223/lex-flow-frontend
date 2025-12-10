@@ -4,13 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import {
-  Briefcase,
-  User,
-  Tag,
-  Calendar,
-  DollarSign,
-} from 'lucide-react';
+import { Briefcase, User, Tag, Calendar, DollarSign, Scale } from 'lucide-react';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -24,13 +18,7 @@ import {
 } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
 import { formatDescription } from '@/shared/utils/textFormatting';
 
@@ -42,7 +30,13 @@ interface AddCaseDialogProps {
   preselectedClientId?: string; // ID клиента для автовыбора
 }
 
-export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselectedClientId }: AddCaseDialogProps) {
+export function AddCaseDialog({
+  open,
+  onOpenChange,
+  onSubmit,
+  caseId,
+  preselectedClientId,
+}: AddCaseDialogProps) {
   const { t } = useI18n();
   const { clients, fetchClients } = useClientsStore();
   const { createCase, updateCase, fetchCaseById, selectedCase } = useCasesStore();
@@ -51,6 +45,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselecte
     client: preselectedClientId || '', // Устанавливаем предвыбранного клиента
     category: '',
     deadline: '',
+    courtDate: '',
     fee: '',
     description: '',
     priority: 'medium',
@@ -72,13 +67,14 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselecte
         client: selectedCase.clientId,
         category: selectedCase.category,
         deadline: selectedCase.deadline?.split('T')[0] || '',
+        courtDate: selectedCase.courtDate?.split('T')[0] || '',
         fee: selectedCase.fee?.toString() || '',
         description: selectedCase.description || '',
         priority: selectedCase.priority,
       });
     } else if (!caseId && preselectedClientId && open) {
       // Если это новое дело и есть предвыбранный клиент
-      setFormData(prev => ({ ...prev, client: preselectedClientId }));
+      setFormData((prev) => ({ ...prev, client: preselectedClientId }));
     }
   }, [caseId, selectedCase, open, preselectedClientId]);
 
@@ -91,6 +87,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselecte
         clientId: formData.client,
         category: formData.category,
         deadline: formData.deadline,
+        courtDate: formData.courtDate || undefined,
         fee: parseFloat(formData.fee) || 0,
         description: formatDescription(formData.description),
         priority: formData.priority as any,
@@ -111,6 +108,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselecte
           client: '',
           category: '',
           deadline: '',
+          courtDate: '',
           fee: '',
           description: '',
           priority: 'medium',
@@ -131,9 +129,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselecte
             </div>
             {caseId ? t('CASES.EDIT_DIALOG.TITLE') : t('CASES.NEW_CASE')}
           </DialogTitle>
-          <DialogDescription className="sr-only">
-            {t('CASES.SUBTITLE')}
-          </DialogDescription>
+          <DialogDescription className="sr-only">{t('CASES.SUBTITLE')}</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
@@ -151,7 +147,7 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselecte
             />
           </div>
 
-          { }
+          {}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="client" className="text-sm text-foreground">
@@ -208,7 +204,10 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselecte
                 {t('CASES.FIELDS.DEADLINE')}
               </Label>
               <div className="relative">
-                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                <Calendar
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                  strokeWidth={2}
+                />
                 <Input
                   id="deadline"
                   type="date"
@@ -220,11 +219,35 @@ export function AddCaseDialog({ open, onOpenChange, onSubmit, caseId, preselecte
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="courtDate" className="text-sm text-foreground">
+                {t('CASES.FIELDS.COURT_DATE')}
+              </Label>
+              <div className="relative">
+                <Scale
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                  strokeWidth={2}
+                />
+                <Input
+                  id="courtDate"
+                  type="date"
+                  value={formData.courtDate.split('T')[0] || formData.courtDate}
+                  onChange={(e) => setFormData({ ...formData, courtDate: e.target.value })}
+                  className="h-12 pl-12 rounded-xl border-input focus-visible:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
               <Label htmlFor="fee" className="text-sm text-foreground">
                 {t('CASES.FIELDS.FEE')} (₽)
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                <DollarSign
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                  strokeWidth={2}
+                />
                 <Input
                   id="fee"
                   type="number"

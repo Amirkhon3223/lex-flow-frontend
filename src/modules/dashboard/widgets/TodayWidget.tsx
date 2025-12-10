@@ -21,21 +21,21 @@ export function TodayWidget() {
   useEffect(() => {
     const html = document.documentElement;
     const updateTheme = () => {
-      setIsDark(html.classList.contains("dark"));
+      setIsDark(html.classList.contains('dark'));
     };
     updateTheme();
     const observer = new MutationObserver(updateTheme);
-    observer.observe(html, { attributes: true, attributeFilter: ["class"] });
+    observer.observe(html, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
 
   const cardClasses = isDark
-    ? "bg-card shadow-none border border-calendar-border"
-    : "bg-today-bg shadow-md border-0";
+    ? 'bg-card shadow-none border border-calendar-border'
+    : 'bg-today-bg shadow-md border-0';
 
   const itemClasses = isDark
-    ? "bg-calendar-item border border-calendar-border"
-    : "bg-today-item-bg border-0";
+    ? 'bg-calendar-item border border-calendar-border'
+    : 'bg-today-item-bg border-0';
 
   return (
     <Card className={cardClasses}>
@@ -44,10 +44,7 @@ export function TodayWidget() {
           {t('COMMON.TIME.TODAY')}
         </h3>
 
-        <Calendar
-          className="w-4 h-4 sm:w-5 sm:h-5 text-foreground"
-          strokeWidth={2}
-        />
+        <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-foreground" strokeWidth={2} />
       </div>
 
       <div className="space-y-3 sm:space-y-4">
@@ -59,9 +56,7 @@ export function TodayWidget() {
 
             <div className="flex-1 min-w-0">
               <div className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl ${itemClasses}`}>
-                <p className="text-xs sm:text-sm truncate text-foreground">
-                  {event.title}
-                </p>
+                <p className="text-xs sm:text-sm truncate text-foreground">{event.title}</p>
               </div>
             </div>
           </div>

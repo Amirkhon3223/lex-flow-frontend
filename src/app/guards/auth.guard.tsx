@@ -29,5 +29,3 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
   // Если аутентифицирован, показываем контент
   return children || <Outlet />;
 };
-
-

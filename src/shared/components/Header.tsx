@@ -12,7 +12,7 @@
 import { useState } from 'react';
 import { Search, Bell, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from "@/app/config/routes.config.ts";
+import { ROUTES } from '@/app/config/routes.config.ts';
 import { LanguageSelector } from '@/shared/components/LanguageSelector';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -54,12 +54,19 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
             className="hidden md:flex lg:hidden w-10 h-10 rounded-xl hover:bg-muted bg-muted/50 mr-2"
             onClick={onMenuClick}
           >
-            {isSidebarCollapsed ? <ChevronRight className="w-5 h-5" strokeWidth={2} /> : <ChevronLeft className="w-5 h-5" strokeWidth={2} />}
+            {isSidebarCollapsed ? (
+              <ChevronRight className="w-5 h-5" strokeWidth={2} />
+            ) : (
+              <ChevronLeft className="w-5 h-5" strokeWidth={2} />
+            )}
           </Button>
 
           <div className="flex-1 max-w-2xl">
             <div className="relative cursor-pointer" onClick={() => setIsSearchOpen(true)}>
-              <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" strokeWidth={2} />
+              <Search
+                className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
+                strokeWidth={2}
+              />
               <Input
                 placeholder={t('COMMON.ACTIONS.SEARCH')}
                 className="pl-10 sm:pl-12 h-10 sm:h-11 bg-muted/50 border-0 rounded-xl text-sm sm:text-[15px] placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:bg-background cursor-pointer"

@@ -3,12 +3,7 @@ import { CheckSquare } from 'lucide-react';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/shared/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 
@@ -61,7 +56,12 @@ export function AddTaskDialog({ open, onOpenChange, caseId }: AddTaskDialogProps
             />
           </div>
           <div className="flex gap-3">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              className="flex-1"
+            >
               {t('COMMON.ACTIONS.CANCEL')}
             </Button>
             <Button type="submit" className="flex-1 bg-green-500 hover:bg-green-600 text-white">

@@ -30,7 +30,9 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
   return (
     <div className="space-y-4 sm:space-y-6">
       <div>
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('USER_PROFILE.PERSONAL_INFO')}</h3>
+        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">
+          {t('USER_PROFILE.PERSONAL_INFO')}
+        </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <div className="space-y-1.5 sm:space-y-2">
             <Label htmlFor="lastName" className="text-xs sm:text-sm text-gray-600">
@@ -71,7 +73,9 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
       <Separator className="bg-gray-100" />
 
       <div>
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('USER_PROFILE.CONTACT_INFO')}</h3>
+        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">
+          {t('USER_PROFILE.CONTACT_INFO')}
+        </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div className="space-y-1.5 sm:space-y-2">
             <Label htmlFor="email" className="text-xs sm:text-sm text-gray-600">
@@ -102,7 +106,9 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
       <Separator className="bg-gray-100" />
 
       <div>
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('USER_PROFILE.PROFESSIONAL_INFO')}</h3>
+        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">
+          {t('USER_PROFILE.PROFESSIONAL_INFO')}
+        </h3>
         <div className="space-y-3 sm:space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="space-y-1.5 sm:space-y-2">
@@ -128,10 +134,16 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="rounded-lg sm:rounded-xl">
-                  <SelectItem value="Трудовое право">{t('PRACTICE_TYPES.LABOR_DISPUTES')}</SelectItem>
-                  <SelectItem value="Договорное право">{t('PRACTICE_TYPES.CONTRACT_LAW')}</SelectItem>
+                  <SelectItem value="Трудовое право">
+                    {t('PRACTICE_TYPES.LABOR_DISPUTES')}
+                  </SelectItem>
+                  <SelectItem value="Договорное право">
+                    {t('PRACTICE_TYPES.CONTRACT_LAW')}
+                  </SelectItem>
                   <SelectItem value="Семейное право">{t('PRACTICE_TYPES.FAMILY_LAW')}</SelectItem>
-                  <SelectItem value="Уголовное право">{t('PRACTICE_TYPES.CRIMINAL_LAW')}</SelectItem>
+                  <SelectItem value="Уголовное право">
+                    {t('PRACTICE_TYPES.CRIMINAL_LAW')}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
