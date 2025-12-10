@@ -29,6 +29,9 @@ export const useAuthStore = create<AuthState>()(
         try {
           const response = await authService.login(data);
           localStorage.setItem('access_token', response.token);
+          if (response.user.timezone) {
+            localStorage.setItem('userTimezone', response.user.timezone);
+          }
           set({
             user: response.user,
             token: response.token,
@@ -47,9 +50,11 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true, error: null });
         try {
           await authService.logout();
+          localStorage.removeItem('userTimezone');
           set({ user: null, token: null, isAuthenticated: false, loading: false });
         } catch (error) {
           // Даже если произошла ошибка, очищаем локальное состояние
+          localStorage.removeItem('userTimezone');
           set({
             user: null,
             token: null,
@@ -65,6 +70,9 @@ export const useAuthStore = create<AuthState>()(
         try {
           const response = await authService.register(data);
           localStorage.setItem('access_token', response.token);
+          if (response.user.timezone) {
+            localStorage.setItem('userTimezone', response.user.timezone);
+          }
           set({
             user: response.user,
             token: response.token,

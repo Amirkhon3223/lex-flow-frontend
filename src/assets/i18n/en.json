@@ -899,7 +899,29 @@
     "SIGN_IN": "Sign In",
     "SIGN_UP": "Sign Up",
     "OR": "or",
-    "CONTINUE_WITH": "Continue with"
+    "CONTINUE_WITH": "Continue with",
+    "FIRST_NAME": "First name",
+    "LAST_NAME": "Last name",
+    "FIRM_NAME": "Firm name",
+    "COUNTRY": "Country",
+    "CITY": "City",
+    "PASSWORD_REQUIREMENTS": "At least 8 characters including letters and numbers",
+    "PLACEHOLDER": {
+      "FIRST_NAME": "John",
+      "LAST_NAME": "Doe",
+      "FIRM_NAME": "Law firm",
+      "COUNTRY": "Select a country",
+      "CITY": "Select a city"
+    },
+    "ERROR": {
+      "SELECT_COUNTRY": "Please select a country first"
+    },
+    "AGREE": "I agree with the",
+    "TERMS": "Terms of Use",
+    "AND": "and",
+    "PRIVACY": "Privacy Policy",
+    "CREATE_ACCOUNT": "Create account",
+    "CREATING_ACCOUNT": "Creating account..."
   },
   "TASKS": {
     "NEW_TASK": "New Task",

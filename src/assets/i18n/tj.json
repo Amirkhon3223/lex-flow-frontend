@@ -900,7 +900,29 @@
     "SIGN_IN": "Вуруд",
     "SIGN_UP": "Сабти ном",
     "OR": "ё",
-    "CONTINUE_WITH": "Идома бо"
+    "CONTINUE_WITH": "Идома бо",
+    "FIRST_NAME": "Ном",
+    "LAST_NAME": "Насаб",
+    "FIRM_NAME": "Номи ширкат",
+    "COUNTRY": "Кишвар",
+    "CITY": "Шаҳр",
+    "PASSWORD_REQUIREMENTS": "Камаш 8 рамз, аз ҷумла ҳарф ва рақам",
+    "PLACEHOLDER": {
+      "FIRST_NAME": "Алишер",
+      "LAST_NAME": "Саидов",
+      "FIRM_NAME": "Ширкати ҳуқуқӣ",
+      "COUNTRY": "Кишварро интихоб кунед",
+      "CITY": "Шаҳрро интихоб кунед"
+    },
+    "ERROR": {
+      "SELECT_COUNTRY": "Аввал кишварро интихоб кунед"
+    },
+    "AGREE": "Ман розӣ ҳастам бо",
+    "TERMS": "Шартҳои истифода",
+    "AND": "ва",
+    "PRIVACY": "Сиёсати махфият",
+    "CREATE_ACCOUNT": "Эҷоди аккаунт",
+    "CREATING_ACCOUNT": "Эҷоди аккаунт..."
   },
   "TASKS": {
     "NEW_TASK": "Вазифаи нав",
