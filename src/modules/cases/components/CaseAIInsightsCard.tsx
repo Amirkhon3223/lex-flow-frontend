@@ -24,11 +24,15 @@ export function CaseAIInsightsCard({ insights, onViewFullReport }: CaseAIInsight
 
         <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-5">
           {insights.map((insight, index) => (
-            <div key={index} className="p-3 sm:p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+            <div
+              key={index}
+              className="p-3 sm:p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20"
+            >
               <div className="flex items-start gap-2 sm:gap-3">
                 <div
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${insight.priority === AIInsightPriorityEnum.HIGH ? 'bg-white/20' : 'bg-white/10'
-                    }`}
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    insight.priority === AIInsightPriorityEnum.HIGH ? 'bg-white/20' : 'bg-white/10'
+                  }`}
                 >
                   {insight.type === AIInsightTypeEnum.RISK && (
                     <AlertCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5} />

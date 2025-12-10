@@ -37,11 +37,11 @@ function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: numbe
 }
 
 export function AvatarCropperModal({
-                                     isOpen,
-                                     onClose,
-                                     imageSrc,
-                                     onCropComplete,
-                                   }: AvatarCropperModalProps) {
+  isOpen,
+  onClose,
+  imageSrc,
+  onCropComplete,
+}: AvatarCropperModalProps) {
   const { t } = useI18n();
   const imgRef = useRef<HTMLImageElement>(null);
   const [crop, setCrop] = useState<Crop>();
@@ -106,9 +106,7 @@ export function AvatarCropperModal({
       <DialogContent className="sm:max-w-xl bg-white">
         <DialogHeader>
           <DialogTitle>{t('USER_PROFILE.AVATAR_CROPPER.TITLE')}</DialogTitle>
-          <DialogDescription>
-            {t('USER_PROFILE.AVATAR_CROPPER.DESCRIPTION')}
-          </DialogDescription>
+          <DialogDescription>{t('USER_PROFILE.AVATAR_CROPPER.DESCRIPTION')}</DialogDescription>
         </DialogHeader>
 
         <div className="flex justify-center max-h-[60vh] w-full overflow-auto">
@@ -132,11 +130,7 @@ export function AvatarCropperModal({
         </div>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={handleCancel}
-            className="rounded-lg sm:rounded-xl"
-          >
+          <Button variant="outline" onClick={handleCancel} className="rounded-lg sm:rounded-xl">
             {t('USER_PROFILE.AVATAR_CROPPER.CANCEL')}
           </Button>
           <Button

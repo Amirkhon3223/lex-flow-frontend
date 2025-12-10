@@ -8,18 +8,16 @@ export interface SearchBarProps {
   className?: string;
 }
 
-export function SearchBar({
-  value,
-  onChange,
-  placeholder,
-  className = '',
-}: SearchBarProps) {
+export function SearchBar({ value, onChange, placeholder, className = '' }: SearchBarProps) {
   const { t } = useI18n();
   const ph = placeholder ?? t('COMMON.ACTIONS.SEARCH');
 
   return (
     <div className={`relative flex-1 ${className}`}>
-      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" strokeWidth={2} />
+      <Search
+        className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+        strokeWidth={2}
+      />
       <input
         type="text"
         placeholder={ph}

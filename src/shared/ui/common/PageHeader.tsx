@@ -20,12 +20,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   className,
 }) => {
   return (
-    <header
-      className={cn(
-        'relative bg-background border-b border-border rounded-xl',
-        className
-      )}
-    >
+    <header className={cn('relative bg-background border-b border-border rounded-xl', className)}>
       <div className="px-4 py-4 sm:px-6 sm:py-5">
         <div className="flex items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -35,12 +30,13 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                 gradient
               )}
             >
-              <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-5.5 md:h-5.5 text-white" strokeWidth={2} />
+              <Icon
+                className="w-4 h-4 sm:w-5 sm:h-5 md:w-5.5 md:h-5.5 text-white"
+                strokeWidth={2}
+              />
             </div>
             <div className="min-w-0">
-              <h1 className="text-xl sm:text-2xl md:text-3xl tracking-tight truncate">
-                {title}
-              </h1>
+              <h1 className="text-xl sm:text-2xl md:text-3xl tracking-tight truncate">{title}</h1>
               {subtitle && (
                 <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 truncate">
                   {subtitle}

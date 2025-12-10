@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import type { CaseFormData } from "@/app/types/cases/cases.interfaces";
-import type { UploadDocumentFormData } from "@/app/types/documents/documents.interfaces";
-import { AIInsightsWidget } from "@/modules/dashboard/widgets/AIInsightsWidget";
-import { PriorityCases } from "@/modules/dashboard/widgets/PriorityCases";
-import { QuickActions } from "@/modules/dashboard/widgets/QuickActions";
-import { RecentActivity } from "@/modules/dashboard/widgets/RecentActivity";
-import { StatsCards } from "@/modules/dashboard/widgets/StatsCards";
-import { TodayWidget } from "@/modules/dashboard/widgets/TodayWidget";
-import { AddCaseDialog } from "@/shared/components/AddCaseDialog";
-import { ClientFormModal } from "@/shared/components/ClientFormModal";
-import { UploadDocumentDialog } from "@/shared/components/UploadDocumentDialog";
-import { useI18n } from "@/shared/context/I18nContext";
+import type { CaseFormData } from '@/app/types/cases/cases.interfaces';
+import type { UploadDocumentFormData } from '@/app/types/documents/documents.interfaces';
+import { AIInsightsWidget } from '@/modules/dashboard/widgets/AIInsightsWidget';
+import { PriorityCases } from '@/modules/dashboard/widgets/PriorityCases';
+import { QuickActions } from '@/modules/dashboard/widgets/QuickActions';
+import { RecentActivity } from '@/modules/dashboard/widgets/RecentActivity';
+import { StatsCards } from '@/modules/dashboard/widgets/StatsCards';
+import { TodayWidget } from '@/modules/dashboard/widgets/TodayWidget';
+import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
+import { ClientFormModal } from '@/shared/components/ClientFormModal';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export default function DashboardPage() {
   const { t } = useI18n();
@@ -40,8 +40,12 @@ export default function DashboardPage() {
     <>
       <div className="space-y-8">
         <div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-2">{t('DASHBOARD.WELCOME')}, Александр</h2>
-          <p className="text-gray-500 text-base lg:text-lg">{t('DASHBOARD.TASKS_TODAY', { count: 5 })}</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-2">
+            {t('DASHBOARD.WELCOME')}, Александр
+          </h2>
+          <p className="text-gray-500 text-base lg:text-lg">
+            {t('DASHBOARD.TASKS_TODAY', { count: 5 })}
+          </p>
         </div>
 
         <StatsCards />
@@ -64,17 +68,12 @@ export default function DashboardPage() {
         </div>
       </div>
 
-
       <AddCaseDialog
         open={isAddCaseOpen}
         onOpenChange={setIsAddCaseOpen}
         onSubmit={handleAddCase}
       />
-      <ClientFormModal
-        open={isAddClientOpen}
-        onOpenChange={setIsAddClientOpen}
-        mode="create"
-      />
+      <ClientFormModal open={isAddClientOpen} onOpenChange={setIsAddClientOpen} mode="create" />
       <UploadDocumentDialog
         open={isUploadDocOpen}
         onOpenChange={setIsUploadDocOpen}

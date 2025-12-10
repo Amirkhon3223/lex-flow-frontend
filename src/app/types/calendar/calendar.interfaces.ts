@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from './calendar.enums';
 import type { Pagination } from '../api/api.types';
 
@@ -72,10 +72,9 @@ export interface CalendarWidgetProps {
   meetings: MeetingInterface[];
 }
 
-
 export interface MeetingsListProps {
   meetings: MeetingInterface[];
-  getMeetingTypeIcon: (type: MeetingInterface['type']) => ReactNode;
+  getMeetingTypeIcon: (type: MeetingInterface['type'], title?: string) => ReactNode;
   getMeetingTypeColor: (type: MeetingInterface['type']) => string;
   getPriorityColor: (priority?: MeetingInterface['priority']) => string;
 }
@@ -83,7 +82,7 @@ export interface MeetingsListProps {
 export interface SelectedDateMeetingsProps {
   date: Date | undefined;
   meetings: MeetingInterface[];
-  getMeetingTypeIcon: (type: MeetingInterface['type']) => ReactNode;
+  getMeetingTypeIcon: (type: MeetingInterface['type'], title?: string) => ReactNode;
   getMeetingTypeColor: (type: MeetingInterface['type']) => string;
   getPriorityColor: (priority?: MeetingInterface['priority']) => string;
 }

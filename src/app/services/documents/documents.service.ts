@@ -13,13 +13,9 @@ export const documentsService = {
   upload: async (file: File): Promise<UploadDocumentResponse> => {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await httpClient.post<UploadDocumentResponse>(
-      '/documents/upload',
-      formData,
-      {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      }
-    );
+    const response = await httpClient.post<UploadDocumentResponse>('/documents/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
     return response.data;
   },
 
@@ -64,9 +60,7 @@ export const documentsService = {
   },
 
   getVersions: async (id: string): Promise<DocumentVersionInterface[]> => {
-    const response = await httpClient.get<DocumentVersionInterface[]>(
-      `/documents/${id}/versions`
-    );
+    const response = await httpClient.get<DocumentVersionInterface[]>(`/documents/${id}/versions`);
     return response.data;
   },
 
@@ -89,12 +83,9 @@ export const documentsService = {
   },
 
   downloadVersion: async (id: string, versionId: string): Promise<Blob> => {
-    const response = await httpClient.get(
-      `/documents/${id}/versions/${versionId}/download`,
-      {
-        responseType: 'blob',
-      }
-    );
+    const response = await httpClient.get(`/documents/${id}/versions/${versionId}/download`, {
+      responseType: 'blob',
+    });
     return response.data;
   },
 };

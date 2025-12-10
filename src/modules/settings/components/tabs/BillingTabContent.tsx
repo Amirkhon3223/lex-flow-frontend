@@ -39,8 +39,16 @@ export function BillingTabContent() {
 
   return (
     <>
-      <ChangePlanDialog open={isChangePlanOpen} onOpenChange={setIsChangePlanOpen} onSubmit={handlePlanSubmit} />
-      <ManagePaymentDialog open={isManagePaymentOpen} onOpenChange={setIsManagePaymentOpen} onSubmit={handlePaymentSubmit} />
+      <ChangePlanDialog
+        open={isChangePlanOpen}
+        onOpenChange={setIsChangePlanOpen}
+        onSubmit={handlePlanSubmit}
+      />
+      <ManagePaymentDialog
+        open={isManagePaymentOpen}
+        onOpenChange={setIsManagePaymentOpen}
+        onSubmit={handlePaymentSubmit}
+      />
 
       <div className="space-y-4 sm:space-y-6">
         <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/30 text-white">
@@ -51,11 +59,17 @@ export function BillingTabContent() {
                   <Zap className="w-3 h-3 mr-1" strokeWidth={2} />
                   {t('SETTINGS.BILLING.PREMIUM')}
                 </Badge>
-                <h3 className="text-xl sm:text-2xl md:text-3xl tracking-tight mb-1 sm:mb-2">LexFlow Premium</h3>
-                <p className="opacity-90 text-xs sm:text-sm md:text-base">{t('SETTINGS.BILLING.UNLIMITED_ACCESS')}</p>
+                <h3 className="text-xl sm:text-2xl md:text-3xl tracking-tight mb-1 sm:mb-2">
+                  LexFlow Premium
+                </h3>
+                <p className="opacity-90 text-xs sm:text-sm md:text-base">
+                  {t('SETTINGS.BILLING.UNLIMITED_ACCESS')}
+                </p>
               </div>
               <div className="text-left sm:text-right">
-                <div className="text-2xl sm:text-3xl md:text-4xl tracking-tight mb-0.5 sm:mb-1">12 990 ₽</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl tracking-tight mb-0.5 sm:mb-1">
+                  12 990 ₽
+                </div>
                 <p className="opacity-90 text-xs sm:text-sm">{t('SETTINGS.BILLING.PER_MONTH')}</p>
               </div>
             </div>
@@ -64,11 +78,15 @@ export function BillingTabContent() {
 
             <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
               <div>
-                <p className="opacity-75 mb-0.5 sm:mb-1 text-xs sm:text-sm">{t('SETTINGS.BILLING.NEXT_PAYMENT')}</p>
+                <p className="opacity-75 mb-0.5 sm:mb-1 text-xs sm:text-sm">
+                  {t('SETTINGS.BILLING.NEXT_PAYMENT')}
+                </p>
                 <p className="text-sm sm:text-base md:text-lg">20 ноября 2025</p>
               </div>
               <div>
-                <p className="opacity-75 mb-0.5 sm:mb-1 text-xs sm:text-sm">{t('SETTINGS.BILLING.PAYMENT_METHOD')}</p>
+                <p className="opacity-75 mb-0.5 sm:mb-1 text-xs sm:text-sm">
+                  {t('SETTINGS.BILLING.PAYMENT_METHOD')}
+                </p>
                 <p className="text-sm sm:text-base md:text-lg">•••• 4242</p>
               </div>
             </div>
@@ -91,7 +109,9 @@ export function BillingTabContent() {
         </Card>
         <Card>
           <div>
-            <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">{t('SETTINGS.BILLING.PAYMENT_HISTORY')}</h3>
+            <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
+              {t('SETTINGS.BILLING.PAYMENT_HISTORY')}
+            </h3>
 
             <div className="space-y-2 sm:space-y-3">
               {PAYMENT_HISTORY.map((payment, index) => (

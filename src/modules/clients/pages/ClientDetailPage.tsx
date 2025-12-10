@@ -1,15 +1,24 @@
-import { useState, useEffect } from "react";
-import { Briefcase, FileText, DollarSign, Clock, TrendingUp, Plus, Mail, Phone } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import {
+  Briefcase,
+  FileText,
+  DollarSign,
+  Clock,
+  TrendingUp,
+  Plus,
+  Mail,
+  Phone,
+} from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
-import type { ClientInterface } from "@/app/types/clients/clients.interfaces.ts";
-import { CaseCard } from "@/modules/cases/ui/CaseCard.tsx";
-import { ClientNotesCard } from "@/modules/clients/ui/ClientNotesCard.tsx";
-import { ContactInfoCard } from "@/modules/clients/ui/ContactInfoCard.tsx";
-import { FinancialCard } from "@/modules/clients/widgets/FinancialCard.tsx";
-import { AddCaseDialog } from "@/shared/components/AddCaseDialog.tsx";
-import { BackButton } from "@/shared/components/BackButton.tsx";
+import type { ClientInterface } from '@/app/types/clients/clients.interfaces.ts';
+import { CaseCard } from '@/modules/cases/ui/CaseCard.tsx';
+import { ClientNotesCard } from '@/modules/clients/ui/ClientNotesCard.tsx';
+import { ContactInfoCard } from '@/modules/clients/ui/ContactInfoCard.tsx';
+import { FinancialCard } from '@/modules/clients/widgets/FinancialCard.tsx';
+import { AddCaseDialog } from '@/shared/components/AddCaseDialog.tsx';
+import { BackButton } from '@/shared/components/BackButton.tsx';
 import { ClientFormModal } from '@/shared/components/ClientFormModal';
 import { DataPagination } from '@/shared/components/DataPagination';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
@@ -81,8 +90,12 @@ export default function ClientDetailPage() {
 
   const getClientInitials = (client: ClientInterface) => {
     if (client.companyName) {
-      const words = client.companyName.split(' ').filter(w => w.length > 0);
-      return words.slice(0, 2).map(w => w[0]).join('').toUpperCase();
+      const words = client.companyName.split(' ').filter((w) => w.length > 0);
+      return words
+        .slice(0, 2)
+        .map((w) => w[0])
+        .join('')
+        .toUpperCase();
     }
     const firstInitial = client.firstName?.[0] || '';
     const lastInitial = client.lastName?.[0] || '';
@@ -114,15 +127,33 @@ export default function ClientDetailPage() {
           </Avatar>
           <div className="min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground">{getClientName(selectedClient)}</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">
+                {getClientName(selectedClient)}
+              </h1>
               <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20 w-fit">
-                {selectedClient.status === 'active' ? t('CLIENTS.STATUS.ACTIVE_CLIENT') : t('CLIENTS.STATUS.INACTIVE')}
+                {selectedClient.status === 'active'
+                  ? t('CLIENTS.STATUS.ACTIVE_CLIENT')
+                  : t('CLIENTS.STATUS.INACTIVE')}
               </Badge>
             </div>
             <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
-              <span>🏢 {selectedClient.type === 'individual' ? t('CLIENTS.TYPES.INDIVIDUAL') : selectedClient.type === 'legal' ? t('CLIENTS.TYPES.LEGAL') : t('CLIENTS.TYPES.ENTREPRENEUR')}</span>
-              <span>📅 {t('CLIENTS.CLIENT_SINCE')} {new Date(selectedClient.joinDate).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })}</span>
-              {selectedClient.category === 'vip' && <span>⭐ {t('CLIENTS.STATUS.VIP_CLIENT')}</span>}
+              <span>
+                {selectedClient.type === 'individual'
+                  ? t('CLIENTS.TYPES.INDIVIDUAL')
+                  : selectedClient.type === 'legal'
+                    ? t('CLIENTS.TYPES.LEGAL')
+                    : t('CLIENTS.TYPES.ENTREPRENEUR')}
+              </span>
+              <span>
+                {t('CLIENTS.CLIENT_SINCE')}{' '}
+                {new Date(selectedClient.joinDate).toLocaleDateString('ru-RU', {
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </span>
+              {selectedClient.category === 'vip' && (
+                <span>⭐ {t('CLIENTS.STATUS.VIP_CLIENT')}</span>
+              )}
             </div>
             <div className="mt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
               <div className="flex items-center gap-1 text-muted-foreground">
@@ -245,10 +276,13 @@ export default function ClientDetailPage() {
                 {/* Индикаторы активных фильтров */}
                 {(filterStatus !== 'all' || filterPriority !== 'all' || debouncedSearch) && (
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-sm text-muted-foreground">{t('COMMON.ACTIVE_FILTERS')}:</span>
+                    <span className="text-sm text-muted-foreground">
+                      {t('COMMON.ACTIVE_FILTERS')}:
+                    </span>
                     {filterStatus !== 'all' && (
                       <Badge variant="secondary" className="gap-1">
-                        {t('COMMON.STATUS.STATUS')}: {t(`COMMON.STATUS.${filterStatus.toUpperCase()}`)}
+                        {t('COMMON.STATUS.STATUS')}:{' '}
+                        {t(`COMMON.STATUS.${filterStatus.toUpperCase()}`)}
                         <button
                           onClick={() => setFilterStatus('all')}
                           className="ml-1 hover:text-destructive"
@@ -260,7 +294,8 @@ export default function ClientDetailPage() {
                     )}
                     {filterPriority !== 'all' && (
                       <Badge variant="secondary" className="gap-1">
-                        {t('COMMON.PRIORITY.PRIORITY')}: {t(`COMMON.PRIORITY.${filterPriority.toUpperCase()}`)}
+                        {t('COMMON.PRIORITY.PRIORITY')}:{' '}
+                        {t(`COMMON.PRIORITY.${filterPriority.toUpperCase()}`)}
                         <button
                           onClick={() => setFilterPriority('all')}
                           className="ml-1 hover:text-destructive"
@@ -337,7 +372,13 @@ export default function ClientDetailPage() {
               email: selectedClient.email,
               phone: selectedClient.phone,
               address: selectedClient.address || t('COMMON.NO_DATA'),
-              birthDate: selectedClient.birthDate ? new Date(selectedClient.birthDate).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) : t('COMMON.NO_DATA'),
+              birthDate: selectedClient.birthDate
+                ? new Date(selectedClient.birthDate).toLocaleDateString('ru-RU', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })
+                : t('COMMON.NO_DATA'),
             }}
             onEdit={() => {
               selectClient(selectedClient);

@@ -16,17 +16,13 @@
 import { Filter } from 'lucide-react';
 import type { FilterBarProps } from '@/app/types/shared/shared.interfaces';
 import { SearchBar } from '@/shared/ui/search-bar';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 
 export function FilterBar({ searchConfig, filters, className = '' }: FilterBarProps) {
   return (
-    <div className={`flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 sm:gap-3 ${className}`}>
+    <div
+      className={`flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 sm:gap-3 ${className}`}
+    >
       {searchConfig && (
         <SearchBar
           value={searchConfig.value}
@@ -39,7 +35,9 @@ export function FilterBar({ searchConfig, filters, className = '' }: FilterBarPr
       <div className="flex flex-wrap gap-2 sm:gap-3">
         {filters.map((filter, index) => (
           <Select key={index} value={filter.value} onValueChange={filter.onChange}>
-            <SelectTrigger className={`${filter.width || 'w-[180px]'} h-10 rounded-xl border-gray-200 flex-1 sm:flex-none min-w-[140px]`}>
+            <SelectTrigger
+              className={`${filter.width || 'w-[180px]'} h-10 rounded-xl border-gray-200 flex-1 sm:flex-none min-w-[140px]`}
+            >
               {filter.icon ? (
                 <filter.icon className="w-4 h-4 mr-2 flex-shrink-0" strokeWidth={2} />
               ) : (

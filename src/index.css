@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "./styles/smart-calendar.css";
+@import 'tailwindcss';
+@import './styles/smart-calendar.css';
 
 @theme {
   --color-background: hsl(var(--background));
@@ -214,68 +214,68 @@
   }
 }
 
-[data-slot="dialog-overlay"][data-state="open"],
-[data-slot="alert-dialog-overlay"][data-state="open"],
-[data-slot="sheet-overlay"][data-state="open"],
-[data-slot="drawer-overlay"][data-state="open"] {
+[data-slot='dialog-overlay'][data-state='open'],
+[data-slot='alert-dialog-overlay'][data-state='open'],
+[data-slot='sheet-overlay'][data-state='open'],
+[data-slot='drawer-overlay'][data-state='open'] {
   animation: fade-in 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-slot="dialog-overlay"][data-state="closed"],
-[data-slot="alert-dialog-overlay"][data-state="closed"],
-[data-slot="sheet-overlay"][data-state="closed"],
-[data-slot="drawer-overlay"][data-state="closed"] {
+[data-slot='dialog-overlay'][data-state='closed'],
+[data-slot='alert-dialog-overlay'][data-state='closed'],
+[data-slot='sheet-overlay'][data-state='closed'],
+[data-slot='drawer-overlay'][data-state='closed'] {
   animation: fade-out 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-slot="dialog-content"][data-state="open"],
-[data-slot="alert-dialog-content"][data-state="open"] {
+[data-slot='dialog-content'][data-state='open'],
+[data-slot='alert-dialog-content'][data-state='open'] {
   animation: modal-enter 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-slot="dialog-content"][data-state="closed"],
-[data-slot="alert-dialog-content"][data-state="closed"] {
+[data-slot='dialog-content'][data-state='closed'],
+[data-slot='alert-dialog-content'][data-state='closed'] {
   animation: modal-exit 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-slot="sheet-content"][data-state="open"] {
+[data-slot='sheet-content'][data-state='open'] {
   animation: slide-in-right 500ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-[data-slot="sheet-content"][data-state="closed"] {
+[data-slot='sheet-content'][data-state='closed'] {
   animation: slide-out-right 300ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-[data-slot="dropdown-menu-content"][data-state="open"],
-[data-slot="select-content"][data-state="open"],
-[data-slot="popover-content"][data-state="open"],
-[data-slot="context-menu-content"][data-state="open"],
-[data-slot="menubar-content"][data-state="open"] {
+[data-slot='dropdown-menu-content'][data-state='open'],
+[data-slot='select-content'][data-state='open'],
+[data-slot='popover-content'][data-state='open'],
+[data-slot='context-menu-content'][data-state='open'],
+[data-slot='menubar-content'][data-state='open'] {
   animation: modal-enter 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-slot="dropdown-menu-content"][data-state="closed"],
-[data-slot="select-content"][data-state="closed"],
-[data-slot="popover-content"][data-state="closed"],
-[data-slot="context-menu-content"][data-state="closed"],
-[data-slot="menubar-content"][data-state="closed"] {
+[data-slot='dropdown-menu-content'][data-state='closed'],
+[data-slot='select-content'][data-state='closed'],
+[data-slot='popover-content'][data-state='closed'],
+[data-slot='context-menu-content'][data-state='closed'],
+[data-slot='menubar-content'][data-state='closed'] {
   animation: modal-exit 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-slot="tooltip-content"][data-state="instant-open"],
-[data-slot="tooltip-content"][data-state="delayed-open"] {
+[data-slot='tooltip-content'][data-state='instant-open'],
+[data-slot='tooltip-content'][data-state='delayed-open'] {
   animation: fade-in 100ms ease-out;
 }
 
-[data-slot="tooltip-content"][data-state="closed"] {
+[data-slot='tooltip-content'][data-state='closed'] {
   animation: fade-out 75ms ease-in;
 }
 
-[data-slot="hover-card-content"][data-state="open"] {
+[data-slot='hover-card-content'][data-state='open'] {
   animation: modal-enter 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-slot="hover-card-content"][data-state="closed"] {
+[data-slot='hover-card-content'][data-state='closed'] {
   animation: modal-exit 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -311,13 +311,13 @@
     --today-bg: 0 0% 98%;
     --today-item-bg: 0 0% 96%;
 
-    --insight-amber-bg: 38 92% 50% / 0.10;
-    --insight-amber-border: 38 92% 50% / 0.20;
-    --insight-amber-icon-bg: 38 92% 50% / 0.20;
+    --insight-amber-bg: 38 92% 50% / 0.1;
+    --insight-amber-border: 38 92% 50% / 0.2;
+    --insight-amber-icon-bg: 38 92% 50% / 0.2;
     --insight-amber-foreground: 38 92% 30%;
-    --insight-blue-bg: 211 100% 50% / 0.10;
-    --insight-blue-border: 211 100% 50% / 0.20;
-    --insight-blue-icon-bg: 211 100% 50% / 0.20;
+    --insight-blue-bg: 211 100% 50% / 0.1;
+    --insight-blue-border: 211 100% 50% / 0.2;
+    --insight-blue-icon-bg: 211 100% 50% / 0.2;
     --insight-blue-foreground: 211 100% 25%;
 
     --doc-final-bg: 142 71% 45% / 0.12;
@@ -363,19 +363,19 @@
     --today-bg: var(--card);
     --today-item-bg: var(--calendar-item);
 
-    --insight-amber-bg: 38 92% 60% / 0.10;
+    --insight-amber-bg: 38 92% 60% / 0.1;
     --insight-amber-border: 38 92% 60% / 0.25;
     --insight-amber-icon-bg: 38 92% 60% / 0.15;
     --insight-amber-foreground: 38 92% 60%;
 
-    --insight-blue-bg: 217 91% 60% / 0.10;
+    --insight-blue-bg: 217 91% 60% / 0.1;
     --insight-blue-border: 217 91% 60% / 0.25;
     --insight-blue-icon-bg: 217 91% 60% / 0.15;
     --insight-blue-foreground: 217 91% 90%;
 
-    --doc-final-bg: 142 71% 45% / 0.20;
+    --doc-final-bg: 142 71% 45% / 0.2;
     --doc-final-fg: 142 71% 70%;
-    --doc-review-bg: 217 91% 60% / 0.20;
+    --doc-review-bg: 217 91% 60% / 0.2;
     --doc-review-fg: 217 91% 90%;
     --doc-draft-bg: 217 32% 17.5%;
     --doc-draft-fg: 215 20% 70%;
@@ -398,7 +398,8 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Helvetica Neue', sans-serif;
+    font-family:
+      -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

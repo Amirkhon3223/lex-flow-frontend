@@ -15,7 +15,9 @@ export function AIInsightsWidget() {
         <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
           <Sparkles className="w-4 h-4 text-white" strokeWidth={2.5} />
         </div>
-        <h3 className="text-lg tracking-tight text-foreground">{t('DASHBOARD.AI_INSIGHTS.TITLE')}</h3>
+        <h3 className="text-lg tracking-tight text-foreground">
+          {t('DASHBOARD.AI_INSIGHTS.TITLE')}
+        </h3>
       </div>
 
       <div className="space-y-3 mb-4">
@@ -39,7 +41,6 @@ export function AIInsightsWidget() {
             </p>
           </div>
         </div>
-
       </div>
 
       <Button

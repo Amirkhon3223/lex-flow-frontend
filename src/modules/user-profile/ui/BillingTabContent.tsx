@@ -14,7 +14,9 @@ export function BillingTabContent() {
               <h3 className="text-xl sm:text-2xl tracking-tight mb-0.5 sm:mb-1">Pro Plan</h3>
               <p className="text-xs sm:text-sm opacity-90">Активна до 15 января 2026</p>
             </div>
-            <Badge className="bg-white/20 text-white border-0 w-fit text-xs sm:text-sm">Активна</Badge>
+            <Badge className="bg-white/20 text-white border-0 w-fit text-xs sm:text-sm">
+              Активна
+            </Badge>
           </div>
           <div className="text-2xl sm:text-3xl tracking-tight mb-4 sm:mb-6">2 990 ₽ / месяц</div>
           <Button className="w-full bg-white/20 hover:bg-white/30 border-0 rounded-lg sm:rounded-xl backdrop-blur-sm text-white text-xs sm:text-sm h-8 sm:h-10">
@@ -52,7 +54,9 @@ export function BillingTabContent() {
         <div className="space-y-2 sm:space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-muted/50">
             <div>
-              <div className="tracking-tight mb-0.5 sm:mb-1 text-sm sm:text-base">Pro Plan - Октябрь 2025</div>
+              <div className="tracking-tight mb-0.5 sm:mb-1 text-sm sm:text-base">
+                Pro Plan - Октябрь 2025
+              </div>
               <div className="text-xs sm:text-sm text-muted-foreground">15 сентября 2025</div>
             </div>
             <div className="flex items-center justify-between sm:block sm:text-right">
@@ -69,7 +73,9 @@ export function BillingTabContent() {
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-muted/50">
             <div>
-              <div className="tracking-tight mb-0.5 sm:mb-1 text-sm sm:text-base">Pro Plan - Сентябрь 2025</div>
+              <div className="tracking-tight mb-0.5 sm:mb-1 text-sm sm:text-base">
+                Pro Plan - Сентябрь 2025
+              </div>
               <div className="text-xs sm:text-sm text-gray-500">15 сентября 2025</div>
             </div>
             <div className="flex items-center justify-between sm:block sm:text-right">

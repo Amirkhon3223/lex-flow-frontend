@@ -16,7 +16,9 @@ export function MeetingParticipantsCard({ participants }: MeetingParticipantsCar
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm sm:text-base md:text-lg">{t('CALENDAR.MEETING_DETAILS.PARTICIPANTS')}</CardTitle>
+        <CardTitle className="text-sm sm:text-base md:text-lg">
+          {t('CALENDAR.MEETING_DETAILS.PARTICIPANTS')}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2 sm:space-y-3">

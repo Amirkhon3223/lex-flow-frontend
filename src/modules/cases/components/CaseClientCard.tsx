@@ -39,7 +39,9 @@ export function CaseClientCard({
   return (
     <Card>
       <div>
-        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('CASES.CLIENT.TITLE')}</h3>
+        <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">
+          {t('CASES.CLIENT.TITLE')}
+        </h3>
 
         <div className="flex items-center gap-3 mb-3 sm:mb-4">
           <Avatar className="w-12 h-12 sm:w-14 sm:h-14 ring-2 ring-border flex-shrink-0">

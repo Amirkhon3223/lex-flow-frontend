@@ -1,4 +1,8 @@
-import { DocumentChangeTypeEnum, DocumentStatusEnum, DocumentCategoryEnum } from './documents.enums';
+import {
+  DocumentChangeTypeEnum,
+  DocumentStatusEnum,
+  DocumentCategoryEnum,
+} from './documents.enums';
 import type { Pagination } from '../api/api.types';
 
 export interface DocumentChangeInterface {

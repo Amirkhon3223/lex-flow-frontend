@@ -1,3 +1,3 @@
-import { DocumentsPage } from "@/modules/documents";
+import { DocumentsPage } from '@/modules/documents';
 
 export default DocumentsPage;

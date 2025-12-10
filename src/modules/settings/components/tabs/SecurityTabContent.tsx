@@ -32,7 +32,9 @@ export function SecurityTabContent() {
     <div className="space-y-4 sm:space-y-6">
       <Card>
         <div>
-          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">{t('SETTINGS.SECURITY.CHANGE_PASSWORD')}</h3>
+          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
+            {t('SETTINGS.SECURITY.CHANGE_PASSWORD')}
+          </h3>
 
           <form onSubmit={handlePasswordChange} className="space-y-3 sm:space-y-4">
             <div className="space-y-1.5 sm:space-y-2">
@@ -88,7 +90,10 @@ export function SecurityTabContent() {
           <div className="flex flex-col sm:flex-row items-start justify-between gap-3 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-green-500/10 border border-green-500/20">
             <div className="flex items-start gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
-                <Shield className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-green-600 dark:text-green-400" strokeWidth={2} />
+                <Shield
+                  className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-green-600 dark:text-green-400"
+                  strokeWidth={2}
+                />
               </div>
               <div>
                 <h4 className="tracking-tight text-green-900 dark:text-green-300 mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">
@@ -112,14 +117,20 @@ export function SecurityTabContent() {
 
       <Card>
         <div>
-          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-3 md:mb-4">{t('SETTINGS.SECURITY.ACTIVE_SESSIONS')}</h3>
+          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-3 md:mb-4">
+            {t('SETTINGS.SECURITY.ACTIVE_SESSIONS')}
+          </h3>
           <p className="text-muted-foreground mb-3 sm:mb-4 md:mb-6 text-xs sm:text-sm">
             {t('SETTINGS.SECURITY.ACTIVE_SESSIONS_DESC')}
           </p>
 
           <div className="space-y-2 sm:space-y-3">
             {ACTIVE_SESSIONS.map((session, index) => (
-              <SessionItem key={index} session={session} onTerminate={() => handleTerminateSession(session.device)} />
+              <SessionItem
+                key={index}
+                session={session}
+                onTerminate={() => handleTerminateSession(session.device)}
+              />
             ))}
           </div>
         </div>

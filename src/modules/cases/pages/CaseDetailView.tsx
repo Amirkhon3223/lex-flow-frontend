@@ -4,10 +4,7 @@ import { ROUTES } from '@/app/config/routes.config';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
 import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
-import type {
-  CaseDocumentInterface,
-  AIInsightInterface,
-} from '@/app/types/cases/cases.interfaces';
+import type { CaseDocumentInterface, AIInsightInterface } from '@/app/types/cases/cases.interfaces';
 import { CaseAIInsightsCard } from '@/modules/cases/components/CaseAIInsightsCard';
 import { CaseClientCard } from '@/modules/cases/components/CaseClientCard';
 import { CaseCommentsCard } from '@/modules/cases/components/CaseCommentsCard';
@@ -23,8 +20,7 @@ import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
 
 export function CaseDetailView() {
-  // ВАЖНО: правильный вариант — гарантированно string
-  const { id = "" } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
   const onBack = () => navigate(-1);
@@ -55,31 +51,24 @@ export function CaseDetailView() {
     if (!id || initialized) return;
 
     const loadData = async () => {
-      await Promise.all([
-        fetchCaseById(id),
-        fetchTimeline(id),
-        fetchTasks(id),
-        fetchComments(id),
-      ]);
+      await Promise.all([fetchCaseById(id), fetchTimeline(id), fetchTasks(id), fetchComments(id)]);
       setInitialized(true);
     };
 
     loadData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, initialized]);
 
-  // Загружаем клиента когда получили кейс
   useEffect(() => {
     if (selectedCase?.clientId) {
       fetchClientById(selectedCase.clientId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCase?.clientId]);
 
   const handleEditCaseSubmit = async (caseData: {
     title: string;
     description: string;
     deadline: string;
+    courtDate?: string;
     fee: string;
     priority: string;
   }) => {
@@ -89,6 +78,7 @@ export function CaseDetailView() {
         title: caseData.title,
         description: caseData.description,
         deadline: caseData.deadline,
+        courtDate: caseData.courtDate,
         fee: Number(caseData.fee),
         priority: caseData.priority as CasePriorityEnum,
       });
@@ -102,23 +92,25 @@ export function CaseDetailView() {
 
   const caseData = selectedCase
     ? {
-      title: selectedCase.title,
-      client: selectedCase.clientId,
-      category: selectedCase.category,
-      deadline: selectedCase.deadline,
-      fee: selectedCase.fee.toString(),
-      description: selectedCase.description,
-      priority: selectedCase.priority,
-    }
+        title: selectedCase.title,
+        client: selectedCase.clientId,
+        category: selectedCase.category,
+        deadline: selectedCase.deadline,
+        courtDate: selectedCase.courtDate || '',
+        fee: selectedCase.fee.toString(),
+        description: selectedCase.description,
+        priority: selectedCase.priority,
+      }
     : {
-      title: '',
-      client: '',
-      category: '',
-      deadline: '',
-      fee: '',
-      description: '',
-      priority: '',
-    };
+        title: '',
+        client: '',
+        category: '',
+        deadline: '',
+        courtDate: '',
+        fee: '',
+        description: '',
+        priority: '',
+      };
 
   const documents: CaseDocumentInterface[] = []; // TODO: Подключить API документов
   const aiInsights: AIInsightInterface[] = []; // TODO: Подключить AI-insights
@@ -147,24 +139,28 @@ export function CaseDetailView() {
   };
 
   const clientSince = selectedClient?.joinDate
-    ? new Date(selectedClient.joinDate).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })
+    ? new Date(selectedClient.joinDate).toLocaleDateString('ru-RU', {
+        month: 'long',
+        year: 'numeric',
+      })
     : selectedClient?.createdAt
-      ? new Date(selectedClient.createdAt).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })
+      ? new Date(selectedClient.createdAt).toLocaleDateString('ru-RU', {
+          month: 'long',
+          year: 'numeric',
+        })
       : '';
 
   return (
     <div>
-      {/* ДИАЛОГИ */}
-      <UploadDocumentDialog open={isUploadDocumentDialogOpen} onOpenChange={setIsUploadDocumentDialogOpen} />
-
-      <AddTaskDialog
-        caseId={id}     // теперь всегда string
-        open={isAddTaskDialogOpen}
-        onOpenChange={setIsAddTaskDialogOpen}
+      <UploadDocumentDialog
+        open={isUploadDocumentDialogOpen}
+        onOpenChange={setIsUploadDocumentDialogOpen}
       />
 
+      <AddTaskDialog caseId={id} open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen} />
+
       <CommentsDialog
-        caseId={id}     // теперь всегда string
+        caseId={id}
         open={isCommentsDialogOpen}
         onOpenChange={setIsCommentsDialogOpen}
       />
@@ -176,12 +172,12 @@ export function CaseDetailView() {
         onSubmit={handleEditCaseSubmit}
       />
 
-      {/* ХЕДЕР */}
       <CaseHeader
         title={selectedCase?.title}
         clientName={selectedCase?.clientName}
         category={selectedCase?.category}
         deadline={selectedCase?.deadline}
+        courtDate={selectedCase?.courtDate}
         priority={selectedCase?.priority}
         onBack={onBack}
         onCopyLink={handleCopyLink}
@@ -199,8 +195,10 @@ export function CaseDetailView() {
               documentsCount={selectedCase?.documents}
               eventsCount={timeline.length}
               daysUntilTrial={
-                selectedCase?.deadline
-                  ? Math.ceil((new Date(selectedCase.deadline).getTime() - Date.now()) / (1000 * 3600 * 24))
+                selectedCase?.courtDate
+                  ? Math.ceil(
+                      (new Date(selectedCase.courtDate).getTime() - Date.now()) / (1000 * 3600 * 24)
+                    )
                   : 0
               }
               tasksCount={selectedCase?.tasksCount ?? 0}
@@ -235,10 +233,7 @@ export function CaseDetailView() {
               onAddTask={() => setIsAddTaskDialogOpen(true)}
             />
 
-            <CaseFinancesCard
-              fee={selectedCase?.fee}
-              paidAmount={selectedCase?.paidAmount ?? 0}
-            />
+            <CaseFinancesCard fee={selectedCase?.fee} paidAmount={selectedCase?.paidAmount ?? 0} />
 
             <CaseCommentsCard
               commentsCount={comments.length}

@@ -6,7 +6,12 @@ interface ManagedSelectProps extends React.ComponentProps<typeof Select> {
   children: React.ReactNode;
 }
 
-export function ManagedSelect({ children, open: controlledOpen, onOpenChange, ...props }: ManagedSelectProps) {
+export function ManagedSelect({
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  ...props
+}: ManagedSelectProps) {
   const selectId = useId();
   const { openSelectId, setOpenSelectId } = useSelectContext();
 

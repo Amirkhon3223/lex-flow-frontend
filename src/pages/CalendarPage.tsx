@@ -1,3 +1,3 @@
-import { CalendarPage } from "@/modules/calendar";
+import { CalendarPage } from '@/modules/calendar';
 
 export default CalendarPage;

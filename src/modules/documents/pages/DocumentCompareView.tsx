@@ -1,20 +1,32 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Download, FileText, Info, Maximize2, Minimize2, ZoomIn, ZoomOut, GitCompare, ChevronDown, ArrowRight, History } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  FileText,
+  Info,
+  Maximize2,
+  Minimize2,
+  ZoomIn,
+  ZoomOut,
+  GitCompare,
+  ChevronDown,
+  ArrowRight,
+  History,
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums';
-import type { DocumentVersionInterface, DocumentChangeInterface } from '@/app/types/documents/documents.interfaces';
+import type {
+  DocumentVersionInterface,
+  DocumentChangeInterface,
+} from '@/app/types/documents/documents.interfaces';
 import { BackButton } from '@/shared/components/BackButton';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { ScrollArea } from '@/shared/ui/scroll-area.tsx';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from '@/shared/ui/select.tsx';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/shared/ui/select.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
 
 export function DocumentCompareView() {
@@ -29,22 +41,46 @@ export function DocumentCompareView() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-
   const documentVersions: DocumentVersionInterface[] = [
     { version: 3, date: '15 окт 2025, 14:30', author: 'Александр Иванов' },
     { version: 2, date: '12 окт 2025, 16:45', author: 'Александр Иванов' },
     { version: 1, date: '10 окт 2025, 10:15', author: 'Александр Иванов' },
   ];
 
-
   const changes: DocumentChangeInterface[] = [
-    { id: 1, type: DocumentChangeTypeEnum.MODIFIED, lineNumber: 12, oldText: 'Истец просит взыскать с ответчика', newText: 'Истец просит взыскать с ответчика в пользу истца' },
-    { id: 2, type: DocumentChangeTypeEnum.ADDED, lineNumber: 18, newText: 'Согласно решению Верховного Суда РФ от 15.03.2024 № А40-12345/24' },
-    { id: 3, type: DocumentChangeTypeEnum.REMOVED, lineNumber: 24, oldText: 'Данное требование является необоснованным' },
-    { id: 4, type: DocumentChangeTypeEnum.MODIFIED, lineNumber: 35, oldText: 'сумму 50 000 рублей', newText: 'сумму 150 000 рублей' },
-    { id: 5, type: DocumentChangeTypeEnum.ADDED, lineNumber: 42, newText: 'На основании статьи 394 Трудового кодекса Российской Федерации' },
+    {
+      id: 1,
+      type: DocumentChangeTypeEnum.MODIFIED,
+      lineNumber: 12,
+      oldText: 'Истец просит взыскать с ответчика',
+      newText: 'Истец просит взыскать с ответчика в пользу истца',
+    },
+    {
+      id: 2,
+      type: DocumentChangeTypeEnum.ADDED,
+      lineNumber: 18,
+      newText: 'Согласно решению Верховного Суда РФ от 15.03.2024 № А40-12345/24',
+    },
+    {
+      id: 3,
+      type: DocumentChangeTypeEnum.REMOVED,
+      lineNumber: 24,
+      oldText: 'Данное требование является необоснованным',
+    },
+    {
+      id: 4,
+      type: DocumentChangeTypeEnum.MODIFIED,
+      lineNumber: 35,
+      oldText: 'сумму 50 000 рублей',
+      newText: 'сумму 150 000 рублей',
+    },
+    {
+      id: 5,
+      type: DocumentChangeTypeEnum.ADDED,
+      lineNumber: 42,
+      newText: 'На основании статьи 394 Трудового кодекса Российской Федерации',
+    },
   ];
-
 
   const oldContent = `ИСКОВОЕ ЗАЯВЛЕНИЕ
 о восстановлении на работе, взыскании среднего заработка за время
@@ -146,9 +182,9 @@ export function DocumentCompareView() {
 
   const changesSummary = {
     total: changes.length,
-    added: changes.filter(c => c.type === DocumentChangeTypeEnum.ADDED).length,
-    removed: changes.filter(c => c.type === DocumentChangeTypeEnum.REMOVED).length,
-    modified: changes.filter(c => c.type === DocumentChangeTypeEnum.MODIFIED).length,
+    added: changes.filter((c) => c.type === DocumentChangeTypeEnum.ADDED).length,
+    removed: changes.filter((c) => c.type === DocumentChangeTypeEnum.REMOVED).length,
+    modified: changes.filter((c) => c.type === DocumentChangeTypeEnum.MODIFIED).length,
   };
 
   const handleNextChange = () => {
@@ -262,7 +298,9 @@ export function DocumentCompareView() {
               <GitCompare className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" strokeWidth={2} />
             </div>
             <div>
-              <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-tight">{t('DOCUMENTS.VERSION_COMPARISON')}</h1>
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-tight">
+                {t('DOCUMENTS.VERSION_COMPARISON')}
+              </h1>
               <p className="text-xs sm:text-sm text-muted-foreground">Исковое заявление.pdf</p>
             </div>
           </div>
@@ -277,22 +315,36 @@ export function DocumentCompareView() {
               >
                 <SelectTrigger className="h-10 sm:h-12 rounded-xl border-input bg-background">
                   <div className="flex items-center gap-2 sm:gap-3 w-full">
-                    <FileText className="w-4 h-4 text-muted-foreground flex-shrink-0 hidden sm:block" strokeWidth={2} />
+                    <FileText
+                      className="w-4 h-4 text-muted-foreground flex-shrink-0 hidden sm:block"
+                      strokeWidth={2}
+                    />
                     <div className="flex-1 text-left min-w-0">
                       <div className="text-xs sm:text-sm font-semibold truncate">v{version1}</div>
                       <div className="text-xs text-muted-foreground hidden sm:block">
-                        {documentVersions.find(v => v.version === parseInt(version1))?.date}
+                        {documentVersions.find((v) => v.version === parseInt(version1))?.date}
                       </div>
                     </div>
-                    <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" strokeWidth={2} />
+                    <ChevronDown
+                      className="w-4 h-4 text-muted-foreground flex-shrink-0"
+                      strokeWidth={2}
+                    />
                   </div>
                 </SelectTrigger>
                 <SelectContent>
                   {documentVersions.map((v) => (
-                    <SelectItem key={v.version} value={v.version.toString()} disabled={v.version.toString() === version2}>
+                    <SelectItem
+                      key={v.version}
+                      value={v.version.toString()}
+                      disabled={v.version.toString() === version2}
+                    >
                       <div className="py-1">
-                        <div>{t('DOCUMENTS.VERSION')} {v.version}</div>
-                        <div className="text-xs text-muted-foreground">{v.date} • {v.author}</div>
+                        <div>
+                          {t('DOCUMENTS.VERSION')} {v.version}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {v.date} • {v.author}
+                        </div>
                       </div>
                     </SelectItem>
                   ))}
@@ -313,22 +365,36 @@ export function DocumentCompareView() {
               >
                 <SelectTrigger className="h-10 sm:h-12 rounded-xl border-input bg-background">
                   <div className="flex items-center gap-2 sm:gap-3 w-full">
-                    <FileText className="w-4 h-4 text-muted-foreground flex-shrink-0 hidden sm:block" strokeWidth={2} />
+                    <FileText
+                      className="w-4 h-4 text-muted-foreground flex-shrink-0 hidden sm:block"
+                      strokeWidth={2}
+                    />
                     <div className="flex-1 text-left min-w-0">
                       <div className="text-xs sm:text-sm font-semibold truncate">v{version2}</div>
                       <div className="text-xs text-muted-foreground hidden sm:block">
-                        {documentVersions.find(v => v.version === parseInt(version2))?.date}
+                        {documentVersions.find((v) => v.version === parseInt(version2))?.date}
                       </div>
                     </div>
-                    <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" strokeWidth={2} />
+                    <ChevronDown
+                      className="w-4 h-4 text-muted-foreground flex-shrink-0"
+                      strokeWidth={2}
+                    />
                   </div>
                 </SelectTrigger>
                 <SelectContent>
                   {documentVersions.map((v) => (
-                    <SelectItem key={v.version} value={v.version.toString()} disabled={v.version.toString() === version1}>
+                    <SelectItem
+                      key={v.version}
+                      value={v.version.toString()}
+                      disabled={v.version.toString() === version1}
+                    >
                       <div className="py-1">
-                        <div>{t('DOCUMENTS.VERSION')} {v.version}</div>
-                        <div className="text-xs text-muted-foreground">{v.date} • {v.author}</div>
+                        <div>
+                          {t('DOCUMENTS.VERSION')} {v.version}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {v.date} • {v.author}
+                        </div>
                       </div>
                     </SelectItem>
                   ))}
@@ -378,7 +444,9 @@ export function DocumentCompareView() {
               <div className="flex gap-2">
                 <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-green-500/10">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                  <span className="text-xs text-green-700 dark:text-green-400">+{changesSummary.added}</span>
+                  <span className="text-xs text-green-700 dark:text-green-400">
+                    +{changesSummary.added}
+                  </span>
                 </div>
                 <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-destructive/10">
                   <div className="w-1.5 h-1.5 rounded-full bg-destructive"></div>
@@ -386,21 +454,27 @@ export function DocumentCompareView() {
                 </div>
                 <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-blue-500/10">
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                  <span className="text-xs text-blue-700 dark:text-blue-400">~{changesSummary.modified}</span>
+                  <span className="text-xs text-blue-700 dark:text-blue-400">
+                    ~{changesSummary.modified}
+                  </span>
                 </div>
               </div>
             </div>
           </Card>
-          <Card >
+          <Card>
             <div className="p-3 bg-muted/50 border-b border-border">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-semibold tracking-tight text-sm mb-0.5">{t('DOCUMENTS.VERSION_NUMBER', { version: version1 })}</h3>
+                  <h3 className="font-semibold tracking-tight text-sm mb-0.5">
+                    {t('DOCUMENTS.VERSION_NUMBER', { version: version1 })}
+                  </h3>
                   <p className="text-xs text-muted-foreground">
-                    {documentVersions.find(v => v.version === parseInt(version1))?.date}
+                    {documentVersions.find((v) => v.version === parseInt(version1))?.date}
                   </p>
                 </div>
-                <Badge className="bg-muted text-muted-foreground border-0 text-xs">{t('DOCUMENTS.OLD')}</Badge>
+                <Badge className="bg-muted text-muted-foreground border-0 text-xs">
+                  {t('DOCUMENTS.OLD')}
+                </Badge>
               </div>
             </div>
             <ScrollArea className="h-[300px] sm:h-[400px]">
@@ -408,22 +482,29 @@ export function DocumentCompareView() {
                 className="p-4 font-mono text-xs leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html: oldContent
-                    .replace(/<span class="removed">(.*?)<\/span>/g, '<span class="bg-destructive/20 text-destructive px-1 rounded line-through">$1</span>')
+                    .replace(
+                      /<span class="removed">(.*?)<\/span>/g,
+                      '<span class="bg-destructive/20 text-destructive px-1 rounded line-through">$1</span>'
+                    )
                     .replace(/\n/g, '<br />'),
                 }}
               />
             </ScrollArea>
           </Card>
-          <Card >
+          <Card>
             <div className="p-3 bg-green-500/10 border-b border-green-500/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-semibold tracking-tight text-sm mb-0.5">{t('DOCUMENTS.VERSION_NUMBER', { version: version2 })}</h3>
+                  <h3 className="font-semibold tracking-tight text-sm mb-0.5">
+                    {t('DOCUMENTS.VERSION_NUMBER', { version: version2 })}
+                  </h3>
                   <p className="text-xs text-muted-foreground">
-                    {documentVersions.find(v => v.version === parseInt(version2))?.date}
+                    {documentVersions.find((v) => v.version === parseInt(version2))?.date}
                   </p>
                 </div>
-                <Badge className="bg-green-500 text-white border-0 text-xs">{t('DOCUMENTS.NEW')}</Badge>
+                <Badge className="bg-green-500 text-white border-0 text-xs">
+                  {t('DOCUMENTS.NEW')}
+                </Badge>
               </div>
             </div>
             <ScrollArea className="h-[300px] sm:h-[400px]">
@@ -431,8 +512,14 @@ export function DocumentCompareView() {
                 className="p-4 font-mono text-xs leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html: newContent
-                    .replace(/<span class="added">(.*?)<\/span>/g, '<span class="bg-green-500/20 text-green-700 dark:text-green-400 px-1 rounded">$1</span>')
-                    .replace(/<span class="modified">(.*?)<\/span>/g, '<span class="bg-blue-500/20 text-blue-700 dark:text-blue-400 px-1 rounded">$1</span>')
+                    .replace(
+                      /<span class="added">(.*?)<\/span>/g,
+                      '<span class="bg-green-500/20 text-green-700 dark:text-green-400 px-1 rounded">$1</span>'
+                    )
+                    .replace(
+                      /<span class="modified">(.*?)<\/span>/g,
+                      '<span class="bg-blue-500/20 text-blue-700 dark:text-blue-400 px-1 rounded">$1</span>'
+                    )
                     .replace(/\n/g, '<br />'),
                 }}
               />
@@ -482,9 +569,13 @@ export function DocumentCompareView() {
                   <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/10">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                      <span className="text-sm text-green-700 dark:text-green-400">{t('DOCUMENTS.ADDED')}</span>
+                      <span className="text-sm text-green-700 dark:text-green-400">
+                        {t('DOCUMENTS.ADDED')}
+                      </span>
                     </div>
-                    <span className="text-sm text-green-700 dark:text-green-400">{changesSummary.added}</span>
+                    <span className="text-sm text-green-700 dark:text-green-400">
+                      {changesSummary.added}
+                    </span>
                   </div>
 
                   <div className="flex items-center justify-between p-3 rounded-xl bg-destructive/10">
@@ -498,9 +589,13 @@ export function DocumentCompareView() {
                   <div className="flex items-center justify-between p-3 rounded-xl bg-blue-500/10">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                      <span className="text-sm text-blue-700 dark:text-blue-400">{t('DOCUMENTS.MODIFIED')}</span>
+                      <span className="text-sm text-blue-700 dark:text-blue-400">
+                        {t('DOCUMENTS.MODIFIED')}
+                      </span>
                     </div>
-                    <span className="text-sm text-blue-700 dark:text-blue-400">{changesSummary.modified}</span>
+                    <span className="text-sm text-blue-700 dark:text-blue-400">
+                      {changesSummary.modified}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -542,21 +637,31 @@ export function DocumentCompareView() {
                       <button
                         key={change.id}
                         onClick={() => setCurrentChangeIndex(index)}
-                        className={`w-full text-left p-3 rounded-xl transition-all ${currentChangeIndex === index
-                          ? 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800'
-                          : 'bg-muted/50 hover:bg-muted border-2 border-transparent'
-                          }`}
+                        className={`w-full text-left p-3 rounded-xl transition-all ${
+                          currentChangeIndex === index
+                            ? 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800'
+                            : 'bg-muted/50 hover:bg-muted border-2 border-transparent'
+                        }`}
                       >
                         <div className="flex items-center gap-2 mb-2">
-                          <Badge className={`text-xs border-0 ${change.type === DocumentChangeTypeEnum.ADDED ? 'bg-green-500/10 text-green-700 dark:text-green-400' :
-                            change.type === DocumentChangeTypeEnum.REMOVED ? 'bg-destructive/10 text-destructive' :
-                              'bg-blue-500/10 text-blue-700 dark:text-blue-400'
-                            }`}>
-                            {change.type === DocumentChangeTypeEnum.ADDED ? t('DOCUMENTS.ADDED') :
-                              change.type === DocumentChangeTypeEnum.REMOVED ? t('DOCUMENTS.REMOVED') :
-                                t('DOCUMENTS.MODIFIED')}
+                          <Badge
+                            className={`text-xs border-0 ${
+                              change.type === DocumentChangeTypeEnum.ADDED
+                                ? 'bg-green-500/10 text-green-700 dark:text-green-400'
+                                : change.type === DocumentChangeTypeEnum.REMOVED
+                                  ? 'bg-destructive/10 text-destructive'
+                                  : 'bg-blue-500/10 text-blue-700 dark:text-blue-400'
+                            }`}
+                          >
+                            {change.type === DocumentChangeTypeEnum.ADDED
+                              ? t('DOCUMENTS.ADDED')
+                              : change.type === DocumentChangeTypeEnum.REMOVED
+                                ? t('DOCUMENTS.REMOVED')
+                                : t('DOCUMENTS.MODIFIED')}
                           </Badge>
-                          <span className="text-xs text-muted-foreground">{t('DOCUMENTS.LINE')} {change.lineNumber}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {t('DOCUMENTS.LINE')} {change.lineNumber}
+                          </span>
                         </div>
                         {change.oldText && (
                           <div className="text-xs text-muted-foreground mb-1 line-through">
@@ -600,18 +705,22 @@ export function DocumentCompareView() {
           </div>
 
           <div className="col-span-3">
-            <Card >
+            <Card>
               <div className="grid grid-cols-2 divide-x divide-border">
                 <div>
                   <div className="p-4 bg-muted/50 border-b border-border">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold tracking-tight mb-1">{t('DOCUMENTS.VERSION', { version: version1 })}</h3>
+                        <h3 className="font-semibold tracking-tight mb-1">
+                          {t('DOCUMENTS.VERSION', { version: version1 })}
+                        </h3>
                         <p className="text-xs text-muted-foreground">
-                          {documentVersions.find(v => v.version === parseInt(version1))?.date}
+                          {documentVersions.find((v) => v.version === parseInt(version1))?.date}
                         </p>
                       </div>
-                      <Badge className="bg-muted text-muted-foreground border-0">{t('DOCUMENTS.OLD')}</Badge>
+                      <Badge className="bg-muted text-muted-foreground border-0">
+                        {t('DOCUMENTS.OLD')}
+                      </Badge>
                     </div>
                   </div>
                   <ScrollArea className="h-[800px]">
@@ -620,7 +729,10 @@ export function DocumentCompareView() {
                       style={{ fontSize: `${zoomLevel}%` }}
                       dangerouslySetInnerHTML={{
                         __html: oldContent
-                          .replace(/<span class="removed">(.*?)<\/span>/g, '<span class="bg-destructive/20 text-destructive px-1 rounded line-through">$1</span>')
+                          .replace(
+                            /<span class="removed">(.*?)<\/span>/g,
+                            '<span class="bg-destructive/20 text-destructive px-1 rounded line-through">$1</span>'
+                          )
                           .replace(/\n/g, '<br />'),
                       }}
                     />
@@ -631,12 +743,16 @@ export function DocumentCompareView() {
                   <div className="p-4 bg-green-500/10 border-b border-green-500/20">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold tracking-tight mb-1">{t('DOCUMENTS.VERSION')} {version2}</h3>
+                        <h3 className="font-semibold tracking-tight mb-1">
+                          {t('DOCUMENTS.VERSION')} {version2}
+                        </h3>
                         <p className="text-xs text-muted-foreground">
-                          {documentVersions.find(v => v.version === parseInt(version2))?.date}
+                          {documentVersions.find((v) => v.version === parseInt(version2))?.date}
                         </p>
                       </div>
-                      <Badge className="bg-green-500 text-white border-0">{t('DOCUMENTS.NEW')}</Badge>
+                      <Badge className="bg-green-500 text-white border-0">
+                        {t('DOCUMENTS.NEW')}
+                      </Badge>
                     </div>
                   </div>
                   <ScrollArea className="h-[800px]">
@@ -645,8 +761,14 @@ export function DocumentCompareView() {
                       style={{ fontSize: `${zoomLevel}%` }}
                       dangerouslySetInnerHTML={{
                         __html: newContent
-                          .replace(/<span class="added">(.*?)<\/span>/g, '<span class="bg-green-500/20 text-green-700 dark:text-green-400 px-1 rounded">$1</span>')
-                          .replace(/<span class="modified">(.*?)<\/span>/g, '<span class="bg-blue-500/20 text-blue-700 dark:text-blue-400 px-1 rounded">$1</span>')
+                          .replace(
+                            /<span class="added">(.*?)<\/span>/g,
+                            '<span class="bg-green-500/20 text-green-700 dark:text-green-400 px-1 rounded">$1</span>'
+                          )
+                          .replace(
+                            /<span class="modified">(.*?)<\/span>/g,
+                            '<span class="bg-blue-500/20 text-blue-700 dark:text-blue-400 px-1 rounded">$1</span>'
+                          )
                           .replace(/\n/g, '<br />'),
                       }}
                     />

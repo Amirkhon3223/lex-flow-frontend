@@ -10,10 +10,11 @@ export function SessionItem({ session, onTerminate }: SessionItemProps) {
     <div className="flex items-center justify-between gap-2 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-muted/50">
       <div className="min-w-0">
         <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
-          <h4 className="tracking-tight text-xs sm:text-sm md:text-base truncate">{session.device}</h4>
+          <h4 className="tracking-tight text-xs sm:text-sm md:text-base truncate">
+            {session.device}
+          </h4>
           {session.current && (
-            <Badge
-              className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0 text-xs flex-shrink-0">
+            <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0 text-xs flex-shrink-0">
               {t('SETTINGS.SECURITY.CURRENT')}
             </Badge>
           )}

@@ -1,7 +1,15 @@
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { Calendar as CalendarIcon, Clock, MapPin, Video, Phone, Users, AlarmClock } from 'lucide-react';
+import {
+  Calendar as CalendarIcon,
+  Clock,
+  MapPin,
+  Video,
+  Phone,
+  Users,
+  AlarmClock,
+} from 'lucide-react';
 import type { AddMeetingDialogProps } from '@/app/types/calendar/calendar.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
@@ -16,13 +24,7 @@ import {
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
 import { Textarea } from '@/shared/ui/textarea';
 
@@ -56,14 +58,16 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
   };
 
   const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg bg-background border-border shadow-2xl rounded-2xl sm:rounded-3xl p-0 max-h-[90vh] overflow-y-auto">
         <DialogHeader className="px-4 sm:px-8 pt-6 sm:pt-8 pb-4 sm:pb-6">
-          <DialogTitle className="text-xl sm:text-2xl tracking-tight">{t('CALENDAR.FORMS.NEW_MEETING')}</DialogTitle>
+          <DialogTitle className="text-xl sm:text-2xl tracking-tight">
+            {t('CALENDAR.FORMS.NEW_MEETING')}
+          </DialogTitle>
           <DialogDescription className="text-muted-foreground text-sm">
             {t('CALENDAR.FORMS.SCHEDULE_MEETING')}
           </DialogDescription>
@@ -89,10 +93,7 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               <Label htmlFor="type" className="text-xs sm:text-sm text-muted-foreground">
                 {t('CALENDAR.FORMS.MEETING_TYPE')}
               </Label>
-              <Select
-                value={formData.type}
-                onValueChange={(value) => handleChange('type', value)}
-              >
+              <Select value={formData.type} onValueChange={(value) => handleChange('type', value)}>
                 <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input focus:ring-blue-500 text-sm">
                   <SelectValue />
                 </SelectTrigger>
@@ -124,7 +125,10 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
                 <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
-                  <CalendarIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
+                  <CalendarIcon
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground"
+                    strokeWidth={2}
+                  />
                   {t('CALENDAR.FORMS.DATE')}
                 </Label>
                 <Popover>
@@ -137,17 +141,20 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 rounded-xl" align="start">
-                    <Calendar
-                      selected={date}
-                      onSelect={setDate}
-                    />
+                    <Calendar selected={date} onSelect={setDate} />
                   </PopoverContent>
                 </Popover>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="time" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
-                  <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
+                <Label
+                  htmlFor="time"
+                  className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2"
+                >
+                  <Clock
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground"
+                    strokeWidth={2}
+                  />
                   {t('CALENDAR.FORMS.TIME')}
                 </Label>
                 <Input
@@ -185,8 +192,14 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="reminder" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
-                  <AlarmClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
+                <Label
+                  htmlFor="reminder"
+                  className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2"
+                >
+                  <AlarmClock
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground"
+                    strokeWidth={2}
+                  />
                   {t('CALENDAR.FORMS.REMINDER')}
                 </Label>
                 <Select
@@ -211,9 +224,17 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
 
             {(formData.type === 'in_person' || formData.type === 'video') && (
               <div className="space-y-2">
-                <Label htmlFor="location" className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" strokeWidth={2} />
-                  {formData.type === 'video' ? t('CALENDAR.FORMS.LINK_OR_LOCATION') : t('CALENDAR.FORMS.LINK_OR_LOCATION_ALT')}
+                <Label
+                  htmlFor="location"
+                  className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2"
+                >
+                  <MapPin
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground"
+                    strokeWidth={2}
+                  />
+                  {formData.type === 'video'
+                    ? t('CALENDAR.FORMS.LINK_OR_LOCATION')
+                    : t('CALENDAR.FORMS.LINK_OR_LOCATION_ALT')}
                 </Label>
                 <Input
                   id="location"

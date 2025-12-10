@@ -19,7 +19,8 @@ import {
   BarChart3,
   Sparkles,
   Settings,
-  LogOut, Scale,
+  LogOut,
+  Scale,
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config.ts';
@@ -35,7 +36,12 @@ interface SidebarProps {
   onMobileClose?: () => void;
 }
 
-export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse, onMobileClose }: SidebarProps) {
+export function Sidebar({
+  isCollapsed = false,
+  isMobileOpen = false,
+  onCollapse,
+  onMobileClose,
+}: SidebarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useI18n();
@@ -46,11 +52,38 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
 
   const navigationItems = [
     { icon: Home, label: t('COMMON.NAVIGATION.OVERVIEW'), path: ROUTES.DASHBOARD, id: 'overview' },
-    { icon: Briefcase, label: t('COMMON.NAVIGATION.CASES'), path: ROUTES.CASES.BASE, id: 'cases', count: 47 },
-    { icon: Users, label: t('COMMON.NAVIGATION.CLIENTS'), path: ROUTES.CLIENTS.BASE, id: 'clients', count: 24 },
-    { icon: FileText, label: t('COMMON.NAVIGATION.DOCUMENTS'), path: ROUTES.DOCUMENTS.BASE, id: 'documents' },
-    { icon: Calendar, label: t('COMMON.NAVIGATION.CALENDAR'), path: ROUTES.CALENDAR, id: 'calendar' },
-    { icon: BarChart3, label: t('COMMON.NAVIGATION.ANALYTICS'), path: ROUTES.ANALYTICS, id: 'analytics' },
+    {
+      icon: Briefcase,
+      label: t('COMMON.NAVIGATION.CASES'),
+      path: ROUTES.CASES.BASE,
+      id: 'cases',
+      count: 47,
+    },
+    {
+      icon: Users,
+      label: t('COMMON.NAVIGATION.CLIENTS'),
+      path: ROUTES.CLIENTS.BASE,
+      id: 'clients',
+      count: 24,
+    },
+    {
+      icon: FileText,
+      label: t('COMMON.NAVIGATION.DOCUMENTS'),
+      path: ROUTES.DOCUMENTS.BASE,
+      id: 'documents',
+    },
+    {
+      icon: Calendar,
+      label: t('COMMON.NAVIGATION.CALENDAR'),
+      path: ROUTES.CALENDAR,
+      id: 'calendar',
+    },
+    {
+      icon: BarChart3,
+      label: t('COMMON.NAVIGATION.ANALYTICS'),
+      path: ROUTES.ANALYTICS,
+      id: 'analytics',
+    },
   ];
 
   return (
@@ -62,13 +95,19 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
       `}
     >
       <div className="flex flex-col h-full">
-        <div className={`px-6 py-8 transition-all duration-300 ${isCollapsed ? 'md:px-3 lg:px-6' : ''}`}>
-          <div className={`flex items-center gap-3 ${isCollapsed ? 'md:justify-center lg:justify-start' : ''}`}>
+        <div
+          className={`px-6 py-8 transition-all duration-300 ${isCollapsed ? 'md:px-3 lg:px-6' : ''}`}
+        >
+          <div
+            className={`flex items-center gap-3 ${isCollapsed ? 'md:justify-center lg:justify-start' : ''}`}
+          >
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
               <Scale className="w-6 h-6 text-white" strokeWidth={2.5} />
             </div>
             {/* Text visible on mobile and desktop, hidden on tablet collapsed */}
-            <div className={`transition-all duration-300 ${isCollapsed ? 'hidden lg:block' : 'block'}`}>
+            <div
+              className={`transition-all duration-300 ${isCollapsed ? 'hidden lg:block' : 'block'}`}
+            >
               <h1 className="text-xl tracking-tight">LexFlow</h1>
               <p className="text-xs text-muted-foreground">Legal Platform</p>
             </div>
@@ -86,30 +125,37 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
                 className={`
                   w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer relative
                   ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
-                  ${isActive
-                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                    : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
+                  ${
+                    isActive
+                      ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
+                      : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
                   }
                 `}
               >
                 <item.icon className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
-                <span className={`flex-1 text-left text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}>
+                <span
+                  className={`flex-1 text-left text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}
+                >
                   {item.label}
                 </span>
                 {item.count && (
                   <>
-                    <span className={`
+                    <span
+                      className={`
                       absolute top-0.5 right-0 w-5 h-5 flex items-center justify-center text-[10px] font-semibold rounded-full
                       ${isActive ? 'bg-white text-blue-500' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'}
                       ${isCollapsed ? 'hidden md:flex lg:hidden' : 'hidden'}
-                    `}>
+                    `}
+                    >
                       {item.count}
                     </span>
-                    <span className={`
+                    <span
+                      className={`
                       text-xs px-2 py-0.5 rounded-full font-bold
                       ${isActive ? 'bg-white text-black' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'}
                       ${isCollapsed ? 'md:hidden lg:inline-block' : ''}
-                    `}>
+                    `}
+                    >
                       {item.count}
                     </span>
                   </>
@@ -127,26 +173,33 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
             className={`
               w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer relative
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
-              ${location.pathname === ROUTES.AI_ASSISTANT
-                ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
+              ${
+                location.pathname === ROUTES.AI_ASSISTANT
+                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
+                  : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
               }
             `}
           >
             <Sparkles className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
-            <span className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}>
+            <span
+              className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}
+            >
               {t('COMMON.NAVIGATION.AI_ASSISTANT')}
             </span>
-            <Badge className={`
+            <Badge
+              className={`
               ml-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs border-0
               ${isCollapsed ? 'md:hidden lg:flex' : ''}
-            `}>
+            `}
+            >
               {t('COMMON.NAVIGATION.NEW_BADGE')}
             </Badge>
-            <span className={`
+            <span
+              className={`
               absolute top-1 right-1 w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full
               ${isCollapsed ? 'hidden md:block lg:hidden' : 'hidden'}
-            `} />
+            `}
+            />
           </Link>
           <Link
             to={ROUTES.SETTINGS}
@@ -154,14 +207,17 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
             className={`
               w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
-              ${location.pathname === ROUTES.SETTINGS
-                ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
+              ${
+                location.pathname === ROUTES.SETTINGS
+                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
+                  : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
               }
             `}
           >
             <Settings className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
-            <span className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}>
+            <span
+              className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}
+            >
               {t('COMMON.NAVIGATION.SETTINGS')}
             </span>
           </Link>
@@ -173,7 +229,9 @@ export function Sidebar({ isCollapsed = false, isMobileOpen = false, onCollapse,
             `}
           >
             <LogOut className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
-            <span className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}>
+            <span
+              className={`text-[15px] transition-all duration-300 ${isCollapsed ? 'md:hidden lg:block' : ''}`}
+            >
               {t('COMMON.ACTIONS.LOGOUT')}
             </span>
           </button>

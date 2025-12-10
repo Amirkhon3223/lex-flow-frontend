@@ -1,16 +1,16 @@
-import { useState, useRef, useEffect } from "react";
-import { Sparkles } from "lucide-react";
-import { MessageTypeEnum } from "@/app/types/ai-assistant/ai-assistant.enums.ts";
-import type { ChatAreaProps } from "@/app/types/ai-assistant/ai-assistant.interfaces";
+import { useState, useRef, useEffect } from 'react';
+import { Sparkles } from 'lucide-react';
+import { MessageTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums.ts';
+import type { ChatAreaProps } from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
-import { Card } from "@/shared/ui/card";
-import { ScrollArea } from "@/shared/ui/scroll-area";
-import { ChatInput } from "./ChatInput";
-import { ChatMessage } from "./ChatMessage";
+import { Card } from '@/shared/ui/card';
+import { ScrollArea } from '@/shared/ui/scroll-area';
+import { ChatInput } from './ChatInput';
+import { ChatMessage } from './ChatMessage';
 
 export function ChatArea({ chatHistory }: ChatAreaProps) {
   const { t } = useI18n();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState(chatHistory);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +34,7 @@ export function ChatArea({ chatHistory }: ChatAreaProps) {
         if (viewport) {
           viewport.scrollTo({
             top: viewport.scrollHeight,
-            behavior: "smooth",
+            behavior: 'smooth',
           });
         }
       }, 50);
@@ -47,11 +47,18 @@ export function ChatArea({ chatHistory }: ChatAreaProps) {
         <div className="p-3 sm:p-4 border-b border-border flex-shrink-0 bg-card sticky top-0 z-20">
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <Sparkles className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white" strokeWidth={2.5} />
+              <Sparkles
+                className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white"
+                strokeWidth={2.5}
+              />
             </div>
             <div>
-              <h3 className="tracking-tight text-sm sm:text-base">{t('AI_ASSISTANT.CHAT.TITLE')}</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">{t('AI_ASSISTANT.CHAT.STATUS')}</p>
+              <h3 className="tracking-tight text-sm sm:text-base">
+                {t('AI_ASSISTANT.CHAT.TITLE')}
+              </h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                {t('AI_ASSISTANT.CHAT.STATUS')}
+              </p>
             </div>
           </div>
         </div>

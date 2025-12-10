@@ -23,6 +23,7 @@ export interface CaseInterface {
   status: CaseStatusEnum;
   priority: CasePriorityEnum;
   deadline: string;
+  courtDate?: string;
   progress: number;
   description: string;
   fee: number;
@@ -39,11 +40,11 @@ export interface CaseInterface {
 }
 
 export interface CaseDocumentInterface {
-  id: string;  // UUID from backend
+  id: string; // UUID from backend
   caseId: string;
   name: string;
-  size: string;  // Formatted size (e.g., "2.5 MB")
-  fileSize: number;  // Size in bytes from backend
+  size: string; // Formatted size (e.g., "2.5 MB")
+  fileSize: number; // Size in bytes from backend
   date: string;
   versions: number;
   status: DocumentStatusEnum;
@@ -58,8 +59,8 @@ export interface CaseDocumentInterface {
 }
 
 export interface TimelineEventInterface {
-  id: string;  // UUID from backend
-  caseId: string;  // UUID from backend
+  id: string; // UUID from backend
+  caseId: string; // UUID from backend
   eventDate: string;
   title: string;
   description: string;
@@ -69,8 +70,8 @@ export interface TimelineEventInterface {
 }
 
 export interface CaseTaskInterface {
-  id: string;  // UUID from backend
-  caseId: string;  // UUID from backend
+  id: string; // UUID from backend
+  caseId: string; // UUID from backend
   title: string;
   completed: boolean;
   createdAt: string;
@@ -78,11 +79,11 @@ export interface CaseTaskInterface {
 }
 
 export interface CommentInterface {
-  id: string;  // UUID from backend
-  caseId: string;  // UUID from backend
+  id: string; // UUID from backend
+  caseId: string; // UUID from backend
   content: string;
-  createdBy: string;  // API returns createdBy, not authorId
-  userName: string;  // API returns userName, not authorName
+  createdBy: string; // API returns createdBy, not authorId
+  userName: string; // API returns userName, not authorName
   createdAt: string;
   updatedAt: string;
 }
@@ -95,7 +96,7 @@ export interface AIInsightInterface {
 }
 
 export interface CaseCardInterface {
-  id: string;  // UUID from backend
+  id: string; // UUID from backend
   title: string;
   client: string;
   clientInitials: string;
@@ -128,6 +129,7 @@ export interface CaseFormData {
   client: string;
   category: string;
   deadline: string;
+  courtDate?: string;
   fee: string;
   description: string;
   priority: string;
@@ -170,6 +172,7 @@ export interface CreateCaseInterface {
   category: string;
   priority: CasePriorityEnum;
   deadline: string;
+  courtDate?: string;
   description: string;
   fee: number;
   assignedTo?: string;
@@ -180,6 +183,7 @@ export interface UpdateCaseInterface {
   status?: CaseStatusEnum;
   priority?: CasePriorityEnum;
   deadline?: string;
+  courtDate?: string;
   progress?: number;
   description?: string;
   fee?: number;

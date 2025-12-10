@@ -52,7 +52,10 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
           <div className="space-y-2">
             <Label htmlFor="cardNumber">{t('SETTINGS.BILLING.CARD_NUMBER')}</Label>
             <div className="relative">
-              <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+              <CreditCard
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                strokeWidth={2}
+              />
               <Input
                 id="cardNumber"
                 type="text"
@@ -69,7 +72,10 @@ export function ManagePaymentDialog({ open, onOpenChange, onSubmit }: ManagePaym
             <div className="space-y-2">
               <Label htmlFor="expiry">{t('SETTINGS.BILLING.EXPIRY_DATE')}</Label>
               <div className="relative">
-                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                <Calendar
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                  strokeWidth={2}
+                />
                 <Input
                   id="expiry"
                   type="text"

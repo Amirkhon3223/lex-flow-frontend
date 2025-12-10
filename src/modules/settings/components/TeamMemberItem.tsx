@@ -1,5 +1,8 @@
 import { Settings } from 'lucide-react';
-import type { TeamMemberInterface, TeamMemberItemProps } from '@/app/types/settings/settings.interfaces';
+import type {
+  TeamMemberInterface,
+  TeamMemberItemProps,
+} from '@/app/types/settings/settings.interfaces';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 
@@ -21,16 +24,20 @@ export function TeamMemberItem({ member, onSettings }: TeamMemberItemProps) {
         <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xs sm:text-sm flex-shrink-0">
           {member.name
             .split(' ')
-            .map(n => n[0])
+            .map((n) => n[0])
             .join('')}
         </div>
         <div className="min-w-0">
-          <h4 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base truncate">{member.name}</h4>
+          <h4 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base truncate">
+            {member.name}
+          </h4>
           <p className="text-xs sm:text-sm text-muted-foreground truncate">{member.email}</p>
         </div>
       </div>
       <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 flex-shrink-0">
-        <Badge className={`border-0 text-xs ${getRoleBadgeColor(member.role)}`}>{member.status}</Badge>
+        <Badge className={`border-0 text-xs ${getRoleBadgeColor(member.role)}`}>
+          {member.status}
+        </Badge>
         <Button
           variant="ghost"
           size="icon"

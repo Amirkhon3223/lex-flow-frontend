@@ -8,8 +8,19 @@ import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
 
-export function ProfileSidebar({ profileData, stats, onLogout }: {
-  profileData: { firstName: string; lastName: string; email: string; phone: string; position: string; avatarUrl?: string };
+export function ProfileSidebar({
+  profileData,
+  stats,
+  onLogout,
+}: {
+  profileData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    position: string;
+    avatarUrl?: string;
+  };
   stats: Array<{ label: string; value: string; icon: typeof Briefcase; color: string }>;
   onLogout: () => void;
 }) {
@@ -65,7 +76,8 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
                 />
               )}
               <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-2xl sm:text-3xl">
-                {profileData.firstName[0]}{profileData.lastName[0]}
+                {profileData.firstName[0]}
+                {profileData.lastName[0]}
               </AvatarFallback>
             </Avatar>
             <input
@@ -113,7 +125,9 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
 
       <Card>
         <div>
-          <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">{t('USER_PROFILE.STATISTICS')}</h3>
+          <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">
+            {t('USER_PROFILE.STATISTICS')}
+          </h3>
           <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-4">
             {stats.map((stat, index) => (
               <div key={index} className="flex items-center justify-between">
@@ -123,7 +137,9 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
                   </div>
                   <span className="text-xs sm:text-sm text-muted-foreground">{stat.label}</span>
                 </div>
-                <span className={`text-base sm:text-lg tracking-tight ${stat.color}`}>{stat.value}</span>
+                <span className={`text-base sm:text-lg tracking-tight ${stat.color}`}>
+                  {stat.value}
+                </span>
               </div>
             ))}
           </div>
@@ -148,7 +164,9 @@ export function ProfileSidebar({ profileData, stats, onLogout }: {
 
       <Card className="bg-gradient-to-br from-red-500 to-red-600 border-0 shadow-lg shadow-red-500/20 text-white">
         <div>
-          <h3 className="text-base sm:text-lg tracking-tight mb-2">{t('USER_PROFILE.DELETE_ACCOUNT')}</h3>
+          <h3 className="text-base sm:text-lg tracking-tight mb-2">
+            {t('USER_PROFILE.DELETE_ACCOUNT')}
+          </h3>
           <p className="text-xs sm:text-sm opacity-90 mb-3 sm:mb-4">
             {t('USER_PROFILE.DELETE_ACCOUNT_WARNING')}
           </p>

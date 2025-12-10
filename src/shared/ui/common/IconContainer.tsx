@@ -23,10 +23,7 @@ export const IconContainer: React.FC<IconContainerProps> = ({
         className
       )}
     >
-      <Icon
-        className={cn('w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5', iconColor)}
-        strokeWidth={2}
-      />
+      <Icon className={cn('w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5', iconColor)} strokeWidth={2} />
     </div>
   );
 };

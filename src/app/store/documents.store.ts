@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { documentsService } from '../services/documents/documents.service';
-import type { DocumentInterface, CreateDocumentInterface, UpdateDocumentInterface, DocumentVersionInterface } from '../types/documents/documents.interfaces';
+import type {
+  DocumentInterface,
+  CreateDocumentInterface,
+  UpdateDocumentInterface,
+  DocumentVersionInterface,
+} from '../types/documents/documents.interfaces';
 
 interface DocumentsState {
   documents: DocumentInterface[];

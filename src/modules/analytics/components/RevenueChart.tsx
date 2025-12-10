@@ -1,4 +1,12 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 import type { RevenueDataInterface } from '@/app/types/analytics/analytics.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
@@ -17,31 +25,33 @@ export function RevenueChart() {
 
   return (
     <Card className="flex flex-col">
-      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">{t('ANALYTICS.CHARTS.REVENUE_DYNAMICS')}</h3>
-        <ResponsiveContainer width="100%" height={250} className="sm:!h-[220px] md:!h-[250px]">
-          <LineChart data={revenueData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="month" stroke="#9ca3af" fontSize={12} />
-            <YAxis stroke="#9ca3af" fontSize={12} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: 'white',
-                border: 'none',
-                borderRadius: '12px',
-                boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-              }}
-              formatter={(value: number) => `${(value / 1000).toFixed(0)}k ₽`}
-            />
-            <Line
-              type="monotone"
-              dataKey="revenue"
-              stroke="#3B82F6"
-              strokeWidth={2}
-              dot={{ fill: '#3B82F6', r: 4 }}
-              className="sm:[&>line]:!strokeWidth-[2.5px] md:[&>line]:!strokeWidth-[3px]"
-            />
-          </LineChart>
-        </ResponsiveContainer>
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
+        {t('ANALYTICS.CHARTS.REVENUE_DYNAMICS')}
+      </h3>
+      <ResponsiveContainer width="100%" height={250} className="sm:!h-[220px] md:!h-[250px]">
+        <LineChart data={revenueData}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+          <XAxis dataKey="month" stroke="#9ca3af" fontSize={12} />
+          <YAxis stroke="#9ca3af" fontSize={12} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'white',
+              border: 'none',
+              borderRadius: '12px',
+              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+            }}
+            formatter={(value: number) => `${(value / 1000).toFixed(0)}k ₽`}
+          />
+          <Line
+            type="monotone"
+            dataKey="revenue"
+            stroke="#3B82F6"
+            strokeWidth={2}
+            dot={{ fill: '#3B82F6', r: 4 }}
+            className="sm:[&>line]:!strokeWidth-[2.5px] md:[&>line]:!strokeWidth-[3px]"
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </Card>
   );
 }

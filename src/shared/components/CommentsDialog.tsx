@@ -4,12 +4,7 @@ import { useCasesStore } from '@/app/store/cases.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Button } from '@/shared/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/shared/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { ScrollArea } from '@/shared/ui/scroll-area';
 import { Separator } from '@/shared/ui/separator';
 import { Textarea } from '@/shared/ui/textarea';
@@ -27,14 +22,8 @@ export function CommentsDialog({ open, onOpenChange, caseId }: CommentsDialogPro
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editingContent, setEditingContent] = useState('');
 
-  const {
-    comments,
-    commentsLoading,
-    fetchComments,
-    addComment,
-    updateComment,
-    deleteComment,
-  } = useCasesStore();
+  const { comments, commentsLoading, fetchComments, addComment, updateComment, deleteComment } =
+    useCasesStore();
 
   useEffect(() => {
     if (open && caseId) {

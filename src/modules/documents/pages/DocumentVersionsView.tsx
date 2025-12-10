@@ -1,5 +1,16 @@
 import React from 'react';
-import { Clock, Download, Eye, FileText, MoreHorizontal, Upload, CheckCircle2, GitCompare, Trash2, User } from 'lucide-react';
+import {
+  Clock,
+  Download,
+  Eye,
+  FileText,
+  MoreHorizontal,
+  Upload,
+  CheckCircle2,
+  GitCompare,
+  Trash2,
+  User,
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@/shared/components/BackButton';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -13,7 +24,6 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
-
 
 export function DocumentVersionsView() {
   const { t } = useI18n();
@@ -151,10 +161,17 @@ export function DocumentVersionsView() {
                 <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" strokeWidth={2} />
               </div>
               <div>
-                <h3 className="text-sm sm:text-base tracking-tight text-blue-700 dark:text-blue-400 mb-1">{t('DOCUMENTS.VERSION_HISTORY')}</h3>
+                <h3 className="text-sm sm:text-base tracking-tight text-blue-700 dark:text-blue-400 mb-1">
+                  {t('DOCUMENTS.VERSION_HISTORY')}
+                </h3>
                 <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-300">
-                  {t('DOCUMENTS.VERSIONS_CREATED')} {documentInfo.totalVersions} {documentInfo.totalVersions === 1 ? t('CASES.DOC_VERSION.SINGULAR') : documentInfo.totalVersions < 5 ? t('CASES.DOC_VERSION.PLURAL') : t('CASES.DOC_VERSION.PLURAL')}.
-                  <span className="hidden sm:inline"> {t('DOCUMENTS.VIEW_DETAILS')}</span>
+                  {t('DOCUMENTS.VERSIONS_CREATED')} {documentInfo.totalVersions}{' '}
+                  {documentInfo.totalVersions === 1
+                    ? t('CASES.DOC_VERSION.SINGULAR')
+                    : documentInfo.totalVersions < 5
+                      ? t('CASES.DOC_VERSION.PLURAL')
+                      : t('CASES.DOC_VERSION.PLURAL')}
+                  .<span className="hidden sm:inline"> {t('DOCUMENTS.VIEW_DETAILS')}</span>
                 </p>
               </div>
             </div>
@@ -163,16 +180,20 @@ export function DocumentVersionsView() {
             {versions.map((version, index) => (
               <Card
                 key={version.version}
-                className={`hover:shadow-md transition-all ${version.isCurrent ? 'ring-2 ring-blue-500' : ''
-                  }`}
+                className={`hover:shadow-md transition-all ${
+                  version.isCurrent ? 'ring-2 ring-blue-500' : ''
+                }`}
               >
                 <div className="md:hidden">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="flex flex-col items-center">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-medium ${version.isCurrent
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-muted text-muted-foreground'
-                        }`}>
+                      <div
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-medium ${
+                          version.isCurrent
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-muted text-muted-foreground'
+                        }`}
+                      >
                         v{version.version}
                       </div>
                       {index < versions.length - 1 && (
@@ -183,7 +204,9 @@ export function DocumentVersionsView() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-base tracking-tight mb-1">{t('DOCUMENTS.VERSION')} {version.version}</h3>
+                          <h3 className="text-base tracking-tight mb-1">
+                            {t('DOCUMENTS.VERSION')} {version.version}
+                          </h3>
                           <div className="flex flex-wrap gap-1 mb-2">
                             {version.isCurrent && (
                               <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0 text-xs">
@@ -289,10 +312,13 @@ export function DocumentVersionsView() {
                 {/* Desktop layout */}
                 <div className="hidden md:flex items-start gap-6">
                   <div className="flex flex-col items-center">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg ${version.isCurrent
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-muted text-muted-foreground'
-                      }`}>
+                    <div
+                      className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg ${
+                        version.isCurrent
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-muted text-muted-foreground'
+                      }`}
+                    >
                       v{version.version}
                     </div>
                     {index < versions.length - 1 && (
@@ -304,7 +330,9 @@ export function DocumentVersionsView() {
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <h3 className="text-lg tracking-tight">{t('DOCUMENTS.VERSION')} {version.version}</h3>
+                          <h3 className="text-lg tracking-tight">
+                            {t('DOCUMENTS.VERSION')} {version.version}
+                          </h3>
                           {version.isCurrent && (
                             <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0">
                               {t('DOCUMENTS.CURRENT')}
@@ -337,11 +365,7 @@ export function DocumentVersionsView() {
 
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="rounded-xl hover:bg-muted"
-                          >
+                          <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
                             <MoreHorizontal className="w-5 h-5" strokeWidth={2} />
                           </Button>
                         </DropdownMenuTrigger>

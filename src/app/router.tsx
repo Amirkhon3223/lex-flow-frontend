@@ -3,7 +3,7 @@ import { MeetingDetailPage } from '@/modules/calendar/pages/MeetingDetailPage';
 import ClientDetailPage from '@/modules/clients/pages/ClientDetailPage';
 import AiAssistantPage from '@/pages/AiAssistantPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
-import AuthPage from "@/pages/AuthPage.tsx";
+import AuthPage from '@/pages/AuthPage.tsx';
 import CalendarPage from '@/pages/CalendarPage';
 import CaseDetailPage from '@/pages/CaseDetailPage';
 import CasesPage from '@/pages/CasesPage';
@@ -96,5 +96,3 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
-
-

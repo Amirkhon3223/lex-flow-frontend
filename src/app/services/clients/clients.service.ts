@@ -17,14 +17,14 @@ export const clientsService = {
   }): Promise<ClientListResponse> => {
     // Очищаем параметры от undefined и пустых значений
     const cleanParams: Record<string, string | number> = {};
-    
+
     if (params?.page !== undefined) cleanParams.page = params.page;
     if (params?.limit !== undefined) cleanParams.limit = params.limit;
     if (params?.type && params.type !== 'all') cleanParams.type = params.type;
     if (params?.category && params.category !== 'all') cleanParams.category = params.category;
     if (params?.status && params.status !== 'all') cleanParams.status = params.status;
     if (params?.search && params.search.trim()) cleanParams.search = params.search.trim();
-    
+
     const response = await httpClient.get<ClientListResponse>('/clients', { params: cleanParams });
     return response.data;
   },

@@ -1,10 +1,6 @@
 import { httpClient } from '../../interceptors/http.interceptor';
 import type { SuccessResponse } from '../../types/api/api.types';
-import type {
-  LoginRequest,
-  RegisterRequest,
-  AuthResponse,
-} from '../../types/auth/auth.interfaces';
+import type { LoginRequest, RegisterRequest, AuthResponse } from '../../types/auth/auth.interfaces';
 
 export const authService = {
   register: async (data: RegisterRequest): Promise<AuthResponse> => {

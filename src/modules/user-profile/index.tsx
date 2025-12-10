@@ -31,14 +31,29 @@ export default function UserProfilePage() {
   });
 
   const handleProfileChange = (field: string, value: string) => {
-    setProfileData(prev => ({ ...prev, [field]: value }));
+    setProfileData((prev) => ({ ...prev, [field]: value }));
   };
 
   const stats = [
-    { label: t('USER_PROFILE.STATS.ACTIVE_CASES'), value: '47', icon: Briefcase, color: 'text-blue-500' },
+    {
+      label: t('USER_PROFILE.STATS.ACTIVE_CASES'),
+      value: '47',
+      icon: Briefcase,
+      color: 'text-blue-500',
+    },
     { label: t('USER_PROFILE.STATS.CLIENTS'), value: '24', icon: User, color: 'text-purple-500' },
-    { label: t('USER_PROFILE.STATS.COMPLETED_CASES'), value: '128', icon: Briefcase, color: 'text-green-500' },
-    { label: t('USER_PROFILE.STATS.DAYS_IN_SYSTEM'), value: '342', icon: Calendar, color: 'text-orange-500' },
+    {
+      label: t('USER_PROFILE.STATS.COMPLETED_CASES'),
+      value: '128',
+      icon: Briefcase,
+      color: 'text-green-500',
+    },
+    {
+      label: t('USER_PROFILE.STATS.DAYS_IN_SYSTEM'),
+      value: '342',
+      icon: Calendar,
+      color: 'text-orange-500',
+    },
   ];
 
   return (
@@ -58,8 +73,12 @@ export default function UserProfilePage() {
                 </Button>
               )}
               <div className="min-w-0">
-                <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight mb-0.5 sm:mb-1 truncate">{t('USER_PROFILE.TITLE')}</h1>
-                <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">{t('USER_PROFILE.SUBTITLE')}</p>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight mb-0.5 sm:mb-1 truncate">
+                  {t('USER_PROFILE.TITLE')}
+                </h1>
+                <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
+                  {t('USER_PROFILE.SUBTITLE')}
+                </p>
               </div>
             </div>
             <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md text-xs sm:text-sm lg:text-base h-8 sm:h-9 lg:h-10 px-3 sm:px-4 w-full sm:w-auto">
@@ -72,17 +91,10 @@ export default function UserProfilePage() {
 
       <main className="py-4 sm:py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-          <ProfileSidebar
-            profileData={profileData}
-            stats={stats}
-            onLogout={onLogout}
-          />
+          <ProfileSidebar profileData={profileData} stats={stats} onLogout={onLogout} />
 
           <div className="lg:col-span-2">
-            <ProfileTabs
-              profileData={profileData}
-              handleProfileChange={handleProfileChange}
-            />
+            <ProfileTabs profileData={profileData} handleProfileChange={handleProfileChange} />
           </div>
         </div>
       </main>

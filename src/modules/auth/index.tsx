@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/app/store/auth.store';
 import { BrandHeader } from '@/modules/auth/ui/brand-header.tsx';

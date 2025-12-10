@@ -11,13 +11,7 @@ import {
 } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 
 interface InviteTeamMemberDialogProps {
   open: boolean;
@@ -25,7 +19,11 @@ interface InviteTeamMemberDialogProps {
   onSubmit?: (data: { email: string; role: string }) => void;
 }
 
-export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteTeamMemberDialogProps) {
+export function InviteTeamMemberDialog({
+  open,
+  onOpenChange,
+  onSubmit,
+}: InviteTeamMemberDialogProps) {
   const { t } = useI18n();
   const [formData, setFormData] = useState({
     email: '',
@@ -58,7 +56,10 @@ export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteT
           <div className="space-y-2">
             <Label htmlFor="email">{t('CLIENTS.FIELDS.EMAIL')}</Label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={2} />
+              <Mail
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                strokeWidth={2}
+              />
               <Input
                 id="email"
                 type="email"
@@ -73,7 +74,10 @@ export function InviteTeamMemberDialog({ open, onOpenChange, onSubmit }: InviteT
 
           <div className="space-y-2">
             <Label htmlFor="role">{t('SETTINGS.TEAM.ROLE')}</Label>
-            <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
+            <Select
+              value={formData.role}
+              onValueChange={(value) => setFormData({ ...formData, role: value })}
+            >
               <SelectTrigger className="h-12 rounded-xl border-input">
                 <SelectValue />
               </SelectTrigger>

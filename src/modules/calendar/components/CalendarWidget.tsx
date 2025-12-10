@@ -66,27 +66,31 @@ export function CalendarWidget({
         onSelect={(newDate) => newDate && setDate(newDate)}
         month={selectedMonth}
         onMonthChange={setSelectedMonth}
-        className="rounded-xl border-0"
+        className="rounded-xl border-0 calendar-with-indicators"
         modifiers={{
           meeting: meetingDates,
         }}
         modifiersClassNames={{
-          meeting: 'bg-blue-500',
+          meeting: 'has-meeting',
         }}
       />
 
       <div className="mt-4 sm:mt-6 grid grid-cols-3 gap-2 sm:gap-3">
         <div className="p-2 sm:p-3 rounded-xl bg-blue-500/10 text-center">
           <div className="text-lg sm:text-2xl tracking-tight text-blue-600 dark:text-blue-400 mb-1">
-            {meetings.filter(m => m.status === MeetingStatusEnum.SCHEDULED).length}
+            {meetings.filter((m) => m.status === MeetingStatusEnum.SCHEDULED).length}
           </div>
-          <div className="text-xs text-blue-600 dark:text-blue-400">{t('CALENDAR.MEETING_STATUS.SCHEDULED')}</div>
+          <div className="text-xs text-blue-600 dark:text-blue-400">
+            {t('CALENDAR.MEETING_STATUS.SCHEDULED')}
+          </div>
         </div>
         <div className="p-2 sm:p-3 rounded-xl bg-green-500/10 text-center">
           <div className="text-lg sm:text-2xl tracking-tight text-green-600 dark:text-green-400 mb-1">
-            {meetings.filter(m => m.status === MeetingStatusEnum.COMPLETED).length}
+            {meetings.filter((m) => m.status === MeetingStatusEnum.COMPLETED).length}
           </div>
-          <div className="text-xs text-green-600 dark:text-green-400">{t('CALENDAR.MEETING_STATUS.COMPLETED')}</div>
+          <div className="text-xs text-green-600 dark:text-green-400">
+            {t('CALENDAR.MEETING_STATUS.COMPLETED')}
+          </div>
         </div>
         <div className="p-2 sm:p-3 rounded-xl bg-muted/50 text-center">
           <div className="text-lg sm:text-2xl tracking-tight text-muted-foreground mb-1">

@@ -4,31 +4,13 @@
  */
 
 import { useState } from 'react';
-import {
-  Upload,
-  FileText,
-  Briefcase,
-  Tag,
-  X,
-  CheckCircle2,
-} from 'lucide-react';
+import { Upload, FileText, Briefcase, Tag, X, CheckCircle2 } from 'lucide-react';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/shared/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
 
 interface UploadDocumentDialogProps {
@@ -121,12 +103,13 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`relative border-2 border-dashed rounded-2xl p-8 transition-all ${isDragging
+            className={`relative border-2 border-dashed rounded-2xl p-8 transition-all ${
+              isDragging
                 ? 'border-blue-500 bg-blue-50'
                 : selectedFile
                   ? 'border-green-300 bg-green-50'
                   : 'border-border/50 bg-muted/50 hover:bg-muted'
-              }`}
+            }`}
           >
             <input
               type="file"
@@ -145,11 +128,11 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                   <div className="text-center">
                     <p className="text-lg text-foreground mb-1">
                       {t('UPLOAD.DRAG_DROP')}{' '}
-                      <span className="text-blue-500 hover:text-blue-600">{t('UPLOAD.SELECT_FILE')}</span>
+                      <span className="text-blue-500 hover:text-blue-600">
+                        {t('UPLOAD.SELECT_FILE')}
+                      </span>
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                      {t('UPLOAD.SUPPORTED_FORMATS')}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{t('UPLOAD.SUPPORTED_FORMATS')}</p>
                   </div>
                 </div>
               </label>
@@ -233,10 +216,14 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="lawsuit">{t('UPLOAD.DOCUMENT_TYPES.LAWSUIT')}</SelectItem>
-                      <SelectItem value="contract">{t('UPLOAD.DOCUMENT_TYPES.CONTRACT')}</SelectItem>
+                      <SelectItem value="contract">
+                        {t('UPLOAD.DOCUMENT_TYPES.CONTRACT')}
+                      </SelectItem>
                       <SelectItem value="order">{t('UPLOAD.DOCUMENT_TYPES.ORDER')}</SelectItem>
                       <SelectItem value="power">{t('UPLOAD.DOCUMENT_TYPES.POWER')}</SelectItem>
-                      <SelectItem value="response">{t('UPLOAD.DOCUMENT_TYPES.RESPONSE')}</SelectItem>
+                      <SelectItem value="response">
+                        {t('UPLOAD.DOCUMENT_TYPES.RESPONSE')}
+                      </SelectItem>
                       <SelectItem value="other">{t('UPLOAD.DOCUMENT_TYPES.OTHER')}</SelectItem>
                     </SelectContent>
                   </Select>

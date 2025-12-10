@@ -9,7 +9,6 @@ import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { StatCard } from '@/shared/ui/stat-card';
 
-
 export function DocumentsPage() {
   const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState('');
@@ -106,7 +105,8 @@ export function DocumentsPage() {
   ];
 
   const filteredDocuments = documents.filter((doc) => {
-    const matchesSearch = doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesSearch =
+      doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.case.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.client.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -130,10 +130,30 @@ export function DocumentsPage() {
   });
 
   const stats = [
-    { label: t('DOCUMENTS.STATS.TOTAL'), value: documents.length, icon: FileText, color: 'text-blue-500' },
-    { label: t('DOCUMENTS.STATS.ON_REVIEW'), value: documents.filter(d => d.status === DocumentStatusEnum.REVIEW).length, icon: Clock, color: 'text-amber-500' },
-    { label: t('DOCUMENTS.STATS.FAVORITES'), value: documents.filter(d => d.starred).length, icon: Star, color: 'text-yellow-500' },
-    { label: t('DOCUMENTS.STATS.DRAFTS'), value: documents.filter(d => d.status === DocumentStatusEnum.DRAFT).length, icon: Filter, color: 'text-muted-foreground' },
+    {
+      label: t('DOCUMENTS.STATS.TOTAL'),
+      value: documents.length,
+      icon: FileText,
+      color: 'text-blue-500',
+    },
+    {
+      label: t('DOCUMENTS.STATS.ON_REVIEW'),
+      value: documents.filter((d) => d.status === DocumentStatusEnum.REVIEW).length,
+      icon: Clock,
+      color: 'text-amber-500',
+    },
+    {
+      label: t('DOCUMENTS.STATS.FAVORITES'),
+      value: documents.filter((d) => d.starred).length,
+      icon: Star,
+      color: 'text-yellow-500',
+    },
+    {
+      label: t('DOCUMENTS.STATS.DRAFTS'),
+      value: documents.filter((d) => d.status === DocumentStatusEnum.DRAFT).length,
+      icon: Filter,
+      color: 'text-muted-foreground',
+    },
   ];
 
   return (
@@ -144,13 +164,16 @@ export function DocumentsPage() {
         <div className="px-4 py-4 sm:py-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4 sm:mb-6">
             <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">{t('DOCUMENTS.TITLE')}</h1>
-                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">{t('DOCUMENTS.SUBTITLE')}</p>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">
+                  {t('DOCUMENTS.TITLE')}
+                </h1>
+                <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
+                  {t('DOCUMENTS.SUBTITLE')}
+                </p>
               </div>
             </div>
 

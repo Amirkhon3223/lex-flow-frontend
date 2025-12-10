@@ -1,4 +1,15 @@
-import { Calendar, Edit, Link, Mail, MoreHorizontal, Paperclip, Share2, Tag, User } from 'lucide-react';
+import {
+  Calendar,
+  Edit,
+  Link,
+  Mail,
+  MoreHorizontal,
+  Paperclip,
+  Share2,
+  Tag,
+  User,
+  Scale,
+} from 'lucide-react';
 import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import { BackButton } from '@/shared/components/BackButton';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -16,6 +27,7 @@ interface CaseHeaderProps {
   clientName?: string;
   category?: string;
   deadline?: string;
+  courtDate?: string;
   priority?: CasePriorityEnum;
   onBack: () => void;
   onCopyLink: () => void;
@@ -48,6 +60,7 @@ export function CaseHeader({
   clientName = 'Не указано',
   category,
   deadline,
+  courtDate,
   priority,
   onBack,
   onCopyLink,
@@ -106,12 +119,22 @@ export function CaseHeader({
 
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight">{title}</h1>
-              <Badge className={`${getPriorityBadgeColor(priority)} border-0 w-fit`}>{t('CASES.IN_WORK')}</Badge>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between items-center">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight">{title}</h1>
+                <Badge className={`${getPriorityBadgeColor(priority)} border-0 w-fit`}>
+                  {t('CASES.IN_WORK')}
+                </Badge>
+              </div>
+              <Button
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full mb-3 lg:w-auto text-sm sm:text-base"
+                onClick={onAddDocument}
+              >
+                <Paperclip className="w-4 h-4 mr-2" strokeWidth={2} />
+                {t('DOCUMENTS.UPLOAD_DOCUMENT')}
+              </Button>
             </div>
-
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-[15px] text-muted-foreground">
+            <div className="flex flex-col sm:flex-row sm:items-center border-t-2 pt-4 gap-2 sm:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-[15px] text-muted-foreground">
               <span className="flex items-center gap-2">
                 <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
                 <span className="truncate">{clientName}</span>
@@ -122,18 +145,18 @@ export function CaseHeader({
               </span>
               <span className="flex items-center gap-2">
                 <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
-                <span className="hidden sm:inline">{t('CASES.FIELDS.DEADLINE')}:</span> {formatDate(deadline)}
+                <span className="hidden sm:inline">{t('CASES.FIELDS.DEADLINE')}:</span>{' '}
+                {formatDate(deadline)}
               </span>
+              {courtDate && (
+                <span className="flex items-center gap-2">
+                  <Scale className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
+                  <span className="hidden sm:inline">{t('CASES.FIELDS.COURT_DATE')}:</span>{' '}
+                  {formatDate(courtDate)}
+                </span>
+              )}
             </div>
           </div>
-
-          <Button
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full lg:w-auto text-sm sm:text-base"
-            onClick={onAddDocument}
-          >
-            <Paperclip className="w-4 h-4 mr-2" strokeWidth={2} />
-            {t('DOCUMENTS.UPLOAD_DOCUMENT')}
-          </Button>
         </div>
       </div>
     </header>

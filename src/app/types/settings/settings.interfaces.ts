@@ -1,4 +1,3 @@
-
 export interface SubscriptionFeatures {
   clients: string;
   cases: string;
@@ -38,7 +37,6 @@ export interface PaymentHistoryInterface {
   status: string;
   invoice: string;
 }
-
 
 export interface NotificationToggleItemProps {
   setting: NotificationSettingInterface;

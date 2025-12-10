@@ -1,6 +1,10 @@
 import { create } from 'zustand';
 import { clientsService } from '../services/clients/clients.service';
-import type { ClientInterface, CreateClientInterface, UpdateClientInterface } from '../types/clients/clients.interfaces';
+import type {
+  ClientInterface,
+  CreateClientInterface,
+  UpdateClientInterface,
+} from '../types/clients/clients.interfaces';
 
 interface ClientsState {
   clients: ClientInterface[];

@@ -47,9 +47,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
     try {
       await notificationsService.markAsRead(id);
       set((state) => ({
-        notifications: state.notifications.map((n) =>
-          n.id === id ? { ...n, read: true } : n
-        ),
+        notifications: state.notifications.map((n) => (n.id === id ? { ...n, read: true } : n)),
         unreadCount: Math.max(0, state.unreadCount - 1),
         loading: false,
       }));
@@ -78,7 +76,8 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       await notificationsService.delete(id);
       set((state) => ({
         notifications: state.notifications.filter((n) => n.id !== id),
-        unreadCount: state.unreadCount - (state.notifications.find(n => n.id === id)?.read ? 0 : 1),
+        unreadCount:
+          state.unreadCount - (state.notifications.find((n) => n.id === id)?.read ? 0 : 1),
         loading: false,
       }));
     } catch (error) {

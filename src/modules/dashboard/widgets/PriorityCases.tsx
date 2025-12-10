@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { ChevronRight, User, Clock, MoreHorizontal, Eye, Edit, Trash2, Archive } from 'lucide-react';
+import {
+  ChevronRight,
+  User,
+  Clock,
+  MoreHorizontal,
+  Eye,
+  Edit,
+  Trash2,
+  Archive,
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import type { PriorityCaseInterface } from '@/app/types/dashboard/dashboard.interfaces';
@@ -55,11 +64,12 @@ const allCases: PriorityCaseInterface[] = [
 export function PriorityCases() {
   const navigate = useNavigate();
   const { t } = useI18n();
-  const [filterStatus, setFilterStatus] = useState<'all' | 'urgent' | 'medium' | 'completed'>('all');
+  const [filterStatus, setFilterStatus] = useState<'all' | 'urgent' | 'medium' | 'completed'>(
+    'all'
+  );
 
-  const filteredCases = filterStatus === 'all'
-    ? allCases
-    : allCases.filter(c => c.status === filterStatus);
+  const filteredCases =
+    filterStatus === 'all' ? allCases : allCases.filter((c) => c.status === filterStatus);
 
   return (
     <Card>
@@ -173,7 +183,9 @@ export function PriorityCases() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">{t('DASHBOARD.PRIORITY_CASES.PROGRESS')}</span>
+                <span className="text-muted-foreground">
+                  {t('DASHBOARD.PRIORITY_CASES.PROGRESS')}
+                </span>
                 <span className="text-foreground">{item.progress}%</span>
               </div>
               <Progress value={item.progress} className="h-2" />

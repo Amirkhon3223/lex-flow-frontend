@@ -1,5 +1,5 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import type { CaseTypeData } from "@/app/types/cases/cases.interfaces.ts";
+import type { CaseTypeData } from '@/app/types/cases/cases.interfaces.ts';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 
@@ -16,7 +16,9 @@ export function CaseTypesChart() {
 
   return (
     <Card className="flex flex-col h-full">
-      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">{t('ANALYTICS.CHARTS.CASE_TYPES')}</h3>
+      <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
+        {t('ANALYTICS.CHARTS.CASE_TYPES')}
+      </h3>
       <div className="flex-1 min-h-[150px] sm:min-h-[180px] md:min-h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -48,8 +50,13 @@ export function CaseTypesChart() {
         {caseTypeData.map((item) => (
           <div key={item.name} className="flex items-center justify-between text-xs sm:text-sm">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }}></div>
-              <span className="text-muted-foreground truncate">{t(`ANALYTICS.PRACTICE_TYPES.${item.name}`)}</span>
+              <div
+                className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                style={{ backgroundColor: item.color }}
+              ></div>
+              <span className="text-muted-foreground truncate">
+                {t(`ANALYTICS.PRACTICE_TYPES.${item.name}`)}
+              </span>
             </div>
             <span className="text-foreground flex-shrink-0">{item.value}%</span>
           </div>

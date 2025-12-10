@@ -1,12 +1,11 @@
-import { Bell, CreditCard, Shield, Sparkles, User, Users } from "lucide-react";
+import { Bell, CreditCard, Shield, Sparkles, User, Users } from 'lucide-react';
 import { BillingTabContent } from '@/modules/settings/components/tabs/BillingTabContent';
 import { NotificationsTabContent } from '@/modules/settings/components/tabs/NotificationsTabContent';
 import { ProfileTabContent } from '@/modules/settings/components/tabs/ProfileTabContent';
 import { SecurityTabContent } from '@/modules/settings/components/tabs/SecurityTabContent';
 import { TeamTabContent } from '@/modules/settings/components/tabs/TeamTabContent';
 import { useI18n } from '@/shared/context/I18nContext';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs.tsx";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
 
 export default function SettingsPage() {
   const { t } = useI18n();
@@ -16,10 +15,15 @@ export default function SettingsPage() {
         <div className="px-3 sm:px-4 py-3 sm:py-4 md:py-6">
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5} />
+              <Sparkles
+                className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white"
+                strokeWidth={2.5}
+              />
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">{t('SETTINGS.TITLE')}</h1>
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-tight">
+                {t('SETTINGS.TITLE')}
+              </h1>
               <p className="text-muted-foreground text-xs sm:text-sm md:text-base lg:text-lg">
                 {t('SETTINGS.SUBTITLE')}
               </p>
