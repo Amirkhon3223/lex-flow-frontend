@@ -1,9 +1,14 @@
+import { useState, useEffect } from 'react';
 import { Mail, Lock, User, Building2, Sparkles } from 'lucide-react';
-import type { RegisterFormProps } from '@/app/types/auth/auth.interfaces.ts';
-import { Button } from '@/shared/ui/button.tsx';
-import { Checkbox } from '@/shared/ui/checkbox.tsx';
-import { Input } from '@/shared/ui/input.tsx';
-import { Label } from '@/shared/ui/label.tsx';
+import { toast } from 'sonner';
+import { COUNTRIES, CITIES } from '@/app/constants/locations';
+import type { RegisterFormProps } from '@/app/types/auth/auth.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
+import { Button } from '@/shared/ui/button';
+import { Checkbox } from '@/shared/ui/checkbox';
+import { Combobox } from '@/shared/ui/Combobox.tsx';
+import { Input } from '@/shared/ui/input';
+import { Label } from '@/shared/ui/label';
 
 export function RegisterForm({
   isLoading,
@@ -12,127 +17,166 @@ export function RegisterForm({
   email,
   password,
   firmName,
+  country,
+  city,
   onFirstNameChange,
   onLastNameChange,
   onEmailChange,
   onPasswordChange,
   onFirmNameChange,
+  onCountryChange,
+  onCityChange,
   onSubmit,
 }: RegisterFormProps) {
+  const { t } = useI18n();
+
+  const [availableCities, setAvailableCities] = useState<string[]>([]);
+  const [cityError, setCityError] = useState('');
+
+  useEffect(() => {
+    if (country) {
+      setAvailableCities(CITIES[country] || []);
+      setCityError('');
+    } else {
+      setAvailableCities([]);
+    }
+  }, [country]);
+
+  const countryOptions = COUNTRIES.map((c) => ({
+    label: c.label,
+    value: c.value,
+    icon: c.flag,
+  }));
+
+  const cityOptions = availableCities.map((c) => ({
+    label: c,
+    value: c,
+  }));
+
   return (
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-        <div className="space-y-1.5 sm:space-y-2">
-          <Label htmlFor="register-firstname" className="text-foreground text-sm sm:text-base">
-            Имя
-          </Label>
+      {/* mobile/tablet/desktop — name fields */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="space-y-1.5">
+          <Label>{t('AUTH.FIRST_NAME')}</Label>
           <div className="relative">
-            <User className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
-              id="register-firstname"
-              type="text"
-              placeholder="Иван"
+              placeholder={t('AUTH.PLACEHOLDER.FIRST_NAME')}
               value={firstName}
               onChange={(e) => onFirstNameChange(e.target.value)}
-              className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-muted/50 border-input focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
+              className="pl-11 h-12 rounded-xl bg-muted/50 border-input"
               required
             />
           </div>
         </div>
-        <div className="space-y-1.5 sm:space-y-2">
-          <Label htmlFor="register-lastname" className="text-foreground text-sm sm:text-base">
-            Фамилия
-          </Label>
+
+        <div className="space-y-1.5">
+          <Label>{t('AUTH.LAST_NAME')}</Label>
           <Input
-            id="register-lastname"
-            type="text"
-            placeholder="Петров"
+            placeholder={t('AUTH.PLACEHOLDER.LAST_NAME')}
             value={lastName}
             onChange={(e) => onLastNameChange(e.target.value)}
-            className="h-11 sm:h-12 rounded-lg sm:rounded-xl bg-muted/50 border-input focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
+            className="h-12 rounded-xl bg-muted/50 border-input"
             required
           />
         </div>
       </div>
 
-      <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="register-email" className="text-foreground text-sm sm:text-base">
-          Email
-        </Label>
+      <div className="space-y-1.5">
+        <Label>Email</Label>
         <div className="relative">
-          <Mail className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <Input
-            id="register-email"
             type="email"
             placeholder="you@lawfirm.com"
             value={email}
             onChange={(e) => onEmailChange(e.target.value)}
-            className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-slate-50/50 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
+            className="pl-11 h-12 rounded-xl bg-slate-50/50 border-slate-200"
             required
           />
         </div>
       </div>
 
-      <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="register-firm" className="text-foreground text-sm sm:text-base">
-          Название фирмы
-        </Label>
+      <div className="space-y-1.5">
+        <Label>{t('AUTH.FIRM_NAME')}</Label>
         <div className="relative">
-          <Building2 className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+          <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <Input
-            id="register-firm"
-            type="text"
-            placeholder="Юридическая компания"
+            placeholder={t('AUTH.PLACEHOLDER.FIRM_NAME')}
             value={firmName}
             onChange={(e) => onFirmNameChange(e.target.value)}
-            className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-slate-50/50 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
+            className="pl-11 h-12 rounded-xl bg-slate-50/50 border-slate-200"
             required
           />
         </div>
       </div>
 
-      <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="register-password" className="text-foreground text-sm sm:text-base">
-          Пароль
-        </Label>
+      {/* mobile/tablet/desktop — country + city */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="space-y-1.5">
+          <Label>{t('AUTH.COUNTRY')}</Label>
+          <Combobox
+            value={country}
+            options={countryOptions}
+            placeholder={t('AUTH.PLACEHOLDER.COUNTRY')}
+            onChange={(val) => {
+              onCountryChange(val);
+              setCityError('');
+            }}
+            renderIcon={true}
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <Label>{t('AUTH.CITY')}</Label>
+          <Combobox
+            value={city}
+            options={cityOptions}
+            placeholder={t('AUTH.PLACEHOLDER.CITY')}
+            disabled={!country}
+            onChange={(val) => {
+              if (!country) {
+                const msg = t('AUTH.ERROR.SELECT_COUNTRY');
+                toast.error(msg);
+                setCityError(msg);
+              } else {
+                onCityChange(val);
+                setCityError('');
+              }
+            }}
+            errorText={cityError}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label>{t('AUTH.PASSWORD')}</Label>
         <div className="relative">
-          <Lock className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <Input
-            id="register-password"
             type="password"
             placeholder="••••••••"
             value={password}
             onChange={(e) => onPasswordChange(e.target.value)}
-            className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-slate-50/50 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
+            className="pl-11 h-12 rounded-xl bg-slate-50/50 border-slate-200"
             required
           />
         </div>
-        <p className="text-xs sm:text-xs text-muted-foreground">
-          Минимум 8 символов, включая буквы и цифры
-        </p>
+
+        <p className="text-xs text-muted-foreground">{t('AUTH.PASSWORD_REQUIREMENTS')}</p>
       </div>
 
-      <div className="flex items-start space-x-2 pt-1 sm:pt-2">
-        <Checkbox id="terms" className="rounded-md border-input mt-0.5" required />
-        <label
-          htmlFor="terms"
-          className="text-xs sm:text-sm text-muted-foreground cursor-pointer select-none"
-        >
-          Я согласен с{' '}
-          <Button
-            type="button"
-            variant="link"
-            className="text-blue-600 hover:text-blue-700 underline h-auto p-0 inline text-xs sm:text-sm"
-          >
-            условиями использования
+      <div className="flex items-start space-x-2 pt-2">
+        <Checkbox id="terms" required className="rounded-md border-input mt-0.5" />
+        <label htmlFor="terms" className="text-xs sm:text-sm text-muted-foreground cursor-pointer">
+          {t('AUTH.AGREE')}{' '}
+          <Button type="button" variant="link" className="text-blue-600 underline p-0 text-xs">
+            {t('AUTH.TERMS')}
           </Button>{' '}
-          и{' '}
-          <Button
-            type="button"
-            variant="link"
-            className="text-blue-600 hover:text-blue-700 underline h-auto p-0 inline text-xs sm:text-sm"
-          >
-            политикой конфиденциальности
+          {t('AUTH.AND')}{' '}
+          <Button type="button" variant="link" className="text-blue-600 underline p-0 text-xs">
+            {t('AUTH.PRIVACY')}
           </Button>
         </label>
       </div>
@@ -140,17 +184,17 @@ export function RegisterForm({
       <Button
         type="submit"
         disabled={isLoading}
-        className="w-full h-11 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 text-sm sm:text-base"
+        className="w-full h-12 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg hover:shadow-xl"
       >
         {isLoading ? (
           <span className="flex items-center gap-2">
-            <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            Создание аккаунта...
+            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            {t('AUTH.CREATING_ACCOUNT')}
           </span>
         ) : (
           <span className="flex items-center gap-2">
-            Создать аккаунт
-            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+            {t('AUTH.CREATE_ACCOUNT')}
+            <Sparkles className="w-5 h-5" />
           </span>
         )}
       </Button>

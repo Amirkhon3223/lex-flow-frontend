@@ -3,6 +3,7 @@ import { LoginForm } from '@/modules/auth/widgets/login-form.tsx';
 import { RegisterForm } from '@/modules/auth/widgets/register-form.tsx';
 import { SocialAuthButtons } from '@/modules/auth/widgets/social-auth-buttons.tsx';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
+import './auth-card.css';
 
 export function AuthCard({
   isLoading,
@@ -17,27 +18,31 @@ export function AuthCard({
   registerEmail,
   registerPassword,
   registerFirmName,
+  registerCountry,
+  registerCity,
   onRegisterFirstNameChange,
   onRegisterLastNameChange,
   onRegisterEmailChange,
   onRegisterPasswordChange,
   onRegisterFirmNameChange,
+  onRegisterCountryChange,
+  onRegisterCityChange,
   onLoginSubmit,
   onRegisterSubmit,
 }: AuthCardProps) {
   return (
     <div className="bg-card/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-muted/50 border border-border/20 p-5 sm:p-6 md:p-8">
       <Tabs defaultValue="login" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-5 sm:mb-6 md:mb-8 bg-muted/80 rounded-xl sm:rounded-2xl p-1">
+        <TabsList className="grid w-full grid-cols-2 mb-5 sm:mb-6 md:mb-8 bg-muted/80 rounded-2xl sm:rounded-2xl shadow-2xl p-0">
           <TabsTrigger
             value="login"
-            className="rounded-lg sm:rounded-xl data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm sm:text-base"
+            className="rounded-2xl sm:rounded-2xl data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm sm:text-base"
           >
             Вход
           </TabsTrigger>
           <TabsTrigger
             value="register"
-            className="rounded-lg sm:rounded-xl data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm sm:text-base"
+            className="rounded-2xl sm:rounded-2xl data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm sm:text-base"
           >
             Регистрация
           </TabsTrigger>
@@ -77,11 +82,15 @@ export function AuthCard({
             email={registerEmail}
             password={registerPassword}
             firmName={registerFirmName}
+            country={registerCountry}
+            city={registerCity}
             onFirstNameChange={onRegisterFirstNameChange}
             onLastNameChange={onRegisterLastNameChange}
             onEmailChange={onRegisterEmailChange}
             onPasswordChange={onRegisterPasswordChange}
             onFirmNameChange={onRegisterFirmNameChange}
+            onCountryChange={onRegisterCountryChange}
+            onCityChange={onRegisterCityChange}
             onSubmit={onRegisterSubmit}
           />
 

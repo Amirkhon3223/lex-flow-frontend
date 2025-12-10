@@ -5,6 +5,9 @@ export interface User {
   role: string;
   avatar: string | null;
   createdAt: string;
+  country?: string;
+  city?: string;
+  timezone: string;
 }
 
 export interface RegisterRequest {
@@ -17,6 +20,8 @@ export interface RegisterRequest {
   phone: string;
   firmName: string;
   position: string;
+  country?: string;
+  city?: string;
 }
 
 export interface LoginRequest {
@@ -45,11 +50,15 @@ export interface AuthCardProps {
   registerEmail: string;
   registerPassword: string;
   registerFirmName: string;
+  registerCountry: string;
+  registerCity: string;
   onRegisterFirstNameChange: (value: string) => void;
   onRegisterLastNameChange: (value: string) => void;
   onRegisterEmailChange: (value: string) => void;
   onRegisterPasswordChange: (value: string) => void;
   onRegisterFirmNameChange: (value: string) => void;
+  onRegisterCountryChange: (value: string) => void;
+  onRegisterCityChange: (value: string) => void;
 
   onLoginSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onRegisterSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -73,10 +82,14 @@ export interface RegisterFormProps {
   email: string;
   password: string;
   firmName: string;
+  country: string;
+  city: string;
   onFirstNameChange: (value: string) => void;
   onLastNameChange: (value: string) => void;
   onEmailChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
   onFirmNameChange: (value: string) => void;
+  onCountryChange: (value: string) => void;
+  onCityChange: (value: string) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }

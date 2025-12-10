@@ -20,6 +20,8 @@ export default function AuthPage() {
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [registerFirmName, setRegisterFirmName] = useState('');
+  const [registerCountry, setRegisterCountry] = useState('');
+  const [registerCity, setRegisterCity] = useState('');
 
   useEffect(() => {
     if (isAuthenticated && !loading) {
@@ -55,6 +57,8 @@ export default function AuthPage() {
         phone: '',
         firmName: registerFirmName,
         position: '',
+        country: registerCountry,
+        city: registerCity,
       });
     } catch (error) {
       setLocalError((error as Error).message || 'Registration failed');
@@ -82,11 +86,15 @@ export default function AuthPage() {
             registerEmail={registerEmail}
             registerPassword={registerPassword}
             registerFirmName={registerFirmName}
+            registerCountry={registerCountry}
+            registerCity={registerCity}
             onRegisterFirstNameChange={setRegisterFirstName}
             onRegisterLastNameChange={setRegisterLastName}
             onRegisterEmailChange={setRegisterEmail}
             onRegisterPasswordChange={setRegisterPassword}
             onRegisterFirmNameChange={setRegisterFirmName}
+            onRegisterCountryChange={setRegisterCountry}
+            onRegisterCityChange={setRegisterCity}
             onLoginSubmit={handleLogin}
             onRegisterSubmit={handleRegister}
           />
