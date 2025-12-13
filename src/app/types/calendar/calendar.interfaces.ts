@@ -34,6 +34,8 @@ export interface MeetingInterface {
 export interface AddMeetingDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  meeting?: MeetingInterface | null;
+  onSubmit?: () => void;
 }
 
 export interface MeetingCardProps {
@@ -203,7 +205,8 @@ export interface CalendarWeekResponse {
 
 export interface CalendarMonthDay {
   date: string;
-  meetingsCount: number;
+  meetings: MeetingInterface[];
+  count: number;
 }
 
 export interface CalendarMonthResponse {

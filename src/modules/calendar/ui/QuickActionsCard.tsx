@@ -8,8 +8,8 @@ export function QuickActionsCard({ onComplete, onReschedule, onCancel }: QuickAc
   const { t } = useI18n();
 
   return (
-    <Card className="dark:bg-blue-500/10 dark:border dark:border-blue-500/20 bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white overflow-hidden">
-      <CardContent>
+    <Card className="border-0 shadow-lg shadow-blue-500/10 text-white overflow-hidden pb-2">
+      <CardContent className="pb-0!">
         <h3 className="text-sm sm:text-base md:text-lg tracking-tight mb-2 sm:mb-3 md:mb-4">
           {t('CALENDAR.QUICK_ACTIONS')}
         </h3>

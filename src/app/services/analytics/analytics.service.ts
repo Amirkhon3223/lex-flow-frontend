@@ -5,31 +5,43 @@ import type {
   ClientAnalyticsResponse,
   DocumentAnalyticsResponse,
   MeetingAnalyticsResponse,
+  FinanceAnalyticsResponse,
+  TeamAnalyticsResponse,
 } from '../../types/analytics/analytics.interfaces';
 
 export const analyticsService = {
   getDashboardStats: async (): Promise<DashboardStatsResponse> => {
-    const response = await httpClient.get<DashboardStatsResponse>('/analytics/dashboard');
-    return response.data;
+    const res = await httpClient.get('/analytics/dashboard');
+    return res.data;
   },
 
   getCasesAnalytics: async (): Promise<CaseAnalyticsResponse> => {
-    const response = await httpClient.get<CaseAnalyticsResponse>('/analytics/cases');
-    return response.data;
+    const res = await httpClient.get('/analytics/cases');
+    return res.data;
   },
 
   getClientsAnalytics: async (): Promise<ClientAnalyticsResponse> => {
-    const response = await httpClient.get<ClientAnalyticsResponse>('/analytics/clients');
-    return response.data;
+    const res = await httpClient.get('/analytics/clients');
+    return res.data;
   },
 
   getDocumentsAnalytics: async (): Promise<DocumentAnalyticsResponse> => {
-    const response = await httpClient.get<DocumentAnalyticsResponse>('/analytics/documents');
-    return response.data;
+    const res = await httpClient.get('/analytics/documents');
+    return res.data;
   },
 
   getMeetingsAnalytics: async (): Promise<MeetingAnalyticsResponse> => {
-    const response = await httpClient.get<MeetingAnalyticsResponse>('/analytics/meetings');
-    return response.data;
+    const res = await httpClient.get('/analytics/meetings');
+    return res.data;
+  },
+
+  getFinanceAnalytics: async (): Promise<FinanceAnalyticsResponse> => {
+    const res = await httpClient.get('/analytics/finance');
+    return res.data;
+  },
+
+  getTeamAnalytics: async (): Promise<TeamAnalyticsResponse> => {
+    const res = await httpClient.get('/analytics/team');
+    return res.data;
   },
 };

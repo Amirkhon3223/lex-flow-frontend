@@ -1,202 +1,133 @@
-export interface CaseStatDataInterface {
+export interface MonthlyStats {
+  count: number;
   month: string;
-  cases: number;
-  won: number;
-  lost: number;
-  pending: number;
 }
 
-export interface RevenueDataInterface {
-  month: string;
-  revenue: number;
-}
-
-export interface CaseTypeDataInterface {
-  name: string;
-  value: number;
-  color: string;
-}
-
-export interface LawyerStatsInterface {
-  name: string;
-  cases: number;
-  winRate: number;
-  revenue: number;
-}
-
-export interface StatsCardInterface {
+/* CASES */
+export interface RecentCaseItem {
+  id: string;
   title: string;
-  value: string;
-  change: string;
-  iconBgColor: string;
-  iconColor: string;
-}
-
-export interface DashboardClientsStats {
-  total: number;
-  active: number;
-  new: number;
-}
-
-export interface DashboardCasesStats {
-  total: number;
-  inProgress: number;
-  new: number;
-  closed: number;
-}
-
-export interface DashboardDocumentsStats {
-  total: number;
-  uploaded: number;
-}
-
-export interface DashboardMeetingsStats {
-  today: number;
-  thisWeek: number;
-  upcoming: number;
-}
-
-export interface DashboardRevenueStats {
-  total: number;
-  thisMonth: number;
-}
-
-export interface DashboardStatsResponse {
-  clients: DashboardClientsStats;
-  cases: DashboardCasesStats;
-  documents: DashboardDocumentsStats;
-  meetings: DashboardMeetingsStats;
-  revenue: DashboardRevenueStats;
-}
-
-export interface CasesByStatus {
-  new: number;
-  in_progress: number;
-  waiting: number;
-  closed: number;
-  won: number;
-  lost: number;
-  settled: number;
-}
-
-export interface CasesByPriority {
-  low: number;
-  medium: number;
-  high: number;
-}
-
-export interface CasesByCategory {
-  civil: number;
-  criminal: number;
-  administrative: number;
-}
-
-export interface CaseMonthlyTrend {
-  month: string;
-  created: number;
-  closed: number;
+  clientName: string;
+  priority: string;
+  status: string;
+  createdAt: string;
 }
 
 export interface CaseAnalyticsResponse {
-  total: number;
-  byStatus: CasesByStatus;
-  byPriority: CasesByPriority;
-  byCategory: CasesByCategory;
-  avgProgress: number;
-  monthlyTrend: CaseMonthlyTrend[];
+  averageProgress: number;
+  byCategory: Record<string, number>;
+  byPriority: Record<string, number>;
+  byStatus: Record<string, number>;
+  casesByMonth: MonthlyStats[];
+  recentCases: RecentCaseItem[];
+  totalCases: number;
 }
 
-export interface ClientsByType {
-  individual: number;
-  legal: number;
-  company: number;
-  entrepreneur: number;
-}
-
-export interface ClientsByCategory {
-  standard: number;
-  premium: number;
-  vip: number;
-}
-
-export interface ClientsByStatus {
-  active: number;
-  inactive: number;
-  pending: number;
-}
-
-export interface ClientMonthlyTrend {
-  month: string;
-  new: number;
-  revenue: number;
+/* CLIENTS */
+export interface TopClientItem {
+  id: string;
+  name: string;
+  category: string;
+  type: string;
+  casesCount: number;
 }
 
 export interface ClientAnalyticsResponse {
-  total: number;
-  byType: ClientsByType;
-  byCategory: ClientsByCategory;
-  byStatus: ClientsByStatus;
-  totalRevenue: number;
-  avgRevenue: number;
-  monthlyTrend: ClientMonthlyTrend[];
+  byCategory: Record<string, number>;
+  byType: Record<string, number>;
+  clientsByMonth: MonthlyStats[];
+  topClients: TopClientItem[];
+  totalClients: number;
 }
 
-export interface DocumentsByCategory {
-  legal: number;
-  contract: number;
-  administrative: number;
-}
-
-export interface DocumentsByStatus {
-  draft: number;
-  review: number;
-  final: number;
-}
-
-export interface DocumentMonthlyTrend {
-  month: string;
-  uploaded: number;
+/* DOCUMENTS */
+export interface RecentDocumentItem {
+  id: string;
+  name: string;
+  type: string;
+  uploadedBy: string;
+  createdAt: string;
+  fileSize: number;
 }
 
 export interface DocumentAnalyticsResponse {
-  total: number;
-  byCategory: DocumentsByCategory;
-  byStatus: DocumentsByStatus;
+  byCategory: Record<string, number>;
+  byType: Record<string, number>;
+  documentsByMonth: MonthlyStats[];
+  recentDocuments: RecentDocumentItem[];
+  totalDocuments: number;
   totalSize: number;
-  avgSize: number;
-  monthlyTrend: DocumentMonthlyTrend[];
 }
 
-export interface MeetingsByType {
-  in_person: number;
-  video: number;
-  phone: number;
-}
-
-export interface MeetingsByStatus {
-  scheduled: number;
-  completed: number;
-  cancelled: number;
-}
-
-export interface MeetingsByPriority {
-  low: number;
-  medium: number;
-  high: number;
-}
-
-export interface MeetingMonthlyTrend {
-  month: string;
-  total: number;
-  completed: number;
+/* MEETINGS */
+export interface RecentMeetingItem {
+  id: string;
+  title: string;
+  clientName: string;
+  date: string;
+  type: string;
+  status: string;
 }
 
 export interface MeetingAnalyticsResponse {
-  total: number;
-  byType: MeetingsByType;
-  byStatus: MeetingsByStatus;
-  byPriority: MeetingsByPriority;
-  thisWeek: number;
-  thisMonth: number;
-  monthlyTrend: MeetingMonthlyTrend[];
+  byStatus: Record<string, number>;
+  byType: Record<string, number>;
+  completedCount: number;
+  meetingsByMonth: MonthlyStats[];
+  recentMeetings: RecentMeetingItem[];
+  totalMeetings: number;
+  upcomingCount: number;
+}
+
+/* DASHBOARD */
+export interface ActivityItem {
+  timestamp: string;
+  title: string;
+  type: string;
+  userName: string;
+}
+
+export interface DashboardTrends {
+  activeCases: string; // "+8%" or "-3%"
+  clients: string; // "+12%"
+  documents: string; // "+23%"
+}
+
+export interface DashboardStatsResponse {
+  activeCases: number;
+  closedCases: number;
+  totalCases: number;
+  totalClients: number;
+  totalDocuments: number;
+  totalMeetings: number;
+  upcomingMeetings: number;
+  trends: DashboardTrends;
+  tasksToday: number;
+  recentActivity: ActivityItem[];
+}
+
+/* FINANCE */
+export interface MonthlyRevenueStats {
+  month: string;
+  amount: number;
+}
+
+export interface FinanceAnalyticsResponse {
+  revenueByMonth: MonthlyRevenueStats[];
+  totalRevenue: number;
+  avgRevenuePerCase: number;
+  avgRevenuePerClient: number;
+}
+
+/* TEAM */
+export interface LawyerStats {
+  id: string;
+  name: string;
+  casesCount: number;
+  wonCases: number;
+  revenue: number;
+}
+
+export interface TeamAnalyticsResponse {
+  lawyers: LawyerStats[];
 }

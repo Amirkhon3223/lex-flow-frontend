@@ -66,12 +66,9 @@ export function CalendarWidget({
         onSelect={(newDate) => newDate && setDate(newDate)}
         month={selectedMonth}
         onMonthChange={setSelectedMonth}
-        className="rounded-xl border-0 calendar-with-indicators"
+        className="rounded-xl border-0"
         modifiers={{
           meeting: meetingDates,
-        }}
-        modifiersClassNames={{
-          meeting: 'has-meeting',
         }}
       />
 

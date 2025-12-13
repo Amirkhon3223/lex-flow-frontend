@@ -16,17 +16,21 @@ export interface DocumentChangeInterface {
 export interface DocumentVersionInterface {
   id: string;
   documentId: string;
-  version: string;
+  versionNumber: number;
+  originalFileName: string;
   fileUrl: string;
   fileSize: number;
-  author: string;
-  authorName: string;
+  mimeType: string;
+  isCurrent: boolean;
+  uploadedBy: string;
+  uploadedByName: string;
   createdAt: string;
 }
 
 export interface DocumentInterface {
   id: string;
   name: string;
+  originalFileName: string;
   caseId: string | null;
   caseName: string | null;
   clientId: string | null;
@@ -37,15 +41,13 @@ export interface DocumentInterface {
   fileUrl: string;
   fileSize: number;
   mimeType: string;
-  version: string;
-  versions: number;
+  versionsCount: number;
   notes: string | null;
   starred: boolean;
   uploadedBy: string;
   uploadedByName: string;
   createdAt: string;
   updatedAt: string;
-  lastModified: string;
 }
 
 export interface FilterPanelProps {
@@ -84,8 +86,9 @@ export interface UploadDocumentFormData {
 
 export interface CreateDocumentInterface {
   name: string;
-  caseId?: string;
-  clientId?: string;
+  originalFileName: string;
+  caseId: string;
+  clientId: string;
   type: string;
   category: DocumentCategoryEnum;
   status: DocumentStatusEnum;
@@ -106,7 +109,7 @@ export interface UploadDocumentResponse {
   fileUrl: string;
   fileSize: number;
   mimeType: string;
-  fileName: string;
+  originalFileName: string;
 }
 
 export interface DocumentListResponse {
@@ -117,5 +120,6 @@ export interface DocumentListResponse {
 export interface CreateDocumentVersionInterface {
   fileUrl: string;
   fileSize: number;
-  version: string;
+  mimeType: string;
+  originalFileName: string;
 }

@@ -11,7 +11,7 @@ interface MeetingDocumentsCardProps {
 export function MeetingDocumentsCard({ onAddDocument }: MeetingDocumentsCardProps) {
   const { t } = useI18n();
   return (
-    <Card>
+    <Card className="pb-0!">
       <CardHeader>
         <div className="flex items-center justify-between gap-2 pb-2">
           <CardTitle className="text-sm sm:text-base md:text-lg min-w-0 truncate">

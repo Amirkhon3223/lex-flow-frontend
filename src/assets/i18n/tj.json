@@ -32,7 +32,10 @@
     },
     "OF": "аз",
     "LOADING": "Боргирӣ...",
+    "UPLOADING": "Боргирӣ...",
     "NO_DATA": "Маълумот нест",
+    "CASES": "парванда",
+    "TOTAL": "Ҳамагӣ",
     "SHOWING": "Намоиш",
     "ACTIVE_FILTERS": "Филтрҳои фаъол",
     "SEARCH": "Ҷустуҷӯ",
@@ -115,10 +118,16 @@
       "TITLE": "Парвандаҳои афзал",
       "ALL_CASES": "Ҳама парвандаҳо",
       "PROGRESS": "Пешрафт",
-      "OPEN_CASE": "Кушодани парванда"
+      "OPEN_CASE": "Кушодани парванда",
+      "NO_CASES": "Парвандаҳои афзал нест"
     },
     "RECENT_ACTIVITY": {
-      "TITLE": "Фаъолияти охирин"
+      "TITLE": "Фаъолияти охирин",
+      "NO_ACTIVITY": "Фаъолияти охирин нест",
+      "CASE_CREATED": "парвандаи навро эҷод кард",
+      "DOCUMENT_UPLOADED": "ҳуҷҷатро боргирӣ кард",
+      "MEETING_SCHEDULED": "вохӯриро нақша кард",
+      "CASE_UPDATED": "ҳолати парвандаро навсозӣ кард"
     },
     "AI_INSIGHTS": {
       "TITLE": "Инсайтҳои AI",
@@ -127,7 +136,8 @@
       "ACTION_ASK": "Пурсидан аз AI"
     },
     "TODAY": {
-      "OPEN_CALENDAR": "Кушодани тақвим"
+      "OPEN_CALENDAR": "Кушодани тақвим",
+      "NO_MEETINGS": "Имрӯз вохӯриҳо нест"
     }
   },
   "CASES": {
@@ -270,11 +280,45 @@
       "EMAIL": "Email",
       "TOTAL_CASES": "Ҳамагӣ парвандаҳо",
       "ACTIVE": "фаъол",
-      "PROFILE": "Профили мизоҷ"
+      "PROFILE": "Профили мизоҷ",
+      "TYPE": {
+        "INDIVIDUAL": "Шахси воқеӣ",
+        "LEGAL": "Шахси ҳуқуқӣ",
+        "ENTREPRENEUR": "Соҳибкор"
+      }
     },
     "SHARE": {
       "SUBJECT": "Тақсим кардани парванда",
       "BODY": "Ин парвандаро бинед: {{url}}"
+    }
+  },
+  "CLIENT": {
+    "TYPE": {
+      "INDIVIDUAL": "Шахси воқеӣ",
+      "LEGAL": "Шахси ҳуқуқӣ",
+      "ENTREPRENEUR": "Соҳибкор"
+    }
+  },
+  "CASE": {
+    "CATEGORY": {
+      "LABOR": "Ҳуқуқи меҳнатӣ",
+      "CIVIL": "Ҳуқуқи шаҳрвандӣ",
+      "FAMILY": "Ҳуқуқи оилавӣ",
+      "INHERITANCE": "Ҳуқуқи мерос",
+      "CONTRACT": "Ҳуқуқи шартнома",
+      "CORPORATE": "Ҳуқуқи корпоративӣ",
+      "CONSUMER": "Ҳифзи ҳуқуқи истеъмолкунандагон"
+    },
+    "STATUS": {
+      "NEW": "Нав",
+      "PENDING": "Дар интизорӣ",
+      "WAITING": "Интизорӣ",
+      "IN_PROGRESS": "Дар раванд",
+      "COMPLETED": "Анҷомёфта",
+      "WON": "Ғолиб омада",
+      "LOST": "Бозуфта",
+      "SETTLED": "Ҳалшуда",
+      "CLOSED": "Пӯшида"
     }
   },
   "CLIENTS": {
@@ -484,6 +528,11 @@
       "CASE": "Парванда",
       "AUTHOR": "Муаллиф",
       "CHANGES": "Тағйирот"
+    },
+    "ERRORS": {
+      "UNSUPPORTED_FILE_FORMAT": "Формати файл дастгирӣ намешавад. Иҷозат дода шудаанд: PDF, Word, Excel, TXT, RTF, ODT, ODS",
+      "FILE_TOO_LARGE": "Файл хеле калон аст. Андозаи максималӣ: {{maxSize}}МБ",
+      "UPLOAD_FAILED": "Боргузории файл ноком шуд. Аз нав кӯшиш кунед"
     }
   },
   "CALENDAR": {
@@ -505,7 +554,11 @@
       "COMPLETED": "Вохӯрӣ ҳамчун анҷомёфта қайд шуд",
       "CANCELLED": "Вохӯрӣ бекор карда шуд",
       "NO_MEETINGS_TODAY": "Барои ин сана вохӯрӣ нест",
-      "SELECT_DATE": "Санаро интихоб кунед"
+      "SELECT_DATE": "Санаро интихоб кунед",
+      "CREATED": "Вохӯрӣ бомуваффақият эҷод шуд",
+      "UPDATED": "Вохӯрӣ бомуваффақият навсозӣ шуд",
+      "RESCHEDULED": "Вохӯрӣ бомуваффақият интиқол дода шуд",
+      "SELECT_NEW_DATE_TIME": "Сана ва вақти навро барои вохӯрӣ интихоб кунед"
     },
     "MEETING_STATUS": {
       "MEETING": "вохӯрӣ",
@@ -589,13 +642,20 @@
     },
     "FORMS": {
       "NEW_MEETING": "Вохӯрии нав",
+      "EDIT_MEETING": "Таҳрири вохӯрӣ",
       "SCHEDULE_MEETING": "Вохӯриеро бо мизоҷ барномарезӣ кунед",
+      "UPDATE_MEETING": "Навсозии вохӯрӣ",
       "TITLE": "Номи вохӯрӣ",
       "TITLE_PLACEHOLDER": "Консултатсия оид ба парванда",
+      "CLIENT": "Мизоҷ",
+      "SELECT_CLIENT": "Интихоби мизоҷ",
+      "NO_CLIENTS": "Мизоҷон дастрас нестанд",
+      "PRIORITY": "Афзалият",
       "MEETING_TYPE": "Намуди вохӯрӣ",
       "DATE": "Санаи вохӯрӣ",
       "TIME": "Вақти вохӯрӣ",
       "SELECT_DATE": "Интихоби сана",
+      "SELECT_TIME": "Интихоби вақт",
       "DURATION": "Давомнокии вохӯрӣ",
       "DURATION_15": "15 дақиқа",
       "DURATION_30": "30 дақиқа",
@@ -640,7 +700,11 @@
       "REVENUE_FOR_PERIOD": "Даромад барои давра",
       "TOTAL_REVENUE": "Даромади умумӣ",
       "COMPLETED_CASES": "Парвандаҳои анҷомёфта",
-      "SUCCESS_RATE": "Фоизи муваффақият"
+      "SUCCESS_RATE": "Фоизи муваффақият",
+      "TOTAL_CLIENTS": "Мизоҷон ҳамагӣ",
+      "TOTAL_CASES": "Парвандаҳо ҳамагӣ",
+      "TOTAL_DOCUMENTS": "Ҳуҷҷатҳо ҳамагӣ",
+      "UPCOMING_MEETINGS": "Вохӯриҳои ояндадор"
     },
     "CASE_STATUS": {
       "WON": "Ғолиб омада",
@@ -648,6 +712,7 @@
       "LOST": "Бозуфта"
     },
     "CASES_BY_PRACTICE": "Парвандаҳо аз рӯи амалиятҳо",
+    "CASES_BY_CATEGORY": "Парвандаҳо аз рӯи категорияҳо",
     "PRACTICE_TYPES": {
       "LABOR_DISPUTES": "Низоъҳои меҳнатӣ",
       "CONTRACT_LAW": "Ҳуқуқи шартнома",
@@ -667,7 +732,14 @@
       "PENDING": "Пардохтҳои интизоршаванда",
       "AVERAGE_CHECK": "Чеки миёна"
     },
+    "FINANCE_STATS": {
+      "TOTAL_DOCUMENTS": "Ҳуҷҷатҳо ҳамагӣ",
+      "DOCUMENTS_SIZE": "Андозаи ҳуҷҷатҳо",
+      "COMPLETED_MEETINGS": "Вохӯриҳои анҷомёфта",
+      "UPCOMING_MEETINGS": "Вохӯриҳои ояндадор"
+    },
     "REVENUE_SOURCES": "Даромад аз рӯи манбаъҳо",
+    "REVENUE_BY_MONTH": "Даромад аз рӯи моҳҳо",
     "REVENUE_SOURCE_TYPES": {
       "CONSULTATIONS": "Консултатсияҳо",
       "REPRESENTATION": "Намояндагӣ",
@@ -678,6 +750,7 @@
     "TOP_LAWYERS": "Ҳуқуқшиносони беҳтарин",
     "LAWYER_STATS": {
       "CASES": "парванда",
+      "WON": "ғолиб омада",
       "SUCCESS_RATE": "Фоизи муваффақият",
       "REVENUE": "даромад"
     },

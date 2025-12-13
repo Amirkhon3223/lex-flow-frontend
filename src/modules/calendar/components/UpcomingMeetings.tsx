@@ -1,10 +1,16 @@
 import type { UpcomingMeetingsProps } from '@/app/types/calendar/calendar.interfaces.ts';
+import { MeetingStatusEnum } from '@/app/types/calendar/calendar.enums';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
+import { parseLocalDate } from '@/shared/utils';
 
 export function UpcomingMeetings({ meetings, onSelectDate }: UpcomingMeetingsProps) {
   const { t } = useI18n();
+
+  const activeMeetings = meetings.filter(
+    (meeting) => meeting.status !== MeetingStatusEnum.CANCELLED
+  );
 
   return (
     <Card>
@@ -13,8 +19,8 @@ export function UpcomingMeetings({ meetings, onSelectDate }: UpcomingMeetingsPro
       </h3>
 
       <div className="space-y-2 sm:space-y-3">
-        {meetings.slice(0, 3).map((meeting) => {
-          const meetingDate = new Date(meeting.date);
+        {activeMeetings.slice(0, 3).map((meeting) => {
+          const meetingDate = parseLocalDate(meeting.date);
           return (
             <div
               key={meeting.id}

@@ -32,7 +32,10 @@
     },
     "OF": "из",
     "LOADING": "Загрузка...",
+    "UPLOADING": "Загрузка...",
     "NO_DATA": "Нет данных",
+    "CASES": "дел",
+    "TOTAL": "Всего",
     "SHOWING": "Показано",
     "ACTIVE_FILTERS": "Активные фильтры",
     "SEARCH": "Поиск",
@@ -114,10 +117,16 @@
       "TITLE": "Приоритетные дела",
       "ALL_CASES": "Все дела",
       "PROGRESS": "Прогресс",
-      "OPEN_CASE": "Открыть дело"
+      "OPEN_CASE": "Открыть дело",
+      "NO_CASES": "Нет приоритетных дел"
     },
     "RECENT_ACTIVITY": {
-      "TITLE": "Недавняя активность"
+      "TITLE": "Недавняя активность",
+      "NO_ACTIVITY": "Нет недавней активности",
+      "CASE_CREATED": "создал новое дело",
+      "DOCUMENT_UPLOADED": "загрузил документ",
+      "MEETING_SCHEDULED": "запланировал встречу",
+      "CASE_UPDATED": "обновил статус дела"
     },
     "AI_INSIGHTS": {
       "TITLE": "AI Инсайты",
@@ -126,7 +135,8 @@
       "ACTION_ASK": "Спросить AI"
     },
     "TODAY": {
-      "OPEN_CALENDAR": "Открыть календарь"
+      "OPEN_CALENDAR": "Открыть календарь",
+      "NO_MEETINGS": "Нет встреч на сегодня"
     }
   },
   "CASES": {
@@ -269,11 +279,45 @@
       "EMAIL": "Email",
       "TOTAL_CASES": "Всего дел",
       "ACTIVE": "активных",
-      "PROFILE": "Профиль клиента"
+      "PROFILE": "Профиль клиента",
+      "TYPE": {
+        "INDIVIDUAL": "Физ. лицо",
+        "LEGAL": "Юр. лицо",
+        "ENTREPRENEUR": "ИП"
+      }
     },
     "SHARE": {
       "SUBJECT": "Поделиться делом",
       "BODY": "Посмотрите это дело: {{url}}"
+    }
+  },
+  "CLIENT": {
+    "TYPE": {
+      "INDIVIDUAL": "Физ. лицо",
+      "LEGAL": "Юр. лицо",
+      "ENTREPRENEUR": "ИП"
+    }
+  },
+  "CASE": {
+    "CATEGORY": {
+      "LABOR": "Трудовое право",
+      "CIVIL": "Гражданское право",
+      "FAMILY": "Семейное право",
+      "INHERITANCE": "Наследственное право",
+      "CONTRACT": "Договорное право",
+      "CORPORATE": "Корпоративное право",
+      "CONSUMER": "Защита прав потребителей"
+    },
+    "STATUS": {
+      "NEW": "Новое",
+      "PENDING": "Ожидание",
+      "WAITING": "Ожидание",
+      "IN_PROGRESS": "В работе",
+      "COMPLETED": "Завершено",
+      "WON": "Выиграно",
+      "LOST": "Проиграно",
+      "SETTLED": "Улажено",
+      "CLOSED": "Закрыто"
     }
   },
   "CLIENTS": {
@@ -483,6 +527,11 @@
       "CASE": "Дело",
       "AUTHOR": "Автор",
       "CHANGES": "Изменения"
+    },
+    "ERRORS": {
+      "UNSUPPORTED_FILE_FORMAT": "Неподдерживаемый формат файла. Разрешены: PDF, Word, Excel, TXT, RTF, ODT, ODS",
+      "FILE_TOO_LARGE": "Файл слишком большой. Максимальный размер: {{maxSize}}МБ",
+      "UPLOAD_FAILED": "Не удалось загрузить файл. Попробуйте снова"
     }
   },
   "CALENDAR": {
@@ -504,7 +553,11 @@
       "COMPLETED": "Встреча отмечена как завершённая",
       "CANCELLED": "Встреча отменена",
       "NO_MEETINGS_TODAY": "Нет встреч на эту дату",
-      "SELECT_DATE": "Выберите дату"
+      "SELECT_DATE": "Выберите дату",
+      "CREATED": "Встреча успешно создана",
+      "UPDATED": "Встреча успешно обновлена",
+      "RESCHEDULED": "Встреча успешно перенесена",
+      "SELECT_NEW_DATE_TIME": "Выберите новую дату и время для встречи"
     },
     "MEETING_STATUS": {
       "MEETING": "встреча",
@@ -588,13 +641,20 @@
     },
     "FORMS": {
       "NEW_MEETING": "Новая встреча",
+      "EDIT_MEETING": "Редактировать встречу",
       "SCHEDULE_MEETING": "Запланируйте встречу с клиентом",
+      "UPDATE_MEETING": "Обновить встречу",
       "TITLE": "Название встречи",
       "TITLE_PLACEHOLDER": "Консультация по делу",
+      "CLIENT": "Клиент",
+      "SELECT_CLIENT": "Выберите клиента",
+      "NO_CLIENTS": "Нет доступных клиентов",
+      "PRIORITY": "Приоритет",
       "MEETING_TYPE": "Тип встречи",
       "DATE": "Дата встречи",
       "TIME": "Время встречи",
       "SELECT_DATE": "Выберите дату",
+      "SELECT_TIME": "Выберите время",
       "DURATION": "Длительность встречи",
       "DURATION_15": "15 минут",
       "DURATION_30": "30 минут",
@@ -639,7 +699,11 @@
       "REVENUE_FOR_PERIOD": "Доход за период",
       "TOTAL_REVENUE": "Общая выручка",
       "COMPLETED_CASES": "Завершенные дела",
-      "SUCCESS_RATE": "Процент успеха"
+      "SUCCESS_RATE": "Процент успеха",
+      "TOTAL_CLIENTS": "Всего клиентов",
+      "TOTAL_CASES": "Всего дел",
+      "TOTAL_DOCUMENTS": "Всего документов",
+      "UPCOMING_MEETINGS": "Предстоящих встреч"
     },
     "CASE_STATUS": {
       "WON": "Выиграно",
@@ -647,6 +711,7 @@
       "LOST": "Проиграно"
     },
     "CASES_BY_PRACTICE": "Дела по практикам",
+    "CASES_BY_CATEGORY": "Дела по категориям",
     "PRACTICE_TYPES": {
       "LABOR_DISPUTES": "Трудовые споры",
       "CONTRACT_LAW": "Договорное право",
@@ -666,7 +731,14 @@
       "PENDING": "Ожидается оплат",
       "AVERAGE_CHECK": "Средний чек"
     },
+    "FINANCE_STATS": {
+      "TOTAL_DOCUMENTS": "Всего документов",
+      "DOCUMENTS_SIZE": "Размер документов",
+      "COMPLETED_MEETINGS": "Завершенных встреч",
+      "UPCOMING_MEETINGS": "Предстоящих встреч"
+    },
     "REVENUE_SOURCES": "Доходы по источникам",
+    "REVENUE_BY_MONTH": "Доходы по месяцам",
     "REVENUE_SOURCE_TYPES": {
       "CONSULTATIONS": "Консультации",
       "REPRESENTATION": "Представительство",
@@ -677,6 +749,7 @@
     "TOP_LAWYERS": "Лучшие юристы",
     "LAWYER_STATS": {
       "CASES": "дел",
+      "WON": "выиграно",
       "SUCCESS_RATE": "Процент успеха",
       "REVENUE": "дохода"
     },

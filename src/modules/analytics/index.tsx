@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Calendar,
   Download,
@@ -7,6 +8,7 @@ import {
   Users,
   Sparkles,
 } from 'lucide-react';
+import { useAnalyticsStore } from '@/app/store/analytics.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
@@ -27,6 +29,26 @@ import { TeamStats } from './components/TeamStats';
 
 export default function AnalyticsPage() {
   const { t } = useI18n();
+  const {
+    fetchDashboard,
+    fetchCases,
+    fetchClients,
+    fetchDocuments,
+    fetchMeetings,
+    fetchFinance,
+    fetchTeam,
+  } = useAnalyticsStore();
+
+  // Load all analytics data on page mount
+  useEffect(() => {
+    fetchDashboard();
+    fetchCases();
+    fetchClients();
+    fetchDocuments();
+    fetchMeetings();
+    fetchFinance();
+    fetchTeam();
+  }, [fetchDashboard, fetchCases, fetchClients, fetchDocuments, fetchMeetings, fetchFinance, fetchTeam]);
 
   const handleExportReport = () => {
     console.log('Export report');

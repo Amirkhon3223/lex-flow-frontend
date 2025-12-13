@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { format } from 'date-fns';
+import { useState, useEffect } from 'react';
+import { format, parse } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import {
   Calendar as CalendarIcon,
@@ -9,7 +9,12 @@ import {
   Phone,
   Users,
   AlarmClock,
+  Flag,
 } from 'lucide-react';
+import { toast } from 'sonner';
+import { useClientsStore } from '@/app/store/clients.store';
+import { useMeetingsStore } from '@/app/store/meetings.store';
+import { MeetingTypeEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
 import type { AddMeetingDialogProps } from '@/app/types/calendar/calendar.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
@@ -28,156 +33,285 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/shared/ui/separator';
 import { Textarea } from '@/shared/ui/textarea';
 
-export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) {
+export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddMeetingDialogProps) {
   const { t } = useI18n();
+  const { createMeeting, updateMeeting, loading: meetingLoading } = useMeetingsStore();
+  const { clients, fetchClients, loading: clientsLoading } = useClientsStore();
+
   const [date, setDate] = useState<Date>();
   const [formData, setFormData] = useState({
     title: '',
-    type: 'in_person',
+    clientId: '',
+    type: MeetingTypeEnum.IN_PERSON,
+    priority: MeetingPriorityEnum.MEDIUM,
     time: '',
     duration: '60',
     location: '',
-    notes: '',
+    description: '',
     reminder: '30',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onOpenChange(false);
+  useEffect(() => {
+    if (open && clients.length === 0) {
+      fetchClients({ limit: 100 });
+    }
+  }, [open, clients.length, fetchClients]);
 
-    setDate(undefined);
-    setFormData({
-      title: '',
-      type: 'in_person',
-      time: '',
-      duration: '60',
-      location: '',
-      notes: '',
-      reminder: '30',
-    });
+  useEffect(() => {
+    if (meeting && open) {
+      setFormData({
+        title: meeting.title,
+        clientId: meeting.clientId,
+        type: meeting.type,
+        priority: meeting.priority,
+        time: meeting.time,
+        duration: meeting.duration,
+        location: meeting.location || '',
+        description: meeting.description || '',
+        reminder: '30',
+      });
+
+      if (meeting.date) {
+        try {
+          const parsedDate = parse(meeting.date, 'yyyy-MM-dd', new Date());
+          setDate(parsedDate);
+        } catch (error) {
+          toast.error('Error parsing meeting date:', error);
+        }
+      }
+    } else if (!open) {
+      setDate(undefined);
+      setFormData({
+        title: '',
+        clientId: '',
+        type: MeetingTypeEnum.IN_PERSON,
+        priority: MeetingPriorityEnum.MEDIUM,
+        time: '',
+        duration: '60',
+        location: '',
+        description: '',
+        reminder: '30',
+      });
+    }
+  }, [meeting, open]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!date) {
+      toast.error(t('CALENDAR.FORMS.SELECT_DATE'));
+      return;
+    }
+
+    if (!formData.clientId) {
+      toast.error(t('CALENDAR.FORMS.SELECT_CLIENT'));
+      return;
+    }
+
+    try {
+      const meetingData = {
+        title: formData.title,
+        clientId: formData.clientId,
+        date: format(date, 'yyyy-MM-dd'),
+        time: formData.time,
+        duration: formData.duration,
+        type: formData.type,
+        priority: formData.priority,
+        location: formData.location || undefined,
+        description: formData.description || undefined,
+      };
+
+      if (meeting?.id) {
+        await updateMeeting(meeting.id, meetingData);
+        toast.success(t('CALENDAR.MESSAGES.UPDATED'));
+      } else {
+        await createMeeting(meetingData);
+        toast.success(t('CALENDAR.MESSAGES.CREATED'));
+      }
+
+      onOpenChange(false);
+      onSubmit?.();
+    } catch {
+      toast.error(t('COMMON.MESSAGES.ERROR'));
+    }
   };
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const getClientDisplayName = (clientId: string) => {
+    const client = clients.find((c) => c.id === clientId);
+    if (!client) return '';
+    if (client.companyName) return client.companyName;
+    return `${client.firstName || ''} ${client.lastName || ''}`.trim();
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg bg-background border-border shadow-2xl rounded-2xl sm:rounded-3xl p-0 max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="px-4 sm:px-8 pt-6 sm:pt-8 pb-4 sm:pb-6">
+      <DialogContent className="max-w-lg bg-background border-border shadow-2xl rounded-2xl sm:rounded-3xl p-0 flex flex-col">
+        <DialogHeader className="px-4 pb-2 pt-4 flex-shrink-0 border-b border-border bg-background z-10 sticky top-0">
           <DialogTitle className="text-xl sm:text-2xl tracking-tight">
-            {t('CALENDAR.FORMS.NEW_MEETING')}
+            {meeting ? t('CALENDAR.FORMS.EDIT_MEETING') : t('CALENDAR.FORMS.NEW_MEETING')}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground text-sm">
-            {t('CALENDAR.FORMS.SCHEDULE_MEETING')}
+            {meeting ? t('CALENDAR.FORMS.UPDATE_MEETING') : t('CALENDAR.FORMS.SCHEDULE_MEETING')}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="px-4 sm:px-8 pb-6 sm:pb-8">
-          <div className="space-y-4 sm:space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="title" className="text-xs sm:text-sm text-muted-foreground">
-                {t('CALENDAR.FORMS.TITLE')}
-              </Label>
-              <Input
-                id="title"
-                value={formData.title}
-                onChange={(e) => handleChange('title', e.target.value)}
-                className="h-10 sm:h-11 rounded-xl border-input focus-visible:ring-blue-500 text-sm"
-                placeholder={t('CALENDAR.FORMS.TITLE_PLACEHOLDER')}
-                required
-              />
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+          <div className="px-4 pb-2 flex-1 overflow-y-auto space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-xs sm:text-sm text-muted-foreground">
+                  {t('CALENDAR.FORMS.TITLE')}
+                </Label>
+                <Input
+                  value={formData.title}
+                  onChange={(e) => handleChange('title', e.target.value)}
+                  className="h-10 sm:h-11 rounded-xl border-input text-sm"
+                  placeholder={t('CALENDAR.FORMS.TITLE_PLACEHOLDER')}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-xs sm:text-sm text-muted-foreground">
+                  {t('CALENDAR.FORMS.CLIENT')}
+                </Label>
+                <Select
+                  value={formData.clientId}
+                  onValueChange={(value) => handleChange('clientId', value)}
+                >
+                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
+                    <SelectValue placeholder={t('CALENDAR.FORMS.SELECT_CLIENT')} />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl max-h-[200px]">
+                    {clientsLoading ? (
+                      <SelectItem value="loading" disabled>
+                        {t('COMMON.LOADING')}
+                      </SelectItem>
+                    ) : clients.length === 0 ? (
+                      <SelectItem value="empty" disabled>
+                        {t('CALENDAR.FORMS.NO_CLIENTS')}
+                      </SelectItem>
+                    ) : (
+                      clients.map((client) => (
+                        <SelectItem key={client.id} value={client.id}>
+                          {getClientDisplayName(client.id)}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="type" className="text-xs sm:text-sm text-muted-foreground">
-                {t('CALENDAR.FORMS.MEETING_TYPE')}
-              </Label>
-              <Select value={formData.type} onValueChange={(value) => handleChange('type', value)}>
-                <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input focus:ring-blue-500 text-sm">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="rounded-xl">
-                  <SelectItem value="in_person">
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4" strokeWidth={2} />
-                      <span>{t('CALENDAR.MEETING_TYPE.IN_PERSON')}</span>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="video">
-                    <div className="flex items-center gap-2">
-                      <Video className="w-4 h-4" strokeWidth={2} />
-                      <span>{t('CALENDAR.MEETING_TYPE.VIDEO')}</span>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="phone">
-                    <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4" strokeWidth={2} />
-                      <span>{t('CALENDAR.MEETING_TYPE.PHONE')}</span>
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <Separator className="bg-border" />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
-                  <CalendarIcon
-                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground"
-                    strokeWidth={2}
-                  />
+                  <Flag className="w-4 h-4 text-muted-foreground" />
+                  {t('CALENDAR.FORMS.PRIORITY')}
+                </Label>
+                <Select
+                  value={formData.priority}
+                  onValueChange={(value) => handleChange('priority', value)}
+                >
+                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl">
+                    <SelectItem value={MeetingPriorityEnum.LOW}>
+                      {t('CALENDAR.PRIORITY.LOW')}
+                    </SelectItem>
+                    <SelectItem value={MeetingPriorityEnum.MEDIUM}>
+                      {t('CALENDAR.PRIORITY.MEDIUM')}
+                    </SelectItem>
+                    <SelectItem value={MeetingPriorityEnum.HIGH}>
+                      {t('CALENDAR.PRIORITY.HIGH')}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-xs sm:text-sm text-muted-foreground">
+                  {t('CALENDAR.FORMS.MEETING_TYPE')}
+                </Label>
+                <Select
+                  value={formData.type}
+                  onValueChange={(value) => handleChange('type', value)}
+                >
+                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl">
+                    <SelectItem value={MeetingTypeEnum.IN_PERSON}>
+                      <div className="flex items-center gap-2">
+                        <Users className="w-4 h-4" /> {t('CALENDAR.MEETING_TYPE.IN_PERSON')}
+                      </div>
+                    </SelectItem>
+                    <SelectItem value={MeetingTypeEnum.VIDEO}>
+                      <div className="flex items-center gap-2">
+                        <Video className="w-4 h-4" /> {t('CALENDAR.MEETING_TYPE.VIDEO')}
+                      </div>
+                    </SelectItem>
+                    <SelectItem value={MeetingTypeEnum.PHONE}>
+                      <div className="flex items-center gap-2">
+                        <Phone className="w-4 h-4" /> {t('CALENDAR.MEETING_TYPE.PHONE')}
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                  <CalendarIcon className="w-4 h-4" />
                   {t('CALENDAR.FORMS.DATE')}
                 </Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      className="h-10 sm:h-11 w-full justify-start text-left rounded-xl border-input hover:bg-muted text-sm"
+                      className="h-10 sm:h-11 w-full justify-start text-left rounded-xl border-input text-sm"
                     >
                       {date ? format(date, 'PPP', { locale: ru }) : t('CALENDAR.FORMS.SELECT_DATE')}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 rounded-xl" align="start">
+                  <PopoverContent className="w-auto p-0 rounded-xl">
                     <Calendar selected={date} onSelect={setDate} />
                   </PopoverContent>
                 </Popover>
               </div>
 
               <div className="space-y-2">
-                <Label
-                  htmlFor="time"
-                  className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2"
-                >
-                  <Clock
-                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground"
-                    strokeWidth={2}
-                  />
+                <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
                   {t('CALENDAR.FORMS.TIME')}
                 </Label>
                 <Input
-                  id="time"
                   type="time"
                   value={formData.time}
                   onChange={(e) => handleChange('time', e.target.value)}
-                  className="h-10 sm:h-11 rounded-xl border-input focus-visible:ring-blue-500 text-sm"
+                  className="h-10 sm:h-11 rounded-xl border-input text-sm"
                   required
                 />
               </div>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="duration" className="text-xs sm:text-sm text-muted-foreground">
+                <Label className="text-xs sm:text-sm text-muted-foreground">
                   {t('CALENDAR.FORMS.DURATION')}
                 </Label>
                 <Select
                   value={formData.duration}
                   onValueChange={(value) => handleChange('duration', value)}
                 >
-                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input focus:ring-blue-500 text-sm">
+                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl">
@@ -192,21 +326,15 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </div>
 
               <div className="space-y-2">
-                <Label
-                  htmlFor="reminder"
-                  className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2"
-                >
-                  <AlarmClock
-                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground"
-                    strokeWidth={2}
-                  />
+                <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                  <AlarmClock className="w-4 h-4" />
                   {t('CALENDAR.FORMS.REMINDER')}
                 </Label>
                 <Select
                   value={formData.reminder}
                   onValueChange={(value) => handleChange('reminder', value)}
                 >
-                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input focus:ring-blue-500 text-sm">
+                  <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl">
@@ -220,29 +348,23 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
               </div>
             </div>
 
-            <Separator className="bg-border" />
+            <Separator />
 
-            {(formData.type === 'in_person' || formData.type === 'video') && (
+            {(formData.type === MeetingTypeEnum.IN_PERSON ||
+              formData.type === MeetingTypeEnum.VIDEO) && (
               <div className="space-y-2">
-                <Label
-                  htmlFor="location"
-                  className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2"
-                >
-                  <MapPin
-                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground"
-                    strokeWidth={2}
-                  />
-                  {formData.type === 'video'
+                <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  {formData.type === MeetingTypeEnum.VIDEO
                     ? t('CALENDAR.FORMS.LINK_OR_LOCATION')
                     : t('CALENDAR.FORMS.LINK_OR_LOCATION_ALT')}
                 </Label>
                 <Input
-                  id="location"
                   value={formData.location}
                   onChange={(e) => handleChange('location', e.target.value)}
-                  className="h-10 sm:h-11 rounded-xl border-input focus-visible:ring-blue-500 text-sm"
+                  className="h-10 sm:h-11 rounded-xl border-input text-sm"
                   placeholder={
-                    formData.type === 'video'
+                    formData.type === MeetingTypeEnum.VIDEO
                       ? t('CALENDAR.FORMS.LINK_PLACEHOLDER')
                       : t('CALENDAR.FORMS.LOCATION_PLACEHOLDER')
                   }
@@ -251,33 +373,38 @@ export function AddMeetingDialog({ open, onOpenChange }: AddMeetingDialogProps) 
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="notes" className="text-xs sm:text-sm text-muted-foreground">
-                {t('CALENDAR.MEETING_DETAILS.NOTES')}
+              <Label className="text-xs sm:text-sm text-muted-foreground">
+                {t('CALENDAR.MEETING_DETAILS.DESCRIPTION')}
               </Label>
               <Textarea
-                id="notes"
-                value={formData.notes}
-                onChange={(e) => handleChange('notes', e.target.value)}
-                className="min-h-[60px] sm:min-h-[80px] rounded-xl border-input focus-visible:ring-blue-500 resize-none text-sm"
+                value={formData.description}
+                onChange={(e) => handleChange('description', e.target.value)}
+                className="min-h-[80px] rounded-xl border-input text-sm resize-none"
                 placeholder={t('CALENDAR.FORMS.DESCRIPTION_PLACEHOLDER')}
               />
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-border">
+          <div className="px-4 py-4 w-full flex flex-col sm:flex-row justify-between items-center gap-3 border-t border-border bg-background sticky bottom-0 z-10">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="w-full sm:flex-1 h-10 sm:h-11 rounded-xl border-input hover:bg-muted text-sm order-2 sm:order-1"
+              className="h-10 sm:h-11 w-full sm:w-1/3 rounded-xl border-input text-sm"
             >
               {t('COMMON.ACTIONS.CANCEL')}
             </Button>
+
             <Button
               type="submit"
-              className="w-full sm:flex-1 h-10 sm:h-11 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md text-sm order-1 sm:order-2"
+              disabled={meetingLoading}
+              className="h-10 sm:h-11 w-full sm:w-1/3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm"
             >
-              {t('CALENDAR.FORMS.CREATE_MEETING')}
+              {meetingLoading
+                ? t('COMMON.LOADING')
+                : meeting
+                  ? t('CALENDAR.FORMS.UPDATE_MEETING')
+                  : t('CALENDAR.FORMS.CREATE_MEETING')}
             </Button>
           </div>
         </form>

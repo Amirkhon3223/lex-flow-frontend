@@ -18,6 +18,7 @@ import { AddTaskDialog } from '@/shared/components/AddTaskDialog';
 import { CommentsDialog } from '@/shared/components/CommentsDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
+import { parseLocalDate } from '@/shared/utils';
 
 export function CaseDetailView() {
   const { id = '' } = useParams<{ id: string }>();
@@ -197,7 +198,7 @@ export function CaseDetailView() {
               daysUntilTrial={
                 selectedCase?.courtDate
                   ? Math.ceil(
-                      (new Date(selectedCase.courtDate).getTime() - Date.now()) / (1000 * 3600 * 24)
+                      (parseLocalDate(selectedCase.courtDate).getTime() - Date.now()) / (1000 * 3600 * 24)
                     )
                   : 0
               }

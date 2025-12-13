@@ -3,8 +3,8 @@
  * @description Диалог для загрузки документов с drag-and-drop
  */
 
-import { useState } from 'react';
-import { Upload, FileText, Briefcase, Tag, X, CheckCircle2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Upload, FileText, Briefcase, Tag, X, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
@@ -12,25 +12,53 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
+import { isFileFormatSupported, SUPPORTED_FILE_EXTENSIONS } from '@/shared/utils/fileValidation';
+import { documentsService } from '@/app/services/documents/documents.service';
+import { casesService } from '@/app/services/cases/cases.service';
+import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
+import { DocumentCategoryEnum, DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 
 interface UploadDocumentDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit?: (documentData: any) => void;
+  onSuccess?: () => void;
 }
 
-export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDocumentDialogProps) {
+export function UploadDocumentDialog({ open, onOpenChange, onSuccess }: UploadDocumentDialogProps) {
   const { t } = useI18n();
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [cases, setCases] = useState<CaseInterface[]>([]);
+  const [loadingCases, setLoadingCases] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     name: '',
-    case: '',
+    caseId: '',
     type: '',
-    status: 'draft',
+    category: DocumentCategoryEnum.LEGAL,
     notes: '',
   });
+
+  useEffect(() => {
+    if (open) {
+      fetchCases();
+      setError(null);
+    }
+  }, [open]);
+
+  const fetchCases = async () => {
+    setLoadingCases(true);
+    try {
+      const response = await casesService.list({ limit: 100 });
+      setCases(response.cases);
+    } catch (err) {
+      console.error('Failed to fetch cases:', err);
+    } finally {
+      setLoadingCases(false);
+    }
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -47,37 +75,86 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
 
     const file = e.dataTransfer.files[0];
     if (file) {
-      setSelectedFile(file);
-      if (!formData.name) {
-        setFormData({ ...formData, name: file.name });
-      }
+      validateAndSetFile(file);
     }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setSelectedFile(file);
-      if (!formData.name) {
-        setFormData({ ...formData, name: file.name });
-      }
+      validateAndSetFile(file);
+    }
+    e.target.value = '';
+  };
+
+  const validateAndSetFile = (file: File) => {
+    setError(null);
+
+    if (!isFileFormatSupported(file)) {
+      setError(t('DOCUMENTS.ERRORS.UNSUPPORTED_FILE_FORMAT'));
+      setSelectedFile(null);
+      return;
+    }
+
+    setSelectedFile(file);
+    if (!formData.name) {
+      setFormData({ ...formData, name: file.name });
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedFile) {
-      onSubmit?.({ ...formData, file: selectedFile });
-      onOpenChange(false);
-      setSelectedFile(null);
-      setFormData({
-        name: '',
-        case: '',
-        type: '',
-        status: 'draft',
-        notes: '',
+    if (!selectedFile || !formData.caseId || !formData.type) return;
+
+    setError(null);
+    setUploading(true);
+
+    try {
+      const selectedCase = cases.find((c) => c.id === formData.caseId);
+      if (!selectedCase) {
+        setError(t('DOCUMENTS.ERRORS.UPLOAD_FAILED'));
+        return;
+      }
+
+      // Step 1: Upload file
+      const uploadResponse = await documentsService.upload(selectedFile);
+
+      // Step 2: Create document with upload data
+      await documentsService.create({
+        name: formData.name,
+        originalFileName: uploadResponse.originalFileName,
+        caseId: formData.caseId,
+        clientId: selectedCase.clientId,
+        type: formData.type,
+        category: formData.category,
+        status: DocumentStatusEnum.DRAFT,
+        fileUrl: uploadResponse.fileUrl,
+        fileSize: uploadResponse.fileSize,
+        mimeType: uploadResponse.mimeType,
+        notes: formData.notes || undefined,
       });
+
+      onSuccess?.();
+      onOpenChange(false);
+      resetForm();
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setError(t('DOCUMENTS.ERRORS.UPLOAD_FAILED'));
+    } finally {
+      setUploading(false);
     }
+  };
+
+  const resetForm = () => {
+    setSelectedFile(null);
+    setFormData({
+      name: '',
+      caseId: '',
+      type: '',
+      category: DocumentCategoryEnum.LEGAL,
+      notes: '',
+    });
+    setError(null);
   };
 
   const formatFileSize = (bytes: number) => {
@@ -107,14 +184,14 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
               isDragging
                 ? 'border-blue-500 bg-blue-50'
                 : selectedFile
-                  ? 'border-green-300 bg-green-50'
+                  ? 'border-green-300 bg-card'
                   : 'border-border/50 bg-muted/50 hover:bg-muted'
             }`}
           >
             <input
               type="file"
               id="file-upload"
-              accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
+              accept={SUPPORTED_FILE_EXTENSIONS.join(',')}
               onChange={handleFileSelect}
               className="hidden"
             />
@@ -163,6 +240,13 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
             )}
           </div>
 
+          {error && (
+            <div className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-xl">
+              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            </div>
+          )}
+
           {selectedFile && (
             <>
               <div className="space-y-2">
@@ -176,6 +260,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="h-12 rounded-xl border-input focus-visible:ring-orange-500"
                   required
+                  disabled={uploading}
                 />
               </div>
 
@@ -185,18 +270,21 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                     {t('CASES.FIELDS.CASE')} *
                   </Label>
                   <Select
-                    value={formData.case}
-                    onValueChange={(value) => setFormData({ ...formData, case: value })}
+                    value={formData.caseId}
+                    onValueChange={(value) => setFormData({ ...formData, caseId: value })}
                     required
+                    disabled={uploading || loadingCases}
                   >
                     <SelectTrigger className="h-12 rounded-xl border-input">
                       <Briefcase className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
-                      <SelectValue placeholder={t('UPLOAD.SELECT_CASE')} />
+                      <SelectValue placeholder={loadingCases ? t('COMMON.LOADING') : t('UPLOAD.SELECT_CASE')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="case1">Трудовой спор - увольнение</SelectItem>
-                      <SelectItem value="case2">Договор аренды помещения</SelectItem>
-                      <SelectItem value="case3">Наследственное дело</SelectItem>
+                      {cases.map((caseItem) => (
+                        <SelectItem key={caseItem.id} value={caseItem.id}>
+                          {caseItem.title}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -209,6 +297,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                     value={formData.type}
                     onValueChange={(value) => setFormData({ ...formData, type: value })}
                     required
+                    disabled={uploading}
                   >
                     <SelectTrigger className="h-12 rounded-xl border-input">
                       <Tag className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
@@ -231,25 +320,6 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="status" className="text-sm text-foreground">
-                  {t('DOCUMENTS.FIELDS.STATUS')}
-                </Label>
-                <Select
-                  value={formData.status}
-                  onValueChange={(value) => setFormData({ ...formData, status: value })}
-                >
-                  <SelectTrigger className="h-12 rounded-xl border-input">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">{t('DOCUMENTS.STATUS.DRAFT')}</SelectItem>
-                    <SelectItem value="review">{t('DOCUMENTS.STATUS.REVIEW')}</SelectItem>
-                    <SelectItem value="final">{t('DOCUMENTS.STATUS.FINAL')}</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="notes" className="text-sm text-foreground">
                   {t('UPLOAD.NOTES')}
                 </Label>
@@ -259,6 +329,7 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   className="min-h-[100px] rounded-xl border-input focus-visible:ring-orange-500 resize-none"
+                  disabled={uploading}
                 />
               </div>
             </>
@@ -270,16 +341,26 @@ export function UploadDocumentDialog({ open, onOpenChange, onSubmit }: UploadDoc
               variant="outline"
               onClick={() => onOpenChange(false)}
               className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
+              disabled={uploading}
             >
               {t('COMMON.ACTIONS.CANCEL')}
             </Button>
             <Button
               type="submit"
-              disabled={!selectedFile}
+              disabled={!selectedFile || uploading || !formData.caseId || !formData.type || !formData.name}
               className="flex-1 h-12 bg-orange-500 hover:bg-orange-600 text-white rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-              {t('COMMON.ACTIONS.UPLOAD')}
+              {uploading ? (
+                <>
+                  <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  {t('COMMON.UPLOADING')}
+                </>
+              ) : (
+                <>
+                  <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
+                  {t('COMMON.ACTIONS.UPLOAD')}
+                </>
+              )}
             </Button>
           </div>
         </form>

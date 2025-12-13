@@ -19,13 +19,13 @@ export default function UserProfilePage() {
 
   const [profileData, setProfileData] = useState({
     firstName: 'Александр',
-    lastName: 'Петров',
-    middleName: 'Иванович',
-    email: 'petrov@lexflow.ru',
-    phone: '+7 (999) 999-99-99',
+    lastName: 'Пушкин',
+    middleName: 'Эйнштейнович',
+    email: 'google.mail@gmail.com',
+    phone: '+992-(92)-777-77-77',
     position: 'Старший юрист',
-    company: 'Юридическая фирма "ЛексПро"',
-    address: 'г. Москва, ул. Тверская, д. 1, офис 101',
+    company: 'Юридическая фирма "Название фирфы"',
+    address: 'New York, 34st Manhattan',
     birthDate: '1985-06-15',
     specialization: 'Трудовое право',
   });

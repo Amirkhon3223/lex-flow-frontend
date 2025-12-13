@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Clock,
   Download,
@@ -11,7 +11,9 @@ import {
   Trash2,
   User,
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { documentsService } from '@/app/services/documents/documents.service';
+import type { DocumentInterface, DocumentVersionInterface } from '@/app/types/documents/documents.interfaces';
 import { BackButton } from '@/shared/components/BackButton';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
@@ -24,53 +26,65 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
+import { formatFileSize } from '@/shared/utils';
 
 export function DocumentVersionsView() {
   const { t } = useI18n();
   const navigate = useNavigate();
-  const onBack = () => navigate(-1);
-  const onCompare = () => navigate('/documents/1/compare');
+  const { id } = useParams<{ id: string }>();
+  const [document, setDocument] = useState<DocumentInterface | null>(null);
+  const [versions, setVersions] = useState<DocumentVersionInterface[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const documentInfo = {
-    name: 'Исковое заявление.pdf',
-    case: 'Трудовой спор - незаконное увольнение',
-    client: 'Иванов П.А.',
-    currentVersion: 3,
-    totalVersions: 3,
+  useEffect(() => {
+    if (id) {
+      fetchDocumentAndVersions();
+    }
+  }, [id]);
+
+  const fetchDocumentAndVersions = async () => {
+    if (!id) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const [docData, versionsData] = await Promise.all([
+        documentsService.getById(id),
+        documentsService.getVersions(id),
+      ]);
+
+      setDocument(docData);
+      setVersions(versionsData);
+    } catch (err) {
+      console.error('Failed to fetch document:', err);
+      setError(t('DOCUMENTS.ERRORS.LOAD_FAILED'));
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const versions = [
-    {
-      version: 3,
-      date: '15 окт 2025, 14:30',
-      author: 'Александр Иванов',
-      size: '2.4 MB',
-      changes: 'Добавлены ссылки на судебную практику',
-      status: 'current',
-      isCurrent: true,
-      approved: true,
-    },
-    {
-      version: 2,
-      date: '12 окт 2025, 16:45',
-      author: 'Александр Иванов',
-      size: '2.3 MB',
-      changes: 'Исправлены фактические обстоятельства дела',
-      status: 'previous',
-      isCurrent: false,
-      approved: false,
-    },
-    {
-      version: 1,
-      date: '10 окт 2025, 10:15',
-      author: 'Александр Иванов',
-      size: '2.1 MB',
-      changes: 'Первоначальная версия документа',
-      status: 'previous',
-      isCurrent: false,
-      approved: false,
-    },
-  ];
+  const onBack = () => navigate(-1);
+  const onCompare = () => navigate(`/documents/${id}/compare`);
+
+  const currentVersion = versions.find((v) => v.isCurrent);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (error || !document) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <p className="text-red-500">{error || t('DOCUMENTS.ERRORS.LOAD_FAILED')}</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -83,7 +97,7 @@ export function DocumentVersionsView() {
 
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white px-3 py-1.5">
                 <div className="text-center">
-                  <div className="text-base font-medium">v{documentInfo.currentVersion}</div>
+                  <div className="text-base font-medium">v{currentVersion?.versionNumber || document.versionsCount}</div>
                   <div className="text-xs opacity-90">{t('DOCUMENTS.CURRENT')}</div>
                 </div>
               </Card>
@@ -116,10 +130,10 @@ export function DocumentVersionsView() {
                 <FileText className="w-5 h-5 text-blue-600" strokeWidth={2} />
               </div>
               <div className="flex-1 min-w-0">
-                <h1 className="text-base tracking-tight mb-1">{documentInfo.name}</h1>
+                <h1 className="text-base tracking-tight mb-1">{document.name}</h1>
                 <div className="text-xs text-muted-foreground space-y-0.5">
-                  <div className="truncate">{documentInfo.case}</div>
-                  <div>{documentInfo.client}</div>
+                  <div className="truncate">{document.caseName || '-'}</div>
+                  <div>{document.clientName || '-'}</div>
                 </div>
               </div>
             </div>
@@ -133,11 +147,11 @@ export function DocumentVersionsView() {
                   <FileText className="w-7 h-7 text-blue-600" strokeWidth={2} />
                 </div>
                 <div>
-                  <h1 className="text-2xl lg:text-3xl tracking-tight mb-1">{documentInfo.name}</h1>
+                  <h1 className="text-2xl lg:text-3xl tracking-tight mb-1">{document.name}</h1>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <span>{documentInfo.case}</span>
+                    <span>{document.caseName || '-'}</span>
                     <span>•</span>
-                    <span>{documentInfo.client}</span>
+                    <span>{document.clientName || '-'}</span>
                   </div>
                 </div>
               </div>
@@ -145,7 +159,7 @@ export function DocumentVersionsView() {
 
             <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white px-6 py-4">
               <div className="text-center">
-                <div className="text-3xl tracking-tight mb-1">v{documentInfo.currentVersion}</div>
+                <div className="text-3xl tracking-tight mb-1">v{currentVersion?.versionNumber || document.versionsCount}</div>
                 <div className="text-sm opacity-90">{t('DOCUMENTS.CURRENT_VERSION')}</div>
               </div>
             </Card>
@@ -165,10 +179,10 @@ export function DocumentVersionsView() {
                   {t('DOCUMENTS.VERSION_HISTORY')}
                 </h3>
                 <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-300">
-                  {t('DOCUMENTS.VERSIONS_CREATED')} {documentInfo.totalVersions}{' '}
-                  {documentInfo.totalVersions === 1
+                  {t('DOCUMENTS.VERSIONS_CREATED')} {versions.length}{' '}
+                  {versions.length === 1
                     ? t('CASES.DOC_VERSION.SINGULAR')
-                    : documentInfo.totalVersions < 5
+                    : versions.length < 5
                       ? t('CASES.DOC_VERSION.PLURAL')
                       : t('CASES.DOC_VERSION.PLURAL')}
                   .<span className="hidden sm:inline"> {t('DOCUMENTS.VIEW_DETAILS')}</span>
@@ -179,7 +193,7 @@ export function DocumentVersionsView() {
           <div className="space-y-3 sm:space-y-4">
             {versions.map((version, index) => (
               <Card
-                key={version.version}
+                key={version.id}
                 className={`hover:shadow-md transition-all ${
                   version.isCurrent ? 'ring-2 ring-blue-500' : ''
                 }`}
@@ -194,7 +208,7 @@ export function DocumentVersionsView() {
                             : 'bg-muted text-muted-foreground'
                         }`}
                       >
-                        v{version.version}
+                        v{version.versionNumber}
                       </div>
                       {index < versions.length - 1 && (
                         <div className="w-px h-12 bg-border mt-3"></div>
@@ -205,18 +219,12 @@ export function DocumentVersionsView() {
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1 min-w-0">
                           <h3 className="text-base tracking-tight mb-1">
-                            {t('DOCUMENTS.VERSION')} {version.version}
+                            {t('DOCUMENTS.VERSION')} {version.versionNumber}
                           </h3>
                           <div className="flex flex-wrap gap-1 mb-2">
                             {version.isCurrent && (
                               <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0 text-xs">
                                 {t('DOCUMENTS.CURRENT')}
-                              </Badge>
-                            )}
-                            {version.approved && (
-                              <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-0 flex items-center gap-1 text-xs">
-                                <CheckCircle2 className="w-2.5 h-2.5" strokeWidth={2} />
-                                {t('DOCUMENTS.APPROVED')}
                               </Badge>
                             )}
                           </div>
@@ -264,16 +272,14 @@ export function DocumentVersionsView() {
                       <div className="space-y-1 text-xs text-muted-foreground mb-2">
                         <div className="flex items-center gap-1.5">
                           <Clock className="w-3 h-3" strokeWidth={2} />
-                          {version.date}
+                          {new Date(version.createdAt).toLocaleString()}
                         </div>
                         <div className="flex items-center gap-1.5">
                           <User className="w-3 h-3" strokeWidth={2} />
-                          {version.author}
+                          {version.uploadedByName}
                         </div>
-                        <div>{version.size}</div>
+                        <div>{formatFileSize(version.fileSize)}</div>
                       </div>
-
-                      <p className="text-xs text-foreground mb-3">{version.changes}</p>
 
                       <div className="flex flex-wrap gap-2">
                         <Button
@@ -319,7 +325,7 @@ export function DocumentVersionsView() {
                           : 'bg-muted text-muted-foreground'
                       }`}
                     >
-                      v{version.version}
+                      v{version.versionNumber}
                     </div>
                     {index < versions.length - 1 && (
                       <div className="w-px h-16 bg-border mt-4"></div>
@@ -331,17 +337,11 @@ export function DocumentVersionsView() {
                       <div>
                         <div className="flex items-center gap-2 mb-2">
                           <h3 className="text-lg tracking-tight">
-                            {t('DOCUMENTS.VERSION')} {version.version}
+                            {t('DOCUMENTS.VERSION')} {version.versionNumber}
                           </h3>
                           {version.isCurrent && (
                             <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0">
                               {t('DOCUMENTS.CURRENT')}
-                            </Badge>
-                          )}
-                          {version.approved && (
-                            <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-0 flex items-center gap-1">
-                              <CheckCircle2 className="w-3 h-3" strokeWidth={2} />
-                              {t('DOCUMENTS.APPROVED')}
                             </Badge>
                           )}
                         </div>
@@ -349,18 +349,16 @@ export function DocumentVersionsView() {
                         <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                           <span className="flex items-center gap-1.5">
                             <Clock className="w-3.5 h-3.5" strokeWidth={2} />
-                            {version.date}
+                            {new Date(version.createdAt).toLocaleString()}
                           </span>
                           <span>•</span>
                           <span className="flex items-center gap-1.5">
                             <User className="w-3.5 h-3.5" strokeWidth={2} />
-                            {version.author}
+                            {version.uploadedByName}
                           </span>
                           <span>•</span>
-                          <span>{version.size}</span>
+                          <span>{formatFileSize(version.fileSize)}</span>
                         </div>
-
-                        <p className="text-foreground">{version.changes}</p>
                       </div>
 
                       <DropdownMenu>
