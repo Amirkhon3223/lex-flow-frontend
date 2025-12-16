@@ -32,7 +32,10 @@
     },
     "OF": "of",
     "LOADING": "Loading...",
+    "UPLOADING": "Uploading...",
     "NO_DATA": "No data",
+    "CASES": "cases",
+    "TOTAL": "Total",
     "SHOWING": "Showing",
     "ACTIVE_FILTERS": "Active filters",
     "SEARCH": "Search",
@@ -114,10 +117,16 @@
       "TITLE": "Priority Cases",
       "ALL_CASES": "All Cases",
       "PROGRESS": "Progress",
-      "OPEN_CASE": "Open Case"
+      "OPEN_CASE": "Open Case",
+      "NO_CASES": "No priority cases"
     },
     "RECENT_ACTIVITY": {
-      "TITLE": "Recent Activity"
+      "TITLE": "Recent Activity",
+      "NO_ACTIVITY": "No recent activity",
+      "CASE_CREATED": "created a new case",
+      "DOCUMENT_UPLOADED": "uploaded a document",
+      "MEETING_SCHEDULED": "scheduled a meeting",
+      "CASE_UPDATED": "updated case status"
     },
     "AI_INSIGHTS": {
       "TITLE": "AI Insights",
@@ -126,7 +135,8 @@
       "ACTION_ASK": "Ask AI"
     },
     "TODAY": {
-      "OPEN_CALENDAR": "Open calendar"
+      "OPEN_CALENDAR": "Open calendar",
+      "NO_MEETINGS": "No meetings today"
     }
   },
   "CASES": {
@@ -269,11 +279,45 @@
       "EMAIL": "Email",
       "TOTAL_CASES": "Total cases",
       "ACTIVE": "active",
-      "PROFILE": "Client profile"
+      "PROFILE": "Client profile",
+      "TYPE": {
+        "INDIVIDUAL": "Individual",
+        "LEGAL": "Legal entity",
+        "ENTREPRENEUR": "Entrepreneur"
+      }
     },
     "SHARE": {
       "SUBJECT": "Share case",
       "BODY": "Check this case: {{url}}"
+    }
+  },
+  "CLIENT": {
+    "TYPE": {
+      "INDIVIDUAL": "Individual",
+      "LEGAL": "Legal entity",
+      "ENTREPRENEUR": "Entrepreneur"
+    }
+  },
+  "CASE": {
+    "CATEGORY": {
+      "LABOR": "Labor Law",
+      "CIVIL": "Civil Law",
+      "FAMILY": "Family Law",
+      "INHERITANCE": "Inheritance Law",
+      "CONTRACT": "Contract Law",
+      "CORPORATE": "Corporate Law",
+      "CONSUMER": "Consumer Protection"
+    },
+    "STATUS": {
+      "NEW": "New",
+      "PENDING": "Pending",
+      "WAITING": "Waiting",
+      "IN_PROGRESS": "In Progress",
+      "COMPLETED": "Completed",
+      "WON": "Won",
+      "LOST": "Lost",
+      "SETTLED": "Settled",
+      "CLOSED": "Closed"
     }
   },
   "CLIENTS": {
@@ -483,6 +527,12 @@
       "CASE": "Case",
       "AUTHOR": "Author",
       "CHANGES": "Changes"
+    },
+    "ERRORS": {
+      "UNSUPPORTED_FILE_FORMAT": "Unsupported file format. Allowed: PDF, Word, Excel, TXT, RTF, ODT, ODS",
+      "FILE_TOO_LARGE": "File is too large. Maximum size: {{maxSize}}MB",
+      "UPLOAD_FAILED": "File upload failed. Please try again",
+      "LOAD_FAILED": "Failed to load document and versions"
     }
   },
   "CALENDAR": {
@@ -504,7 +554,11 @@
       "COMPLETED": "Meeting marked as completed",
       "CANCELLED": "Meeting cancelled",
       "NO_MEETINGS_TODAY": "No meetings on this date",
-      "SELECT_DATE": "Select a date"
+      "SELECT_DATE": "Select a date",
+      "CREATED": "Meeting created successfully",
+      "UPDATED": "Meeting updated successfully",
+      "RESCHEDULED": "Meeting rescheduled successfully",
+      "SELECT_NEW_DATE_TIME": "Select new date and time for the meeting"
     },
     "MEETING_STATUS": {
       "MEETING": "meeting",
@@ -588,13 +642,20 @@
     },
     "FORMS": {
       "NEW_MEETING": "New meeting",
+      "EDIT_MEETING": "Edit meeting",
       "SCHEDULE_MEETING": "Schedule a meeting with your client",
+      "UPDATE_MEETING": "Update meeting",
       "TITLE": "Meeting title",
       "TITLE_PLACEHOLDER": "Client consultation",
+      "CLIENT": "Client",
+      "SELECT_CLIENT": "Select client",
+      "NO_CLIENTS": "No clients available",
+      "PRIORITY": "Priority",
       "MEETING_TYPE": "Meeting type",
       "DATE": "Meeting date",
       "TIME": "Meeting time",
       "SELECT_DATE": "Select date",
+      "SELECT_TIME": "Select time",
       "DURATION": "Meeting duration",
       "DURATION_15": "15 minutes",
       "DURATION_30": "30 minutes",
@@ -639,7 +700,11 @@
       "REVENUE_FOR_PERIOD": "Revenue for Period",
       "TOTAL_REVENUE": "Total Revenue",
       "COMPLETED_CASES": "Completed Cases",
-      "SUCCESS_RATE": "Success Rate"
+      "SUCCESS_RATE": "Success Rate",
+      "TOTAL_CLIENTS": "Total Clients",
+      "TOTAL_CASES": "Total Cases",
+      "TOTAL_DOCUMENTS": "Total Documents",
+      "UPCOMING_MEETINGS": "Upcoming Meetings"
     },
     "CASE_STATUS": {
       "WON": "Won",
@@ -647,6 +712,7 @@
       "LOST": "Lost"
     },
     "CASES_BY_PRACTICE": "Cases by Practice",
+    "CASES_BY_CATEGORY": "Cases by Category",
     "PRACTICE_TYPES": {
       "LABOR_DISPUTES": "Labor Disputes",
       "CONTRACT_LAW": "Contract Law",
@@ -666,7 +732,14 @@
       "PENDING": "Pending Payments",
       "AVERAGE_CHECK": "Average Check"
     },
+    "FINANCE_STATS": {
+      "TOTAL_DOCUMENTS": "Total Documents",
+      "DOCUMENTS_SIZE": "Documents Size",
+      "COMPLETED_MEETINGS": "Completed Meetings",
+      "UPCOMING_MEETINGS": "Upcoming Meetings"
+    },
     "REVENUE_SOURCES": "Revenue by Source",
+    "REVENUE_BY_MONTH": "Revenue by Month",
     "REVENUE_SOURCE_TYPES": {
       "CONSULTATIONS": "Consultations",
       "REPRESENTATION": "Representation",
@@ -677,6 +750,7 @@
     "TOP_LAWYERS": "Top Lawyers",
     "LAWYER_STATS": {
       "CASES": "cases",
+      "WON": "won",
       "SUCCESS_RATE": "Success rate",
       "REVENUE": "revenue"
     },

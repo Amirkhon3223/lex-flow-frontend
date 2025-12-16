@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
+import { parseLocalDate } from '@/shared/utils';
 
 export function MeetingsList({
   meetings,
@@ -25,9 +26,9 @@ export function MeetingsList({
 
       <div className="space-y-3">
         {meetings
-          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+          .sort((a, b) => parseLocalDate(a.date).getTime() - parseLocalDate(b.date).getTime())
           .map((meeting) => {
-            const meetingDate = new Date(meeting.date);
+            const meetingDate = parseLocalDate(meeting.date);
             const clientInitials = meeting.clientName
               .split(' ')
               .map((n) => n[0])

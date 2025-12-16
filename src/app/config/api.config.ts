@@ -21,12 +21,12 @@ export const API_CONFIG = {
     DOCUMENTS: {
       BASE: '/documents',
       BY_ID: (id: string) => `/documents/${id}`,
-      UPLOAD: '/documents/upload',
-      DOWNLOAD: (id: string) => `/documents/${id}/download`,
-      VERSIONS: (id: string) => `/documents/${id}/versions`,
-      VERSION: (id: string, versionId: string) => `/documents/${id}/versions/${versionId}`,
-      VERSION_DOWNLOAD: (id: string, versionId: string) =>
-        `/documents/${id}/versions/${versionId}/download`,
+            UPLOAD: '/documents/file-upload',
+            DOWNLOAD: (id: string) => `/documents/${id}/download`,
+            VERSIONS: (id: string) => `/documents/${id}/file-versions`,
+            VERSION: (id: string, versionId: string) => `/documents/${id}/file-versions/${versionId}`,
+            VERSION_DOWNLOAD: (id: string, versionId: string) =>
+              `/documents/${id}/file-versions/${versionId}/download`,
     },
     CALENDAR: {
       MEETINGS: '/calendar/meetings',

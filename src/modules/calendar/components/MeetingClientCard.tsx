@@ -23,7 +23,7 @@ export function MeetingClientCard({ clientName, clientAvatar, clientId }: Meetin
       .substring(0, 2);
 
   return (
-    <Card>
+    <Card className="pb-0!">
       <CardHeader>
         <CardTitle className="text-sm sm:text-base md:text-lg">
           {t('CALENDAR.MEETING_DETAILS.CLIENT')}

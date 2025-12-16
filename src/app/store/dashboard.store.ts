@@ -1,83 +1,101 @@
 import { create } from 'zustand';
-
-interface Stats {
-  activeCases: number;
-  clients: number;
-  documents: number;
-  tasks: number;
-}
-
-interface Activity {
-  id: string;
-  action: string;
-  user: string;
-  time: string;
-  type: 'case' | 'document' | 'client';
-}
-
-interface PriorityCase {
-  id: string;
-  title: string;
-  client: string;
-  priority: 'high' | 'medium' | 'low';
-  deadline: string;
-}
+import { dashboardService } from '../services/dashboard/dashboard.service';
+import type { DashboardStatsResponse } from '../types/analytics/analytics.interfaces';
+import type {
+  PriorityCaseItem,
+  TodayMeetingItem,
+} from '../types/dashboard/dashboard.interfaces';
 
 interface DashboardState {
-  stats: Stats;
-  recentActivity: Activity[];
-  priorityCases: PriorityCase[];
-  loading: boolean;
-  error: string | null;
-  fetchStats: () => Promise<void>;
-  fetchRecentActivity: () => Promise<void>;
-  fetchPriorityCases: () => Promise<void>;
+  // Dashboard stats
+  dashboardStats: DashboardStatsResponse | null;
+  dashboardLoading: boolean;
+  dashboardError: string | null;
+
+  // Priority cases
+  priorityCases: PriorityCaseItem[];
+  casesLoading: boolean;
+  casesError: string | null;
+
+  // Today's meetings
+  todayMeetings: TodayMeetingItem[];
+  meetingsLoading: boolean;
+  meetingsError: string | null;
+
+  // Actions
+  fetchDashboard: () => Promise<void>;
+  fetchPriorityCases: (limit?: number) => Promise<void>;
+  fetchTodayMeetings: () => Promise<void>;
+  fetchAllDashboardData: () => Promise<void>;
+  reset: () => void;
 }
 
-export const useDashboardStore = create<DashboardState>((set) => ({
-  stats: {
-    activeCases: 0,
-    clients: 0,
-    documents: 0,
-    tasks: 0,
-  },
-  recentActivity: [],
+const initialState = {
+  dashboardStats: null,
+  dashboardLoading: false,
+  dashboardError: null,
   priorityCases: [],
-  loading: false,
-  error: null,
+  casesLoading: false,
+  casesError: null,
+  todayMeetings: [],
+  meetingsLoading: false,
+  meetingsError: null,
+};
 
-  fetchStats: async () => {
-    set({ loading: true, error: null });
+export const useDashboardStore = create<DashboardState>((set) => ({
+  ...initialState,
+
+  fetchDashboard: async () => {
+    set({ dashboardLoading: true, dashboardError: null });
     try {
+      const data = await dashboardService.getDashboardStats();
+      set({ dashboardStats: data, dashboardLoading: false });
+    } catch (error) {
       set({
-        stats: {
-          activeCases: 45,
-          clients: 150,
-          documents: 320,
-          tasks: 78,
-        },
-        loading: false,
+        dashboardError: error instanceof Error ? error.message : 'Failed to fetch dashboard stats',
+        dashboardLoading: false,
       });
-    } catch (error) {
-      set({ error: (error as Error).message, loading: false });
     }
   },
 
-  fetchRecentActivity: async () => {
-    set({ loading: true, error: null });
+  fetchPriorityCases: async (limit = 5) => {
+    set({ casesLoading: true, casesError: null });
     try {
-      set({ recentActivity: [], loading: false });
+      const data = await dashboardService.getPriorityCases(limit);
+      set({ priorityCases: data.cases || [], casesLoading: false });
     } catch (error) {
-      set({ error: (error as Error).message, loading: false });
+      set({
+        casesError: error instanceof Error ? error.message : 'Failed to fetch priority cases',
+        casesLoading: false,
+      });
     }
   },
 
-  fetchPriorityCases: async () => {
-    set({ loading: true, error: null });
+  fetchTodayMeetings: async () => {
+    set({ meetingsLoading: true, meetingsError: null });
     try {
-      set({ priorityCases: [], loading: false });
+      const data = await dashboardService.getTodayMeetings();
+      set({ todayMeetings: data.meetings || [], meetingsLoading: false });
     } catch (error) {
-      set({ error: (error as Error).message, loading: false });
+      set({
+        meetingsError: error instanceof Error ? error.message : 'Failed to fetch today meetings',
+        meetingsLoading: false,
+      });
     }
   },
+
+  // Parallel fetch all dashboard data
+  fetchAllDashboardData: async () => {
+    try {
+      await Promise.all([
+        useDashboardStore.getState().fetchDashboard(),
+        useDashboardStore.getState().fetchPriorityCases(5),
+        useDashboardStore.getState().fetchTodayMeetings(),
+      ]);
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    }
+  },
+
+  reset: () => set(initialState),
 }));

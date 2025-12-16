@@ -20,16 +20,17 @@
       "Bash(npx tsc:*)",
       "Bash(python3:*)",
       "Bash(npm run:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "context7",
     "playwright",
     "figma-dev-mode-mcp-server",
     "sequential-thinking"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }

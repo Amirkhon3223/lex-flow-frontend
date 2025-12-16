@@ -4,6 +4,8 @@ import { toast } from 'sonner';
 import { useMeetingsStore } from '@/app/store/meetings.store';
 import { MeetingStatusEnum } from '@/app/types/calendar/calendar.enums';
 import { AddMeetingDialog } from '@/modules/calendar/components/AddMeetingDialog';
+import { AddMeetingNoteDialog } from '@/modules/calendar/components/AddMeetingNoteDialog';
+import { RescheduleMeetingDialog } from '@/modules/calendar/components/RescheduleMeetingDialog';
 import { MeetingCaseCard } from '@/modules/calendar/components/MeetingCaseCard';
 import { MeetingClientCard } from '@/modules/calendar/components/MeetingClientCard';
 import { MeetingDocumentsCard } from '@/modules/calendar/components/MeetingDocumentsCard';
@@ -12,7 +14,6 @@ import { MeetingInfoCard } from '@/modules/calendar/components/MeetingInfoCard';
 import { MeetingNotesCard } from '@/modules/calendar/components/MeetingNotesCard';
 import { MeetingParticipantsCard } from '@/modules/calendar/components/MeetingParticipantsCard';
 import { QuickActionsCard } from '@/modules/calendar/ui/QuickActionsCard';
-import { CommentsDialog } from '@/shared/components/CommentsDialog';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -52,7 +53,7 @@ export function MeetingDetailPage() {
     try {
       await updateMeeting(id, { status: MeetingStatusEnum.COMPLETED });
       toast.success(t('CALENDAR.MESSAGES.COMPLETED'));
-      navigate('/calendar');
+      await fetchMeetingById(id);
     } catch (error) {
       toast.error(t('COMMON.MESSAGES.ERROR'));
     }
@@ -71,10 +72,22 @@ export function MeetingDetailPage() {
     try {
       await updateMeeting(id, { status: MeetingStatusEnum.CANCELLED });
       toast.success(t('CALENDAR.MESSAGES.CANCELLED'));
-      navigate('/calendar');
+      await fetchMeetingById(id);
     } catch (error) {
       toast.error(t('COMMON.MESSAGES.ERROR'));
     }
+  };
+
+  const handleSaveNote = async (notes: string) => {
+    if (!id) return;
+    await updateMeeting(id, { notes });
+    await fetchMeetingById(id);
+  };
+
+  const handleRescheduleConfirm = async (date: string, time: string) => {
+    if (!id) return;
+    await updateMeeting(id, { date, time });
+    await fetchMeetingById(id);
   };
 
   const handleEdit = () => {
@@ -99,9 +112,25 @@ export function MeetingDetailPage() {
   return (
     <div>
       <UploadDocumentDialog open={isAddDocumentOpen} onOpenChange={setIsAddDocumentOpen} />
-      <CommentsDialog open={isAddNoteOpen} onOpenChange={setIsAddNoteOpen} caseId={id} />
-      <AddMeetingDialog open={isEditingOpen} onOpenChange={setIsEditingOpen} />
-      <AddMeetingDialog open={isRescheduleOpen} onOpenChange={setIsRescheduleOpen} />
+      <AddMeetingNoteDialog
+        open={isAddNoteOpen}
+        onOpenChange={setIsAddNoteOpen}
+        currentNotes={selectedMeeting?.notes}
+        onSave={handleSaveNote}
+      />
+      <AddMeetingDialog
+        open={isEditingOpen}
+        onOpenChange={setIsEditingOpen}
+        meeting={selectedMeeting}
+        onSubmit={() => id && fetchMeetingById(id)}
+      />
+      <RescheduleMeetingDialog
+        open={isRescheduleOpen}
+        onOpenChange={setIsRescheduleOpen}
+        currentDate={selectedMeeting?.date}
+        currentTime={selectedMeeting?.time}
+        onReschedule={handleRescheduleConfirm}
+      />
 
       <ConfirmDialog
         open={isCancelDialogOpen}
@@ -135,7 +164,7 @@ export function MeetingDetailPage() {
               meeting.participants ? meeting.participants.split(',').map((p) => p.trim()) : []
             }
           />
-          <MeetingNotesCard onAddNote={() => setIsAddNoteOpen(true)} />
+          <MeetingNotesCard notes={meeting.notes} onAddNote={() => setIsAddNoteOpen(true)} />
         </div>
 
         <div className="space-y-4 sm:space-y-6">

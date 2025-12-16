@@ -17,6 +17,7 @@ import { ViewToggle } from '@/modules/calendar/ui/ViewToggle';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
+import { parseLocalDate } from '@/shared/utils';
 
 // Helper function to check if meeting is a court session
 const isCourtSession = (title: string): boolean => {
@@ -49,37 +50,12 @@ export function CalendarPage() {
     fetchMeetings();
     fetchToday();
     fetchUpcoming(10);
-    fetchMonth(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1);
-  }, [fetchMeetings, fetchToday, fetchUpcoming, fetchMonth]);
+  }, [fetchMeetings, fetchToday, fetchUpcoming]);
 
   // Update month data when selectedMonth changes
   useEffect(() => {
     fetchMonth(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1);
   }, [selectedMonth, fetchMonth]);
-
-  useEffect(() => {
-    const style = document.createElement('style');
-    style.innerHTML = `
-      .calendar-with-indicators .rdp-day.has-meeting {
-        position: relative;
-      }
-      .calendar-with-indicators .rdp-day.has-meeting::after {
-        content: '';
-        position: absolute;
-        bottom: 2px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background-color: #3b82f6;
-      }
-    `;
-    document.head.appendChild(style);
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
 
   const filteredMeetings = meetings.filter((meeting) => {
     const matchesType = filterType === 'all' || meeting.type === filterType;
@@ -95,20 +71,21 @@ export function CalendarPage() {
   const selectedDateMeetings = filteredMeetings
     .filter((meeting) => {
       if (!date) return false;
-      const meetingDate = new Date(meeting.date);
+      const meetingDate = parseLocalDate(meeting.date);
       return (
         meetingDate.getDate() === date.getDate() &&
         meetingDate.getMonth() === date.getMonth() &&
         meetingDate.getFullYear() === date.getFullYear()
       );
     })
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    .sort((a, b) => parseLocalDate(a.date).getTime() - parseLocalDate(b.date).getTime());
 
-  // Create meeting dates for calendar indicators - normalize to midnight to avoid timezone issues
-  const meetingDates = filteredMeetings.map((m) => {
-    const date = new Date(m.date);
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  });
+  // Create meeting dates for calendar indicators from monthMeetings
+  const meetingDates = monthMeetings?.days
+    ? monthMeetings.days
+        .filter((day) => day.count > 0)
+        .map((day) => parseLocalDate(day.date))
+    : [];
 
   const uniqueClients = Array.from(new Set(meetings.map((m) => m.clientName)));
 
@@ -150,9 +127,20 @@ export function CalendarPage() {
     }
   };
 
+  const handleMeetingSubmit = () => {
+    fetchMeetings();
+    fetchToday();
+    fetchUpcoming(10);
+    fetchMonth(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1);
+  };
+
   return (
     <div>
-      <AddMeetingDialog open={isAddMeetingOpen} onOpenChange={setIsAddMeetingOpen} />
+      <AddMeetingDialog
+        open={isAddMeetingOpen}
+        onOpenChange={setIsAddMeetingOpen}
+        onSubmit={handleMeetingSubmit}
+      />
 
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-3 sm:px-4 py-3 sm:py-4">

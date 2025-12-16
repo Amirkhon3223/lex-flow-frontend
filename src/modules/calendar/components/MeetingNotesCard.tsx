@@ -5,10 +5,11 @@ import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 interface MeetingNotesCardProps {
+  notes?: string | null;
   onAddNote: () => void;
 }
 
-export function MeetingNotesCard({ onAddNote }: MeetingNotesCardProps) {
+export function MeetingNotesCard({ notes, onAddNote }: MeetingNotesCardProps) {
   const { t } = useI18n();
   return (
     <Card>
@@ -24,15 +25,21 @@ export function MeetingNotesCard({ onAddNote }: MeetingNotesCardProps) {
             onClick={onAddNote}
           >
             <MessageSquare className="w-3 h-3 sm:w-3.5 sm:h-3.5 sm:mr-2" strokeWidth={2} />
-            <span className="hidden sm:inline">{t('CALENDAR.MEETING_DETAILS.ADD_NOTE')}</span>
+            <span className="hidden sm:inline">
+              {notes ? t('COMMON.ACTIONS.EDIT') : t('CALENDAR.MEETING_DETAILS.ADD_NOTE')}
+            </span>
           </Button>
         </div>
       </CardHeader>
       <CardContent>
-        <EmptyState
-          icon={<MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" strokeWidth={2} />}
-          message={t('CALENDAR.MEETING_DETAILS.NO_NOTES')}
-        />
+        {notes ? (
+          <p className="text-sm text-muted-foreground whitespace-pre-wrap">{notes}</p>
+        ) : (
+          <EmptyState
+            icon={<MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" strokeWidth={2} />}
+            message={t('CALENDAR.MEETING_DETAILS.NO_NOTES')}
+          />
+        )}
       </CardContent>
     </Card>
   );

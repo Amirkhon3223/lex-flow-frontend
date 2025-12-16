@@ -13,7 +13,7 @@ export function MeetingCaseCard({ caseName, caseId }: MeetingCaseCardProps) {
   const { t } = useI18n();
 
   return (
-    <Card>
+    <Card className="pb-0!">
       <CardHeader>
         <CardTitle className="text-sm sm:text-base md:text-lg">
           {t('CALENDAR.MEETING_DETAILS.RELATED_CASE')}

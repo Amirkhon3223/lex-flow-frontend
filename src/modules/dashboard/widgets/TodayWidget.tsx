@@ -2,21 +2,16 @@ import { useEffect, useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
-import type { UpcomingEventInterface } from '@/app/types/dashboard/dashboard.interfaces';
+import { useDashboardStore } from '@/app/store/dashboard.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
-
-const upcomingEvents: UpcomingEventInterface[] = [
-  { time: '10:00', title: 'Консультация с клиентом' },
-  { time: '14:30', title: 'Заседание в суде' },
-  { time: '16:00', title: 'Подготовка документов' },
-];
 
 export function TodayWidget() {
   const navigate = useNavigate();
   const [isDark, setIsDark] = useState(false);
   const { t } = useI18n();
+  const { todayMeetings, meetingsLoading } = useDashboardStore();
 
   useEffect(() => {
     const html = document.documentElement;
@@ -48,19 +43,41 @@ export function TodayWidget() {
       </div>
 
       <div className="space-y-3 sm:space-y-4">
-        {upcomingEvents.map((event, index) => (
-          <div key={index} className="flex gap-2 sm:gap-1 items-center">
-            <div className="text-xs sm:text-sm text-foreground w-12 sm:w-14 flex-shrink-0">
-              {event.time}
-            </div>
+        {meetingsLoading && (
+          <>
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="h-12 bg-secondary/50 animate-pulse rounded-xl"
+                aria-label="Loading meetings"
+              />
+            ))}
+          </>
+        )}
+        {!meetingsLoading && todayMeetings.length === 0 && (
+          <div className="text-center py-6 text-muted-foreground">
+            <p className="text-sm">{t('DASHBOARD.TODAY.NO_MEETINGS')}</p>
+          </div>
+        )}
+        {!meetingsLoading &&
+          todayMeetings.map((event, index) => (
+            <div key={event.id || index} className="flex gap-2 sm:gap-1 items-center">
+              <div className="text-xs sm:text-sm text-foreground w-12 sm:w-14 flex-shrink-0">
+                {event.time}
+              </div>
 
-            <div className="flex-1 min-w-0">
-              <div className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl ${itemClasses}`}>
-                <p className="text-xs sm:text-sm truncate text-foreground">{event.title}</p>
+              <div className="flex-1 min-w-0">
+                <div className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl ${itemClasses}`}>
+                  <p className="text-xs sm:text-sm truncate text-foreground">{event.title}</p>
+                  {event.client && (
+                    <p className="text-xs text-muted-foreground mt-1 truncate">
+                      {event.client.name}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       <Button
         onClick={() => navigate(ROUTES.CALENDAR)}

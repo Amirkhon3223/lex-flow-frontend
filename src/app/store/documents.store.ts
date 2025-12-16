@@ -1,32 +1,47 @@
 import { create } from 'zustand';
 import { documentsService } from '../services/documents/documents.service';
+import type { Pagination } from '../types/api/api.types';
 import type {
   DocumentInterface,
   CreateDocumentInterface,
   UpdateDocumentInterface,
   DocumentVersionInterface,
+  CreateDocumentVersionInterface,
 } from '../types/documents/documents.interfaces';
 
 interface DocumentsState {
   documents: DocumentInterface[];
   selectedDocument: DocumentInterface | null;
   versions: DocumentVersionInterface[];
+  pagination: Pagination;
   loading: boolean;
   error: string | null;
-  fetchDocuments: (params?: { page?: number; limit?: number; caseId?: string }) => Promise<void>;
+  fetchDocuments: (params?: {
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    search?: string;
+    category?: string;
+  }) => Promise<void>;
   fetchDocumentById: (id: string) => Promise<void>;
-  uploadDocument: (file: File) => Promise<void>;
   createDocument: (data: CreateDocumentInterface) => Promise<void>;
   updateDocument: (id: string, data: UpdateDocumentInterface) => Promise<void>;
   deleteDocument: (id: string) => Promise<void>;
+  createVersion: (documentId: string, data: CreateDocumentVersionInterface) => Promise<void>;
   fetchVersions: (documentId: string) => Promise<void>;
   selectDocument: (document: DocumentInterface | null) => void;
 }
 
-export const useDocumentsStore = create<DocumentsState>((set) => ({
+export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   documents: [],
   selectedDocument: null,
   versions: [],
+  pagination: {
+    page: 1,
+    totalPages: 1,
+    totalItems: 0,
+    limit: 10,
+  },
   loading: false,
   error: null,
 
@@ -34,7 +49,11 @@ export const useDocumentsStore = create<DocumentsState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await documentsService.list(params);
-      set({ documents: response.documents, loading: false });
+      set({
+        documents: response.documents,
+        pagination: response.pagination,
+        loading: false,
+      });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }
@@ -50,24 +69,13 @@ export const useDocumentsStore = create<DocumentsState>((set) => ({
     }
   },
 
-  uploadDocument: async (file: File) => {
-    set({ loading: true, error: null });
-    try {
-      await documentsService.upload(file);
-      set({ loading: false });
-    } catch (error) {
-      set({ error: (error as Error).message, loading: false });
-    }
-  },
-
   createDocument: async (data: CreateDocumentInterface) => {
     set({ loading: true, error: null });
     try {
-      const document = await documentsService.create(data);
-      set((state) => ({
-        documents: [...state.documents, document],
-        loading: false,
-      }));
+      await documentsService.create(data);
+      // After creating, fetch the list to reflect the new item and pagination
+      await get().fetchDocuments();
+      set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }
@@ -91,11 +99,19 @@ export const useDocumentsStore = create<DocumentsState>((set) => ({
     set({ loading: true, error: null });
     try {
       await documentsService.delete(id);
-      set((state) => ({
-        documents: state.documents.filter((d) => d.id !== id),
-        selectedDocument: state.selectedDocument?.id === id ? null : state.selectedDocument,
-        loading: false,
-      }));
+      // After deleting, fetch the list to reflect the change and pagination
+      await get().fetchDocuments();
+      set({ loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+  },
+
+  createVersion: async (documentId: string, data: CreateDocumentVersionInterface) => {
+    set({ loading: true, error: null });
+    try {
+      await documentsService.createVersion(documentId, data);
+      set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }
@@ -105,7 +121,10 @@ export const useDocumentsStore = create<DocumentsState>((set) => ({
     set({ loading: true, error: null });
     try {
       const versions = await documentsService.getVersions(documentId);
-      set({ versions, loading: false });
+      set({
+        versions: versions,
+        loading: false,
+      });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }

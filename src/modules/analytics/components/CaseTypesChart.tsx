@@ -1,18 +1,51 @@
+import { useMemo } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import type { CaseTypeData } from '@/app/types/cases/cases.interfaces.ts';
+import { useAnalyticsStore } from '@/app/store/analytics.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
+import { Skeleton } from '@/shared/ui/skeleton';
 
-const caseTypeData: CaseTypeData[] = [
-  { name: 'LABOR_DISPUTES', value: 35, color: '#3B82F6' },
-  { name: 'CONTRACT_LAW', value: 25, color: '#8B5CF6' },
-  { name: 'INHERITANCE', value: 20, color: '#F59E0B' },
-  { name: 'FAMILY_LAW', value: 15, color: '#10B981' },
-  { name: 'OTHER', value: 5, color: '#6B7280' },
-];
+const COLORS = ['#3B82F6', '#8B5CF6', '#F59E0B', '#10B981', '#EF4444', '#6B7280'];
 
 export function CaseTypesChart() {
   const { t } = useI18n();
+  const { cases, casesLoading } = useAnalyticsStore();
+
+  const chartData = useMemo(() => {
+    if (!cases?.byCategory) return [];
+
+    const totalCases = Object.values(cases.byCategory).reduce((sum, count) => sum + count, 0);
+    if (totalCases === 0) return [];
+
+    return Object.entries(cases.byCategory).map(([name, value], index) => ({
+      name,
+      value,
+      percentage: Math.round((value / totalCases) * 100),
+      color: COLORS[index % COLORS.length],
+    }));
+  }, [cases?.byCategory]);
+
+  if (casesLoading) {
+    return (
+      <Card className="flex flex-col h-full">
+        <Skeleton className="h-6 w-40 mb-6" />
+        <Skeleton className="flex-1 min-h-[200px]" />
+      </Card>
+    );
+  }
+
+  if (!chartData.length) {
+    return (
+      <Card className="flex flex-col h-full">
+        <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
+          {t('ANALYTICS.CHARTS.CASE_TYPES')}
+        </h3>
+        <div className="flex-1 flex items-center justify-center text-muted-foreground">
+          {t('COMMON.NO_DATA')}
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <Card className="flex flex-col h-full">
@@ -23,7 +56,7 @@ export function CaseTypesChart() {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={caseTypeData}
+              data={chartData}
               cx="50%"
               cy="50%"
               innerRadius={40}
@@ -31,7 +64,7 @@ export function CaseTypesChart() {
               paddingAngle={5}
               dataKey="value"
             >
-              {caseTypeData.map((entry, index) => (
+              {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
@@ -47,7 +80,7 @@ export function CaseTypesChart() {
         </ResponsiveContainer>
       </div>
       <div className="space-y-1.5 sm:space-y-2 mt-3 sm:mt-4">
-        {caseTypeData.map((item) => (
+        {chartData.map((item) => (
           <div key={item.name} className="flex items-center justify-between text-xs sm:text-sm">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <div
@@ -55,10 +88,10 @@ export function CaseTypesChart() {
                 style={{ backgroundColor: item.color }}
               ></div>
               <span className="text-muted-foreground truncate">
-                {t(`ANALYTICS.PRACTICE_TYPES.${item.name}`)}
+                {t(`CASE.CATEGORY.${item.name.toUpperCase()}`)}
               </span>
             </div>
-            <span className="text-foreground flex-shrink-0">{item.value}%</span>
+            <span className="text-foreground flex-shrink-0">{item.percentage}%</span>
           </div>
         ))}
       </div>

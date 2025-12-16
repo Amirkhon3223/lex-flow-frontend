@@ -97,7 +97,7 @@ export function ProfileSidebar({
           </div>
 
           <h3 className="text-lg sm:text-xl tracking-tight mb-1">
-            {profileData.lastName} {profileData.firstName}
+            {profileData.firstName} {profileData.lastName}
           </h3>
           <p className="text-xs sm:text-sm text-muted-foreground mb-2">{profileData.position}</p>
           <Badge className="bg-purple-100 text-purple-700 border-0 mb-3 sm:mb-4 text-xs sm:text-sm">
@@ -117,7 +117,7 @@ export function ProfileSidebar({
             </div>
             <div className="flex items-center gap-2 text-muted-foreground justify-center sm:justify-start">
               <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
-              <span>Москва, Россия</span>
+              <span>New York, USA</span>
             </div>
           </div>
         </div>

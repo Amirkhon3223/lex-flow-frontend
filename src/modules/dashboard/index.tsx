@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { CaseFormData } from '@/app/types/cases/cases.interfaces';
-import type { UploadDocumentFormData } from '@/app/types/documents/documents.interfaces';
+import { useDashboardStore } from '@/app/store/dashboard.store';
+import { useAuthStore } from '@/app/store/auth.store';
 import { AIInsightsWidget } from '@/modules/dashboard/widgets/AIInsightsWidget';
 import { PriorityCases } from '@/modules/dashboard/widgets/PriorityCases';
 import { QuickActions } from '@/modules/dashboard/widgets/QuickActions';
@@ -14,26 +15,30 @@ import { useI18n } from '@/shared/context/I18nContext';
 
 export default function DashboardPage() {
   const { t } = useI18n();
+  const { user } = useAuthStore();
+  const { dashboardStats, fetchAllDashboardData } = useDashboardStore();
   const [isAddCaseOpen, setIsAddCaseOpen] = useState(false);
   const [isAddClientOpen, setIsAddClientOpen] = useState(false);
   const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
 
+  // Fetch all dashboard data on mount
+  useEffect(() => {
+    fetchAllDashboardData();
+  }, [fetchAllDashboardData]);
+
   const handleAddCase = async (caseData: CaseFormData) => {
     try {
-      const newCase = await caseService.create(caseData);
-      console.log('Дело успешно создано:', newCase);
+      console.log('Дело успешно создано:', caseData);
+      // Refresh dashboard data after creating a case
+      fetchAllDashboardData();
     } catch (error) {
       console.error('Ошибка при создании дела:', error);
     }
   };
 
-  const handleUploadDocument = async (documentData: UploadDocumentFormData) => {
-    try {
-      const newDocument = await documentService.upload(documentData);
-      console.log('Документ успешно загружен:', newDocument);
-    } catch (error) {
-      console.error('Ошибка при загрузке документа:', error);
-    }
+  const handleUploadDocument = async () => {
+    // Refresh dashboard data after uploading a document
+    fetchAllDashboardData();
   };
 
   return (
@@ -41,10 +46,10 @@ export default function DashboardPage() {
       <div className="space-y-8">
         <div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-2">
-            {t('DASHBOARD.WELCOME')}, Александр
+            {t('DASHBOARD.WELCOME')}, {user?.name || 'User'}
           </h2>
           <p className="text-gray-500 text-base lg:text-lg">
-            {t('DASHBOARD.TASKS_TODAY', { count: 5 })}
+            {t('DASHBOARD.TASKS_TODAY', { count: dashboardStats?.tasksToday || 0 })}
           </p>
         </div>
 
@@ -77,7 +82,7 @@ export default function DashboardPage() {
       <UploadDocumentDialog
         open={isUploadDocOpen}
         onOpenChange={setIsUploadDocOpen}
-        onSubmit={handleUploadDocument}
+        onSuccess={handleUploadDocument}
       />
     </>
   );

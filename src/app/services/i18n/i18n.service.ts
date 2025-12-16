@@ -27,9 +27,11 @@ export const LANGUAGES: LanguageInfo[] = [
 const STORAGE_KEY = 'app-language';
 const DEFAULT_LANGUAGE: Language = 'ru';
 
+type Translations = { [key: string]: string | Translations };
+
 class I18nService {
   private currentLanguage: Language;
-  private translations: Record<string, any> = {};
+  private translations: Translations = {};
   public ready: Promise<void>;
 
   constructor() {
@@ -104,12 +106,12 @@ class I18nService {
    */
   t(key: string, params?: Record<string, string | number>): string {
     const keys = key.split('.');
-    let value: any = this.translations;
+    let value: string | Translations | undefined = this.translations;
 
     // Проходим по вложенным ключам
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
-        value = value[k];
+        value = value[k] as string | Translations;
       } else {
         console.warn(`Translation key not found: ${key}`);
         return key;

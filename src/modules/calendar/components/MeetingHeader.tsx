@@ -5,6 +5,7 @@ import { MeetingBadges } from '@/modules/calendar/ui/MeetingBadges';
 import { BackButton } from '@/shared/components/BackButton';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
+import { parseLocalDate } from '@/shared/utils';
 
 interface MeetingHeaderProps {
   meeting: MeetingInterface;
@@ -52,7 +53,7 @@ export function MeetingHeader({ meeting, onEdit, onDelete }: MeetingHeaderProps)
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 md:gap-3 text-xs sm:text-xs md:text-sm text-muted-foreground">
             <span className="flex items-center gap-1 sm:gap-1 md:gap-1.5">
               <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" strokeWidth={2} />
-              {meeting.date.toLocaleDateString('ru-RU', {
+              {parseLocalDate(meeting.date).toLocaleDateString('ru-RU', {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric',

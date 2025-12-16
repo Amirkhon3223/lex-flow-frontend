@@ -1,19 +1,61 @@
+import { useMemo } from 'react';
 import { Award } from 'lucide-react';
-import type { LawyerStatsInterface } from '@/app/types/analytics/analytics.interfaces';
+import { useAnalyticsStore } from '@/app/store/analytics.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { Progress } from '@/shared/ui/progress';
+import { Skeleton } from '@/shared/ui/skeleton';
 import { getMedalGradient } from '@/shared/utils/styleHelpers';
-
-const topLawyers: LawyerStatsInterface[] = [
-  { name: 'Alexander I.', cases: 47, winRate: 89, revenue: 2400000 },
-  { name: 'Maria S.', cases: 42, winRate: 86, revenue: 2100000 },
-  { name: 'Dmitry P.', cases: 38, winRate: 82, revenue: 1900000 },
-  { name: 'Elena V.', cases: 35, winRate: 91, revenue: 1800000 },
-];
 
 export function TeamStats() {
   const { t } = useI18n();
+  const { team, teamLoading } = useAnalyticsStore();
+
+  const lawyers = useMemo(() => {
+    if (!team?.lawyers) return [];
+    return team.lawyers.map((lawyer) => {
+      const winRate = lawyer.casesCount > 0
+        ? Math.round((lawyer.wonCases / lawyer.casesCount) * 100)
+        : 0;
+      return {
+        ...lawyer,
+        winRate,
+      };
+    });
+  }, [team?.lawyers]);
+
+  if (teamLoading) {
+    return (
+      <Card>
+        <Skeleton className="h-6 w-40 mb-6" />
+        <div className="space-y-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="p-5 rounded-xl bg-muted/50">
+              <div className="flex items-center gap-4 mb-4">
+                <Skeleton className="w-10 h-10 rounded-xl" />
+                <div className="flex-1">
+                  <Skeleton className="h-5 w-32 mb-2" />
+                  <Skeleton className="h-4 w-48" />
+                </div>
+              </div>
+              <Skeleton className="h-2 w-full" />
+            </div>
+          ))}
+        </div>
+      </Card>
+    );
+  }
+
+  if (!lawyers.length) {
+    return (
+      <Card>
+        <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
+          {t('ANALYTICS.TOP_LAWYERS')}
+        </h3>
+        <div className="text-center py-12 text-muted-foreground">{t('COMMON.NO_DATA')}</div>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -21,9 +63,9 @@ export function TeamStats() {
         {t('ANALYTICS.TOP_LAWYERS')}
       </h3>
       <div className="space-y-3 sm:space-y-4">
-        {topLawyers.map((lawyer, index) => (
+        {lawyers.map((lawyer, index) => (
           <div
-            key={lawyer.name}
+            key={lawyer.id}
             className="p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl bg-muted/50 hover:bg-muted transition-all"
           >
             <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3 md:mb-4">
@@ -43,15 +85,15 @@ export function TeamStats() {
                 </h4>
                 <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
                   <span>
-                    {lawyer.cases} {t('ANALYTICS.LAWYER_STATS.CASES')}
+                    {lawyer.casesCount} {t('ANALYTICS.LAWYER_STATS.CASES')}
                   </span>
                   <span className="hidden sm:inline">•</span>
                   <span className="text-green-600 dark:text-green-400">
-                    {lawyer.winRate}% {t('ANALYTICS.LAWYER_STATS.SUCCESS_RATE').toLowerCase()}
+                    {lawyer.wonCases} {t('ANALYTICS.LAWYER_STATS.WON')}
                   </span>
                   <span className="hidden sm:inline">•</span>
                   <span>
-                    {(lawyer.revenue / 1000000).toFixed(1)}M ₽ {t('ANALYTICS.LAWYER_STATS.REVENUE')}
+                    {(lawyer.revenue / 1000000).toFixed(1)}M ₽
                   </span>
                 </div>
               </div>

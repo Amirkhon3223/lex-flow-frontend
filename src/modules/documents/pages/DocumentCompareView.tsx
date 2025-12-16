@@ -42,9 +42,45 @@ export function DocumentCompareView() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const documentVersions: DocumentVersionInterface[] = [
-    { version: 3, date: '15 окт 2025, 14:30', author: 'Александр Иванов' },
-    { version: 2, date: '12 окт 2025, 16:45', author: 'Александр Иванов' },
-    { version: 1, date: '10 окт 2025, 10:15', author: 'Александр Иванов' },
+    {
+      id: '3',
+      documentId: 'doc-1',
+      versionNumber: 3,
+      originalFileName: 'document-v3.pdf',
+      fileUrl: '/files/doc-v3.pdf',
+      fileSize: 1024,
+      mimeType: 'application/pdf',
+      isCurrent: true,
+      uploadedBy: 'user-1',
+      uploadedByName: 'Александр Иванов',
+      createdAt: '2025-10-15T14:30:00Z',
+    },
+    {
+      id: '2',
+      documentId: 'doc-1',
+      versionNumber: 2,
+      originalFileName: 'document-v2.pdf',
+      fileUrl: '/files/doc-v2.pdf',
+      fileSize: 1024,
+      mimeType: 'application/pdf',
+      isCurrent: false,
+      uploadedBy: 'user-1',
+      uploadedByName: 'Александр Иванов',
+      createdAt: '2025-10-12T16:45:00Z',
+    },
+    {
+      id: '1',
+      documentId: 'doc-1',
+      versionNumber: 1,
+      originalFileName: 'document-v1.pdf',
+      fileUrl: '/files/doc-v1.pdf',
+      fileSize: 1024,
+      mimeType: 'application/pdf',
+      isCurrent: false,
+      uploadedBy: 'user-1',
+      uploadedByName: 'Александр Иванов',
+      createdAt: '2025-10-10T10:15:00Z',
+    },
   ];
 
   const changes: DocumentChangeInterface[] = [
@@ -322,7 +358,14 @@ export function DocumentCompareView() {
                     <div className="flex-1 text-left min-w-0">
                       <div className="text-xs sm:text-sm font-semibold truncate">v{version1}</div>
                       <div className="text-xs text-muted-foreground hidden sm:block">
-                        {documentVersions.find((v) => v.version === parseInt(version1))?.date}
+                        {
+                          documentVersions.find((v) => v.versionNumber === parseInt(version1))
+                            ?.createdAt &&
+                          new Date(
+                            documentVersions.find((v) => v.versionNumber === parseInt(version1))!
+                              .createdAt
+                          ).toLocaleString()
+                        }
                       </div>
                     </div>
                     <ChevronDown
@@ -334,16 +377,16 @@ export function DocumentCompareView() {
                 <SelectContent>
                   {documentVersions.map((v) => (
                     <SelectItem
-                      key={v.version}
-                      value={v.version.toString()}
-                      disabled={v.version.toString() === version2}
+                      key={v.versionNumber}
+                      value={v.versionNumber.toString()}
+                      disabled={v.versionNumber.toString() === version2}
                     >
                       <div className="py-1">
                         <div>
-                          {t('DOCUMENTS.VERSION')} {v.version}
+                          {t('DOCUMENTS.VERSION')} {v.versionNumber}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {v.date} • {v.author}
+                          {new Date(v.createdAt).toLocaleString()} • {v.uploadedByName}
                         </div>
                       </div>
                     </SelectItem>
@@ -372,7 +415,14 @@ export function DocumentCompareView() {
                     <div className="flex-1 text-left min-w-0">
                       <div className="text-xs sm:text-sm font-semibold truncate">v{version2}</div>
                       <div className="text-xs text-muted-foreground hidden sm:block">
-                        {documentVersions.find((v) => v.version === parseInt(version2))?.date}
+                        {
+                          documentVersions.find((v) => v.versionNumber === parseInt(version2))
+                            ?.createdAt &&
+                          new Date(
+                            documentVersions.find((v) => v.versionNumber === parseInt(version2))!
+                              .createdAt
+                          ).toLocaleString()
+                        }
                       </div>
                     </div>
                     <ChevronDown
@@ -384,16 +434,16 @@ export function DocumentCompareView() {
                 <SelectContent>
                   {documentVersions.map((v) => (
                     <SelectItem
-                      key={v.version}
-                      value={v.version.toString()}
-                      disabled={v.version.toString() === version1}
+                      key={v.versionNumber}
+                      value={v.versionNumber.toString()}
+                      disabled={v.versionNumber.toString() === version1}
                     >
                       <div className="py-1">
                         <div>
-                          {t('DOCUMENTS.VERSION')} {v.version}
+                          {t('DOCUMENTS.VERSION')} {v.versionNumber}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {v.date} • {v.author}
+                          {new Date(v.createdAt).toLocaleString()} • {v.uploadedByName}
                         </div>
                       </div>
                     </SelectItem>
@@ -469,7 +519,14 @@ export function DocumentCompareView() {
                     {t('DOCUMENTS.VERSION_NUMBER', { version: version1 })}
                   </h3>
                   <p className="text-xs text-muted-foreground">
-                    {documentVersions.find((v) => v.version === parseInt(version1))?.date}
+                    {
+                      documentVersions.find((v) => v.versionNumber === parseInt(version1))
+                        ?.createdAt &&
+                      new Date(
+                        documentVersions.find((v) => v.versionNumber === parseInt(version1))!
+                          .createdAt
+                      ).toLocaleString()
+                    }
                   </p>
                 </div>
                 <Badge className="bg-muted text-muted-foreground border-0 text-xs">
@@ -499,7 +556,14 @@ export function DocumentCompareView() {
                     {t('DOCUMENTS.VERSION_NUMBER', { version: version2 })}
                   </h3>
                   <p className="text-xs text-muted-foreground">
-                    {documentVersions.find((v) => v.version === parseInt(version2))?.date}
+                    {
+                      documentVersions.find((v) => v.versionNumber === parseInt(version2))
+                        ?.createdAt &&
+                      new Date(
+                        documentVersions.find((v) => v.versionNumber === parseInt(version2))!
+                          .createdAt
+                      ).toLocaleString()
+                    }
                   </p>
                 </div>
                 <Badge className="bg-green-500 text-white border-0 text-xs">
@@ -715,7 +779,14 @@ export function DocumentCompareView() {
                           {t('DOCUMENTS.VERSION', { version: version1 })}
                         </h3>
                         <p className="text-xs text-muted-foreground">
-                          {documentVersions.find((v) => v.version === parseInt(version1))?.date}
+                          {
+                            documentVersions.find((v) => v.versionNumber === parseInt(version1))
+                              ?.createdAt &&
+                            new Date(
+                              documentVersions.find((v) => v.versionNumber === parseInt(version1))!
+                                .createdAt
+                            ).toLocaleString()
+                          }
                         </p>
                       </div>
                       <Badge className="bg-muted text-muted-foreground border-0">
@@ -747,7 +818,14 @@ export function DocumentCompareView() {
                           {t('DOCUMENTS.VERSION')} {version2}
                         </h3>
                         <p className="text-xs text-muted-foreground">
-                          {documentVersions.find((v) => v.version === parseInt(version2))?.date}
+                          {
+                            documentVersions.find((v) => v.versionNumber === parseInt(version2))
+                              ?.createdAt &&
+                            new Date(
+                              documentVersions.find((v) => v.versionNumber === parseInt(version2))!
+                                .createdAt
+                            ).toLocaleString()
+                          }
                         </p>
                       </div>
                       <Badge className="bg-green-500 text-white border-0">

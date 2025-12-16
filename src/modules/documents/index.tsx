@@ -1,156 +1,76 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowUpDown, Clock, FileText, Filter, Sparkles, Star, Upload } from 'lucide-react';
-import { DocumentCategoryEnum, DocumentStatusEnum } from '@/app/types/documents/documents.enums';
-import type { DocumentInterface } from '@/app/types/documents/documents.interfaces';
+import { useDocumentsStore } from '@/app/store/documents.store';
+import { DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 import { DocumentCard } from '@/modules/documents/ui/DocumentCard';
+import { DataPagination } from '@/shared/components/DataPagination';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { StatCard } from '@/shared/ui/stat-card';
+import { formatFileSize } from '@/shared/utils';
 
 export function DocumentsPage() {
   const { t } = useI18n();
+  const {
+    documents,
+    pagination,
+    loading,
+    error,
+    fetchDocuments,
+  } = useDocumentsStore();
+
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [sortBy, setSortBy] = useState('date');
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
 
-  const documents: DocumentInterface[] = [
-    {
-      id: 1,
-      name: 'Исковое заявление.pdf',
-      case: 'Трудовой спор - увольнение',
-      client: 'Иванов П.А.',
-      type: 'Иск',
-      size: '2.4 MB',
-      date: '15 окт 2025',
-      versions: 3,
-      status: DocumentStatusEnum.FINAL,
-      category: DocumentCategoryEnum.LEGAL,
-      lastModified: '2 часа назад',
-      starred: true,
-    },
-    {
-      id: 2,
-      name: 'Договор аренды помещения.pdf',
-      case: 'Договор аренды',
-      client: 'ООО "ТехноСтрой"',
-      type: 'Договор',
-      size: '1.8 MB',
-      date: '14 окт 2025',
-      versions: 2,
-      status: DocumentStatusEnum.REVIEW,
-      category: DocumentCategoryEnum.CONTRACT,
-      lastModified: '5 часов назад',
-      starred: false,
-    },
-    {
-      id: 3,
-      name: 'Трудовой договор.pdf',
-      case: 'Трудовой спор - увольнение',
-      client: 'Иванов П.А.',
-      type: 'Договор',
-      size: '1.5 MB',
-      date: '12 окт 2025',
-      versions: 2,
-      status: DocumentStatusEnum.FINAL,
-      category: DocumentCategoryEnum.CONTRACT,
-      lastModified: '1 день назад',
-      starred: true,
-    },
-    {
-      id: 4,
-      name: 'Приказ об увольнении.pdf',
-      case: 'Трудовой спор - увольнение',
-      client: 'Иванов П.А.',
-      type: 'Приказ',
-      size: '856 KB',
-      date: '10 окт 2025',
-      versions: 1,
-      status: DocumentStatusEnum.DRAFT,
-      category: DocumentCategoryEnum.ADMINISTRATIVE,
-      lastModified: '3 дня назад',
-      starred: false,
-    },
-    {
-      id: 5,
-      name: 'Возражение на иск.pdf',
-      case: 'Наследственное дело',
-      client: 'Смирнова А.В.',
-      type: 'Возражение',
-      size: '3.2 MB',
-      date: '8 окт 2025',
-      versions: 4,
-      status: DocumentStatusEnum.REVIEW,
-      category: DocumentCategoryEnum.LEGAL,
-      lastModified: '5 дней назад',
-      starred: false,
-    },
-    {
-      id: 6,
-      name: 'Доверенность.pdf',
-      case: 'Договор аренды',
-      client: 'ООО "ТехноСтрой"',
-      type: 'Доверенность',
-      size: '456 KB',
-      date: '5 окт 2025',
-      versions: 1,
-      status: DocumentStatusEnum.FINAL,
-      category: DocumentCategoryEnum.ADMINISTRATIVE,
-      lastModified: '1 неделю назад',
-      starred: true,
-    },
-  ];
+  useEffect(() => {
+    fetchDocuments({
+      page: 1,
+      sortBy,
+      search: searchQuery || undefined,
 
-  const filteredDocuments = documents.filter((doc) => {
-    const matchesSearch =
-      doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.case.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.client.toLowerCase().includes(searchQuery.toLowerCase());
+      category: filterCategory !== 'all' ? filterCategory : undefined,
+    });
+  }, [searchQuery, filterCategory, sortBy, fetchDocuments]);
 
-    const matchesCategory = filterCategory === 'all' || doc.category === filterCategory;
+  const handlePageChange = (page: number) => {
+    fetchDocuments({
+      page,
+      sortBy,
+      search: searchQuery || undefined,
+      category: filterCategory !== 'all' ? filterCategory : undefined,
+    });
+  };
 
-    return matchesSearch && matchesCategory;
-  });
-
-  const sortedDocuments = [...filteredDocuments].sort((a, b) => {
-    switch (sortBy) {
-      case 'name':
-        return a.name.localeCompare(b.name);
-      case 'size':
-        return parseFloat(a.size) - parseFloat(b.size);
-      case 'versions':
-        return b.versions - a.versions;
-      case 'date':
-      default:
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-    }
-  });
+  const handleSuccess = () => {
+    fetchDocuments({ page: pagination.page, sortBy });
+  };
 
   const stats = [
     {
       label: t('DOCUMENTS.STATS.TOTAL'),
-      value: documents.length,
+      value: pagination.totalItems,
       icon: FileText,
       color: 'text-blue-500',
     },
     {
       label: t('DOCUMENTS.STATS.ON_REVIEW'),
-      value: documents.filter((d) => d.status === DocumentStatusEnum.REVIEW).length,
+      value: documents.filter((d) => d.status === DocumentStatusEnum.REVIEW).length, // This will be inaccurate with pagination
       icon: Clock,
       color: 'text-amber-500',
     },
     {
       label: t('DOCUMENTS.STATS.FAVORITES'),
-      value: documents.filter((d) => d.starred).length,
+      value: documents.filter((d) => d.starred).length, // This will be inaccurate with pagination
       icon: Star,
       color: 'text-yellow-500',
     },
     {
       label: t('DOCUMENTS.STATS.DRAFTS'),
-      value: documents.filter((d) => d.status === DocumentStatusEnum.DRAFT).length,
+      value: documents.filter((d) => d.status === DocumentStatusEnum.DRAFT).length, // This will be inaccurate with pagination
       icon: Filter,
       color: 'text-muted-foreground',
     },
@@ -158,12 +78,16 @@ export function DocumentsPage() {
 
   return (
     <div>
-      <UploadDocumentDialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen} />
+      <UploadDocumentDialog
+        open={isUploadDialogOpen}
+        onOpenChange={setIsUploadDialogOpen}
+        onSuccess={handleSuccess}
+      />
 
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 py-4 sm:py-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4 sm:mb-6">
-            <div className="flex items-center gap-3">
+            <div className="flex itms-center gap-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
@@ -238,24 +162,44 @@ export function DocumentsPage() {
       </header>
 
       <main className="py-4 sm:py-6 lg:py-8">
-        <div className="grid grid-cols-1 gap-2 sm:gap-3">
-          {sortedDocuments.map((doc) => (
-            <DocumentCard
-              key={doc.id}
-              id={doc.id}
-              title={doc.name}
-              case={doc.case}
-              author={doc.client}
-              type={doc.type}
-              size={doc.size}
-              date={doc.date}
-              versions={doc.versions}
-              status={doc.status}
-              statusText=""
-              favorite={doc.starred}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : error ? (
+          <div className="flex items-center justify-center py-12">
+            <p className="text-red-500">{error}</p>
+          </div>
+        ) : pagination.totalItems === 0 ? (
+          <div className="flex items-center justify-center py-12">
+            <p className="text-muted-foreground">{t('DOCUMENTS.EMPTY_STATE')}</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-2 sm:gap-3">
+            {documents.map((doc) => (
+              <DocumentCard
+                key={doc.id}
+                id={doc.id}
+                title={doc.name}
+                case={doc.caseName || '-'}
+                author={doc.clientName || '-'}
+                type={doc.type}
+                size={formatFileSize(doc.fileSize)}
+                date={new Date(doc.createdAt).toLocaleDateString()}
+                versions={doc.versionsCount}
+                status={doc.status}
+                statusText=""
+                favorite={doc.starred}
+              />
+            ))}
+          </div>
+        )}
+        <DataPagination
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
+          className="mt-6"
+        />
       </main>
     </div>
   );

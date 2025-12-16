@@ -7,13 +7,14 @@ import type {
   UploadDocumentResponse,
   DocumentVersionInterface,
   CreateDocumentVersionInterface,
+  DocumentVersionListResponse,
 } from '../../types/documents/documents.interfaces';
 
 export const documentsService = {
   upload: async (file: File): Promise<UploadDocumentResponse> => {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await httpClient.post<UploadDocumentResponse>('/documents/upload', formData, {
+    const response = await httpClient.post<UploadDocumentResponse>('/documents/file-upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response.data;
@@ -60,7 +61,9 @@ export const documentsService = {
   },
 
   getVersions: async (id: string): Promise<DocumentVersionInterface[]> => {
-    const response = await httpClient.get<DocumentVersionInterface[]>(`/documents/${id}/versions`);
+    const response = await httpClient.get<DocumentVersionInterface[]>(
+      `/documents/${id}/file-versions`
+    );
     return response.data;
   },
 
@@ -69,7 +72,7 @@ export const documentsService = {
     data: CreateDocumentVersionInterface
   ): Promise<DocumentVersionInterface> => {
     const response = await httpClient.post<DocumentVersionInterface>(
-      `/documents/${id}/versions`,
+      `/documents/${id}/file-versions`,
       data
     );
     return response.data;
@@ -77,13 +80,13 @@ export const documentsService = {
 
   getVersion: async (id: string, versionId: string): Promise<DocumentVersionInterface> => {
     const response = await httpClient.get<DocumentVersionInterface>(
-      `/documents/${id}/versions/${versionId}`
+      `/documents/${id}/file-versions/${versionId}`
     );
     return response.data;
   },
 
   downloadVersion: async (id: string, versionId: string): Promise<Blob> => {
-    const response = await httpClient.get(`/documents/${id}/versions/${versionId}/download`, {
+    const response = await httpClient.get(`/documents/${id}/file-versions/${versionId}/download`, {
       responseType: 'blob',
     });
     return response.data;

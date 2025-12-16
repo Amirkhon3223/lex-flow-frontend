@@ -25,9 +25,8 @@ export function AIAssistantView() {
   const [message, setMessage] = useState('');
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
 
-  const handleDocumentUpload = (documentData: any) => {
-    console.log('Документ загружен:', documentData);
-    // TODO: Добавить логику обработки загруженного документа
+  const handleDocumentUpload = () => {
+    // TODO: Добавить логику обновления данных после загрузки документа
   };
 
   // features are UI labels — use translations (titles/descriptions)
@@ -247,7 +246,7 @@ export function AIAssistantView() {
       <UploadDocumentDialog
         open={uploadDialogOpen}
         onOpenChange={setUploadDialogOpen}
-        onSubmit={handleDocumentUpload}
+        onSuccess={handleDocumentUpload}
       />
     </div>
   );
