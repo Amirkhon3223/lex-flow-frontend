@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ArrowUpDown, Clock, FileText, Filter, Sparkles, Star, Upload } from 'lucide-react';
-import { documentsService } from '@/app/services/documents/documents.service';
+import { useDocumentsStore } from '@/app/store/documents.store';
 import { DocumentStatusEnum } from '@/app/types/documents/documents.enums';
-import type { DocumentInterface } from '@/app/types/documents/documents.interfaces';
 import { DocumentCard } from '@/modules/documents/ui/DocumentCard';
+import { DataPagination } from '@/shared/components/DataPagination';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -13,73 +13,64 @@ import { formatFileSize } from '@/shared/utils';
 
 export function DocumentsPage() {
   const { t } = useI18n();
+  const {
+    documents,
+    pagination,
+    loading,
+    error,
+    fetchDocuments,
+  } = useDocumentsStore();
+
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterType, setFilterType] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [sortBy, setSortBy] = useState('date');
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
-  const [documents, setDocuments] = useState<DocumentInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchDocuments = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params: Record<string, any> = {
-        search: searchQuery || undefined,
-        category: filterCategory !== 'all' ? filterCategory : undefined,
-      };
-      const response = await documentsService.list(params);
-      setDocuments(response.documents);
-    } catch (err) {
-      console.error('Failed to fetch documents:', err);
-      setError(t('DOCUMENTS.ERRORS.LOAD_FAILED'));
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    fetchDocuments();
-  }, [searchQuery, filterCategory]);
+    fetchDocuments({
+      page: 1,
+      sortBy,
+      search: searchQuery || undefined,
 
-  const sortedDocuments = [...documents].sort((a, b) => {
-    switch (sortBy) {
-      case 'name':
-        return a.name.localeCompare(b.name);
-      case 'size':
-        return b.fileSize - a.fileSize;
-      case 'versions':
-        return b.versionsCount - a.versionsCount;
-      case 'date':
-      default:
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    }
-  });
+      category: filterCategory !== 'all' ? filterCategory : undefined,
+    });
+  }, [searchQuery, filterCategory, sortBy, fetchDocuments]);
+
+  const handlePageChange = (page: number) => {
+    fetchDocuments({
+      page,
+      sortBy,
+      search: searchQuery || undefined,
+      category: filterCategory !== 'all' ? filterCategory : undefined,
+    });
+  };
+
+  const handleSuccess = () => {
+    fetchDocuments({ page: pagination.page, sortBy });
+  };
 
   const stats = [
     {
       label: t('DOCUMENTS.STATS.TOTAL'),
-      value: documents.length,
+      value: pagination.totalItems,
       icon: FileText,
       color: 'text-blue-500',
     },
     {
       label: t('DOCUMENTS.STATS.ON_REVIEW'),
-      value: documents.filter((d) => d.status === DocumentStatusEnum.REVIEW).length,
+      value: documents.filter((d) => d.status === DocumentStatusEnum.REVIEW).length, // This will be inaccurate with pagination
       icon: Clock,
       color: 'text-amber-500',
     },
     {
       label: t('DOCUMENTS.STATS.FAVORITES'),
-      value: documents.filter((d) => d.starred).length,
+      value: documents.filter((d) => d.starred).length, // This will be inaccurate with pagination
       icon: Star,
       color: 'text-yellow-500',
     },
     {
       label: t('DOCUMENTS.STATS.DRAFTS'),
-      value: documents.filter((d) => d.status === DocumentStatusEnum.DRAFT).length,
+      value: documents.filter((d) => d.status === DocumentStatusEnum.DRAFT).length, // This will be inaccurate with pagination
       icon: Filter,
       color: 'text-muted-foreground',
     },
@@ -90,13 +81,13 @@ export function DocumentsPage() {
       <UploadDocumentDialog
         open={isUploadDialogOpen}
         onOpenChange={setIsUploadDialogOpen}
-        onSuccess={fetchDocuments}
+        onSuccess={handleSuccess}
       />
 
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 py-4 sm:py-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4 sm:mb-6">
-            <div className="flex items-center gap-3">
+            <div className="flex itms-center gap-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
@@ -179,16 +170,16 @@ export function DocumentsPage() {
           <div className="flex items-center justify-center py-12">
             <p className="text-red-500">{error}</p>
           </div>
-        ) : sortedDocuments.length === 0 ? (
+        ) : pagination.totalItems === 0 ? (
           <div className="flex items-center justify-center py-12">
             <p className="text-muted-foreground">{t('DOCUMENTS.EMPTY_STATE')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-2 sm:gap-3">
-            {sortedDocuments.map((doc) => (
+            {documents.map((doc) => (
               <DocumentCard
                 key={doc.id}
-                id={doc.id as any}
+                id={doc.id}
                 title={doc.name}
                 case={doc.caseName || '-'}
                 author={doc.clientName || '-'}
@@ -203,6 +194,12 @@ export function DocumentsPage() {
             ))}
           </div>
         )}
+        <DataPagination
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
+          className="mt-6"
+        />
       </main>
     </div>
   );

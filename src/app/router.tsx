@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
         element: <DocumentsPage />,
       },
       {
-        path: '/documents/:id/versions',
+        path: ROUTES.DOCUMENTS.DETAIL(':id'),
         element: <DocumentVersionsPage />,
       },
       {

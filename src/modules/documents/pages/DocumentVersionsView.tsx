@@ -10,11 +10,14 @@ import {
   GitCompare,
   Trash2,
   User,
+  ClipboardList,
+  Edit,
 } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { documentsService } from '@/app/services/documents/documents.service';
-import type { DocumentInterface, DocumentVersionInterface } from '@/app/types/documents/documents.interfaces';
+import { useDocumentsStore } from '@/app/store/documents.store';
 import { BackButton } from '@/shared/components/BackButton';
+import { DataPagination } from '@/shared/components/DataPagination';
+import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -32,45 +35,58 @@ export function DocumentVersionsView() {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const [document, setDocument] = useState<DocumentInterface | null>(null);
-  const [versions, setVersions] = useState<DocumentVersionInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
+  const {
+    selectedDocument: document,
+    versions,
+    loading,
+    error,
+    fetchDocumentById,
+    fetchVersions,
+  } = useDocumentsStore();
+
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
+  const [dialogMode, setDialogMode] = useState<'upload' | 'edit'>('upload');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (id) {
-      fetchDocumentAndVersions();
+      fetchDocumentById(id);
+      fetchVersions(id);
     }
-  }, [id]);
+  }, [id, fetchDocumentById, fetchVersions]);
 
-  const fetchDocumentAndVersions = async () => {
-    if (!id) return;
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const [docData, versionsData] = await Promise.all([
-        documentsService.getById(id),
-        documentsService.getVersions(id),
-      ]);
-
-      setDocument(docData);
-      setVersions(versionsData);
-    } catch (err) {
-      console.error('Failed to fetch document:', err);
-      setError(t('DOCUMENTS.ERRORS.LOAD_FAILED'));
-    } finally {
-      setLoading(false);
+  const handleSuccess = () => {
+    if (id) {
+      fetchDocumentById(id);
+      fetchVersions(id);
     }
   };
 
   const onBack = () => navigate(-1);
   const onCompare = () => navigate(`/documents/${id}/compare`);
 
-  const currentVersion = versions.find((v) => v.isCurrent);
+  const handleUploadClick = () => {
+    setDialogMode('upload');
+    setIsUploadDialogOpen(true);
+  };
 
-  if (loading) {
+  const handleEditClick = () => {
+    setDialogMode('edit');
+    setIsUploadDialogOpen(true);
+  };
+
+  // Add optional chaining to prevent crash if versions is undefined
+  const currentVersion = versions?.find((v) => v.isCurrent);
+
+  // Local pagination logic
+  const limit = 10;
+  const totalPages = versions ? Math.ceil(versions.length / limit) : 0;
+  const paginatedVersions = versions
+    ? versions.slice((currentPage - 1) * limit, currentPage * limit)
+    : [];
+
+  if (loading && !document) {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
@@ -88,6 +104,13 @@ export function DocumentVersionsView() {
 
   return (
     <div>
+      <UploadDocumentDialog
+        open={isUploadDialogOpen}
+        onOpenChange={setIsUploadDialogOpen}
+        document={document}
+        onSuccess={handleSuccess}
+        mode={dialogMode}
+      />
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 sm:px-6 lg:px-8 py-4">
           {/* Mobile header row */}
@@ -97,14 +120,27 @@ export function DocumentVersionsView() {
 
               <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white px-3 py-1.5">
                 <div className="text-center">
-                  <div className="text-base font-medium">v{currentVersion?.versionNumber || document.versionsCount}</div>
+                  <div className="text-base font-medium">
+                    v{currentVersion?.versionNumber || document.versionsCount}
+                  </div>
                   <div className="text-xs opacity-90">{t('DOCUMENTS.CURRENT')}</div>
                 </div>
               </Card>
             </div>
 
-            <div className="mb-3">
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl w-full text-sm">
+            <div className="mb-3 flex gap-2">
+              <Button
+                variant="outline"
+                className="flex-1 text-sm rounded-xl"
+                onClick={handleEditClick}
+              >
+                <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
+                {t('COMMON.ACTIONS.EDIT')}
+              </Button>
+              <Button
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl flex-1 text-sm"
+                onClick={handleUploadClick}
+              >
                 <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('DOCUMENTS.UPLOAD_NEW_VERSION')}
               </Button>
@@ -116,7 +152,14 @@ export function DocumentVersionsView() {
             <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_DOCUMENTS')} />
 
             <div className="flex items-center gap-2">
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base">
+              <Button variant="outline" className="rounded-xl text-base" onClick={handleEditClick}>
+                <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
+                {t('COMMON.ACTIONS.EDIT')}
+              </Button>
+              <Button
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base"
+                onClick={handleUploadClick}
+              >
                 <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('DOCUMENTS.UPLOAD_NEW_VERSION')}
               </Button>
@@ -134,6 +177,10 @@ export function DocumentVersionsView() {
                 <div className="text-xs text-muted-foreground space-y-0.5">
                   <div className="truncate">{document.caseName || '-'}</div>
                   <div>{document.clientName || '-'}</div>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <User className="w-3 h-3" strokeWidth={2} />
+                  {document.uploadedByName}
                 </div>
               </div>
             </div>
@@ -153,13 +200,19 @@ export function DocumentVersionsView() {
                     <span>•</span>
                     <span>{document.clientName || '-'}</span>
                   </div>
+                  <div className="flex items-center gap-1.5">
+                    <User className="w-3 h-3" strokeWidth={2} />
+                    {document.uploadedByName}
+                  </div>
                 </div>
               </div>
             </div>
 
             <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 shadow-lg shadow-blue-500/20 text-white px-6 py-4">
               <div className="text-center">
-                <div className="text-3xl tracking-tight mb-1">v{currentVersion?.versionNumber || document.versionsCount}</div>
+                <div className="text-3xl tracking-tight mb-1">
+                  v{currentVersion?.versionNumber || document.versionsCount}
+                </div>
                 <div className="text-sm opacity-90">{t('DOCUMENTS.CURRENT_VERSION')}</div>
               </div>
             </Card>
@@ -169,6 +222,27 @@ export function DocumentVersionsView() {
 
       <main className="p-4 sm:p-6 lg:p-8">
         <div className="max-w-5xl mx-auto">
+          {document.notes && (
+            <Card className="bg-yellow-500/10 border-yellow-500/20 mb-4 sm:mb-6 p-4 sm:p-5">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                  <ClipboardList
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-700 dark:text-yellow-400"
+                    strokeWidth={2}
+                  />
+                </div>
+                <div>
+                  <h3 className="text-sm sm:text-base tracking-tight text-yellow-800 dark:text-yellow-300 mb-2">
+                    {t('UPLOAD.NOTES')}
+                  </h3>
+                  <p className="text-sm text-yellow-700 dark:text-yellow-400 whitespace-pre-wrap">
+                    {document.notes}
+                  </p>
+                </div>
+              </div>
+            </Card>
+          )}
+
           <Card className="bg-blue-500/10 border-blue-500/20 mb-4 sm:mb-6">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
@@ -191,7 +265,7 @@ export function DocumentVersionsView() {
             </div>
           </Card>
           <div className="space-y-3 sm:space-y-4">
-            {versions.map((version, index) => (
+            {paginatedVersions.map((version, index) => (
               <Card
                 key={version.id}
                 className={`hover:shadow-md transition-all ${
@@ -210,7 +284,7 @@ export function DocumentVersionsView() {
                       >
                         v{version.versionNumber}
                       </div>
-                      {index < versions.length - 1 && (
+                      {index < paginatedVersions.length - 1 && (
                         <div className="w-px h-12 bg-border mt-3"></div>
                       )}
                     </div>
@@ -276,7 +350,7 @@ export function DocumentVersionsView() {
                         </div>
                         <div className="flex items-center gap-1.5">
                           <User className="w-3 h-3" strokeWidth={2} />
-                          {version.uploadedByName}
+                          {version.originalFileName}
                         </div>
                         <div>{formatFileSize(version.fileSize)}</div>
                       </div>
@@ -327,7 +401,7 @@ export function DocumentVersionsView() {
                     >
                       v{version.versionNumber}
                     </div>
-                    {index < versions.length - 1 && (
+                    {index < paginatedVersions.length - 1 && (
                       <div className="w-px h-16 bg-border mt-4"></div>
                     )}
                   </div>
@@ -344,8 +418,11 @@ export function DocumentVersionsView() {
                               {t('DOCUMENTS.CURRENT')}
                             </Badge>
                           )}
-                        </div>
 
+                          <small>
+                            <i>{version.originalFileName}</i>
+                          </small>
+                        </div>
                         <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                           <span className="flex items-center gap-1.5">
                             <Clock className="w-3.5 h-3.5" strokeWidth={2} />
@@ -354,7 +431,7 @@ export function DocumentVersionsView() {
                           <span>•</span>
                           <span className="flex items-center gap-1.5">
                             <User className="w-3.5 h-3.5" strokeWidth={2} />
-                            {version.uploadedByName}
+                            {version.authorName}
                           </span>
                           <span>•</span>
                           <span>{formatFileSize(version.fileSize)}</span>
@@ -433,6 +510,12 @@ export function DocumentVersionsView() {
               </Card>
             ))}
           </div>
+          <DataPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            className="mt-6"
+          />
         </div>
       </main>
     </div>

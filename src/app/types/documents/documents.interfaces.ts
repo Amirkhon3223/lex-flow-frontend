@@ -25,6 +25,8 @@ export interface DocumentVersionInterface {
   uploadedBy: string;
   uploadedByName: string;
   createdAt: string;
+  authorName: string;
+  version?: number;
 }
 
 export interface DocumentInterface {
@@ -58,7 +60,7 @@ export interface FilterPanelProps {
 }
 
 export interface DocumentCardProps {
-  id: number;
+  id: string;
   title: string;
   case: string;
   author: string;
@@ -117,9 +119,15 @@ export interface DocumentListResponse {
   pagination: Pagination;
 }
 
+export interface DocumentVersionListResponse {
+  versions: DocumentVersionInterface[];
+  pagination: Pagination;
+}
+
 export interface CreateDocumentVersionInterface {
   fileUrl: string;
   fileSize: number;
   mimeType: string;
   originalFileName: string;
+  notes?: string;
 }

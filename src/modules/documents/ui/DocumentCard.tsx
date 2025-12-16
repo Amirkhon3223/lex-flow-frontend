@@ -39,11 +39,11 @@ export function DocumentCard({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/documents/${id}/versions`);
+    navigate(`/documents/${id}/file-versions`);
   };
 
   const handleOpenDocument = () => {
-    navigate(`/documents/${id}/versions`);
+    navigate(`/documents/${id}/file-versions`);
   };
 
   return (

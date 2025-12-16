@@ -531,7 +531,8 @@
     "ERRORS": {
       "UNSUPPORTED_FILE_FORMAT": "Unsupported file format. Allowed: PDF, Word, Excel, TXT, RTF, ODT, ODS",
       "FILE_TOO_LARGE": "File is too large. Maximum size: {{maxSize}}MB",
-      "UPLOAD_FAILED": "File upload failed. Please try again"
+      "UPLOAD_FAILED": "File upload failed. Please try again",
+      "LOAD_FAILED": "Failed to load document and versions"
     }
   },
   "CALENDAR": {

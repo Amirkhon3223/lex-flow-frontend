@@ -2043,7 +2043,7 @@
                 }
             }
         },
-        "/documents/upload": {
+        "/documents/file-upload": {
             "post": {
                 "security": [
                     {
@@ -2295,21 +2295,21 @@
                 }
             }
         },
-        "/documents/{id}/versions": {
+        "/documents/{id}/file-versions": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Get all versions of a document",
+                "description": "Get all file versions of a document",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "documents"
                 ],
-                "summary": "Get document versions",
+                "summary": "Get document file versions",
                 "parameters": [
                     {
                         "type": "string",
@@ -2343,7 +2343,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "Upload a new version of an existing document",
+                "description": "Upload a new file version of an existing document",
                 "consumes": [
                     "application/json"
                 ],
@@ -2353,7 +2353,7 @@
                 "tags": [
                     "documents"
                 ],
-                "summary": "Create a new document version",
+                "summary": "Create a new file version",
                 "parameters": [
                     {
                         "type": "string",
@@ -2394,21 +2394,21 @@
                 }
             }
         },
-        "/documents/{id}/versions/{versionId}": {
+        "/documents/{id}/file-versions/{versionId}": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Get details of a specific version",
+                "description": "Get details of a specific file version",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "documents"
                 ],
-                "summary": "Get specific document version",
+                "summary": "Get specific file version",
                 "parameters": [
                     {
                         "type": "string",
@@ -2441,7 +2441,7 @@
                 }
             }
         },
-        "/documents/{id}/versions/{versionId}/download": {
+        "/documents/{id}/file-versions/{versionId}/download": {
             "get": {
                 "security": [
                     {
@@ -2455,7 +2455,7 @@
                 "tags": [
                     "documents"
                 ],
-                "summary": "Download specific document version",
+                "summary": "Download specific file version",
                 "parameters": [
                     {
                         "type": "string",
@@ -2633,6 +2633,101 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/settings": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get the notification settings for the currently authenticated user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Get user notification settings",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.NotificationSettingsResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update the notification settings for the currently authenticated user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Update user notification settings",
+                "parameters": [
+                    {
+                        "description": "New settings",
+                        "name": "settings",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateNotificationSettingsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.NotificationSettingsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
                         }
                     },
                     "500": {
@@ -3610,6 +3705,10 @@
                     "type": "string",
                     "example": "/cases/123"
                 },
+                "entityId": {
+                    "type": "string",
+                    "example": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+                },
                 "message": {
                     "type": "string",
                     "example": "У вас новое уведомление"
@@ -3841,6 +3940,9 @@
                     "type": "string"
                 },
                 "documentId": {
+                    "type": "string"
+                },
+                "documentName": {
                     "type": "string"
                 },
                 "fileSize": {
@@ -4170,6 +4272,9 @@
                 "createdAt": {
                     "type": "string"
                 },
+                "entityId": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -4187,6 +4292,17 @@
                 },
                 "userId": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.NotificationSettingsResponse": {
+            "type": "object",
+            "properties": {
+                "settings": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "boolean"
+                    }
                 }
             }
         },
@@ -4685,6 +4801,21 @@
                 "videoLink": {
                     "type": "string",
                     "example": "https://zoom.us/j/123456789"
+                }
+            }
+        },
+        "dto.UpdateNotificationSettingsRequest": {
+            "type": "object",
+            "required": [
+                "settings"
+            ],
+            "properties": {
+                "settings": {
+                    "description": "Карта настроек, где ключ - это тип уведомления, а значение - boolean.\nПример: {\"case_deadline\": true, \"task_deadline\": false}",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "boolean"
+                    }
                 }
             }
         },
