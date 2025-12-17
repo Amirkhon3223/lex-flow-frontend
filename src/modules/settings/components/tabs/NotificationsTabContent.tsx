@@ -1,116 +1,80 @@
-import { useI18n } from '@/shared/context/I18nContext';
-import { Card } from '@/shared/ui/card';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import { useNotificationsStore } from '@/app/store/notifications.store';
+import { NotificationEventType } from '@/app/types/notifications/notifications.enums';
+import { Button } from '@/shared/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Switch } from '@/shared/ui/switch';
 
+const notificationTypeLabels: Record<NotificationEventType, string> = {
+  [NotificationEventType.CASE_DEADLINE]: 'Case Deadline Reminder',
+  [NotificationEventType.TASK_DEADLINE]: 'Task Deadline Reminder',
+  [NotificationEventType.COURT_DATE]: 'Court Date Reminder',
+  [NotificationEventType.NEW_COMMENT]: 'New Comment',
+  [NotificationEventType.CASE_UPDATE]: 'Case Update',
+  [NotificationEventType.NEW_DOCUMENT]: 'New Document',
+  [NotificationEventType.NEW_MEETING]: 'New Meeting',
+  [NotificationEventType.MEETING_UPDATE]: 'Meeting Update',
+  [NotificationEventType.STATUS_UPDATE]: 'Status Update',
+  [NotificationEventType.NEW_TASK]: 'New Task',
+  [NotificationEventType.TASK_UPDATE]: 'Task Update',
+  [NotificationEventType.TIMELINE_UPDATE]: 'Timeline Update',
+};
+
 export function NotificationsTabContent() {
-  const { t } = useI18n();
+  const {
+    settings: initialSettings,
+    loading,
+    fetchSettings,
+    updateSettings,
+  } = useNotificationsStore();
+  const [settings, setSettings] = useState(initialSettings);
 
-  const emailNotifications = [
-    {
-      labelKey: 'SETTINGS.NOTIFICATIONS.EMAIL.NEW_CASES_LABEL',
-      descKey: 'SETTINGS.NOTIFICATIONS.EMAIL.NEW_CASES_DESC',
-      checked: true,
-    },
-    {
-      labelKey: 'SETTINGS.NOTIFICATIONS.EMAIL.DEADLINES_LABEL',
-      descKey: 'SETTINGS.NOTIFICATIONS.EMAIL.DEADLINES_DESC',
-      checked: true,
-    },
-    {
-      labelKey: 'SETTINGS.NOTIFICATIONS.EMAIL.DOCUMENTS_LABEL',
-      descKey: 'SETTINGS.NOTIFICATIONS.EMAIL.DOCUMENTS_DESC',
-      checked: true,
-    },
-    {
-      labelKey: 'SETTINGS.NOTIFICATIONS.EMAIL.COMMENTS_LABEL',
-      descKey: 'SETTINGS.NOTIFICATIONS.EMAIL.COMMENTS_DESC',
-      checked: false,
-    },
-    {
-      labelKey: 'SETTINGS.NOTIFICATIONS.EMAIL.WEEKLY_REPORT_LABEL',
-      descKey: 'SETTINGS.NOTIFICATIONS.EMAIL.WEEKLY_REPORT_DESC',
-      checked: true,
-    },
-    {
-      labelKey: 'SETTINGS.NOTIFICATIONS.EMAIL.EMAIL_ALERTS_LABEL',
-      descKey: 'SETTINGS.NOTIFICATIONS.EMAIL.EMAIL_ALERTS_DESC',
-      checked: true,
-    },
-  ];
+  useEffect(() => {
+    fetchSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only fetch once on mount
 
-  const pushNotifications = [
-    {
-      labelKey: 'SETTINGS.NOTIFICATIONS.PUSH.URGENT_LABEL',
-      descKey: 'SETTINGS.NOTIFICATIONS.PUSH.URGENT_DESC',
-      checked: true,
-    },
-    {
-      labelKey: 'SETTINGS.NOTIFICATIONS.PUSH.MEETINGS_LABEL',
-      descKey: 'SETTINGS.NOTIFICATIONS.PUSH.MEETINGS_DESC',
-      checked: true,
-    },
-    {
-      labelKey: 'SETTINGS.NOTIFICATIONS.PUSH.MESSAGES_LABEL',
-      descKey: 'SETTINGS.NOTIFICATIONS.PUSH.MESSAGES_DESC',
-      checked: false,
-    },
-  ];
+  useEffect(() => {
+    setSettings(initialSettings);
+  }, [initialSettings]);
+
+  const handleSettingChange = (key: string, value: boolean) => {
+    setSettings((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      await updateSettings(settings);
+      toast.success('Notification settings updated successfully!');
+    } catch (error) {
+      toast.error('Failed to update settings. Please try again.');
+    }
+  };
 
   return (
-    <div className="space-y-4 sm:space-y-6">
-      <Card>
-        <div>
-          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
-            {t('SETTINGS.NOTIFICATIONS.EMAIL.TITLE')}
-          </h3>
-
-          <div className="space-y-2 sm:space-y-3 md:space-y-4">
-            {emailNotifications.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between gap-2 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-muted/50"
-              >
-                <div className="min-w-0">
-                  <h4 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">
-                    {t(item.labelKey)}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
-                    {t(item.descKey)}
-                  </p>
-                </div>
-                <Switch defaultChecked={item.checked} className="flex-shrink-0" />
-              </div>
-            ))}
+    <Card>
+      <CardHeader>
+        <CardTitle>Notification Settings</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {Object.values(NotificationEventType).map((type) => (
+          <div key={type} className="flex items-center justify-between">
+            <label htmlFor={type} className="font-medium">
+              {notificationTypeLabels[type]}
+            </label>
+            <Switch
+              id={type}
+              checked={settings[type] ?? false}
+              onCheckedChange={(value) => handleSettingChange(type, value)}
+              disabled={loading}
+            />
           </div>
-        </div>
-      </Card>
-
-      <Card>
-        <div>
-          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-3 sm:mb-4 md:mb-6">
-            {t('SETTINGS.NOTIFICATIONS.PUSH.TITLE')}
-          </h3>
-
-          <div className="space-y-2 sm:space-y-3 md:space-y-4">
-            {pushNotifications.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between gap-2 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl bg-muted/50"
-              >
-                <div className="min-w-0">
-                  <h4 className="tracking-tight mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">
-                    {t(item.labelKey)}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
-                    {t(item.descKey)}
-                  </p>
-                </div>
-                <Switch defaultChecked={item.checked} className="flex-shrink-0" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </Card>
-    </div>
+        ))}
+        <Button onClick={handleSaveChanges} disabled={loading} className="mt-4">
+          {loading ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </CardContent>
+    </Card>
   );
 }

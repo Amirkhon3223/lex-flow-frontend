@@ -13,10 +13,12 @@ import { useState } from 'react';
 import { Search, Bell, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config.ts';
+import { useNotificationsStore } from '@/app/store/notifications.store';
 import { LanguageSelector } from '@/shared/components/LanguageSelector';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
+import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { GlobalSearchDialog } from './GlobalSearchDialog';
@@ -32,6 +34,7 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { t } = useI18n();
+  const { stats } = useNotificationsStore();
 
   return (
     <>
@@ -83,7 +86,11 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
               onClick={() => setIsNotificationsOpen(true)}
             >
               <Bell className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2} />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
+              {stats.unread > 0 && (
+                <Badge className="absolute top-1 right-1 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-white border-2 border-card">
+                  {stats.unread}
+                </Badge>
+              )}
             </Button>
             <ThemeToggle />
             <LanguageSelector />

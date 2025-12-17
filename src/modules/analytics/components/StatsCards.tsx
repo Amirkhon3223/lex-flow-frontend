@@ -1,8 +1,8 @@
 import { Briefcase, Users, FileText, Calendar } from 'lucide-react';
 import { useAnalyticsStore } from '@/app/store/analytics.store';
 import { useI18n } from '@/shared/context/I18nContext';
-import { StatCard } from '@/shared/ui/stat-card';
 import { Skeleton } from '@/shared/ui/skeleton';
+import { StatCard } from '@/shared/ui/stat-card';
 
 export function StatsCards() {
   const { t } = useI18n();

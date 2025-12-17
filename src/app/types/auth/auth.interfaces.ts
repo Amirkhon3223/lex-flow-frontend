@@ -1,13 +1,27 @@
+export type AccountType = 'individual' | 'organization' | 'sub_account';
+
 export interface User {
   id: string;
   email: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
   name: string;
-  role: string;
+  phone: string;
+  position: string;
+  specialization?: 'labor_law' | 'contract_law' | 'family_law' | 'criminal_law';
+  company?: string;
+  address?: string;
   avatar: string | null;
-  createdAt: string;
+  role: string;
+  accountType: AccountType;
+  organizationId: string | null;
   country?: string;
   city?: string;
   timezone: string;
+  language: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface RegisterRequest {

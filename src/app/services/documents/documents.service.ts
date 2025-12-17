@@ -7,7 +7,6 @@ import type {
   UploadDocumentResponse,
   DocumentVersionInterface,
   CreateDocumentVersionInterface,
-  DocumentVersionListResponse,
 } from '../../types/documents/documents.interfaces';
 
 export const documentsService = {

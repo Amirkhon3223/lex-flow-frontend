@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { authService } from '../services/auth/auth.service';
+import { usersService } from '../services/users/users.service';
 import type { User, LoginRequest, RegisterRequest } from '../types/auth/auth.interfaces';
 
 interface AuthState {
@@ -13,6 +14,8 @@ interface AuthState {
   logout: () => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   setUser: (user: User | null) => void;
+  refreshUser: () => Promise<void>;
+  updateUserData: (userData: Partial<User>) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -89,6 +92,23 @@ export const useAuthStore = create<AuthState>()(
 
       setUser: (user: User | null) => {
         set({ user, isAuthenticated: !!user });
+      },
+
+      refreshUser: async () => {
+        set({ loading: true, error: null });
+        try {
+          const user = await usersService.getMe();
+          set({ user, loading: false });
+        } catch (error) {
+          set({ error: (error as Error).message, loading: false });
+          throw error;
+        }
+      },
+
+      updateUserData: (userData: Partial<User>) => {
+        set((state) => ({
+          user: state.user ? { ...state.user, ...userData } : null,
+        }));
       },
     }),
     {

@@ -14,7 +14,6 @@ import { ROUTES } from '@/app/config/routes.config';
 import { useDashboardStore } from '@/app/store/dashboard.store';
 import { FilterTabs } from '@/modules/cases/ui/FilterTabs';
 import { useI18n } from '@/shared/context/I18nContext';
-import { formatRelativeTime } from '@/shared/utils';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -26,6 +25,7 @@ import {
   DropdownMenuSeparator,
 } from '@/shared/ui/dropdown-menu';
 import { Progress } from '@/shared/ui/progress';
+import { formatRelativeTime } from '@/shared/utils';
 
 export function PriorityCases() {
   const navigate = useNavigate();

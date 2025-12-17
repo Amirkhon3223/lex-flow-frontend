@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Clock, Globe, Mail, Smartphone } from 'lucide-react';
+import { toast } from 'sonner';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -7,14 +8,105 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
+import { useAuthStore } from '@/app/store/auth.store';
+import { usersService } from '@/app/services/users/users.service';
 
 export function ProfileTabContent() {
-  const { t } = useI18n();
+  const { t, changeLanguage } = useI18n();
+  const { user, refreshUser, updateUserData } = useAuthStore();
   const [openSelect, setOpenSelect] = useState<'language' | 'timezone' | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    email: '',
+    phone: '',
+    position: '',
+    company: '',
+    address: '',
+    country: '',
+    city: '',
+  });
+  const [language, setLanguage] = useState<'ru' | 'en'>('ru');
+  const [timezone, setTimezone] = useState('');
 
-  const handleProfileSubmit = (e: React.FormEvent) => {
+  // Load user data on mount
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        middleName: user.middleName || '',
+        email: user.email || '',
+        phone: user.phone || '',
+        position: user.position || '',
+        company: user.company || '',
+        address: user.address || '',
+        country: user.country || '',
+        city: user.city || '',
+      });
+      setLanguage((user.language || 'ru') as 'ru' | 'en');
+      setTimezone(user.timezone || 'Europe/Moscow');
+    }
+  }, []); // Only run once on mount
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Profile saved');
+    setLoading(true);
+
+    try {
+      const updatedUser = await usersService.updateMe({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        middleName: formData.middleName || undefined,
+        phone: formData.phone,
+        position: formData.position,
+        company: formData.company || undefined,
+        address: formData.address || undefined,
+        country: formData.country || undefined,
+        city: formData.city || undefined,
+      });
+
+      updateUserData(updatedUser);
+      toast.success(t('SETTINGS.PROFILE.PROFILE_UPDATED'));
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Profile update error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLanguageChange = async (newLanguage: 'ru' | 'en') => {
+    setLanguage(newLanguage);
+
+    try {
+      await usersService.updateLanguage({ language: newLanguage });
+      updateUserData({ language: newLanguage });
+      changeLanguage(newLanguage);
+      toast.success(t('SETTINGS.PROFILE.LANGUAGE_UPDATED'));
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Language update error:', error);
+    }
+  };
+
+  const handleTimezoneChange = async (newTimezone: string) => {
+    setTimezone(newTimezone);
+
+    try {
+      await usersService.updateTimezone({ timezone: newTimezone });
+      updateUserData({ timezone: newTimezone });
+      toast.success(t('SETTINGS.PROFILE.TIMEZONE_UPDATED'));
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Timezone update error:', error);
+    }
   };
 
   return (
@@ -34,8 +126,10 @@ export function ProfileTabContent() {
                   </Label>
                   <Input
                     id="firstName"
-                    defaultValue="Александр"
+                    value={formData.firstName}
+                    onChange={(e) => handleInputChange('firstName', e.target.value)}
                     className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
+                    required
                   />
                 </div>
                 <div className="space-y-1.5 sm:space-y-2">
@@ -44,8 +138,10 @@ export function ProfileTabContent() {
                   </Label>
                   <Input
                     id="lastName"
-                    defaultValue="Иванов"
+                    value={formData.lastName}
+                    onChange={(e) => handleInputChange('lastName', e.target.value)}
                     className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
+                    required
                   />
                 </div>
               </div>
@@ -62,8 +158,9 @@ export function ProfileTabContent() {
                   <Input
                     id="email"
                     type="email"
-                    defaultValue="aleksandr.ivanov@lexflow.ru"
-                    className="h-9 sm:h-10 md:h-12 pl-9 sm:pl-11 md:pl-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
+                    value={formData.email}
+                    className="h-9 sm:h-10 md:h-12 pl-9 sm:pl-11 md:pl-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm bg-gray-50"
+                    disabled
                   />
                 </div>
               </div>
@@ -80,8 +177,10 @@ export function ProfileTabContent() {
                   <Input
                     id="phone"
                     type="tel"
-                    defaultValue="+7 (999) 123-45-67"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
                     className="h-9 sm:h-10 md:h-12 pl-9 sm:pl-11 md:pl-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
+                    required
                   />
                 </div>
               </div>
@@ -92,8 +191,10 @@ export function ProfileTabContent() {
                 </Label>
                 <Input
                   id="position"
-                  defaultValue="Старший юрист"
+                  value={formData.position}
+                  onChange={(e) => handleInputChange('position', e.target.value)}
                   className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
+                  required
                 />
               </div>
             </div>
@@ -105,14 +206,16 @@ export function ProfileTabContent() {
                 type="button"
                 variant="outline"
                 className="rounded-lg sm:rounded-xl border-gray-200 hover:bg-gray-50 text-xs sm:text-sm h-8 sm:h-9 md:h-10 order-2 sm:order-1"
+                onClick={() => refreshUser()}
               >
                 {t('COMMON.ACTIONS.CANCEL')}
               </Button>
               <Button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-9 md:h-10 order-1 sm:order-2"
+                disabled={loading}
               >
-                {t('SETTINGS.PROFILE.SAVE_CHANGES')}
+                {loading ? t('COMMON.LOADING') : t('SETTINGS.PROFILE.SAVE_CHANGES')}
               </Button>
             </div>
           </form>
@@ -131,7 +234,8 @@ export function ProfileTabContent() {
                 {t('SETTINGS.PROFILE.LANGUAGE')}
               </Label>
               <Select
-                defaultValue="ru"
+                value={language}
+                onValueChange={(value) => handleLanguageChange(value as 'ru' | 'en')}
                 open={openSelect === 'language'}
                 onOpenChange={(open) => setOpenSelect(open ? 'language' : null)}
               >
@@ -151,7 +255,8 @@ export function ProfileTabContent() {
                 {t('SETTINGS.PROFILE.TIMEZONE')}
               </Label>
               <Select
-                defaultValue="msk"
+                value={timezone}
+                onValueChange={handleTimezoneChange}
                 open={openSelect === 'timezone'}
                 onOpenChange={(open) => setOpenSelect(open ? 'timezone' : null)}
               >
@@ -160,9 +265,9 @@ export function ProfileTabContent() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="msk">Москва (GMT+3)</SelectItem>
-                  <SelectItem value="spb">Санкт-Петербург (GMT+3)</SelectItem>
-                  <SelectItem value="ekb">Екатеринбург (GMT+5)</SelectItem>
+                  <SelectItem value="Europe/Moscow">Москва (GMT+3)</SelectItem>
+                  <SelectItem value="Europe/Samara">Самара (GMT+4)</SelectItem>
+                  <SelectItem value="Asia/Yekaterinburg">Екатеринбург (GMT+5)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

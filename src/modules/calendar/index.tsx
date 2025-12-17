@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Sparkles, Video, Phone, Users, User, Scale } from 'lucide-react';
 import { useMeetingsStore } from '@/app/store/meetings.store';
-import {
-  MeetingTypeEnum,
-  MeetingStatusEnum,
-  MeetingPriorityEnum,
-} from '@/app/types/calendar/calendar.enums';
 import type { MeetingInterface } from '@/app/types/calendar/calendar.interfaces';
 import { AddMeetingDialog } from '@/modules/calendar/components/AddMeetingDialog';
 import { CalendarWidget } from '@/modules/calendar/components/CalendarWidget';
