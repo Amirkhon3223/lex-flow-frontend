@@ -1,24 +1,18 @@
 import { useEffect, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { NavLink } from 'react-router-dom';
 import {
   Bell,
-  FileText,
-  Calendar,
   CheckCircle2,
   Trash2,
   X,
   Settings,
-  Briefcase,
-  PenSquare,
-  Clock,
-  MessageSquare,
   Info,
   BadgeAlert,
   BadgeCheck,
   CircleX,
 } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 import { useNotificationsStore } from '@/app/store/notifications.store';
 import { NotificationCategory } from '@/app/types/notifications/notifications.enums';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -85,7 +79,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
         return <Bell className="w-5 h-5 text-muted-foreground" strokeWidth={2} />;
     }
   };
-  
+
   const displayedNotifications =
     currentTab === 'all' ? notifications : notifications.filter((n) => !n.read);
 

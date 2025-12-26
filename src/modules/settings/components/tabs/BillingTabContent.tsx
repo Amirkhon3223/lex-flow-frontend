@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Zap } from 'lucide-react';
 import { toast } from 'sonner';
+import { useBillingStore } from '@/app/store/billing.store';
+import type { PlanInterval } from '@/app/types/billing/billing.interfaces';
 import { PaymentHistoryItem } from '@/modules/settings/components/PaymentHistoryItem';
 import { ChangePlanDialog } from '@/shared/components/ChangePlanDialog';
 import { ManagePaymentDialog } from '@/shared/components/ManagePaymentDialog';
@@ -9,16 +11,15 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
-import { useBillingStore } from '@/app/store/billing.store';
 
 export function BillingTabContent() {
   const { t } = useI18n();
   const {
-    currentPlan,
     subscription,
-    paymentMethod,
+    plans,
     payments,
     fetchSubscription,
+    fetchPlans,
     fetchPayments,
     changePlan,
     downloadReceipt,
@@ -27,11 +28,14 @@ export function BillingTabContent() {
   const [isManagePaymentOpen, setIsManagePaymentOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Get current plan from plans array
+  const currentPlan = plans.find((p) => p.id === subscription?.planId);
+
   // Fetch billing data on mount
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await Promise.all([fetchSubscription(), fetchPayments()]);
+        await Promise.all([fetchSubscription(), fetchPlans(), fetchPayments()]);
       } catch (error) {
         console.error('Failed to fetch billing data:', error);
       }
@@ -48,14 +52,12 @@ export function BillingTabContent() {
     setIsManagePaymentOpen(true);
   };
 
-  const handlePlanSubmit = async (planId: string) => {
-    if (!subscription) return;
-
+  const handlePlanSubmit = async (planId: string, interval: PlanInterval = 'monthly') => {
     setLoading(true);
     try {
       await changePlan({
         planId,
-        interval: subscription.interval,
+        interval,
       });
       toast.success(t('SETTINGS.BILLING.PLAN_CHANGED'));
       setIsChangePlanOpen(false);
@@ -86,10 +88,6 @@ export function BillingTabContent() {
     return `$${amount}`;
   };
 
-  const getIntervalText = (interval: string) => {
-    return interval === 'monthly' ? t('SETTINGS.BILLING.PER_MONTH') : t('SETTINGS.BILLING.PER_YEAR');
-  };
-
   return (
     <>
       <ChangePlanDialog
@@ -113,48 +111,57 @@ export function BillingTabContent() {
                     <Zap className="w-3 h-3 mr-1" strokeWidth={2} />
                     {subscription.status === 'active'
                       ? t('SETTINGS.BILLING.ACTIVE')
-                      : subscription.status.toUpperCase()}
+                      : subscription.status === 'trialing'
+                        ? t('SETTINGS.BILLING.TRIAL')
+                        : subscription.status.toUpperCase()}
                   </Badge>
                   <h3 className="text-xl sm:text-2xl md:text-3xl tracking-tight mb-1 sm:mb-2">
                     {currentPlan.name}
                   </h3>
                   <p className="opacity-90 text-xs sm:text-sm md:text-base">
-                    {currentPlan.description}
+                    {currentPlan.maxUsers > 1
+                      ? `${t('SETTINGS.BILLING.UP_TO')} ${currentPlan.maxUsers} ${t('SETTINGS.BILLING.USERS')}`
+                      : t('SETTINGS.BILLING.SINGLE_USER')}
                   </p>
                 </div>
                 <div className="text-left sm:text-right">
                   <div className="text-2xl sm:text-3xl md:text-4xl tracking-tight mb-0.5 sm:mb-1">
-                    {formatPrice(
-                      subscription.interval === 'monthly'
-                        ? currentPlan.monthlyPrice
-                        : currentPlan.yearlyPrice
-                    )}
+                    {formatPrice(currentPlan.monthlyPrice)}
                   </div>
-                  <p className="opacity-90 text-xs sm:text-sm">
-                    {getIntervalText(subscription.interval)}
-                  </p>
+                  <p className="opacity-90 text-xs sm:text-sm">{t('SETTINGS.BILLING.PER_MONTH')}</p>
                 </div>
               </div>
 
               <Separator className="my-4 sm:my-5 md:my-6 bg-white/20" />
 
               <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
+                {subscription.status === 'trialing' && subscription.trialEnd ? (
+                  <div>
+                    <p className="opacity-75 mb-0.5 sm:mb-1 text-xs sm:text-sm">
+                      {t('SETTINGS.BILLING.TRIAL_ENDS')}
+                    </p>
+                    <p className="text-sm sm:text-base md:text-lg">
+                      {new Date(subscription.trialEnd).toLocaleDateString()}
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="opacity-75 mb-0.5 sm:mb-1 text-xs sm:text-sm">
+                      {t('SETTINGS.BILLING.NEXT_PAYMENT')}
+                    </p>
+                    <p className="text-sm sm:text-base md:text-lg">
+                      {subscription.currentPeriodEnd
+                        ? new Date(subscription.currentPeriodEnd).toLocaleDateString()
+                        : '-'}
+                    </p>
+                  </div>
+                )}
                 <div>
                   <p className="opacity-75 mb-0.5 sm:mb-1 text-xs sm:text-sm">
-                    {t('SETTINGS.BILLING.NEXT_PAYMENT')}
+                    {t('SETTINGS.BILLING.TEAM_SIZE')}
                   </p>
                   <p className="text-sm sm:text-base md:text-lg">
-                    {subscription.currentPeriodEnd
-                      ? new Date(subscription.currentPeriodEnd).toLocaleDateString()
-                      : '-'}
-                  </p>
-                </div>
-                <div>
-                  <p className="opacity-75 mb-0.5 sm:mb-1 text-xs sm:text-sm">
-                    {t('SETTINGS.BILLING.PAYMENT_METHOD')}
-                  </p>
-                  <p className="text-sm sm:text-base md:text-lg">
-                    {paymentMethod ? `•••• ${paymentMethod.last4}` : t('SETTINGS.BILLING.NO_PAYMENT_METHOD')}
+                    {subscription.usersCount} / {subscription.maxUsers}
                   </p>
                 </div>
               </div>
@@ -199,7 +206,7 @@ export function BillingTabContent() {
                       date: new Date(payment.createdAt).toLocaleDateString(),
                       amount: formatPrice(payment.amount),
                       status:
-                        payment.status === 'succeeded'
+                        payment.status === 'paid'
                           ? 'SETTINGS.BILLING.PAID'
                           : payment.status === 'failed'
                             ? 'SETTINGS.BILLING.FAILED'

@@ -9,7 +9,7 @@
  */
 
 import { Languages, Check } from 'lucide-react';
-import type { Language } from '@/app/services/i18n/i18nService';
+import type { Language } from '@/app/services/i18n/i18n.service';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {

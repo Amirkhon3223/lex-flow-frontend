@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { Mail, Phone, MapPin, Upload, LogOut, Trash2, Briefcase } from 'lucide-react';
 import { toast } from 'sonner';
+import { usersService } from '@/app/services/users/users.service';
+import { useAuthStore } from '@/app/store/auth.store';
 import { AvatarCropperModal } from '@/modules/user-profile/ui/AvatarCropperModal';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
@@ -8,8 +10,6 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
-import { useAuthStore } from '@/app/store/auth.store';
-import { usersService } from '@/app/services/users/users.service';
 
 export function ProfileSidebar({
   profileData,
@@ -87,7 +87,8 @@ export function ProfileSidebar({
 
     setLoading(true);
     try {
-      await usersService.deleteAccount();
+      // TODO: Implement proper password and confirmation dialog
+      await usersService.deleteAccount('', '');
       toast.success(t('USER_PROFILE.ACCOUNT_DELETED'));
       onLogout();
     } catch (error) {

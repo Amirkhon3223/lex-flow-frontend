@@ -11,30 +11,13 @@ export type PlanInterval = 'monthly' | 'yearly';
 
 export type PaymentStatus = 'paid' | 'pending' | 'failed' | 'refunded';
 
-export interface PlanFeatures {
-  clients: string;
-  cases: string;
-  storage: string;
-  users: number | string;
-}
-
-export interface TeamFeatures {
-  subAccounts: boolean;
-  maxSubAccounts?: number;
-  roleManagement: boolean;
-  teamCollaboration: boolean;
-}
-
 export interface Plan {
   id: string;
   name: string;
-  description: string;
   monthlyPrice: number;
   yearlyPrice: number;
-  currency: string;
-  features: PlanFeatures;
-  teamFeatures?: TeamFeatures;
-  popular: boolean;
+  maxUsers: number;
+  trialDays: number;
 }
 
 export interface Subscription {
@@ -54,12 +37,20 @@ export interface PaymentMethod {
   expiryYear: number;
 }
 
+/**
+ * Ответ с информацией о подписке
+ * Подписка привязана к Workspace
+ */
 export interface SubscriptionResponse {
-  plan: Plan & {
-    currentInterval: PlanInterval;
-  };
-  subscription: Subscription;
-  paymentMethod?: PaymentMethod;
+  id: string
+  workspaceId: string
+  planId: string
+  status: SubscriptionStatus
+  trialEnd?: string
+  usersCount: number
+  maxUsers: number
+  canAddUsers: boolean
+  currentPeriodEnd?: string
 }
 
 export interface PlansListResponse {
@@ -69,21 +60,6 @@ export interface PlansListResponse {
 export interface ChangePlanRequest {
   planId: string;
   interval: PlanInterval;
-}
-
-export interface ChangePlanResponse {
-  message: string;
-  subscription: Subscription & {
-    planId: string;
-    interval: PlanInterval;
-  };
-  prorationAmount: number;
-  nextBillingDate: string;
-}
-
-export interface CancelSubscriptionRequest {
-  cancelAtPeriodEnd: boolean;
-  reason?: string;
 }
 
 export interface Payment {

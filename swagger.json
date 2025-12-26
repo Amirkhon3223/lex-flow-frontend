@@ -234,6 +234,493 @@
                 }
             }
         },
+        "/api/v1/billing/payment-history": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns paginated payment history for organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Get payment history",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page (default: 20)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PaymentHistoryResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/billing/payment-methods": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns list of payment methods for organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Get payment methods",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.PaymentMethodResponse"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Adds a new payment method for the organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Add payment method",
+                "parameters": [
+                    {
+                        "description": "Add payment method request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AddPaymentMethodRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AddPaymentMethodResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - not organization owner",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/billing/payment-methods/setup": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates Stripe Setup Intent for securely collecting payment method",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Create setup intent",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SetupIntentResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/billing/payment-methods/{paymentMethodId}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a payment method from the organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Delete payment method",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Payment Method ID",
+                        "name": "paymentMethodId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - not organization owner",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Payment method not found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/billing/payments/{paymentId}/receipt": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns receipt URL for a specific payment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Get payment receipt",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Payment ID",
+                        "name": "paymentId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/billing/plans": {
+            "get": {
+                "description": "Returns list of all available subscription plans",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Get available plans",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PlansListResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/billing/subscription": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns the current subscription plan for the user's organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Get current subscription",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubscriptionResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Subscription not found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/billing/subscription/cancel": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cancels the organization's subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Cancel subscription",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - not organization owner",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/billing/subscription/change": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Changes organization subscription plan to a different one",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Change subscription plan",
+                "parameters": [
+                    {
+                        "description": "Change plan request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChangePlanRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubscriptionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - not organization owner",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict - downgrade with too many users",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/billing/subscription/reactivate": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Reactivates a previously cancelled subscription",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Reactivate subscription",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubscriptionResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - not organization owner",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Subscription not found or already active",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
                 "description": "Authenticate user and return JWT token",
@@ -341,474 +828,6 @@
                     },
                     "409": {
                         "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/billing/payment-methods": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Returns list of saved payment methods",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Get payment methods",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.PaymentMethodsListResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Adds a new payment method (card)",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Add payment method",
-                "parameters": [
-                    {
-                        "description": "Payment method details",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.AddPaymentMethodRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.AddPaymentMethodResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/billing/payment-methods/{paymentMethodId}": {
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Deletes a saved payment method",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Delete payment method",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Payment Method ID",
-                        "name": "paymentMethodId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.DeletePaymentMethodResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/billing/payments": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Returns paginated list of payments",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Get payment history",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "default": 1,
-                        "description": "Page number",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "default": 20,
-                        "description": "Items per page",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.PaymentsListResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/billing/payments/{paymentId}/receipt": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Returns receipt URL for a payment",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Get payment receipt",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Payment ID",
-                        "name": "paymentId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/billing/plans": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Returns list of all available subscription plans",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Get available plans",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.PlansListResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/billing/subscription": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Returns the current subscription plan and payment method",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Get current subscription",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.GetSubscriptionResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/billing/subscription/cancel": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Cancels the subscription immediately or at period end",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Cancel subscription",
-                "parameters": [
-                    {
-                        "description": "Cancel request",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.CancelSubscriptionRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.CancelSubscriptionResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/billing/subscription/change": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Changes the current subscription plan with proration",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Change subscription plan",
-                "parameters": [
-                    {
-                        "description": "Plan change request",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ChangePlanRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ChangePlanResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/billing/subscription/reactivate": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Reactivates a cancelled subscription",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Billing"
-                ],
-                "summary": "Reactivate subscription",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ReactivateSubscriptionResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/dto.ErrorResponse"
                         }
@@ -4537,6 +4556,36 @@
                     }
                 }
             }
+        },
+        "/webhooks/stripe": {
+            "post": {
+                "description": "Processes Stripe webhook events for payment and subscription updates",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Webhooks"
+                ],
+                "summary": "Handle Stripe webhook",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid signature or payload",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -4561,29 +4610,12 @@
         "dto.AddPaymentMethodRequest": {
             "type": "object",
             "required": [
-                "cardNumber",
-                "cardholderName",
-                "cvv",
-                "expiryMonth",
-                "expiryYear"
+                "paymentMethodId"
             ],
             "properties": {
-                "cardNumber": {
+                "paymentMethodId": {
+                    "description": "Stripe Payment Method ID from frontend",
                     "type": "string"
-                },
-                "cardholderName": {
-                    "type": "string"
-                },
-                "cvv": {
-                    "type": "string"
-                },
-                "expiryMonth": {
-                    "type": "integer",
-                    "maximum": 12,
-                    "minimum": 1
-                },
-                "expiryYear": {
-                    "type": "integer"
                 }
             }
         },
@@ -4594,13 +4626,16 @@
                     "type": "string"
                 },
                 "paymentMethod": {
-                    "$ref": "#/definitions/dto.PaymentMethodInfo"
+                    "$ref": "#/definitions/dto.PaymentMethodResponse"
                 }
             }
         },
         "dto.AuthResponse": {
             "type": "object",
             "properties": {
+                "organization": {
+                    "$ref": "#/definitions/dto.OrganizationInfo"
+                },
                 "token": {
                     "type": "string"
                 },
@@ -4668,31 +4703,6 @@
             "properties": {
                 "message": {
                     "type": "string"
-                }
-            }
-        },
-        "dto.CancelSubscriptionRequest": {
-            "type": "object",
-            "required": [
-                "cancelAtPeriodEnd"
-            ],
-            "properties": {
-                "cancelAtPeriodEnd": {
-                    "type": "boolean"
-                },
-                "reason": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.CancelSubscriptionResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "subscription": {
-                    "$ref": "#/definitions/dto.SubscriptionInfo"
                 }
             }
         },
@@ -4936,23 +4946,6 @@
                 },
                 "planId": {
                     "type": "string"
-                }
-            }
-        },
-        "dto.ChangePlanResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "nextBillingDate": {
-                    "type": "string"
-                },
-                "prorationAmount": {
-                    "type": "number"
-                },
-                "subscription": {
-                    "$ref": "#/definitions/dto.SubscriptionInfo"
                 }
             }
         },
@@ -5595,14 +5588,6 @@
                 }
             }
         },
-        "dto.DeletePaymentMethodResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
         "dto.Disable2FARequest": {
             "type": "object",
             "required": [
@@ -5871,20 +5856,6 @@
                 },
                 "enabledAt": {
                     "type": "string"
-                }
-            }
-        },
-        "dto.GetSubscriptionResponse": {
-            "type": "object",
-            "properties": {
-                "paymentMethod": {
-                    "$ref": "#/definitions/dto.PaymentMethodInfo"
-                },
-                "plan": {
-                    "$ref": "#/definitions/dto.PlanResponse"
-                },
-                "subscription": {
-                    "$ref": "#/definitions/dto.SubscriptionInfo"
                 }
             }
         },
@@ -6244,6 +6215,29 @@
                 }
             }
         },
+        "dto.OrganizationInfo": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "planId": {
+                    "type": "string"
+                },
+                "planName": {
+                    "type": "string"
+                },
+                "trialEnd": {
+                    "type": "string"
+                },
+                "usersCount": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.PaginationResponse": {
             "type": "object",
             "properties": {
@@ -6261,58 +6255,23 @@
                 }
             }
         },
-        "dto.PaymentListItem": {
+        "dto.PaymentHistoryResponse": {
             "type": "object",
             "properties": {
-                "amount": {
-                    "type": "number"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "currency": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "invoiceNumber": {
-                    "type": "string"
-                },
-                "paidAt": {
-                    "type": "string"
-                },
-                "paymentMethod": {
-                    "$ref": "#/definitions/dto.PaymentMethodShort"
-                },
-                "receiptUrl": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.PaymentMethodInfo": {
-            "type": "object",
-            "properties": {
-                "brand": {
-                    "type": "string"
-                },
-                "expiryMonth": {
+                "limit": {
                     "type": "integer"
                 },
-                "expiryYear": {
+                "page": {
                     "type": "integer"
                 },
-                "last4": {
-                    "type": "string"
+                "payments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.PaymentResponse"
+                    }
                 },
-                "type": {
-                    "type": "string"
+                "total": {
+                    "type": "integer"
                 }
             }
         },
@@ -6322,82 +6281,28 @@
                 "brand": {
                     "type": "string"
                 },
-                "createdAt": {
+                "id": {
                     "type": "string"
                 },
-                "expiryMonth": {
-                    "type": "integer"
+                "last4": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.PaymentResponse": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
                 },
-                "expiryYear": {
-                    "type": "integer"
+                "date": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "isDefault": {
-                    "type": "boolean"
-                },
-                "last4": {
+                "status": {
                     "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.PaymentMethodShort": {
-            "type": "object",
-            "properties": {
-                "last4": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.PaymentMethodsListResponse": {
-            "type": "object",
-            "properties": {
-                "paymentMethods": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.PaymentMethodResponse"
-                    }
-                }
-            }
-        },
-        "dto.PaymentsListResponse": {
-            "type": "object",
-            "properties": {
-                "pagination": {
-                    "$ref": "#/definitions/dto.PaginationResponse"
-                },
-                "payments": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.PaymentListItem"
-                    }
-                }
-            }
-        },
-        "dto.PlanFeatures": {
-            "type": "object",
-            "properties": {
-                "cases": {
-                    "description": "\"100\", \"unlimited\"",
-                    "type": "string"
-                },
-                "clients": {
-                    "description": "\"50\", \"unlimited\"",
-                    "type": "string"
-                },
-                "storage": {
-                    "description": "\"10GB\", \"100GB\", \"unlimited\"",
-                    "type": "string"
-                },
-                "users": {
-                    "type": "integer"
                 }
             }
         },
@@ -6407,14 +6312,12 @@
                 "currency": {
                     "type": "string"
                 },
-                "description": {
-                    "type": "string"
-                },
-                "features": {
-                    "$ref": "#/definitions/dto.PlanFeatures"
-                },
                 "id": {
                     "type": "string"
+                },
+                "maxUsers": {
+                    "description": "1, 1, or 8",
+                    "type": "integer"
                 },
                 "monthlyPrice": {
                     "type": "number"
@@ -6423,10 +6326,12 @@
                     "type": "string"
                 },
                 "popular": {
+                    "description": "Pro Max is popular",
                     "type": "boolean"
                 },
-                "teamFeatures": {
-                    "$ref": "#/definitions/dto.TeamFeatures"
+                "trialDays": {
+                    "description": "15 for basic, 0 for others",
+                    "type": "integer"
                 },
                 "yearlyPrice": {
                     "type": "number"
@@ -6441,17 +6346,6 @@
                     "items": {
                         "$ref": "#/definitions/dto.PlanResponse"
                     }
-                }
-            }
-        },
-        "dto.ReactivateSubscriptionResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "subscription": {
-                    "$ref": "#/definitions/dto.SubscriptionInfo"
                 }
             }
         },
@@ -6635,14 +6529,21 @@
                 }
             }
         },
-        "dto.SubscriptionInfo": {
+        "dto.SetupIntentResponse": {
             "type": "object",
             "properties": {
-                "cancelAtPeriodEnd": {
-                    "type": "boolean"
-                },
-                "createdAt": {
+                "clientSecret": {
+                    "description": "For Stripe.js on frontend",
                     "type": "string"
+                }
+            }
+        },
+        "dto.SubscriptionResponse": {
+            "type": "object",
+            "properties": {
+                "canAddUsers": {
+                    "description": "Whether can add more",
+                    "type": "boolean"
                 },
                 "currentPeriodEnd": {
                     "type": "string"
@@ -6653,8 +6554,30 @@
                 "id": {
                     "type": "string"
                 },
-                "status": {
+                "interval": {
+                    "description": "monthly, yearly",
                     "type": "string"
+                },
+                "maxUsers": {
+                    "description": "Max allowed for this plan",
+                    "type": "integer"
+                },
+                "planId": {
+                    "type": "string"
+                },
+                "planName": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "active, trialing, past_due, canceled",
+                    "type": "string"
+                },
+                "trialEnd": {
+                    "type": "string"
+                },
+                "usersCount": {
+                    "description": "Current users in organization",
+                    "type": "integer"
                 }
             }
         },
@@ -6698,23 +6621,6 @@
                     "items": {
                         "$ref": "#/definitions/dto.LawyerStats"
                     }
-                }
-            }
-        },
-        "dto.TeamFeatures": {
-            "type": "object",
-            "properties": {
-                "maxSubAccounts": {
-                    "type": "integer"
-                },
-                "roleManagement": {
-                    "type": "boolean"
-                },
-                "subAccounts": {
-                    "type": "boolean"
-                },
-                "teamCollaboration": {
-                    "type": "boolean"
                 }
             }
         },
@@ -7305,6 +7211,9 @@
         "dto.UserInfo": {
             "type": "object",
             "properties": {
+                "accountType": {
+                    "type": "string"
+                },
                 "city": {
                     "type": "string"
                 },
@@ -7318,6 +7227,9 @@
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "organizationId": {
                     "type": "string"
                 },
                 "role": {

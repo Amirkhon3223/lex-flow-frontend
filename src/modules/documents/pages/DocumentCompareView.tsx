@@ -53,6 +53,7 @@ export function DocumentCompareView() {
       isCurrent: true,
       uploadedBy: 'user-1',
       uploadedByName: 'Александр Иванов',
+      authorName: 'Александр Иванов',
       createdAt: '2025-10-15T14:30:00Z',
     },
     {
@@ -66,6 +67,7 @@ export function DocumentCompareView() {
       isCurrent: false,
       uploadedBy: 'user-1',
       uploadedByName: 'Александр Иванов',
+      authorName: 'Александр Иванов',
       createdAt: '2025-10-12T16:45:00Z',
     },
     {
@@ -79,6 +81,7 @@ export function DocumentCompareView() {
       isCurrent: false,
       uploadedBy: 'user-1',
       uploadedByName: 'Александр Иванов',
+      authorName: 'Александр Иванов',
       createdAt: '2025-10-10T10:15:00Z',
     },
   ];

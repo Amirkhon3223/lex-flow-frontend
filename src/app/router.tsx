@@ -1,29 +1,48 @@
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import { MeetingDetailPage } from '@/modules/calendar/pages/MeetingDetailPage';
-import ClientDetailPage from '@/modules/clients/pages/ClientDetailPage';
-import AiAssistantPage from '@/pages/AiAssistantPage';
-import AnalyticsPage from '@/pages/AnalyticsPage';
-import AuthPage from '@/pages/AuthPage.tsx';
-import CalendarPage from '@/pages/CalendarPage';
-import CaseDetailPage from '@/pages/CaseDetailPage';
-import CasesPage from '@/pages/CasesPage';
-import ClientsPage from '@/pages/ClientsPage';
-import DashboardPage from '@/pages/DashboardPage';
-import DocumentComparePage from '@/pages/DocumentComparePage';
-import DocumentsPage from '@/pages/DocumentsPage';
-import DocumentVersionsPage from '@/pages/DocumentVersionsPage';
-import NotificationsPage from '@/pages/NotificationsPage';
-import SettingsPage from '@/pages/SettingsPage';
-import UserProfilePage from '@/pages/UserProfilePage';
 import { Layout } from '@/shared/components/Layout';
 import { ROUTES } from './config/routes.config';
 import { AuthGuard } from './guards/auth.guard';
+
+// Lazy load все страницы для code splitting
+const AuthPage = lazy(() => import('@/pages/AuthPage'));
+const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
+const ClientsPage = lazy(() => import('@/pages/ClientsPage'));
+const ClientDetailPage = lazy(() => import('@/modules/clients/pages/ClientDetailPage'));
+const CasesPage = lazy(() => import('@/pages/CasesPage'));
+const CaseDetailPage = lazy(() => import('@/pages/CaseDetailPage'));
+const DocumentsPage = lazy(() => import('@/pages/DocumentsPage'));
+const DocumentVersionsPage = lazy(() => import('@/pages/DocumentVersionsPage'));
+const DocumentComparePage = lazy(() => import('@/pages/DocumentComparePage'));
+const CalendarPage = lazy(() => import('@/pages/CalendarPage'));
+const MeetingDetailPage = lazy(() => import('@/modules/calendar/pages/MeetingDetailPage').then(m => ({ default: m.MeetingDetailPage })));
+const AnalyticsPage = lazy(() => import('@/pages/AnalyticsPage'));
+const AiAssistantPage = lazy(() => import('@/pages/AiAssistantPage'));
+const NotificationsPage = lazy(() => import('@/pages/NotificationsPage'));
+const SettingsPage = lazy(() => import('@/pages/SettingsPage'));
+const UserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
+
+// Loading component для Suspense
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+  </div>
+);
+
+// Wrapper для Suspense
+const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<PageLoader />}>{children}</Suspense>
+);
 
 export const router = createBrowserRouter([
   // Публичные маршруты
   {
     path: ROUTES.AUTH.LOGIN,
-    element: <AuthPage />,
+    element: (
+      <SuspenseWrapper>
+        <AuthPage />
+      </SuspenseWrapper>
+    ),
   },
   // Защищенные маршруты с Layout
   {
@@ -35,63 +54,123 @@ export const router = createBrowserRouter([
     children: [
       {
         path: ROUTES.DASHBOARD,
-        element: <DashboardPage />,
+        element: (
+          <SuspenseWrapper>
+            <DashboardPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.CLIENTS.BASE,
-        element: <ClientsPage />,
+        element: (
+          <SuspenseWrapper>
+            <ClientsPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: '/clients/:id',
-        element: <ClientDetailPage />,
+        element: (
+          <SuspenseWrapper>
+            <ClientDetailPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.CASES.BASE,
-        element: <CasesPage />,
+        element: (
+          <SuspenseWrapper>
+            <CasesPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: '/cases/:id',
-        element: <CaseDetailPage />,
+        element: (
+          <SuspenseWrapper>
+            <CaseDetailPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.DOCUMENTS.BASE,
-        element: <DocumentsPage />,
+        element: (
+          <SuspenseWrapper>
+            <DocumentsPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.DOCUMENTS.DETAIL(':id'),
-        element: <DocumentVersionsPage />,
+        element: (
+          <SuspenseWrapper>
+            <DocumentVersionsPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: '/documents/:id/compare',
-        element: <DocumentComparePage />,
+        element: (
+          <SuspenseWrapper>
+            <DocumentComparePage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.CALENDAR,
-        element: <CalendarPage />,
+        element: (
+          <SuspenseWrapper>
+            <CalendarPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: '/calendar/meetings/:id',
-        element: <MeetingDetailPage />,
+        element: (
+          <SuspenseWrapper>
+            <MeetingDetailPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.ANALYTICS,
-        element: <AnalyticsPage />,
+        element: (
+          <SuspenseWrapper>
+            <AnalyticsPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.AI_ASSISTANT,
-        element: <AiAssistantPage />,
+        element: (
+          <SuspenseWrapper>
+            <AiAssistantPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.NOTIFICATIONS,
-        element: <NotificationsPage />,
+        element: (
+          <SuspenseWrapper>
+            <NotificationsPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.SETTINGS,
-        element: <SettingsPage />,
+        element: (
+          <SuspenseWrapper>
+            <SettingsPage />
+          </SuspenseWrapper>
+        ),
       },
       {
         path: ROUTES.USER_PROFILE,
-        element: <UserProfilePage />,
+        element: (
+          <SuspenseWrapper>
+            <UserProfilePage />
+          </SuspenseWrapper>
+        ),
       },
     ],
   },

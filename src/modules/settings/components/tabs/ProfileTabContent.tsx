@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Clock, Globe, Mail, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';
+import { usersService } from '@/app/services/users/users.service';
+import { useAuthStore } from '@/app/store/auth.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -8,11 +10,9 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
-import { useAuthStore } from '@/app/store/auth.store';
-import { usersService } from '@/app/services/users/users.service';
 
 export function ProfileTabContent() {
-  const { t, changeLanguage } = useI18n();
+  const { t, setLanguage } = useI18n();
   const { user, refreshUser, updateUserData } = useAuthStore();
   const [openSelect, setOpenSelect] = useState<'language' | 'timezone' | null>(null);
   const [loading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ export function ProfileTabContent() {
     country: '',
     city: '',
   });
-  const [language, setLanguage] = useState<'ru' | 'en'>('ru');
+  const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en'>('ru');
   const [timezone, setTimezone] = useState('');
 
   // Load user data on mount
@@ -46,7 +46,7 @@ export function ProfileTabContent() {
         country: user.country || '',
         city: user.city || '',
       });
-      setLanguage((user.language || 'ru') as 'ru' | 'en');
+      setCurrentLanguage((user.language || 'ru') as 'ru' | 'en');
       setTimezone(user.timezone || 'Europe/Moscow');
     }
   }, []); // Only run once on mount
@@ -83,12 +83,10 @@ export function ProfileTabContent() {
   };
 
   const handleLanguageChange = async (newLanguage: 'ru' | 'en') => {
-    setLanguage(newLanguage);
-
     try {
       await usersService.updateLanguage({ language: newLanguage });
+      await setLanguage(newLanguage);
       updateUserData({ language: newLanguage });
-      changeLanguage(newLanguage);
       toast.success(t('SETTINGS.PROFILE.LANGUAGE_UPDATED'));
     } catch (error) {
       toast.error(t('COMMON.ERRORS.GENERIC'));
@@ -234,7 +232,7 @@ export function ProfileTabContent() {
                 {t('SETTINGS.PROFILE.LANGUAGE')}
               </Label>
               <Select
-                value={language}
+                value={currentLanguage}
                 onValueChange={(value) => handleLanguageChange(value as 'ru' | 'en')}
                 open={openSelect === 'language'}
                 onOpenChange={(open) => setOpenSelect(open ? 'language' : null)}

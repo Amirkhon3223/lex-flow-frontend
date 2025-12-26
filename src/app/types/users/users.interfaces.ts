@@ -39,7 +39,7 @@ export interface UpdateUserProfileRequest {
 
 export interface UserStatsResponse {
   activeCases: number;
-  clients: number;
+  totalClients: number;
   completedCases: number;
   daysInSystem: number;
 }

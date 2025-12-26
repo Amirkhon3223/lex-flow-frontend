@@ -4,8 +4,6 @@ import type {
   SubscriptionResponse,
   PlansListResponse,
   ChangePlanRequest,
-  ChangePlanResponse,
-  CancelSubscriptionRequest,
   PaymentsListResponse,
   PaymentMethodsListResponse,
   AddPaymentMethodRequest,
@@ -27,8 +25,8 @@ export const billingService = {
   },
 
   // Change subscription plan
-  changePlan: async (data: ChangePlanRequest): Promise<ChangePlanResponse> => {
-    const response = await httpClient.post<ChangePlanResponse>(
+  changePlan: async (data: ChangePlanRequest): Promise<SuccessResponse> => {
+    const response = await httpClient.post<SuccessResponse>(
       '/billing/subscription/change',
       data
     );
@@ -36,18 +34,9 @@ export const billingService = {
   },
 
   // Cancel subscription
-  cancelSubscription: async (data: CancelSubscriptionRequest): Promise<SuccessResponse> => {
+  cancelSubscription: async (): Promise<SuccessResponse> => {
     const response = await httpClient.post<SuccessResponse>(
-      '/billing/subscription/cancel',
-      data
-    );
-    return response.data;
-  },
-
-  // Reactivate subscription
-  reactivateSubscription: async (): Promise<SuccessResponse> => {
-    const response = await httpClient.post<SuccessResponse>(
-      '/billing/subscription/reactivate'
+      '/billing/subscription/cancel'
     );
     return response.data;
   },

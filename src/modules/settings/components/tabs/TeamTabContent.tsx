@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Users } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAuthStore } from '@/app/store/auth.store';
+import { useTeamStore } from '@/app/store/team.store';
 import { TeamMemberItem } from '@/modules/settings/components/TeamMemberItem';
 import { InviteTeamMemberDialog } from '@/shared/components/InviteTeamMemberDialog';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
-import { Badge } from '@/shared/ui/badge';
-import { useTeamStore } from '@/app/store/team.store';
-import { useAuthStore } from '@/app/store/auth.store';
 
 export function TeamTabContent() {
   const { t } = useI18n();
-  const { user } = useAuthStore();
+  const { workspace, role } = useAuthStore();
   const { members, invites, availableSlots, maxMembers, fetchMembers, fetchInvites, inviteMember } =
     useTeamStore();
   const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
@@ -31,8 +31,10 @@ export function TeamTabContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only fetch once on mount
 
-  // Only show team tab if user has Pro Max plan (organization or sub_account)
-  const canManageTeam = user?.accountType === 'organization';
+  // Team management только на Pro Max плане
+  const hasProMaxPlan = workspace?.planId === 'pro_max';
+  // Управление командой доступно owner и admin
+  const canManageTeam = (role === 'owner' || role === 'admin') && hasProMaxPlan;
 
   const handleInvite = () => {
     if (availableSlots <= 0) {
@@ -152,7 +154,7 @@ export function TeamTabContent() {
                         <p className="text-xs sm:text-sm font-medium">{invite.email}</p>
                         <p className="text-xs text-muted-foreground">
                           {getRoleTranslation(invite.role)} • {t('SETTINGS.TEAM.INVITED')}{' '}
-                          {new Date(invite.invitedAt).toLocaleDateString()}
+                          {new Date(invite.createdAt).toLocaleDateString()}
                         </p>
                       </div>
                       <Badge variant="outline" className="text-xs">

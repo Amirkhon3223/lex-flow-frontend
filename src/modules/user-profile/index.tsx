@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, Save, Briefcase, User, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { usersService } from '@/app/services/users/users.service';
+import { useAuthStore } from '@/app/store/auth.store';
 import { handleLogout } from '@/app/utils/authUtils';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { ProfileSidebar } from './widgets/ProfileSidebar';
 import { ProfileTabs } from './widgets/ProfileTabs';
-import { useAuthStore } from '@/app/store/auth.store';
-import { usersService } from '@/app/services/users/users.service';
 
 export default function UserProfilePage() {
   const { t } = useI18n();

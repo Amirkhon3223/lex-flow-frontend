@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { Pagination } from '@/app/types/api/api.types';
 import { notificationsSettingsService } from '../services/notifications/notifications-settings.service';
 import { notificationsService } from '../services/notifications/notifications.service';
 import type {
@@ -6,7 +7,6 @@ import type {
   NotificationSettings,
   NotificationStatsResponse,
 } from '../types/notifications/notifications.interfaces';
-import type { Pagination } from '@/app/types/api/api.types';
 
 interface NotificationsState {
   notifications: Notification[];
@@ -95,7 +95,7 @@ export const useNotificationsStore = create<NotificationsState>((set, get) => ({
         if (notification && !notification.read) {
           return {
             notifications: state.notifications.map((n) =>
-              n.id === id ? { ...n, read: true } : n,
+              n.id === id ? { ...n, read: true } : n
             ),
             stats: {
               ...state.stats,

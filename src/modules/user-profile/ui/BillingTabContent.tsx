@@ -1,22 +1,25 @@
 import { useEffect } from 'react';
 import { Eye } from 'lucide-react';
 import { toast } from 'sonner';
+import { useBillingStore } from '@/app/store/billing.store';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
-import { useI18n } from '@/shared/context/I18nContext';
-import { useBillingStore } from '@/app/store/billing.store';
 
 export function BillingTabContent() {
   const { t } = useI18n();
-  const { currentPlan, subscription, payments, fetchSubscription, fetchPayments, downloadReceipt } =
+  const { subscription, plans, payments, fetchSubscription, fetchPlans, fetchPayments, downloadReceipt } =
     useBillingStore();
+
+  // Get current plan from plans array
+  const currentPlan = plans.find((p) => p.id === subscription?.planId);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await Promise.all([fetchSubscription(), fetchPayments(1, 5)]);
+        await Promise.all([fetchSubscription(), fetchPlans(), fetchPayments(1, 5)]);
       } catch (error) {
         console.error('Failed to fetch billing data:', error);
       }
@@ -36,10 +39,6 @@ export function BillingTabContent() {
   };
 
   const formatPrice = (amount: number) => `$${amount}`;
-
-  const getIntervalText = (interval: string) => {
-    return interval === 'monthly' ? t('SETTINGS.BILLING.PER_MONTH') : t('SETTINGS.BILLING.PER_YEAR');
-  };
 
   if (!currentPlan || !subscription) {
     return (
@@ -63,22 +62,23 @@ export function BillingTabContent() {
                 {currentPlan.name}
               </h3>
               <p className="text-xs sm:text-sm opacity-90">
-                {subscription.currentPeriodEnd
-                  ? `${t('SETTINGS.BILLING.ACTIVE_UNTIL')} ${new Date(subscription.currentPeriodEnd).toLocaleDateString()}`
-                  : '-'}
+                {subscription.status === 'trialing' && subscription.trialEnd
+                  ? `${t('SETTINGS.BILLING.TRIAL_ENDS')} ${new Date(subscription.trialEnd).toLocaleDateString()}`
+                  : subscription.currentPeriodEnd
+                    ? `${t('SETTINGS.BILLING.ACTIVE_UNTIL')} ${new Date(subscription.currentPeriodEnd).toLocaleDateString()}`
+                    : '-'}
               </p>
             </div>
             <Badge className="bg-white/20 text-white border-0 w-fit text-xs sm:text-sm">
               {subscription.status === 'active'
                 ? t('SETTINGS.BILLING.ACTIVE')
-                : subscription.status.toUpperCase()}
+                : subscription.status === 'trialing'
+                  ? t('SETTINGS.BILLING.TRIAL')
+                  : subscription.status.toUpperCase()}
             </Badge>
           </div>
           <div className="text-2xl sm:text-3xl tracking-tight mb-4 sm:mb-6">
-            {formatPrice(
-              subscription.interval === 'monthly' ? currentPlan.monthlyPrice : currentPlan.yearlyPrice
-            )}{' '}
-            / {getIntervalText(subscription.interval)}
+            {formatPrice(currentPlan.monthlyPrice)} / {t('SETTINGS.BILLING.PER_MONTH')}
           </div>
           <Button className="w-full bg-white/20 hover:bg-white/30 border-0 rounded-lg sm:rounded-xl backdrop-blur-sm text-white text-xs sm:text-sm h-8 sm:h-10">
             {t('SETTINGS.BILLING.MANAGE_SUBSCRIPTION')}
@@ -88,15 +88,19 @@ export function BillingTabContent() {
 
       <div>
         <h3 className="text-base sm:text-lg tracking-tight mb-3 sm:mb-4">
-          {t('SETTINGS.BILLING.PLAN_FEATURES')}
+          {t('SETTINGS.BILLING.PLAN_INFO')}
         </h3>
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
-          {currentPlan.features.map((feature, index) => (
-            <div key={index} className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-muted/50">
-              <div className="tracking-tight mb-1 text-xs sm:text-sm">{feature.name}</div>
-              <div className="text-lg sm:text-2xl text-blue-500">{feature.value}</div>
+          <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-muted/50">
+            <div className="tracking-tight mb-1 text-xs sm:text-sm">{t('SETTINGS.BILLING.MAX_USERS')}</div>
+            <div className="text-lg sm:text-2xl text-blue-500">{currentPlan.maxUsers}</div>
+          </div>
+          <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-muted/50">
+            <div className="tracking-tight mb-1 text-xs sm:text-sm">{t('SETTINGS.BILLING.TEAM_SIZE')}</div>
+            <div className="text-lg sm:text-2xl text-blue-500">
+              {subscription.usersCount} / {subscription.maxUsers}
             </div>
-          ))}
+          </div>
         </div>
       </div>
 

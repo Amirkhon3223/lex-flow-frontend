@@ -1,21 +1,18 @@
 import { create } from 'zustand';
 import { billingService } from '../services/billing/billing.service';
+import type { Pagination } from '../types/api/api.types';
 import type {
   Plan,
-  Subscription,
+  SubscriptionResponse,
   PaymentMethod,
   Payment,
   ChangePlanRequest,
-  CancelSubscriptionRequest,
   AddPaymentMethodRequest,
   PaymentMethodFull,
-  PlanInterval,
 } from '../types/billing/billing.interfaces';
-import type { Pagination } from '../types/api/api.types';
 
 interface BillingState {
-  currentPlan: (Plan & { currentInterval: PlanInterval }) | null;
-  subscription: Subscription | null;
+  subscription: SubscriptionResponse | null;
   paymentMethod: PaymentMethod | null;
   plans: Plan[];
   payments: Payment[];
@@ -26,8 +23,7 @@ interface BillingState {
   fetchSubscription: () => Promise<void>;
   fetchPlans: () => Promise<void>;
   changePlan: (data: ChangePlanRequest) => Promise<void>;
-  cancelSubscription: (data: CancelSubscriptionRequest) => Promise<void>;
-  reactivateSubscription: () => Promise<void>;
+  cancelSubscription: () => Promise<void>;
   fetchPayments: (page?: number, limit?: number) => Promise<void>;
   downloadReceipt: (paymentId: string) => Promise<void>;
   fetchPaymentMethods: () => Promise<void>;
@@ -36,7 +32,6 @@ interface BillingState {
 }
 
 export const useBillingStore = create<BillingState>((set, get) => ({
-  currentPlan: null,
   subscription: null,
   paymentMethod: null,
   plans: [],
@@ -51,9 +46,7 @@ export const useBillingStore = create<BillingState>((set, get) => ({
     try {
       const response = await billingService.getSubscription();
       set({
-        currentPlan: response.plan,
-        subscription: response.subscription,
-        paymentMethod: response.paymentMethod || null,
+        subscription: response,
         loading: false,
       });
     } catch (error) {
@@ -77,7 +70,7 @@ export const useBillingStore = create<BillingState>((set, get) => ({
   changePlan: async (data: ChangePlanRequest) => {
     set({ loading: true, error: null });
     try {
-      const response = await billingService.changePlan(data);
+      await billingService.changePlan(data);
       // Refresh subscription after change
       await get().fetchSubscription();
       set({ loading: false });
@@ -87,24 +80,11 @@ export const useBillingStore = create<BillingState>((set, get) => ({
     }
   },
 
-  cancelSubscription: async (data: CancelSubscriptionRequest) => {
+  cancelSubscription: async () => {
     set({ loading: true, error: null });
     try {
-      await billingService.cancelSubscription(data);
+      await billingService.cancelSubscription();
       // Refresh subscription after cancellation
-      await get().fetchSubscription();
-      set({ loading: false });
-    } catch (error) {
-      set({ error: (error as Error).message, loading: false });
-      throw error;
-    }
-  },
-
-  reactivateSubscription: async () => {
-    set({ loading: true, error: null });
-    try {
-      await billingService.reactivateSubscription();
-      // Refresh subscription after reactivation
       await get().fetchSubscription();
       set({ loading: false });
     } catch (error) {

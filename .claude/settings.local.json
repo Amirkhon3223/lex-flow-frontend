@@ -21,7 +21,8 @@
       "Bash(python3:*)",
       "Bash(npm run:*)",
       "Bash(ls:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(wc:*)"
     ],
     "deny": [],
     "ask": []

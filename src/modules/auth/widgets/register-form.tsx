@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Mail, Lock, User, Building2, Sparkles } from 'lucide-react';
+import { Mail, Lock, User, Building2, Sparkles, Phone } from 'lucide-react';
 import { toast } from 'sonner';
 import { COUNTRIES, CITIES } from '@/app/constants/locations';
 import type { RegisterFormProps } from '@/app/types/auth/auth.interfaces';
@@ -19,6 +19,7 @@ export function RegisterForm({
   firmName,
   country,
   city,
+  phone,
   onFirstNameChange,
   onLastNameChange,
   onEmailChange,
@@ -26,6 +27,7 @@ export function RegisterForm({
   onFirmNameChange,
   onCountryChange,
   onCityChange,
+  onPhoneChange,
   onSubmit,
 }: RegisterFormProps) {
   const { t } = useI18n();
@@ -108,6 +110,20 @@ export function RegisterForm({
             onChange={(e) => onFirmNameChange(e.target.value)}
             className="pl-11 h-12 rounded-xl bg-slate-50/50 border-slate-200"
             required
+          />
+        </div>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label>Phone</Label>
+        <div className="relative">
+          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <Input
+            type="tel"
+            placeholder="+1 234 567 890"
+            value={phone}
+            onChange={(e) => onPhoneChange(e.target.value)}
+            className="pl-11 h-12 rounded-xl bg-slate-50/50 border-slate-200"
           />
         </div>
       </div>

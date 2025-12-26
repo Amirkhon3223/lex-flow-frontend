@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Lock, Shield } from 'lucide-react';
 import { toast } from 'sonner';
+import { securityService } from '@/app/services/security/security.service';
+import type { Session } from '@/app/types/security/security.interfaces';
 import { SessionItem } from '@/modules/settings/components/SessionItem';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
@@ -8,8 +10,6 @@ import { Card } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Separator } from '@/shared/ui/separator';
-import { securityService } from '@/app/services/security/security.service';
-import type { Session } from '@/app/types/security/security.interfaces';
 
 export function SecurityTabContent() {
   const { t } = useI18n();
@@ -55,8 +55,9 @@ export function SecurityTabContent() {
     setLoading(true);
     try {
       await securityService.changePassword({
-        oldPassword: passwordForm.currentPassword,
+        currentPassword: passwordForm.currentPassword,
         newPassword: passwordForm.newPassword,
+        confirmPassword: passwordForm.confirmPassword,
       });
       toast.success(t('SETTINGS.SECURITY.PASSWORD_UPDATED'));
       setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
@@ -72,7 +73,8 @@ export function SecurityTabContent() {
     setLoading(true);
     try {
       if (twoFactorEnabled) {
-        await securityService.disable2FA();
+        // TODO: Implement proper 2FA disable with password and code verification
+        await securityService.disable2FA({ password: '', code: '' });
         setTwoFactorEnabled(false);
         toast.success(t('SETTINGS.SECURITY.TWO_FACTOR_DISABLED'));
       }
@@ -239,9 +241,9 @@ export function SecurityTabContent() {
                   key={session.id}
                   session={{
                     device: `${session.device} - ${session.browser}`,
-                    location: `${session.location} • ${session.ipAddress}`,
+                    location: `${session.location} • ${session.ip}`,
                     current: session.current,
-                    time: new Date(session.lastActive).toLocaleString(),
+                    time: new Date(session.lastActivityAt).toLocaleString(),
                   }}
                   onTerminate={() => handleTerminateSession(session.id)}
                 />
