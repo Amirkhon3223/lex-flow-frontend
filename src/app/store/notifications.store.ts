@@ -1,23 +1,55 @@
 import { create } from 'zustand';
+import type { Pagination } from '@/app/types/api/api.types';
+import { notificationsSettingsService } from '../services/notifications/notifications-settings.service';
 import { notificationsService } from '../services/notifications/notifications.service';
-import type { NotificationInterface } from '../types/notifications/notifications.interfaces';
+import type {
+  Notification,
+  NotificationSettings,
+  NotificationStatsResponse,
+} from '../types/notifications/notifications.interfaces';
 
 interface NotificationsState {
-  notifications: NotificationInterface[];
-  unreadCount: number;
+  notifications: Notification[];
+  settings: NotificationSettings;
+  pagination: Pagination;
+  stats: NotificationStatsResponse;
   loading: boolean;
   error: string | null;
   fetchNotifications: (page?: number, limit?: number) => Promise<void>;
-  fetchUnread: (limit?: number) => Promise<void>;
+  addNotification: (notification: Notification) => void;
   markAsRead: (id: string) => Promise<void>;
   markAllAsRead: () => Promise<void>;
   deleteNotification: (id: string) => Promise<void>;
-  deleteAll: () => Promise<void>;
+  deleteAllNotifications: () => Promise<void>;
+  fetchSettings: () => Promise<void>;
+  updateSettings: (settings: NotificationSettings) => Promise<void>;
+  fetchStats: () => Promise<void>;
 }
 
-export const useNotificationsStore = create<NotificationsState>((set) => ({
+const initialStats: NotificationStatsResponse = {
+  total: 0,
+  unread: 0,
+  read: 0,
+  byType: {
+    info: 0,
+    success: 0,
+    warning: 0,
+    error: 0,
+  },
+};
+
+const initialPagination: Pagination = {
+  total: 0,
+  page: 1,
+  limit: 20,
+  totalPages: 0,
+};
+
+export const useNotificationsStore = create<NotificationsState>((set, get) => ({
   notifications: [],
-  unreadCount: 0,
+  settings: {},
+  pagination: initialPagination,
+  stats: initialStats,
   loading: false,
   error: null,
 
@@ -25,32 +57,56 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await notificationsService.list({ page, limit });
-      const unreadCount = response.notifications.filter((n) => !n.read).length;
-      set({ notifications: response.notifications, unreadCount, loading: false });
+      set({
+        notifications: response.notifications,
+        pagination: response.pagination,
+        loading: false,
+      });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }
   },
 
-  fetchUnread: async (limit = 50) => {
-    set({ loading: true, error: null });
-    try {
-      const notifications = await notificationsService.getUnread(limit);
-      set({ notifications, unreadCount: notifications.length, loading: false });
-    } catch (error) {
-      set({ error: (error as Error).message, loading: false });
-    }
+  addNotification: (notification: Notification) => {
+    set((state) => ({
+      notifications: [notification, ...state.notifications],
+      stats: {
+        ...state.stats,
+        total: state.stats.total + 1,
+        unread: state.stats.unread + 1,
+        byType: {
+          ...state.stats.byType,
+          [notification.type]: (state.stats.byType[notification.type] || 0) + 1,
+        },
+      },
+      pagination: {
+        ...state.pagination,
+        total: state.pagination.total + 1,
+      },
+    }));
   },
 
   markAsRead: async (id: string) => {
     set({ loading: true, error: null });
     try {
       await notificationsService.markAsRead(id);
-      set((state) => ({
-        notifications: state.notifications.map((n) => (n.id === id ? { ...n, read: true } : n)),
-        unreadCount: Math.max(0, state.unreadCount - 1),
-        loading: false,
-      }));
+      set((state) => {
+        const notification = state.notifications.find((n) => n.id === id);
+        if (notification && !notification.read) {
+          return {
+            notifications: state.notifications.map((n) =>
+              n.id === id ? { ...n, read: true } : n
+            ),
+            stats: {
+              ...state.stats,
+              unread: state.stats.unread - 1,
+              read: state.stats.read + 1,
+            },
+            loading: false,
+          };
+        }
+        return { ...state, loading: false };
+      });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }
@@ -62,7 +118,11 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       await notificationsService.markAllAsRead();
       set((state) => ({
         notifications: state.notifications.map((n) => ({ ...n, read: true })),
-        unreadCount: 0,
+        stats: {
+          ...state.stats,
+          unread: 0,
+          read: state.stats.total,
+        },
         loading: false,
       }));
     } catch (error) {
@@ -74,10 +134,50 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
     set({ loading: true, error: null });
     try {
       await notificationsService.delete(id);
+      set((state) => {
+        const notification = state.notifications.find((n) => n.id === id);
+        const newNotifications = state.notifications.filter((n) => n.id !== id);
+        return {
+          notifications: newNotifications,
+          stats: {
+            ...state.stats,
+            total: state.stats.total - 1,
+            unread: notification && !notification.read ? state.stats.unread - 1 : state.stats.unread,
+            read: notification && notification.read ? state.stats.read - 1 : state.stats.read,
+            byType: notification ? {
+              ...state.stats.byType,
+              [notification.type]: Math.max(0, (state.stats.byType[notification.type] || 0) - 1),
+            } : state.stats.byType,
+          },
+          pagination: {
+            ...state.pagination,
+            total: state.pagination.total - 1,
+          },
+          loading: false,
+        };
+      });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+  },
+
+  deleteAllNotifications: async () => {
+    set({ loading: true, error: null });
+    try {
+      await notificationsService.deleteAll();
       set((state) => ({
-        notifications: state.notifications.filter((n) => n.id !== id),
-        unreadCount:
-          state.unreadCount - (state.notifications.find((n) => n.id === id)?.read ? 0 : 1),
+        notifications: [],
+        stats: {
+          ...state.stats,
+          total: 0,
+          unread: 0,
+          read: 0,
+          byType: { info: 0, success: 0, warning: 0, error: 0 },
+        },
+        pagination: {
+          ...state.pagination,
+          total: 0,
+        },
         loading: false,
       }));
     } catch (error) {
@@ -85,11 +185,31 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
     }
   },
 
-  deleteAll: async () => {
+  fetchSettings: async () => {
     set({ loading: true, error: null });
     try {
-      await notificationsService.deleteAll();
-      set({ notifications: [], unreadCount: 0, loading: false });
+      const response = await notificationsSettingsService.getSettings();
+      set({ settings: response.settings, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+  },
+
+  updateSettings: async (settings: NotificationSettings) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await notificationsSettingsService.updateSettings({ settings });
+      set({ settings: response.settings, loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+  },
+
+  fetchStats: async () => {
+    set({ loading: true, error: null });
+    try {
+      const response = await notificationsService.getStats();
+      set({ stats: response, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }

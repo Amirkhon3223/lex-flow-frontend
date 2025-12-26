@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
-import { DollarSign, CreditCard, Wallet, FileText, Calendar } from 'lucide-react';
+import { DollarSign, CreditCard, FileText, Calendar } from 'lucide-react';
 import { useAnalyticsStore } from '@/app/store/analytics.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { IconContainer } from '@/shared/ui/common/IconContainer';
-import { TrendingBadge } from '@/shared/ui/common/TrendingBadge';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { getMedalGradient } from '@/shared/utils/styleHelpers';
 

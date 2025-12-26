@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import type { CaseFormData } from '@/app/types/cases/cases.interfaces';
-import { useDashboardStore } from '@/app/store/dashboard.store';
 import { useAuthStore } from '@/app/store/auth.store';
+import { useDashboardStore } from '@/app/store/dashboard.store';
+import type { CaseFormData } from '@/app/types/cases/cases.interfaces';
 import { AIInsightsWidget } from '@/modules/dashboard/widgets/AIInsightsWidget';
 import { PriorityCases } from '@/modules/dashboard/widgets/PriorityCases';
 import { QuickActions } from '@/modules/dashboard/widgets/QuickActions';

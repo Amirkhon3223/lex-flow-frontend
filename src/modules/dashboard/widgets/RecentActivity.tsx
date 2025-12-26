@@ -1,8 +1,8 @@
 import { useDashboardStore } from '@/app/store/dashboard.store';
 import { ActivityItem } from '@/modules/dashboard/ui/ActivityItem';
 import { useI18n } from '@/shared/context/I18nContext';
-import { formatRelativeTime } from '@/shared/utils';
 import { Card } from '@/shared/ui/card';
+import { formatRelativeTime } from '@/shared/utils';
 
 const getActivityAction = (type: string, t: (key: string) => string): string => {
   const actionMap: Record<string, string> = {

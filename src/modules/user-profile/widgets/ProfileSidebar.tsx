@@ -1,5 +1,8 @@
 import { useRef, useState } from 'react';
 import { Mail, Phone, MapPin, Upload, LogOut, Trash2, Briefcase } from 'lucide-react';
+import { toast } from 'sonner';
+import { usersService } from '@/app/services/users/users.service';
+import { useAuthStore } from '@/app/store/auth.store';
 import { AvatarCropperModal } from '@/modules/user-profile/ui/AvatarCropperModal';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
@@ -25,10 +28,12 @@ export function ProfileSidebar({
   onLogout: () => void;
 }) {
   const { t } = useI18n();
+  const { user, updateUserData } = useAuthStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [cropperOpen, setCropperOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleAvatarUpload = () => {
     fileInputRef.current?.click();
@@ -50,9 +55,24 @@ export function ProfileSidebar({
     }
   };
 
-  const handleCropComplete = (croppedImageUrl: string) => {
+  const handleCropComplete = async (croppedImageUrl: string) => {
     setAvatarPreview(croppedImageUrl);
     setSelectedImage(null);
+
+    // Upload avatar to server
+    try {
+      // Convert base64 to blob
+      const response = await fetch(croppedImageUrl);
+      const blob = await response.blob();
+      const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+
+      await usersService.uploadAvatar(file);
+      updateUserData({ avatar: croppedImageUrl });
+      toast.success(t('USER_PROFILE.AVATAR_UPDATED'));
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Avatar upload error:', error);
+    }
   };
 
   const handleCropperClose = () => {
@@ -60,7 +80,26 @@ export function ProfileSidebar({
     setSelectedImage(null);
   };
 
-  const currentAvatarUrl = avatarPreview || profileData.avatarUrl || null;
+  const handleDeleteAccount = async () => {
+    if (!confirm(t('USER_PROFILE.DELETE_ACCOUNT_CONFIRM'))) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // TODO: Implement proper password and confirmation dialog
+      await usersService.deleteAccount('', '');
+      toast.success(t('USER_PROFILE.ACCOUNT_DELETED'));
+      onLogout();
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Delete account error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const currentAvatarUrl = avatarPreview || user?.avatar || profileData.avatarUrl || null;
 
   return (
     <div className="space-y-4 sm:space-y-6">
@@ -172,10 +211,12 @@ export function ProfileSidebar({
           </p>
           <Button
             variant="outline"
+            onClick={handleDeleteAccount}
+            disabled={loading}
             className="w-full border-white/20 text-white hover:bg-white/10 rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-10"
           >
             <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
-            {t('USER_PROFILE.DELETE_ACCOUNT_BUTTON')}
+            {loading ? t('COMMON.LOADING') : t('USER_PROFILE.DELETE_ACCOUNT_BUTTON')}
           </Button>
         </div>
       </Card>

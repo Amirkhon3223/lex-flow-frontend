@@ -1,23 +1,15 @@
 import { httpClient } from '../../interceptors/http.interceptor';
 import type { SuccessResponse } from '../../types/api/api.types';
 import type {
-  NotificationInterface,
-  CreateNotificationInterface,
+  Notification,
   NotificationListResponse,
   NotificationStatsResponse,
 } from '../../types/notifications/notifications.interfaces';
 
 export const notificationsService = {
-  create: async (data: CreateNotificationInterface): Promise<NotificationInterface> => {
-    const response = await httpClient.post<NotificationInterface>('/notifications', data);
-    return response.data;
-  },
-
   list: async (params?: {
     page?: number;
     limit?: number;
-    type?: string;
-    read?: boolean;
   }): Promise<NotificationListResponse> => {
     const response = await httpClient.get<NotificationListResponse>('/notifications', {
       params,
@@ -25,10 +17,15 @@ export const notificationsService = {
     return response.data;
   },
 
-  getUnread: async (limit?: number): Promise<NotificationInterface[]> => {
-    const response = await httpClient.get<NotificationInterface[]>('/notifications/unread', {
+  getUnread: async (limit?: number): Promise<Notification[]> => {
+    const response = await httpClient.get<Notification[]>('/notifications/unread', {
       params: { limit },
     });
+    return response.data;
+  },
+
+  getStats: async (): Promise<NotificationStatsResponse> => {
+    const response = await httpClient.get<NotificationStatsResponse>('/notifications/stats');
     return response.data;
   },
 
@@ -49,11 +46,6 @@ export const notificationsService = {
 
   deleteAll: async (): Promise<SuccessResponse> => {
     const response = await httpClient.delete<SuccessResponse>('/notifications');
-    return response.data;
-  },
-
-  getStats: async (): Promise<NotificationStatsResponse> => {
-    const response = await httpClient.get<NotificationStatsResponse>('/notifications/stats');
     return response.data;
   },
 };

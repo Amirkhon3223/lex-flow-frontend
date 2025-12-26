@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react';
 import { Lock, Shield } from 'lucide-react';
-import type { SessionInterface } from '@/app/types/settings/settings.interfaces';
+import { toast } from 'sonner';
+import { securityService } from '@/app/services/security/security.service';
+import type { Session } from '@/app/types/security/security.interfaces';
 import { SessionItem } from '@/modules/settings/components/SessionItem';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
@@ -8,24 +11,93 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Separator } from '@/shared/ui/separator';
 
-const ACTIVE_SESSIONS: SessionInterface[] = [
-  { device: 'MacBook Pro', location: 'Москва, Россия', current: true, time: 'Сейчас' },
-  { device: 'iPhone 14', location: 'Москва, Россия', current: false, time: '2 часа назад' },
-];
-
 export function SecurityTabContent() {
   const { t } = useI18n();
-  const handlePasswordChange = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+  const [sessions, setSessions] = useState<Session[]>([]);
+
+  // Load 2FA status and sessions on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [twoFactorStatus, sessionsData] = await Promise.all([
+          securityService.get2FAStatus(),
+          securityService.getSessions(),
+        ]);
+        setTwoFactorEnabled(twoFactorStatus.enabled);
+        setSessions(sessionsData.sessions);
+      } catch (error) {
+        console.error('Failed to fetch security data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Обновить пароль');
+
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      toast.error(t('SETTINGS.SECURITY.PASSWORD_MISMATCH'));
+      return;
+    }
+
+    if (passwordForm.newPassword.length < 8) {
+      toast.error(t('SETTINGS.SECURITY.PASSWORD_TOO_SHORT'));
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await securityService.changePassword({
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword,
+        confirmPassword: passwordForm.confirmPassword,
+      });
+      toast.success(t('SETTINGS.SECURITY.PASSWORD_UPDATED'));
+      setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Password change error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleToggle2FA = () => {
-    console.log('Отключить 2FA');
+  const handleToggle2FA = async () => {
+    setLoading(true);
+    try {
+      if (twoFactorEnabled) {
+        // TODO: Implement proper 2FA disable with password and code verification
+        await securityService.disable2FA({ password: '', code: '' });
+        setTwoFactorEnabled(false);
+        toast.success(t('SETTINGS.SECURITY.TWO_FACTOR_DISABLED'));
+      }
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('2FA toggle error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleTerminateSession = (device: string) => {
-    console.log('Завершить сессию:', device);
+  const handleTerminateSession = async (sessionId: string) => {
+    setLoading(true);
+    try {
+      await securityService.terminateSession(sessionId);
+      setSessions((prev) => prev.filter((s) => s.id !== sessionId));
+      toast.success(t('SETTINGS.SECURITY.SESSION_TERMINATED'));
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Session termination error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,7 +116,12 @@ export function SecurityTabContent() {
               <Input
                 id="currentPassword"
                 type="password"
+                value={passwordForm.currentPassword}
+                onChange={(e) =>
+                  setPasswordForm((prev) => ({ ...prev, currentPassword: e.target.value }))
+                }
                 className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm"
+                required
               />
             </div>
             <div className="space-y-1.5 sm:space-y-2">
@@ -54,7 +131,12 @@ export function SecurityTabContent() {
               <Input
                 id="newPassword"
                 type="password"
+                value={passwordForm.newPassword}
+                onChange={(e) =>
+                  setPasswordForm((prev) => ({ ...prev, newPassword: e.target.value }))
+                }
                 className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm"
+                required
               />
             </div>
             <div className="space-y-1.5 sm:space-y-2">
@@ -64,7 +146,12 @@ export function SecurityTabContent() {
               <Input
                 id="confirmPassword"
                 type="password"
+                value={passwordForm.confirmPassword}
+                onChange={(e) =>
+                  setPasswordForm((prev) => ({ ...prev, confirmPassword: e.target.value }))
+                }
                 className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm"
+                required
               />
             </div>
 
@@ -73,9 +160,10 @@ export function SecurityTabContent() {
             <Button
               type="submit"
               className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-9 md:h-10"
+              disabled={loading}
             >
               <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
-              {t('SETTINGS.SECURITY.UPDATE_PASSWORD')}
+              {loading ? t('COMMON.LOADING') : t('SETTINGS.SECURITY.UPDATE_PASSWORD')}
             </Button>
           </form>
         </div>
@@ -87,31 +175,53 @@ export function SecurityTabContent() {
             {t('SETTINGS.SECURITY.TWO_FACTOR_AUTH')}
           </h3>
 
-          <div className="flex flex-col sm:flex-row items-start justify-between gap-3 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-green-500/10 border border-green-500/20">
-            <div className="flex items-start gap-2 sm:gap-3">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
-                <Shield
-                  className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-green-600 dark:text-green-400"
-                  strokeWidth={2}
-                />
+          {twoFactorEnabled ? (
+            <div className="flex flex-col sm:flex-row items-start justify-between gap-3 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-green-500/10 border border-green-500/20">
+              <div className="flex items-start gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <Shield
+                    className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-green-600 dark:text-green-400"
+                    strokeWidth={2}
+                  />
+                </div>
+                <div>
+                  <h4 className="tracking-tight text-green-900 dark:text-green-300 mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">
+                    {t('SETTINGS.SECURITY.TWO_FACTOR_ENABLED')}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-green-700 dark:text-green-400">
+                    {t('SETTINGS.SECURITY.TWO_FACTOR_DESC')}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h4 className="tracking-tight text-green-900 dark:text-green-300 mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">
-                  {t('SETTINGS.SECURITY.TWO_FACTOR_ENABLED')}
-                </h4>
-                <p className="text-xs sm:text-sm text-green-700 dark:text-green-400">
-                  {t('SETTINGS.SECURITY.TWO_FACTOR_DESC')}
-                </p>
+              <Button
+                variant="outline"
+                onClick={handleToggle2FA}
+                className="rounded-lg sm:rounded-xl border-green-500/30 hover:bg-green-500/20 text-xs sm:text-sm h-8 sm:h-9 w-full sm:w-auto"
+                disabled={loading}
+              >
+                {t('SETTINGS.SECURITY.DISABLE')}
+              </Button>
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row items-start justify-between gap-3 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+              <div className="flex items-start gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-gray-200 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                  <Shield
+                    className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-gray-600 dark:text-gray-400"
+                    strokeWidth={2}
+                  />
+                </div>
+                <div>
+                  <h4 className="tracking-tight text-gray-900 dark:text-gray-300 mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base">
+                    {t('SETTINGS.SECURITY.TWO_FACTOR_DISABLED')}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-400">
+                    {t('SETTINGS.SECURITY.TWO_FACTOR_DESC')}
+                  </p>
+                </div>
               </div>
             </div>
-            <Button
-              variant="outline"
-              onClick={handleToggle2FA}
-              className="rounded-lg sm:rounded-xl border-green-500/30 hover:bg-green-500/20 text-xs sm:text-sm h-8 sm:h-9 w-full sm:w-auto"
-            >
-              {t('SETTINGS.SECURITY.DISABLE')}
-            </Button>
-          </div>
+          )}
         </div>
       </Card>
 
@@ -125,13 +235,24 @@ export function SecurityTabContent() {
           </p>
 
           <div className="space-y-2 sm:space-y-3">
-            {ACTIVE_SESSIONS.map((session, index) => (
-              <SessionItem
-                key={index}
-                session={session}
-                onTerminate={() => handleTerminateSession(session.device)}
-              />
-            ))}
+            {sessions.length > 0 ? (
+              sessions.map((session) => (
+                <SessionItem
+                  key={session.id}
+                  session={{
+                    device: `${session.device} - ${session.browser}`,
+                    location: `${session.location} • ${session.ip}`,
+                    current: session.current,
+                    time: new Date(session.lastActivityAt).toLocaleString(),
+                  }}
+                  onTerminate={() => handleTerminateSession(session.id)}
+                />
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                {t('SETTINGS.SECURITY.NO_SESSIONS')}
+              </p>
+            )}
           </div>
         </div>
       </Card>

@@ -22,6 +22,7 @@ export default function AuthPage() {
   const [registerFirmName, setRegisterFirmName] = useState('');
   const [registerCountry, setRegisterCountry] = useState('');
   const [registerCity, setRegisterCity] = useState('');
+  const [registerPhone, setRegisterPhone] = useState('');
 
   useEffect(() => {
     if (isAuthenticated && !loading) {
@@ -50,15 +51,12 @@ export default function AuthPage() {
       await register({
         email: registerEmail,
         password: registerPassword,
-        name: `${registerFirstName} ${registerLastName}`,
         firstName: registerFirstName,
         lastName: registerLastName,
-        middleName: '',
-        phone: '',
-        firmName: registerFirmName,
-        position: '',
-        country: registerCountry,
-        city: registerCity,
+        firmName: registerFirmName.trim() || undefined,
+        phone: registerPhone.trim() || undefined,
+        country: registerCountry.trim() || undefined,
+        city: registerCity.trim() || undefined,
       });
     } catch (error) {
       setLocalError((error as Error).message || 'Registration failed');
@@ -88,6 +86,7 @@ export default function AuthPage() {
             registerFirmName={registerFirmName}
             registerCountry={registerCountry}
             registerCity={registerCity}
+            registerPhone={registerPhone}
             onRegisterFirstNameChange={setRegisterFirstName}
             onRegisterLastNameChange={setRegisterLastName}
             onRegisterEmailChange={setRegisterEmail}
@@ -95,6 +94,7 @@ export default function AuthPage() {
             onRegisterFirmNameChange={setRegisterFirmName}
             onRegisterCountryChange={setRegisterCountry}
             onRegisterCityChange={setRegisterCity}
+            onRegisterPhoneChange={setRegisterPhone}
             onLoginSubmit={handleLogin}
             onRegisterSubmit={handleRegister}
           />

@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, Save, Briefcase, User, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { usersService } from '@/app/services/users/users.service';
+import { useAuthStore } from '@/app/store/auth.store';
 import { handleLogout } from '@/app/utils/authUtils';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
@@ -10,6 +13,14 @@ import { ProfileTabs } from './widgets/ProfileTabs';
 export default function UserProfilePage() {
   const { t } = useI18n();
   const navigate = useNavigate();
+  const { user, updateUserData } = useAuthStore();
+  const [loading, setLoading] = useState(false);
+  const [userStats, setUserStats] = useState({
+    activeCases: 0,
+    totalClients: 0,
+    completedCases: 0,
+    daysInSystem: 0,
+  });
 
   const onBack = () => navigate(-1);
 
@@ -18,39 +29,93 @@ export default function UserProfilePage() {
   };
 
   const [profileData, setProfileData] = useState({
-    firstName: 'Александр',
-    lastName: 'Пушкин',
-    middleName: 'Эйнштейнович',
-    email: 'google.mail@gmail.com',
-    phone: '+992-(92)-777-77-77',
-    position: 'Старший юрист',
-    company: 'Юридическая фирма "Название фирфы"',
-    address: 'New York, 34st Manhattan',
-    birthDate: '1985-06-15',
-    specialization: 'Трудовое право',
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    email: '',
+    phone: '',
+    position: '',
+    company: '',
+    address: '',
+    specialization: '',
   });
+
+  // Load user data and stats on mount
+  useEffect(() => {
+    if (user) {
+      setProfileData({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        middleName: user.middleName || '',
+        email: user.email || '',
+        phone: user.phone || '',
+        position: user.position || '',
+        company: user.company || '',
+        address: user.address || '',
+        specialization: user.specialization || '',
+      });
+    }
+
+    const fetchStats = async () => {
+      try {
+        const stats = await usersService.getStats();
+        setUserStats(stats);
+      } catch (error) {
+        console.error('Failed to fetch user stats:', error);
+      }
+    };
+    fetchStats();
+  }, []); // Only run once on mount
 
   const handleProfileChange = (field: string, value: string) => {
     setProfileData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleSaveChanges = async () => {
+    setLoading(true);
+    try {
+      const updatedUser = await usersService.updateMe({
+        firstName: profileData.firstName,
+        lastName: profileData.lastName,
+        middleName: profileData.middleName || undefined,
+        phone: profileData.phone,
+        position: profileData.position,
+        company: profileData.company || undefined,
+        address: profileData.address || undefined,
+        specialization: profileData.specialization as any,
+      });
+      updateUserData(updatedUser);
+      toast.success(t('USER_PROFILE.CHANGES_SAVED'));
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Profile update error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const stats = [
     {
       label: t('USER_PROFILE.STATS.ACTIVE_CASES'),
-      value: '47',
+      value: userStats.activeCases.toString(),
       icon: Briefcase,
       color: 'text-blue-500',
     },
-    { label: t('USER_PROFILE.STATS.CLIENTS'), value: '24', icon: User, color: 'text-purple-500' },
+    {
+      label: t('USER_PROFILE.STATS.CLIENTS'),
+      value: userStats.totalClients.toString(),
+      icon: User,
+      color: 'text-purple-500',
+    },
     {
       label: t('USER_PROFILE.STATS.COMPLETED_CASES'),
-      value: '128',
+      value: userStats.completedCases.toString(),
       icon: Briefcase,
       color: 'text-green-500',
     },
     {
       label: t('USER_PROFILE.STATS.DAYS_IN_SYSTEM'),
-      value: '342',
+      value: userStats.daysInSystem.toString(),
       icon: Calendar,
       color: 'text-orange-500',
     },
@@ -81,9 +146,13 @@ export default function UserProfilePage() {
                 </p>
               </div>
             </div>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md text-xs sm:text-sm lg:text-base h-8 sm:h-9 lg:h-10 px-3 sm:px-4 w-full sm:w-auto">
+            <Button
+              onClick={handleSaveChanges}
+              disabled={loading}
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md text-xs sm:text-sm lg:text-base h-8 sm:h-9 lg:h-10 px-3 sm:px-4 w-full sm:w-auto"
+            >
               <Save className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
-              {t('USER_PROFILE.SAVE_CHANGES')}
+              {loading ? t('COMMON.LOADING') : t('USER_PROFILE.SAVE_CHANGES')}
             </Button>
           </div>
         </div>

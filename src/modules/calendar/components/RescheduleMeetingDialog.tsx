@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { format, parse } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { toast } from 'sonner';
 import { Calendar as CalendarIcon, Clock } from 'lucide-react';
+import { toast } from 'sonner';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';

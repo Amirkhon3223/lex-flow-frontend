@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { FileText, Calendar, Clock, Scale } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { CaseInterface } from '@/app/types/cases/cases.interfaces';
@@ -12,7 +13,7 @@ interface CaseCardProps {
   caseItem: CaseInterface;
 }
 
-export function CaseCard({ caseItem }: CaseCardProps) {
+export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
   const { t } = useI18n();
 
   const calculateDaysLeft = (date: string): number => {
@@ -268,4 +269,4 @@ export function CaseCard({ caseItem }: CaseCardProps) {
       </div>
     </Link>
   );
-}
+});

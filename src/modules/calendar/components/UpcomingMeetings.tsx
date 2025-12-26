@@ -1,5 +1,5 @@
-import type { UpcomingMeetingsProps } from '@/app/types/calendar/calendar.interfaces.ts';
 import { MeetingStatusEnum } from '@/app/types/calendar/calendar.enums';
+import type { UpcomingMeetingsProps } from '@/app/types/calendar/calendar.interfaces.ts';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';

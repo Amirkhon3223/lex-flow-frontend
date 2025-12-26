@@ -20,6 +20,7 @@ export function AuthCard({
   registerFirmName,
   registerCountry,
   registerCity,
+  registerPhone,
   onRegisterFirstNameChange,
   onRegisterLastNameChange,
   onRegisterEmailChange,
@@ -27,6 +28,7 @@ export function AuthCard({
   onRegisterFirmNameChange,
   onRegisterCountryChange,
   onRegisterCityChange,
+  onRegisterPhoneChange,
   onLoginSubmit,
   onRegisterSubmit,
 }: AuthCardProps) {
@@ -84,6 +86,7 @@ export function AuthCard({
             firmName={registerFirmName}
             country={registerCountry}
             city={registerCity}
+            phone={registerPhone}
             onFirstNameChange={onRegisterFirstNameChange}
             onLastNameChange={onRegisterLastNameChange}
             onEmailChange={onRegisterEmailChange}
@@ -91,6 +94,7 @@ export function AuthCard({
             onFirmNameChange={onRegisterFirmNameChange}
             onCountryChange={onRegisterCountryChange}
             onCityChange={onRegisterCityChange}
+            onPhoneChange={onRegisterPhoneChange}
             onSubmit={onRegisterSubmit}
           />
 

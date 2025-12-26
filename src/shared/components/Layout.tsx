@@ -9,8 +9,10 @@
  * - Адаптивное поведение для планшетов и мобильных устройств
  */
 
-import { useState, type ReactNode } from 'react';
+import { useState, type ReactNode, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useAuth } from '@/app/hooks/useAuth';
+import { webSocketService } from '@/app/services/notifications/websocket.service';
 import { SelectProvider } from '@/shared/context/SelectContext.tsx';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
@@ -22,6 +24,19 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      webSocketService.connect();
+    } else {
+      webSocketService.disconnect();
+    }
+
+    return () => {
+      webSocketService.disconnect();
+    };
+  }, [isAuthenticated]);
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
