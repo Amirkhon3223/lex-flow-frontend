@@ -44,7 +44,6 @@ export const Layout = ({ children }: LayoutProps) => {
 
   const handleMenuClick = () => {
     // На мобильных (< md) открываем/закрываем mobile sidebar
-    // На планшетах (md - lg) переключаем collapsed состояние
     if (window.innerWidth < 768) {
       // Mobile
       setIsMobileSidebarOpen(!isMobileSidebarOpen);

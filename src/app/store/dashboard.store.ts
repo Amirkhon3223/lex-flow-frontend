@@ -7,22 +7,18 @@ import type {
 } from '../types/dashboard/dashboard.interfaces';
 
 interface DashboardState {
-  // Dashboard stats
   dashboardStats: DashboardStatsResponse | null;
   dashboardLoading: boolean;
   dashboardError: string | null;
 
-  // Priority cases
   priorityCases: PriorityCaseItem[];
   casesLoading: boolean;
   casesError: string | null;
 
-  // Today's meetings
   todayMeetings: TodayMeetingItem[];
   meetingsLoading: boolean;
   meetingsError: string | null;
 
-  // Actions
   fetchDashboard: () => Promise<void>;
   fetchPriorityCases: (limit?: number) => Promise<void>;
   fetchTodayMeetings: () => Promise<void>;
@@ -84,7 +80,6 @@ export const useDashboardStore = create<DashboardState>((set) => ({
     }
   },
 
-  // Parallel fetch all dashboard data
   fetchAllDashboardData: async () => {
     try {
       await Promise.all([

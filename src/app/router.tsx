@@ -4,7 +4,6 @@ import { Layout } from '@/shared/components/Layout';
 import { ROUTES } from './config/routes.config';
 import { AuthGuard } from './guards/auth.guard';
 
-// Lazy load все страницы для code splitting
 const AuthPage = lazy(() => import('@/pages/AuthPage'));
 const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
 const ClientsPage = lazy(() => import('@/pages/ClientsPage'));
@@ -22,20 +21,17 @@ const NotificationsPage = lazy(() => import('@/pages/NotificationsPage'));
 const SettingsPage = lazy(() => import('@/pages/SettingsPage'));
 const UserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
 
-// Loading component для Suspense
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen">
     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
   </div>
 );
 
-// Wrapper для Suspense
 const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
   <Suspense fallback={<PageLoader />}>{children}</Suspense>
 );
 
 export const router = createBrowserRouter([
-  // Публичные маршруты
   {
     path: ROUTES.AUTH.LOGIN,
     element: (
@@ -44,7 +40,6 @@ export const router = createBrowserRouter([
       </SuspenseWrapper>
     ),
   },
-  // Защищенные маршруты с Layout
   {
     element: (
       <AuthGuard>

@@ -35,12 +35,10 @@ class I18nService {
   public ready: Promise<void>;
 
   constructor() {
-    // Загружаем сохраненный язык из localStorage или используем дефолтный
     const savedLanguage = localStorage.getItem(STORAGE_KEY) as Language;
     this.currentLanguage =
       savedLanguage && this.isValidLanguage(savedLanguage) ? savedLanguage : DEFAULT_LANGUAGE;
 
-    // Запускаем загрузку переводов и сохраняем промис, чтобы другие части приложения могли дождаться
     this.ready = this.loadTranslations(this.currentLanguage);
   }
 
@@ -60,7 +58,6 @@ class I18nService {
       this.translations = translations.default || translations;
     } catch (error) {
       console.error(`Failed to load translations for language: ${language}`, error);
-      // Fallback на русский язык
       if (language !== DEFAULT_LANGUAGE) {
         const fallbackTranslations = await import(`../../../assets/i18n/${DEFAULT_LANGUAGE}.json`);
         this.translations = fallbackTranslations.default || fallbackTranslations;
@@ -95,7 +92,6 @@ class I18nService {
     localStorage.setItem(STORAGE_KEY, language);
     await this.loadTranslations(language);
 
-    // Генерируем событие смены языка для обновления компонентов
     window.dispatchEvent(new CustomEvent('languageChange', { detail: { language } }));
   }
 
@@ -108,7 +104,6 @@ class I18nService {
     const keys = key.split('.');
     let value: string | Translations | undefined = this.translations;
 
-    // Проходим по вложенным ключам
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
         value = value[k] as string | Translations;
@@ -118,13 +113,11 @@ class I18nService {
       }
     }
 
-    // Если значение не строка, возвращаем ключ
     if (typeof value !== 'string') {
       console.warn(`Translation value is not a string: ${key}`);
       return key;
     }
 
-    // Применяем интерполяцию параметров
     if (params) {
       return value.replace(/\{\{(\w+)\}\}/g, (match, paramKey) => {
         return params[paramKey] !== undefined ? String(params[paramKey]) : match;
@@ -142,5 +135,4 @@ class I18nService {
   }
 }
 
-// Экспортируем singleton экземпляр
 export const i18nService = new I18nService();

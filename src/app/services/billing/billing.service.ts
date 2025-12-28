@@ -11,20 +11,16 @@ import type {
 } from '../../types/billing/billing.interfaces';
 
 export const billingService = {
-  // ==================== SUBSCRIPTION ====================
-  // Get current subscription
   getSubscription: async (): Promise<SubscriptionResponse> => {
     const response = await httpClient.get<SubscriptionResponse>('/billing/subscription');
     return response.data;
   },
 
-  // Get available plans
   getPlans: async (): Promise<PlansListResponse> => {
     const response = await httpClient.get<PlansListResponse>('/billing/plans');
     return response.data;
   },
 
-  // Change subscription plan
   changePlan: async (data: ChangePlanRequest): Promise<SuccessResponse> => {
     const response = await httpClient.post<SuccessResponse>(
       '/billing/subscription/change',
@@ -33,7 +29,6 @@ export const billingService = {
     return response.data;
   },
 
-  // Cancel subscription
   cancelSubscription: async (): Promise<SuccessResponse> => {
     const response = await httpClient.post<SuccessResponse>(
       '/billing/subscription/cancel'
@@ -41,8 +36,6 @@ export const billingService = {
     return response.data;
   },
 
-  // ==================== PAYMENTS ====================
-  // Get payment history
   getPayments: async (page = 1, limit = 20): Promise<PaymentsListResponse> => {
     const response = await httpClient.get<PaymentsListResponse>('/billing/payments', {
       params: { page, limit },
@@ -50,7 +43,6 @@ export const billingService = {
     return response.data;
   },
 
-  // Download payment receipt
   downloadReceipt: async (paymentId: string): Promise<Blob> => {
     const response = await httpClient.get<Blob>(
       `/billing/payments/${paymentId}/receipt`,
@@ -61,8 +53,6 @@ export const billingService = {
     return response.data;
   },
 
-  // ==================== PAYMENT METHODS ====================
-  // Get payment methods
   getPaymentMethods: async (): Promise<PaymentMethodsListResponse> => {
     const response = await httpClient.get<PaymentMethodsListResponse>(
       '/billing/payment-methods'
@@ -70,7 +60,6 @@ export const billingService = {
     return response.data;
   },
 
-  // Add payment method
   addPaymentMethod: async (
     data: AddPaymentMethodRequest
   ): Promise<PaymentMethodResponse> => {
@@ -81,7 +70,6 @@ export const billingService = {
     return response.data;
   },
 
-  // Delete payment method
   deletePaymentMethod: async (paymentMethodId: string): Promise<SuccessResponse> => {
     const response = await httpClient.delete<SuccessResponse>(
       `/billing/payment-methods/${paymentMethodId}`

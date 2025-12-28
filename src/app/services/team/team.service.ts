@@ -10,14 +10,11 @@ import type {
 } from '../../types/team/team.interfaces';
 
 export const teamService = {
-  // ==================== TEAM MEMBERS ====================
-  // Get team members list
   getMembers: async (): Promise<TeamMembersListResponse> => {
     const response = await httpClient.get<TeamMembersListResponse>('/team/members');
     return response.data;
   },
 
-  // Update member role
   updateMemberRole: async (
     memberId: string,
     data: UpdateMemberRoleRequest
@@ -29,20 +26,16 @@ export const teamService = {
     return response.data;
   },
 
-  // Remove team member
   removeMember: async (memberId: string): Promise<SuccessResponse> => {
     const response = await httpClient.delete<SuccessResponse>(`/team/members/${memberId}`);
     return response.data;
   },
 
-  // ==================== TEAM INVITES ====================
-  // Get invites list
   getInvites: async (): Promise<TeamInvitesListResponse> => {
     const response = await httpClient.get<TeamInvitesListResponse>('/team/invites');
     return response.data;
   },
 
-  // Invite team member
   inviteMember: async (
     data: InviteTeamMemberRequest
   ): Promise<InviteTeamMemberResponse> => {
@@ -50,7 +43,6 @@ export const teamService = {
     return response.data;
   },
 
-  // Cancel invite
   cancelInvite: async (inviteId: string): Promise<SuccessResponse> => {
     const response = await httpClient.delete<SuccessResponse>(`/team/invites/${inviteId}`);
     return response.data;

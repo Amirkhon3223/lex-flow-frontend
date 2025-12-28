@@ -3,9 +3,7 @@
  * Поддерживаемые форматы 1:1 с backend
  */
 
-// Поддерживаемые форматы файлов
 export const SUPPORTED_FILE_EXTENSIONS = [
-  // Microsoft Word
   '.doc',
   '.docx',
   '.docm',
@@ -13,7 +11,6 @@ export const SUPPORTED_FILE_EXTENSIONS = [
   '.dotx',
   '.dotm',
   '.rtf',
-  // Microsoft Excel
   '.xls',
   '.xlsx',
   '.xlsm',
@@ -22,11 +19,9 @@ export const SUPPORTED_FILE_EXTENSIONS = [
   '.xltx',
   '.xltm',
   '.csv',
-  // Текстовые
   '.txt',
   '.log',
   '.md',
-  // Прочие
   '.pdf',
   '.odt',
   '.ods',

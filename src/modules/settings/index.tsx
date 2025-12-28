@@ -35,7 +35,7 @@ export default function SettingsPage() {
       <main className="py-6">
         <div className="max-w-5xl mx-auto">
           <Tabs defaultValue="profile" className="space-y-4 sm:space-y-6">
-            <TabsList className="rounded-lg sm:rounded-xl p-0.5 sm:p-1 md:p-1.5 grid grid-cols-5 w-full">
+            <TabsList className="rounded-lg sm:rounded-xl p-0.5 sm:p-1 md:p-1.5 grid grid-cols-4 w-full">
               <TabsTrigger
                 value="profile"
                 className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"
@@ -57,13 +57,13 @@ export default function SettingsPage() {
                 <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
                 <span className="hidden sm:inline">{t('SETTINGS.TABS.SECURITY')}</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="team"
-                className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"
-              >
-                <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                <span className="hidden sm:inline">{t('SETTINGS.TABS.TEAM')}</span>
-              </TabsTrigger>
+              {/*<TabsTrigger*/}
+              {/*  value="team"*/}
+              {/*  className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"*/}
+              {/*>*/}
+              {/*  <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />*/}
+              {/*  <span className="hidden sm:inline">{t('SETTINGS.TABS.TEAM')}</span>*/}
+              {/*</TabsTrigger>*/}
               <TabsTrigger
                 value="billing"
                 className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-1 sm:px-2 md:px-3 py-1.5 sm:py-2"
@@ -85,9 +85,9 @@ export default function SettingsPage() {
               <SecurityTabContent />
             </TabsContent>
 
-            <TabsContent value="team" className="space-y-4 sm:space-y-6">
-              <TeamTabContent />
-            </TabsContent>
+            {/*<TabsContent value="team" className="space-y-4 sm:space-y-6">*/}
+            {/*  <TeamTabContent />*/}
+            {/*</TabsContent>*/}
 
             <TabsContent value="billing" className="space-y-4 sm:space-y-6">
               <BillingTabContent />

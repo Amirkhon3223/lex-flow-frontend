@@ -1,9 +1,17 @@
 import type { WorkspaceInfo } from '@/app/types/workspaces'
 import type { MembershipRole } from '@/app/types/membership'
 
-// Реэкспорт для удобства
 export type { WorkspaceInfo }
 export type { MembershipRole }
+
+export type Specialization =
+  | 'lawyer'
+  | 'attorney'
+  | 'legal_assistant'
+  | 'senior_lawyer'
+  | 'junior_lawyer'
+  | 'partner'
+  | 'other';
 
 /**
  * User Interface
@@ -13,22 +21,24 @@ export type { MembershipRole }
 export interface User {
   id: string
   email: string
-  firstName: string
-  lastName: string
+  firstName?: string
+  lastName?: string
   middleName?: string
   name: string
-  phone: string
-  position: string
-  specialization?: 'labor_law' | 'contract_law' | 'family_law' | 'criminal_law'
+  phone?: string
+  position?: string
+  specialization?: Specialization
   company?: string
   address?: string
-  avatar: string | null
+  avatar?: string | null
   country?: string
   city?: string
-  timezone: string
-  language: string
-  createdAt: string
-  updatedAt: string
+  timezone?: string
+  language?: string
+  role?: string
+  workspaceId?: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 /**

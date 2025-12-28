@@ -31,7 +31,6 @@ export function ProfileTabContent() {
   const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en'>('ru');
   const [timezone, setTimezone] = useState('');
 
-  // Load user data on mount
   useEffect(() => {
     if (user) {
       setFormData({
@@ -49,7 +48,7 @@ export function ProfileTabContent() {
       setCurrentLanguage((user.language || 'ru') as 'ru' | 'en');
       setTimezone(user.timezone || 'Europe/Moscow');
     }
-  }, []); // Only run once on mount
+  }, [user]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -204,7 +203,22 @@ export function ProfileTabContent() {
                 type="button"
                 variant="outline"
                 className="rounded-lg sm:rounded-xl border-gray-200 hover:bg-gray-50 text-xs sm:text-sm h-8 sm:h-9 md:h-10 order-2 sm:order-1"
-                onClick={() => refreshUser()}
+                onClick={() => {
+                  if (user) {
+                    setFormData({
+                      firstName: user.firstName || '',
+                      lastName: user.lastName || '',
+                      middleName: user.middleName || '',
+                      email: user.email || '',
+                      phone: user.phone || '',
+                      position: user.position || '',
+                      company: user.company || '',
+                      address: user.address || '',
+                      country: user.country || '',
+                      city: user.city || '',
+                    });
+                  }
+                }}
               >
                 {t('COMMON.ACTIONS.CANCEL')}
               </Button>

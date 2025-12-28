@@ -6,8 +6,8 @@ export interface Notification {
   userId: string;
   title: string;
   message: string;
-  type: NotificationCategory; // 'info', 'success', 'warning', 'error'
-  read: boolean; // В новом ТЗ - read, а не is_read
+  type: NotificationCategory;
+  read: boolean;
   entityId?: string;
   actionUrl?: string;
   actionLabel?: string;
@@ -15,7 +15,7 @@ export interface Notification {
 }
 
 export interface NotificationSettings {
-  [key: string]: boolean; // event types
+  [key: string]: boolean;
 }
 
 export interface NotificationSettingsResponse {

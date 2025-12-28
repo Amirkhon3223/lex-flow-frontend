@@ -29,7 +29,6 @@ export function AIAssistantView() {
     // TODO: Добавить логику обновления данных после загрузки документа
   };
 
-  // features are UI labels — use translations (titles/descriptions)
 
   const chatHistory: ChatMessageInterface[] = [
     {

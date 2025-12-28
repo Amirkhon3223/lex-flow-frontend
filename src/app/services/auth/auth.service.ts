@@ -27,7 +27,6 @@ export const authService = {
       localStorage.removeItem('access_token');
       return response.data;
     } catch (error) {
-      // Даже если сервер не ответил, очищаем локальный токен
       localStorage.removeItem('access_token');
       throw error;
     }

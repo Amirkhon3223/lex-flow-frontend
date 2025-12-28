@@ -9,7 +9,6 @@ interface AuthGuardProps {
 export const AuthGuard = ({ children }: AuthGuardProps) => {
   const { isAuthenticated, loading } = useAuth();
 
-  // Показываем загрузку пока проверяем аутентификацию
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-white">
@@ -21,11 +20,9 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
     );
   }
 
-  // Если не аутентифицирован, перенаправляем на логин
   if (!isAuthenticated) {
     return <Navigate to={ROUTES.AUTH.LOGIN} replace />;
   }
 
-  // Если аутентифицирован, показываем контент
   return children || <Outlet />;
 };

@@ -1,4 +1,21 @@
 {
+  "SPECIALIZATION": {
+    "LAWYER": "Ҳуқуқшинос",
+    "ATTORNEY": "Вакил",
+    "LEGAL_ASSISTANT": "Ёрдамчии ҳуқуқшинос",
+    "SENIOR_LAWYER": "Ҳуқуқшиноси калон",
+    "JUNIOR_LAWYER": "Ҳуқуқшиноси ҷавон",
+    "PARTNER": "Шарик",
+    "OTHER": "Дигар"
+  },
+  "PRACTICE_TYPES": {
+    "LABOR_DISPUTES": "Низоъҳои меҳнатӣ",
+    "CONTRACT_LAW": "Ҳуқуқи шартнома",
+    "INHERITANCE": "Парвандаҳои мерос",
+    "FAMILY_LAW": "Ҳуқуқи оила",
+    "CRIMINAL_LAW": "Ҳуқуқи ҷиноӣ",
+    "OTHER": "Дигар"
+  },
   "COMMON": {
     "ACTIONS": {
       "VIEW": "Намоиш",
@@ -714,14 +731,6 @@
     },
     "CASES_BY_PRACTICE": "Парвандаҳо аз рӯи амалиятҳо",
     "CASES_BY_CATEGORY": "Парвандаҳо аз рӯи категорияҳо",
-    "PRACTICE_TYPES": {
-      "LABOR_DISPUTES": "Низоъҳои меҳнатӣ",
-      "CONTRACT_LAW": "Ҳуқуқи шартнома",
-      "INHERITANCE": "Парвандаҳои мерос",
-      "FAMILY_LAW": "Ҳуқуқи оила",
-      "CRIMINAL_LAW": "Ҳуқуқи ҷиноӣ",
-      "OTHER": "Дигар"
-    },
     "PRACTICE_STATS": {
       "TOTAL": "ҳамагӣ",
       "WON": "ғолиб омада",
@@ -874,6 +883,7 @@
       "MEMBERS": "Аъзоҳо",
       "ROLE": "Нақш",
       "SEND_INVITE": "Фиристодани даъватнома",
+      "UPGRADE_REQUIRED": "Барои даъвати аъзоҳои гурӯҳ тарҳро навсозӣ кунед",
       "ROLES": {
         "ADMIN": "Маъмур",
         "LAWYER": "Ҳуқуқшинос",
@@ -889,6 +899,12 @@
       "CHANGE_PLAN": "Иваз кардани нақша",
       "MANAGE_PAYMENT": "Идоракунии пардохт",
       "PAYMENT_HISTORY": "Таърихи пардохтҳо",
+      "NO_SUBSCRIPTION": "Шумо обунаи фаъол надоред",
+      "NO_PAYMENTS": "Таърихи пардохтҳо холӣ аст",
+      "SINGLE_USER": "1 корбар",
+      "TEAM_SIZE": "Андозаи гурӯҳ",
+      "TRIAL": "Давраи озмоишӣ",
+      "TRIAL_ENDS": "Давраи озмоишӣ анҷом меёбад",
       "PAID": "Пардохтшуда",
       "UPDATE_CARD_INFO": "Навсозии маълумоти корт",
       "CARD_NUMBER": "Рақами корт",
@@ -903,11 +919,13 @@
       "TWO_FACTOR": "Тасдиқи дуамилагӣ",
       "TWO_FACTOR_AUTH": "Тасдиқи дуамилагӣ",
       "TWO_FACTOR_ENABLED": "Тасдиқи дуамилагӣ фаъол аст",
+      "TWO_FACTOR_DISABLED": "Тасдиқи дуамилагӣ хомӯш аст",
       "TWO_FACTOR_DESC": "Ҳисоби шумо бо тасдиқи дуамилагӣ муҳофизат шудааст",
       "DISABLE": "Хомӯш кардан",
       "SESSIONS": "Сессияҳои фаъол",
       "ACTIVE_SESSIONS": "Сессияҳои фаъол",
       "ACTIVE_SESSIONS_DESC": "Идоракунии дастгоҳҳое, ки шумо дар онҳо ворид шудаед",
+      "NO_SESSIONS": "Сессияҳои фаъол нестанд",
       "CURRENT_SESSION": "Сессияи ҷорӣ",
       "CURRENT": "Ҷорӣ",
       "TERMINATE_SESSION": "Анҷом додан"
@@ -935,6 +953,7 @@
     "PROFESSIONAL_INFO": "Маълумоти касбӣ",
     "POSITION": "Мансаб",
     "SPECIALIZATION": "Тахассус",
+    "SELECT_SPECIALIZATION": "Тахассусро интихоб кунед",
     "COMPANY": "Ширкат",
     "OFFICE_ADDRESS": "Суроғаи дафтар",
     "STATS": {
@@ -960,7 +979,14 @@
       "DESCRIPTION": "Минтақаеро барои аватари худ интихоб кунед. Минтақаи буридашуда мураббаъ хоҳад буд.",
       "CANCEL": "Бекор кардан",
       "CONFIRM": "Тасдиқ кардан"
-    }
+    },
+    "NO_NAME": "Бе ном",
+    "NO_POSITION": "Мансаб нишон дода нашудааст",
+    "NO_SPECIALIZATION": "Тахассус нишон дода нашудааст",
+    "AVATAR_UPDATED": "Аватар навсозӣ шуд",
+    "CHANGES_SAVED": "Тағйирот сабт карда шуданд",
+    "DELETE_ACCOUNT_CONFIRM": "Шумо мутмаин ҳастед, ки мехоҳед ҳисоби худро ҳазф кунед?",
+    "ACCOUNT_DELETED": "Ҳисоб ҳазф карда шуд"
   },
   "AUTH": {
     "LOGIN": "Вуруд",
@@ -1039,6 +1065,8 @@
     "SUBTITLE": "Нақшаи тарифиро интихоб кунед, ки ба гурӯҳи шумо мувофиқ аст",
     "POPULAR": "Маъмул",
     "SELECT_PLAN": "Интихоби нақша",
+    "COMING_SOON": "Ба наздикӣ",
+    "ALREADY_SELECTED": "Аллакай интихобшуда",
     "BASIC": {
       "NAME": "Basic",
       "PRICE": "4 990 ₽",
@@ -1068,6 +1096,26 @@
         "STORAGE": "Бемаҳдуд захирагоҳ",
         "USERS": "Бемаҳдуд корбарон"
       }
+    }
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Огоҳиҳо",
+    "SETTINGS_TITLE": "Танзимоти огоҳиҳо",
+    "SETTING_UPDATED": "Танзим навсозӣ шуд",
+    "SETTING_UPDATE_FAILED": "Танзимро навсозӣ карда натавонист",
+    "TYPES": {
+      "CASE_DEADLINE": "Ёдрасонии мӯҳлати парванда",
+      "TASK_DEADLINE": "Ёдрасонии мӯҳлати вазифа",
+      "COURT_DATE": "Ёдрасонии санаи суд",
+      "NEW_COMMENT": "Шарҳи нав",
+      "CASE_UPDATE": "Навсозии парванда",
+      "NEW_DOCUMENT": "Ҳуҷҷати нав",
+      "NEW_MEETING": "Вохӯрии нав",
+      "MEETING_UPDATE": "Навсозии вохӯрӣ",
+      "STATUS_UPDATE": "Навсозии ҳолат",
+      "NEW_TASK": "Вазифаи нав",
+      "TASK_UPDATE": "Навсозии вазифа",
+      "TIMELINE_UPDATE": "Навсозии ҷадвал"
     }
   }
 }

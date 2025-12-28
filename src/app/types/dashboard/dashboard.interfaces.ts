@@ -1,9 +1,8 @@
-// ========== API Response Types ==========
 
 export interface DashboardTrends {
-  activeCases: string; // "+8%" or "-3%"
-  clients: string; // "+12%"
-  documents: string; // "+23%"
+  activeCases: string;
+  clients: string;
+  documents: string;
 }
 
 export interface DashboardStatsData {
@@ -20,10 +19,10 @@ export interface DashboardStatsData {
 }
 
 export interface ActivityItem {
-  type: string; // "case_created", "document_uploaded", "meeting_scheduled"
+  type: string;
   title: string;
   userName: string;
-  timestamp: string; // ISO date
+  timestamp: string;
 }
 
 export interface PriorityCaseItem {
@@ -33,10 +32,10 @@ export interface PriorityCaseItem {
     id: string;
     name: string;
   };
-  deadline: string; // ISO date
+  deadline: string;
   priority: 'high' | 'medium' | 'low' | 'urgent';
   status: string;
-  progress?: number; // 0-100
+  progress?: number;
   category?: string;
   fee?: number;
   documents?: number;
@@ -54,7 +53,7 @@ export interface PriorityCasesResponse {
 
 export interface TodayMeetingItem {
   id: string;
-  time: string; // "HH:mm" format
+  time: string;
   title: string;
   date?: string;
   duration?: string;
@@ -74,7 +73,6 @@ export interface TodayMeetingsResponse {
   meetings: TodayMeetingItem[];
 }
 
-// ========== Legacy/UI Props (для совместимости) ==========
 
 export interface CaseItemProps {
   id: number;

@@ -6,10 +6,8 @@
 export function formatDescription(text: string): string {
   if (!text) return '';
 
-  // 1. Заменяем множественные пробелы на один пробел
   let formatted = text.replace(/ +/g, ' ');
 
-  // 2. Заменяем более 2 переносов строк подряд на максимум 2 переноса
   formatted = formatted.replace(/\n{3,}/g, '\n\n');
 
   return formatted;

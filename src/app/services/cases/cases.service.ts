@@ -37,7 +37,6 @@ export const casesService = {
       };
     }>('/cases', { params: cleanParams });
 
-    // Маппинг ответа API к нашему типу
     return {
       cases: response.data.cases,
       pagination: {
@@ -81,7 +80,6 @@ export const casesService = {
     return response.data;
   },
 
-  // Comments API Methods
   getComments: async (caseId: string): Promise<CommentInterface[]> => {
     const response = await httpClient.get<CommentInterface[]>(`/cases/${caseId}/comments`);
     return response.data;
@@ -110,7 +108,6 @@ export const casesService = {
     await httpClient.delete(`/cases/${caseId}/comments/${commentId}`);
   },
 
-  // Tasks API Methods
   getTasks: async (caseId: string): Promise<CaseTaskInterface[]> => {
     const response = await httpClient.get<CaseTaskInterface[]>(`/cases/${caseId}/tasks`);
     return response.data;

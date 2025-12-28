@@ -58,19 +58,19 @@ export function DocumentsPage() {
     },
     {
       label: t('DOCUMENTS.STATS.ON_REVIEW'),
-      value: documents.filter((d) => d.status === DocumentStatusEnum.REVIEW).length, // This will be inaccurate with pagination
+      value: documents.filter((d) => d.status === DocumentStatusEnum.REVIEW).length,
       icon: Clock,
       color: 'text-amber-500',
     },
     {
       label: t('DOCUMENTS.STATS.FAVORITES'),
-      value: documents.filter((d) => d.starred).length, // This will be inaccurate with pagination
+      value: documents.filter((d) => d.starred).length,
       icon: Star,
       color: 'text-yellow-500',
     },
     {
       label: t('DOCUMENTS.STATS.DRAFTS'),
-      value: documents.filter((d) => d.status === DocumentStatusEnum.DRAFT).length, // This will be inaccurate with pagination
+      value: documents.filter((d) => d.status === DocumentStatusEnum.DRAFT).length,
       icon: Filter,
       color: 'text-muted-foreground',
     },

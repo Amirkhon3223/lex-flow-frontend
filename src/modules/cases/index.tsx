@@ -91,7 +91,6 @@ export function CasePage() {
       priority: filterPriority !== 'all' ? filterPriority : undefined,
       search: debouncedSearch || undefined,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit, filterStatus, filterPriority, debouncedSearch]);
 
   const filteredCases =

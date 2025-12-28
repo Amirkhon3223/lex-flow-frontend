@@ -18,7 +18,6 @@ export function TeamTabContent() {
   const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Fetch team data on mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,12 +27,9 @@ export function TeamTabContent() {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only fetch once on mount
+  }, []);
 
-  // Team management только на Pro Max плане
   const hasProMaxPlan = workspace?.planId === 'pro_max';
-  // Управление командой доступно owner и admin
   const canManageTeam = (role === 'owner' || role === 'admin') && hasProMaxPlan;
 
   const handleInvite = () => {

@@ -40,11 +40,11 @@ export interface CaseInterface {
 }
 
 export interface CaseDocumentInterface {
-  id: string; // UUID from backend
+  id: string;
   caseId: string;
   name: string;
-  size: string; // Formatted size (e.g., "2.5 MB")
-  fileSize: number; // Size in bytes from backend
+  size: string;
+  fileSize: number;
   date: string;
   versions: number;
   status: DocumentStatusEnum;
@@ -59,8 +59,8 @@ export interface CaseDocumentInterface {
 }
 
 export interface TimelineEventInterface {
-  id: string; // UUID from backend
-  caseId: string; // UUID from backend
+  id: string;
+  caseId: string;
   eventDate: string;
   title: string;
   description: string;
@@ -70,8 +70,8 @@ export interface TimelineEventInterface {
 }
 
 export interface CaseTaskInterface {
-  id: string; // UUID from backend
-  caseId: string; // UUID from backend
+  id: string;
+  caseId: string;
   title: string;
   completed: boolean;
   createdAt: string;
@@ -79,11 +79,11 @@ export interface CaseTaskInterface {
 }
 
 export interface CommentInterface {
-  id: string; // UUID from backend
-  caseId: string; // UUID from backend
+  id: string;
+  caseId: string;
   content: string;
-  createdBy: string; // API returns createdBy, not authorId
-  userName: string; // API returns userName, not authorName
+  createdBy: string;
+  userName: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -96,7 +96,7 @@ export interface AIInsightInterface {
 }
 
 export interface CaseCardInterface {
-  id: string; // UUID from backend
+  id: string;
   title: string;
   client: string;
   clientInitials: string;

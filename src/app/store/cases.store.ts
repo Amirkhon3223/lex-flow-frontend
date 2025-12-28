@@ -18,12 +18,10 @@ interface CasesState {
   loading: boolean;
   error: string | null;
 
-  // Comments state
   comments: CommentInterface[];
   commentsLoading: boolean;
   commentsError: string | null;
 
-  // Tasks state
   tasks: CaseTaskInterface[];
   tasksLoading: boolean;
   tasksError: string | null;
@@ -43,13 +41,11 @@ interface CasesState {
   fetchTimeline: (caseId: string) => Promise<void>;
   selectCase: (caseItem: CaseInterface | null) => void;
 
-  // Comments actions
   fetchComments: (caseId: string) => Promise<void>;
   addComment: (caseId: string, content: string) => Promise<void>;
   updateComment: (caseId: string, commentId: string, content: string) => Promise<void>;
   deleteComment: (caseId: string, commentId: string) => Promise<void>;
 
-  // Tasks actions
   fetchTasks: (caseId: string) => Promise<void>;
   addTask: (caseId: string, title: string) => Promise<void>;
   updateTask: (
@@ -61,7 +57,6 @@ interface CasesState {
   toggleTask: (caseId: string, taskId: string) => Promise<void>;
 }
 
-// Helper function to extract error message
 const getErrorMessage = (error: unknown, defaultMessage: string): string => {
   if (error instanceof Error && 'response' in error) {
     const response = (error as { response?: { data?: { message?: string } } }).response;
@@ -78,12 +73,10 @@ export const useCasesStore = create<CasesState>((set, get) => ({
   loading: false,
   error: null,
 
-  // Comments state
   comments: [],
   commentsLoading: false,
   commentsError: null,
 
-  // Tasks state
   tasks: [],
   tasksLoading: false,
   tasksError: null,
@@ -165,7 +158,6 @@ export const useCasesStore = create<CasesState>((set, get) => ({
     set({ selectedCase: caseItem });
   },
 
-  // Comments actions
   fetchComments: async (caseId: string) => {
     set({ commentsLoading: true, commentsError: null });
     try {
@@ -227,7 +219,6 @@ export const useCasesStore = create<CasesState>((set, get) => ({
     }
   },
 
-  // Tasks actions
   fetchTasks: async (caseId: string) => {
     set({ tasksLoading: true, tasksError: null });
     try {

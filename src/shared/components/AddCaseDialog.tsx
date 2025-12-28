@@ -27,7 +27,7 @@ interface AddCaseDialogProps {
   onOpenChange: (open: boolean) => void;
   onSubmit?: (caseData: any) => void;
   caseId?: string;
-  preselectedClientId?: string; // ID клиента для автовыбора
+  preselectedClientId?: string;
 }
 
 export function AddCaseDialog({
@@ -42,7 +42,7 @@ export function AddCaseDialog({
   const { createCase, updateCase, fetchCaseById, selectedCase } = useCasesStore();
   const [formData, setFormData] = useState({
     title: '',
-    client: preselectedClientId || '', // Устанавливаем предвыбранного клиента
+    client: preselectedClientId || '',
     category: '',
     deadline: '',
     courtDate: '',
@@ -73,7 +73,6 @@ export function AddCaseDialog({
         priority: selectedCase.priority,
       });
     } else if (!caseId && preselectedClientId && open) {
-      // Если это новое дело и есть предвыбранный клиент
       setFormData((prev) => ({ ...prev, client: preselectedClientId }));
     }
   }, [caseId, selectedCase, open, preselectedClientId]);

@@ -15,7 +15,6 @@ export const clientsService = {
     status?: string;
     search?: string;
   }): Promise<ClientListResponse> => {
-    // Очищаем параметры от undefined и пустых значений
     const cleanParams: Record<string, string | number> = {};
 
     if (params?.page !== undefined) cleanParams.page = params.page;

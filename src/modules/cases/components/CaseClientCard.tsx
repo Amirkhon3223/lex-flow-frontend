@@ -26,7 +26,6 @@ export function CaseClientCard({
 }: CaseClientCardProps) {
   const { t } = useI18n();
 
-  // Получить инициалы из имени
   const getInitials = (name: string) => {
     return name
       .split(' ')
