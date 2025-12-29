@@ -2,60 +2,60 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useNotificationsStore } from '@/app/store/notifications.store';
 import { NotificationEventType } from '@/app/types/notifications/notifications.enums';
-import { Button } from '@/shared/ui/button';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Switch } from '@/shared/ui/switch';
 
-const notificationTypeLabels: Record<NotificationEventType, string> = {
-  [NotificationEventType.CASE_DEADLINE]: 'Case Deadline Reminder',
-  [NotificationEventType.TASK_DEADLINE]: 'Task Deadline Reminder',
-  [NotificationEventType.COURT_DATE]: 'Court Date Reminder',
-  [NotificationEventType.NEW_COMMENT]: 'New Comment',
-  [NotificationEventType.CASE_UPDATE]: 'Case Update',
-  [NotificationEventType.NEW_DOCUMENT]: 'New Document',
-  [NotificationEventType.NEW_MEETING]: 'New Meeting',
-  [NotificationEventType.MEETING_UPDATE]: 'Meeting Update',
-  [NotificationEventType.STATUS_UPDATE]: 'Status Update',
-  [NotificationEventType.NEW_TASK]: 'New Task',
-  [NotificationEventType.TASK_UPDATE]: 'Task Update',
-  [NotificationEventType.TIMELINE_UPDATE]: 'Timeline Update',
-};
-
 export function NotificationsTabContent() {
+  const { t } = useI18n();
   const {
     settings: initialSettings,
     loading,
     fetchSettings,
     updateSettings,
   } = useNotificationsStore();
+
+  const notificationTypeLabels: Record<NotificationEventType, string> = {
+    [NotificationEventType.CASE_DEADLINE]: t('NOTIFICATIONS.TYPES.CASE_DEADLINE'),
+    [NotificationEventType.TASK_DEADLINE]: t('NOTIFICATIONS.TYPES.TASK_DEADLINE'),
+    [NotificationEventType.COURT_DATE]: t('NOTIFICATIONS.TYPES.COURT_DATE'),
+    [NotificationEventType.NEW_COMMENT]: t('NOTIFICATIONS.TYPES.NEW_COMMENT'),
+    [NotificationEventType.CASE_UPDATE]: t('NOTIFICATIONS.TYPES.CASE_UPDATE'),
+    [NotificationEventType.NEW_DOCUMENT]: t('NOTIFICATIONS.TYPES.NEW_DOCUMENT'),
+    [NotificationEventType.NEW_MEETING]: t('NOTIFICATIONS.TYPES.NEW_MEETING'),
+    [NotificationEventType.MEETING_UPDATE]: t('NOTIFICATIONS.TYPES.MEETING_UPDATE'),
+    [NotificationEventType.STATUS_UPDATE]: t('NOTIFICATIONS.TYPES.STATUS_UPDATE'),
+    [NotificationEventType.NEW_TASK]: t('NOTIFICATIONS.TYPES.NEW_TASK'),
+    [NotificationEventType.TASK_UPDATE]: t('NOTIFICATIONS.TYPES.TASK_UPDATE'),
+    [NotificationEventType.TIMELINE_UPDATE]: t('NOTIFICATIONS.TYPES.TIMELINE_UPDATE'),
+  };
   const [settings, setSettings] = useState(initialSettings);
 
   useEffect(() => {
     fetchSettings();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only fetch once on mount
+  }, []);
 
   useEffect(() => {
     setSettings(initialSettings);
   }, [initialSettings]);
 
-  const handleSettingChange = (key: string, value: boolean) => {
-    setSettings((prev) => ({ ...prev, [key]: value }));
-  };
+  const handleSettingChange = async (key: string, value: boolean) => {
+    const updatedSettings = { ...settings, [key]: value };
+    setSettings(updatedSettings);
 
-  const handleSaveChanges = async () => {
     try {
-      await updateSettings(settings);
-      toast.success('Notification settings updated successfully!');
+      await updateSettings(updatedSettings);
+      toast.success(t('NOTIFICATIONS.SETTING_UPDATED'));
     } catch (error) {
-      toast.error('Failed to update settings. Please try again.');
+      toast.error(t('NOTIFICATIONS.SETTING_UPDATE_FAILED'));
+      setSettings(settings);
     }
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Notification Settings</CardTitle>
+        <CardTitle>{t('NOTIFICATIONS.SETTINGS_TITLE')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {Object.values(NotificationEventType).map((type) => (
@@ -71,9 +71,6 @@ export function NotificationsTabContent() {
             />
           </div>
         ))}
-        <Button onClick={handleSaveChanges} disabled={loading} className="mt-4">
-          {loading ? 'Saving...' : 'Save Changes'}
-        </Button>
       </CardContent>
     </Card>
   );

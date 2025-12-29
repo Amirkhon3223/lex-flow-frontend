@@ -3,7 +3,6 @@ export interface MonthlyStats {
   month: string;
 }
 
-/* CASES */
 export interface RecentCaseItem {
   id: string;
   title: string;
@@ -23,7 +22,6 @@ export interface CaseAnalyticsResponse {
   totalCases: number;
 }
 
-/* CLIENTS */
 export interface TopClientItem {
   id: string;
   name: string;
@@ -40,7 +38,6 @@ export interface ClientAnalyticsResponse {
   totalClients: number;
 }
 
-/* DOCUMENTS */
 export interface RecentDocumentItem {
   id: string;
   name: string;
@@ -59,7 +56,6 @@ export interface DocumentAnalyticsResponse {
   totalSize: number;
 }
 
-/* MEETINGS */
 export interface RecentMeetingItem {
   id: string;
   title: string;
@@ -79,7 +75,6 @@ export interface MeetingAnalyticsResponse {
   upcomingCount: number;
 }
 
-/* DASHBOARD */
 export interface ActivityItem {
   timestamp: string;
   title: string;
@@ -88,9 +83,9 @@ export interface ActivityItem {
 }
 
 export interface DashboardTrends {
-  activeCases: string; // "+8%" or "-3%"
-  clients: string; // "+12%"
-  documents: string; // "+23%"
+  activeCases: string;
+  clients: string;
+  documents: string;
 }
 
 export interface DashboardStatsResponse {
@@ -106,7 +101,6 @@ export interface DashboardStatsResponse {
   recentActivity: ActivityItem[];
 }
 
-/* FINANCE */
 export interface MonthlyRevenueStats {
   month: string;
   amount: number;
@@ -119,7 +113,6 @@ export interface FinanceAnalyticsResponse {
   avgRevenuePerClient: number;
 }
 
-/* TEAM */
 export interface LawyerStats {
   id: string;
   name: string;

@@ -10,7 +10,6 @@ class WebSocketService {
   private reconnectAttempts = 0;
 
   public connect(): void {
-    // Check if already connected or connecting
     if (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)) {
       console.log('WebSocket: Already connected or connecting.');
       return;
@@ -61,7 +60,6 @@ class WebSocketService {
       this.reconnectTimeout = null;
     }
     if (this.socket) {
-      // Remove event listeners to prevent reconnection
       this.socket.onclose = null;
       this.socket.onerror = null;
       this.socket.close();
@@ -85,10 +83,8 @@ class WebSocketService {
   }
 
   private handleNotification(notification: Notification): void {
-    // Add to the Zustand store
     useNotificationsStore.getState().addNotification(notification);
 
-    // Show a toast
     toast.info(notification.title, {
       description: notification.message,
     });

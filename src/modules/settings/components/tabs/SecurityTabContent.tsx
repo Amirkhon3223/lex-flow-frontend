@@ -22,7 +22,6 @@ export function SecurityTabContent() {
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [sessions, setSessions] = useState<Session[]>([]);
 
-  // Load 2FA status and sessions on mount
   useEffect(() => {
     const fetchData = async () => {
       try {

@@ -1,8 +1,8 @@
 export interface Pagination {
   page: number;
   limit: number;
-  totalItems?: number; // Used by /documents and others
-  total?: number; // Used by /clients
+  totalItems?: number;
+  total?: number;
   totalPages: number;
 }
 

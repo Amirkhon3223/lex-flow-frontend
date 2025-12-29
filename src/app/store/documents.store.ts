@@ -73,7 +73,6 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       await documentsService.create(data);
-      // After creating, fetch the list to reflect the new item and pagination
       await get().fetchDocuments();
       set({ loading: false });
     } catch (error) {
@@ -99,7 +98,6 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       await documentsService.delete(id);
-      // After deleting, fetch the list to reflect the change and pagination
       await get().fetchDocuments();
       set({ loading: false });
     } catch (error) {

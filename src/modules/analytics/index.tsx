@@ -39,7 +39,6 @@ export default function AnalyticsPage() {
     fetchTeam,
   } = useAnalyticsStore();
 
-  // Load all analytics data on page mount
   useEffect(() => {
     fetchDashboard();
     fetchCases();

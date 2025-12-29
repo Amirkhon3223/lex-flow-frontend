@@ -87,11 +87,9 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
     notes: '',
   });
 
-  // Инициализация формы при открытии
   useEffect(() => {
     if (open) {
       if (mode === 'edit' && client) {
-        // Режим редактирования - заполняем данными клиента
         setClientType(client.type);
         setFormData({
           firstName: client.firstName || '',
@@ -109,7 +107,6 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
           notes: client.notes || '',
         });
       } else {
-        // Режим создания - сброс формы
         setClientType(ClientTypeEnum.INDIVIDUAL);
         setFormData({
           firstName: '',
@@ -135,7 +132,6 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
 
     try {
       if (mode === 'create') {
-        // Создание нового клиента
         const clientData: CreateClientInterface = {
           type: clientType,
           email: formData.email,
@@ -159,7 +155,6 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
 
         await createClient(clientData);
       } else {
-        // Обновление существующего клиента
         if (!client) return;
 
         const updateData: UpdateClientInterface = {};
@@ -241,7 +236,6 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                 </TabsList>
               </Tabs>
             ) : (
-              // В режиме редактирования показываем тип как badge
               <div className="flex items-center gap-2 p-3 bg-muted/30 rounded-xl">
                 <span className="text-sm text-muted-foreground">{t('CLIENTS.FIELDS.TYPE')}:</span>
                 <Badge variant="secondary" className="gap-2">

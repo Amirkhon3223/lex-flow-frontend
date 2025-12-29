@@ -22,6 +22,7 @@ export function ProfileSidebar({
     email: string;
     phone: string;
     position: string;
+    specialization: string;
     avatarUrl?: string;
   };
   stats: Array<{ label: string; value: string; icon: typeof Briefcase; color: string }>;
@@ -29,6 +30,22 @@ export function ProfileSidebar({
 }) {
   const { t } = useI18n();
   const { user, updateUserData } = useAuthStore();
+
+  const getSpecializationLabel = (spec?: string) => {
+    if (!spec) return t('USER_PROFILE.NO_SPECIALIZATION');
+
+    const specializationMap: Record<string, string> = {
+      lawyer: t('SPECIALIZATION.LAWYER'),
+      attorney: t('SPECIALIZATION.ATTORNEY'),
+      legal_assistant: t('SPECIALIZATION.LEGAL_ASSISTANT'),
+      senior_lawyer: t('SPECIALIZATION.SENIOR_LAWYER'),
+      junior_lawyer: t('SPECIALIZATION.JUNIOR_LAWYER'),
+      partner: t('SPECIALIZATION.PARTNER'),
+      other: t('SPECIALIZATION.OTHER'),
+    };
+
+    return specializationMap[spec] || spec;
+  };
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [cropperOpen, setCropperOpen] = useState(false);
@@ -59,19 +76,19 @@ export function ProfileSidebar({
     setAvatarPreview(croppedImageUrl);
     setSelectedImage(null);
 
-    // Upload avatar to server
     try {
-      // Convert base64 to blob
       const response = await fetch(croppedImageUrl);
       const blob = await response.blob();
       const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
 
-      await usersService.uploadAvatar(file);
-      updateUserData({ avatar: croppedImageUrl });
+      const uploadResponse = await usersService.uploadAvatar(file);
+      updateUserData({ avatar: uploadResponse.avatarUrl });
+      setAvatarPreview(uploadResponse.avatarUrl);
       toast.success(t('USER_PROFILE.AVATAR_UPDATED'));
     } catch (error) {
       toast.error(t('COMMON.ERRORS.GENERIC'));
       console.error('Avatar upload error:', error);
+      setAvatarPreview(null);
     }
   };
 
@@ -115,8 +132,8 @@ export function ProfileSidebar({
                 />
               )}
               <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-2xl sm:text-3xl">
-                {profileData.firstName[0]}
-                {profileData.lastName[0]}
+                {profileData.firstName?.[0] || user?.name?.[0] || '?'}
+                {profileData.lastName?.[0] || user?.name?.split(' ')?.[1]?.[0] || ''}
               </AvatarFallback>
             </Avatar>
             <input
@@ -136,12 +153,18 @@ export function ProfileSidebar({
           </div>
 
           <h3 className="text-lg sm:text-xl tracking-tight mb-1">
-            {profileData.firstName} {profileData.lastName}
+            {profileData.firstName && profileData.lastName
+              ? `${profileData.firstName} ${profileData.lastName}`
+              : user?.name || t('USER_PROFILE.NO_NAME')}
           </h3>
-          <p className="text-xs sm:text-sm text-muted-foreground mb-2">{profileData.position}</p>
-          <Badge className="bg-purple-100 text-purple-700 border-0 mb-3 sm:mb-4 text-xs sm:text-sm">
-            {t('USER_PROFILE.ACCOUNT_TYPE')}
-          </Badge>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-2">
+            {getSpecializationLabel(profileData.specialization || user?.specialization)}
+          </p>
+          {user?.role && (
+            <Badge className="bg-purple-100 text-purple-700 border-0 mb-3 sm:mb-4 text-xs sm:text-sm">
+              {user.role}
+            </Badge>
+          )}
 
           <Separator className="my-3 sm:my-4 bg-border" />
 
@@ -150,14 +173,20 @@ export function ProfileSidebar({
               <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
               <span className="truncate">{profileData.email}</span>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground justify-center sm:justify-start">
-              <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
-              <span>{profileData.phone}</span>
-            </div>
-            <div className="flex items-center gap-2 text-muted-foreground justify-center sm:justify-start">
-              <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
-              <span>New York, USA</span>
-            </div>
+            {(profileData.phone || user?.phone) && (
+              <div className="flex items-center gap-2 text-muted-foreground justify-center sm:justify-start">
+                <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
+                <span>{profileData.phone || user?.phone}</span>
+              </div>
+            )}
+            {(user?.city || user?.country) && (
+              <div className="flex items-center gap-2 text-muted-foreground justify-center sm:justify-start">
+                <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
+                <span>
+                  {[user?.city, user?.country].filter(Boolean).join(', ')}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </Card>

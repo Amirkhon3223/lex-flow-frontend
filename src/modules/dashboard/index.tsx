@@ -21,7 +21,6 @@ export default function DashboardPage() {
   const [isAddClientOpen, setIsAddClientOpen] = useState(false);
   const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
 
-  // Fetch all dashboard data on mount
   useEffect(() => {
     fetchAllDashboardData();
   }, [fetchAllDashboardData]);
@@ -29,7 +28,6 @@ export default function DashboardPage() {
   const handleAddCase = async (caseData: CaseFormData) => {
     try {
       console.log('Дело успешно создано:', caseData);
-      // Refresh dashboard data after creating a case
       fetchAllDashboardData();
     } catch (error) {
       console.error('Ошибка при создании дела:', error);
@@ -37,7 +35,6 @@ export default function DashboardPage() {
   };
 
   const handleUploadDocument = async () => {
-    // Refresh dashboard data after uploading a document
     fetchAllDashboardData();
   };
 

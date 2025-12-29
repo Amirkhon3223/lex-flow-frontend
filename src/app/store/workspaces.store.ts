@@ -13,7 +13,6 @@ interface WorkspacesState {
   loading: boolean
   error: string | null
 
-  // Actions
   setCurrentWorkspace: (workspace: WorkspaceInfo | null) => void
   fetchMyWorkspaces: () => Promise<void>
   fetchCurrentWorkspace: () => Promise<void>
@@ -84,14 +83,10 @@ export const useWorkspacesStore = create<WorkspacesState>()(
         set({ loading: true, error: null })
         try {
           // TODO: Implement workspace switching logic
-          // 1. Call backend API to switch workspace context
-          // 2. Update JWT token
-          // 3. Fetch new workspace data
           const workspace = get().workspaces.find((w) => w.id === workspaceId)
           if (workspace) {
             set({ currentWorkspace: workspace, loading: false })
           } else {
-            // Fetch from server if not in local list
             const fetchedWorkspace = await workspacesService.getCurrentWorkspace()
             set({ currentWorkspace: fetchedWorkspace, loading: false })
           }

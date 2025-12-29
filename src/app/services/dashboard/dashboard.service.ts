@@ -31,7 +31,7 @@ export const dashboardService = {
   getPriorityCases: async (limit = 5): Promise<PriorityCasesResponse> => {
     const response = await httpClient.get<PriorityCasesResponse>('/cases', {
       params: {
-        priority: 'high', // Бекенд сам фильтрует по urgent/high/близкий дедлайн
+        priority: 'high',
         sortBy: 'deadline',
         limit,
       },

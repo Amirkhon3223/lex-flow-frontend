@@ -71,7 +71,6 @@ export const useBillingStore = create<BillingState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       await billingService.changePlan(data);
-      // Refresh subscription after change
       await get().fetchSubscription();
       set({ loading: false });
     } catch (error) {
@@ -84,7 +83,6 @@ export const useBillingStore = create<BillingState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       await billingService.cancelSubscription();
-      // Refresh subscription after cancellation
       await get().fetchSubscription();
       set({ loading: false });
     } catch (error) {
@@ -111,7 +109,6 @@ export const useBillingStore = create<BillingState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       const blob = await billingService.downloadReceipt(paymentId);
-      // Create download link
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

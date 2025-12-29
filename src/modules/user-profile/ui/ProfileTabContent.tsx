@@ -131,19 +131,18 @@ export function ProfileTabContent({ profileData, handleProfileChange }: ProfileT
                 onValueChange={(value) => handleProfileChange('specialization', value)}
               >
                 <SelectTrigger className="h-9 sm:h-10 lg:h-11 rounded-lg sm:rounded-xl border-gray-200 focus:ring-blue-500 text-sm">
-                  <SelectValue />
+                  <SelectValue placeholder={t('USER_PROFILE.SELECT_SPECIALIZATION')} />
                 </SelectTrigger>
                 <SelectContent className="rounded-lg sm:rounded-xl">
-                  <SelectItem value="Трудовое право">
-                    {t('PRACTICE_TYPES.LABOR_DISPUTES')}
+                  <SelectItem value="lawyer">{t('SPECIALIZATION.LAWYER')}</SelectItem>
+                  <SelectItem value="attorney">{t('SPECIALIZATION.ATTORNEY')}</SelectItem>
+                  <SelectItem value="legal_assistant">
+                    {t('SPECIALIZATION.LEGAL_ASSISTANT')}
                   </SelectItem>
-                  <SelectItem value="Договорное право">
-                    {t('PRACTICE_TYPES.CONTRACT_LAW')}
-                  </SelectItem>
-                  <SelectItem value="Семейное право">{t('PRACTICE_TYPES.FAMILY_LAW')}</SelectItem>
-                  <SelectItem value="Уголовное право">
-                    {t('PRACTICE_TYPES.CRIMINAL_LAW')}
-                  </SelectItem>
+                  <SelectItem value="senior_lawyer">{t('SPECIALIZATION.SENIOR_LAWYER')}</SelectItem>
+                  <SelectItem value="junior_lawyer">{t('SPECIALIZATION.JUNIOR_LAWYER')}</SelectItem>
+                  <SelectItem value="partner">{t('SPECIALIZATION.PARTNER')}</SelectItem>
+                  <SelectItem value="other">{t('SPECIALIZATION.OTHER')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>

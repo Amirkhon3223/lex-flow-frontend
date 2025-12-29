@@ -45,15 +45,25 @@ export const useAuthStore = create<AuthState>()(
           if (response.user.timezone) {
             localStorage.setItem('userTimezone', response.user.timezone)
           }
+
           set({
             user: response.user,
             token: response.token,
             workspace: response.workspace || null,
-            role: response.role || null,
+            role: (response.user.role as MembershipRole) || null,
             isAuthenticated: true,
             loading: false,
             error: null,
           })
+
+          try {
+            const fullUser = await usersService.getMe()
+            set((state) => ({
+              user: state.user ? { ...state.user, ...fullUser } : fullUser,
+            }))
+          } catch (error) {
+            console.error('Failed to load full user profile:', error)
+          }
         } catch (error) {
           const errorMessage = (error as Error).message || 'Login failed'
           set({ error: errorMessage, loading: false, isAuthenticated: false })
@@ -75,7 +85,6 @@ export const useAuthStore = create<AuthState>()(
             loading: false,
           })
         } catch (error) {
-          // Даже если произошла ошибка, очищаем локальное состояние
           localStorage.removeItem('userTimezone')
           set({
             user: null,
@@ -98,18 +107,24 @@ export const useAuthStore = create<AuthState>()(
             localStorage.setItem('userTimezone', response.user.timezone)
           }
 
-          // Backend создаёт workspace автоматически при регистрации
-          // Если НЕТ inviteToken - создаётся новый workspace
-          // Если ЕСТЬ inviteToken - присоединение к существующему
           set({
             user: response.user,
             token: response.token,
             workspace: response.workspace || null,
-            role: response.role || null,
+            role: (response.user.role as MembershipRole) || null,
             isAuthenticated: true,
             loading: false,
             error: null,
           })
+
+          try {
+            const fullUser = await usersService.getMe()
+            set((state) => ({
+              user: state.user ? { ...state.user, ...fullUser } : fullUser,
+            }))
+          } catch (error) {
+            console.error('Failed to load full user profile:', error)
+          }
         } catch (error) {
           const errorMessage = (error as Error).message || 'Registration failed'
           set({ error: errorMessage, loading: false, isAuthenticated: false })
@@ -147,6 +162,7 @@ export const useAuthStore = create<AuthState>()(
         role: state.role,
         isAuthenticated: state.isAuthenticated,
       }),
+      skipHydration: false,
     }
   )
 )

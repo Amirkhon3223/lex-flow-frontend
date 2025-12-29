@@ -1,4 +1,21 @@
 {
+  "SPECIALIZATION": {
+    "LAWYER": "Юрист",
+    "ATTORNEY": "Адвокат",
+    "LEGAL_ASSISTANT": "Помощник юриста",
+    "SENIOR_LAWYER": "Старший юрист",
+    "JUNIOR_LAWYER": "Младший юрист",
+    "PARTNER": "Партнер",
+    "OTHER": "Другое"
+  },
+  "PRACTICE_TYPES": {
+    "LABOR_DISPUTES": "Трудовые споры",
+    "CONTRACT_LAW": "Договорное право",
+    "INHERITANCE": "Наследственные дела",
+    "FAMILY_LAW": "Семейное право",
+    "CRIMINAL_LAW": "Уголовное право",
+    "OTHER": "Прочее"
+  },
   "COMMON": {
     "ACTIONS": {
       "VIEW": "Открыть",
@@ -73,6 +90,9 @@
       "CONFIRM_DELETE": "Вы уверены, что хотите удалить?",
       "CONFIRM_ARCHIVE": "Вы уверены, что хотите архивировать?",
       "DELETED": "Успешно удалено"
+    },
+    "ERRORS": {
+      "GENERIC": "Произошла ошибка. Попробуйте снова."
     },
     "TIME": {
       "TODAY": "Сегодня",
@@ -839,7 +859,10 @@
       "REGIONAL_SETTINGS": "Региональные настройки",
       "LANGUAGE": "Язык",
       "TIMEZONE": "Часовой пояс",
-      "SAVE_CHANGES": "Сохранить изменения"
+      "SAVE_CHANGES": "Сохранить изменения",
+      "PROFILE_UPDATED": "Профиль успешно обновлён",
+      "LANGUAGE_UPDATED": "Язык успешно изменён",
+      "TIMEZONE_UPDATED": "Часовой пояс успешно изменён"
     },
     "NOTIFICATIONS": {
       "EMAIL": {
@@ -873,6 +896,7 @@
       "MEMBERS": "Участники",
       "ROLE": "Роль",
       "SEND_INVITE": "Отправить приглашение",
+      "UPGRADE_REQUIRED": "Обновите тарифный план для приглашения участников команды",
       "ROLES": {
         "ADMIN": "Администратор",
         "LAWYER": "Юрист",
@@ -887,11 +911,24 @@
       "PAYMENT_METHOD": "Метод оплаты",
       "CHANGE_PLAN": "Изменить план",
       "MANAGE_PAYMENT": "Управление оплатой",
+      "MANAGE_SUBSCRIPTION": "Управление подпиской",
       "PAYMENT_HISTORY": "История платежей",
+      "NO_SUBSCRIPTION": "У вас нет активной подписки",
+      "NO_PAYMENTS": "История платежей пуста",
+      "SINGLE_USER": "1 пользователь",
+      "TEAM_SIZE": "Размер команды",
+      "TRIAL": "Пробный период",
+      "TRIAL_ENDS": "Пробный период заканчивается",
+      "ACTIVE": "Активна",
+      "ACTIVE_UNTIL": "Активна до",
       "PAID": "Оплачено",
       "UPDATE_CARD_INFO": "Обновите информацию о вашей карте",
       "CARD_NUMBER": "Номер карты",
-      "EXPIRY_DATE": "Срок действия"
+      "EXPIRY_DATE": "Срок действия",
+      "PLAN_INFO": "Информация о плане",
+      "MAX_USERS": "Макс. пользователей",
+      "RECEIPT": "Квитанция",
+      "RECEIPT_DOWNLOADED": "Квитанция успешно загружена"
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Изменить пароль",
@@ -902,11 +939,13 @@
       "TWO_FACTOR": "Двухфакторная аутентификация",
       "TWO_FACTOR_AUTH": "Двухфакторная аутентификация",
       "TWO_FACTOR_ENABLED": "Двухфакторная аутентификация включена",
+      "TWO_FACTOR_DISABLED": "Двухфакторная аутентификация отключена",
       "TWO_FACTOR_DESC": "Ваш аккаунт защищен двухфакторной аутентификацией",
       "DISABLE": "Отключить",
       "SESSIONS": "Активные сессии",
       "ACTIVE_SESSIONS": "Активные сессии",
       "ACTIVE_SESSIONS_DESC": "Управление устройствами, на которых вы вошли в систему",
+      "NO_SESSIONS": "Нет активных сессий",
       "CURRENT_SESSION": "Текущая сессия",
       "CURRENT": "Текущее",
       "TERMINATE_SESSION": "Завершить"
@@ -934,6 +973,7 @@
     "PROFESSIONAL_INFO": "Профессиональная информация",
     "POSITION": "Должность",
     "SPECIALIZATION": "Специализация",
+    "SELECT_SPECIALIZATION": "Выберите специализацию",
     "COMPANY": "Компания",
     "OFFICE_ADDRESS": "Адрес офиса",
     "STATS": {
@@ -959,7 +999,14 @@
       "DESCRIPTION": "Выберите область для аватарки. Область обрезки будет квадратной.",
       "CANCEL": "Отмена",
       "CONFIRM": "Подтвердить"
-    }
+    },
+    "NO_NAME": "Без имени",
+    "NO_POSITION": "Должность не указана",
+    "NO_SPECIALIZATION": "Специализация не указана",
+    "AVATAR_UPDATED": "Аватар обновлён",
+    "CHANGES_SAVED": "Изменения сохранены",
+    "DELETE_ACCOUNT_CONFIRM": "Вы уверены, что хотите удалить аккаунт?",
+    "ACCOUNT_DELETED": "Аккаунт удалён"
   },
   "AUTH": {
     "LOGIN": "Вход",
@@ -1039,6 +1086,8 @@
     "SUBTITLE": "Выберите подходящий тарифный план для вашей команды",
     "POPULAR": "Популярный",
     "SELECT_PLAN": "Выбрать план",
+    "COMING_SOON": "Скоро",
+    "ALREADY_SELECTED": "Уже выбран",
     "BASIC": {
       "NAME": "Basic",
       "PRICE": "4 990 ₽",
@@ -1068,6 +1117,26 @@
         "STORAGE": "Безлимит хранилища",
         "USERS": "Безлимит пользователей"
       }
+    }
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Уведомления",
+    "SETTINGS_TITLE": "Настройки уведомлений",
+    "SETTING_UPDATED": "Настройка обновлена",
+    "SETTING_UPDATE_FAILED": "Не удалось обновить настройку",
+    "TYPES": {
+      "CASE_DEADLINE": "Напоминание о крайнем сроке дела",
+      "TASK_DEADLINE": "Напоминание о крайнем сроке задачи",
+      "COURT_DATE": "Напоминание о дате суда",
+      "NEW_COMMENT": "Новый комментарий",
+      "CASE_UPDATE": "Обновление дела",
+      "NEW_DOCUMENT": "Новый документ",
+      "NEW_MEETING": "Новая встреча",
+      "MEETING_UPDATE": "Обновление встречи",
+      "STATUS_UPDATE": "Обновление статуса",
+      "NEW_TASK": "Новая задача",
+      "TASK_UPDATE": "Обновление задачи",
+      "TIMELINE_UPDATE": "Обновление хронологии"
     }
   }
 }

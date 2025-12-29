@@ -14,7 +14,6 @@ import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { parseLocalDate } from '@/shared/utils';
 
-// Helper function to check if meeting is a court session
 const isCourtSession = (title: string): boolean => {
   return title.toLowerCase().includes('судебное заседание') || title.toLowerCase().includes('суд');
 };
@@ -40,14 +39,12 @@ export function CalendarPage() {
   const [filterClient, setFilterClient] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Load initial data
   useEffect(() => {
     fetchMeetings();
     fetchToday();
     fetchUpcoming(10);
   }, [fetchMeetings, fetchToday, fetchUpcoming]);
 
-  // Update month data when selectedMonth changes
   useEffect(() => {
     fetchMonth(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1);
   }, [selectedMonth, fetchMonth]);
@@ -75,7 +72,6 @@ export function CalendarPage() {
     })
     .sort((a, b) => parseLocalDate(a.date).getTime() - parseLocalDate(b.date).getTime());
 
-  // Create meeting dates for calendar indicators from monthMeetings
   const meetingDates = monthMeetings?.days
     ? monthMeetings.days
         .filter((day) => day.count > 0)
@@ -85,7 +81,6 @@ export function CalendarPage() {
   const uniqueClients = Array.from(new Set(meetings.map((m) => m.clientName)));
 
   const getMeetingTypeIcon = (type: MeetingInterface['type'], title?: string) => {
-    // Check if this is a court session
     if (title && isCourtSession(title)) {
       return <Scale className="w-4 h-4" strokeWidth={2} />;
     }

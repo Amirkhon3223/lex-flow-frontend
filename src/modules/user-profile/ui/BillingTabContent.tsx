@@ -13,7 +13,6 @@ export function BillingTabContent() {
   const { subscription, plans, payments, fetchSubscription, fetchPlans, fetchPayments, downloadReceipt } =
     useBillingStore();
 
-  // Get current plan from plans array
   const currentPlan = plans.find((p) => p.id === subscription?.planId);
 
   useEffect(() => {
@@ -25,8 +24,7 @@ export function BillingTabContent() {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only fetch once on mount
+  }, []);
 
   const handleDownloadReceipt = async (paymentId: string) => {
     try {

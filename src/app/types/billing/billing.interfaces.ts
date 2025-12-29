@@ -18,6 +18,8 @@ export interface Plan {
   yearlyPrice: number;
   maxUsers: number;
   trialDays: number;
+  popular: boolean;
+  currency: string;
 }
 
 export interface Subscription {

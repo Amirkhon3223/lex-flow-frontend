@@ -46,10 +46,10 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
 
   useEffect(() => {
     if (open) {
-      fetchNotifications(1, NOTIFICATIONS_PER_PAGE); // Fetch first page
+      fetchNotifications(1, NOTIFICATIONS_PER_PAGE);
       fetchStats();
     }
-  }, [open, fetchNotifications, fetchStats]);
+  }, [open]);
 
   const handleLoadMore = () => {
     if (pagination.page * pagination.limit < pagination.total) {

@@ -31,10 +31,8 @@ export function I18nProvider({ children }: I18nProviderProps) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // Дождёмся начальной загрузки переводов
     i18nService.ready.then(() => setReady(true));
 
-    // Слушаем событие смены языка
     const handleLanguageChange = () => {
       setLanguageState(i18nService.getCurrentLanguage());
       forceUpdate({});
@@ -66,7 +64,6 @@ export function I18nProvider({ children }: I18nProviderProps) {
   };
 
   if (!ready) {
-    // Можно вернуть skeleton/placeholder, пока загрузка переводов не завершена
     return null;
   }
 
@@ -80,7 +77,6 @@ export function I18nProvider({ children }: I18nProviderProps) {
  * const title = t('DASHBOARD.WELCOME');
  * const tasksText = t('DASHBOARD.TASKS_TODAY', { count: 5 });
  */
-// eslint-disable-next-line react-refresh/only-export-components
 export function useI18n() {
   const context = useContext(I18nContext);
 

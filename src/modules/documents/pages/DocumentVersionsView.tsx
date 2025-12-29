@@ -76,10 +76,8 @@ export function DocumentVersionsView() {
     setIsUploadDialogOpen(true);
   };
 
-  // Add optional chaining to prevent crash if versions is undefined
   const currentVersion = versions?.find((v) => v.isCurrent);
 
-  // Local pagination logic
   const limit = 10;
   const totalPages = versions ? Math.ceil(versions.length / limit) : 0;
   const paginatedVersions = versions

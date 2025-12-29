@@ -13,7 +13,7 @@ import { ProfileTabs } from './widgets/ProfileTabs';
 export default function UserProfilePage() {
   const { t } = useI18n();
   const navigate = useNavigate();
-  const { user, updateUserData } = useAuthStore();
+  const { user, updateUserData, refreshUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [userStats, setUserStats] = useState({
     activeCases: 0,
@@ -40,7 +40,6 @@ export default function UserProfilePage() {
     specialization: '',
   });
 
-  // Load user data and stats on mount
   useEffect(() => {
     if (user) {
       setProfileData({
@@ -55,17 +54,25 @@ export default function UserProfilePage() {
         specialization: user.specialization || '',
       });
     }
+  }, [user]);
 
-    const fetchStats = async () => {
+  useEffect(() => {
+    const loadData = async () => {
       try {
         const stats = await usersService.getStats();
-        setUserStats(stats);
+        setUserStats({
+          activeCases: stats.activeCases || 0,
+          totalClients: stats.clients || 0,
+          completedCases: stats.completedCases || 0,
+          daysInSystem: stats.daysInSystem || 0,
+        });
       } catch (error) {
-        console.error('Failed to fetch user stats:', error);
+        console.error('Failed to load user stats:', error);
       }
     };
-    fetchStats();
-  }, []); // Only run once on mount
+
+    loadData();
+  }, []);
 
   const handleProfileChange = (field: string, value: string) => {
     setProfileData((prev) => ({ ...prev, [field]: value }));

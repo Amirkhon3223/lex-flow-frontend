@@ -42,19 +42,18 @@ export function CaseTabsCard({
     }
   }, [selectedCase]);
 
-  // Auto-save with debounce
   useEffect(() => {
-    if (notes === selectedCase?.notes) return; // Don't save if unchanged
+    if (notes === selectedCase?.notes) return;
 
     const timer = setTimeout(() => {
       saveNotes();
-    }, 2000); // Auto-save after 2 seconds of inactivity
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [notes]);
 
   const saveNotes = useCallback(async () => {
-    if (notes === selectedCase?.notes) return; // Skip if no changes
+    if (notes === selectedCase?.notes) return;
 
     setIsSaving(true);
     setSaveStatus('saving');
@@ -65,7 +64,6 @@ export function CaseTabsCard({
       setLastSaved(new Date());
       setSaveStatus('saved');
 
-      // Reset to idle after 2 seconds
       setTimeout(() => {
         setSaveStatus('idle');
       }, 2000);

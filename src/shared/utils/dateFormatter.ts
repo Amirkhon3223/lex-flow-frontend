@@ -21,14 +21,11 @@ export function getUserTimezone(): string {
 export function parseLocalDate(dateString: string): Date {
   if (!dateString) return new Date();
 
-  // If the date string is in YYYY-MM-DD format (no time component),
-  // parse it as local date instead of UTC to avoid timezone shifts
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
     const [year, month, day] = dateString.split('-').map(Number);
     return new Date(year, month - 1, day);
   }
 
-  // For ISO strings with time components, use default parsing
   return new Date(dateString);
 }
 
@@ -121,7 +118,6 @@ export function formatDate(dateString: string): string {
 export function formatDateToInput(dateString: string): string {
   if (!dateString) return '';
 
-  // Extract just the date part if it's an ISO string
   if (dateString.includes('T')) {
     return dateString.split('T')[0];
   }

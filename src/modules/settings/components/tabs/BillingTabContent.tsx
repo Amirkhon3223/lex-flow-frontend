@@ -28,10 +28,8 @@ export function BillingTabContent() {
   const [isManagePaymentOpen, setIsManagePaymentOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Get current plan from plans array
   const currentPlan = plans.find((p) => p.id === subscription?.planId);
 
-  // Fetch billing data on mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,8 +39,7 @@ export function BillingTabContent() {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only fetch once on mount
+  }, []);
 
   const handleChangePlan = () => {
     setIsChangePlanOpen(true);
@@ -94,6 +91,7 @@ export function BillingTabContent() {
         open={isChangePlanOpen}
         onOpenChange={setIsChangePlanOpen}
         onSubmit={handlePlanSubmit}
+        currentPlanId={subscription?.planId}
       />
       <ManagePaymentDialog
         open={isManagePaymentOpen}

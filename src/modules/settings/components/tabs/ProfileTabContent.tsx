@@ -28,10 +28,9 @@ export function ProfileTabContent() {
     country: '',
     city: '',
   });
-  const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en'>('ru');
+  const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en' | 'tj'>('ru');
   const [timezone, setTimezone] = useState('');
 
-  // Load user data on mount
   useEffect(() => {
     if (user) {
       setFormData({
@@ -46,10 +45,10 @@ export function ProfileTabContent() {
         country: user.country || '',
         city: user.city || '',
       });
-      setCurrentLanguage((user.language || 'ru') as 'ru' | 'en');
+      setCurrentLanguage((user.language || 'ru') as 'ru' | 'en' | 'tj');
       setTimezone(user.timezone || 'Europe/Moscow');
     }
-  }, []); // Only run once on mount
+  }, [user]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -82,7 +81,7 @@ export function ProfileTabContent() {
     }
   };
 
-  const handleLanguageChange = async (newLanguage: 'ru' | 'en') => {
+  const handleLanguageChange = async (newLanguage: 'ru' | 'en' | 'tj') => {
     try {
       await usersService.updateLanguage({ language: newLanguage });
       await setLanguage(newLanguage);
@@ -204,7 +203,22 @@ export function ProfileTabContent() {
                 type="button"
                 variant="outline"
                 className="rounded-lg sm:rounded-xl border-gray-200 hover:bg-gray-50 text-xs sm:text-sm h-8 sm:h-9 md:h-10 order-2 sm:order-1"
-                onClick={() => refreshUser()}
+                onClick={() => {
+                  if (user) {
+                    setFormData({
+                      firstName: user.firstName || '',
+                      lastName: user.lastName || '',
+                      middleName: user.middleName || '',
+                      email: user.email || '',
+                      phone: user.phone || '',
+                      position: user.position || '',
+                      company: user.company || '',
+                      address: user.address || '',
+                      country: user.country || '',
+                      city: user.city || '',
+                    });
+                  }
+                }}
               >
                 {t('COMMON.ACTIONS.CANCEL')}
               </Button>
@@ -233,7 +247,7 @@ export function ProfileTabContent() {
               </Label>
               <Select
                 value={currentLanguage}
-                onValueChange={(value) => handleLanguageChange(value as 'ru' | 'en')}
+                onValueChange={(value) => handleLanguageChange(value as 'ru' | 'en' | 'tj')}
                 open={openSelect === 'language'}
                 onOpenChange={(open) => setOpenSelect(open ? 'language' : null)}
               >
@@ -244,6 +258,7 @@ export function ProfileTabContent() {
                 <SelectContent>
                   <SelectItem value="ru">Русский</SelectItem>
                   <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="tj">Тоҷикӣ</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -257,6 +272,7 @@ export function ProfileTabContent() {
                 onValueChange={handleTimezoneChange}
                 open={openSelect === 'timezone'}
                 onOpenChange={(open) => setOpenSelect(open ? 'timezone' : null)}
+                disabled
               >
                 <SelectTrigger className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm">
                   <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 text-gray-400" strokeWidth={2} />
