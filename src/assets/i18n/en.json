@@ -91,6 +91,9 @@
       "CONFIRM_ARCHIVE": "Are you sure you want to archive?",
       "DELETED": "Successfully deleted"
     },
+    "ERRORS": {
+      "GENERIC": "An error occurred. Please try again."
+    },
     "TIME": {
       "TODAY": "Today",
       "TOMORROW": "Tomorrow",
@@ -848,7 +851,10 @@
       "REGIONAL_SETTINGS": "Regional Settings",
       "LANGUAGE": "Language",
       "TIMEZONE": "Timezone",
-      "SAVE_CHANGES": "Save Changes"
+      "SAVE_CHANGES": "Save Changes",
+      "PROFILE_UPDATED": "Profile updated successfully",
+      "LANGUAGE_UPDATED": "Language updated successfully",
+      "TIMEZONE_UPDATED": "Timezone updated successfully"
     },
     "NOTIFICATIONS": {
       "EMAIL": {
@@ -897,6 +903,7 @@
       "PAYMENT_METHOD": "Payment method",
       "CHANGE_PLAN": "Change plan",
       "MANAGE_PAYMENT": "Manage payment",
+      "MANAGE_SUBSCRIPTION": "Manage Subscription",
       "PAYMENT_HISTORY": "Payment history",
       "NO_SUBSCRIPTION": "You don't have an active subscription",
       "NO_PAYMENTS": "Payment history is empty",
@@ -904,10 +911,16 @@
       "TEAM_SIZE": "Team size",
       "TRIAL": "Trial",
       "TRIAL_ENDS": "Trial ends",
+      "ACTIVE": "Active",
+      "ACTIVE_UNTIL": "Active until",
       "PAID": "Paid",
       "UPDATE_CARD_INFO": "Update your card information",
       "CARD_NUMBER": "Card number",
-      "EXPIRY_DATE": "Expiry date"
+      "EXPIRY_DATE": "Expiry date",
+      "PLAN_INFO": "Plan Information",
+      "MAX_USERS": "Max Users",
+      "RECEIPT": "Receipt",
+      "RECEIPT_DOWNLOADED": "Receipt downloaded successfully"
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Change Password",

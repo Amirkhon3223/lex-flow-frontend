@@ -91,6 +91,9 @@
       "CONFIRM_ARCHIVE": "Вы уверены, что хотите архивировать?",
       "DELETED": "Успешно удалено"
     },
+    "ERRORS": {
+      "GENERIC": "Произошла ошибка. Попробуйте снова."
+    },
     "TIME": {
       "TODAY": "Сегодня",
       "TOMORROW": "Завтра",
@@ -856,7 +859,10 @@
       "REGIONAL_SETTINGS": "Региональные настройки",
       "LANGUAGE": "Язык",
       "TIMEZONE": "Часовой пояс",
-      "SAVE_CHANGES": "Сохранить изменения"
+      "SAVE_CHANGES": "Сохранить изменения",
+      "PROFILE_UPDATED": "Профиль успешно обновлён",
+      "LANGUAGE_UPDATED": "Язык успешно изменён",
+      "TIMEZONE_UPDATED": "Часовой пояс успешно изменён"
     },
     "NOTIFICATIONS": {
       "EMAIL": {
@@ -905,6 +911,7 @@
       "PAYMENT_METHOD": "Метод оплаты",
       "CHANGE_PLAN": "Изменить план",
       "MANAGE_PAYMENT": "Управление оплатой",
+      "MANAGE_SUBSCRIPTION": "Управление подпиской",
       "PAYMENT_HISTORY": "История платежей",
       "NO_SUBSCRIPTION": "У вас нет активной подписки",
       "NO_PAYMENTS": "История платежей пуста",
@@ -912,10 +919,16 @@
       "TEAM_SIZE": "Размер команды",
       "TRIAL": "Пробный период",
       "TRIAL_ENDS": "Пробный период заканчивается",
+      "ACTIVE": "Активна",
+      "ACTIVE_UNTIL": "Активна до",
       "PAID": "Оплачено",
       "UPDATE_CARD_INFO": "Обновите информацию о вашей карте",
       "CARD_NUMBER": "Номер карты",
-      "EXPIRY_DATE": "Срок действия"
+      "EXPIRY_DATE": "Срок действия",
+      "PLAN_INFO": "Информация о плане",
+      "MAX_USERS": "Макс. пользователей",
+      "RECEIPT": "Квитанция",
+      "RECEIPT_DOWNLOADED": "Квитанция успешно загружена"
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Изменить пароль",

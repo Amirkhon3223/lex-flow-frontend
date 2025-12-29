@@ -92,6 +92,9 @@
       "CONFIRM_ARCHIVE": "Шумо дар ҳақиқат мехоҳед ба архив гузоред?",
       "DELETED": "Бомуваффақият нест карда шуд"
     },
+    "ERRORS": {
+      "GENERIC": "Хатогӣ рух дод. Лутфан боз кӯшиш кунед."
+    },
     "TIME": {
       "TODAY": "Имрӯз",
       "TOMORROW": "Фардо",
@@ -849,7 +852,10 @@
       "REGIONAL_SETTINGS": "Танзимоти минтақавӣ",
       "LANGUAGE": "Забон",
       "TIMEZONE": "Минтақаи вақт",
-      "SAVE_CHANGES": "Сабт кардани тағйирот"
+      "SAVE_CHANGES": "Сабт кардани тағйирот",
+      "PROFILE_UPDATED": "Профил бомуваффақият навсозӣ шуд",
+      "LANGUAGE_UPDATED": "Забон бомуваффақият иваз шуд",
+      "TIMEZONE_UPDATED": "Минтақаи вақт бомуваффақият иваз шуд"
     },
     "NOTIFICATIONS": {
       "EMAIL": {
@@ -898,6 +904,7 @@
       "PAYMENT_METHOD": "Усули пардохт",
       "CHANGE_PLAN": "Иваз кардани нақша",
       "MANAGE_PAYMENT": "Идоракунии пардохт",
+      "MANAGE_SUBSCRIPTION": "Идоракунии обуна",
       "PAYMENT_HISTORY": "Таърихи пардохтҳо",
       "NO_SUBSCRIPTION": "Шумо обунаи фаъол надоред",
       "NO_PAYMENTS": "Таърихи пардохтҳо холӣ аст",
@@ -905,10 +912,16 @@
       "TEAM_SIZE": "Андозаи гурӯҳ",
       "TRIAL": "Давраи озмоишӣ",
       "TRIAL_ENDS": "Давраи озмоишӣ анҷом меёбад",
+      "ACTIVE": "Фаъол",
+      "ACTIVE_UNTIL": "Фаъол то",
       "PAID": "Пардохтшуда",
       "UPDATE_CARD_INFO": "Навсозии маълумоти корт",
       "CARD_NUMBER": "Рақами корт",
-      "EXPIRY_DATE": "Санаи интиҳо"
+      "EXPIRY_DATE": "Санаи интиҳо",
+      "PLAN_INFO": "Маълумот дар бораи нақша",
+      "MAX_USERS": "Макс. корбарон",
+      "RECEIPT": "Қабз",
+      "RECEIPT_DOWNLOADED": "Қабз бомуваффақият зеркашӣ шуд"
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Иваз кардани парол",

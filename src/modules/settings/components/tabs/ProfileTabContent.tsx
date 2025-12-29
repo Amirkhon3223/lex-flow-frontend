@@ -28,7 +28,7 @@ export function ProfileTabContent() {
     country: '',
     city: '',
   });
-  const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en'>('ru');
+  const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en' | 'tj'>('ru');
   const [timezone, setTimezone] = useState('');
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export function ProfileTabContent() {
         country: user.country || '',
         city: user.city || '',
       });
-      setCurrentLanguage((user.language || 'ru') as 'ru' | 'en');
+      setCurrentLanguage((user.language || 'ru') as 'ru' | 'en' | 'tj');
       setTimezone(user.timezone || 'Europe/Moscow');
     }
   }, [user]);
@@ -81,7 +81,7 @@ export function ProfileTabContent() {
     }
   };
 
-  const handleLanguageChange = async (newLanguage: 'ru' | 'en') => {
+  const handleLanguageChange = async (newLanguage: 'ru' | 'en' | 'tj') => {
     try {
       await usersService.updateLanguage({ language: newLanguage });
       await setLanguage(newLanguage);
@@ -247,7 +247,7 @@ export function ProfileTabContent() {
               </Label>
               <Select
                 value={currentLanguage}
-                onValueChange={(value) => handleLanguageChange(value as 'ru' | 'en')}
+                onValueChange={(value) => handleLanguageChange(value as 'ru' | 'en' | 'tj')}
                 open={openSelect === 'language'}
                 onOpenChange={(open) => setOpenSelect(open ? 'language' : null)}
               >
@@ -258,6 +258,7 @@ export function ProfileTabContent() {
                 <SelectContent>
                   <SelectItem value="ru">Русский</SelectItem>
                   <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="tj">Тоҷикӣ</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -271,6 +272,7 @@ export function ProfileTabContent() {
                 onValueChange={handleTimezoneChange}
                 open={openSelect === 'timezone'}
                 onOpenChange={(open) => setOpenSelect(open ? 'timezone' : null)}
+                disabled
               >
                 <SelectTrigger className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm">
                   <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 text-gray-400" strokeWidth={2} />
