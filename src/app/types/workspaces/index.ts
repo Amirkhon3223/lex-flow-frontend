@@ -1,1 +1,1 @@
-export * from './workspace.interfaces'
+export * from './workspace.interfaces';

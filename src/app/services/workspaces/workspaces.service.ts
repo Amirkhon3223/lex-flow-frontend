@@ -1,9 +1,9 @@
-import { httpClient } from '../../interceptors/http.interceptor'
 import type {
   WorkspaceInfo,
   CreateWorkspaceRequest,
   UpdateWorkspaceRequest,
-} from '@/app/types/workspaces'
+} from '@/app/types/workspaces';
+import { httpClient } from '../../interceptors/http.interceptor';
 
 /**
  * Workspaces Service
@@ -14,24 +14,24 @@ export const workspacesService = {
    * Получить список всех workspaces текущего пользователя
    */
   getMyWorkspaces: async (): Promise<WorkspaceInfo[]> => {
-    const response = await httpClient.get<WorkspaceInfo[]>('/workspaces/my')
-    return response.data
+    const response = await httpClient.get<WorkspaceInfo[]>('/workspaces/my');
+    return response.data;
   },
 
   /**
    * Получить текущий активный workspace
    */
   getCurrentWorkspace: async (): Promise<WorkspaceInfo> => {
-    const response = await httpClient.get<WorkspaceInfo>('/workspaces/current')
-    return response.data
+    const response = await httpClient.get<WorkspaceInfo>('/workspaces/current');
+    return response.data;
   },
 
   /**
    * Создать новый workspace
    */
   createWorkspace: async (data: CreateWorkspaceRequest): Promise<WorkspaceInfo> => {
-    const response = await httpClient.post<WorkspaceInfo>('/workspaces', data)
-    return response.data
+    const response = await httpClient.post<WorkspaceInfo>('/workspaces', data);
+    return response.data;
   },
 
   /**
@@ -44,14 +44,14 @@ export const workspacesService = {
     const response = await httpClient.put<WorkspaceInfo>(
       `/workspaces/${workspaceId}`,
       data
-    )
-    return response.data
+    );
+    return response.data;
   },
 
   /**
    * Удалить workspace (только owner)
    */
   deleteWorkspace: async (workspaceId: string): Promise<void> => {
-    await httpClient.delete(`/workspaces/${workspaceId}`)
+    await httpClient.delete(`/workspaces/${workspaceId}`);
   },
-}
+};

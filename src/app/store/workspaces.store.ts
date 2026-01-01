@@ -1,11 +1,11 @@
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { workspacesService } from '@/app/services/workspaces'
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { workspacesService } from '@/app/services/workspaces';
 import type {
   WorkspaceInfo,
   CreateWorkspaceRequest,
   UpdateWorkspaceRequest,
-} from '@/app/types/workspaces'
+} from '@/app/types/workspaces';
 
 interface WorkspacesState {
   currentWorkspace: WorkspaceInfo | null
@@ -31,67 +31,67 @@ export const useWorkspacesStore = create<WorkspacesState>()(
       error: null,
 
       setCurrentWorkspace: (workspace) => {
-        set({ currentWorkspace: workspace })
+        set({ currentWorkspace: workspace });
       },
 
       fetchMyWorkspaces: async () => {
-        set({ loading: true, error: null })
+        set({ loading: true, error: null });
         try {
-          const workspaces = await workspacesService.getMyWorkspaces()
-          set({ workspaces, loading: false })
+          const workspaces = await workspacesService.getMyWorkspaces();
+          set({ workspaces, loading: false });
         } catch (error: any) {
-          set({ error: error.message || 'Failed to fetch workspaces', loading: false })
+          set({ error: error.message || 'Failed to fetch workspaces', loading: false });
         }
       },
 
       fetchCurrentWorkspace: async () => {
-        set({ loading: true, error: null })
+        set({ loading: true, error: null });
         try {
-          const workspace = await workspacesService.getCurrentWorkspace()
-          set({ currentWorkspace: workspace, loading: false })
+          const workspace = await workspacesService.getCurrentWorkspace();
+          set({ currentWorkspace: workspace, loading: false });
         } catch (error: any) {
           set({
             error: error.message || 'Failed to fetch current workspace',
             loading: false,
-          })
+          });
         }
       },
 
       createWorkspace: async (data) => {
-        set({ loading: true, error: null })
+        set({ loading: true, error: null });
         try {
-          const workspace = await workspacesService.createWorkspace(data)
-          set({ currentWorkspace: workspace, loading: false })
-          return workspace
+          const workspace = await workspacesService.createWorkspace(data);
+          set({ currentWorkspace: workspace, loading: false });
+          return workspace;
         } catch (error: any) {
-          set({ error: error.message || 'Failed to create workspace', loading: false })
-          throw error
+          set({ error: error.message || 'Failed to create workspace', loading: false });
+          throw error;
         }
       },
 
       updateWorkspace: async (workspaceId, data) => {
-        set({ loading: true, error: null })
+        set({ loading: true, error: null });
         try {
-          const updated = await workspacesService.updateWorkspace(workspaceId, data)
-          set({ currentWorkspace: updated, loading: false })
+          const updated = await workspacesService.updateWorkspace(workspaceId, data);
+          set({ currentWorkspace: updated, loading: false });
         } catch (error: any) {
-          set({ error: error.message || 'Failed to update workspace', loading: false })
+          set({ error: error.message || 'Failed to update workspace', loading: false });
         }
       },
 
       switchWorkspace: async (workspaceId) => {
-        set({ loading: true, error: null })
+        set({ loading: true, error: null });
         try {
           // TODO: Implement workspace switching logic
-          const workspace = get().workspaces.find((w) => w.id === workspaceId)
+          const workspace = get().workspaces.find((w) => w.id === workspaceId);
           if (workspace) {
-            set({ currentWorkspace: workspace, loading: false })
+            set({ currentWorkspace: workspace, loading: false });
           } else {
-            const fetchedWorkspace = await workspacesService.getCurrentWorkspace()
-            set({ currentWorkspace: fetchedWorkspace, loading: false })
+            const fetchedWorkspace = await workspacesService.getCurrentWorkspace();
+            set({ currentWorkspace: fetchedWorkspace, loading: false });
           }
         } catch (error: any) {
-          set({ error: error.message || 'Failed to switch workspace', loading: false })
+          set({ error: error.message || 'Failed to switch workspace', loading: false });
         }
       },
 
@@ -101,7 +101,7 @@ export const useWorkspacesStore = create<WorkspacesState>()(
           workspaces: [],
           loading: false,
           error: null,
-        })
+        });
       },
     }),
     {
@@ -109,4 +109,4 @@ export const useWorkspacesStore = create<WorkspacesState>()(
       partialize: (state) => ({ currentWorkspace: state.currentWorkspace }),
     }
   )
-)
+);

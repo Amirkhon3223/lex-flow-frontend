@@ -1,8 +1,8 @@
-import type { WorkspaceInfo } from '@/app/types/workspaces'
-import type { MembershipRole } from '@/app/types/membership'
+import type { MembershipRole } from '@/app/types/membership';
+import type { WorkspaceInfo } from '@/app/types/workspaces';
 
-export type { WorkspaceInfo }
-export type { MembershipRole }
+export type { WorkspaceInfo };
+export type { MembershipRole };
 
 export type Specialization =
   | 'lawyer'

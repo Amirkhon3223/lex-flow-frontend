@@ -1,1 +1,1 @@
-export * from './membership.interfaces'
+export * from './membership.interfaces';
