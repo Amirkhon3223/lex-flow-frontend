@@ -12,7 +12,6 @@ import type { MembershipRole } from '../types/membership'
 
 interface AuthState {
   user: User | null
-  token: string | null
   workspace: WorkspaceInfo | null
   role: MembershipRole | null
   isAuthenticated: boolean
@@ -30,7 +29,6 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      token: null,
       workspace: null,
       role: null,
       isAuthenticated: false,
@@ -41,14 +39,13 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true, error: null })
         try {
           const response = await authService.login(data)
-          localStorage.setItem('access_token', response.token)
+          // Token is now stored in httpOnly cookie by backend
           if (response.user.timezone) {
             localStorage.setItem('userTimezone', response.user.timezone)
           }
 
           set({
             user: response.user,
-            token: response.token,
             workspace: response.workspace || null,
             role: (response.user.role as MembershipRole) || null,
             isAuthenticated: true,
@@ -78,7 +75,6 @@ export const useAuthStore = create<AuthState>()(
           localStorage.removeItem('userTimezone')
           set({
             user: null,
-            token: null,
             workspace: null,
             role: null,
             isAuthenticated: false,
@@ -88,7 +84,6 @@ export const useAuthStore = create<AuthState>()(
           localStorage.removeItem('userTimezone')
           set({
             user: null,
-            token: null,
             workspace: null,
             role: null,
             isAuthenticated: false,
@@ -102,14 +97,13 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true, error: null })
         try {
           const response = await authService.register(data)
-          localStorage.setItem('access_token', response.token)
+          // Token is now stored in httpOnly cookie by backend
           if (response.user.timezone) {
             localStorage.setItem('userTimezone', response.user.timezone)
           }
 
           set({
             user: response.user,
-            token: response.token,
             workspace: response.workspace || null,
             role: (response.user.role as MembershipRole) || null,
             isAuthenticated: true,
@@ -157,7 +151,6 @@ export const useAuthStore = create<AuthState>()(
       name: 'auth-storage',
       partialize: (state) => ({
         user: state.user,
-        token: state.token,
         workspace: state.workspace,
         role: state.role,
         isAuthenticated: state.isAuthenticated,

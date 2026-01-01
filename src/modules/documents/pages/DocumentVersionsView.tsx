@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Clock,
   Download,
@@ -13,7 +13,7 @@ import {
   ClipboardList,
   Edit,
 } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useDocumentsStore } from '@/app/store/documents.store';
 import { BackButton } from '@/shared/components/BackButton';
 import { DataPagination } from '@/shared/components/DataPagination';
@@ -35,6 +35,7 @@ export function DocumentVersionsView() {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
 
   const {
     selectedDocument: document,
@@ -63,8 +64,23 @@ export function DocumentVersionsView() {
     }
   };
 
-  const onBack = () => navigate(-1);
-  const onCompare = () => navigate(`/documents/${id}/compare`);
+  const onBack = () => {
+    const from = searchParams.get('from');
+    const caseId = searchParams.get('caseId');
+
+    if (from === 'case' && caseId) {
+      navigate(`/cases/${caseId}`);
+    } else {
+      navigate('/documents');
+    }
+  };
+
+  const onCompare = () => {
+    const from = searchParams.get('from');
+    const caseId = searchParams.get('caseId');
+    const params = from === 'case' && caseId ? `?from=case&caseId=${caseId}` : '';
+    navigate(`/documents/${id}/compare${params}`);
+  };
 
   const handleUploadClick = () => {
     setDialogMode('upload');
@@ -313,7 +329,7 @@ export function DocumentVersionsView() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-56">
-                            <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
+                            <DropdownMenuItem onClick={onCompare}>
                               <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
                               {t('DOCUMENTS.ACTIONS.VIEW_DETAILS')}
                             </DropdownMenuItem>
@@ -321,7 +337,7 @@ export function DocumentVersionsView() {
                               <Download className="w-4 h-4 mr-2" strokeWidth={2} />
                               {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
+                            <DropdownMenuItem onClick={onCompare}>
                               <GitCompare className="w-4 h-4 mr-2" strokeWidth={2} />
                               {t('DOCUMENTS.COMPARE_WITH_CURRENT')}
                             </DropdownMenuItem>
@@ -358,7 +374,7 @@ export function DocumentVersionsView() {
                           variant="outline"
                           size="sm"
                           className="rounded-lg border-border hover:bg-blue-500/10 hover:border-blue-500/20 hover:text-blue-600 text-xs h-7"
-                          onClick={() => navigate('/documents/1/compare')}
+                          onClick={onCompare}
                         >
                           <Eye className="w-3 h-3 mr-1" strokeWidth={2} />
                           {t('DOCUMENTS.ACTIONS.VIEW')}
@@ -443,7 +459,7 @@ export function DocumentVersionsView() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-56">
-                          <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
+                          <DropdownMenuItem onClick={onCompare}>
                             <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
                             {t('DOCUMENTS.ACTIONS.VIEW_DETAILS')}
                           </DropdownMenuItem>
@@ -451,7 +467,7 @@ export function DocumentVersionsView() {
                             <Download className="w-4 h-4 mr-2" strokeWidth={2} />
                             {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => navigate('/documents/1/compare')}>
+                          <DropdownMenuItem onClick={onCompare}>
                             <GitCompare className="w-4 h-4 mr-2" strokeWidth={2} />
                             {t('DOCUMENTS.COMPARE_WITH_CURRENT')}
                           </DropdownMenuItem>
@@ -478,7 +494,7 @@ export function DocumentVersionsView() {
                         variant="outline"
                         size="sm"
                         className="rounded-lg border-border hover:bg-blue-500/10 hover:border-blue-500/20 hover:text-blue-600"
-                        onClick={() => navigate('/documents/1/compare')}
+                        onClick={onCompare}
                       >
                         <Eye className="w-3.5 h-3.5 mr-1.5" strokeWidth={2} />
                         {t('DOCUMENTS.ACTIONS.VIEW')}

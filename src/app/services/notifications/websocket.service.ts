@@ -15,14 +15,9 @@ class WebSocketService {
       return;
     }
 
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      console.error('WebSocket: No access token found.');
-      return;
-    }
-
-    const url = `${WEBSOCKET_URL}?token=${token}`;
-    this.socket = new WebSocket(url);
+    // Cookie is automatically sent by browser with WebSocket connection
+    // No need to pass token in URL anymore
+    this.socket = new WebSocket(WEBSOCKET_URL);
 
     this.socket.onopen = () => {
       console.log('WebSocket connection established.');

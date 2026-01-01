@@ -1,7 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import {
-  ChevronLeft,
-  ChevronRight,
   Download,
   FileText,
   Info,
@@ -12,14 +10,10 @@ import {
   GitCompare,
   ChevronDown,
   ArrowRight,
-  History,
+  AlertCircle,
+  Loader2,
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { DocumentChangeTypeEnum } from '@/app/types/documents/documents.enums';
-import type {
-  DocumentVersionInterface,
-  DocumentChangeInterface,
-} from '@/app/types/documents/documents.interfaces';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { BackButton } from '@/shared/components/BackButton';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
@@ -28,213 +22,72 @@ import { Card } from '@/shared/ui/card';
 import { ScrollArea } from '@/shared/ui/scroll-area.tsx';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/shared/ui/select.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
+import { Alert, AlertDescription, AlertTitle } from '@/shared/ui/alert';
+import { useDocumentsStore } from '@/app/store/documents.store';
+import { BlockRenderer } from '../components/BlockRenderer';
+import { diffCalculator } from '../utils/DiffCalculator';
+import { blockMatcher } from '../utils/BlockMatcher';
 
 export function DocumentCompareView() {
   const { t } = useI18n();
   const navigate = useNavigate();
-  const onBack = () => navigate(-1);
-  const [currentChangeIndex, setCurrentChangeIndex] = useState(0);
+  const { id: documentId } = useParams<{ id: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const {
+    selectedDocument,
+    versions,
+    comparisonData,
+    loading,
+    error,
+    fetchDocumentById,
+    fetchVersions,
+    compareVersions,
+  } = useDocumentsStore();
+
+  const onBack = () => {
+    const from = searchParams.get('from');
+    const caseId = searchParams.get('caseId');
+    const params = from === 'case' && caseId ? `?from=case&caseId=${caseId}` : '?from=documents';
+    navigate(`/documents/${documentId}/file-versions${params}`);
+  };
   const [zoomLevel, setZoomLevel] = useState(100);
-  const [version1, setVersion1] = useState('2');
-  const [version2, setVersion2] = useState('3');
+  const [version1, setVersion1] = useState(searchParams.get('v1') || '');
+  const [version2, setVersion2] = useState(searchParams.get('v2') || '');
   const [openSelect, setOpenSelect] = useState<'version1' | 'version2' | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const documentVersions: DocumentVersionInterface[] = [
-    {
-      id: '3',
-      documentId: 'doc-1',
-      versionNumber: 3,
-      originalFileName: 'document-v3.pdf',
-      fileUrl: '/files/doc-v3.pdf',
-      fileSize: 1024,
-      mimeType: 'application/pdf',
-      isCurrent: true,
-      uploadedBy: 'user-1',
-      uploadedByName: 'Александр Иванов',
-      authorName: 'Александр Иванов',
-      createdAt: '2025-10-15T14:30:00Z',
-    },
-    {
-      id: '2',
-      documentId: 'doc-1',
-      versionNumber: 2,
-      originalFileName: 'document-v2.pdf',
-      fileUrl: '/files/doc-v2.pdf',
-      fileSize: 1024,
-      mimeType: 'application/pdf',
-      isCurrent: false,
-      uploadedBy: 'user-1',
-      uploadedByName: 'Александр Иванов',
-      authorName: 'Александр Иванов',
-      createdAt: '2025-10-12T16:45:00Z',
-    },
-    {
-      id: '1',
-      documentId: 'doc-1',
-      versionNumber: 1,
-      originalFileName: 'document-v1.pdf',
-      fileUrl: '/files/doc-v1.pdf',
-      fileSize: 1024,
-      mimeType: 'application/pdf',
-      isCurrent: false,
-      uploadedBy: 'user-1',
-      uploadedByName: 'Александр Иванов',
-      authorName: 'Александр Иванов',
-      createdAt: '2025-10-10T10:15:00Z',
-    },
-  ];
-
-  const changes: DocumentChangeInterface[] = [
-    {
-      id: 1,
-      type: DocumentChangeTypeEnum.MODIFIED,
-      lineNumber: 12,
-      oldText: 'Истец просит взыскать с ответчика',
-      newText: 'Истец просит взыскать с ответчика в пользу истца',
-    },
-    {
-      id: 2,
-      type: DocumentChangeTypeEnum.ADDED,
-      lineNumber: 18,
-      newText: 'Согласно решению Верховного Суда РФ от 15.03.2024 № А40-12345/24',
-    },
-    {
-      id: 3,
-      type: DocumentChangeTypeEnum.REMOVED,
-      lineNumber: 24,
-      oldText: 'Данное требование является необоснованным',
-    },
-    {
-      id: 4,
-      type: DocumentChangeTypeEnum.MODIFIED,
-      lineNumber: 35,
-      oldText: 'сумму 50 000 рублей',
-      newText: 'сумму 150 000 рублей',
-    },
-    {
-      id: 5,
-      type: DocumentChangeTypeEnum.ADDED,
-      lineNumber: 42,
-      newText: 'На основании статьи 394 Трудового кодекса Российской Федерации',
-    },
-  ];
-
-  const oldContent = `ИСКОВОЕ ЗАЯВЛЕНИЕ
-о восстановлении на работе, взыскании среднего заработка за время
-вынужденного прогула и компенсации морального вреда
-
-В Басманный районный суд города Москвы
-Истец: Иванов Петр Алексеевич
-Адрес: г. Москва, ул. Ленина, д. 10, кв. 5
-Ответчик: ООО "ТехноСтрой"
-Адрес: г. Москва, ул. Пушкина, д. 20
-
-Истец работал в ООО "ТехноСтрой" в должности инженера с 15.01.2020.
-Приказом от 01.09.2025 № 45 истец был уволен по п. 2 ч. 1 ст. 81 ТК РФ
-в связи с сокращением численности работников организации.
-
-<span class="removed">Истец просит взыскать с ответчика</span> компенсацию морального вреда
-в размере 100 000 рублей.
-
-Истец считает увольнение незаконным по следующим основаниям:
-
-1. Работодатель не уведомил истца о предстоящем увольнении за 2 месяца,
-как того требует часть 2 статьи 180 ТК РФ.
-
-2. Работодатель не предложил истцу другую имеющуюся работу (вакантную
-должность), соответствующую квалификации истца.
-
-<span class="removed">Данное требование является необоснованным</span>
-
-3. На момент увольнения в организации имелись вакантные должности,
-которые не были предложены истцу.
-
-На основании изложенного и руководствуясь статьями 131-132 ГПК РФ,
-
-ПРОШУ:
-
-1. Восстановить Иванова Петра Алексеевича на работе в ООО "ТехноСтрой"
-в должности инженера.
-
-2. Взыскать с ответчика в пользу истца средний заработок за время
-вынужденного прогула в <span class="removed">сумму 50 000 рублей</span>.
-
-3. Взыскать с ответчика в пользу истца компенсацию морального вреда
-в размере 100 000 рублей.
-
-Приложения:
-1. Копия трудового договора
-2. Копия приказа об увольнении
-3. Справка о заработной плате`;
-
-  const newContent = `ИСКОВОЕ ЗАЯВЛЕНИЕ
-о восстановлении на работе, взыскании среднего заработка за время
-вынужденного прогула и компенсации морального вреда
-
-В Басманный районный суд города Москвы
-Истец: Иванов Петр Алексеевич
-Адрес: г. Москва, ул. Ленина, д. 10, кв. 5
-Ответчик: ООО "ТехноСтрой"
-Адрес: г. Москва, ул. Пушкина, д. 20
-
-Истец работал в ООО "ТехноСтрой" в должности инженера с 15.01.2020.
-Приказом от 01.09.2025 № 45 истец был уволен по п. 2 ч. 1 ст. 81 ТК РФ
-в связи с сокращением численности работников организации.
-
-<span class="modified">Истец просит взыскать с ответчика в пользу истца</span> компенсацию морального вреда
-в размере 100 000 рублей.
-
-Истец считает увольнение незаконным по следующим основаниям:
-
-1. Работодатель не уведомил истца о предстоящем увольнении за 2 месяца,
-как того требует часть 2 статьи 180 ТК РФ.
-
-<span class="added">Согласно решению Верховного Суда РФ от 15.03.2024 № А40-12345/24</span>
-
-2. Работодатель не предложил истцу другую имеющуюся работу (вакантную
-должность), соответствующую квалификации истца.
-
-3. На момент увольнения в организации имелись вакантные должности,
-которые не были предложены истцу.
-
-На основании изложенного и руководствуясь статьями 131-132 ГПК РФ,
-
-ПРОШУ:
-
-1. Восстановить Иванова Петра Алексеевича на работе в ООО "ТехноСтрой"
-в должности инженера.
-
-2. Взыскать с ответчика в пользу истца средний заработок за время
-вынужденного прогула в <span class="modified">сумму 150 000 рублей</span>.
-
-3. Взыскать с ответчика в пользу истца компенсацию морального вреда
-в размере 100 000 рублей.
-
-<span class="added">На основании статьи 394 Трудового кодекса Российской Федерации</span>
-
-Приложения:
-1. Копия трудового договора
-2. Копия приказа об увольнении
-3. Справка о заработной плате`;
-
-  const changesSummary = {
-    total: changes.length,
-    added: changes.filter((c) => c.type === DocumentChangeTypeEnum.ADDED).length,
-    removed: changes.filter((c) => c.type === DocumentChangeTypeEnum.REMOVED).length,
-    modified: changes.filter((c) => c.type === DocumentChangeTypeEnum.MODIFIED).length,
-  };
-
-  const handleNextChange = () => {
-    if (currentChangeIndex < changes.length - 1) {
-      setCurrentChangeIndex(currentChangeIndex + 1);
+  // Load document and versions on mount
+  useEffect(() => {
+    if (documentId) {
+      fetchDocumentById(documentId);
+      fetchVersions(documentId);
     }
-  };
+  }, [documentId, fetchDocumentById, fetchVersions]);
 
-  const handlePrevChange = () => {
-    if (currentChangeIndex > 0) {
-      setCurrentChangeIndex(currentChangeIndex - 1);
+  // Set default versions (latest 2) when versions load
+  useEffect(() => {
+    if (versions.length >= 2 && !version1 && !version2) {
+      const sortedVersions = [...versions].sort((a, b) => b.versionNumber - a.versionNumber);
+      setVersion1(sortedVersions[1].id);
+      setVersion2(sortedVersions[0].id);
+    }
+  }, [versions, version1, version2]);
+
+  // Load comparison when versions change
+  useEffect(() => {
+    if (documentId && version1 && version2 && version1 !== version2) {
+      compareVersions(documentId, version1, version2);
+      setSearchParams({ v1: version1, v2: version2 });
+    }
+  }, [documentId, version1, version2, compareVersions, setSearchParams]);
+
+  const handleVersionChange = (versionId: string, isVersion1: boolean) => {
+    if (isVersion1) {
+      if (versionId !== version2) setVersion1(versionId);
+    } else {
+      if (versionId !== version1) setVersion2(versionId);
     }
   };
 
@@ -278,6 +131,100 @@ export function DocumentCompareView() {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   }, []);
+
+  // Align blocks using LCS algorithm
+  const alignedPairs = useMemo(() => {
+    if (!comparisonData) return [];
+    return blockMatcher.alignBlocks(
+      comparisonData.version1.blocks,
+      comparisonData.version2.blocks
+    );
+  }, [comparisonData]);
+
+  // Calculate statistics from aligned pairs
+  const statistics = useMemo(() => {
+    if (alignedPairs.length === 0) {
+      return { added: 0, removed: 0, unchanged: 0 };
+    }
+
+    let totalAdded = 0;
+    let totalRemoved = 0;
+    let totalUnchanged = 0;
+
+    alignedPairs.forEach((pair) => {
+      if (pair.block1?.blockType === 'TEXT' && pair.block2?.blockType === 'TEXT') {
+        const stats = diffCalculator.calculateStats(
+          pair.block1.content || '',
+          pair.block2.content || ''
+        );
+        totalAdded += stats.added;
+        totalRemoved += stats.removed;
+        totalUnchanged += stats.unchanged;
+      } else if (pair.matchType === 'added' && pair.block2?.blockType === 'TEXT') {
+        totalAdded += (pair.block2.content || '').length;
+      } else if (pair.matchType === 'removed' && pair.block1?.blockType === 'TEXT') {
+        totalRemoved += (pair.block1.content || '').length;
+      }
+    });
+
+    return { added: totalAdded, removed: totalRemoved, unchanged: totalUnchanged };
+  }, [alignedPairs]);
+
+  // Error state
+  if (error) {
+    return (
+      <div className="p-6">
+        <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_VERSIONS')} />
+        <Alert variant="destructive" className="mt-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
+  // Loading state
+  if (loading && !comparisonData) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  // No versions state
+  if (!loading && versions.length < 2) {
+    return (
+      <div className="p-6">
+        <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_VERSIONS')} />
+        <Alert className="mt-4">
+          <Info className="h-4 w-4" />
+          <AlertTitle>Not enough versions</AlertTitle>
+          <AlertDescription>At least 2 versions are required for comparison.</AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
+  // No comparison data yet
+  if (!comparisonData) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  const v1Data = comparisonData.version1;
+  const v2Data = comparisonData.version2;
+
+  // Find version metadata for selectors
+  const getVersionMeta = (versionId: string) =>
+    versions.find((v) => v.id === versionId) || null;
+
+  const v1Meta = getVersionMeta(version1);
+  const v2Meta = getVersionMeta(version2);
 
   return (
     <div ref={containerRef}>
@@ -340,7 +287,9 @@ export function DocumentCompareView() {
               <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-tight">
                 {t('DOCUMENTS.VERSION_COMPARISON')}
               </h1>
-              <p className="text-xs sm:text-sm text-muted-foreground">Исковое заявление.pdf</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                {selectedDocument?.name || 'Document'}
+              </p>
             </div>
           </div>
 
@@ -348,7 +297,7 @@ export function DocumentCompareView() {
             <div className="flex-1 min-w-0">
               <Select
                 value={version1}
-                onValueChange={setVersion1}
+                onValueChange={(v) => handleVersionChange(v, true)}
                 open={openSelect === 'version1'}
                 onOpenChange={(open) => setOpenSelect(open ? 'version1' : null)}
               >
@@ -359,17 +308,14 @@ export function DocumentCompareView() {
                       strokeWidth={2}
                     />
                     <div className="flex-1 text-left min-w-0">
-                      <div className="text-xs sm:text-sm font-semibold truncate">v{version1}</div>
-                      <div className="text-xs text-muted-foreground hidden sm:block">
-                        {
-                          documentVersions.find((v) => v.versionNumber === parseInt(version1))
-                            ?.createdAt &&
-                          new Date(
-                            documentVersions.find((v) => v.versionNumber === parseInt(version1))!
-                              .createdAt
-                          ).toLocaleString()
-                        }
+                      <div className="text-xs sm:text-sm font-semibold truncate">
+                        v{v1Meta?.versionNumber || '?'}
                       </div>
+                      {v1Meta && (
+                        <div className="text-xs text-muted-foreground hidden sm:block">
+                          {new Date(v1Meta.createdAt).toLocaleString()}
+                        </div>
+                      )}
                     </div>
                     <ChevronDown
                       className="w-4 h-4 text-muted-foreground flex-shrink-0"
@@ -378,12 +324,8 @@ export function DocumentCompareView() {
                   </div>
                 </SelectTrigger>
                 <SelectContent>
-                  {documentVersions.map((v) => (
-                    <SelectItem
-                      key={v.versionNumber}
-                      value={v.versionNumber.toString()}
-                      disabled={v.versionNumber.toString() === version2}
-                    >
+                  {versions.map((v) => (
+                    <SelectItem key={v.id} value={v.id} disabled={v.id === version2}>
                       <div className="py-1">
                         <div>
                           {t('DOCUMENTS.VERSION')} {v.versionNumber}
@@ -405,7 +347,7 @@ export function DocumentCompareView() {
             <div className="flex-1 min-w-0">
               <Select
                 value={version2}
-                onValueChange={setVersion2}
+                onValueChange={(v) => handleVersionChange(v, false)}
                 open={openSelect === 'version2'}
                 onOpenChange={(open) => setOpenSelect(open ? 'version2' : null)}
               >
@@ -416,17 +358,14 @@ export function DocumentCompareView() {
                       strokeWidth={2}
                     />
                     <div className="flex-1 text-left min-w-0">
-                      <div className="text-xs sm:text-sm font-semibold truncate">v{version2}</div>
-                      <div className="text-xs text-muted-foreground hidden sm:block">
-                        {
-                          documentVersions.find((v) => v.versionNumber === parseInt(version2))
-                            ?.createdAt &&
-                          new Date(
-                            documentVersions.find((v) => v.versionNumber === parseInt(version2))!
-                              .createdAt
-                          ).toLocaleString()
-                        }
+                      <div className="text-xs sm:text-sm font-semibold truncate">
+                        v{v2Meta?.versionNumber || '?'}
                       </div>
+                      {v2Meta && (
+                        <div className="text-xs text-muted-foreground hidden sm:block">
+                          {new Date(v2Meta.createdAt).toLocaleString()}
+                        </div>
+                      )}
                     </div>
                     <ChevronDown
                       className="w-4 h-4 text-muted-foreground flex-shrink-0"
@@ -435,12 +374,8 @@ export function DocumentCompareView() {
                   </div>
                 </SelectTrigger>
                 <SelectContent>
-                  {documentVersions.map((v) => (
-                    <SelectItem
-                      key={v.versionNumber}
-                      value={v.versionNumber.toString()}
-                      disabled={v.versionNumber.toString() === version1}
-                    >
+                  {versions.map((v) => (
+                    <SelectItem key={v.id} value={v.id} disabled={v.id === version1}>
                       <div className="py-1">
                         <div>
                           {t('DOCUMENTS.VERSION')} {v.versionNumber}
@@ -459,77 +394,51 @@ export function DocumentCompareView() {
       </header>
 
       <main className="p-4 sm:p-6 lg:p-8">
+        {/* Extraction status warnings */}
+        {(v1Data.extractionStatus === 'failed' || v2Data.extractionStatus === 'failed') && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Extraction Failed</AlertTitle>
+            <AlertDescription>
+              Document structure could not be extracted for one or both versions. Comparison may be
+              unavailable.
+            </AlertDescription>
+          </Alert>
+        )}
+
         {/* Mobile layout - stacked */}
         <div className="lg:hidden space-y-4">
-          {/* Changes summary for mobile */}
+          {/* Statistics summary */}
           <Card>
             <div>
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold tracking-tight text-sm flex items-center gap-2">
-                  <History className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
-                  {t('DOCUMENTS.CHANGES_DETECTED')}: {changesSummary.total}
-                </h3>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={handlePrevChange}
-                    disabled={currentChangeIndex === 0}
-                    className="rounded-lg border-border h-8 w-8"
-                  >
-                    <ChevronLeft className="w-4 h-4" strokeWidth={2} />
-                  </Button>
-                  <span className="text-xs text-muted-foreground">
-                    {currentChangeIndex + 1}/{changes.length}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={handleNextChange}
-                    disabled={currentChangeIndex === changes.length - 1}
-                    className="rounded-lg border-border h-8 w-8"
-                  >
-                    <ChevronRight className="w-4 h-4" strokeWidth={2} />
-                  </Button>
-                </div>
-              </div>
-
+              <h3 className="font-semibold tracking-tight text-sm mb-3">
+                {t('DOCUMENTS.CHANGES_DETECTED')}
+              </h3>
               <div className="flex gap-2">
                 <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-green-500/10">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
                   <span className="text-xs text-green-700 dark:text-green-400">
-                    +{changesSummary.added}
+                    +{statistics.added} chars
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-destructive/10">
                   <div className="w-1.5 h-1.5 rounded-full bg-destructive"></div>
-                  <span className="text-xs text-destructive">-{changesSummary.removed}</span>
-                </div>
-                <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-blue-500/10">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                  <span className="text-xs text-blue-700 dark:text-blue-400">
-                    ~{changesSummary.modified}
-                  </span>
+                  <span className="text-xs text-destructive">-{statistics.removed} chars</span>
                 </div>
               </div>
             </div>
           </Card>
+
+          {/* Version 1 (Old) */}
           <Card>
             <div className="p-3 bg-muted/50 border-b border-border">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-semibold tracking-tight text-sm mb-0.5">
-                    {t('DOCUMENTS.VERSION_NUMBER', { version: version1 })}
+                    {t('DOCUMENTS.VERSION')} {v1Data.versionNumber}
                   </h3>
                   <p className="text-xs text-muted-foreground">
-                    {
-                      documentVersions.find((v) => v.versionNumber === parseInt(version1))
-                        ?.createdAt &&
-                      new Date(
-                        documentVersions.find((v) => v.versionNumber === parseInt(version1))!
-                          .createdAt
-                      ).toLocaleString()
-                    }
+                    {new Date(v1Data.createdAt).toLocaleString()}
                   </p>
                 </div>
                 <Badge className="bg-muted text-muted-foreground border-0 text-xs">
@@ -537,36 +446,30 @@ export function DocumentCompareView() {
                 </Badge>
               </div>
             </div>
-            <ScrollArea className="h-[300px] sm:h-[400px]">
-              <div
-                className="p-4 font-mono text-xs leading-relaxed"
-                dangerouslySetInnerHTML={{
-                  __html: oldContent
-                    .replace(
-                      /<span class="removed">(.*?)<\/span>/g,
-                      '<span class="bg-destructive/20 text-destructive px-1 rounded line-through">$1</span>'
-                    )
-                    .replace(/\n/g, '<br />'),
-                }}
-              />
+            <ScrollArea className="h-[400px]">
+              <div className="p-4 space-y-4" style={{ fontSize: `${zoomLevel}%` }}>
+                {alignedPairs.map((pair, idx) => (
+                  <BlockRenderer
+                    key={pair.block1?.id || pair.block2?.id || `pair-${idx}`}
+                    block={pair.block1!}
+                    comparisonBlock={pair.block2 || undefined}
+                    side="old"
+                  />
+                ))}
+              </div>
             </ScrollArea>
           </Card>
+
+          {/* Version 2 (New) */}
           <Card>
             <div className="p-3 bg-green-500/10 border-b border-green-500/20">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-semibold tracking-tight text-sm mb-0.5">
-                    {t('DOCUMENTS.VERSION_NUMBER', { version: version2 })}
+                    {t('DOCUMENTS.VERSION')} {v2Data.versionNumber}
                   </h3>
                   <p className="text-xs text-muted-foreground">
-                    {
-                      documentVersions.find((v) => v.versionNumber === parseInt(version2))
-                        ?.createdAt &&
-                      new Date(
-                        documentVersions.find((v) => v.versionNumber === parseInt(version2))!
-                          .createdAt
-                      ).toLocaleString()
-                    }
+                    {new Date(v2Data.createdAt).toLocaleString()}
                   </p>
                 </div>
                 <Badge className="bg-green-500 text-white border-0 text-xs">
@@ -574,26 +477,21 @@ export function DocumentCompareView() {
                 </Badge>
               </div>
             </div>
-            <ScrollArea className="h-[300px] sm:h-[400px]">
-              <div
-                className="p-4 font-mono text-xs leading-relaxed"
-                dangerouslySetInnerHTML={{
-                  __html: newContent
-                    .replace(
-                      /<span class="added">(.*?)<\/span>/g,
-                      '<span class="bg-green-500/20 text-green-700 dark:text-green-400 px-1 rounded">$1</span>'
-                    )
-                    .replace(
-                      /<span class="modified">(.*?)<\/span>/g,
-                      '<span class="bg-blue-500/20 text-blue-700 dark:text-blue-400 px-1 rounded">$1</span>'
-                    )
-                    .replace(/\n/g, '<br />'),
-                }}
-              />
+            <ScrollArea className="h-[400px]">
+              <div className="p-4 space-y-4" style={{ fontSize: `${zoomLevel}%` }}>
+                {alignedPairs.map((pair, idx) => (
+                  <BlockRenderer
+                    key={pair.block1?.id || pair.block2?.id || `pair-${idx}`}
+                    block={pair.block2!}
+                    comparisonBlock={pair.block1 || undefined}
+                    side="new"
+                  />
+                ))}
+              </div>
             </ScrollArea>
           </Card>
 
-          {/* Legend for mobile */}
+          {/* Legend */}
           <Card className="bg-muted/50">
             <div>
               <div className="flex items-center gap-2 mb-2">
@@ -609,10 +507,6 @@ export function DocumentCompareView() {
                   <div className="w-3 h-3 rounded bg-destructive/20 border border-destructive/30"></div>
                   <span className="text-muted-foreground">{t('DOCUMENTS.REMOVED')}</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded bg-blue-500/20 border border-blue-500/30"></div>
-                  <span className="text-muted-foreground">{t('DOCUMENTS.MODIFIED')}</span>
-                </div>
               </div>
             </div>
           </Card>
@@ -620,17 +514,14 @@ export function DocumentCompareView() {
 
         {/* Desktop layout - side by side */}
         <div className="hidden lg:grid grid-cols-4 gap-6">
+          {/* Left sidebar with statistics */}
           <div className="space-y-6">
             <Card>
               <div>
                 <h3 className="font-semibold tracking-tight mb-4 flex items-center gap-2">
-                  <History className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
-                  {t('DOCUMENTS.CHANGES_DETECTED')}
+                  <Info className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
+                  Statistics
                 </h3>
-
-                <div className="text-4xl font-bold tracking-tight mb-6 text-center">
-                  {changesSummary.total}
-                </div>
 
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/10">
@@ -641,7 +532,7 @@ export function DocumentCompareView() {
                       </span>
                     </div>
                     <span className="text-sm text-green-700 dark:text-green-400">
-                      {changesSummary.added}
+                      {statistics.added}
                     </span>
                   </div>
 
@@ -650,100 +541,17 @@ export function DocumentCompareView() {
                       <div className="w-2 h-2 rounded-full bg-destructive"></div>
                       <span className="text-sm text-destructive">{t('DOCUMENTS.REMOVED')}</span>
                     </div>
-                    <span className="text-sm text-destructive">{changesSummary.removed}</span>
+                    <span className="text-sm text-destructive">{statistics.removed}</span>
                   </div>
 
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-blue-500/10">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-muted/50">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                      <span className="text-sm text-blue-700 dark:text-blue-400">
-                        {t('DOCUMENTS.MODIFIED')}
-                      </span>
+                      <div className="w-2 h-2 rounded-full bg-muted-foreground"></div>
+                      <span className="text-sm text-muted-foreground">Unchanged</span>
                     </div>
-                    <span className="text-sm text-blue-700 dark:text-blue-400">
-                      {changesSummary.modified}
-                    </span>
+                    <span className="text-sm text-muted-foreground">{statistics.unchanged}</span>
                   </div>
                 </div>
-              </div>
-            </Card>
-
-            <Card>
-              <div>
-                <h3 className="font-semibold tracking-tight mb-4">{t('DOCUMENTS.NAVIGATION')}</h3>
-
-                <div className="flex items-center gap-2 mb-4">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={handlePrevChange}
-                    disabled={currentChangeIndex === 0}
-                    className="rounded-xl border-border"
-                  >
-                    <ChevronLeft className="w-4 h-4" strokeWidth={2} />
-                  </Button>
-
-                  <div className="flex-1 text-center text-sm text-muted-foreground">
-                    {currentChangeIndex + 1} {t('COMMON.OF')} {changes.length}
-                  </div>
-
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={handleNextChange}
-                    disabled={currentChangeIndex === changes.length - 1}
-                    className="rounded-xl border-border"
-                  >
-                    <ChevronRight className="w-4 h-4" strokeWidth={2} />
-                  </Button>
-                </div>
-
-                <ScrollArea className="h-[400px]">
-                  <div className="space-y-2 pr-4">
-                    {changes.map((change, index) => (
-                      <button
-                        key={change.id}
-                        onClick={() => setCurrentChangeIndex(index)}
-                        className={`w-full text-left p-3 rounded-xl transition-all ${
-                          currentChangeIndex === index
-                            ? 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800'
-                            : 'bg-muted/50 hover:bg-muted border-2 border-transparent'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2 mb-2">
-                          <Badge
-                            className={`text-xs border-0 ${
-                              change.type === DocumentChangeTypeEnum.ADDED
-                                ? 'bg-green-500/10 text-green-700 dark:text-green-400'
-                                : change.type === DocumentChangeTypeEnum.REMOVED
-                                  ? 'bg-destructive/10 text-destructive'
-                                  : 'bg-blue-500/10 text-blue-700 dark:text-blue-400'
-                            }`}
-                          >
-                            {change.type === DocumentChangeTypeEnum.ADDED
-                              ? t('DOCUMENTS.ADDED')
-                              : change.type === DocumentChangeTypeEnum.REMOVED
-                                ? t('DOCUMENTS.REMOVED')
-                                : t('DOCUMENTS.MODIFIED')}
-                          </Badge>
-                          <span className="text-xs text-muted-foreground">
-                            {t('DOCUMENTS.LINE')} {change.lineNumber}
-                          </span>
-                        </div>
-                        {change.oldText && (
-                          <div className="text-xs text-muted-foreground mb-1 line-through">
-                            {change.oldText.substring(0, 50)}...
-                          </div>
-                        )}
-                        {change.newText && (
-                          <div className="text-xs text-foreground">
-                            {change.newText.substring(0, 50)}...
-                          </div>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </ScrollArea>
               </div>
             </Card>
 
@@ -762,34 +570,25 @@ export function DocumentCompareView() {
                     <div className="w-4 h-4 rounded bg-destructive/20 border border-destructive/30"></div>
                     <span className="text-muted-foreground">{t('DOCUMENTS.REMOVED_TEXT')}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-blue-500/20 border border-blue-500/30"></div>
-                    <span className="text-muted-foreground">{t('DOCUMENTS.MODIFIED_TEXT')}</span>
-                  </div>
                 </div>
               </div>
             </Card>
           </div>
 
+          {/* Main comparison view */}
           <div className="col-span-3">
             <Card>
               <div className="grid grid-cols-2 divide-x divide-border">
+                {/* Version 1 (Old) */}
                 <div>
                   <div className="p-4 bg-muted/50 border-b border-border">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold tracking-tight mb-1">
-                          {t('DOCUMENTS.VERSION', { version: version1 })}
+                          {t('DOCUMENTS.VERSION')} {v1Data.versionNumber}
                         </h3>
                         <p className="text-xs text-muted-foreground">
-                          {
-                            documentVersions.find((v) => v.versionNumber === parseInt(version1))
-                              ?.createdAt &&
-                            new Date(
-                              documentVersions.find((v) => v.versionNumber === parseInt(version1))!
-                                .createdAt
-                            ).toLocaleString()
-                          }
+                          {new Date(v1Data.createdAt).toLocaleString()}
                         </p>
                       </div>
                       <Badge className="bg-muted text-muted-foreground border-0">
@@ -798,37 +597,29 @@ export function DocumentCompareView() {
                     </div>
                   </div>
                   <ScrollArea className="h-[800px]">
-                    <div
-                      className="p-6 font-mono text-sm leading-relaxed"
-                      style={{ fontSize: `${zoomLevel}%` }}
-                      dangerouslySetInnerHTML={{
-                        __html: oldContent
-                          .replace(
-                            /<span class="removed">(.*?)<\/span>/g,
-                            '<span class="bg-destructive/20 text-destructive px-1 rounded line-through">$1</span>'
-                          )
-                          .replace(/\n/g, '<br />'),
-                      }}
-                    />
+                    <div className="p-6 space-y-4" style={{ fontSize: `${zoomLevel}%` }}>
+                      {alignedPairs.map((pair, idx) => (
+                        <BlockRenderer
+                          key={pair.block1?.id || pair.block2?.id || `pair-${idx}`}
+                          block={pair.block1!}
+                          comparisonBlock={pair.block2 || undefined}
+                          side="old"
+                        />
+                      ))}
+                    </div>
                   </ScrollArea>
                 </div>
 
+                {/* Version 2 (New) */}
                 <div>
                   <div className="p-4 bg-green-500/10 border-b border-green-500/20">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold tracking-tight mb-1">
-                          {t('DOCUMENTS.VERSION')} {version2}
+                          {t('DOCUMENTS.VERSION')} {v2Data.versionNumber}
                         </h3>
                         <p className="text-xs text-muted-foreground">
-                          {
-                            documentVersions.find((v) => v.versionNumber === parseInt(version2))
-                              ?.createdAt &&
-                            new Date(
-                              documentVersions.find((v) => v.versionNumber === parseInt(version2))!
-                                .createdAt
-                            ).toLocaleString()
-                          }
+                          {new Date(v2Data.createdAt).toLocaleString()}
                         </p>
                       </div>
                       <Badge className="bg-green-500 text-white border-0">
@@ -837,22 +628,16 @@ export function DocumentCompareView() {
                     </div>
                   </div>
                   <ScrollArea className="h-[800px]">
-                    <div
-                      className="p-6 font-mono text-sm leading-relaxed"
-                      style={{ fontSize: `${zoomLevel}%` }}
-                      dangerouslySetInnerHTML={{
-                        __html: newContent
-                          .replace(
-                            /<span class="added">(.*?)<\/span>/g,
-                            '<span class="bg-green-500/20 text-green-700 dark:text-green-400 px-1 rounded">$1</span>'
-                          )
-                          .replace(
-                            /<span class="modified">(.*?)<\/span>/g,
-                            '<span class="bg-blue-500/20 text-blue-700 dark:text-blue-400 px-1 rounded">$1</span>'
-                          )
-                          .replace(/\n/g, '<br />'),
-                      }}
-                    />
+                    <div className="p-6 space-y-4" style={{ fontSize: `${zoomLevel}%` }}>
+                      {alignedPairs.map((pair, idx) => (
+                        <BlockRenderer
+                          key={pair.block1?.id || pair.block2?.id || `pair-${idx}`}
+                          block={pair.block2!}
+                          comparisonBlock={pair.block1 || undefined}
+                          side="new"
+                        />
+                      ))}
+                    </div>
                   </ScrollArea>
                 </div>
               </div>

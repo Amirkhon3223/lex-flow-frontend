@@ -11,6 +11,9 @@
 import { Languages, Check } from 'lucide-react';
 import type { Language } from '@/app/services/i18n/i18n.service';
 import { useI18n } from '@/shared/context/I18nContext';
+import { useAuthStore } from '@/app/store/auth.store';
+import { usersService } from '@/app/services/users/users.service';
+import { toast } from 'sonner';
 import { Button } from '@/shared/ui/button';
 import {
   DropdownMenu,
@@ -20,10 +23,26 @@ import {
 } from '@/shared/ui/dropdown-menu';
 
 export function LanguageSelector() {
-  const { language, languageInfo, availableLanguages, setLanguage } = useI18n();
+  const { language, languageInfo: _languageInfo, availableLanguages, setLanguage, t } = useI18n();
+  const { updateUserData } = useAuthStore();
 
   const handleLanguageChange = async (newLanguage: Language) => {
-    await setLanguage(newLanguage);
+    try {
+      // 1. Отправить на бэкенд
+      await usersService.updateLanguage({ language: newLanguage });
+
+      // 2. Обновить локальный контекст i18n
+      await setLanguage(newLanguage);
+
+      // 3. Обновить user в store
+      updateUserData({ language: newLanguage });
+
+      // 4. Показать уведомление
+      toast.success(t('SETTINGS.PROFILE.LANGUAGE_UPDATED'));
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Language update error:', error);
+    }
   };
 
   return (

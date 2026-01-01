@@ -14,47 +14,97 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
+    // Target modern browsers for smaller bundles
+    target: 'esnext',
+
+    // Enable minification
+    minify: 'esbuild',
+
+    // CSS code splitting
+    cssCodeSplit: true,
+
+    // Sourcemaps только для debugging (можно отключить в prod)
+    sourcemap: false,
+
+    // Optimize chunk size
+    chunkSizeWarningLimit: 1000,
+
     rollupOptions: {
       output: {
+        // Optimize chunk file names
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+
         manualChunks(id) {
-          // React vendor chunk
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) {
-            return 'react-vendor';
+          // React core (самый важный vendor chunk)
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'react-core';
           }
 
-          // Charts (очень тяжелая библиотека)
+          // React Router (отдельно от react-core)
+          if (id.includes('node_modules/react-router')) {
+            return 'react-router';
+          }
+
+          // TanStack Query (отдельный chunk)
+          if (id.includes('node_modules/@tanstack/react-query')) {
+            return 'tanstack-query';
+          }
+
+          // Charts (очень тяжелая библиотека - отдельно)
           if (id.includes('node_modules/recharts')) {
             return 'charts';
           }
 
-          // Radix UI компоненты
+          // Radix UI компоненты (большой набор)
           if (id.includes('node_modules/@radix-ui')) {
             return 'ui-vendor';
           }
 
-          // Lucide icons
+          // Lucide icons (объединить с UI)
           if (id.includes('node_modules/lucide-react')) {
-            return 'ui-vendor';
+            return 'icons';
           }
 
-          // Forms
+          // Forms (react-hook-form + zod)
           if (id.includes('node_modules/react-hook-form') || id.includes('node_modules/zod')) {
             return 'forms';
           }
 
-          // State management
+          // State management (zustand)
           if (id.includes('node_modules/zustand')) {
             return 'state';
           }
 
-          // HTTP
+          // HTTP (axios)
           if (id.includes('node_modules/axios')) {
             return 'http';
+          }
+
+          // Date utilities
+          if (id.includes('node_modules/date-fns')) {
+            return 'date-utils';
+          }
+
+          // Other node_modules -> common vendor
+          if (id.includes('node_modules')) {
+            return 'vendor-common';
           }
         },
       },
     },
-    // Увеличиваем chunk size warning limit
-    chunkSizeWarningLimit: 1000,
+  },
+
+  // Optimize dependencies
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      '@tanstack/react-query',
+      'axios',
+      'zustand',
+    ],
   },
 });

@@ -2,12 +2,8 @@ import type { InternalAxiosRequestConfig } from 'axios';
 
 export const authInterceptor = {
   onFulfilled: (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem('access_token');
-
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
+    // Cookie is automatically sent by browser with withCredentials: true
+    // No need to manually add Authorization header anymore
     return config;
   },
 

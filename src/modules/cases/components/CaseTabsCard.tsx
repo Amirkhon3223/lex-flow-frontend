@@ -6,6 +6,7 @@ import type {
   CaseDocumentInterface,
   TimelineEventInterface,
 } from '@/app/types/cases/cases.interfaces';
+import { DataPagination } from '@/shared/components/DataPagination';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -35,6 +36,8 @@ export function CaseTabsCard({
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [currentPage, setCurrentPage] = useState(1);
+  const documentsPerPage = 10;
 
   useEffect(() => {
     if (selectedCase?.notes) {
@@ -91,6 +94,17 @@ export function CaseTabsCard({
     });
   };
 
+  // Pagination for documents
+  const totalPages = Math.ceil(documents.length / documentsPerPage);
+  const startIndex = (currentPage - 1) * documentsPerPage;
+  const endIndex = startIndex + documentsPerPage;
+  const paginatedDocuments = documents.slice(startIndex, endIndex);
+
+  // Reset to page 1 when documents change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [documents.length]);
+
   return (
     <Card>
       <Tabs defaultValue="documents" className="w-full">
@@ -124,64 +138,76 @@ export function CaseTabsCard({
         </div>
 
         <TabsContent value="documents" className="space-y-2 sm:space-y-3">
-          {documents.map((doc) => (
-            <div
-              key={doc.id}
-              className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-muted/50 hover:bg-muted transition-all"
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
-                <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" strokeWidth={2} />
-              </div>
-
+          <div className="space-y-2 sm:space-y-3">
+            {paginatedDocuments.map((doc) => (
               <div
-                className="flex-1 min-w-0 cursor-pointer"
-                onClick={() => onDocumentClick(doc.id)}
+                key={doc.id}
+                className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl bg-muted/50 hover:bg-muted transition-all"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
-                  <h4 className="tracking-tight truncate text-sm sm:text-base">{doc.name}</h4>
-                  <Badge className={`${getDocumentStatusColor(doc.status)} text-xs w-fit`}>
-                    {doc.status === DocumentStatusEnum.FINAL
-                      ? t('DOCUMENTS.STATUS.FINAL')
-                      : doc.status === DocumentStatusEnum.REVIEW
-                        ? t('DOCUMENTS.STATUS.REVIEW')
-                        : t('DOCUMENTS.STATUS.DRAFT')}
-                  </Badge>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" strokeWidth={2} />
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground flex-wrap">
-                  <span>{doc.size}</span>
-                  <span className="hidden sm:inline">•</span>
-                  <span>{doc.date}</span>
-                  <span className="hidden sm:inline">•</span>
-                  <span className="flex items-center gap-1">
-                    <History className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
-                    {doc.versions}{' '}
-                    {doc.versions === 1
-                      ? t('CASES.DOC_VERSION.SINGULAR')
-                      : t('CASES.DOC_VERSION.PLURAL')}
-                  </span>
-                </div>
-              </div>
 
-              <div className="flex items-center gap-2 self-end sm:self-auto">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-xl h-8 w-8 sm:h-10 sm:w-10"
+                <div
+                  className="flex-1 min-w-0 cursor-pointer"
                   onClick={() => onDocumentClick(doc.id)}
                 >
-                  <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-xl h-8 w-8 sm:h-10 sm:w-10"
-                  onClick={() => onDownloadDocument(doc.name)}
-                >
-                  <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
-                </Button>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
+                    <h4 className="tracking-tight truncate text-sm sm:text-base">{doc.name}</h4>
+                    <Badge className={`${getDocumentStatusColor(doc.status)} text-xs w-fit`}>
+                      {doc.status === DocumentStatusEnum.FINAL
+                        ? t('DOCUMENTS.STATUS.FINAL')
+                        : doc.status === DocumentStatusEnum.REVIEW
+                          ? t('DOCUMENTS.STATUS.REVIEW')
+                          : t('DOCUMENTS.STATUS.DRAFT')}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground flex-wrap">
+                    <span>{doc.size}</span>
+                    <span className="hidden sm:inline">•</span>
+                    <span>{doc.date}</span>
+                    <span className="hidden sm:inline">•</span>
+                    <span className="flex items-center gap-1">
+                      <History className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={2} />
+                      {doc.versions}{' '}
+                      {doc.versions === 1
+                        ? t('CASES.DOC_VERSION.SINGULAR')
+                        : t('CASES.DOC_VERSION.PLURAL')}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 self-end sm:self-auto">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-xl h-8 w-8 sm:h-10 sm:w-10"
+                    onClick={() => onDocumentClick(doc.id)}
+                  >
+                    <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-xl h-8 w-8 sm:h-10 sm:w-10"
+                    onClick={() => onDownloadDocument(doc.name)}
+                  >
+                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2} />
+                  </Button>
+                </div>
               </div>
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="mt-4 flex justify-center">
+              <DataPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
             </div>
-          ))}
+          )}
         </TabsContent>
 
         <TabsContent

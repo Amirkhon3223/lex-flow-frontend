@@ -55,7 +55,7 @@ export function DataPagination({
             className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
           />
         </PaginationItem>
-        {pages.map((page, index) =>
+        {pages.map((page) =>
           typeof page === 'string' ? (
             <PaginationItem key={page}>
               <PaginationEllipsis />

@@ -7,6 +7,8 @@ import type {
   UploadDocumentResponse,
   DocumentVersionInterface,
   CreateDocumentVersionInterface,
+  CompareVersionsResponse,
+  ExtractionJobInterface,
 } from '../../types/documents/documents.interfaces';
 
 export const documentsService = {
@@ -88,6 +90,25 @@ export const documentsService = {
     const response = await httpClient.get(`/documents/${id}/file-versions/${versionId}/download`, {
       responseType: 'blob',
     });
+    return response.data;
+  },
+
+  compareVersions: async (
+    documentId: string,
+    version1Id: string,
+    version2Id: string
+  ): Promise<CompareVersionsResponse> => {
+    const response = await httpClient.get<CompareVersionsResponse>(
+      `/documents/${documentId}/versions/compare`,
+      {
+        params: { v1: version1Id, v2: version2Id },
+      }
+    );
+    return response.data;
+  },
+
+  getJobStatus: async (jobId: string): Promise<ExtractionJobInterface> => {
+    const response = await httpClient.get<ExtractionJobInterface>(`/extraction/jobs/${jobId}`);
     return response.data;
   },
 };

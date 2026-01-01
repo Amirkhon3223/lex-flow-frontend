@@ -39,7 +39,7 @@ interface SidebarProps {
 export function Sidebar({
   isCollapsed = false,
   isMobileOpen = false,
-  onCollapse,
+  onCollapse: _onCollapse,
   onMobileClose,
 }: SidebarProps) {
   const location = useLocation();

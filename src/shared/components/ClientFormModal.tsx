@@ -138,17 +138,15 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
           phone: formData.phone,
         };
 
-        if (clientType === ClientTypeEnum.INDIVIDUAL) {
-          clientData.firstName = formData.firstName || undefined;
-          clientData.lastName = formData.lastName || undefined;
-          clientData.middleName = formData.middleName || undefined;
-          clientData.birthDate = formData.birthDate || undefined;
-        } else {
-          clientData.companyName = formData.companyName || undefined;
-          clientData.inn = formData.inn || undefined;
-          clientData.kpp = formData.kpp || undefined;
-        }
-
+        // Отправляем ВСЕ заполненные поля независимо от типа клиента
+        // (backend принимает все поля для любого типа)
+        if (formData.firstName) clientData.firstName = formData.firstName;
+        if (formData.lastName) clientData.lastName = formData.lastName;
+        if (formData.middleName) clientData.middleName = formData.middleName;
+        if (formData.companyName) clientData.companyName = formData.companyName;
+        if (formData.inn) clientData.inn = formData.inn;
+        if (formData.kpp) clientData.kpp = formData.kpp;
+        if (formData.birthDate) clientData.birthDate = formData.birthDate;
         if (formData.address) clientData.address = formData.address;
         if (formData.notes) clientData.notes = formData.notes;
         if (formData.category) clientData.category = formData.category as ClientCategoryEnum;
@@ -159,23 +157,20 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
 
         const updateData: UpdateClientInterface = {};
 
-        if (clientType === ClientTypeEnum.INDIVIDUAL) {
-          updateData.firstName = formData.firstName || undefined;
-          updateData.lastName = formData.lastName || undefined;
-          updateData.middleName = formData.middleName || undefined;
-          updateData.birthDate = formData.birthDate || undefined;
-        } else {
-          updateData.companyName = formData.companyName || undefined;
-          updateData.inn = formData.inn || undefined;
-          updateData.kpp = formData.kpp || undefined;
-        }
-
-        updateData.email = formData.email || undefined;
-        updateData.phone = formData.phone || undefined;
-        updateData.address = formData.address || undefined;
-        updateData.category = (formData.category as ClientCategoryEnum) || undefined;
-        updateData.status = (formData.status as ClientStatusEnum) || undefined;
-        updateData.notes = formData.notes || undefined;
+        // Отправляем ВСЕ заполненные поля независимо от типа клиента
+        if (formData.firstName) updateData.firstName = formData.firstName;
+        if (formData.lastName) updateData.lastName = formData.lastName;
+        if (formData.middleName) updateData.middleName = formData.middleName;
+        if (formData.companyName) updateData.companyName = formData.companyName;
+        if (formData.inn) updateData.inn = formData.inn;
+        if (formData.kpp) updateData.kpp = formData.kpp;
+        if (formData.birthDate) updateData.birthDate = formData.birthDate;
+        if (formData.email) updateData.email = formData.email;
+        if (formData.phone) updateData.phone = formData.phone;
+        if (formData.address) updateData.address = formData.address;
+        if (formData.category) updateData.category = formData.category as ClientCategoryEnum;
+        if (formData.status) updateData.status = formData.status as ClientStatusEnum;
+        if (formData.notes) updateData.notes = formData.notes;
 
         await updateClient(client.id, updateData);
       }

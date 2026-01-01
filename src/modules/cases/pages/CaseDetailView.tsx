@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
+import { useDocumentsStore } from '@/app/store/documents.store';
 import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import type { CaseDocumentInterface, AIInsightInterface } from '@/app/types/cases/cases.interfaces';
 import { CaseAIInsightsCard } from '@/modules/cases/components/CaseAIInsightsCard';
@@ -46,13 +47,20 @@ export function CaseDetailView() {
   } = useCasesStore();
 
   const { selectedClient, fetchClientById } = useClientsStore();
+  const { documents, fetchDocuments } = useDocumentsStore();
   const { t } = useI18n();
 
   useEffect(() => {
     if (!id || initialized) return;
 
     const loadData = async () => {
-      await Promise.all([fetchCaseById(id), fetchTimeline(id), fetchTasks(id), fetchComments(id)]);
+      await Promise.all([
+        fetchCaseById(id),
+        fetchTimeline(id),
+        fetchTasks(id),
+        fetchComments(id),
+        fetchDocuments({ caseId: id }),
+      ]);
       setInitialized(true);
     };
 
@@ -113,14 +121,36 @@ export function CaseDetailView() {
         priority: '',
       };
 
-  const documents: CaseDocumentInterface[] = []; // TODO: Подключить API документов
   const aiInsights: AIInsightInterface[] = []; // TODO: Подключить AI-insights
+
+  // Map DocumentInterface to CaseDocumentInterface
+  const caseDocuments: CaseDocumentInterface[] = documents.map((doc) => ({
+    id: doc.id,
+    caseId: doc.caseId || '',
+    name: doc.name,
+    size: `${(doc.fileSize / 1024 / 1024).toFixed(2)} MB`,
+    fileSize: doc.fileSize,
+    date: new Date(doc.createdAt).toLocaleDateString('ru-RU', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    }),
+    versions: doc.versionsCount || 0,
+    status: doc.status,
+    fileUrl: doc.fileUrl,
+    mimeType: doc.mimeType,
+    type: doc.type,
+    category: doc.category,
+    uploadedBy: doc.uploadedBy,
+    createdAt: doc.createdAt,
+    updatedAt: doc.updatedAt,
+  }));
 
   const handleAIReport = () => navigate(ROUTES.AI_ASSISTANT);
   const handleClientProfile = () => navigate(`${ROUTES.CLIENTS.BASE}/${clientId}`);
 
   const handleDocumentClick = (docId: string) => {
-    navigate(ROUTES.DOCUMENTS.DETAIL(docId));
+    navigate(`${ROUTES.DOCUMENTS.DETAIL(docId)}?from=case&caseId=${id}`);
   };
 
   const handleDownloadDocument = (docName: string) => {
@@ -151,11 +181,19 @@ export function CaseDetailView() {
         })
       : '';
 
+  const handleDocumentUploadSuccess = async () => {
+    if (id) {
+      await fetchDocuments({ caseId: id });
+    }
+  };
+
   return (
     <div>
       <UploadDocumentDialog
         open={isUploadDocumentDialogOpen}
         onOpenChange={setIsUploadDocumentDialogOpen}
+        onSuccess={handleDocumentUploadSuccess}
+        defaultCaseId={id}
       />
 
       <AddTaskDialog caseId={id} open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen} />
@@ -209,7 +247,7 @@ export function CaseDetailView() {
 
             <CaseTabsCard
               caseId={id}
-              documents={documents}
+              documents={caseDocuments}
               timeline={timeline}
               onDocumentClick={handleDocumentClick}
               onDownloadDocument={handleDownloadDocument}

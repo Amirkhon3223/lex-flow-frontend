@@ -5,6 +5,7 @@ interface ErrorResponse {
   message?: string;
   error?: string;
   statusCode?: number;
+  retry_after?: number;
 }
 
 export const handleApiError = (error: AxiosError<ErrorResponse>) => {
@@ -22,7 +23,7 @@ export const handleApiError = (error: AxiosError<ErrorResponse>) => {
         toast.error('Не авторизован', {
           description: message || 'Пожалуйста, войдите в систему',
         });
-        localStorage.removeItem('access_token');
+        // Cookie is automatically cleared by backend on logout
         break;
       case 403:
         toast.error('Доступ запрещен', {
@@ -39,6 +40,15 @@ export const handleApiError = (error: AxiosError<ErrorResponse>) => {
           description: message || 'Проверьте правильность данных',
         });
         break;
+      case 429: {
+        const retryAfter = error.response.data?.retry_after ||
+                          parseInt(error.response.headers?.['retry-after'] || '60');
+        toast.error('Слишком много запросов', {
+          description: `Превышен лимит запросов. Попробуйте через ${retryAfter} секунд`,
+          duration: 5000,
+        });
+        break;
+      }
       case 500:
         toast.error('Ошибка сервера', {
           description: 'Что-то пошло не так. Попробуйте позже',

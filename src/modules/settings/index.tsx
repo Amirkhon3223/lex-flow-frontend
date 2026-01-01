@@ -1,9 +1,8 @@
-import { Bell, CreditCard, Shield, Sparkles, User, Users } from 'lucide-react';
+import { Bell, CreditCard, Shield, Sparkles, User } from 'lucide-react';
 import { BillingTabContent } from '@/modules/settings/components/tabs/BillingTabContent';
 import { NotificationsTabContent } from '@/modules/settings/components/tabs/NotificationsTabContent';
 import { ProfileTabContent } from '@/modules/settings/components/tabs/ProfileTabContent';
 import { SecurityTabContent } from '@/modules/settings/components/tabs/SecurityTabContent';
-import { TeamTabContent } from '@/modules/settings/components/tabs/TeamTabContent';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
 
