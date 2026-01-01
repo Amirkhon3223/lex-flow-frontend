@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Image, FileText, Plus, Minus } from 'lucide-react';
 import type { DocumentBlockInterface } from '@/app/types/documents/documents.interfaces';
 import { cn } from '@/shared/ui/utils';

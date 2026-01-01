@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Check, Zap } from 'lucide-react';
+import { billingService } from '@/app/services/billing/billing.service';
+import type { Plan } from '@/app/types/billing/billing.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -10,8 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/dialog';
-import { billingService } from '@/app/services/billing/billing.service';
-import type { Plan } from '@/app/types/billing/billing.interfaces';
 
 interface ChangePlanDialogProps {
   open: boolean;

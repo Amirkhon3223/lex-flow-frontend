@@ -14,19 +14,19 @@ import {
   Loader2,
 } from 'lucide-react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useDocumentsStore } from '@/app/store/documents.store';
 import { BackButton } from '@/shared/components/BackButton';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Alert, AlertDescription, AlertTitle } from '@/shared/ui/alert';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { ScrollArea } from '@/shared/ui/scroll-area.tsx';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/shared/ui/select.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
-import { Alert, AlertDescription, AlertTitle } from '@/shared/ui/alert';
-import { useDocumentsStore } from '@/app/store/documents.store';
 import { BlockRenderer } from '../components/BlockRenderer';
-import { diffCalculator } from '../utils/DiffCalculator';
 import { blockMatcher } from '../utils/BlockMatcher';
+import { diffCalculator } from '../utils/DiffCalculator';
 
 export function DocumentCompareView() {
   const { t } = useI18n();

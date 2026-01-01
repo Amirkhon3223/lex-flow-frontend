@@ -1,7 +1,7 @@
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { handleApiError } from '../utils/errorHandler';
 import axios from 'axios';
 import { API_CONFIG } from '../config/api.config';
+import { handleApiError } from '../utils/errorHandler';
 
 interface ErrorResponse {
   message?: string;

@@ -1,1 +1,1 @@
-export * from './workspaces.service'
+export * from './workspaces.service';
