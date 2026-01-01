@@ -51,38 +51,47 @@ export function Sidebar({
   };
 
   const navigationItems = [
-    { icon: Home, label: t('COMMON.NAVIGATION.OVERVIEW'), path: ROUTES.DASHBOARD, id: 'overview' },
+    {
+      icon: Home,
+      label: t('COMMON.NAVIGATION.OVERVIEW'),
+      path: ROUTES.DASHBOARD,
+      id: 'overview',
+      // count: 0,
+    },
     {
       icon: Briefcase,
       label: t('COMMON.NAVIGATION.CASES'),
       path: ROUTES.CASES.BASE,
       id: 'cases',
-      count: 47,
+      // count: 0,
     },
     {
       icon: Users,
       label: t('COMMON.NAVIGATION.CLIENTS'),
       path: ROUTES.CLIENTS.BASE,
       id: 'clients',
-      count: 24,
+      // count: 0,
     },
     {
       icon: FileText,
       label: t('COMMON.NAVIGATION.DOCUMENTS'),
       path: ROUTES.DOCUMENTS.BASE,
       id: 'documents',
+      // count: 0,
     },
     {
       icon: Calendar,
       label: t('COMMON.NAVIGATION.CALENDAR'),
       path: ROUTES.CALENDAR,
       id: 'calendar',
+      // count: 0,
     },
     {
       icon: BarChart3,
       label: t('COMMON.NAVIGATION.ANALYTICS'),
       path: ROUTES.ANALYTICS,
       id: 'analytics',
+      // count: 0,
     },
   ];
 

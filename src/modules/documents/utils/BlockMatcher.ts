@@ -158,13 +158,42 @@ export class BlockMatcher {
       );
     }
 
-    // TEXT блоки - сравниваем по similarity (> 70% = match)
+    // TEXT блоки
     if (block1.blockType === 'TEXT') {
+      // DOCX-эвристика: если paragraphIndex совпадает → считаем тем же блоком
+      if (
+        block1.meta?.paragraphIndex !== undefined &&
+        block2.meta?.paragraphIndex !== undefined &&
+        block1.meta.paragraphIndex === block2.meta.paragraphIndex
+      ) {
+        return true;
+      }
+
+      // Иначе используем адаптивный порог similarity
+      const text1 = block1.content || '';
+      const text2 = block2.content || '';
+      const avgLength = (text1.length + text2.length) / 2;
+      const threshold = this.getAdaptiveThreshold(avgLength);
+
       const similarity = this.calculateSimilarity(block1, block2);
-      return similarity > 0.7; // 70% порог для считывания блоков "одинаковыми"
+      return similarity > threshold;
     }
 
     return false;
+  }
+
+  /**
+   * Возвращает адаптивный порог similarity в зависимости от длины текста
+   * Короткие тексты требуют более низкий порог для распознавания изменений
+   */
+  private getAdaptiveThreshold(textLength: number): number {
+    if (textLength < 50) {
+      return 0.4; // 40% для очень коротких текстов (напр. заголовков)
+    } else if (textLength < 200) {
+      return 0.6; // 60% для коротких абзацев
+    } else {
+      return 0.7; // 70% для нормальных абзацев
+    }
   }
 
   /**
