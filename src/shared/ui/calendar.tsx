@@ -47,7 +47,6 @@ export function Calendar({
   const startDayOfWeek = (startOfMonth.getDay() + 6) % 7;
   const days: (Date | null)[] = [];
 
-  const prevMonth = new Date(year, currentMonthIndex - 1, 1);
   const prevMonthDays = new Date(year, currentMonthIndex, 0).getDate();
 
   if (showOutsideDays) {

@@ -45,7 +45,7 @@ const initialPagination: Pagination = {
   totalPages: 0,
 };
 
-export const useNotificationsStore = create<NotificationsState>((set, get) => ({
+export const useNotificationsStore = create<NotificationsState>((set) => ({
   notifications: [],
   settings: {},
   pagination: initialPagination,
@@ -81,7 +81,7 @@ export const useNotificationsStore = create<NotificationsState>((set, get) => ({
       },
       pagination: {
         ...state.pagination,
-        total: state.pagination.total + 1,
+        total: (state.pagination.total ?? 0) + 1,
       },
     }));
   },
@@ -151,7 +151,7 @@ export const useNotificationsStore = create<NotificationsState>((set, get) => ({
           },
           pagination: {
             ...state.pagination,
-            total: state.pagination.total - 1,
+            total: (state.pagination.total ?? 0) - 1,
           },
           loading: false,
         };

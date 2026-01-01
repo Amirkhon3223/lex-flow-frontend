@@ -13,7 +13,7 @@ import { Separator } from '@/shared/ui/separator';
 
 export function ProfileTabContent() {
   const { t, setLanguage } = useI18n();
-  const { user, refreshUser, updateUserData } = useAuthStore();
+  const { user, refreshUser: _refreshUser, updateUserData } = useAuthStore();
   const [openSelect, setOpenSelect] = useState<'language' | 'timezone' | null>(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

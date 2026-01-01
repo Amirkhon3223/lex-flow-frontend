@@ -24,10 +24,10 @@ export const authService = {
   logout: async (): Promise<SuccessResponse> => {
     try {
       const response = await httpClient.post<SuccessResponse>('/auth/logout');
-      localStorage.removeItem('access_token');
+      // Cookie is automatically cleared by backend
       return response.data;
     } catch (error) {
-      localStorage.removeItem('access_token');
+      // Even on error, cookie should be cleared by user manually or backend
       throw error;
     }
   },

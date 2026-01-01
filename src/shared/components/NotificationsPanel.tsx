@@ -52,7 +52,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
   }, [open]);
 
   const handleLoadMore = () => {
-    if (pagination.page * pagination.limit < pagination.total) {
+    if (pagination.page * pagination.limit < (pagination.total ?? 0)) {
       fetchNotifications(pagination.page + 1, NOTIFICATIONS_PER_PAGE);
     }
   };
@@ -199,7 +199,7 @@ export function NotificationsPanel({ open, onOpenChange }: NotificationsPanelPro
                     </div>
                   </div>
                 ))}
-                 {notifications.length < pagination.total && (
+                 {notifications.length < (pagination.total ?? 0) && (
                     <div className="p-4">
                         <Button
                         variant="outline"

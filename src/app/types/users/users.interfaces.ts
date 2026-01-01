@@ -60,7 +60,7 @@ export interface UserStatsResponse {
 }
 
 export interface UpdateLanguageRequest {
-  language: 'ru' | 'en';
+  language: 'ru' | 'en' | 'tj';
 }
 
 export interface UpdateTimezoneRequest {

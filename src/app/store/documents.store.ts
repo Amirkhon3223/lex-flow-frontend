@@ -7,12 +7,14 @@ import type {
   UpdateDocumentInterface,
   DocumentVersionInterface,
   CreateDocumentVersionInterface,
+  CompareVersionsResponse,
 } from '../types/documents/documents.interfaces';
 
 interface DocumentsState {
   documents: DocumentInterface[];
   selectedDocument: DocumentInterface | null;
   versions: DocumentVersionInterface[];
+  comparisonData: CompareVersionsResponse | null;
   pagination: Pagination;
   loading: boolean;
   error: string | null;
@@ -22,6 +24,8 @@ interface DocumentsState {
     sortBy?: string;
     search?: string;
     category?: string;
+    caseId?: string;
+    clientId?: string;
   }) => Promise<void>;
   fetchDocumentById: (id: string) => Promise<void>;
   createDocument: (data: CreateDocumentInterface) => Promise<void>;
@@ -29,6 +33,7 @@ interface DocumentsState {
   deleteDocument: (id: string) => Promise<void>;
   createVersion: (documentId: string, data: CreateDocumentVersionInterface) => Promise<void>;
   fetchVersions: (documentId: string) => Promise<void>;
+  compareVersions: (documentId: string, version1Id: string, version2Id: string) => Promise<void>;
   selectDocument: (document: DocumentInterface | null) => void;
 }
 
@@ -36,6 +41,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   documents: [],
   selectedDocument: null,
   versions: [],
+  comparisonData: null,
   pagination: {
     page: 1,
     totalPages: 1,
@@ -123,6 +129,20 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
         versions: versions,
         loading: false,
       });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+  },
+
+  compareVersions: async (documentId: string, version1Id: string, version2Id: string) => {
+    set({ loading: true, error: null });
+    try {
+      const comparisonData = await documentsService.compareVersions(
+        documentId,
+        version1Id,
+        version2Id
+      );
+      set({ comparisonData, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
     }

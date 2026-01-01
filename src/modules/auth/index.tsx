@@ -8,12 +8,12 @@ import { PageFooter } from '@/modules/auth/widgets/page-footer.tsx';
 
 export default function AuthPage() {
   const navigate = useNavigate();
-  const { login, register, loading, isAuthenticated, error } = useAuthStore();
+  const { login, register, loading, isAuthenticated, error: _error } = useAuthStore();
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [localError, setLocalError] = useState('');
+  const [_localError, setLocalError] = useState('');
 
   const [registerFirstName, setRegisterFirstName] = useState('');
   const [registerLastName, setRegisterLastName] = useState('');

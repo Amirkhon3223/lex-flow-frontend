@@ -52,7 +52,7 @@ export function DocumentsPage() {
   const stats = [
     {
       label: t('DOCUMENTS.STATS.TOTAL'),
-      value: pagination.totalItems,
+      value: pagination.totalItems ?? 0,
       icon: FileText,
       color: 'text-blue-500',
     },

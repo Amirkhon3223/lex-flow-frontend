@@ -22,7 +22,7 @@ import { QuickCommands } from './ui/QuickCommands';
 import { RecentAnalyses } from './ui/RecentAnalyses';
 
 export function AIAssistantView() {
-  const [message, setMessage] = useState('');
+  const [_message, setMessage] = useState('');
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
 
   const handleDocumentUpload = () => {

@@ -21,6 +21,7 @@ interface UploadDocumentDialogProps {
   onSuccess?: () => void;
   document?: DocumentInterface | null;
   mode?: 'upload' | 'edit';
+  defaultCaseId?: string;
 }
 
 export function UploadDocumentDialog({
@@ -29,6 +30,7 @@ export function UploadDocumentDialog({
   onSuccess,
   document,
   mode = 'upload',
+  defaultCaseId,
 }: UploadDocumentDialogProps) {
   const { t } = useI18n();
   const { createDocument, updateDocument, createVersion } = useDocumentsStore();
@@ -59,11 +61,16 @@ export function UploadDocumentDialog({
           category: document.category as DocumentCategoryEnum,
           notes: document.notes || '',
         });
+      } else if (defaultCaseId) {
+        setFormData((prev) => ({
+          ...prev,
+          caseId: defaultCaseId,
+        }));
       }
     } else {
       resetForm();
     }
-  }, [open, document]);
+  }, [open, document, defaultCaseId]);
 
   const fetchCases = async () => {
     setLoadingCases(true);

@@ -1,8 +1,5 @@
-import type { MembershipRole } from '../membership'
-
 /**
  * Роль участника команды
- * Используется для UI - отличается от MembershipRole
  */
 export type TeamRole = 'owner' | 'admin' | 'member'
 

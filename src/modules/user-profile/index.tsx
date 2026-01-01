@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { ArrowLeft, Save, Briefcase, User, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -13,7 +13,7 @@ import { ProfileTabs } from './widgets/ProfileTabs';
 export default function UserProfilePage() {
   const { t } = useI18n();
   const navigate = useNavigate();
-  const { user, updateUserData, refreshUser } = useAuthStore();
+  const { user, updateUserData, refreshUser: _refreshUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [userStats, setUserStats] = useState({
     activeCases: 0,
@@ -40,9 +40,22 @@ export default function UserProfilePage() {
     specialization: '',
   });
 
+  // Храним исходные данные для сравнения
+  const [initialProfileData, setInitialProfileData] = useState({
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    email: '',
+    phone: '',
+    position: '',
+    company: '',
+    address: '',
+    specialization: '',
+  });
+
   useEffect(() => {
     if (user) {
-      setProfileData({
+      const userData = {
         firstName: user.firstName || '',
         lastName: user.lastName || '',
         middleName: user.middleName || '',
@@ -52,7 +65,9 @@ export default function UserProfilePage() {
         company: user.company || '',
         address: user.address || '',
         specialization: user.specialization || '',
-      });
+      };
+      setProfileData(userData);
+      setInitialProfileData(userData);
     }
   }, [user]);
 
@@ -78,6 +93,11 @@ export default function UserProfilePage() {
     setProfileData((prev) => ({ ...prev, [field]: value }));
   };
 
+  // Проверяем, изменились ли данные
+  const hasChanges = useMemo(() => {
+    return JSON.stringify(profileData) !== JSON.stringify(initialProfileData);
+  }, [profileData, initialProfileData]);
+
   const handleSaveChanges = async () => {
     setLoading(true);
     try {
@@ -92,6 +112,10 @@ export default function UserProfilePage() {
         specialization: profileData.specialization as any,
       });
       updateUserData(updatedUser);
+
+      // Обновляем исходные данные после успешного сохранения
+      setInitialProfileData(profileData);
+
       toast.success(t('USER_PROFILE.CHANGES_SAVED'));
     } catch (error) {
       toast.error(t('COMMON.ERRORS.GENERIC'));
@@ -155,8 +179,8 @@ export default function UserProfilePage() {
             </div>
             <Button
               onClick={handleSaveChanges}
-              disabled={loading}
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md text-xs sm:text-sm lg:text-base h-8 sm:h-9 lg:h-10 px-3 sm:px-4 w-full sm:w-auto"
+              disabled={loading || !hasChanges}
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md text-xs sm:text-sm lg:text-base h-8 sm:h-9 lg:h-10 px-3 sm:px-4 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
               {loading ? t('COMMON.LOADING') : t('USER_PROFILE.SAVE_CHANGES')}

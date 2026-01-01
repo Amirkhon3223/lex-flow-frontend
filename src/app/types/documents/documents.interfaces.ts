@@ -27,6 +27,8 @@ export interface DocumentVersionInterface {
   createdAt: string;
   authorName: string;
   version?: number;
+  extractionStatus?: 'success' | 'failed' | 'pending' | null;
+  extractionJobId?: string;
 }
 
 export interface DocumentInterface {
@@ -50,6 +52,7 @@ export interface DocumentInterface {
   uploadedByName: string;
   createdAt: string;
   updatedAt: string;
+  extractionJobId?: string;
 }
 
 export interface FilterPanelProps {
@@ -130,4 +133,42 @@ export interface CreateDocumentVersionInterface {
   mimeType: string;
   originalFileName: string;
   notes?: string;
+}
+
+// Document Comparison Interfaces
+export interface DocumentBlockInterface {
+  id: string;
+  blockType: 'TEXT' | 'IMAGE';
+  content?: string;
+  orderIndex: number;
+  meta: Record<string, any>;
+}
+
+export interface VersionWithBlocksInterface {
+  id: string;
+  versionNumber: number;
+  extractionStatus?: 'success' | 'failed' | null;
+  blocks: DocumentBlockInterface[];
+  createdAt: string;
+}
+
+export interface CompareVersionsResponse {
+  documentId: string;
+  version1: VersionWithBlocksInterface;
+  version2: VersionWithBlocksInterface;
+}
+
+// Extraction Job Interfaces
+export interface ExtractionJobInterface {
+  id: string;
+  versionId: string;
+  documentId: string;
+  fileUrl: string;
+  mimeType: string;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  errorMsg?: string;
+  createdAt: string;
+  startedAt?: string;
+  completedAt?: string;
+  updatedAt: string;
 }

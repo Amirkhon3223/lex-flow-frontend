@@ -44,7 +44,7 @@ import { formatDate } from '@/shared/utils';
 export function CasePage() {
   const navigate = useNavigate();
   const { t } = useI18n();
-  const { cases, pagination, loading, fetchCases, deleteCase } = useCasesStore();
+  const { cases, pagination, loading: _loading, fetchCases, deleteCase } = useCasesStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');

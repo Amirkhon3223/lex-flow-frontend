@@ -76,7 +76,9 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
           const parsedDate = parse(meeting.date, 'yyyy-MM-dd', new Date());
           setDate(parsedDate);
         } catch (error) {
-          toast.error('Error parsing meeting date:', error);
+          toast.error('Error parsing meeting date', {
+            description: error instanceof Error ? error.message : String(error),
+          });
         }
       }
     } else if (!open) {
