@@ -109,7 +109,7 @@ export function MeetingsList({
                   </div>
                 </div>
 
-                {/* Desktop layout */}
+                {/* desktop layout */}
                 <div className="hidden md:flex items-start gap-4">
                   <div className="flex flex-col items-center min-w-[60px]">
                     <div className="text-2xl tracking-tight text-foreground">

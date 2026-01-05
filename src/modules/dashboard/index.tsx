@@ -45,9 +45,9 @@ export default function DashboardPage() {
           <h2 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-2">
             {t('DASHBOARD.WELCOME')}, {user?.name || 'User'}
           </h2>
-          <p className="text-gray-500 text-base lg:text-lg">
+          {/* <p className="text-gray-500 text-base lg:text-lg">
             {t('DASHBOARD.TASKS_TODAY', { count: dashboardStats?.tasksToday || 0 })}
-          </p>
+          </p> */}
         </div>
 
         <StatsCards />

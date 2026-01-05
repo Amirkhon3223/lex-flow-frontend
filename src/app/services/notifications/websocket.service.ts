@@ -15,8 +15,6 @@ class WebSocketService {
       return;
     }
 
-    // Cookie is automatically sent by browser with WebSocket connection
-    // No need to pass token in URL anymore
     this.socket = new WebSocket(WEBSOCKET_URL);
 
     this.socket.onopen = () => {

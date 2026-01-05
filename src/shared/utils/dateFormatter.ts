@@ -7,14 +7,6 @@ export function getUserTimezone(): string {
 
 /**
  * Parse date string to local Date object (avoiding UTC conversion)
- * This is critical for dates in "YYYY-MM-DD" format from the backend.
- *
- * When you use `new Date("2025-12-31")`, JavaScript interprets it as UTC midnight,
- * then converts to local timezone. For America/New_York (UTC-5), this becomes
- * December 30, 2025 at 7pm - showing the wrong day!
- *
- * This function parses "YYYY-MM-DD" as a local date, preventing timezone shifts.
- *
  * @param dateString - Date string in "YYYY-MM-DD" format or ISO format
  * @returns Date object in local timezone
  */
@@ -112,8 +104,6 @@ export function formatDate(dateString: string): string {
 
 /**
  * Format date to YYYY-MM-DD for input fields
- * IMPORTANT: This does NOT convert timezone - it returns the date as-is
- * Use this when sending dates to backend
  */
 export function formatDateToInput(dateString: string): string {
   if (!dateString) return '';

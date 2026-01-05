@@ -24,10 +24,8 @@ export const authService = {
   logout: async (): Promise<SuccessResponse> => {
     try {
       const response = await httpClient.post<SuccessResponse>('/auth/logout');
-      // Cookie is automatically cleared by backend
       return response.data;
     } catch (error) {
-      // Even on error, cookie should be cleared by user manually or backend
       throw error;
     }
   },

@@ -12,14 +12,12 @@ export const createHttpClient = (): AxiosInstance => {
     headers: {
       'Content-Type': 'application/json',
     },
-    withCredentials: true, // Enable sending cookies with requests
+    withCredentials: true,
   });
 
-  // Request interceptors (order matters: auth first, then CSRF)
   client.interceptors.request.use(authInterceptor.onFulfilled, authInterceptor.onRejected);
   client.interceptors.request.use(csrfInterceptor.onFulfilled, csrfInterceptor.onRejected);
 
-  // Response interceptors
   client.interceptors.response.use(errorInterceptor.onFulfilled, errorInterceptor.onRejected);
 
   return client;

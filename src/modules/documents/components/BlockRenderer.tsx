@@ -22,7 +22,6 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
   side,
   className,
 }) => {
-  // Если block === null, показываем placeholder (для выравнивания layout)
   if (!block) {
     return (
       <div
@@ -51,7 +50,6 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
     );
   }
 
-  // IMAGE блок - показываем placeholder
   if (block.blockType === 'IMAGE') {
     return (
       <div
@@ -74,17 +72,14 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
     );
   }
 
-  // TEXT блок - вычисляем diff и рендерим с подсветкой
   const oldText = side === 'old' ? (block.content || '') : (comparisonBlock?.content || '');
   const newText = side === 'new' ? (block.content || '') : (comparisonBlock?.content || '');
 
   let diffs: DiffResult[] = [];
 
-  // Если есть comparisonBlock, вычисляем diff
   if (comparisonBlock?.blockType === 'TEXT') {
     diffs = diffCalculator.calculateTextDiff(oldText, newText);
   } else {
-    // Если нет comparisonBlock, показываем текст как добавленный/удаленный целиком
     if (block.content) {
       diffs = [
         {
@@ -95,12 +90,10 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
     }
   }
 
-  // Если нет изменений и это старая версия без пары, показываем как удаленное
   if (diffs.length === 0 && !comparisonBlock) {
     diffs = [{ type: 'removed', text: block.content || '' }];
   }
 
-  // Если нет изменений и есть пара, показываем неизмененный текст
   if (diffs.length === 0) {
     diffs = [{ type: 'unchanged', text: block.content || '' }];
   }

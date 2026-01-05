@@ -851,10 +851,12 @@
       "REGIONAL_SETTINGS": "Regional Settings",
       "LANGUAGE": "Language",
       "TIMEZONE": "Timezone",
+      "CURRENCY": "Currency",
       "SAVE_CHANGES": "Save Changes",
       "PROFILE_UPDATED": "Profile updated successfully",
       "LANGUAGE_UPDATED": "Language updated successfully",
-      "TIMEZONE_UPDATED": "Timezone updated successfully"
+      "TIMEZONE_UPDATED": "Timezone updated successfully",
+      "CURRENCY_UPDATED": "Currency updated successfully"
     },
     "NOTIFICATIONS": {
       "EMAIL": {

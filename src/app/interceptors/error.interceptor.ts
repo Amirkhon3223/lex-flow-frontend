@@ -39,7 +39,6 @@ export const errorInterceptor = {
       _retryCount?: number;
     };
 
-    // Handle 429 Rate Limit with automatic retry and exponential backoff
     if (error.response?.status === 429) {
       const retryCount = originalRequest._retryCount || 0;
       const maxRetries = 3;
@@ -48,24 +47,19 @@ export const errorInterceptor = {
         const retryAfter = error.response.data?.retry_after ||
                           parseInt(error.response.headers?.['retry-after'] || '60');
 
-        // Exponential backoff: 1s, 2s, 4s
         const backoffDelay = Math.min(retryAfter * 1000, Math.pow(2, retryCount) * 1000);
 
         originalRequest._retryCount = retryCount + 1;
 
-        // Wait and retry
         await new Promise((resolve) => setTimeout(resolve, backoffDelay));
         return axios(originalRequest);
       }
 
-      // Max retries exceeded, show error
       handleApiError(error);
       return Promise.reject(error);
     }
 
-    // If error is 401 and we haven't tried to refresh yet
     if (error.response?.status === 401 && !originalRequest._retry) {
-      // Skip refresh for auth endpoints to avoid infinite loop
       if (
         originalRequest.url?.includes('/auth/login') ||
         originalRequest.url?.includes('/auth/register') ||
@@ -76,7 +70,6 @@ export const errorInterceptor = {
       }
 
       if (isRefreshing) {
-        // If already refreshing, queue this request
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
@@ -92,35 +85,30 @@ export const errorInterceptor = {
       isRefreshing = true;
 
       try {
-        // Attempt to refresh the token
         await axios.post(
           `${API_CONFIG.BASE_URL}/auth/refresh`,
           {},
           {
-            withCredentials: true, // Send cookies with refresh request
+            withCredentials: true,
           }
         );
 
         processQueue(null);
         isRefreshing = false;
 
-        // Retry the original request
         return axios(originalRequest);
       } catch (refreshError) {
         processQueue(new Error('Token refresh failed'));
         isRefreshing = false;
 
-        // Refresh failed, handle error and redirect to login
         handleApiError(error);
 
-        // Redirect to login page
         window.location.href = '/login';
 
         return Promise.reject(refreshError);
       }
     }
 
-    // For non-401 errors or if retry failed
     handleApiError(error);
     return Promise.reject(error);
   },

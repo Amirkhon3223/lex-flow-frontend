@@ -8,7 +8,6 @@ export const csrfInterceptor = {
   onFulfilled: (config: InternalAxiosRequestConfig) => {
     const method = config.method?.toUpperCase();
 
-    // Only add CSRF token for unsafe methods
     if (method && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
       const csrfToken = getCsrfToken();
 
@@ -34,7 +33,6 @@ function getCsrfToken(): string | null {
 
   if (csrfCookie) {
     const encodedToken = csrfCookie.split('=')[1];
-    // Decode the token because Gin URL-encodes cookie values
     return decodeURIComponent(encodedToken);
   }
 

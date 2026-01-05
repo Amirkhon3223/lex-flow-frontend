@@ -60,7 +60,6 @@ export function useExtractionPolling({
       setJob(jobData);
       setError(null);
 
-      // Stop polling if job is completed or failed
       if (jobData.status === 'completed') {
         stopPolling();
         onComplete?.(jobData);
@@ -91,9 +90,8 @@ export function useExtractionPolling({
       return;
     }
 
-    // Start polling
     setIsPolling(true);
-    pollJobStatus(); // Poll immediately
+    pollJobStatus();
 
     intervalRef.current = setInterval(pollJobStatus, interval);
 

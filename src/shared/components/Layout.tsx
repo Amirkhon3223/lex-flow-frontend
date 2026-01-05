@@ -1,12 +1,6 @@
 /**
  * @file Layout.tsx
  * @description Основной layout-компонент приложения с Sidebar и Header
- *
- * НАЗНАЧЕНИЕ:
- * - Предоставляет единую структуру страниц (Sidebar + Header + Content)
- * - Управляет глобальным поиском, уведомлениями и профилем пользователя
- * - Фиксированный Sidebar (слева) и липкий Header (сверху)
- * - Адаптивное поведение для планшетов и мобильных устройств
  */
 
 import { useState, type ReactNode, useEffect } from 'react';
@@ -43,12 +37,9 @@ export const Layout = ({ children }: LayoutProps) => {
   };
 
   const handleMenuClick = () => {
-    // На мобильных (< md) открываем/закрываем mobile sidebar
     if (window.innerWidth < 768) {
-      // Mobile
       setIsMobileSidebarOpen(!isMobileSidebarOpen);
     } else {
-      // Tablet
       setIsSidebarCollapsed(!isSidebarCollapsed);
     }
   };
@@ -60,7 +51,7 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <SelectProvider>
       <div className="min-h-screen bg-background">
-        {/* Mobile overlay */}
+        {/* mobile overlay */}
         {isMobileSidebarOpen && (
           <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={closeMobileSidebar} />
         )}
@@ -72,7 +63,7 @@ export const Layout = ({ children }: LayoutProps) => {
           onMobileClose={closeMobileSidebar}
         />
 
-        {/* Main content area with responsive margin */}
+        {/* responsive margin */}
         <div
           className={`
           transition-all duration-300 ease-in-out

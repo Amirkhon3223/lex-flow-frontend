@@ -112,3 +112,12 @@ export interface PaymentMethodResponse {
   message: string;
   paymentMethod: PaymentMethodFull;
 }
+
+export interface CreateCheckoutSessionRequest {
+  planId: string;
+  interval: PlanInterval;
+}
+
+export interface CheckoutSessionResponse {
+  url: string;
+}

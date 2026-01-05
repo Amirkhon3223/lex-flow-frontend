@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Clock, Globe, Mail, Smartphone } from 'lucide-react';
+import { Clock, Coins, Globe, Mail, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';
 import { usersService } from '@/app/services/users/users.service';
 import { useAuthStore } from '@/app/store/auth.store';
@@ -14,7 +14,7 @@ import { Separator } from '@/shared/ui/separator';
 export function ProfileTabContent() {
   const { t, setLanguage } = useI18n();
   const { user, refreshUser: _refreshUser, updateUserData } = useAuthStore();
-  const [openSelect, setOpenSelect] = useState<'language' | 'timezone' | null>(null);
+  const [openSelect, setOpenSelect] = useState<'language' | 'timezone' | 'currency' | null>(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -29,6 +29,7 @@ export function ProfileTabContent() {
     city: '',
   });
   const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en' | 'tj'>('ru');
+  const [currentCurrency, setCurrentCurrency] = useState<'USD' | 'RUB' | 'EUR' | 'TJS'>('USD');
   const [timezone, setTimezone] = useState('');
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export function ProfileTabContent() {
         city: user.city || '',
       });
       setCurrentLanguage((user.language || 'ru') as 'ru' | 'en' | 'tj');
+      setCurrentCurrency((user.currency || 'USD') as 'USD' | 'RUB' | 'EUR' | 'TJS');
       setTimezone(user.timezone || 'Europe/Moscow');
     }
   }, [user]);
@@ -103,6 +105,19 @@ export function ProfileTabContent() {
     } catch (error) {
       toast.error(t('COMMON.ERRORS.GENERIC'));
       console.error('Timezone update error:', error);
+    }
+  };
+
+  const handleCurrencyChange = async (newCurrency: 'USD' | 'RUB' | 'EUR' | 'TJS') => {
+    setCurrentCurrency(newCurrency);
+
+    try {
+      await usersService.updateCurrency({ currency: newCurrency });
+      updateUserData({ currency: newCurrency });
+      toast.success(t('SETTINGS.PROFILE.CURRENCY_UPDATED'));
+    } catch (error) {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+      console.error('Currency update error:', error);
     }
   };
 
@@ -259,6 +274,29 @@ export function ProfileTabContent() {
                   <SelectItem value="ru">Русский</SelectItem>
                   <SelectItem value="en">English</SelectItem>
                   <SelectItem value="tj">Тоҷикӣ</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-1.5 sm:space-y-2">
+              <Label htmlFor="currency" className="text-xs sm:text-sm">
+                {t('SETTINGS.PROFILE.CURRENCY')}
+              </Label>
+              <Select
+                value={currentCurrency}
+                onValueChange={(value) => handleCurrencyChange(value as 'USD' | 'RUB' | 'EUR' | 'TJS')}
+                open={openSelect === 'currency'}
+                onOpenChange={(open) => setOpenSelect(open ? 'currency' : null)}
+              >
+                <SelectTrigger className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm">
+                  <Coins className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 text-gray-400" strokeWidth={2} />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="USD">🇺🇸 US Dollar ($)</SelectItem>
+                  <SelectItem value="RUB">🇷🇺 Российский рубль (₽)</SelectItem>
+                  <SelectItem value="EUR">🇪🇺 Euro (€)</SelectItem>
+                  <SelectItem value="TJS">🇹🇯 Таджикский сомони (сом.)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

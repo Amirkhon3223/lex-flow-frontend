@@ -41,6 +41,20 @@ export function BillingTabContent() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const checkoutStatus = urlParams.get('checkout');
+
+    if (checkoutStatus === 'success') {
+      toast.success(t('SETTINGS.BILLING.PAYMENT_SUCCESS'));
+      fetchSubscription();
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (checkoutStatus === 'cancel') {
+      toast.error(t('SETTINGS.BILLING.PAYMENT_CANCELLED'));
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
+
   const handleChangePlan = () => {
     setIsChangePlanOpen(true);
   };
@@ -52,16 +66,14 @@ export function BillingTabContent() {
   const handlePlanSubmit = async (planId: string, interval: PlanInterval = 'monthly') => {
     setLoading(true);
     try {
-      await changePlan({
+      const response = await useBillingStore.getState().createCheckoutSession({
         planId,
         interval,
       });
-      toast.success(t('SETTINGS.BILLING.PLAN_CHANGED'));
-      setIsChangePlanOpen(false);
+      window.location.href = response.url;
     } catch (error) {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Plan change error:', error);
-    } finally {
+      console.error('Checkout session error:', error);
       setLoading(false);
     }
   };

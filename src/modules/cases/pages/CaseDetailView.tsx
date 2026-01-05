@@ -123,7 +123,6 @@ export function CaseDetailView() {
 
   const aiInsights: AIInsightInterface[] = []; // TODO: Подключить AI-insights
 
-  // Map DocumentInterface to CaseDocumentInterface
   const caseDocuments: CaseDocumentInterface[] = documents.map((doc) => ({
     id: doc.id,
     caseId: doc.caseId || '',
@@ -225,7 +224,6 @@ export function CaseDetailView() {
         onAddDocument={() => setIsUploadDocumentDialogOpen(true)}
       />
 
-      {/* ОСНОВНОЙ КОНТЕНТ */}
       <main className="py-4 sm:py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">

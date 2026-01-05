@@ -2,41 +2,6 @@
  * @file ClientsListView.tsx
  * @description Страница списка всех клиентов с фильтрацией, поиском и статистикой
  *
- * НАЗНАЧЕНИЕ:
- * - Отображение всех клиентов юриста в табличном виде
- * - Фильтрация по типу (физлицо/юрлицо/ИП), категории, статусу
- * - Поиск клиентов по имени и email
- * - Статистика по клиентам (всего, активные, VIP, активных дел)
- * - Подробная информация о каждом клиенте
- *
- * ИСПОЛЬЗОВАНИЕ:
- * - Открывается при клике на "Клиенты" в Sidebar
- * - Используется в App.tsx через viewMode === 'clientsList'
- * - Роут в FSD: /clients
- *
- * МИГРАЦИЯ В FSD:
- * - Перенести в src/pages/ClientsListPage/ui/ClientsListView.tsx
- * - Список клиентов вынести в src/widgets/ClientsList
- * - Фильтры в src/features/ClientsFilters
- * - Статистику в src/widgets/ClientsStats
- * - Логику в src/pages/ClientsListPage/model/useClientsList.ts
- * - API в src/entities/client/api/getClients.ts
- *
- * ПЕРЕИСПОЛЬЗУЕМОСТЬ:
- * - Page компонент (специфичен для LexFlow)
- * - Виджеты (ClientsList, ClientsStats) можно переиспользовать
- *
- * ОСОБЕННОСТИ:
- * - Табличное представление с подробной информацией
- * - Типы клиентов: физлицо, юрлицо, ИП (с иконками)
- * - Категории: Стандарт, Премиум, VIP
- * - Контакты (email, телефон) в таблице
- * - Статистика по делам (активные/всего)
- * - Общий доход от клиента
- * - Последний контакт (дата)
- * - Dropdown меню действий (профиль, редактировать, написать, удалить)
- * - Mock data (в продакшене - из API)
- *
  * TODO:
  * - Добавить пагинацию
  * - Сортировка по колонкам
@@ -244,7 +209,6 @@ export function ClientsPage() {
             </Button>
           </div>
 
-          {}
           <FilterBar
             searchConfig={{
               value: searchQuery,
@@ -294,7 +258,6 @@ export function ClientsPage() {
         </div>
       </header>
 
-      {}
       <main className="py-4 sm:py-6">
         {/* Индикаторы активных фильтров */}
         {(filterType !== 'all' ||
@@ -368,7 +331,6 @@ export function ClientsPage() {
           </div>
         )}
 
-        {}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
           {stats.map((stat, index) => (
             <StatCard
@@ -382,7 +344,6 @@ export function ClientsPage() {
           ))}
         </div>
 
-        {}
         <Card className="hidden md:block relative">
           {loading && clients.length > 0 && (
             <div className="absolute inset-0 bg-background/50 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
@@ -564,7 +525,7 @@ export function ClientsPage() {
           </Table>
         </Card>
 
-        {/* Mobile card view */}
+        {/* mobile card view */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:hidden">
           {loading && clients.length === 0 ? (
             <div className="col-span-2 flex flex-col items-center justify-center h-32 gap-2">
@@ -650,7 +611,6 @@ export function ClientsPage() {
           )}
         </div>
 
-        {/* Пагинация */}
         {pagination && pagination.totalPages > 1 && (
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm text-muted-foreground">

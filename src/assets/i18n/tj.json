@@ -852,10 +852,12 @@
       "REGIONAL_SETTINGS": "Танзимоти минтақавӣ",
       "LANGUAGE": "Забон",
       "TIMEZONE": "Минтақаи вақт",
+      "CURRENCY": "Асъор",
       "SAVE_CHANGES": "Сабт кардани тағйирот",
       "PROFILE_UPDATED": "Профил бомуваффақият навсозӣ шуд",
       "LANGUAGE_UPDATED": "Забон бомуваффақият иваз шуд",
-      "TIMEZONE_UPDATED": "Минтақаи вақт бомуваффақият иваз шуд"
+      "TIMEZONE_UPDATED": "Минтақаи вақт бомуваффақият иваз шуд",
+      "CURRENCY_UPDATED": "Асъор бомуваффақият иваз шуд"
     },
     "NOTIFICATIONS": {
       "EMAIL": {

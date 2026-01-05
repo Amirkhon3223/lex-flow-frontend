@@ -57,11 +57,8 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
       to={`/cases/${caseItem.id}`}
       className="block rounded-xl border p-3 sm:p-4 transition-colors hover:bg-muted/50"
     >
-      {/* =================================================================================== */}
-      {/* MOBILE + TABLET VERSION  (до 1024px) */}
-      {/* =================================================================================== */}
+      {/* mobile + tablet VERSION  (до 1024px) */}
       <div className="lg:hidden flex flex-col gap-4">
-        {/* Верхняя часть */}
         <div className="flex items-start gap-3">
           <Avatar className="h-10 w-10 flex-shrink-0">
             <AvatarFallback className="bg-blue-600 text-white text-sm">
@@ -86,9 +83,7 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
           </div>
         </div>
 
-        {/* Deadline + Court date в один ряд */}
         <div className="flex items-start justify-between gap-6 px-1">
-          {/* DEADLINE — слева */}
           <div className="flex flex-col text-left flex-1">
             <div className="text-xs text-muted-foreground flex items-center gap-1">
               <Calendar className="h-3 w-3" />
@@ -112,7 +107,6 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
             </div>
           </div>
 
-          {/* COURT DATE — справа */}
           {formattedCourtDate && (
             <div className="flex flex-col text-right flex-1">
               <div className="text-xs text-muted-foreground flex items-center gap-1 justify-end">
@@ -139,7 +133,6 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
           )}
         </div>
 
-        {/* Прогресс */}
         <div>
           <div className="flex items-center justify-between text-xs mb-1">
             <span className="text-muted-foreground">{t('CASES.FIELDS.PROGRESS')}</span>
@@ -148,7 +141,6 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
           <Progress value={caseItem.progress} className="h-1.5" />
         </div>
 
-        {/* Нижний ряд — БЕЗ "Просрочено" */}
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <FileText className="h-3.5 w-3.5" />
@@ -159,14 +151,10 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
             <Calendar className="h-3.5 w-3.5" />
             {caseItem.commentsCount} {t('CASES.COMMENTS_COUNT')}
           </div>
-
-          {/* НИЧЕГО НЕ ВЫВОДИМ ПРО ПРОСРОЧЕНО */}
         </div>
       </div>
 
-      {/* =================================================================================== */}
-      {/* DESKTOP VERSION  (>=1024px) — НЕ ТРОГАЕМ! */}
-      {/* =================================================================================== */}
+      {/* desktop VERSION  (>=1024px) */}
       <div className="hidden lg:flex items-start gap-4">
         <Avatar className="h-12 w-12 flex-shrink-0">
           <AvatarFallback className="bg-blue-600 text-white">{clientInitials}</AvatarFallback>
@@ -187,9 +175,7 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
               </div>
             </div>
 
-            {/* Правый блок — DEADLINE и COURT DATE как было */}
             <div className="flex items-start gap-6 text-right flex-shrink-0">
-              {/* Deadline */}
               <div className="flex flex-col">
                 <div className="text-sm text-muted-foreground flex items-center gap-1 justify-end">
                   <Calendar className="h-3.5 w-3.5" />
@@ -213,7 +199,6 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
                 </div>
               </div>
 
-              {/* Court date */}
               {formattedCourtDate && (
                 <div className="flex flex-col">
                   <div className="text-sm text-muted-foreground flex items-center gap-1 justify-end">

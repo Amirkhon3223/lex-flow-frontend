@@ -94,13 +94,11 @@ export function CaseTabsCard({
     });
   };
 
-  // Pagination for documents
   const totalPages = Math.ceil(documents.length / documentsPerPage);
   const startIndex = (currentPage - 1) * documentsPerPage;
   const endIndex = startIndex + documentsPerPage;
   const paginatedDocuments = documents.slice(startIndex, endIndex);
 
-  // Reset to page 1 when documents change
   useEffect(() => {
     setCurrentPage(1);
   }, [documents.length]);
@@ -250,14 +248,12 @@ export function CaseTabsCard({
         </TabsContent>
 
         <TabsContent value="notes" className="p-4 space-y-4">
-          {/* Notes Header with Status */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-medium text-muted-foreground">
                 {t('CASES.NOTES.PLACEHOLDER')}
               </h3>
 
-              {/* Save Status Indicator */}
               {saveStatus !== 'idle' && (
                 <div className="flex items-center gap-1.5 text-xs">
                   {saveStatus === 'saving' && (
@@ -279,7 +275,6 @@ export function CaseTabsCard({
               )}
             </div>
 
-            {/* Character Count & Last Saved */}
             <div className="flex items-center gap-3 text-xs text-muted-foreground">
               {lastSaved && saveStatus === 'idle' && (
                 <span className="hidden sm:inline">
@@ -293,7 +288,6 @@ export function CaseTabsCard({
             </div>
           </div>
 
-          {/* Notes Textarea */}
           <div className="relative">
             <Textarea
               value={notes}
@@ -303,7 +297,6 @@ export function CaseTabsCard({
             />
           </div>
 
-          {/* Manual Save Button */}
           <div className="flex items-center justify-between pt-2">
             <p className="text-xs text-muted-foreground">💡 {t('CASES.NOTES.AUTO_SAVE_INFO')}</p>
 

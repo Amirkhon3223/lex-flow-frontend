@@ -39,6 +39,55 @@ export const formatFileSize = (bytes: number): string => {
   return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 };
 
+/**
+ * Currency symbols mapping
+ */
+const CURRENCY_SYMBOLS: Record<string, string> = {
+  USD: '$',
+  RUB: '₽',
+  EUR: '€',
+  TJS: 'сом.',
+};
+
+/**
+ * Currency locales mapping for Intl.NumberFormat
+ */
+const CURRENCY_LOCALES: Record<string, string> = {
+  USD: 'en-US',
+  RUB: 'ru-RU',
+  EUR: 'de-DE',
+  TJS: 'tg-TJ',
+};
+
+/**
+ * Format amount with currency symbol
+ * @param amount - Amount to format
+ * @param currency - Currency code (USD, RUB, EUR, TJS)
+ * @param options - Formatting options
+ * @returns Formatted currency string
+ */
+export const formatCurrency = (
+  amount: number,
+  currency: string = 'USD',
+  options: { locale?: string; minimumFractionDigits?: number; maximumFractionDigits?: number } = {}
+): string => {
+  const locale = options.locale || CURRENCY_LOCALES[currency] || 'en-US';
+  const symbol = CURRENCY_SYMBOLS[currency] || currency;
+
+  const formatted = new Intl.NumberFormat(locale, {
+    minimumFractionDigits: options.minimumFractionDigits ?? 0,
+    maximumFractionDigits: options.maximumFractionDigits ?? 2,
+  }).format(amount);
+
+  // For USD and EUR, put symbol before amount
+  if (currency === 'USD' || currency === 'EUR') {
+    return `${symbol}${formatted}`;
+  }
+
+  // For RUB and TJS, put symbol after amount with space
+  return `${formatted} ${symbol}`;
+};
+
 export {
   getStatusColor,
   getDocumentStatusColor,

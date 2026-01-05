@@ -8,6 +8,8 @@ import type {
   PaymentMethodsListResponse,
   AddPaymentMethodRequest,
   PaymentMethodResponse,
+  CreateCheckoutSessionRequest,
+  CheckoutSessionResponse,
 } from '../../types/billing/billing.interfaces';
 
 export const billingService = {
@@ -24,6 +26,16 @@ export const billingService = {
   changePlan: async (data: ChangePlanRequest): Promise<SuccessResponse> => {
     const response = await httpClient.post<SuccessResponse>(
       '/billing/subscription/change',
+      data
+    );
+    return response.data;
+  },
+
+  createCheckoutSession: async (
+    data: CreateCheckoutSessionRequest
+  ): Promise<CheckoutSessionResponse> => {
+    const response = await httpClient.post<CheckoutSessionResponse>(
+      '/billing/checkout-session',
       data
     );
     return response.data;
