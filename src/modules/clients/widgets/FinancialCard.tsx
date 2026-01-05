@@ -1,5 +1,5 @@
-import type { FinancialCardProps } from '@/app/types/clients/clients.interfaces';
 import { useAuthStore } from '@/app/store/auth.store';
+import type { FinancialCardProps } from '@/app/types/clients/clients.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { formatCurrency } from '@/shared/utils';

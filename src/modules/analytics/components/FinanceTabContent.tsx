@@ -6,8 +6,8 @@ import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { IconContainer } from '@/shared/ui/common/IconContainer';
 import { Skeleton } from '@/shared/ui/skeleton';
-import { getMedalGradient } from '@/shared/utils/styleHelpers';
 import { formatCurrency } from '@/shared/utils';
+import { getMedalGradient } from '@/shared/utils/styleHelpers';
 
 const MONTH_COLORS = [
   'bg-blue-500',
