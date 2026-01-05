@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
 import { DollarSign, CreditCard, FileText, Calendar } from 'lucide-react';
 import { useAnalyticsStore } from '@/app/store/analytics.store';
+import { useAuthStore } from '@/app/store/auth.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
 import { IconContainer } from '@/shared/ui/common/IconContainer';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { getMedalGradient } from '@/shared/utils/styleHelpers';
+import { formatCurrency } from '@/shared/utils';
 
 const MONTH_COLORS = [
   'bg-blue-500',
@@ -69,6 +71,9 @@ const MONTH_NAMES: Record<string, Record<string, string>> = {
 
 export function FinanceTabContent() {
   const { t, language } = useI18n();
+  const { user } = useAuthStore();
+  const userCurrency = user?.currency || 'USD';
+
   const {
     clients,
     clientsLoading,
@@ -211,7 +216,7 @@ export function FinanceTabContent() {
                       <span className="text-muted-foreground truncate mr-2">{item.month}</span>
                       <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                         <span className="text-foreground font-medium">
-                          {(item.amount / 1000).toFixed(0)}K ₽
+                          {formatCurrency(item.amount / 1000, userCurrency)}K
                         </span>
                         <span className="text-muted-foreground">{item.percentage}%</span>
                       </div>
@@ -227,7 +232,7 @@ export function FinanceTabContent() {
                 <div className="pt-3 sm:pt-4 border-t border-border flex items-center justify-between">
                   <span className="font-medium text-sm sm:text-base">{t('COMMON.TOTAL')}</span>
                   <span className="text-lg sm:text-xl md:text-2xl tracking-tight">
-                    {(totalRevenue / 1000000).toFixed(1)}M ₽
+                    {formatCurrency(totalRevenue / 1000000, userCurrency)}M
                   </span>
                 </div>
               </div>

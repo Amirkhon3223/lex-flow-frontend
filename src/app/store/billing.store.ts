@@ -9,6 +9,8 @@ import type {
   ChangePlanRequest,
   AddPaymentMethodRequest,
   PaymentMethodFull,
+  CreateCheckoutSessionRequest,
+  CheckoutSessionResponse,
 } from '../types/billing/billing.interfaces';
 
 interface BillingState {
@@ -23,6 +25,7 @@ interface BillingState {
   fetchSubscription: () => Promise<void>;
   fetchPlans: () => Promise<void>;
   changePlan: (data: ChangePlanRequest) => Promise<void>;
+  createCheckoutSession: (data: CreateCheckoutSessionRequest) => Promise<CheckoutSessionResponse>;
   cancelSubscription: () => Promise<void>;
   fetchPayments: (page?: number, limit?: number) => Promise<void>;
   downloadReceipt: (paymentId: string) => Promise<void>;
@@ -73,6 +76,18 @@ export const useBillingStore = create<BillingState>((set, get) => ({
       await billingService.changePlan(data);
       await get().fetchSubscription();
       set({ loading: false });
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+      throw error;
+    }
+  },
+
+  createCheckoutSession: async (data: CreateCheckoutSessionRequest) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await billingService.createCheckoutSession(data);
+      set({ loading: false });
+      return response;
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
       throw error;

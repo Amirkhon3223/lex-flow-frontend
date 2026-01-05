@@ -39,7 +39,6 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true, error: null });
         try {
           const response = await authService.login(data);
-          // Token is now stored in httpOnly cookie by backend
           if (response.user.timezone) {
             localStorage.setItem('userTimezone', response.user.timezone);
           }
@@ -97,7 +96,6 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true, error: null });
         try {
           const response = await authService.register(data);
-          // Token is now stored in httpOnly cookie by backend
           if (response.user.timezone) {
             localStorage.setItem('userTimezone', response.user.timezone);
           }

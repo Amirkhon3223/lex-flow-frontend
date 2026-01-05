@@ -10,16 +10,6 @@ export interface AlignedBlockPair {
 /**
  * BlockMatcher - использует LCS (Longest Common Subsequence) алгоритм
  * для правильного выравнивания блоков между двумя версиями документа
- *
- * Проблема без LCS:
- * V1: [A, B, C]
- * V2: [A, X, B, C]
- * Простое сравнение по индексу: A<->A ✓, B<->X ✗, C<->B ✗
- *
- * С LCS:
- * V1: [A, B, C]
- * V2: [A, X, B, C]
- * Результат: A<->A ✓, null<->X (added), B<->B ✓, C<->C ✓
  */
 export class BlockMatcher {
   /**
@@ -49,10 +39,8 @@ export class BlockMatcher {
       }));
     }
 
-    // 1. Build LCS matrix
     const lcsMatrix = this.buildLCSMatrix(blocks1, blocks2);
 
-    // 2. Backtrack to find aligned pairs
     const alignedPairs = this.backtrack(lcsMatrix, blocks1, blocks2);
 
     return alignedPairs;
@@ -60,7 +48,6 @@ export class BlockMatcher {
 
   /**
    * Построение LCS matrix динамическим программированием
-   * dp[i][j] = длина LCS для blocks1[0..i-1] и blocks2[0..j-1]
    */
   private buildLCSMatrix(
     blocks1: DocumentBlockInterface[],
@@ -69,7 +56,6 @@ export class BlockMatcher {
     const m = blocks1.length;
     const n = blocks2.length;
 
-    // Защита от OOM: ограничиваем размер матрицы
     const MAX_SIZE = 5000;
     if (m > MAX_SIZE || n > MAX_SIZE) {
       throw new Error(
@@ -96,7 +82,7 @@ export class BlockMatcher {
   }
 
   /**
-   * Backtracking для построения aligned pairs из LCS matrix
+   * Backtracking для построения aligned pairs
    */
   private backtrack(
     dp: number[][],
@@ -109,7 +95,6 @@ export class BlockMatcher {
 
     while (i > 0 || j > 0) {
       if (i > 0 && j > 0 && this.blocksMatch(blocks1[i - 1], blocks2[j - 1])) {
-        // Matched pair
         const similarity = this.calculateSimilarity(blocks1[i - 1], blocks2[j - 1]);
         pairs.unshift({
           block1: blocks1[i - 1],
@@ -119,7 +104,6 @@ export class BlockMatcher {
         i--;
         j--;
       } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
-        // Block added in version 2
         pairs.unshift({
           block1: null,
           block2: blocks2[j - 1],
@@ -127,7 +111,6 @@ export class BlockMatcher {
         });
         j--;
       } else {
-        // Block removed from version 1
         pairs.unshift({
           block1: blocks1[i - 1],
           block2: null,
@@ -141,16 +124,13 @@ export class BlockMatcher {
   }
 
   /**
-   * Проверяет, совпадают ли два блока (для LCS)
-   * Используется более мягкий критерий, чем точное совпадение
+   * Проверяет, совпадают ли два блока
    */
   private blocksMatch(block1: DocumentBlockInterface, block2: DocumentBlockInterface): boolean {
-    // Разные типы блоков - не совпадают
     if (block1.blockType !== block2.blockType) {
       return false;
     }
 
-    // IMAGE блоки - сравниваем по meta
     if (block1.blockType === 'IMAGE') {
       return (
         block1.meta?.imageId === block2.meta?.imageId ||
@@ -158,9 +138,7 @@ export class BlockMatcher {
       );
     }
 
-    // TEXT блоки
     if (block1.blockType === 'TEXT') {
-      // DOCX-эвристика: если paragraphIndex совпадает → считаем тем же блоком
       if (
         block1.meta?.paragraphIndex !== undefined &&
         block2.meta?.paragraphIndex !== undefined &&
@@ -169,7 +147,6 @@ export class BlockMatcher {
         return true;
       }
 
-      // Иначе используем адаптивный порог similarity
       const text1 = block1.content || '';
       const text2 = block2.content || '';
       const avgLength = (text1.length + text2.length) / 2;
@@ -184,20 +161,19 @@ export class BlockMatcher {
 
   /**
    * Возвращает адаптивный порог similarity в зависимости от длины текста
-   * Короткие тексты требуют более низкий порог для распознавания изменений
    */
   private getAdaptiveThreshold(textLength: number): number {
     if (textLength < 50) {
-      return 0.4; // 40% для очень коротких текстов (напр. заголовков)
+      return 0.4;
     } else if (textLength < 200) {
-      return 0.6; // 60% для коротких абзацев
+      return 0.6;
     } else {
-      return 0.7; // 70% для нормальных абзацев
+      return 0.7;
     }
   }
 
   /**
-   * Вычисляет similarity между двумя TEXT блоками (0.0 - 1.0)
+   * Вычисляет similarity между двумя TEXT блоками
    */
   private calculateSimilarity(
     block1: DocumentBlockInterface,

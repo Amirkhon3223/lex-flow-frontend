@@ -29,6 +29,7 @@ export interface User {
   city?: string;
   timezone?: string;
   language?: string;
+  currency?: string;
   workspaceId?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -65,4 +66,8 @@ export interface UpdateLanguageRequest {
 
 export interface UpdateTimezoneRequest {
   timezone: string;
+}
+
+export interface UpdateCurrencyRequest {
+  currency: 'USD' | 'RUB' | 'EUR' | 'TJS';
 }

@@ -232,7 +232,6 @@ export default function ClientDetailPage() {
               </Badge>
             </CardHeader>
             <CardContent className="space-y-3 sm:space-y-4 mt-2">
-              {/* Фильтры и поиск */}
               <div className="space-y-3">
                 <FilterBar
                   searchConfig={{
@@ -273,7 +272,6 @@ export default function ClientDetailPage() {
                   ]}
                 />
 
-                {/* Индикаторы активных фильтров */}
                 {(filterStatus !== 'all' || filterPriority !== 'all' || debouncedSearch) && (
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-sm text-muted-foreground">
@@ -333,7 +331,6 @@ export default function ClientDetailPage() {
                 )}
               </div>
 
-              {/* Список дел */}
               {loading && cases.length === 0 ? (
                 <div className="text-center py-8">
                   <div className="flex flex-col items-center justify-center gap-2">

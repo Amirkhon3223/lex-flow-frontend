@@ -23,7 +23,6 @@ export const handleApiError = (error: AxiosError<ErrorResponse>) => {
         toast.error('Не авторизован', {
           description: message || 'Пожалуйста, войдите в систему',
         });
-        // Cookie is automatically cleared by backend on logout
         break;
       case 403:
         toast.error('Доступ запрещен', {

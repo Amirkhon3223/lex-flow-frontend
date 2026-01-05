@@ -1,9 +1,13 @@
 import type { FinancialCardProps } from '@/app/types/clients/clients.interfaces';
+import { useAuthStore } from '@/app/store/auth.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import { formatCurrency } from '@/shared/utils';
 
 export function FinancialCard({ financialData }: FinancialCardProps) {
   const { t } = useI18n();
+  const { user } = useAuthStore();
+  const userCurrency = user?.currency || 'USD';
   const { totalAmount, paidAmount, remainingAmount, paymentPercentage } = financialData;
 
   return (
@@ -19,7 +23,7 @@ export function FinancialCard({ financialData }: FinancialCardProps) {
             {t('CLIENTS.FINANCIAL.TOTAL_AMOUNT')}
           </span>
           <span className="text-lg sm:text-xl font-bold">
-            {totalAmount.toLocaleString('ru-RU')} ₽
+            {formatCurrency(totalAmount, userCurrency)}
           </span>
         </div>
         <div className="flex items-center justify-between">
@@ -27,7 +31,7 @@ export function FinancialCard({ financialData }: FinancialCardProps) {
             {t('CLIENTS.FINANCIAL.PAID_AMOUNT')}
           </span>
           <span className="text-lg sm:text-xl font-bold">
-            {paidAmount.toLocaleString('ru-RU')} ₽
+            {formatCurrency(paidAmount, userCurrency)}
           </span>
         </div>
         <div className="flex items-center justify-between">
@@ -35,7 +39,7 @@ export function FinancialCard({ financialData }: FinancialCardProps) {
             {t('CLIENTS.FINANCIAL.REMAINING_AMOUNT')}
           </span>
           <span className="text-lg sm:text-xl font-bold">
-            {remainingAmount.toLocaleString('ru-RU')} ₽
+            {formatCurrency(remainingAmount, userCurrency)}
           </span>
         </div>
         <div>

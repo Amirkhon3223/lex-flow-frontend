@@ -27,7 +27,8 @@ export function AIInsightsWidget() {
               <Star className="w-3.5 h-3.5 text-insight-amber-foreground" strokeWidth={2.5} />
             </div>
             <p className="text-sm text-insight-amber-foreground">
-              {t('DASHBOARD.AI_INSIGHTS.RECOMMENDATION_UPDATE_CONTRACT')}
+              {/*{t('DASHBOARD.AI_INSIGHTS.RECOMMENDATION_UPDATE_CONTRACT')}*/}
+              Coming soon
             </p>
           </div>
         </div>
@@ -37,7 +38,8 @@ export function AIInsightsWidget() {
               <Tag className="w-3.5 h-3.5 text-insight-blue-foreground" strokeWidth={2.5} />
             </div>
             <p className="text-sm text-insight-blue-foreground">
-              {t('DASHBOARD.AI_INSIGHTS.FOUND_SIMILAR_CASES', { count: 3 })}
+              {/*{t('DASHBOARD.AI_INSIGHTS.FOUND_SIMILAR_CASES', { count: 3 })}*/}
+              Coming soon
             </p>
           </div>
         </div>

@@ -7,6 +7,7 @@ import type {
   UserStatsResponse,
   UpdateLanguageRequest,
   UpdateTimezoneRequest,
+  UpdateCurrencyRequest,
 } from '../../types/users/users.interfaces';
 
 export const usersService = {
@@ -53,6 +54,11 @@ export const usersService = {
 
   updateTimezone: async (data: UpdateTimezoneRequest): Promise<SuccessResponse> => {
     const response = await httpClient.put<SuccessResponse>('/users/me/timezone', data);
+    return response.data;
+  },
+
+  updateCurrency: async (data: UpdateCurrencyRequest): Promise<SuccessResponse> => {
+    const response = await httpClient.put<SuccessResponse>('/users/me/currency', data);
     return response.data;
   },
 

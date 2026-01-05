@@ -58,7 +58,6 @@ export function DocumentCompareView() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Load document and versions on mount
   useEffect(() => {
     if (documentId) {
       fetchDocumentById(documentId);
@@ -66,7 +65,6 @@ export function DocumentCompareView() {
     }
   }, [documentId, fetchDocumentById, fetchVersions]);
 
-  // Set default versions (latest 2) when versions load
   useEffect(() => {
     if (versions.length >= 2 && !version1 && !version2) {
       const sortedVersions = [...versions].sort((a, b) => b.versionNumber - a.versionNumber);
@@ -75,7 +73,6 @@ export function DocumentCompareView() {
     }
   }, [versions, version1, version2]);
 
-  // Load comparison when versions change
   useEffect(() => {
     if (documentId && version1 && version2 && version1 !== version2) {
       compareVersions(documentId, version1, version2);
@@ -132,7 +129,6 @@ export function DocumentCompareView() {
     };
   }, []);
 
-  // Align blocks using LCS algorithm
   const alignedPairs = useMemo(() => {
     if (!comparisonData) return [];
     return blockMatcher.alignBlocks(
@@ -141,7 +137,6 @@ export function DocumentCompareView() {
     );
   }, [comparisonData]);
 
-  // Calculate statistics from aligned pairs
   const statistics = useMemo(() => {
     if (alignedPairs.length === 0) {
       return { added: 0, removed: 0, unchanged: 0 };
@@ -170,7 +165,6 @@ export function DocumentCompareView() {
     return { added: totalAdded, removed: totalRemoved, unchanged: totalUnchanged };
   }, [alignedPairs]);
 
-  // Error state
   if (error) {
     return (
       <div className="p-6">
@@ -184,7 +178,6 @@ export function DocumentCompareView() {
     );
   }
 
-  // Loading state
   if (loading && !comparisonData) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -193,7 +186,6 @@ export function DocumentCompareView() {
     );
   }
 
-  // No versions state
   if (!loading && versions.length < 2) {
     return (
       <div className="p-6">
@@ -207,7 +199,6 @@ export function DocumentCompareView() {
     );
   }
 
-  // No comparison data yet
   if (!comparisonData) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -219,7 +210,6 @@ export function DocumentCompareView() {
   const v1Data = comparisonData.version1;
   const v2Data = comparisonData.version2;
 
-  // Find version metadata for selectors
   const getVersionMeta = (versionId: string) =>
     versions.find((v) => v.id === versionId) || null;
 
@@ -234,7 +224,7 @@ export function DocumentCompareView() {
             <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_VERSIONS')} />
 
             <div className="flex items-center gap-2 flex-wrap">
-              {/* Zoom controls - hidden on mobile */}
+              {/* hidden on mobile */}
               <div className="hidden sm:flex items-center gap-2">
                 <Button
                   variant="outline"

@@ -7,16 +7,14 @@ export interface DiffResult {
 
 /**
  * DiffCalculator - утилита для вычисления character-level diff между текстами
- * Использует библиотеку diff-match-patch от Google
  */
 export class DiffCalculator {
   private dmp: DiffMatchPatch;
 
   constructor() {
     this.dmp = new DiffMatchPatch();
-    // Настройки для более качественного diff
-    this.dmp.Diff_Timeout = 1.0; // Таймаут в секундах
-    this.dmp.Diff_EditCost = 4; // Стоимость редактирования
+    this.dmp.Diff_Timeout = 1.0;
+    this.dmp.Diff_EditCost = 4;
   }
 
   /**
@@ -26,13 +24,10 @@ export class DiffCalculator {
    * @returns массив DiffResult с подсветкой добавлений/удалений/неизмененных частей
    */
   calculateTextDiff(oldText: string, newText: string): DiffResult[] {
-    // Выполняем diff
     const diffs = this.dmp.diff_main(oldText, newText);
 
-    // Применяем semantic cleanup для более читабельного diff
     this.dmp.diff_cleanupSemantic(diffs);
 
-    // Конвертируем в наш формат
     return diffs.map(([operation, text]) => {
       if (operation === 1) {
         return { type: 'added', text };
@@ -58,14 +53,14 @@ export class DiffCalculator {
     if (maxLength === 0) return 100;
 
     const similarity = ((maxLength - levenshteinDistance) / maxLength) * 100;
-    return Math.round(similarity * 10) / 10; // Округляем до 1 знака после запятой
+    return Math.round(similarity * 10) / 10;
   }
 
   /**
    * Подсчитывает статистику изменений
    * @param oldText - исходный текст
    * @param newText - новый текст
-   * @returns объект со статистикой (added, removed, unchanged characters)
+   * @returns объект со статистикой
    */
   calculateStats(
     oldText: string,
