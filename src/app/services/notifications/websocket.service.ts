@@ -2,7 +2,7 @@ import { toast } from 'sonner';
 import { useNotificationsStore } from '@/app/store/notifications.store';
 import type { Notification } from '@/app/types/notifications/notifications.interfaces';
 
-const WEBSOCKET_URL = `ws://localhost:8080/api/v1/notifications/ws`;
+const WEBSOCKET_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/api/v1/notifications/ws';
 
 class WebSocketService {
   private socket: WebSocket | null = null;

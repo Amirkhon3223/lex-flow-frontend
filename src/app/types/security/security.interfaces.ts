@@ -20,6 +20,11 @@ export interface TwoFactorVerifyRequest {
   code: string;
 }
 
+export interface TwoFactorVerifyResponse {
+  message: string;
+  backupCodes: string[];
+}
+
 export interface TwoFactorDisableRequest {
   password: string;
   code: string;

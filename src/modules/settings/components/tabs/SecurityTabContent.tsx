@@ -4,6 +4,9 @@ import { toast } from 'sonner';
 import { securityService } from '@/app/services/security/security.service';
 import type { Session } from '@/app/types/security/security.interfaces';
 import { SessionItem } from '@/modules/settings/components/SessionItem';
+import { Enable2FADialog } from '@/modules/settings/components/dialogs/Enable2FADialog';
+import { BackupCodesDialog } from '@/modules/settings/components/dialogs/BackupCodesDialog';
+import { Disable2FADialog } from '@/modules/settings/components/dialogs/Disable2FADialog';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -21,6 +24,10 @@ export function SecurityTabContent() {
   });
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [sessions, setSessions] = useState<Session[]>([]);
+  const [enable2FAOpen, setEnable2FAOpen] = useState(false);
+  const [disable2FAOpen, setDisable2FAOpen] = useState(false);
+  const [backupCodesOpen, setBackupCodesOpen] = useState(false);
+  const [backupCodes, setBackupCodes] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,21 +75,14 @@ export function SecurityTabContent() {
     }
   };
 
-  const handleToggle2FA = async () => {
-    setLoading(true);
-    try {
-      if (twoFactorEnabled) {
-        // TODO: Implement proper 2FA disable with password and code verification
-        await securityService.disable2FA({ password: '', code: '' });
-        setTwoFactorEnabled(false);
-        toast.success(t('SETTINGS.SECURITY.TWO_FACTOR_DISABLED'));
-      }
-    } catch (error) {
-      toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('2FA toggle error:', error);
-    } finally {
-      setLoading(false);
-    }
+  const handleEnable2FASuccess = (codes: string[]) => {
+    setBackupCodes(codes);
+    setTwoFactorEnabled(true);
+    setBackupCodesOpen(true);
+  };
+
+  const handleDisable2FASuccess = () => {
+    setTwoFactorEnabled(false);
   };
 
   const handleTerminateSession = async (sessionId: string) => {
@@ -194,7 +194,7 @@ export function SecurityTabContent() {
               </div>
               <Button
                 variant="outline"
-                onClick={handleToggle2FA}
+                onClick={() => setDisable2FAOpen(true)}
                 className="rounded-lg sm:rounded-xl border-green-500/30 hover:bg-green-500/20 text-xs sm:text-sm h-8 sm:h-9 w-full sm:w-auto"
                 disabled={loading}
               >
@@ -219,6 +219,14 @@ export function SecurityTabContent() {
                   </p>
                 </div>
               </div>
+              <Button
+                onClick={() => setEnable2FAOpen(true)}
+                className="rounded-lg sm:rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs sm:text-sm h-8 sm:h-9 w-full sm:w-auto"
+                disabled={loading}
+              >
+                <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
+                {t('SETTINGS.SECURITY.ENABLE')}
+              </Button>
             </div>
           )}
         </div>
@@ -255,6 +263,24 @@ export function SecurityTabContent() {
           </div>
         </div>
       </Card>
+
+      <Enable2FADialog
+        open={enable2FAOpen}
+        onOpenChange={setEnable2FAOpen}
+        onSuccess={handleEnable2FASuccess}
+      />
+
+      <BackupCodesDialog
+        open={backupCodesOpen}
+        onOpenChange={setBackupCodesOpen}
+        backupCodes={backupCodes}
+      />
+
+      <Disable2FADialog
+        open={disable2FAOpen}
+        onOpenChange={setDisable2FAOpen}
+        onSuccess={handleDisable2FASuccess}
+      />
     </div>
   );
 }

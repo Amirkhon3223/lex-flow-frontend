@@ -14,7 +14,11 @@ const DocumentsPage = lazy(() => import('@/pages/DocumentsPage'));
 const DocumentVersionsPage = lazy(() => import('@/pages/DocumentVersionsPage'));
 const DocumentComparePage = lazy(() => import('@/pages/DocumentComparePage'));
 const CalendarPage = lazy(() => import('@/pages/CalendarPage'));
-const MeetingDetailPage = lazy(() => import('@/modules/calendar/pages/MeetingDetailPage').then(m => ({ default: m.MeetingDetailPage })));
+const MeetingDetailPage = lazy(() =>
+  import('@/modules/calendar/pages/MeetingDetailPage').then((m) => ({
+    default: m.MeetingDetailPage,
+  }))
+);
 const AnalyticsPage = lazy(() => import('@/pages/AnalyticsPage'));
 const AiAssistantPage = lazy(() => import('@/pages/AiAssistantPage'));
 const NotificationsPage = lazy(() => import('@/pages/NotificationsPage'));
@@ -23,7 +27,7 @@ const UserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
 
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500" />
   </div>
 );
 
@@ -40,6 +44,7 @@ export const router = createBrowserRouter([
       </SuspenseWrapper>
     ),
   },
+
   {
     element: (
       <AuthGuard>
@@ -55,6 +60,7 @@ export const router = createBrowserRouter([
           </SuspenseWrapper>
         ),
       },
+
       {
         path: ROUTES.CLIENTS.BASE,
         element: (
@@ -64,13 +70,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: '/clients/:id',
+        path: ROUTES.CLIENTS.DETAIL(':id'),
         element: (
           <SuspenseWrapper>
             <ClientDetailPage />
           </SuspenseWrapper>
         ),
       },
+
       {
         path: ROUTES.CASES.BASE,
         element: (
@@ -80,13 +87,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: '/cases/:id',
+        path: ROUTES.CASES.DETAIL(':id'),
         element: (
           <SuspenseWrapper>
             <CaseDetailPage />
           </SuspenseWrapper>
         ),
       },
+
       {
         path: ROUTES.DOCUMENTS.BASE,
         element: (
@@ -104,13 +112,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: '/documents/:id/compare',
+        path: ROUTES.DOCUMENTS.COMPARE(':id'),
         element: (
           <SuspenseWrapper>
             <DocumentComparePage />
           </SuspenseWrapper>
         ),
       },
+
       {
         path: ROUTES.CALENDAR,
         element: (
@@ -120,13 +129,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: '/calendar/meetings/:id',
+        path: ROUTES.CALENDAR_MEETING(':id'),
         element: (
           <SuspenseWrapper>
             <MeetingDetailPage />
           </SuspenseWrapper>
         ),
       },
+
       {
         path: ROUTES.ANALYTICS,
         element: (
@@ -135,6 +145,7 @@ export const router = createBrowserRouter([
           </SuspenseWrapper>
         ),
       },
+
       {
         path: ROUTES.AI_ASSISTANT,
         element: (
@@ -143,6 +154,7 @@ export const router = createBrowserRouter([
           </SuspenseWrapper>
         ),
       },
+
       {
         path: ROUTES.NOTIFICATIONS,
         element: (
@@ -151,14 +163,41 @@ export const router = createBrowserRouter([
           </SuspenseWrapper>
         ),
       },
+
+      // 🔽 SETTINGS (alias-роуты, ОЧЕНЬ ВАЖНО)
       {
-        path: ROUTES.SETTINGS,
+        path: ROUTES.SETTINGS.ROOT,
         element: (
           <SuspenseWrapper>
             <SettingsPage />
           </SuspenseWrapper>
         ),
       },
+      {
+        path: ROUTES.SETTINGS.BILLING,
+        element: (
+          <SuspenseWrapper>
+            <SettingsPage />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: ROUTES.SETTINGS.SECURITY,
+        element: (
+          <SuspenseWrapper>
+            <SettingsPage />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: ROUTES.SETTINGS.NOTIFICATIONS,
+        element: (
+          <SuspenseWrapper>
+            <SettingsPage />
+          </SuspenseWrapper>
+        ),
+      },
+
       {
         path: ROUTES.USER_PROFILE,
         element: (
