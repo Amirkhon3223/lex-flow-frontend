@@ -8,7 +8,16 @@ import { PageFooter } from '@/modules/auth/widgets/page-footer.tsx';
 
 export default function AuthPage() {
   const navigate = useNavigate();
-  const { login, register, loading, isAuthenticated, error: _error } = useAuthStore();
+  const {
+    login,
+    register,
+    verify2FALogin,
+    clearTwoFactorState,
+    loading,
+    isAuthenticated,
+    twoFactorRequired,
+    error: _error
+  } = useAuthStore();
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -63,6 +72,19 @@ export default function AuthPage() {
     }
   };
 
+  const handleVerify2FA = async (code: string) => {
+    setLocalError('');
+    try {
+      await verify2FALogin(code);
+    } catch (error) {
+      setLocalError((error as Error).message || '2FA verification failed');
+    }
+  };
+
+  const handleBackFrom2FA = () => {
+    clearTwoFactorState();
+  };
+
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-background">
       <GradientBackground />
@@ -73,6 +95,7 @@ export default function AuthPage() {
 
           <AuthCard
             isLoading={loading}
+            twoFactorRequired={twoFactorRequired}
             loginEmail={loginEmail}
             loginPassword={loginPassword}
             rememberMe={rememberMe}
@@ -97,6 +120,8 @@ export default function AuthPage() {
             onRegisterPhoneChange={setRegisterPhone}
             onLoginSubmit={handleLogin}
             onRegisterSubmit={handleRegister}
+            onVerify2FA={handleVerify2FA}
+            onBackFrom2FA={handleBackFrom2FA}
           />
 
           <PageFooter />

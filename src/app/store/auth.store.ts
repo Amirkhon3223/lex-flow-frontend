@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { authService } from '../services/auth/auth.service';
 import { usersService } from '../services/users/users.service';
+import { securityService } from '../services/security/security.service';
 import type {
   User,
   LoginRequest,
@@ -17,28 +18,45 @@ interface AuthState {
   isAuthenticated: boolean
   loading: boolean
   error: string | null
+  twoFactorRequired: boolean
+  tempToken: string | null
   login: (data: LoginRequest) => Promise<void>
+  verify2FALogin: (code: string) => Promise<void>
   logout: () => Promise<void>
   register: (data: RegisterRequest) => Promise<void>
   setUser: (user: User | null) => void
   refreshUser: () => Promise<void>
   updateUserData: (userData: Partial<User>) => void
+  clearTwoFactorState: () => void
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       workspace: null,
       role: null,
       isAuthenticated: false,
       loading: false,
       error: null,
+      twoFactorRequired: false,
+      tempToken: null,
 
       login: async (data: LoginRequest) => {
-        set({ loading: true, error: null });
+        set({ loading: true, error: null, twoFactorRequired: false, tempToken: null });
         try {
           const response = await authService.login(data);
+
+          if (response.twoFactorRequired && response.tempToken) {
+            set({
+              twoFactorRequired: true,
+              tempToken: response.tempToken,
+              loading: false,
+              error: null,
+            });
+            return;
+          }
+
           if (response.user.timezone) {
             localStorage.setItem('userTimezone', response.user.timezone);
           }
@@ -50,21 +68,69 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: true,
             loading: false,
             error: null,
+            twoFactorRequired: false,
+            tempToken: null,
           });
 
           try {
             const fullUser = await usersService.getMe();
+            const statusResponse = await securityService.get2FAStatus();
             set((state) => ({
-              user: state.user ? { ...state.user, ...fullUser } : fullUser,
+              user: state.user ? { ...state.user, ...fullUser, twoFactorEnabled: statusResponse.enabled } : fullUser,
             }));
           } catch (error) {
             console.error('Failed to load full user profile:', error);
           }
         } catch (error) {
           const errorMessage = (error as Error).message || 'Login failed';
-          set({ error: errorMessage, loading: false, isAuthenticated: false });
+          set({ error: errorMessage, loading: false, isAuthenticated: false, twoFactorRequired: false, tempToken: null });
           throw error;
         }
+      },
+
+      verify2FALogin: async (code: string) => {
+        const { tempToken } = get();
+        if (!tempToken) {
+          throw new Error('No temporary token available');
+        }
+
+        set({ loading: true, error: null });
+        try {
+          const response = await authService.verify2FALogin({ tempToken, code });
+
+          if (response.user.timezone) {
+            localStorage.setItem('userTimezone', response.user.timezone);
+          }
+
+          set({
+            user: response.user,
+            workspace: response.workspace || null,
+            role: (response.user.role as MembershipRole) || null,
+            isAuthenticated: true,
+            loading: false,
+            error: null,
+            twoFactorRequired: false,
+            tempToken: null,
+          });
+
+          try {
+            const fullUser = await usersService.getMe();
+            const statusResponse = await securityService.get2FAStatus();
+            set((state) => ({
+              user: state.user ? { ...state.user, ...fullUser, twoFactorEnabled: statusResponse.enabled } : fullUser,
+            }));
+          } catch (error) {
+            console.error('Failed to load full user profile:', error);
+          }
+        } catch (error) {
+          const errorMessage = (error as Error).message || '2FA verification failed';
+          set({ error: errorMessage, loading: false });
+          throw error;
+        }
+      },
+
+      clearTwoFactorState: () => {
+        set({ twoFactorRequired: false, tempToken: null, error: null });
       },
 
       logout: async () => {

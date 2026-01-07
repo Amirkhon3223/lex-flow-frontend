@@ -1,4 +1,11 @@
+import { useMemo } from 'react';
 import { Bell, CreditCard, Shield, Sparkles, User } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  getSettingsTabFromPath,
+  SETTINGS_TAB_TO_ROUTE,
+  type SettingsTab,
+} from '@/app/config/settings.routes.ts';
 import { BillingTabContent } from '@/modules/settings/components/tabs/BillingTabContent';
 import { NotificationsTabContent } from '@/modules/settings/components/tabs/NotificationsTabContent';
 import { ProfileTabContent } from '@/modules/settings/components/tabs/ProfileTabContent';
@@ -8,6 +15,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
 
 export default function SettingsPage() {
   const { t } = useI18n();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const currentTab: SettingsTab = useMemo(
+    () => getSettingsTabFromPath(location.pathname),
+    [location.pathname]
+  );
+
   return (
     <div>
       <header className="relative bg-card border-b border-border rounded-xl">
@@ -33,7 +48,15 @@ export default function SettingsPage() {
 
       <main className="py-6">
         <div className="max-w-5xl mx-auto">
-          <Tabs defaultValue="profile" className="space-y-4 sm:space-y-6">
+          <Tabs
+            value={currentTab}
+            onValueChange={(value) => {
+              if (!(value in SETTINGS_TAB_TO_ROUTE)) return;
+
+              navigate(SETTINGS_TAB_TO_ROUTE[value as SettingsTab], { replace: true });
+            }}
+            className="space-y-4 sm:space-y-6"
+          >
             <TabsList className="rounded-lg sm:rounded-xl p-0.5 sm:p-1 md:p-1.5 grid grid-cols-4 w-full">
               <TabsTrigger
                 value="profile"

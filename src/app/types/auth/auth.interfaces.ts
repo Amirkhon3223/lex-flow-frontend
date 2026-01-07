@@ -37,6 +37,7 @@ export interface User {
   language?: string
   role?: string
   workspaceId?: string
+  twoFactorEnabled?: boolean
   createdAt?: string
   updatedAt?: string
 }
@@ -77,10 +78,18 @@ export interface AuthResponse {
   user: User
   workspace?: WorkspaceInfo
   role?: MembershipRole
+  twoFactorRequired?: boolean
+  tempToken?: string
+}
+
+export interface Verify2FALoginRequest {
+  tempToken: string
+  code: string
 }
 
 export interface AuthCardProps {
   isLoading: boolean;
+  twoFactorRequired: boolean;
 
   loginEmail: string;
   loginPassword: string;
@@ -108,6 +117,8 @@ export interface AuthCardProps {
 
   onLoginSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onRegisterSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onVerify2FA: (code: string) => void;
+  onBackFrom2FA: () => void;
 }
 
 export interface LoginFormProps {

@@ -1,12 +1,14 @@
 import type { AuthCardProps } from '@/app/types/auth/auth.interfaces.ts';
 import { LoginForm } from '@/modules/auth/widgets/login-form.tsx';
 import { RegisterForm } from '@/modules/auth/widgets/register-form.tsx';
+import { TwoFactorForm } from '@/modules/auth/widgets/two-factor-form.tsx';
 import { SocialAuthButtons } from '@/modules/auth/widgets/social-auth-buttons.tsx';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
 import './auth-card.css';
 
 export function AuthCard({
   isLoading,
+  twoFactorRequired,
   loginEmail,
   loginPassword,
   rememberMe,
@@ -31,7 +33,21 @@ export function AuthCard({
   onRegisterPhoneChange,
   onLoginSubmit,
   onRegisterSubmit,
+  onVerify2FA,
+  onBackFrom2FA,
 }: AuthCardProps) {
+  if (twoFactorRequired) {
+    return (
+      <div className="bg-card/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-muted/50 border border-border/20 p-5 sm:p-6 md:p-8">
+        <TwoFactorForm
+          isLoading={isLoading}
+          onSubmit={onVerify2FA}
+          onBack={onBackFrom2FA}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-card/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-muted/50 border border-border/20 p-5 sm:p-6 md:p-8">
       <Tabs defaultValue="login" className="w-full">

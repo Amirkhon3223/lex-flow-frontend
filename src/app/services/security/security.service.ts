@@ -5,6 +5,7 @@ import type {
   TwoFactorStatusResponse,
   TwoFactorEnableResponse,
   TwoFactorVerifyRequest,
+  TwoFactorVerifyResponse,
   TwoFactorDisableRequest,
   SessionsListResponse,
 } from '../../types/security/security.interfaces';
@@ -25,8 +26,8 @@ export const securityService = {
     return response.data;
   },
 
-  verify2FA: async (data: TwoFactorVerifyRequest): Promise<SuccessResponse> => {
-    const response = await httpClient.post<SuccessResponse>('/users/me/2fa/verify', data);
+  verify2FA: async (data: TwoFactorVerifyRequest): Promise<TwoFactorVerifyResponse> => {
+    const response = await httpClient.post<TwoFactorVerifyResponse>('/users/me/2fa/verify', data);
     return response.data;
   },
 
