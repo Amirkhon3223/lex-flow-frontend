@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Check, Zap } from 'lucide-react';
 import { billingService } from '@/app/services/billing/billing.service';
-import type { Plan } from '@/app/types/billing/billing.interfaces';
+import type { Plan, PlanInterval } from '@/app/types/billing/billing.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -16,7 +16,7 @@ import {
 interface ChangePlanDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit?: (plan: string) => void;
+  onSubmit?: (planId: string, interval: PlanInterval) => void;
   currentPlanId?: string;
 }
 
@@ -45,6 +45,7 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit, currentPlanId }
   const { t } = useI18n();
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(false);
+  const [interval, setInterval] = useState<PlanInterval>('monthly');
 
   useEffect(() => {
     if (open) {
@@ -64,12 +65,16 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit, currentPlanId }
   }, [open]);
 
   const handleSelectPlan = (planId: string) => {
-    onSubmit?.(planId);
+    onSubmit?.(planId, interval);
     onOpenChange(false);
   };
 
   const formatPrice = (price: number, currency: string) => {
     return `${price.toLocaleString()} ${currency}`;
+  };
+
+  const getPriceByInterval = (plan: Plan) => {
+    return interval === 'yearly' ? plan.yearlyPrice : plan.monthlyPrice;
   };
 
   return (
@@ -86,6 +91,26 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit, currentPlanId }
             {t('PLAN.SUBTITLE')}
           </DialogDescription>
         </DialogHeader>
+
+        <div className="flex items-center justify-center gap-3 mt-4">
+          <Button
+            variant={interval === 'monthly' ? 'default' : 'outline'}
+            onClick={() => setInterval('monthly')}
+            className="min-w-[120px]"
+          >
+            {t('PLAN.MONTHLY')}
+          </Button>
+          <Button
+            variant={interval === 'yearly' ? 'default' : 'outline'}
+            onClick={() => setInterval('yearly')}
+            className="min-w-[120px]"
+          >
+            {t('PLAN.YEARLY')}
+            <span className="ml-2 text-xs bg-green-500/20 text-green-600 dark:text-green-400 px-2 py-0.5 rounded">
+              {t('PLAN.SAVE_UP_TO')} 20%
+            </span>
+          </Button>
+        </div>
 
         <div className="grid grid-cols-3 gap-4 mt-6">
           {loading ? (
@@ -123,7 +148,10 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit, currentPlanId }
                     )}
                     <h3 className="text-xl tracking-tight mb-2">{plan.name}</h3>
                     <div className="text-3xl tracking-tight mb-6">
-                      {formatPrice(plan.monthlyPrice, plan.currency)}
+                      {formatPrice(getPriceByInterval(plan), plan.currency)}
+                      <span className="text-sm text-muted-foreground ml-2">
+                        / {interval === 'yearly' ? t('PLAN.YEAR') : t('PLAN.MONTH')}
+                      </span>
                     </div>
                     <div className="space-y-3 mb-6">
                       {featureKeys.map((featureKey, index) => (

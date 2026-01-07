@@ -1126,6 +1126,11 @@
     "SELECT_PLAN": "Интихоби нақша",
     "COMING_SOON": "Ба наздикӣ",
     "ALREADY_SELECTED": "Аллакай интихобшуда",
+    "MONTHLY": "Ҳармоҳа",
+    "YEARLY": "Ҳарсола",
+    "MONTH": "моҳ",
+    "YEAR": "сол",
+    "SAVE_UP_TO": "Сарфаи то",
     "BASIC": {
       "NAME": "Basic",
       "PRICE": "4 990 ₽",

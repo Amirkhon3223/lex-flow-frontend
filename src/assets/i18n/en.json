@@ -1126,6 +1126,11 @@
     "SELECT_PLAN": "Select Plan",
     "COMING_SOON": "Coming soon",
     "ALREADY_SELECTED": "Already selected",
+    "MONTHLY": "Monthly",
+    "YEARLY": "Yearly",
+    "MONTH": "mo",
+    "YEAR": "yr",
+    "SAVE_UP_TO": "Save up to",
     "BASIC": {
       "NAME": "Basic",
       "PRICE": "4,990 ₽",

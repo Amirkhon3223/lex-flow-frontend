@@ -1143,6 +1143,11 @@
     "SELECT_PLAN": "Выбрать план",
     "COMING_SOON": "Скоро",
     "ALREADY_SELECTED": "Уже выбран",
+    "MONTHLY": "Ежемесячно",
+    "YEARLY": "Ежегодно",
+    "MONTH": "мес",
+    "YEAR": "год",
+    "SAVE_UP_TO": "Экономия до",
     "BASIC": {
       "NAME": "Basic",
       "PRICE": "4 990 ₽",

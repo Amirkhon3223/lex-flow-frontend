@@ -23,7 +23,7 @@ import {
   Scale,
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/app/config/routes.config.ts';
+import { ROUTES } from '@/app/config/routes.config';
 import { handleLogout } from '@/app/utils/authUtils';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
@@ -211,13 +211,13 @@ export function Sidebar({
             />
           </Link>
           <Link
-            to={ROUTES.SETTINGS}
+            to={ROUTES.SETTINGS.ROOT}
             onClick={onMobileClose}
             className={`
               w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
               ${
-                location.pathname === ROUTES.SETTINGS
+                location.pathname.startsWith('/settings')
                   ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
                   : 'text-slate-600 dark:text-muted-foreground hover:bg-slate-200/50 dark:hover:bg-muted'
               }

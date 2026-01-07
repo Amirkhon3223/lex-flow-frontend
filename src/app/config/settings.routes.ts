@@ -1,4 +1,4 @@
-import { ROUTES } from '@/app/config/routes.config.ts';
+import { ROUTES } from '@/app/config/routes.config';
 
 export type SettingsTab = 'profile' | 'notifications' | 'security' | 'billing';
 

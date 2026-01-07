@@ -5,13 +5,13 @@ import {
   getSettingsTabFromPath,
   SETTINGS_TAB_TO_ROUTE,
   type SettingsTab,
-} from '@/app/config/settings.routes.ts';
+} from '@/app/config/settings.routes';
 import { BillingTabContent } from '@/modules/settings/components/tabs/BillingTabContent';
 import { NotificationsTabContent } from '@/modules/settings/components/tabs/NotificationsTabContent';
 import { ProfileTabContent } from '@/modules/settings/components/tabs/ProfileTabContent';
 import { SecurityTabContent } from '@/modules/settings/components/tabs/SecurityTabContent';
 import { useI18n } from '@/shared/context/I18nContext';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 
 export default function SettingsPage() {
   const { t } = useI18n();
