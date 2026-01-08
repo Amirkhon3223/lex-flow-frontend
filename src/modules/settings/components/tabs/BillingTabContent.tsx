@@ -21,7 +21,6 @@ export function BillingTabContent() {
     fetchSubscription,
     fetchPlans,
     fetchPayments,
-    changePlan,
     downloadReceipt,
   } = useBillingStore();
   const [isChangePlanOpen, setIsChangePlanOpen] = useState(false);

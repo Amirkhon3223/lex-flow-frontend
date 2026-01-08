@@ -16,7 +16,7 @@ import { useI18n } from '@/shared/context/I18nContext';
 export default function DashboardPage() {
   const { t } = useI18n();
   const { user } = useAuthStore();
-  const { dashboardStats, fetchAllDashboardData } = useDashboardStore();
+  const { fetchAllDashboardData } = useDashboardStore();
   const [isAddCaseOpen, setIsAddCaseOpen] = useState(false);
   const [isAddClientOpen, setIsAddClientOpen] = useState(false);
   const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);

@@ -46,6 +46,7 @@ export interface UpdateUserProfileRequest {
   address?: string;
   country?: string;
   city?: string;
+  currency?: string;
 }
 
 export interface UpdateUserProfileResponse {

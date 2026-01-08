@@ -26,12 +26,13 @@ export default defineConfig([
       globals: globals.browser,
     },
     settings: {
-      'import/resolver': {
-        'typescript': {
-          'alwaysTryTypes': true,
-          'project': './tsconfig.json',
-        },
-      },
+      // TypeScript resolver disabled due to native binding issues
+      // 'import/resolver': {
+      //   'typescript': {
+      //     'alwaysTryTypes': true,
+      //     'project': './tsconfig.json',
+      //   },
+      // },
       'import/parsers': {
         '@typescript-eslint/parser': ['.ts', '.tsx'],
       },

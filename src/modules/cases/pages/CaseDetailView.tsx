@@ -143,6 +143,7 @@ export function CaseDetailView() {
     uploadedBy: doc.uploadedBy,
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
+    lastModified: doc.updatedAt,
   }));
 
   const handleAIReport = () => navigate(ROUTES.AI_ASSISTANT);
