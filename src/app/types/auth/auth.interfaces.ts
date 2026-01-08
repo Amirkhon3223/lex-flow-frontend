@@ -35,6 +35,7 @@ export interface User {
   city?: string
   timezone?: string
   language?: string
+  currency?: string
   role?: string
   workspaceId?: string
   twoFactorEnabled?: boolean
