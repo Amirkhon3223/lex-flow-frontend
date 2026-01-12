@@ -97,7 +97,7 @@ export function DatePickerWheel({ value, onChange, placeholder, className }: Dat
   };
 
   // Scroll to center selected item
-  const scrollToSelected = (ref: React.RefObject<HTMLDivElement>, value: number) => {
+  const scrollToSelected = (ref: React.RefObject<HTMLDivElement | null>, value: number) => {
     if (!ref.current) return;
     const container = ref.current;
     const items = container.querySelectorAll('[data-value]');
@@ -134,7 +134,7 @@ export function DatePickerWheel({ value, onChange, placeholder, className }: Dat
     items: number[];
     selectedValue: number;
     onSelect: (value: number) => void;
-    ref: React.RefObject<HTMLDivElement>;
+    ref: React.RefObject<HTMLDivElement | null>;
     renderItem: (item: number) => React.ReactNode;
   }) => (
     <div className="relative h-[200px]">
