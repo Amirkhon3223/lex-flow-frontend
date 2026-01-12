@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cookie Checker</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .cookie { margin: 10px 0; padding: 10px; background: #f0f0f0; }
+        .good { color: green; }
+        .bad { color: red; }
+        .warning { color: orange; }
+    </style>
+</head>
+<body>
+    <h2>🍪 Cookie Checker</h2>
+    <div id="results"></div>
+    
+    <script>
+        const results = document.getElementById('results');
+        
+        // Get all cookies
+        const allCookies = document.cookie.split(';').map(c => c.trim());
+        
+        results.innerHTML += `<p>Total cookies: ${allCookies.length}</p>`;
+        
+        // Check for expected cookies
+        const expectedCookies = ['csrf_token', 'access_token', 'refresh_token'];
+        
+        expectedCookies.forEach(name => {
+            const found = allCookies.find(c => c.startsWith(name + '='));
+            
+            if (name === 'csrf_token') {
+                if (found) {
+                    results.innerHTML += `<div class="cookie good">✅ ${name} = ${found.substring(name.length + 1, name.length + 20)}... (JavaScript CAN read - correct!)</div>`;
+                } else {
+                    results.innerHTML += `<div class="cookie bad">❌ ${name} NOT FOUND</div>`;
+                }
+            } else {
+                if (found) {
+                    results.innerHTML += `<div class="cookie bad">❌ ${name} = ${found.substring(name.length + 1, name.length + 20)}... (JavaScript CAN read - WRONG! Should be httpOnly)</div>`;
+                } else {
+                    results.innerHTML += `<div class="cookie good">✅ ${name} NOT visible to JavaScript (httpOnly=true - correct!)</div>`;
+                }
+            }
+        });
+        
+        results.innerHTML += '<hr><h3>All visible cookies:</h3>';
+        allCookies.forEach(c => {
+            results.innerHTML += `<div class="cookie">${c}</div>`;
+        });
+    </script>
+</body>
+</html>
