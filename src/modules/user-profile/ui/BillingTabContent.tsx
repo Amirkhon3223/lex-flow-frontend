@@ -7,9 +7,10 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
+import { formatDateByLanguage } from '@/shared/utils/dateFormatter';
 
 export function BillingTabContent() {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const { subscription, plans, payments, fetchSubscription, fetchPlans, fetchPayments, downloadReceipt } =
     useBillingStore();
 
@@ -61,9 +62,9 @@ export function BillingTabContent() {
               </h3>
               <p className="text-xs sm:text-sm opacity-90">
                 {subscription.status === 'trialing' && subscription.trialEnd
-                  ? `${t('SETTINGS.BILLING.TRIAL_ENDS')} ${new Date(subscription.trialEnd).toLocaleDateString()}`
+                  ? `${t('SETTINGS.BILLING.TRIAL_ENDS')} ${formatDateByLanguage(subscription.trialEnd, language)}`
                   : subscription.currentPeriodEnd
-                    ? `${t('SETTINGS.BILLING.ACTIVE_UNTIL')} ${new Date(subscription.currentPeriodEnd).toLocaleDateString()}`
+                    ? `${t('SETTINGS.BILLING.ACTIVE_UNTIL')} ${formatDateByLanguage(subscription.currentPeriodEnd, language)}`
                     : '-'}
               </p>
             </div>
@@ -117,10 +118,10 @@ export function BillingTabContent() {
               >
                 <div>
                   <div className="tracking-tight mb-0.5 sm:mb-1 text-sm sm:text-base">
-                    {currentPlan.name} - {new Date(payment.createdAt).toLocaleDateString()}
+                    {currentPlan.name} - {formatDateByLanguage(payment.createdAt, language)}
                   </div>
                   <div className="text-xs sm:text-sm text-muted-foreground">
-                    {new Date(payment.createdAt).toLocaleDateString()}
+                    {formatDateByLanguage(payment.createdAt, language)}
                   </div>
                 </div>
                 <div className="flex items-center justify-between sm:block sm:text-right">

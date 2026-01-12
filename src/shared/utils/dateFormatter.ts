@@ -87,6 +87,42 @@ export function formatDateOnly(dateString: string): string {
 }
 
 /**
+ * Format date based on user's language preference
+ * @param dateString - ISO date string from backend
+ * @param language - Language code ('en' | 'ru' | 'tj')
+ * @param options - Optional Intl.DateTimeFormatOptions
+ * @returns Formatted date string in the specified locale
+ */
+export function formatDateByLanguage(
+  dateString: string,
+  language: 'en' | 'ru' | 'tj',
+  options?: Intl.DateTimeFormatOptions
+): string {
+  if (!dateString) return '';
+
+  const date = new Date(dateString);
+  const userTimezone = getUserTimezone();
+
+  // Map language codes to Intl locale strings
+  const localeMap: Record<'en' | 'ru' | 'tj', string> = {
+    en: 'en-US',
+    ru: 'ru-RU',
+    tj: 'tg-TJ', // Tajik uses 'tg' ISO code
+  };
+
+  const locale = localeMap[language] || 'en-US';
+
+  const defaultOptions: Intl.DateTimeFormatOptions = {
+    timeZone: userTimezone,
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  return date.toLocaleDateString(locale, { ...defaultOptions, ...options });
+}
+
+/**
  * Legacy function - kept for backward compatibility
  * Use formatDateInUserTimezone or formatDateOnly instead
  */
