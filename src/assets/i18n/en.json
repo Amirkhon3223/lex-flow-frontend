@@ -27,6 +27,7 @@
       "ARCHIVE": "Archive",
       "SAVE": "Save",
       "CANCEL": "Cancel",
+      "CONFIRM": "Confirm",
       "ADD": "Add",
       "SEARCH": "Search...",
       "FILTER": "Filter",
@@ -61,6 +62,9 @@
     "SHOWING": "Showing",
     "ACTIVE_FILTERS": "Active filters",
     "SEARCH": "Search",
+    "DAY": "Day",
+    "MONTH": "Month",
+    "YEAR": "Year",
     "COMMENTS": {
       "ADD": "Add comment"
     },
@@ -352,6 +356,7 @@
     "NEW_CLIENT": "New Client",
     "CREATE_CLIENT": "Create Client",
     "SELECT_CATEGORY": "Select category",
+    "SELECT_BIRTH_DATE": "Select birth date",
     "NOTES_PLACEHOLDER": "Additional information about the client...",
     "ALL_CLIENTS": "All Clients",
     "SEARCH_PLACEHOLDER": "Search clients...",
