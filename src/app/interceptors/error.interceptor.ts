@@ -2,6 +2,7 @@ import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axio
 import axios from 'axios';
 import { API_CONFIG } from '../config/api.config';
 import { handleApiError } from '../utils/errorHandler';
+import { useAuthStore } from '../store/auth.store';
 
 interface ErrorResponse {
   message?: string;
@@ -103,7 +104,27 @@ export const errorInterceptor = {
 
         handleApiError(error);
 
-        window.location.href = '/login';
+        // Clear auth state in both localStorage AND Zustand store
+        localStorage.removeItem('auth-storage');
+        localStorage.removeItem('userTimezone');
+
+        // Reset Zustand store to ensure isAuthenticated = false
+        useAuthStore.setState({
+          user: null,
+          workspace: null,
+          role: null,
+          isAuthenticated: false,
+          loading: false,
+          error: null,
+          twoFactorRequired: false,
+          tempToken: null,
+        });
+
+        // Only redirect if not already on login page to prevent loop
+        if (!window.location.pathname.includes('/login')) {
+          // Use location.replace to prevent back button issues
+          window.location.replace('/login');
+        }
 
         return Promise.reject(refreshError);
       }
