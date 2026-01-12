@@ -848,7 +848,7 @@
       "NOTIFICATIONS": "Notifications",
       "TEAM": "Team",
       "SECURITY": "Security",
-      "BILLING": "Billing"
+      "BILLING": "Plan"
     },
     "PROFILE": {
       "PERSONAL_INFO": "Personal Information",
@@ -1035,7 +1035,7 @@
     "ACCOUNT_TYPE": "Pro Account",
     "TABS": {
       "PROFILE": "Profile",
-      "BILLING": "Billing"
+      "BILLING": "Plan"
     },
     "AVATAR_CROPPER": {
       "TITLE": "Image Cropping",

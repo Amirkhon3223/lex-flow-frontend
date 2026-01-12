@@ -11,9 +11,10 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
+import { formatDateByLanguage } from '@/shared/utils/dateFormatter';
 
 export function BillingTabContent() {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const {
     subscription,
     plans,
@@ -150,7 +151,7 @@ export function BillingTabContent() {
                       {t('SETTINGS.BILLING.TRIAL_ENDS')}
                     </p>
                     <p className="text-sm sm:text-base md:text-lg">
-                      {new Date(subscription.trialEnd).toLocaleDateString()}
+                      {formatDateByLanguage(subscription.trialEnd, language)}
                     </p>
                   </div>
                 ) : (
@@ -160,7 +161,7 @@ export function BillingTabContent() {
                     </p>
                     <p className="text-sm sm:text-base md:text-lg">
                       {subscription.currentPeriodEnd
-                        ? new Date(subscription.currentPeriodEnd).toLocaleDateString()
+                        ? formatDateByLanguage(subscription.currentPeriodEnd, language)
                         : '-'}
                     </p>
                   </div>
@@ -212,7 +213,7 @@ export function BillingTabContent() {
                   <PaymentHistoryItem
                     key={payment.id}
                     payment={{
-                      date: new Date(payment.createdAt).toLocaleDateString(),
+                      date: formatDateByLanguage(payment.createdAt, language),
                       amount: formatPrice(payment.amount),
                       status:
                         payment.status === 'paid'

@@ -45,7 +45,7 @@ import type {
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
-import { DatePickerWheel } from '@/shared/ui/date-picker-wheel';
+import { DatePicker } from '@/shared/ui/date-picker';
 import {
   Dialog,
   DialogContent,
@@ -332,11 +332,11 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 overflow-hidden">
                     <Label htmlFor="birthDate" className="text-sm text-foreground">
                       {t('CLIENTS.FIELDS.BIRTH_DATE')}
                     </Label>
-                    <DatePickerWheel
+                    <DatePicker
                       value={formData.birthDate}
                       onChange={(date) => setFormData({ ...formData, birthDate: date })}
                       placeholder={t('CLIENTS.SELECT_BIRTH_DATE')}
@@ -442,9 +442,12 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   <Input
                     id="phone"
                     type="tel"
-                    placeholder="+7 (999) 123-45-67"
+                    placeholder="+1234567890"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^\d+]/g, '');
+                      setFormData({ ...formData, phone: value });
+                    }}
                     className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
                     required={mode === 'create'}
                   />

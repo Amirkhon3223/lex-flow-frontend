@@ -849,7 +849,7 @@
       "NOTIFICATIONS": "Огоҳиномаҳо",
       "TEAM": "Гурӯҳ",
       "SECURITY": "Амният",
-      "BILLING": "Ҳисоббаробарӣ"
+      "BILLING": "Тариф"
     },
     "PROFILE": {
       "PERSONAL_INFO": "Маълумоти шахсӣ",
@@ -1036,7 +1036,7 @@
     "ACCOUNT_TYPE": "Ҳисоби Pro",
     "TABS": {
       "PROFILE": "Профил",
-      "BILLING": "Ҳисоббаробарӣ"
+      "BILLING": "Тариф"
     },
     "AVATAR_CROPPER": {
       "TITLE": "Буридани тасвир",

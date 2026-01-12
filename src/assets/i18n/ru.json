@@ -856,7 +856,7 @@
       "NOTIFICATIONS": "Уведомления",
       "TEAM": "Команда",
       "SECURITY": "Безопасность",
-      "BILLING": "Оплата"
+      "BILLING": "Тариф"
     },
     "PROFILE": {
       "PERSONAL_INFO": "Личная информация",
@@ -1052,7 +1052,7 @@
     "ACCOUNT_TYPE": "Pro аккаунт",
     "TABS": {
       "PROFILE": "Профиль",
-      "BILLING": "Оплата"
+      "BILLING": "Тариф"
     },
     "AVATAR_CROPPER": {
       "TITLE": "Обрезка изображения",
