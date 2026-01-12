@@ -28,7 +28,6 @@ import {
   Building2,
   User,
   Briefcase,
-  Calendar,
   Hash,
   Shield,
 } from 'lucide-react';
@@ -46,6 +45,7 @@ import type {
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
+import { DatePickerWheel } from '@/shared/ui/date-picker-wheel';
 import {
   Dialog,
   DialogContent,
@@ -336,19 +336,11 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                     <Label htmlFor="birthDate" className="text-sm text-foreground">
                       {t('CLIENTS.FIELDS.BIRTH_DATE')}
                     </Label>
-                    <div className="relative">
-                      <Calendar
-                        className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-                        strokeWidth={2}
-                      />
-                      <Input
-                        id="birthDate"
-                        type="date"
-                        value={formData.birthDate}
-                        onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
-                        className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
-                      />
-                    </div>
+                    <DatePickerWheel
+                      value={formData.birthDate}
+                      onChange={(date) => setFormData({ ...formData, birthDate: date })}
+                      placeholder={t('CLIENTS.SELECT_BIRTH_DATE')}
+                    />
                   </div>
                 </div>
               </div>
@@ -523,7 +515,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
             </div>
 
             {/* Строка 5: Заметки (на всю ширину) */}
-            <div className="space-y-2">
+            <div className="space-y-2 pb-3">
               <Label htmlFor="notes" className="text-sm text-foreground">
                 {t('CLIENTS.FIELDS.NOTES')}
               </Label>
