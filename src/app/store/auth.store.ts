@@ -137,7 +137,9 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true, error: null });
         try {
           await authService.logout();
+          // Clear all auth-related data
           localStorage.removeItem('userTimezone');
+          localStorage.removeItem('auth-storage');
           set({
             user: null,
             workspace: null,
@@ -146,7 +148,9 @@ export const useAuthStore = create<AuthState>()(
             loading: false,
           });
         } catch (error) {
+          // Even if logout fails on backend, clear local state
           localStorage.removeItem('userTimezone');
+          localStorage.removeItem('auth-storage');
           set({
             user: null,
             workspace: null,
