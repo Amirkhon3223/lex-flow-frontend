@@ -8,6 +8,7 @@ import { Enable2FADialog } from '@/modules/settings/components/dialogs/Enable2FA
 import { BackupCodesDialog } from '@/modules/settings/components/dialogs/BackupCodesDialog';
 import { Disable2FADialog } from '@/modules/settings/components/dialogs/Disable2FADialog';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
@@ -234,9 +235,14 @@ export function SecurityTabContent() {
 
       <Card>
         <div>
-          <h3 className="text-base sm:text-lg md:text-xl tracking-tight mb-2 sm:mb-3 md:mb-4">
-            {t('SETTINGS.SECURITY.ACTIVE_SESSIONS')}
-          </h3>
+          <div className="flex items-center space-x-3 mb-2 sm:mb-3 md:mb-4">
+            <h3 className="text-base sm:text-lg md:text-xl tracking-tight">
+              {t('SETTINGS.SECURITY.ACTIVE_SESSIONS')}
+            </h3>
+            <Badge className="bg-orange-500 hover:bg-orange-600 text-white text-xs px-2 py-0.5">
+              {t('COMMON.IN_DEVELOPMENT')}
+            </Badge>
+          </div>
           <p className="text-muted-foreground mb-3 sm:mb-4 md:mb-6 text-xs sm:text-sm">
             {t('SETTINGS.SECURITY.ACTIVE_SESSIONS_DESC')}
           </p>

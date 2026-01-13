@@ -54,6 +54,7 @@
     "COPIED": "Нусхабардорӣ шуд",
     "CANCEL": "Бекор кардан",
     "CLOSE": "Пӯшидан",
+    "IN_DEVELOPMENT": "Дар ҳоли таҳия",
     "DOWNLOAD": "Зеркашӣ",
     "UPLOADING": "Боргирӣ...",
     "NO_DATA": "Маълумот нест",
@@ -787,6 +788,7 @@
   "AI_ASSISTANT": {
     "TITLE": "Ёвари AI",
     "SUBTITLE": "Ёвари оқилонаи ҳуқуқии шумо",
+    "UNDER_DEVELOPMENT": "ДИҚҚАТ! ИН БАХШ ҲОЛО ДАР ҲОЛИ ТАҲИЯ АСТ!",
     "CHAT_PLACEHOLDER": "Савол диҳед...",
     "SEND": "Ирсол",
     "FEATURES": {

@@ -20,7 +20,6 @@ import {
   Sparkles,
   Settings,
   LogOut,
-  Scale,
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
@@ -111,7 +110,13 @@ export function Sidebar({
             className={`flex items-center gap-3 ${isCollapsed ? 'md:justify-center lg:justify-start' : ''}`}
           >
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
-              <Scale className="w-6 h-6 text-white" strokeWidth={2.5} />
+              <img
+                src="/ROUNDED_LEXFLOW_BG.png"
+                alt="LexFlow"
+                className={`transition-all duration-300 ${
+                  isCollapsed ? 'w-10 h-10 md:w-10 md:h-10 lg:w-40 lg:h-10' : 'w-40 h-10'
+                } object-contain flex-shrink-0`}
+              />
             </div>
             {/* Text visible on mobile and desktop, hidden on tablet collapsed */}
             <div
@@ -197,15 +202,25 @@ export function Sidebar({
             </span>
             <Badge
               className={`
-              ml-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs border-0
+              ml-auto ${
+                import.meta.env.VITE_ENVIRONMENT === 'production'
+                  ? 'bg-gradient-to-r from-orange-500 to-orange-600'
+                  : 'bg-gradient-to-r from-purple-500 to-pink-500'
+              } text-white text-xs border-0
               ${isCollapsed ? 'md:hidden lg:flex' : ''}
             `}
             >
-              {t('COMMON.NAVIGATION.NEW_BADGE')}
+              {import.meta.env.VITE_ENVIRONMENT === 'production'
+                ? t('COMMON.IN_DEVELOPMENT')
+                : t('COMMON.NAVIGATION.NEW_BADGE')}
             </Badge>
             <span
               className={`
-              absolute top-1 right-1 w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full
+              absolute top-1 right-1 w-2 h-2 ${
+                import.meta.env.VITE_ENVIRONMENT === 'production'
+                  ? 'bg-gradient-to-r from-orange-500 to-orange-600'
+                  : 'bg-gradient-to-r from-purple-500 to-pink-500'
+              } rounded-full
               ${isCollapsed ? 'hidden md:block lg:hidden' : 'hidden'}
             `}
             />

@@ -129,6 +129,15 @@ export function AIAssistantView() {
     <div>
       <Header />
 
+      {/* Development Notice */}
+      <div className="mb-4 sm:mb-6 mt-3 sm:mt-4">
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg shadow-orange-500/20">
+          <p className="text-black text-center font-semibold text-base sm:text-lg md:text-xl">
+            {t('AI_ASSISTANT.UNDER_DEVELOPMENT')}
+          </p>
+        </div>
+      </div>
+
       <main className="">
         <Tabs defaultValue="chat" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
           <TabsList className="rounded-lg sm:rounded-xl p-0.5 sm:p-1 w-full sm:w-auto">

@@ -10,6 +10,9 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
+import { RussiaFlag } from '@/shared/components/flags/RussiaFlag';
+import { UKFlag } from '@/shared/components/flags/UKFlag';
+import { TajikistanFlag } from '@/shared/components/flags/TajikistanFlag';
 
 export function ProfileTabContent() {
   const { t, setLanguage } = useI18n();
@@ -271,9 +274,24 @@ export function ProfileTabContent() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="ru">Русский</SelectItem>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="tj">Тоҷикӣ</SelectItem>
+                  <SelectItem value="ru">
+                    <div className="flex items-center gap-2">
+                      <RussiaFlag className="w-5 h-4" />
+                      <span>Русский</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="en">
+                    <div className="flex items-center gap-2">
+                      <UKFlag className="w-5 h-4" />
+                      <span>English</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="tj">
+                    <div className="flex items-center gap-2">
+                      <TajikistanFlag className="w-5 h-4" />
+                      <span>Тоҷикӣ</span>
+                    </div>
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -310,16 +328,21 @@ export function ProfileTabContent() {
                 onValueChange={handleTimezoneChange}
                 open={openSelect === 'timezone'}
                 onOpenChange={(open) => setOpenSelect(open ? 'timezone' : null)}
-                disabled
               >
                 <SelectTrigger className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm">
                   <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 text-gray-400" strokeWidth={2} />
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Europe/Moscow">Москва (GMT+3)</SelectItem>
-                  <SelectItem value="Europe/Samara">Самара (GMT+4)</SelectItem>
-                  <SelectItem value="Asia/Yekaterinburg">Екатеринбург (GMT+5)</SelectItem>
+                  <SelectItem value="America/New_York">New York (GMT-5)</SelectItem>
+                  <SelectItem value="America/Chicago">Chicago (GMT-6)</SelectItem>
+                  <SelectItem value="America/Los_Angeles">Los Angeles (GMT-8)</SelectItem>
+                  <SelectItem value="Europe/London">London (GMT+0)</SelectItem>
+                  <SelectItem value="Europe/Moscow">Moscow (GMT+3)</SelectItem>
+                  <SelectItem value="Europe/Samara">Samara (GMT+4)</SelectItem>
+                  <SelectItem value="Asia/Yekaterinburg">Yekaterinburg (GMT+5)</SelectItem>
+                  <SelectItem value="Asia/Dushanbe">Dushanbe (GMT+5)</SelectItem>
+                  <SelectItem value="Asia/Tokyo">Tokyo (GMT+9)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

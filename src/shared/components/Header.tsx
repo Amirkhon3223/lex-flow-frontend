@@ -98,8 +98,8 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
               className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
               onClick={() => navigate(ROUTES.USER_PROFILE)}
             >
-              <Avatar className="w-9 h-9 sm:w-10 sm:h-10 border-2 border-white shadow-sm">
-                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs sm:text-sm">
+              <Avatar className="w-9 h-9 sm:w-10 sm:h-10 border-1 border-white shadow-sm">
+                <AvatarFallback className="bg-gradient-to-br from-[#7B22F6] to-[#3C47F7] text-white text-xs sm:text-sm">
                   АП
                 </AvatarFallback>
               </Avatar>

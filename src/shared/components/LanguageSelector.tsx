@@ -21,10 +21,26 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
+import { RussiaFlag } from '@/shared/components/flags/RussiaFlag';
+import { UKFlag } from '@/shared/components/flags/UKFlag';
+import { TajikistanFlag } from '@/shared/components/flags/TajikistanFlag';
 
 export function LanguageSelector() {
   const { language, languageInfo: _languageInfo, availableLanguages, setLanguage, t } = useI18n();
   const { updateUserData } = useAuthStore();
+
+  const getFlagComponent = (langCode: Language) => {
+    switch (langCode) {
+      case 'ru':
+        return <RussiaFlag className="w-5 h-4" />;
+      case 'en':
+        return <UKFlag className="w-5 h-4" />;
+      case 'tj':
+        return <TajikistanFlag className="w-5 h-4" />;
+      default:
+        return null;
+    }
+  };
 
   const handleLanguageChange = async (newLanguage: Language) => {
     try {
@@ -64,7 +80,7 @@ export function LanguageSelector() {
             className="cursor-pointer flex items-center justify-between"
           >
             <div className="flex items-center gap-2">
-              <span className="text-lg">{lang.flag}</span>
+              {getFlagComponent(lang.code)}
               <span>{lang.nativeName}</span>
             </div>
             {language === lang.code && <Check className="w-4 h-4 text-blue-500" strokeWidth={2} />}
