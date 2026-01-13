@@ -54,6 +54,7 @@
     "COPIED": "Copied",
     "CANCEL": "Cancel",
     "CLOSE": "Close",
+    "IN_DEVELOPMENT": "In development",
     "DOWNLOAD": "Download",
     "UPLOADING": "Uploading...",
     "NO_DATA": "No data",
@@ -786,6 +787,7 @@
   "AI_ASSISTANT": {
     "TITLE": "AI Assistant",
     "SUBTITLE": "Your smart legal assistant",
+    "UNDER_DEVELOPMENT": "ATTENTION! THIS SECTION IS CURRENTLY UNDER DEVELOPMENT!",
     "CHAT_PLACEHOLDER": "Ask a question...",
     "SEND": "Send",
     "FEATURES": {

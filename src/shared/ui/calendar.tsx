@@ -163,7 +163,7 @@ export function Calendar({
                 isOutside && 'text-muted-foreground/50',
                 isToday && 'bg-blue-50 text-blue-700 font-semibold',
                 isSelected &&
-                  'bg-blue-500 text-white hover:bg-blue-600 ring-2 ring-blue-500 ring-offset-2'
+                  'bg-gradient-to-br from-[#7B22F6] to-[#3C47F7] text-white hover:opacity-90 ring-2 ring-[#7B22F6] ring-offset-2'
               )}
             >
               {date.getDate()}
