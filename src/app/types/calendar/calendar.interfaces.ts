@@ -10,11 +10,11 @@ export interface MeetingClientInterface {
 export interface MeetingInterface {
   id: string;
   title: string;
-  clientId: string;
-  clientName: string;
-  clientAvatar: string | null;
-  caseId: string | null;
-  caseName: string | null;
+  clientId?: string;
+  clientName?: string;
+  clientAvatar?: string;
+  caseId?: string;
+  caseName?: string;
   date: string;
   time: string;
   duration: string;
@@ -141,7 +141,7 @@ export interface QuickActionsCardProps {
 
 export interface CreateMeetingInterface {
   title: string;
-  clientId: string;
+  clientId?: string;
   caseId?: string;
   date: string;
   time: string;

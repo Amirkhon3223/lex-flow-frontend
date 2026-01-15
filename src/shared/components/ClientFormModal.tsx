@@ -193,8 +193,8 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl max-h-[90vh] bg-background/95 backdrop-blur-2xl border-border/50 flex flex-col overflow-hidden p-0">
-        <DialogHeader className="px-6 pt-6 pb-4 flex-shrink-0">
+      <DialogContent className="max-w-3xl! max-h-[90vh] bg-background/95 backdrop-blur-2xl border-border/50 flex flex-col overflow-hidden p-0">
+        <DialogHeader className="px-6 pt-4 pb-2 flex-shrink-0">
           <DialogTitle className="flex items-center gap-3 text-2xl">
             <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center">
               {mode === 'create' ? (
@@ -307,9 +307,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                       />
                       <Input
                         id="inn"
-                        placeholder="1234567890"
+                        placeholder="123456789012"
                         value={formData.inn}
                         onChange={(e) => setFormData({ ...formData, inn: e.target.value })}
+                        maxLength={12}
                         className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
                       />
                     </div>
@@ -328,6 +329,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                         placeholder="123456789"
                         value={formData.kpp}
                         onChange={(e) => setFormData({ ...formData, kpp: e.target.value })}
+                        maxLength={20}
                         className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
                       />
                     </div>
@@ -377,9 +379,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                       />
                       <Input
                         id="inn"
-                        placeholder="1234567890"
+                        placeholder="123456789012"
                         value={formData.inn}
                         onChange={(e) => setFormData({ ...formData, inn: e.target.value })}
+                        maxLength={12}
                         className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
                       />
                     </div>
@@ -398,6 +401,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                         placeholder="123456789"
                         value={formData.kpp}
                         onChange={(e) => setFormData({ ...formData, kpp: e.target.value })}
+                        maxLength={20}
                         className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
                       />
                     </div>

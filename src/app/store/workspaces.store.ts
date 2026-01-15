@@ -41,6 +41,7 @@ export const useWorkspacesStore = create<WorkspacesState>()(
           set({ workspaces, loading: false });
         } catch (error: any) {
           set({ error: error.message || 'Failed to fetch workspaces', loading: false });
+          throw error;
         }
       },
 
@@ -54,6 +55,7 @@ export const useWorkspacesStore = create<WorkspacesState>()(
             error: error.message || 'Failed to fetch current workspace',
             loading: false,
           });
+          throw error;
         }
       },
 
@@ -76,6 +78,7 @@ export const useWorkspacesStore = create<WorkspacesState>()(
           set({ currentWorkspace: updated, loading: false });
         } catch (error: any) {
           set({ error: error.message || 'Failed to update workspace', loading: false });
+          throw error;
         }
       },
 
@@ -92,6 +95,7 @@ export const useWorkspacesStore = create<WorkspacesState>()(
           }
         } catch (error: any) {
           set({ error: error.message || 'Failed to switch workspace', loading: false });
+          throw error;
         }
       },
 

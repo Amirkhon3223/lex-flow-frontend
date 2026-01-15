@@ -19,6 +19,7 @@ import type { AddMeetingDialogProps } from '@/app/types/calendar/calendar.interf
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
+import { TimePicker } from '@/shared/ui/time-picker';
 import {
   Dialog,
   DialogContent,
@@ -61,7 +62,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
     if (meeting && open) {
       setFormData({
         title: meeting.title,
-        clientId: meeting.clientId,
+        clientId: meeting.clientId || '',
         type: meeting.type,
         priority: meeting.priority,
         time: meeting.time,
@@ -81,7 +82,29 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
           });
         }
       }
+    } else if (open && !meeting) {
+      // New meeting - set current date and time
+      const now = new Date();
+      setDate(now);
+
+      // Format current time as HH:mm (24-hour format)
+      const currentHours = String(now.getHours()).padStart(2, '0');
+      const currentMinutes = String(now.getMinutes()).padStart(2, '0');
+      const currentTime = `${currentHours}:${currentMinutes}`;
+
+      setFormData({
+        title: '',
+        clientId: '',
+        type: MeetingTypeEnum.IN_PERSON,
+        priority: MeetingPriorityEnum.MEDIUM,
+        time: currentTime,
+        duration: '60',
+        location: '',
+        description: '',
+        reminder: '30',
+      });
     } else if (!open) {
+      // Reset on close
       setDate(undefined);
       setFormData({
         title: '',
@@ -105,15 +128,18 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
       return;
     }
 
-    if (!formData.clientId) {
-      toast.error(t('CALENDAR.FORMS.SELECT_CLIENT'));
+    // Validate date and time are not in the past
+    const selectedDateTime = new Date(`${format(date, 'yyyy-MM-dd')}T${formData.time}`);
+    const now = new Date();
+    if (selectedDateTime < now) {
+      toast.error(t('CALENDAR.FORMS.PAST_DATE_ERROR') || 'Cannot create meeting in the past');
       return;
     }
 
     try {
       const meetingData = {
         title: formData.title,
-        clientId: formData.clientId,
+        clientId: formData.clientId || undefined,
         date: format(date, 'yyyy-MM-dd'),
         time: formData.time,
         duration: formData.duration,
@@ -151,7 +177,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg bg-background border-border shadow-2xl rounded-2xl sm:rounded-3xl p-0 flex flex-col">
+      <DialogContent className="max-w-3xl! bg-background border-border shadow-2xl rounded-2xl sm:rounded-3xl p-0 flex flex-col">
         <DialogHeader className="px-4 pb-2 pt-4 flex-shrink-0 border-b border-border bg-background z-10 sticky top-0">
           <DialogTitle className="text-xl sm:text-2xl tracking-tight">
             {meeting ? t('CALENDAR.FORMS.EDIT_MEETING') : t('CALENDAR.FORMS.NEW_MEETING')}
@@ -285,7 +311,17 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 rounded-xl">
-                    <Calendar selected={date} onSelect={setDate} />
+                    <Calendar
+                      selected={date}
+                      onSelect={setDate}
+                      disabled={(date) => {
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        const checkDate = new Date(date);
+                        checkDate.setHours(0, 0, 0, 0);
+                        return checkDate.getTime() < today.getTime();
+                      }}
+                    />
                   </PopoverContent>
                 </Popover>
               </div>
@@ -295,12 +331,12 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                   <Clock className="w-4 h-4" />
                   {t('CALENDAR.FORMS.TIME')}
                 </Label>
-                <Input
-                  type="time"
+                <TimePicker
                   value={formData.time}
-                  onChange={(e) => handleChange('time', e.target.value)}
-                  className="h-10 sm:h-11 rounded-xl border-input text-sm"
-                  required
+                  onChange={(time) => handleChange('time', time)}
+                  placeholder={t('CALENDAR.FORMS.SELECT_TIME')}
+                  className="h-10 sm:h-11"
+                  selectedDate={date ? format(date, 'yyyy-MM-dd') : undefined}
                 />
               </div>
             </div>

@@ -64,6 +64,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -109,6 +110,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -127,6 +129,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -158,6 +161,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -182,6 +186,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -192,6 +197,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       set({ settings: response.settings, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -202,6 +208,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       set({ settings: response.settings, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -212,6 +219,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       set({ stats: response, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 }));

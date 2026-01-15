@@ -62,6 +62,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -72,6 +73,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       set({ selectedDocument: document, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -83,6 +85,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -97,6 +100,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -108,6 +112,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -118,6 +123,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -131,6 +137,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -145,6 +152,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       set({ comparisonData, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 

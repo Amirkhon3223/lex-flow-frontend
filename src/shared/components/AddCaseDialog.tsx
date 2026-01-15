@@ -4,9 +4,10 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Briefcase, User, Tag, Calendar, DollarSign, Scale } from 'lucide-react';
+import { Briefcase, User, Tag, DollarSign } from 'lucide-react';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
+import { useAuthStore } from '@/app/store/auth.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
@@ -20,6 +21,7 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
+import { DatePicker } from '@/shared/ui/date-picker';
 import { formatDescription } from '@/shared/utils/textFormatting';
 
 interface AddCaseDialogProps {
@@ -40,6 +42,31 @@ export function AddCaseDialog({
   const { t } = useI18n();
   const { clients, fetchClients } = useClientsStore();
   const { createCase, updateCase, fetchCaseById, selectedCase } = useCasesStore();
+  const { user } = useAuthStore();
+
+  // Get currency symbol based on user preference
+  const getCurrencySymbol = () => {
+    const currency = user?.currency || 'USD';
+    switch (currency) {
+      case 'USD':
+        return '$';
+      case 'EUR':
+        return '€';
+      case 'RUB':
+        return '₽';
+      case 'TJS':
+        return 'сом.';
+      case 'UZS':
+        return 'сўм';
+      case 'KZT':
+        return '₸';
+      case 'CAD':
+        return 'C$';
+      default:
+        return '$';
+    }
+  };
+
   const [formData, setFormData] = useState({
     title: '',
     client: preselectedClientId || '',
@@ -120,8 +147,8 @@ export function AddCaseDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-background/95 backdrop-blur-2xl border-border/50">
-        <DialogHeader>
+      <DialogContent className="max-w-2xl max-h-[90vh] p-0 bg-background/95 backdrop-blur-2xl border-border/50 flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center gap-3 text-2xl">
             <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
               <Briefcase className="w-6 h-6 text-blue-600 dark:text-blue-400" strokeWidth={2} />
@@ -131,7 +158,11 @@ export function AddCaseDialog({
           <DialogDescription className="sr-only">{t('CASES.SUBTITLE')}</DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+        <form
+          id="case-form"
+          onSubmit={handleSubmit}
+          className="space-y-6 mt-4 flex-1 pr-2 px-5 overflow-y-auto"
+        >
           <div className="space-y-2">
             <Label htmlFor="title" className="text-sm text-foreground">
               {t('CASES.FIELDS.TITLE')} *
@@ -202,45 +233,29 @@ export function AddCaseDialog({
               <Label htmlFor="deadline" className="text-sm text-foreground">
                 {t('CASES.FIELDS.DEADLINE')}
               </Label>
-              <div className="relative">
-                <Calendar
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-                  strokeWidth={2}
-                />
-                <Input
-                  id="deadline"
-                  type="date"
-                  value={formData.deadline.split('T')[0] || formData.deadline}
-                  onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
-                  className="h-12 pl-12 rounded-xl border-input focus-visible:ring-blue-500"
-                />
-              </div>
+              <DatePicker
+                value={formData.deadline}
+                onChange={(date) => setFormData({ ...formData, deadline: date })}
+                placeholder={t('CASES.SELECT_DEADLINE')}
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="courtDate" className="text-sm text-foreground">
                 {t('CASES.FIELDS.COURT_DATE')}
               </Label>
-              <div className="relative">
-                <Scale
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-                  strokeWidth={2}
-                />
-                <Input
-                  id="courtDate"
-                  type="date"
-                  value={formData.courtDate.split('T')[0] || formData.courtDate}
-                  onChange={(e) => setFormData({ ...formData, courtDate: e.target.value })}
-                  className="h-12 pl-12 rounded-xl border-input focus-visible:ring-blue-500"
-                />
-              </div>
+              <DatePicker
+                value={formData.courtDate}
+                onChange={(date) => setFormData({ ...formData, courtDate: date })}
+                placeholder={t('CASES.SELECT_COURT_DATE')}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="fee" className="text-sm text-foreground">
-                {t('CASES.FIELDS.FEE')} (₽)
+                {t('CASES.FIELDS.FEE')} ({getCurrencySymbol()})
               </Label>
               <div className="relative">
                 <DollarSign
@@ -291,25 +306,26 @@ export function AddCaseDialog({
               className="min-h-[120px] rounded-xl border-input focus-visible:ring-blue-500 resize-none"
             />
           </div>
-
-          <div className="flex items-center gap-3 pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
-            >
-              {t('COMMON.ACTIONS.CANCEL')}
-            </Button>
-            <Button
-              type="submit"
-              className="flex-1 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
-            >
-              <Briefcase className="w-4 h-4 mr-2" strokeWidth={2} />
-              {caseId ? t('CASES.EDIT_DIALOG.SAVE') : t('CASES.CREATE_CASE')}
-            </Button>
-          </div>
         </form>
+
+        <div className="flex items-center gap-3 pt-4 border-t border-border flex-shrink-0">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
+          >
+            {t('COMMON.ACTIONS.CANCEL')}
+          </Button>
+          <Button
+            type="submit"
+            form="case-form"
+            className="flex-1 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+          >
+            <Briefcase className="w-4 h-4 mr-2" strokeWidth={2} />
+            {caseId ? t('CASES.EDIT_DIALOG.SAVE') : t('CASES.CREATE_CASE')}
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

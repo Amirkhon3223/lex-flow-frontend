@@ -103,7 +103,17 @@ export function RescheduleMeetingDialog({
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0 rounded-xl" align="start">
-                <Calendar selected={date} onSelect={setDate} />
+                <Calendar
+                  selected={date}
+                  onSelect={setDate}
+                  disabled={(date) => {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const checkDate = new Date(date);
+                    checkDate.setHours(0, 0, 0, 0);
+                    return checkDate.getTime() < today.getTime();
+                  }}
+                />
               </PopoverContent>
             </Popover>
           </div>

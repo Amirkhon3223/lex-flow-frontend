@@ -48,6 +48,7 @@
       "BACK": "Назад",
       "PREVIEW": "Просмотр"
     },
+    "CLEAR_ALL": "Очистить все",
     "OF": "из",
     "LOADING": "Загрузка...",
     "COPY": "Копировать",
@@ -177,6 +178,8 @@
     "TITLE_PLACEHOLDER": "Например: Трудовой спор - увольнение",
     "SELECT_CLIENT": "Выберите клиента",
     "SELECT_CATEGORY": "Категория дела",
+    "SELECT_DEADLINE": "Выберите дедлайн",
+    "SELECT_COURT_DATE": "Выберите дату суда",
     "DESCRIPTION_PLACEHOLDER": "Краткое описание обстоятельств дела...",
     "CREATE_CASE": "Создать дело",
     "ALL_CASES": "Все дела",
@@ -216,7 +219,7 @@
     },
     "FIELDS": {
       "TITLE": "Название дела",
-      "FEE": "Гонорар (₽)",
+      "FEE": "Гонорар",
       "CASE": "Дело",
       "CLIENT": "Клиент",
       "CATEGORY": "Категория",
@@ -713,6 +716,10 @@
     "TITLE": "Аналитика",
     "SUBTITLE": "Обзор эффективности работы и статистики",
     "EXPORT_REPORT": "Экспорт отчета",
+    "EXPORTING": "Экспорт...",
+    "EXPORT_SUCCESS": "Отчет экспортирован",
+    "EXPORT_SUCCESS_DESCRIPTION": "Файл CSV успешно сохранен",
+    "EXPORT_ERROR": "Не удалось экспортировать отчет",
     "PERIODS": {
       "WEEK": "Эта неделя",
       "MONTH": "Этот месяц",
@@ -1120,6 +1127,7 @@
   },
   "UPLOAD": {
     "TITLE": "Загрузить документ",
+    "EDIT_TITLE": "Редактировать документ",
     "DRAG_DROP": "Перетащите файл сюда или",
     "SELECT_FILE": "выберите файл",
     "SUPPORTED_FORMATS": "Поддерживаются: PDF, DOC, DOCX, TXT, JPG, PNG (до 25 МБ)",

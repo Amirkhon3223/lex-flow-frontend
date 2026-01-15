@@ -70,5 +70,5 @@ export interface UpdateTimezoneRequest {
 }
 
 export interface UpdateCurrencyRequest {
-  currency: 'USD' | 'RUB' | 'EUR' | 'TJS';
+  currency: 'USD' | 'EUR' | 'CAD' | 'RUB' | 'TJS' | 'UZS' | 'KZT';
 }
