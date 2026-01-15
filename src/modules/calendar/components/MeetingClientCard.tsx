@@ -4,14 +4,19 @@ import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 interface MeetingClientCardProps {
-  clientName: string;
-  clientAvatar: string | null;
+  clientName?: string;
+  clientAvatar?: string | null;
   clientId?: string;
 }
 
 export function MeetingClientCard({ clientName, clientAvatar, clientId }: MeetingClientCardProps) {
   const navigate = useNavigate();
   const { t } = useI18n();
+
+  // Don't render if no client
+  if (!clientName) {
+    return null;
+  }
 
   const clientInitials =
     clientAvatar ||

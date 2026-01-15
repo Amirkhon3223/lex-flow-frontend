@@ -51,6 +51,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
         dashboardError: error instanceof Error ? error.message : 'Failed to fetch dashboard stats',
         dashboardLoading: false,
       });
+      throw error;
     }
   },
 
@@ -64,6 +65,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
         casesError: error instanceof Error ? error.message : 'Failed to fetch priority cases',
         casesLoading: false,
       });
+      throw error;
     }
   },
 
@@ -77,6 +79,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
         meetingsError: error instanceof Error ? error.message : 'Failed to fetch today meetings',
         meetingsLoading: false,
       });
+      throw error;
     }
   },
 

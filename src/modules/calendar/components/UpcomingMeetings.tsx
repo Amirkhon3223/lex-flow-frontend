@@ -38,7 +38,9 @@ export function UpcomingMeetings({ meetings, onSelectDate }: UpcomingMeetingsPro
               <Separator orientation="vertical" className="h-8 sm:h-10 bg-border" />
               <div className="flex-1 min-w-0">
                 <div className="text-xs sm:text-sm truncate mb-0.5 sm:mb-1">{meeting.title}</div>
-                <div className="text-xs text-muted-foreground">{meeting.clientName}</div>
+                {meeting.clientName && (
+                  <div className="text-xs text-muted-foreground">{meeting.clientName}</div>
+                )}
               </div>
             </div>
           );

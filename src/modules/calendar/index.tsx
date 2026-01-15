@@ -55,7 +55,7 @@ export function CalendarPage() {
     const matchesSearch =
       searchQuery === '' ||
       meeting.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      meeting.clientName.toLowerCase().includes(searchQuery.toLowerCase());
+      (meeting.clientName && meeting.clientName.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return matchesType && matchesClient && matchesSearch;
   });
@@ -78,7 +78,9 @@ export function CalendarPage() {
         .map((day) => parseLocalDate(day.date))
     : [];
 
-  const uniqueClients = Array.from(new Set(meetings.map((m) => m.clientName)));
+  const uniqueClients = Array.from(
+    new Set(meetings.map((m) => m.clientName).filter((name): name is string => Boolean(name)))
+  );
 
   const getMeetingTypeIcon = (type: MeetingInterface['type'], title?: string) => {
     if (title && isCourtSession(title)) {

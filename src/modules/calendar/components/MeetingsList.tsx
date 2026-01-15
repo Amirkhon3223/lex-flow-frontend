@@ -30,11 +30,13 @@ export function MeetingsList({
           .map((meeting) => {
             const meetingDate = parseLocalDate(meeting.date);
             const clientInitials = meeting.clientName
-              .split(' ')
-              .map((n) => n[0])
-              .join('')
-              .toUpperCase()
-              .substring(0, 2);
+              ? meeting.clientName
+                  .split(' ')
+                  .map((n) => n[0])
+                  .join('')
+                  .toUpperCase()
+                  .substring(0, 2)
+              : '??';
 
             return (
               <div
@@ -65,7 +67,9 @@ export function MeetingsList({
                           <h4 className="text-sm tracking-tight truncate text-foreground">
                             {meeting.title}
                           </h4>
-                          <p className="text-xs text-muted-foreground">{meeting.clientName}</p>
+                          {meeting.clientName && (
+                            <p className="text-xs text-muted-foreground">{meeting.clientName}</p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -133,7 +137,9 @@ export function MeetingsList({
                         </Avatar>
                         <div>
                           <h4 className="tracking-tight mb-1 text-foreground">{meeting.title}</h4>
-                          <p className="text-sm text-muted-foreground">{meeting.clientName}</p>
+                          {meeting.clientName && (
+                            <p className="text-sm text-muted-foreground">{meeting.clientName}</p>
+                          )}
                         </div>
                       </div>
                       <div className="flex items-center gap-2">

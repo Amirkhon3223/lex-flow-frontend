@@ -32,11 +32,13 @@ export function SelectedDateMeetings({
         <div className="space-y-3">
           {meetings.map((meeting) => {
             const clientInitials = meeting.clientName
-              .split(' ')
-              .map((n) => n[0])
-              .join('')
-              .toUpperCase()
-              .substring(0, 2);
+              ? meeting.clientName
+                  .split(' ')
+                  .map((n) => n[0])
+                  .join('')
+                  .toUpperCase()
+                  .substring(0, 2)
+              : '??';
 
             return (
               <div
@@ -54,7 +56,9 @@ export function SelectedDateMeetings({
                     <h4 className="text-xs sm:text-sm tracking-tight mb-1 truncate">
                       {meeting.title}
                     </h4>
-                    <p className="text-xs text-muted-foreground">{meeting.clientName}</p>
+                    {meeting.clientName && (
+                      <p className="text-xs text-muted-foreground">{meeting.clientName}</p>
+                    )}
                   </div>
                   {meeting.priority && (
                     <Badge

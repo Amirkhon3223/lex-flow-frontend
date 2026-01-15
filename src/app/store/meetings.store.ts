@@ -67,6 +67,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       set({ meetings: response.meetings, pagination: response.pagination, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -77,6 +78,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       set({ todayMeetings: meetings, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -87,6 +89,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       set({ upcomingMeetings: meetings, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -97,6 +100,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       set({ dayMeetings, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -107,6 +111,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       set({ weekMeetings, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -117,6 +122,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       set({ monthMeetings, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -127,6 +133,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       set({ stats, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -137,6 +144,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       set({ selectedMeeting: meeting, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -150,6 +158,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -164,6 +173,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -178,6 +188,7 @@ export const useMeetingsStore = create<MeetingsState>((set) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 

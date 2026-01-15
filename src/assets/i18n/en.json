@@ -48,6 +48,7 @@
       "BACK": "Back",
       "PREVIEW": "Preview"
     },
+    "CLEAR_ALL": "Clear all",
     "OF": "of",
     "LOADING": "Loading...",
     "COPY": "Copy",
@@ -177,6 +178,8 @@
     "TITLE_PLACEHOLDER": "E.g.: Labor dispute - dismissal",
     "SELECT_CLIENT": "Select client",
     "SELECT_CATEGORY": "Case category",
+    "SELECT_DEADLINE": "Select deadline",
+    "SELECT_COURT_DATE": "Select court date",
     "DESCRIPTION_PLACEHOLDER": "Short description of the case circumstances...",
     "CREATE_CASE": "Create Case",
     "ALL_CASES": "All Cases",
@@ -216,7 +219,7 @@
     },
     "FIELDS": {
       "TITLE": "Case Title",
-      "FEE": "Fee (₽)",
+      "FEE": "Fee",
       "CASE": "Case",
       "CLIENT": "Client",
       "CATEGORY": "Category",
@@ -713,6 +716,10 @@
     "TITLE": "Analytics",
     "SUBTITLE": "Overview of work efficiency and statistics",
     "EXPORT_REPORT": "Export report",
+    "EXPORTING": "Exporting...",
+    "EXPORT_SUCCESS": "Report exported",
+    "EXPORT_SUCCESS_DESCRIPTION": "CSV file successfully saved",
+    "EXPORT_ERROR": "Failed to export report",
     "PERIODS": {
       "WEEK": "This week",
       "MONTH": "This month",
@@ -1103,6 +1110,7 @@
   },
   "UPLOAD": {
     "TITLE": "Upload Document",
+    "EDIT_TITLE": "Edit Document",
     "DRAG_DROP": "Drag file here or",
     "SELECT_FILE": "select file",
     "SUPPORTED_FORMATS": "Supported: PDF, DOC, DOCX, TXT, JPG, PNG (up to 25 MB)",

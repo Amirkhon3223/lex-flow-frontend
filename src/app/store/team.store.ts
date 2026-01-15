@@ -45,6 +45,7 @@ export const useTeamStore = create<TeamState>((set) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -58,6 +59,7 @@ export const useTeamStore = create<TeamState>((set) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 

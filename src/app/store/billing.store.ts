@@ -54,6 +54,7 @@ export const useBillingStore = create<BillingState>((set, get) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -67,6 +68,7 @@ export const useBillingStore = create<BillingState>((set, get) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -117,6 +119,7 @@ export const useBillingStore = create<BillingState>((set, get) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -149,6 +152,7 @@ export const useBillingStore = create<BillingState>((set, get) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 

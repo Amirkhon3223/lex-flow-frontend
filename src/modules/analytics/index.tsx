@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Calendar,
   Download,
@@ -9,6 +9,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useAnalyticsStore } from '@/app/store/analytics.store';
+import { useAuthStore } from '@/app/store/auth.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
@@ -19,6 +20,8 @@ import {
   SelectValue,
 } from '@/shared/ui/managed-select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
+import { toast } from 'sonner';
+import { exportAnalyticsToCSV } from '@/shared/utils/export-analytics';
 import { CasesChart } from './components/CasesChart';
 import { CasesTabContent } from './components/CasesTabContent';
 import { CaseTypesChart } from './components/CaseTypesChart';
@@ -29,7 +32,16 @@ import { TeamStats } from './components/TeamStats';
 
 export default function AnalyticsPage() {
   const { t } = useI18n();
+  const [isExporting, setIsExporting] = useState(false);
+
   const {
+    dashboard,
+    cases,
+    clients,
+    documents,
+    meetings,
+    finance,
+    team,
     fetchDashboard,
     fetchCases,
     fetchClients,
@@ -38,6 +50,8 @@ export default function AnalyticsPage() {
     fetchFinance,
     fetchTeam,
   } = useAnalyticsStore();
+
+  const { user } = useAuthStore();
 
   useEffect(() => {
     fetchDashboard();
@@ -50,7 +64,36 @@ export default function AnalyticsPage() {
   }, [fetchDashboard, fetchCases, fetchClients, fetchDocuments, fetchMeetings, fetchFinance, fetchTeam]);
 
   const handleExportReport = () => {
-    console.log('Export report');
+    try {
+      setIsExporting(true);
+
+      // Get user currency (default to USD if not set)
+      const userCurrency = user?.currency || 'USD';
+
+      // Export all analytics data
+      exportAnalyticsToCSV(
+        {
+          dashboard,
+          cases,
+          clients,
+          documents,
+          meetings,
+          finance,
+          team,
+        },
+        userCurrency
+      );
+
+      // Show success message
+      toast.success(t('ANALYTICS.EXPORT_SUCCESS'), {
+        description: t('ANALYTICS.EXPORT_SUCCESS_DESCRIPTION'),
+      });
+    } catch (error) {
+      console.error('Export failed:', error);
+      toast.error(t('ANALYTICS.EXPORT_ERROR'));
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   return (
@@ -93,13 +136,16 @@ export default function AnalyticsPage() {
 
               <Button
                 onClick={handleExportReport}
+                disabled={isExporting}
                 className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg sm:rounded-xl shadow-md px-2 sm:px-3 md:px-4 text-xs sm:text-sm"
               >
                 <Download
                   className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 sm:mr-2"
                   strokeWidth={2}
                 />
-                <span className="hidden sm:inline">{t('ANALYTICS.EXPORT_REPORT')}</span>
+                <span className="hidden sm:inline">
+                  {isExporting ? t('ANALYTICS.EXPORTING') : t('ANALYTICS.EXPORT_REPORT')}
+                </span>
               </Button>
             </div>
           </div>

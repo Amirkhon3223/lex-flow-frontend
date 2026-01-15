@@ -47,6 +47,9 @@ const CURRENCY_SYMBOLS: Record<string, string> = {
   RUB: '₽',
   EUR: '€',
   TJS: 'сом.',
+  UZS: 'сўм',
+  KZT: '₸',
+  CAD: 'C$',
 };
 
 /**
@@ -57,6 +60,9 @@ const CURRENCY_LOCALES: Record<string, string> = {
   RUB: 'ru-RU',
   EUR: 'de-DE',
   TJS: 'tg-TJ',
+  UZS: 'uz-UZ',
+  KZT: 'kk-KZ',
+  CAD: 'en-CA',
 };
 
 /**
@@ -79,12 +85,12 @@ export const formatCurrency = (
     maximumFractionDigits: options.maximumFractionDigits ?? 2,
   }).format(amount);
 
-  // For USD and EUR, put symbol before amount
-  if (currency === 'USD' || currency === 'EUR') {
+  // For USD, EUR, and CAD, put symbol before amount
+  if (currency === 'USD' || currency === 'EUR' || currency === 'CAD') {
     return `${symbol}${formatted}`;
   }
 
-  // For RUB and TJS, put symbol after amount with space
+  // For RUB, TJS, UZS, and KZT, put symbol after amount with space
   return `${formatted} ${symbol}`;
 };
 

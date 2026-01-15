@@ -64,7 +64,7 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-background/95 backdrop-blur-2xl border-border">
+      <DialogContent className="max-w-3xl bg-background/95 backdrop-blur-2xl border-border">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-2xl">
             <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center">

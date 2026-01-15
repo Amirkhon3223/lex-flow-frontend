@@ -32,7 +32,7 @@ export function ProfileTabContent() {
     city: '',
   });
   const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en' | 'tj'>('ru');
-  const [currentCurrency, setCurrentCurrency] = useState<'USD' | 'RUB' | 'EUR' | 'TJS'>('USD');
+  const [currentCurrency, setCurrentCurrency] = useState<'USD' | 'RUB' | 'EUR' | 'TJS' | 'UZS' | 'KZT' | 'CAD'>('USD');
   const [timezone, setTimezone] = useState('');
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export function ProfileTabContent() {
         city: user.city || '',
       });
       setCurrentLanguage((user.language || 'ru') as 'ru' | 'en' | 'tj');
-      setCurrentCurrency((user.currency || 'USD') as 'USD' | 'RUB' | 'EUR' | 'TJS');
+      setCurrentCurrency((user.currency || 'USD') as 'USD' | 'RUB' | 'EUR' | 'TJS' | 'UZS' | 'KZT' | 'CAD');
       setTimezone(user.timezone || 'Europe/Moscow');
     }
   }, [user]);
@@ -111,7 +111,7 @@ export function ProfileTabContent() {
     }
   };
 
-  const handleCurrencyChange = async (newCurrency: 'USD' | 'RUB' | 'EUR' | 'TJS') => {
+  const handleCurrencyChange = async (newCurrency: 'USD' | 'RUB' | 'EUR' | 'TJS' | 'UZS' | 'KZT' | 'CAD') => {
     setCurrentCurrency(newCurrency);
 
     try {
@@ -312,9 +312,12 @@ export function ProfileTabContent() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="USD">🇺🇸 US Dollar ($)</SelectItem>
-                  <SelectItem value="RUB">🇷🇺 Российский рубль (₽)</SelectItem>
                   <SelectItem value="EUR">🇪🇺 Euro (€)</SelectItem>
+                  <SelectItem value="CAD">🇨🇦 Canadian Dollar (C$)</SelectItem>
+                  <SelectItem value="RUB">🇷🇺 Российский рубль (₽)</SelectItem>
                   <SelectItem value="TJS">🇹🇯 Таджикский сомони (сом.)</SelectItem>
+                  <SelectItem value="UZS">🇺🇿 Узбекский сум (сўм)</SelectItem>
+                  <SelectItem value="KZT">🇰🇿 Казахстанский тенге (₸)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

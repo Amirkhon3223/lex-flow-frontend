@@ -55,6 +55,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -65,6 +66,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
       set({ selectedClient: client, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -78,6 +80,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -92,6 +95,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -106,6 +110,7 @@ export const useClientsStore = create<ClientsState>((set) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 

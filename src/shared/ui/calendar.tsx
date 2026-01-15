@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 import { cn } from './utils';
 
 interface CalendarProps {
@@ -18,6 +19,7 @@ interface CalendarProps {
   modifiersClassNames?: {
     meeting?: string;
   };
+  disabled?: (date: Date) => boolean;
 }
 
 export function Calendar({
@@ -29,6 +31,7 @@ export function Calendar({
   className,
   modifiers,
   modifiersClassNames,
+  disabled,
 }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = React.useState<Date>(month || new Date());
 
@@ -95,6 +98,36 @@ export function Calendar({
     onMonthChange?.(newMonth);
   };
 
+  const handleMonthChange = (monthIndex: string) => {
+    const newMonth = new Date(year, parseInt(monthIndex), 1);
+    setCurrentMonth(newMonth);
+    onMonthChange?.(newMonth);
+  };
+
+  const handleYearChange = (newYear: string) => {
+    const yearNum = parseInt(newYear);
+    const newMonth = new Date(yearNum, currentMonthIndex, 1);
+    setCurrentMonth(newMonth);
+    onMonthChange?.(newMonth);
+  };
+
+  // Generate years (from 1920 to current year + 10)
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 1920 + 11 }, (_, i) => 1920 + i);
+
+  // Get month names
+  const monthNames = Array.from({ length: 12 }, (_, i) => {
+    const date = new Date(year, i, 1);
+    return date.toLocaleDateString(
+      {
+        ru: 'ru-RU',
+        en: 'en-US',
+        tj: 'tg-TJ',
+      }[language] || 'en-US',
+      { month: 'long' }
+    );
+  });
+
   const isSameDay = (a?: Date, b?: Date) =>
     a &&
     b &&
@@ -113,26 +146,42 @@ export function Calendar({
         className
       )}
     >
-      <div className="flex items-center justify-between mb-4">
-        <button onClick={handlePrev} className="p-2 rounded-lg hover:bg-muted transition">
+      <div className="flex items-center justify-between mb-4 gap-2">
+        <button onClick={handlePrev} className="p-2 rounded-lg hover:bg-muted transition flex-shrink-0">
           <ChevronLeft className="w-4 h-4 text-muted-foreground" />
         </button>
 
-        <div className="text-lg font-semibold capitalize">
-          {currentMonth.toLocaleDateString(
-            {
-              ru: 'ru-RU',
-              en: 'en-US',
-              tj: 'tg-TJ',
-            }[language] || 'en-US',
-            {
-              month: 'long',
-              year: 'numeric',
-            }
-          )}
+        <div className="flex items-center gap-2 flex-1 justify-center">
+          {/* Month selector */}
+          <Select value={String(currentMonthIndex)} onValueChange={handleMonthChange}>
+            <SelectTrigger className="h-9 w-[140px] rounded-lg border-input text-sm font-semibold capitalize">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="max-h-[300px]">
+              {monthNames.map((monthName, index) => (
+                <SelectItem key={index} value={String(index)} className="capitalize">
+                  {monthName}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Year selector */}
+          <Select value={String(year)} onValueChange={handleYearChange}>
+            <SelectTrigger className="h-9 w-[100px] rounded-lg border-input text-sm font-semibold">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="max-h-[300px]">
+              {years.reverse().map((y) => (
+                <SelectItem key={y} value={String(y)}>
+                  {y}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        <button onClick={handleNext} className="p-2 rounded-lg hover:bg-muted transition">
+        <button onClick={handleNext} className="p-2 rounded-lg hover:bg-muted transition flex-shrink-0">
           <ChevronRight className="w-4 h-4 text-muted-foreground" />
         </button>
       </div>
@@ -151,23 +200,27 @@ export function Calendar({
           const isToday = isSameDay(date, today);
           const isSelected = isSameDay(date, selected);
           const hasMeeting = isMeetingDay(date);
+          const isDisabled = disabled?.(date) || false;
 
           return (
             <button
               key={index}
-              disabled={false}
-              onClick={() => onSelect?.(date)}
+              disabled={isDisabled}
+              onClick={() => !isDisabled && onSelect?.(date)}
               className={cn(
-                'relative w-10 h-10 flex items-center justify-center rounded-xl transition-all cursor-pointer',
-                'hover:bg-muted focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2',
-                isOutside && 'text-muted-foreground/50',
-                isToday && 'bg-blue-50 text-blue-700 font-semibold',
-                isSelected &&
+                'relative w-10 h-10 flex items-center justify-center rounded-xl transition-all',
+                // Disabled state - VERY VISIBLE
+                isDisabled && 'cursor-not-allowed !opacity-30 !text-gray-400 !bg-gray-100 dark:!bg-gray-800 line-through',
+                // Active states only if not disabled
+                !isDisabled && 'cursor-pointer hover:bg-muted focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2',
+                !isDisabled && isOutside && 'text-muted-foreground/50',
+                !isDisabled && isToday && 'bg-blue-50 text-blue-700 font-semibold',
+                !isDisabled && isSelected &&
                   'bg-gradient-to-br from-[#7B22F6] to-[#3C47F7] text-white hover:opacity-90 ring-2 ring-[#7B22F6] ring-offset-2'
               )}
             >
               {date.getDate()}
-              {hasMeeting && (
+              {hasMeeting && !isDisabled && (
                 <span
                   className={cn(
                     'absolute bottom-[3px] left-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full',

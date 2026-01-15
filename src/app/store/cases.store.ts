@@ -88,6 +88,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       set({ cases: response.cases, pagination: response.pagination, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -98,6 +99,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       set({ selectedCase: caseData, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -113,6 +115,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -127,6 +130,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -141,6 +145,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       }));
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -151,6 +156,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       set({ timeline, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
+      throw error;
     }
   },
 
@@ -168,6 +174,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         commentsError: getErrorMessage(error, 'Failed to fetch comments'),
         commentsLoading: false,
       });
+      throw error;
     }
   },
 
@@ -184,6 +191,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         commentsError: getErrorMessage(error, 'Failed to add comment'),
         commentsLoading: false,
       });
+      throw error;
     }
   },
 
@@ -200,6 +208,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         commentsError: getErrorMessage(error, 'Failed to update comment'),
         commentsLoading: false,
       });
+      throw error;
     }
   },
 
@@ -216,6 +225,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         commentsError: getErrorMessage(error, 'Failed to delete comment'),
         commentsLoading: false,
       });
+      throw error;
     }
   },
 
@@ -229,6 +239,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         tasksError: getErrorMessage(error, 'Failed to fetch tasks'),
         tasksLoading: false,
       });
+      throw error;
     }
   },
 
@@ -245,6 +256,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         tasksError: getErrorMessage(error, 'Failed to add task'),
         tasksLoading: false,
       });
+      throw error;
     }
   },
 
@@ -265,6 +277,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         tasksError: getErrorMessage(error, 'Failed to update task'),
         tasksLoading: false,
       });
+      throw error;
     }
   },
 
@@ -281,6 +294,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         tasksError: getErrorMessage(error, 'Failed to delete task'),
         tasksLoading: false,
       });
+      throw error;
     }
   },
 
@@ -303,6 +317,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         tasksError: getErrorMessage(error, 'Failed to toggle task'),
         tasksLoading: false,
       });
+      throw error;
     }
   },
 }));
