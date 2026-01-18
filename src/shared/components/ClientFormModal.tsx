@@ -157,7 +157,6 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
 
         const updateData: UpdateClientInterface = {};
 
-        // Отправляем ВСЕ заполненные поля независимо от типа клиента
         if (formData.firstName) updateData.firstName = formData.firstName;
         if (formData.lastName) updateData.lastName = formData.lastName;
         if (formData.middleName) updateData.middleName = formData.middleName;

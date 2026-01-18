@@ -11,6 +11,7 @@ import type {
 interface NotificationsState {
   notifications: Notification[];
   settings: NotificationSettings;
+  emailSettings: NotificationSettings;
   pagination: Pagination;
   stats: NotificationStatsResponse;
   loading: boolean;
@@ -22,7 +23,7 @@ interface NotificationsState {
   deleteNotification: (id: string) => Promise<void>;
   deleteAllNotifications: () => Promise<void>;
   fetchSettings: () => Promise<void>;
-  updateSettings: (settings: NotificationSettings) => Promise<void>;
+  updateSettings: (settings?: NotificationSettings, emailSettings?: NotificationSettings) => Promise<void>;
   fetchStats: () => Promise<void>;
 }
 
@@ -48,6 +49,7 @@ const initialPagination: Pagination = {
 export const useNotificationsStore = create<NotificationsState>((set) => ({
   notifications: [],
   settings: {},
+  emailSettings: {},
   pagination: initialPagination,
   stats: initialStats,
   loading: false,
@@ -194,18 +196,26 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await notificationsSettingsService.getSettings();
-      set({ settings: response.settings, loading: false });
+      set({
+        settings: response.settings,
+        emailSettings: response.emailSettings || {},
+        loading: false
+      });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
       throw error;
     }
   },
 
-  updateSettings: async (settings: NotificationSettings) => {
+  updateSettings: async (settings?: NotificationSettings, emailSettings?: NotificationSettings) => {
     set({ loading: true, error: null });
     try {
-      const response = await notificationsSettingsService.updateSettings({ settings });
-      set({ settings: response.settings, loading: false });
+      const response = await notificationsSettingsService.updateSettings({ settings, emailSettings });
+      set({
+        settings: response.settings,
+        emailSettings: response.emailSettings || {},
+        loading: false
+      });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
       throw error;

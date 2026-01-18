@@ -1233,6 +1233,10 @@
     "SETTINGS_TITLE": "Notification Settings",
     "SETTING_UPDATED": "Setting updated",
     "SETTING_UPDATE_FAILED": "Failed to update setting",
+    "IN_APP_TITLE": "In-App Notifications",
+    "IN_APP_DESCRIPTION": "Receive notifications about important events within the system",
+    "EMAIL_TITLE": "Email Notifications",
+    "EMAIL_DESCRIPTION": "Receive notifications to your email address",
     "TYPES": {
       "CASE_DEADLINE": "Case Deadline Reminder",
       "TASK_DEADLINE": "Task Deadline Reminder",
@@ -1246,6 +1250,12 @@
       "NEW_TASK": "New Task",
       "TASK_UPDATE": "Task Update",
       "TIMELINE_UPDATE": "Timeline Update"
+    },
+    "EMAIL_TYPES": {
+      "WELCOME": "Welcome Email",
+      "MEETING_REMINDER": "Meeting Reminder",
+      "TASK_DEADLINE": "Task Deadline",
+      "PASSWORD_RESET": "Password Reset"
     }
   },
   "AUTH_FOOTER": {
