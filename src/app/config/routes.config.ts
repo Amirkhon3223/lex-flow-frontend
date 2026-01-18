@@ -40,4 +40,5 @@ export const ROUTES = {
   },
 
   USER_PROFILE: '/user-profile',
+  PRIVACY_POLICY: '/privacy-policy',
 } as const;

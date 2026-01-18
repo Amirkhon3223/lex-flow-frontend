@@ -104,8 +104,7 @@ export const errorInterceptor = {
 
         handleApiError(error);
 
-        // Clear auth state in both localStorage AND Zustand store
-        localStorage.removeItem('auth-storage');
+        // Clear auth state
         localStorage.removeItem('userTimezone');
 
         // Reset Zustand store to ensure isAuthenticated = false
@@ -118,6 +117,7 @@ export const errorInterceptor = {
           error: null,
           twoFactorRequired: false,
           tempToken: null,
+          initializing: false,
         });
 
         // Only redirect if not already on login page to prevent loop

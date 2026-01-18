@@ -1,5 +1,6 @@
 import type { AxiosError } from 'axios';
 import { toast } from 'sonner';
+import { i18nService } from '@/app/services/i18n/i18n.service';
 
 interface ErrorResponse {
   message?: string;
@@ -15,62 +16,61 @@ export const handleApiError = (error: AxiosError<ErrorResponse>) => {
 
     switch (status) {
       case 400:
-        toast.error('Ошибка запроса', {
-          description: message || 'Проверьте введенные данные',
+        toast.error(i18nService.t('ERRORS.400.TITLE'), {
+          description: message || i18nService.t('ERRORS.400.DESCRIPTION'),
         });
         break;
       case 401:
-        toast.error('Не авторизован', {
-          description: message || 'Пожалуйста, войдите в систему',
+        toast.error(i18nService.t('ERRORS.401.TITLE'), {
+          description: message || i18nService.t('ERRORS.401.DESCRIPTION'),
         });
         break;
       case 403:
-        toast.error('Доступ запрещен', {
-          description: 'У вас нет прав для выполнения этого действия',
+        toast.error(i18nService.t('ERRORS.403.TITLE'), {
+          description: i18nService.t('ERRORS.403.DESCRIPTION'),
         });
         break;
       case 404:
-        toast.error('Не найдено', {
-          description: message || 'Запрашиваемый ресурс не найден',
+        toast.error(i18nService.t('ERRORS.404.TITLE'), {
+          description: message || i18nService.t('ERRORS.404.DESCRIPTION'),
         });
         break;
       case 422:
-        toast.error('Ошибка валидации', {
-          description: message || 'Проверьте правильность данных',
+        toast.error(i18nService.t('ERRORS.422.TITLE'), {
+          description: message || i18nService.t('ERRORS.422.DESCRIPTION'),
         });
         break;
       case 429: {
         const retryAfter = error.response.data?.retry_after ||
                           parseInt(error.response.headers?.['retry-after'] || '60');
-        toast.error('Слишком много запросов', {
-          description: `Превышен лимит запросов. Попробуйте через ${retryAfter} секунд`,
+        toast.error(i18nService.t('ERRORS.429.TITLE'), {
+          description: i18nService.t('ERRORS.429.DESCRIPTION', { seconds: retryAfter }),
           duration: 5000,
         });
         break;
       }
       case 500:
-        toast.error('Ошибка сервера', {
-          description: 'Что-то пошло не так. Попробуйте позже',
+        toast.error(i18nService.t('ERRORS.500.TITLE'), {
+          description: i18nService.t('ERRORS.500.DESCRIPTION'),
         });
         break;
       case 503:
-        toast.error('Сервис недоступен', {
-          description: 'Сервер временно недоступен',
+        toast.error(i18nService.t('ERRORS.503.TITLE'), {
+          description: i18nService.t('ERRORS.503.DESCRIPTION'),
         });
         break;
       default:
-        toast.error('Произошла ошибка', {
-          description: message || 'Что-то пошло не так',
+        toast.error(i18nService.t('ERRORS.DEFAULT.TITLE'), {
+          description: message || i18nService.t('ERRORS.DEFAULT.DESCRIPTION'),
         });
     }
   } else if (error.request) {
-    toast.error('Ошибка сети', {
-      description:
-        'Не удалось соединиться с сервером. Проверьте подключение и убедитесь, что сервер запущен на http://localhost:8080',
+    toast.error(i18nService.t('ERRORS.NETWORK.TITLE'), {
+      description: i18nService.t('ERRORS.NETWORK.DESCRIPTION'),
     });
   } else {
-    toast.error('Ошибка', {
-      description: error.message || 'Что-то пошло не так',
+    toast.error(i18nService.t('ERRORS.GENERAL.TITLE'), {
+      description: error.message || i18nService.t('ERRORS.DEFAULT.DESCRIPTION'),
     });
   }
 };

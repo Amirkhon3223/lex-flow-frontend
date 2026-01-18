@@ -13,19 +13,6 @@ export const csrfInterceptor = {
 
       if (csrfToken) {
         config.headers['X-CSRF-Token'] = csrfToken;
-        // Debug logging for production troubleshooting
-        if (import.meta.env.PROD) {
-          console.log('[CSRF] Token found and added to request:', {
-            method,
-            url: config.url,
-            tokenPrefix: csrfToken.substring(0, 10) + '...',
-            hasToken: !!csrfToken,
-          });
-        }
-      } else {
-        // CRITICAL: Log if token is missing
-        console.warn('[CSRF] ⚠️ Token NOT found in cookies for', method, config.url);
-        console.warn('[CSRF] Available cookies:', document.cookie);
       }
     }
 
