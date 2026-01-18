@@ -1,4 +1,8 @@
 import { Globe, Check } from 'lucide-react';
+import { RussiaFlag } from '@/shared/components/flags/RussiaFlag';
+import { TajikistanFlag } from '@/shared/components/flags/TajikistanFlag';
+import { UKFlag } from '@/shared/components/flags/UKFlag';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button.tsx';
 import {
   DropdownMenu,
@@ -6,10 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu.tsx';
-import { useI18n } from '@/shared/context/I18nContext';
-import { RussiaFlag } from '@/shared/components/flags/RussiaFlag';
-import { UKFlag } from '@/shared/components/flags/UKFlag';
-import { TajikistanFlag } from '@/shared/components/flags/TajikistanFlag';
 
 type LanguageCode = 'ru' | 'en' | 'tj';
 

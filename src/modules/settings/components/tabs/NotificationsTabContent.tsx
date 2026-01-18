@@ -5,7 +5,6 @@ import { NotificationEventType, EmailNotificationType } from '@/app/types/notifi
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Switch } from '@/shared/ui/switch';
-import { Separator } from '@/shared/ui/separator';
 
 export function NotificationsTabContent() {
   const { t } = useI18n();
@@ -79,7 +78,7 @@ export function NotificationsTabContent() {
 
   return (
     <div className="space-y-6">
-      {/* In-App Notifications */}
+      {}
       <Card>
         <CardHeader>
           <CardTitle>{t('NOTIFICATIONS.IN_APP_TITLE')}</CardTitle>
@@ -102,7 +101,7 @@ export function NotificationsTabContent() {
         </CardContent>
       </Card>
 
-      {/* Email Notifications */}
+      {}
       <Card>
         <CardHeader>
           <CardTitle>📧 {t('NOTIFICATIONS.EMAIL_TITLE')}</CardTitle>

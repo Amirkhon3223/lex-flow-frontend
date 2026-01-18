@@ -57,7 +57,7 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
       to={`/cases/${caseItem.id}`}
       className="block rounded-xl border p-3 sm:p-4 transition-colors hover:bg-muted/50"
     >
-      {/* mobile + tablet VERSION  (до 1024px) */}
+      {}
       <div className="lg:hidden flex flex-col gap-4">
         <div className="flex items-start gap-3">
           <Avatar className="h-10 w-10 flex-shrink-0">
@@ -154,7 +154,7 @@ export const CaseCard = memo(function CaseCard({ caseItem }: CaseCardProps) {
         </div>
       </div>
 
-      {/* desktop VERSION  (>=1024px) */}
+      {}
       <div className="hidden lg:flex items-start gap-4">
         <Avatar className="h-12 w-12 flex-shrink-0">
           <AvatarFallback className="bg-blue-600 text-white">{clientInitials}</AvatarFallback>

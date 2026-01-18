@@ -13,6 +13,9 @@ import { toast } from 'sonner';
 import type { Language } from '@/app/services/i18n/i18n.service';
 import { usersService } from '@/app/services/users/users.service';
 import { useAuthStore } from '@/app/store/auth.store';
+import { RussiaFlag } from '@/shared/components/flags/RussiaFlag';
+import { TajikistanFlag } from '@/shared/components/flags/TajikistanFlag';
+import { UKFlag } from '@/shared/components/flags/UKFlag';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import {
@@ -21,9 +24,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
-import { RussiaFlag } from '@/shared/components/flags/RussiaFlag';
-import { UKFlag } from '@/shared/components/flags/UKFlag';
-import { TajikistanFlag } from '@/shared/components/flags/TajikistanFlag';
 
 export function LanguageSelector() {
   const { language, languageInfo: _languageInfo, availableLanguages, setLanguage, t } = useI18n();

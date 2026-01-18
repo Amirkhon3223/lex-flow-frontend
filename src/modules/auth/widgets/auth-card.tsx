@@ -2,8 +2,8 @@ import type { AuthCardProps } from '@/app/types/auth/auth.interfaces.ts';
 import { LoginForm } from '@/modules/auth/widgets/login-form.tsx';
 import { RegisterForm } from '@/modules/auth/widgets/register-form.tsx';
 import { TwoFactorForm } from '@/modules/auth/widgets/two-factor-form.tsx';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
 import './auth-card.css';
 
 export function AuthCard({

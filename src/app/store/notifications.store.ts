@@ -199,7 +199,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       set({
         settings: response.settings,
         emailSettings: response.emailSettings || {},
-        loading: false
+        loading: false,
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
@@ -214,7 +214,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
       set({
         settings: response.settings,
         emailSettings: response.emailSettings || {},
-        loading: false
+        loading: false,
       });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
-import { Button } from '@/shared/ui/button.tsx';
-import { Label } from '@/shared/ui/label.tsx';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/shared/ui/input-otp.tsx';
 import { useI18n } from '@/shared/context/I18nContext.tsx';
+import { Button } from '@/shared/ui/button.tsx';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/shared/ui/input-otp.tsx';
+import { Label } from '@/shared/ui/label.tsx';
 
 interface TwoFactorFormProps {
   isLoading: boolean;

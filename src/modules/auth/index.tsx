@@ -17,7 +17,7 @@ export default function AuthPage() {
     loading,
     isAuthenticated,
     twoFactorRequired,
-    error: _error
+    error: _error,
   } = useAuthStore();
 
   const [loginEmail, setLoginEmail] = useState('');
@@ -90,7 +90,7 @@ export default function AuthPage() {
     <div className="min-h-screen w-full relative overflow-hidden bg-background">
       <GradientBackground />
 
-      {/* Language Selector in top-right corner */}
+      {}
       <div className="absolute top-4 right-4 z-10">
         <LanguageSelectorPublic />
       </div>
