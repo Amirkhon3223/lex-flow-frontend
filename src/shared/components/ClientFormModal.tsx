@@ -157,7 +157,6 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
 
         const updateData: UpdateClientInterface = {};
 
-        // Отправляем ВСЕ заполненные поля независимо от типа клиента
         if (formData.firstName) updateData.firstName = formData.firstName;
         if (formData.lastName) updateData.lastName = formData.lastName;
         if (formData.middleName) updateData.middleName = formData.middleName;
@@ -210,7 +209,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
 
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
           <div className="space-y-6 px-6 overflow-y-auto flex-1">
-            {/* Переключатель типа клиента */}
+            {}
             {mode === 'create' ? (
               <Tabs value={clientType} onValueChange={(v) => setClientType(v as ClientTypeEnum)}>
                 <TabsList className="grid w-full grid-cols-2 bg-muted rounded-xl p-1">
@@ -249,10 +248,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
               </div>
             )}
 
-            {/* Поля для физического лица */}
+            {}
             {clientType === ClientTypeEnum.INDIVIDUAL && (
               <div className="space-y-4">
-                {/* Строка 1: Фамилия, Имя, Отчество */}
+                {}
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="lastName" className="text-sm text-foreground">
@@ -294,7 +293,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   </div>
                 </div>
 
-                {/* Строка 2: ИНН, КПП, Дата рождения */}
+                {}
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="inn" className="text-sm text-foreground">
@@ -348,10 +347,10 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
               </div>
             )}
 
-            {/* Поля для юридического лица */}
+            {}
             {clientType === ClientTypeEnum.LEGAL && (
               <div className="space-y-4">
-                {/* Строка 1: Название компании (на всю ширину) */}
+                {}
                 <div className="space-y-2">
                   <Label htmlFor="companyName" className="text-sm text-foreground">
                     {t('CLIENTS.FIELDS.COMPANY_NAME')} {mode === 'create' && '*'}
@@ -366,7 +365,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   />
                 </div>
 
-                {/* Строка 2: ИНН, КПП, пустое поле */}
+                {}
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="inn" className="text-sm text-foreground">
@@ -411,7 +410,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
               </div>
             )}
 
-            {/* Строка 3: Email, Телефон, Категория */}
+            {}
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm text-foreground">
@@ -479,7 +478,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
               </div>
             </div>
 
-            {/* Строка 4: Статус, Адрес (на 2 колонки) */}
+            {}
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="status" className="text-sm text-foreground">
@@ -521,7 +520,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
               </div>
             </div>
 
-            {/* Строка 5: Заметки (на всю ширину) */}
+            {}
             <div className="space-y-2 pb-3">
               <Label htmlFor="notes" className="text-sm text-foreground">
                 {t('CLIENTS.FIELDS.NOTES')}
@@ -536,7 +535,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
             </div>
           </div>
 
-          {/* Футер с кнопками */}
+          {}
           <div className="flex items-center gap-3 px-6 py-6 border-t border-border flex-shrink-0 bg-background">
             <Button
               type="button"

@@ -1,4 +1,5 @@
 import { MessageCircle, Phone, Mail } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import {
   Dialog,
   DialogContent,
@@ -6,7 +7,6 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/shared/ui/dialog.tsx';
-import { useI18n } from '@/shared/context/I18nContext';
 
 interface ContactsModalProps {
   isOpen: boolean;

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/shared/ui/button.tsx';
 import { ROUTES } from '@/app/config/routes.config';
-import { useI18n } from '@/shared/context/I18nContext';
 import { LanguageSelectorPublic } from '@/shared/components/LanguageSelectorPublic.tsx';
+import { useI18n } from '@/shared/context/I18nContext';
+import { Button } from '@/shared/ui/button.tsx';
 
 export default function PrivacyPolicyPage() {
   const { t, language } = useI18n();
@@ -35,7 +35,7 @@ export default function PrivacyPolicyPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Language Selector in top-right corner */}
+      {}
       <div className="absolute top-4 right-4 z-10">
         <LanguageSelectorPublic />
       </div>

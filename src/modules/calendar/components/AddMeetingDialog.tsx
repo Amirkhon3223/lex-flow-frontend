@@ -19,7 +19,6 @@ import type { AddMeetingDialogProps } from '@/app/types/calendar/calendar.interf
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
-import { TimePicker } from '@/shared/ui/time-picker';
 import {
   Dialog,
   DialogContent,
@@ -33,6 +32,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
 import { Textarea } from '@/shared/ui/textarea';
+import { TimePicker } from '@/shared/ui/time-picker';
 
 export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddMeetingDialogProps) {
   const { t } = useI18n();

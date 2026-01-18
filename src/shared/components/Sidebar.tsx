@@ -118,7 +118,7 @@ export function Sidebar({
                 } object-contain flex-shrink-0`}
               />
             </div>
-            {/* Text visible on mobile and desktop, hidden on tablet collapsed */}
+            {}
             <div
               className={`transition-all duration-300 ${isCollapsed ? 'hidden lg:block' : 'block'}`}
             >

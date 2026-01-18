@@ -3,6 +3,9 @@ import { Clock, Coins, Globe, Mail, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';
 import { usersService } from '@/app/services/users/users.service';
 import { useAuthStore } from '@/app/store/auth.store';
+import { RussiaFlag } from '@/shared/components/flags/RussiaFlag';
+import { TajikistanFlag } from '@/shared/components/flags/TajikistanFlag';
+import { UKFlag } from '@/shared/components/flags/UKFlag';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -10,9 +13,6 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
-import { RussiaFlag } from '@/shared/components/flags/RussiaFlag';
-import { UKFlag } from '@/shared/components/flags/UKFlag';
-import { TajikistanFlag } from '@/shared/components/flags/TajikistanFlag';
 
 export function ProfileTabContent() {
   const { t, setLanguage } = useI18n();

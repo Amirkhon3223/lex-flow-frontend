@@ -57,7 +57,7 @@ export function RegisterForm({
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
-      {/* mobile/tablet/desktop — name fields */}
+      {}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1.5">
           <Label>{t('AUTH.FIRST_NAME')}</Label>
@@ -128,7 +128,7 @@ export function RegisterForm({
         </div>
       </div>
 
-      {/* mobile/tablet/desktop — country + city */}
+      {}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1.5">
           <Label>{t('AUTH.COUNTRY')}</Label>

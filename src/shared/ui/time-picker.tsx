@@ -1,9 +1,9 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Clock } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { useI18n } from '@/shared/context/I18nContext';
 import { cn } from './utils';
 
 interface TimePickerProps {
@@ -167,7 +167,7 @@ export function TimePicker({ value, onChange, placeholder, className, selectedDa
       <PopoverContent className="w-auto p-4" align="start">
         <div className="flex flex-col gap-4">
           <div className="flex gap-2 items-center">
-            {/* Hours */}
+            {}
             <div className="flex-1">
               <Select
                 value={String(selectedHour)}
@@ -188,7 +188,7 @@ export function TimePicker({ value, onChange, placeholder, className, selectedDa
 
             <span className="text-lg font-semibold">:</span>
 
-            {/* Minutes */}
+            {}
             <div className="flex-1">
               <Select
                 value={String(selectedMinute)}
@@ -207,7 +207,7 @@ export function TimePicker({ value, onChange, placeholder, className, selectedDa
               </Select>
             </div>
 
-            {/* AM/PM for 12-hour format */}
+            {}
             {use12Hour && (
               <div className="flex-1">
                 <Select value={selectedPeriod} onValueChange={(val) => setSelectedPeriod(val as 'AM' | 'PM')}>

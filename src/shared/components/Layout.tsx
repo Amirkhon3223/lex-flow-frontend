@@ -51,7 +51,7 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <SelectProvider>
       <div className="min-h-screen bg-background">
-        {/* mobile overlay */}
+        {}
         {isMobileSidebarOpen && (
           <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={closeMobileSidebar} />
         )}
@@ -63,7 +63,7 @@ export const Layout = ({ children }: LayoutProps) => {
           onMobileClose={closeMobileSidebar}
         />
 
-        {/* responsive margin */}
+        {}
         <div
           className={`
           transition-all duration-300 ease-in-out

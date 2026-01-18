@@ -8,6 +8,7 @@ import {
   Users,
   Sparkles,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useAnalyticsStore } from '@/app/store/analytics.store';
 import { useAuthStore } from '@/app/store/auth.store';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -20,7 +21,6 @@ import {
   SelectValue,
 } from '@/shared/ui/managed-select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
-import { toast } from 'sonner';
 import { exportAnalyticsToCSV } from '@/shared/utils/export-analytics';
 import { CasesChart } from './components/CasesChart';
 import { CasesTabContent } from './components/CasesTabContent';

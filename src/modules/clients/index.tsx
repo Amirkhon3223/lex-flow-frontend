@@ -259,7 +259,7 @@ export function ClientsPage() {
       </header>
 
       <main className="py-4 sm:py-6">
-        {/* Индикаторы активных фильтров */}
+        {}
         {(filterType !== 'all' ||
           filterCategory !== 'all' ||
           filterStatus !== 'all' ||
@@ -525,7 +525,7 @@ export function ClientsPage() {
           </Table>
         </Card>
 
-        {/* mobile card view */}
+        {}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:hidden">
           {loading && clients.length === 0 ? (
             <div className="col-span-2 flex flex-col items-center justify-center h-32 gap-2">

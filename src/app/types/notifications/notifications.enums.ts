@@ -19,3 +19,10 @@ export enum NotificationEventType {
   TASK_UPDATE = 'task_update',
   TIMELINE_UPDATE = 'timeline_update',
 }
+
+export enum EmailNotificationType {
+  WELCOME = 'email_welcome',
+  MEETING_REMINDER = 'email_meeting_reminder',
+  TASK_DEADLINE = 'email_task_deadline',
+  PASSWORD_RESET = 'email_password_reset',
+}

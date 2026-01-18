@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { authService } from '../services/auth/auth.service';
-import { usersService } from '../services/users/users.service';
 import { securityService } from '../services/security/security.service';
+import { usersService } from '../services/users/users.service';
 import type {
   User,
   LoginRequest,

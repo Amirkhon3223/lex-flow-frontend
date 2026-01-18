@@ -127,7 +127,7 @@ export function DocumentVersionsView() {
       />
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 sm:px-6 lg:px-8 py-4">
-          {/* Mobile */}
+          {}
           <div className="md:hidden">
             <div className="flex items-center justify-between gap-2 mb-3">
               <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_DOCUMENTS')} />
@@ -161,7 +161,7 @@ export function DocumentVersionsView() {
             </div>
           </div>
 
-          {/* Desktop */}
+          {}
           <div className="hidden md:flex items-center justify-between gap-3 mb-4">
             <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_DOCUMENTS')} />
 
@@ -180,7 +180,7 @@ export function DocumentVersionsView() {
             </div>
           </div>
 
-          {/* Mobile */}
+          {}
           <div className="md:hidden">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0">
@@ -200,7 +200,7 @@ export function DocumentVersionsView() {
             </div>
           </div>
 
-          {/* Desktop */}
+          {}
           <div className="hidden md:flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
@@ -403,7 +403,7 @@ export function DocumentVersionsView() {
                   </div>
                 </div>
 
-                {/* Desktop */}
+                {}
                 <div className="hidden md:flex items-start gap-6">
                   <div className="flex flex-col items-center">
                     <div

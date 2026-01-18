@@ -1233,6 +1233,10 @@
     "SETTINGS_TITLE": "Танзимоти огоҳиҳо",
     "SETTING_UPDATED": "Танзим навсозӣ шуд",
     "SETTING_UPDATE_FAILED": "Танзимро навсозӣ карда натавонист",
+    "IN_APP_TITLE": "Огоҳиномаҳо дар барнома",
+    "IN_APP_DESCRIPTION": "Гирифтани огоҳиномаҳо дар бораи рӯйдодҳои муҳим дар дохили система",
+    "EMAIL_TITLE": "Огоҳиномаҳои Email",
+    "EMAIL_DESCRIPTION": "Гирифтани огоҳиномаҳо ба суроғаи почтаи электронии шумо",
     "TYPES": {
       "CASE_DEADLINE": "Ёдрасонии мӯҳлати парванда",
       "TASK_DEADLINE": "Ёдрасонии мӯҳлати вазифа",
@@ -1246,6 +1250,12 @@
       "NEW_TASK": "Вазифаи нав",
       "TASK_UPDATE": "Навсозии вазифа",
       "TIMELINE_UPDATE": "Навсозии ҷадвал"
+    },
+    "EMAIL_TYPES": {
+      "WELCOME": "Номаи хуш омадӣ",
+      "MEETING_REMINDER": "Ёдрасонии вохӯрӣ",
+      "TASK_DEADLINE": "Мӯҳлати вазифа",
+      "PASSWORD_RESET": "Барқарорсозии парол"
     }
   },
   "AUTH_FOOTER": {

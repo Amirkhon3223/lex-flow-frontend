@@ -224,7 +224,7 @@ export function DocumentCompareView() {
             <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_VERSIONS')} />
 
             <div className="flex items-center gap-2 flex-wrap">
-              {/* hidden on mobile */}
+              {}
               <div className="hidden sm:flex items-center gap-2">
                 <Button
                   variant="outline"
@@ -384,7 +384,7 @@ export function DocumentCompareView() {
       </header>
 
       <main className="p-4 sm:p-6 lg:p-8">
-        {/* Extraction status warnings */}
+        {}
         {(v1Data.extractionStatus === 'failed' || v2Data.extractionStatus === 'failed') && (
           <Alert variant="destructive" className="mb-4">
             <AlertCircle className="h-4 w-4" />
@@ -396,9 +396,9 @@ export function DocumentCompareView() {
           </Alert>
         )}
 
-        {/* Mobile layout - stacked */}
+        {}
         <div className="lg:hidden space-y-4">
-          {/* Statistics summary */}
+          {}
           <Card>
             <div>
               <h3 className="font-semibold tracking-tight text-sm mb-3">
@@ -419,7 +419,7 @@ export function DocumentCompareView() {
             </div>
           </Card>
 
-          {/* Version 1 (Old) */}
+          {}
           <Card>
             <div className="p-3 bg-muted/50 border-b border-border">
               <div className="flex items-center justify-between">
@@ -450,7 +450,7 @@ export function DocumentCompareView() {
             </ScrollArea>
           </Card>
 
-          {/* Version 2 (New) */}
+          {}
           <Card>
             <div className="p-3 bg-green-500/10 border-b border-green-500/20">
               <div className="flex items-center justify-between">
@@ -481,7 +481,7 @@ export function DocumentCompareView() {
             </ScrollArea>
           </Card>
 
-          {/* Legend */}
+          {}
           <Card className="bg-muted/50">
             <div>
               <div className="flex items-center gap-2 mb-2">
@@ -502,9 +502,9 @@ export function DocumentCompareView() {
           </Card>
         </div>
 
-        {/* Desktop layout - side by side */}
+        {}
         <div className="hidden lg:grid grid-cols-4 gap-6">
-          {/* Left sidebar with statistics */}
+          {}
           <div className="space-y-6">
             <Card>
               <div>
@@ -565,11 +565,11 @@ export function DocumentCompareView() {
             </Card>
           </div>
 
-          {/* Main comparison view */}
+          {}
           <div className="col-span-3">
             <Card>
               <div className="grid grid-cols-2 divide-x divide-border">
-                {/* Version 1 (Old) */}
+                {}
                 <div>
                   <div className="p-4 bg-muted/50 border-b border-border">
                     <div className="flex items-center justify-between">
@@ -600,7 +600,7 @@ export function DocumentCompareView() {
                   </ScrollArea>
                 </div>
 
-                {/* Version 2 (New) */}
+                {}
                 <div>
                   <div className="p-4 bg-green-500/10 border-b border-green-500/20">
                     <div className="flex items-center justify-between">

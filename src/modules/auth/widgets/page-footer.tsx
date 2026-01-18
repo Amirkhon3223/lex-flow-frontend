@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/shared/ui/button.tsx';
-import { ContactsModal } from '@/modules/auth/widgets/contacts-modal.tsx';
 import { ROUTES } from '@/app/config/routes.config';
+import { ContactsModal } from '@/modules/auth/widgets/contacts-modal.tsx';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Button } from '@/shared/ui/button.tsx';
 
 export function PageFooter() {
   const { t } = useI18n();

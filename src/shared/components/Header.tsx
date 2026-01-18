@@ -40,7 +40,7 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
     <>
       <header className="sticky top-0 z-30 bg-card/70 backdrop-blur-2xl border-b border-border">
         <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 py-3 sm:py-4">
-          {/* Hamburger menu button - visible only on mobile, hidden on tablet and desktop */}
+          {}
           <Button
             variant="ghost"
             size="icon"
@@ -50,7 +50,7 @@ export function Header({ onMenuClick, isSidebarCollapsed }: HeaderProps) {
             <Menu className="w-5 h-5" strokeWidth={2} />
           </Button>
 
-          {/* Collapse button for tablet - visible only on tablet (md), hidden on mobile and desktop */}
+          {}
           <Button
             variant="ghost"
             size="icon"

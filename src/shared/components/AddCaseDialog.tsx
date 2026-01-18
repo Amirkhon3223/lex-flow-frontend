@@ -5,11 +5,12 @@
 
 import { useState, useEffect } from 'react';
 import { Briefcase, User, Tag, DollarSign } from 'lucide-react';
+import { useAuthStore } from '@/app/store/auth.store';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
-import { useAuthStore } from '@/app/store/auth.store';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
+import { DatePicker } from '@/shared/ui/date-picker';
 import {
   Dialog,
   DialogContent,
@@ -21,7 +22,6 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
-import { DatePicker } from '@/shared/ui/date-picker';
 import { formatDescription } from '@/shared/utils/textFormatting';
 
 interface AddCaseDialogProps {

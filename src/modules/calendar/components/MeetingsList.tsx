@@ -44,7 +44,7 @@ export function MeetingsList({
                 onClick={() => navigate(`/calendar/meetings/${meeting.id}`)}
                 className="group p-3 sm:p-5 rounded-xl bg-muted/80 sm:rounded-2xl bg-card hover:bg-muted/50 transition-all cursor-pointer border border-transparent hover:border-border"
               >
-                {/* Mobile layout */}
+                {}
                 <div className="md:hidden">
                   <div className="flex items-start gap-2 mb-2">
                     <div className="flex flex-col items-center min-w-[40px]">
@@ -113,7 +113,7 @@ export function MeetingsList({
                   </div>
                 </div>
 
-                {/* desktop layout */}
+                {}
                 <div className="hidden md:flex items-start gap-4">
                   <div className="flex flex-col items-center min-w-[60px]">
                     <div className="text-2xl tracking-tight text-foreground">

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Calendar as CalendarIcon } from 'lucide-react';
+import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import { useI18n } from '@/shared/context/I18nContext';
 import { cn } from './utils';
 
 interface DatePickerProps {

@@ -48,7 +48,7 @@ export function DocumentCard({
 
   return (
     <Card className="hover:shadow-md transition-all group cursor-pointer" onClick={handleCardClick}>
-      {/* Mobile layout */}
+      {}
       <div className="md:hidden">
         <div className="flex items-start gap-3 mb-2">
           <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">

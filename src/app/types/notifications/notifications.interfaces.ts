@@ -20,10 +20,12 @@ export interface NotificationSettings {
 
 export interface NotificationSettingsResponse {
   settings: NotificationSettings;
+  emailSettings: NotificationSettings;
 }
 
 export interface UpdateNotificationSettingsRequest {
-  settings: NotificationSettings;
+  settings?: NotificationSettings;
+  emailSettings?: NotificationSettings;
 }
 
 export interface NotificationListResponse {

@@ -29,7 +29,6 @@ export function AIAssistantView() {
     // TODO: Добавить логику обновления данных после загрузки документа
   };
 
-
   const chatHistory: ChatMessageInterface[] = [
     {
       type: MessageTypeEnum.USER,
@@ -129,7 +128,7 @@ export function AIAssistantView() {
     <div>
       <Header />
 
-      {/* Development Notice */}
+      {}
       <div className="mb-4 sm:mb-6 mt-3 sm:mt-4">
         <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg shadow-orange-500/20">
           <p className="text-black text-center font-semibold text-base sm:text-lg md:text-xl">

@@ -61,7 +61,7 @@ export function StatsCards() {
       variant: 'success' as const,
       trend: {
         value: `${taskCompletionPercentage}% ${t('DASHBOARD.STATS.COMPLETED')} ${t('DASHBOARD.STATS.FROM')} ${totalTasks}`,
-        isPositive: taskCompletionPercentage >= 50
+        isPositive: taskCompletionPercentage >= 50,
       },
     },
   ];
