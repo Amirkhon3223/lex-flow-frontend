@@ -107,22 +107,30 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
         </div>
       </div>
       <div className="font-mono text-sm leading-relaxed whitespace-pre-wrap">
-        {diffs.map((diff, idx) => (
-          <span
-            key={idx}
-            className={cn(
-              diff.type === 'added' &&
-                side === 'new' &&
-                'bg-green-500/20 text-green-900 dark:text-green-100',
-              diff.type === 'removed' &&
-                side === 'old' &&
-                'bg-red-500/20 text-red-900 dark:text-red-100 line-through',
-              diff.type === 'unchanged' && 'text-foreground'
-            )}
-          >
-            {diff.text}
-          </span>
-        ))}
+        {diffs.map((diff, idx) => {
+          // Don't show added parts in old version
+          if (side === 'old' && diff.type === 'added') return null;
+
+          // Don't show removed parts in new version
+          if (side === 'new' && diff.type === 'removed') return null;
+
+          return (
+            <span
+              key={idx}
+              className={cn(
+                diff.type === 'added' &&
+                  side === 'new' &&
+                  'bg-green-500/20 text-green-900 dark:text-green-100',
+                diff.type === 'removed' &&
+                  side === 'old' &&
+                  'bg-red-500/20 text-red-900 dark:text-red-100 line-through',
+                diff.type === 'unchanged' && 'text-foreground'
+              )}
+            >
+              {diff.text}
+            </span>
+          );
+        })}
       </div>
     </div>
   );
