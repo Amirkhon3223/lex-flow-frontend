@@ -137,7 +137,10 @@
       "ACTIVE_CASES": "Active Cases",
       "CLIENTS": "Clients",
       "DOCUMENTS": "Documents",
-      "TASKS_TODAY": "Tasks for Today"
+      "TASKS_TODAY": "Tasks for Today",
+      "TASKS": "Tasks",
+      "COMPLETED": "completed",
+      "FROM": "of"
     },
     "QUICK_ACTIONS": {
       "TITLE": "Quick Actions",
@@ -1065,6 +1068,7 @@
     "REGISTER": "Register",
     "EMAIL": "Email",
     "PASSWORD": "Password",
+    "PHONE": "Phone",
     "REMEMBER_ME": "Remember me",
     "FORGOT_PASSWORD": "Forgot password?",
     "NO_ACCOUNT": "Don't have an account?",
@@ -1094,7 +1098,54 @@
     "AND": "and",
     "PRIVACY": "Privacy Policy",
     "CREATE_ACCOUNT": "Create account",
-    "CREATING_ACCOUNT": "Creating account..."
+    "CREATING_ACCOUNT": "Creating account...",
+    "SIGNING_IN": "Signing in...",
+    "TRIAL_TEXT": "By registering, you get access to a 14-day free trial"
+  },
+  "ERRORS": {
+    "400": {
+      "TITLE": "Bad Request",
+      "DESCRIPTION": "Please check the entered data"
+    },
+    "401": {
+      "TITLE": "Unauthorized",
+      "DESCRIPTION": "Please log in to the system"
+    },
+    "403": {
+      "TITLE": "Access Denied",
+      "DESCRIPTION": "You don't have permissions for this action"
+    },
+    "404": {
+      "TITLE": "Not Found",
+      "DESCRIPTION": "The requested resource was not found"
+    },
+    "422": {
+      "TITLE": "Validation Error",
+      "DESCRIPTION": "Please check the correctness of the data"
+    },
+    "429": {
+      "TITLE": "Too Many Requests",
+      "DESCRIPTION": "Request limit exceeded. Try again in {{seconds}} seconds"
+    },
+    "500": {
+      "TITLE": "Server Error",
+      "DESCRIPTION": "Something went wrong. Please try again later"
+    },
+    "503": {
+      "TITLE": "Service Unavailable",
+      "DESCRIPTION": "Server is temporarily unavailable"
+    },
+    "DEFAULT": {
+      "TITLE": "An Error Occurred",
+      "DESCRIPTION": "Something went wrong"
+    },
+    "NETWORK": {
+      "TITLE": "Network Error",
+      "DESCRIPTION": "Could not connect to the server. Please check your connection and ensure the server is running on http://localhost:8080"
+    },
+    "GENERAL": {
+      "TITLE": "Error"
+    }
   },
   "TASKS": {
     "NEW_TASK": "New Task",
@@ -1196,5 +1247,81 @@
       "TASK_UPDATE": "Task Update",
       "TIMELINE_UPDATE": "Timeline Update"
     }
+  },
+  "AUTH_FOOTER": {
+    "COPYRIGHT": "© {{year}} LexFlow. All rights reserved.",
+    "HELP": "Help",
+    "CONTACTS": "Contacts",
+    "PRIVACY": "Privacy"
+  },
+  "CONTACTS_MODAL": {
+    "TITLE": "Contact Us",
+    "DESCRIPTION": "We're always happy to help you. Choose a convenient way to contact us.",
+    "TELEGRAM": "Telegram",
+    "PHONE": "Phone",
+    "EMAIL": "Email"
+  },
+  "PRIVACY_POLICY": {
+    "TITLE": "Privacy Policy",
+    "LAST_UPDATED": "Last updated: {{date}}",
+    "BACK_TO_LOGIN": "Back to Login",
+    "SECTION_1_TITLE": "1. Introduction",
+    "SECTION_1_TEXT": "LexFlow (\"we\", \"our\" or \"us\") is committed to protecting the privacy of our users. This Privacy Policy describes how we collect, use, and protect your personal information when using our legal practice management system.",
+    "SECTION_2_TITLE": "2. Information Collection",
+    "SECTION_2_TEXT": "We collect the following types of information:",
+    "SECTION_2_ITEMS": [
+      "Personal information: first name, last name, email address",
+      "Firm information: firm name, country, city, phone",
+      "Client and case data you add to the system",
+      "Documents and files uploaded to the system",
+      "Service usage data and technical information"
+    ],
+    "SECTION_3_TITLE": "3. Information Use",
+    "SECTION_3_TEXT": "We use collected information to:",
+    "SECTION_3_ITEMS": [
+      "Provide and improve our services",
+      "Process payments and manage subscriptions",
+      "Send notifications about important updates",
+      "Ensure security and prevent fraud",
+      "Comply with legal obligations"
+    ],
+    "SECTION_4_TITLE": "4. Data Protection",
+    "SECTION_4_TEXT": "We implement modern technical and organizational measures to protect your data, including:",
+    "SECTION_4_ITEMS": [
+      "Data encryption in transit (HTTPS/SSL)",
+      "Secure password storage using bcrypt",
+      "Two-factor authentication (2FA)",
+      "Regular data backups",
+      "Limited access to personal data"
+    ],
+    "SECTION_5_TITLE": "5. Third-Party Data Sharing",
+    "SECTION_5_TEXT": "We do not sell or share your personal data with third parties, except:",
+    "SECTION_5_ITEMS": [
+      "Stripe payment system for payment processing",
+      "Cases required by law",
+      "Protecting our rights and user security"
+    ],
+    "SECTION_6_TITLE": "6. Your Rights",
+    "SECTION_6_TEXT": "You have the right to:",
+    "SECTION_6_ITEMS": [
+      "Access your personal data",
+      "Correct inaccurate data",
+      "Delete your data",
+      "Restrict data processing",
+      "Object to data processing",
+      "Receive a copy of your data"
+    ],
+    "SECTION_7_TITLE": "7. Cookies",
+    "SECTION_7_TEXT": "We use cookies to provide service functionality, including authentication and CSRF protection. By continuing to use our service, you consent to the use of cookies.",
+    "SECTION_8_TITLE": "8. Policy Changes",
+    "SECTION_8_TEXT": "We may update this Privacy Policy. Changes take effect after publishing the updated version on our website. We recommend checking this page periodically.",
+    "SECTION_9_TITLE": "9. Contact",
+    "SECTION_9_TEXT": "If you have questions about this Privacy Policy, contact us:"
+  },
+  "LANGUAGE_SELECTOR": {
+    "SELECT_LANGUAGE": "Select Language",
+    "RUSSIAN": "Русский",
+    "ENGLISH": "English",
+    "TAJIK": "Тоҷикӣ"
   }
 }

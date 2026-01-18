@@ -86,7 +86,7 @@ export function RegisterForm({
       </div>
 
       <div className="space-y-1.5">
-        <Label>Email</Label>
+        <Label>{t('AUTH.EMAIL')}</Label>
         <div className="relative">
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <Input
@@ -115,7 +115,7 @@ export function RegisterForm({
       </div>
 
       <div className="space-y-1.5">
-        <Label>Phone</Label>
+        <Label>{t('AUTH.PHONE')}</Label>
         <div className="relative">
           <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <Input

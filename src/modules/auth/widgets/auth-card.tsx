@@ -2,8 +2,8 @@ import type { AuthCardProps } from '@/app/types/auth/auth.interfaces.ts';
 import { LoginForm } from '@/modules/auth/widgets/login-form.tsx';
 import { RegisterForm } from '@/modules/auth/widgets/register-form.tsx';
 import { TwoFactorForm } from '@/modules/auth/widgets/two-factor-form.tsx';
-import { SocialAuthButtons } from '@/modules/auth/widgets/social-auth-buttons.tsx';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs.tsx';
+import { useI18n } from '@/shared/context/I18nContext';
 import './auth-card.css';
 
 export function AuthCard({
@@ -36,6 +36,8 @@ export function AuthCard({
   onVerify2FA,
   onBackFrom2FA,
 }: AuthCardProps) {
+  const { t } = useI18n();
+
   if (twoFactorRequired) {
     return (
       <div className="bg-card/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-muted/50 border border-border/20 p-5 sm:p-6 md:p-8">
@@ -56,13 +58,13 @@ export function AuthCard({
             value="login"
             className="rounded-2xl sm:rounded-2xl data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm sm:text-base"
           >
-            Вход
+            {t('AUTH.LOGIN')}
           </TabsTrigger>
           <TabsTrigger
             value="register"
             className="rounded-2xl sm:rounded-2xl data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm sm:text-base"
           >
-            Регистрация
+            {t('AUTH.REGISTER')}
           </TabsTrigger>
         </TabsList>
 
@@ -77,19 +79,6 @@ export function AuthCard({
             onRememberMeChange={onRememberMeChange}
             onSubmit={onLoginSubmit}
           />
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border" />
-            </div>
-            <div className="relative flex justify-center text-xs sm:text-sm">
-              <span className="px-3 sm:px-4 bg-background/70 text-muted-foreground">
-                или продолжить с
-              </span>
-            </div>
-          </div>
-
-          <SocialAuthButtons />
         </TabsContent>
 
         <TabsContent value="register" className="space-y-4 sm:space-y-5 md:space-y-6">
@@ -115,7 +104,7 @@ export function AuthCard({
           />
 
           <div className="text-center text-xs sm:text-sm text-muted-foreground px-2">
-            Регистрируясь, вы получаете доступ к 14-дневному бесплатному пробному периоду
+            {t('AUTH.TRIAL_TEXT')}
           </div>
         </TabsContent>
       </Tabs>

@@ -4,6 +4,7 @@ import { Button } from '@/shared/ui/button.tsx';
 import { Checkbox } from '@/shared/ui/checkbox.tsx';
 import { Input } from '@/shared/ui/input.tsx';
 import { Label } from '@/shared/ui/label.tsx';
+import { useI18n } from '@/shared/context/I18nContext';
 
 export function LoginForm({
   isLoading,
@@ -15,11 +16,13 @@ export function LoginForm({
   onRememberMeChange,
   onSubmit,
 }: LoginFormProps) {
+  const { t } = useI18n();
+
   return (
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
       <div className="space-y-1.5 sm:space-y-2">
         <Label htmlFor="login-email" className="text-foreground text-sm sm:text-base">
-          Email
+          {t('AUTH.EMAIL')}
         </Label>
         <div className="relative">
           <Mail className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
@@ -37,7 +40,7 @@ export function LoginForm({
 
       <div className="space-y-1.5 sm:space-y-2">
         <Label htmlFor="login-password" className="text-foreground text-sm sm:text-base">
-          Пароль
+          {t('AUTH.PASSWORD')}
         </Label>
         <div className="relative">
           <Lock className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
@@ -65,7 +68,7 @@ export function LoginForm({
             htmlFor="remember"
             className="text-xs sm:text-sm text-muted-foreground cursor-pointer select-none"
           >
-            Запомнить меня
+            {t('AUTH.REMEMBER_ME')}
           </label>
         </div>
         <Button
@@ -73,7 +76,7 @@ export function LoginForm({
           variant="link"
           className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 h-auto p-0"
         >
-          Забыли пароль?
+          {t('AUTH.FORGOT_PASSWORD')}
         </Button>
       </div>
 
@@ -85,11 +88,11 @@ export function LoginForm({
         {isLoading ? (
           <span className="flex items-center gap-2">
             <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            Вход...
+            {t('AUTH.SIGNING_IN')}
           </span>
         ) : (
           <span className="flex items-center gap-2">
-            Войти
+            {t('AUTH.SIGN_IN')}
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </span>
         )}

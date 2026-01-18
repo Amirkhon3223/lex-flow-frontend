@@ -5,6 +5,7 @@ import { BrandHeader } from '@/modules/auth/ui/brand-header.tsx';
 import { GradientBackground } from '@/modules/auth/ui/gradient-background.tsx';
 import { AuthCard } from '@/modules/auth/widgets/auth-card.tsx';
 import { PageFooter } from '@/modules/auth/widgets/page-footer.tsx';
+import { LanguageSelectorPublic } from '@/shared/components/LanguageSelectorPublic.tsx';
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -88,6 +89,11 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-background">
       <GradientBackground />
+
+      {/* Language Selector in top-right corner */}
+      <div className="absolute top-4 right-4 z-10">
+        <LanguageSelectorPublic />
+      </div>
 
       <div className="relative min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 py-6 sm:py-8 md:py-12">
         <div className="w-full max-w-[95%] sm:max-w-md">

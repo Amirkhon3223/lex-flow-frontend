@@ -97,7 +97,10 @@ export interface DashboardStatsResponse {
   totalMeetings: number;
   upcomingMeetings: number;
   trends: DashboardTrends;
-  tasksToday: number;
+  tasksToday: number; // Deprecated: use totalTasks instead
+  totalTasks: number;
+  completedTasks: number;
+  taskCompletionPercentage: number;
   recentActivity: ActivityItem[];
 }
 

@@ -26,6 +26,11 @@ export function StatsCards() {
     return { value: trendValue, isPositive };
   };
 
+  // Safe fallback values for new fields
+  const totalTasks = dashboardStats.totalTasks ?? 0;
+  const completedTasks = dashboardStats.completedTasks ?? 0;
+  const taskCompletionPercentage = dashboardStats.taskCompletionPercentage ?? 0;
+
   const stats = [
     {
       title: t('DASHBOARD.STATS.ACTIVE_CASES'),
@@ -49,12 +54,15 @@ export function StatsCards() {
       trend: parseTrend(dashboardStats.trends.documents),
     },
     {
-      title: t('DASHBOARD.STATS.TASKS_TODAY'),
-      value: dashboardStats.tasksToday,
+      title: t('DASHBOARD.STATS.TASKS'),
+      value: totalTasks,
       icon: Clock,
       iconColor: 'text-red-500',
-      variant: 'urgent' as const,
-      trend: { value: t('COMMON.STATUS.URGENT'), isPositive: false },
+      variant: 'success' as const,
+      trend: {
+        value: `${taskCompletionPercentage}% ${t('DASHBOARD.STATS.COMPLETED')} ${t('DASHBOARD.STATS.FROM')} ${totalTasks}`,
+        isPositive: taskCompletionPercentage >= 50
+      },
     },
   ];
 
