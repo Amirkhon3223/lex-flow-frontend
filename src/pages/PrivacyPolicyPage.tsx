@@ -59,9 +59,7 @@ export default function PrivacyPolicyPage() {
           <div className="space-y-6 text-foreground">
             <section>
               <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_1_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                {privacyData.SECTION_1_TEXT}
-              </p>
+              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_1_TEXT}</p>
             </section>
 
             <section>
@@ -90,9 +88,7 @@ export default function PrivacyPolicyPage() {
 
             <section>
               <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_4_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                {privacyData.SECTION_4_TEXT}
-              </p>
+              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_4_TEXT}</p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4 mt-3">
                 {privacyData.SECTION_4_ITEMS.map((item: string, index: number) => (
                   <li key={index}>{item}</li>
@@ -102,9 +98,7 @@ export default function PrivacyPolicyPage() {
 
             <section>
               <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_5_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                {privacyData.SECTION_5_TEXT}
-              </p>
+              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_5_TEXT}</p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4 mt-3">
                 {privacyData.SECTION_5_ITEMS.map((item: string, index: number) => (
                   <li key={index}>{item}</li>
@@ -126,16 +120,12 @@ export default function PrivacyPolicyPage() {
 
             <section>
               <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_7_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                {privacyData.SECTION_7_TEXT}
-              </p>
+              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_7_TEXT}</p>
             </section>
 
             <section>
               <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_8_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                {privacyData.SECTION_8_TEXT}
-              </p>
+              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_8_TEXT}</p>
             </section>
 
             <section>
@@ -144,18 +134,36 @@ export default function PrivacyPolicyPage() {
                 {privacyData.SECTION_9_TEXT}
               </p>
               <ul className="space-y-2 text-muted-foreground ml-4">
-                <li><strong>{t('CONTACTS_MODAL.EMAIL')}:</strong> <a href="mailto:lexflow.team@gmail.com" className="text-blue-500 hover:underline">lexflow.team@gmail.com</a></li>
-                <li><strong>{t('CONTACTS_MODAL.TELEGRAM')}:</strong> <a href="https://t.me/Amirichinvoker" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">@Amirichinvoker</a></li>
-                <li><strong>{t('CONTACTS_MODAL.PHONE')}:</strong> <a href="tel:+12672283117" className="text-blue-500 hover:underline">+1 267 228 3117</a></li>
+                <li>
+                  <strong>{t('CONTACTS_MODAL.EMAIL')}:</strong>{' '}
+                  <a href="mailto:lexflow.team@gmail.com" className="text-blue-500 hover:underline">
+                    lexflow.team@gmail.com
+                  </a>
+                </li>
+                <li>
+                  <strong>{t('CONTACTS_MODAL.TELEGRAM')}:</strong>{' '}
+                  <a
+                    href="https://t.me/Amirichinvoker"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    @Amirichinvoker
+                  </a>
+                </li>
+                <li>
+                  <strong>{t('CONTACTS_MODAL.PHONE')}:</strong>{' '}
+                  <a href="tel:+12672283117" className="text-blue-500 hover:underline">
+                    +1 267 228 3117
+                  </a>
+                </li>
               </ul>
             </section>
           </div>
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-sm text-muted-foreground">
-            {t('AUTH_FOOTER.COPYRIGHT')}
-          </p>
+          <p className="text-sm text-muted-foreground">{t('AUTH_FOOTER.COPYRIGHT')}</p>
         </div>
       </div>
     </div>
