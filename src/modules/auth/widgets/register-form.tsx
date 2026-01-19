@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Mail, Lock, User, Building2, Sparkles, Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { COUNTRIES, CITIES } from '@/app/constants/locations';
+import { ROUTES } from '@/app/config/routes.config';
 import type { RegisterFormProps } from '@/app/types/auth/auth.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
@@ -187,13 +189,23 @@ export function RegisterForm({
         <Checkbox id="terms" required className="rounded-md border-input mt-0.5" />
         <label htmlFor="terms" className="text-xs sm:text-sm text-muted-foreground cursor-pointer">
           {t('AUTH.AGREE')}{' '}
-          <Button type="button" variant="link" className="text-blue-600 underline p-0 text-xs">
+          <Link
+            to={ROUTES.TERMS_OF_SERVICE}
+            className="text-blue-600 underline hover:text-blue-700"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {t('AUTH.TERMS')}
-          </Button>{' '}
+          </Link>{' '}
           {t('AUTH.AND')}{' '}
-          <Button type="button" variant="link" className="text-blue-600 underline p-0 text-xs">
+          <Link
+            to={ROUTES.PRIVACY_POLICY}
+            className="text-blue-600 underline hover:text-blue-700"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {t('AUTH.PRIVACY')}
-          </Button>
+          </Link>
         </label>
       </div>
 

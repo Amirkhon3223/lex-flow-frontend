@@ -6,6 +6,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 const AuthPage = lazy(() => import('@/pages/AuthPage'));
 const PrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
+const TermsOfServicePage = lazy(() => import('@/pages/TermsOfServicePage'));
 const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
 const ClientsPage = lazy(() => import('@/pages/ClientsPage'));
 const ClientDetailPage = lazy(() => import('@/modules/clients/pages/ClientDetailPage'));
@@ -50,6 +51,14 @@ export const router = createBrowserRouter([
     element: (
       <SuspenseWrapper>
         <PrivacyPolicyPage />
+      </SuspenseWrapper>
+    ),
+  },
+  {
+    path: ROUTES.TERMS_OF_SERVICE,
+    element: (
+      <SuspenseWrapper>
+        <TermsOfServicePage />
       </SuspenseWrapper>
     ),
   },

@@ -1328,6 +1328,76 @@
     "SECTION_9_TITLE": "9. Contact",
     "SECTION_9_TEXT": "If you have questions about this Privacy Policy, contact us:"
   },
+  "TERMS_OF_SERVICE": {
+    "TITLE": "Terms of Service",
+    "LAST_UPDATED": "Last Updated: {{date}}",
+    "BACK_TO_LOGIN": "Back to Login",
+    "SECTION_1_TITLE": "1. Acceptance of Terms",
+    "SECTION_1_TEXT": "By using the LexFlow platform (\"Service\"), you agree to these Terms of Service. If you do not agree with any part of these terms, please do not use our Service.",
+    "SECTION_2_TITLE": "2. Service Description",
+    "SECTION_2_TEXT": "LexFlow provides a legal practice management system (SaaS) that includes:",
+    "SECTION_2_ITEMS": [
+      "Client and case management",
+      "Document management system",
+      "Calendar and meeting scheduling",
+      "Billing and financial reporting",
+      "Real-time notifications"
+    ],
+    "SECTION_3_TITLE": "3. Registration and Account",
+    "SECTION_3_TEXT": "To use the Service, you must:",
+    "SECTION_3_ITEMS": [
+      "Provide accurate information during registration",
+      "Maintain the security of your password",
+      "Immediately report any unauthorized access",
+      "Be responsible for all activity in your account"
+    ],
+    "SECTION_4_TITLE": "4. Subscription and Payment",
+    "SECTION_4_TEXT": "Payment terms:",
+    "SECTION_4_ITEMS": [
+      "Subscription is paid monthly or annually",
+      "Payment is processed automatically through Stripe",
+      "Refunds are not provided except as required by law",
+      "Prices may be changed with 30 days notice"
+    ],
+    "SECTION_5_TITLE": "5. Use of Service",
+    "SECTION_5_TEXT": "You agree NOT to use the Service for:",
+    "SECTION_5_ITEMS": [
+      "Illegal activities",
+      "Violation of intellectual property rights",
+      "Uploading malware or viruses",
+      "Attempts of unauthorized system access",
+      "Resale or transfer of access to third parties without permission"
+    ],
+    "SECTION_6_TITLE": "6. Intellectual Property",
+    "SECTION_6_TEXT": "Content rights:",
+    "SECTION_6_ITEMS": [
+      "All rights to the LexFlow platform belong to us",
+      "You retain rights to your uploaded data and documents",
+      "We receive a license to store and process your data to provide the Service",
+      "Copying, modification or distribution of our software is prohibited"
+    ],
+    "SECTION_7_TITLE": "7. Limitation of Liability",
+    "SECTION_7_TEXT": "The Service is provided \"as is\". We are not responsible for:",
+    "SECTION_7_ITEMS": [
+      "Service interruptions",
+      "Data loss due to force majeure",
+      "Indirect damages from using the service",
+      "Legal consequences of decisions made based on data in the system"
+    ],
+    "SECTION_8_TITLE": "8. Termination",
+    "SECTION_8_TEXT": "We reserve the right to:",
+    "SECTION_8_ITEMS": [
+      "Suspend or delete your account for violating terms",
+      "Modify or discontinue the service with 30 days notice",
+      "Delete inactive accounts after 12 months of non-use"
+    ],
+    "SECTION_9_TITLE": "9. Changes to Terms",
+    "SECTION_9_TEXT": "We may update these Terms of Service. Significant changes will be communicated to you via email. Continued use of the Service after changes constitutes your acceptance of the new terms.",
+    "SECTION_10_TITLE": "10. Governing Law",
+    "SECTION_10_TEXT": "These Terms are governed by the laws of the Russian Federation. All disputes are subject to resolution in courts at our company's location.",
+    "SECTION_11_TITLE": "11. Contact",
+    "SECTION_11_TEXT": "For questions related to the Terms of Service, contact:"
+  },
   "LANGUAGE_SELECTOR": {
     "SELECT_LANGUAGE": "Select Language",
     "RUSSIAN": "Русский",
