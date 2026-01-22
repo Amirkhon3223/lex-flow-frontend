@@ -31,6 +31,7 @@ import {
   Hash,
   Shield,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useClientsStore } from '@/app/store/clients.store';
 import {
   ClientTypeEnum,
@@ -58,6 +59,8 @@ import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { Textarea } from '@/shared/ui/textarea';
+import { cn } from '@/shared/ui/utils';
+import { parseApiErrors, validators, type FormErrors } from '@/shared/utils';
 
 interface ClientFormModalProps {
   open: boolean;
@@ -87,8 +90,24 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
     notes: '',
   });
 
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [loading, setLoading] = useState(false);
+
+  // Clear field error when user types
+  const handleFieldChange = (field: string, value: string) => {
+    setFormData({ ...formData, [field]: value });
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
   useEffect(() => {
     if (open) {
+      setErrors({});
       if (mode === 'edit' && client) {
         setClientType(client.type);
         setFormData({
@@ -127,8 +146,53 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
     }
   }, [open, mode, client]);
 
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (mode === 'create') {
+      // Required fields for create
+      const emailError = validators.required(formData.email, t('CLIENTS.FIELDS.EMAIL')) ||
+                         validators.email(formData.email, t('CLIENTS.FIELDS.EMAIL'));
+      if (emailError) newErrors.email = emailError;
+
+      const phoneError = validators.required(formData.phone, t('CLIENTS.FIELDS.PHONE'));
+      if (phoneError) newErrors.phone = phoneError;
+
+      if (clientType === ClientTypeEnum.INDIVIDUAL) {
+        const lastNameError = validators.required(formData.lastName, t('USER_PROFILE.LAST_NAME'));
+        if (lastNameError) newErrors.lastName = lastNameError;
+
+        const firstNameError = validators.required(formData.firstName, t('USER_PROFILE.FIRST_NAME'));
+        if (firstNameError) newErrors.firstName = firstNameError;
+      } else {
+        const companyError = validators.required(formData.companyName, t('CLIENTS.FIELDS.COMPANY_NAME'));
+        if (companyError) newErrors.companyName = companyError;
+      }
+
+      const categoryError = validators.required(formData.category, t('CLIENTS.FIELDS.CATEGORY'));
+      if (categoryError) newErrors.category = categoryError;
+    }
+
+    // Email format validation (for both create and edit if email provided)
+    if (formData.email) {
+      const emailFormatError = validators.email(formData.email, t('CLIENTS.FIELDS.EMAIL'));
+      if (emailFormatError) newErrors.email = emailFormatError;
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error(t('COMMON.ERRORS.VALIDATION'));
+      return;
+    }
+
+    setLoading(true);
+    setErrors({});
 
     try {
       if (mode === 'create') {
@@ -136,10 +200,9 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
           type: clientType,
           email: formData.email,
           phone: formData.phone,
+          category: formData.category as ClientCategoryEnum,
         };
 
-        // Отправляем ВСЕ заполненные поля независимо от типа клиента
-        // (backend принимает все поля для любого типа)
         if (formData.firstName) clientData.firstName = formData.firstName;
         if (formData.lastName) clientData.lastName = formData.lastName;
         if (formData.middleName) clientData.middleName = formData.middleName;
@@ -149,9 +212,9 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
         if (formData.birthDate) clientData.birthDate = formData.birthDate;
         if (formData.address) clientData.address = formData.address;
         if (formData.notes) clientData.notes = formData.notes;
-        if (formData.category) clientData.category = formData.category as ClientCategoryEnum;
 
         await createClient(clientData);
+        toast.success(t('CLIENTS.CLIENT_CREATED'));
       } else {
         if (!client) return;
 
@@ -172,11 +235,23 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
         if (formData.notes) updateData.notes = formData.notes;
 
         await updateClient(client.id, updateData);
+        toast.success(t('CLIENTS.CLIENT_UPDATED'));
       }
 
       onOpenChange(false);
     } catch (error) {
       console.error(`Failed to ${mode} client:`, error);
+      const apiErrors = parseApiErrors(error);
+      if (Object.keys(apiErrors).length > 0) {
+        setErrors(apiErrors);
+        if (apiErrors._general) {
+          toast.error(apiErrors._general);
+        }
+      } else {
+        toast.error(t('COMMON.ERRORS.GENERIC'));
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -251,35 +326,35 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
             {}
             {clientType === ClientTypeEnum.INDIVIDUAL && (
               <div className="space-y-4">
-                {}
+                {/* ФИО - 3 колонки */}
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName" className="text-sm text-foreground">
-                      {t('USER_PROFILE.LAST_NAME')} {mode === 'create' && '*'}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lastName" className={cn("text-sm text-foreground", errors.lastName && "text-destructive")}>
+                      {t('USER_PROFILE.LAST_NAME')} {mode === 'create' && <span className="text-destructive">*</span>}
                     </Label>
                     <Input
                       id="lastName"
                       placeholder="Иванов"
                       value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className="h-11 rounded-xl border-input focus-visible:ring-purple-500"
-                      required={mode === 'create'}
+                      onChange={(e) => handleFieldChange('lastName', e.target.value)}
+                      className={cn("h-11 rounded-xl border-input focus-visible:ring-purple-500", errors.lastName && "border-destructive ring-destructive/20")}
                     />
+                    {errors.lastName && <p className="text-destructive text-xs">{errors.lastName}</p>}
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName" className="text-sm text-foreground">
-                      {t('USER_PROFILE.FIRST_NAME')} {mode === 'create' && '*'}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="firstName" className={cn("text-sm text-foreground", errors.firstName && "text-destructive")}>
+                      {t('USER_PROFILE.FIRST_NAME')} {mode === 'create' && <span className="text-destructive">*</span>}
                     </Label>
                     <Input
                       id="firstName"
                       placeholder="Иван"
                       value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      className="h-11 rounded-xl border-input focus-visible:ring-purple-500"
-                      required={mode === 'create'}
+                      onChange={(e) => handleFieldChange('firstName', e.target.value)}
+                      className={cn("h-11 rounded-xl border-input focus-visible:ring-purple-500", errors.firstName && "border-destructive ring-destructive/20")}
                     />
+                    {errors.firstName && <p className="text-destructive text-xs">{errors.firstName}</p>}
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="middleName" className="text-sm text-foreground">
                       {t('USER_PROFILE.MIDDLE_NAME')}
                     </Label>
@@ -287,7 +362,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                       id="middleName"
                       placeholder="Иванович"
                       value={formData.middleName}
-                      onChange={(e) => setFormData({ ...formData, middleName: e.target.value })}
+                      onChange={(e) => handleFieldChange('middleName', e.target.value)}
                       className="h-11 rounded-xl border-input focus-visible:ring-purple-500"
                     />
                   </div>
@@ -347,22 +422,22 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
               </div>
             )}
 
-            {}
+            {/* Юрлицо */}
             {clientType === ClientTypeEnum.LEGAL && (
               <div className="space-y-4">
-                {}
-                <div className="space-y-2">
-                  <Label htmlFor="companyName" className="text-sm text-foreground">
-                    {t('CLIENTS.FIELDS.COMPANY_NAME')} {mode === 'create' && '*'}
+                {/* Название компании */}
+                <div className="space-y-1.5">
+                  <Label htmlFor="companyName" className={cn("text-sm text-foreground", errors.companyName && "text-destructive")}>
+                    {t('CLIENTS.FIELDS.COMPANY_NAME')} {mode === 'create' && <span className="text-destructive">*</span>}
                   </Label>
                   <Input
                     id="companyName"
                     placeholder='ООО "Рога и Копыта"'
                     value={formData.companyName}
-                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                    className="h-11 rounded-xl border-input focus-visible:ring-purple-500"
-                    required={mode === 'create'}
+                    onChange={(e) => handleFieldChange('companyName', e.target.value)}
+                    className={cn("h-11 rounded-xl border-input focus-visible:ring-purple-500", errors.companyName && "border-destructive ring-destructive/20")}
                   />
+                  {errors.companyName && <p className="text-destructive text-xs">{errors.companyName}</p>}
                 </div>
 
                 {}
@@ -410,15 +485,15 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
               </div>
             )}
 
-            {}
+            {/* Email, Phone, Category */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm text-foreground">
-                  {t('CLIENTS.FIELDS.EMAIL')} {mode === 'create' && '*'}
+              <div className="space-y-1.5">
+                <Label htmlFor="email" className={cn("text-sm text-foreground", errors.email && "text-destructive")}>
+                  {t('CLIENTS.FIELDS.EMAIL')} {mode === 'create' && <span className="text-destructive">*</span>}
                 </Label>
                 <div className="relative">
                   <Mail
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                    className={cn("absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground", errors.email && "text-destructive")}
                     strokeWidth={2}
                   />
                   <Input
@@ -426,20 +501,20 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                     type="email"
                     placeholder="example@mail.ru"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
-                    required={mode === 'create'}
+                    onChange={(e) => handleFieldChange('email', e.target.value)}
+                    className={cn("h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500", errors.email && "border-destructive ring-destructive/20")}
                   />
                 </div>
+                {errors.email && <p className="text-destructive text-xs">{errors.email}</p>}
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="phone" className="text-sm text-foreground">
-                  {t('CLIENTS.FIELDS.PHONE')} {mode === 'create' && '*'}
+              <div className="space-y-1.5">
+                <Label htmlFor="phone" className={cn("text-sm text-foreground", errors.phone && "text-destructive")}>
+                  {t('CLIENTS.FIELDS.PHONE')} {mode === 'create' && <span className="text-destructive">*</span>}
                 </Label>
                 <div className="relative">
                   <Phone
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+                    className={cn("absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground", errors.phone && "text-destructive")}
                     strokeWidth={2}
                   />
                   <Input
@@ -449,23 +524,23 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                     value={formData.phone}
                     onChange={(e) => {
                       const value = e.target.value.replace(/[^\d+]/g, '');
-                      setFormData({ ...formData, phone: value });
+                      handleFieldChange('phone', value);
                     }}
-                    className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
-                    required={mode === 'create'}
+                    className={cn("h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500", errors.phone && "border-destructive ring-destructive/20")}
                   />
                 </div>
+                {errors.phone && <p className="text-destructive text-xs">{errors.phone}</p>}
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="category" className="text-sm text-foreground">
-                  {t('CLIENTS.FIELDS.CATEGORY')}
+              <div className="space-y-1.5">
+                <Label htmlFor="category" className={cn("text-sm text-foreground", errors.category && "text-destructive")}>
+                  {t('CLIENTS.FIELDS.CATEGORY')} {mode === 'create' && <span className="text-destructive">*</span>}
                 </Label>
                 <Select
                   value={formData.category}
-                  onValueChange={(value) => setFormData({ ...formData, category: value })}
+                  onValueChange={(value) => handleFieldChange('category', value)}
                 >
-                  <SelectTrigger className="h-11 rounded-xl border-input">
+                  <SelectTrigger className={cn("h-11 rounded-xl border-input", errors.category && "border-destructive ring-destructive/20")}>
                     <Briefcase className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
                     <SelectValue placeholder={t('CLIENTS.SELECT_CATEGORY')} />
                   </SelectTrigger>
@@ -475,6 +550,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                     <SelectItem value="vip">{t('CLIENTS.CATEGORY.VIP')}</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.category && <p className="text-destructive text-xs">{errors.category}</p>}
               </div>
             </div>
 
@@ -535,25 +611,35 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
             </div>
           </div>
 
-          {}
+          {/* Buttons */}
           <div className="flex items-center gap-3 px-6 py-6 border-t border-border flex-shrink-0 bg-background">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
+              disabled={loading}
               className="flex-1 h-12 rounded-xl border-input hover:bg-muted"
             >
               {t('COMMON.ACTIONS.CANCEL')}
             </Button>
             <Button
               type="submit"
+              disabled={loading}
               className={`flex-1 h-12 rounded-xl shadow-md ${
                 mode === 'create'
                   ? 'bg-purple-500 hover:bg-purple-600'
                   : 'bg-blue-600 hover:bg-blue-700'
-              } text-white`}
+              } text-white disabled:opacity-50`}
             >
-              {mode === 'create' ? (
+              {loading ? (
+                <span className="flex items-center">
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  {t('COMMON.LOADING')}
+                </span>
+              ) : mode === 'create' ? (
                 <>
                   <Users className="w-4 h-4 mr-2" strokeWidth={2} />
                   {t('CLIENTS.CREATE_CLIENT')}

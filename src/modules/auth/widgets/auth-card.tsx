@@ -12,6 +12,7 @@ export function AuthCard({
   loginEmail,
   loginPassword,
   rememberMe,
+  loginErrors,
   onLoginEmailChange,
   onLoginPasswordChange,
   onRememberMeChange,
@@ -23,6 +24,7 @@ export function AuthCard({
   registerCountry,
   registerCity,
   registerPhone,
+  registerErrors,
   onRegisterFirstNameChange,
   onRegisterLastNameChange,
   onRegisterEmailChange,
@@ -74,6 +76,7 @@ export function AuthCard({
             email={loginEmail}
             password={loginPassword}
             rememberMe={rememberMe}
+            errors={loginErrors}
             onEmailChange={onLoginEmailChange}
             onPasswordChange={onLoginPasswordChange}
             onRememberMeChange={onRememberMeChange}
@@ -92,6 +95,7 @@ export function AuthCard({
             country={registerCountry}
             city={registerCity}
             phone={registerPhone}
+            errors={registerErrors}
             onFirstNameChange={onRegisterFirstNameChange}
             onLastNameChange={onRegisterLastNameChange}
             onEmailChange={onRegisterEmailChange}

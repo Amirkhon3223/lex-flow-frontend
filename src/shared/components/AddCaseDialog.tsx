@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { Briefcase, User, Tag, DollarSign } from 'lucide-react';
+import { toast } from 'sonner';
 import { useAuthStore } from '@/app/store/auth.store';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
@@ -22,7 +23,9 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
+import { cn } from '@/shared/ui/utils';
 import { formatDescription } from '@/shared/utils/textFormatting';
+import { validators, parseApiErrors, type FormErrors } from '@/shared/utils';
 
 interface AddCaseDialogProps {
   open: boolean;
@@ -77,6 +80,8 @@ export function AddCaseDialog({
     description: '',
     priority: 'medium',
   });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -104,9 +109,38 @@ export function AddCaseDialog({
     }
   }, [caseId, selectedCase, open, preselectedClientId]);
 
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    const titleError = validators.required(formData.title, t('CASES.FIELDS.TITLE'));
+    if (titleError) newErrors.title = titleError;
+
+    const clientError = validators.required(formData.client, t('CASES.FIELDS.CLIENT'));
+    if (clientError) newErrors.client = clientError;
+
+    const categoryError = validators.required(formData.category, t('CASES.FIELDS.CATEGORY'));
+    if (categoryError) newErrors.category = categoryError;
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleFieldChange = (field: string, value: string) => {
+    setFormData({ ...formData, [field]: value });
+    if (errors[field]) {
+      setErrors((prev) => { const n = { ...prev }; delete n[field]; return n; });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!validateForm()) {
+      toast.error(t('COMMON.ERRORS.VALIDATION'));
+      return;
+    }
+
+    setLoading(true);
     try {
       const caseData = {
         title: formData.title,
@@ -121,12 +155,15 @@ export function AddCaseDialog({
 
       if (caseId) {
         await updateCase(caseId, caseData);
+        toast.success(t('CASES.CASE_UPDATED'));
       } else {
         await createCase(caseData);
+        toast.success(t('CASES.CASE_CREATED'));
       }
 
       onSubmit?.(formData);
       onOpenChange(false);
+      setErrors({});
 
       if (!caseId) {
         setFormData({
@@ -141,7 +178,14 @@ export function AddCaseDialog({
         });
       }
     } catch (error) {
-      console.error('Failed to save case:', error);
+      const apiErrors = parseApiErrors(error);
+      if (Object.keys(apiErrors).length > 0) {
+        setErrors(apiErrors);
+      }
+      const errMsg = (error as Error).message || t('COMMON.ERRORS.ERROR');
+      toast.error(errMsg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -164,33 +208,38 @@ export function AddCaseDialog({
           className="space-y-6 mt-4 flex-1 pr-2 px-5 overflow-y-auto"
         >
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-sm text-foreground">
-              {t('CASES.FIELDS.TITLE')} *
+            <Label htmlFor="title" className={cn("text-sm text-foreground", errors.title && "text-destructive")}>
+              {t('CASES.FIELDS.TITLE')} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="title"
               placeholder={t('CASES.TITLE_PLACEHOLDER')}
               value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="h-12 rounded-xl border-input focus-visible:ring-blue-500"
-              required
+              onChange={(e) => handleFieldChange('title', e.target.value)}
+              className={cn(
+                "h-12 rounded-xl border-input focus-visible:ring-blue-500",
+                errors.title && "border-destructive ring-destructive/20"
+              )}
             />
+            {errors.title && <p className="text-destructive text-xs">{errors.title}</p>}
           </div>
 
-          {}
+          {/* Client and Category */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="client" className="text-sm text-foreground">
-                {t('CASES.FIELDS.CLIENT')} *
+              <Label htmlFor="client" className={cn("text-sm text-foreground", errors.client && "text-destructive")}>
+                {t('CASES.FIELDS.CLIENT')} <span className="text-destructive">*</span>
               </Label>
               <Select
                 value={formData.client}
-                onValueChange={(value) => setFormData({ ...formData, client: value })}
+                onValueChange={(value) => handleFieldChange('client', value)}
                 disabled={!!preselectedClientId && !caseId}
-                required
               >
-                <SelectTrigger className="h-12 rounded-xl border-input">
-                  <User className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
+                <SelectTrigger className={cn(
+                  "h-12 rounded-xl border-input",
+                  errors.client && "border-destructive ring-destructive/20"
+                )}>
+                  <User className={cn("w-4 h-4 mr-2", errors.client ? "text-destructive" : "text-muted-foreground")} strokeWidth={2} />
                   <SelectValue placeholder={t('CASES.SELECT_CLIENT')} />
                 </SelectTrigger>
                 <SelectContent>
@@ -201,19 +250,22 @@ export function AddCaseDialog({
                   ))}
                 </SelectContent>
               </Select>
+              {errors.client && <p className="text-destructive text-xs">{errors.client}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="category" className="text-sm text-foreground">
-                {t('CASES.FIELDS.CATEGORY')} *
+              <Label htmlFor="category" className={cn("text-sm text-foreground", errors.category && "text-destructive")}>
+                {t('CASES.FIELDS.CATEGORY')} <span className="text-destructive">*</span>
               </Label>
               <Select
                 value={formData.category}
-                onValueChange={(value) => setFormData({ ...formData, category: value })}
-                required
+                onValueChange={(value) => handleFieldChange('category', value)}
               >
-                <SelectTrigger className="h-12 rounded-xl border-input">
-                  <Tag className="w-4 h-4 mr-2 text-muted-foreground" strokeWidth={2} />
+                <SelectTrigger className={cn(
+                  "h-12 rounded-xl border-input",
+                  errors.category && "border-destructive ring-destructive/20"
+                )}>
+                  <Tag className={cn("w-4 h-4 mr-2", errors.category ? "text-destructive" : "text-muted-foreground")} strokeWidth={2} />
                   <SelectValue placeholder={t('CASES.SELECT_CATEGORY')} />
                 </SelectTrigger>
                 <SelectContent>
@@ -225,6 +277,7 @@ export function AddCaseDialog({
                   <SelectItem value="corporate">{t('CASES.CATEGORIES.CORPORATE')}</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.category && <p className="text-destructive text-xs">{errors.category}</p>}
             </div>
           </div>
 
@@ -320,10 +373,17 @@ export function AddCaseDialog({
           <Button
             type="submit"
             form="case-form"
-            className="flex-1 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md"
+            disabled={loading}
+            className="flex-1 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md disabled:opacity-50"
           >
-            <Briefcase className="w-4 h-4 mr-2" strokeWidth={2} />
-            {caseId ? t('CASES.EDIT_DIALOG.SAVE') : t('CASES.CREATE_CASE')}
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            ) : (
+              <>
+                <Briefcase className="w-4 h-4 mr-2" strokeWidth={2} />
+                {caseId ? t('CASES.EDIT_DIALOG.SAVE') : t('CASES.CREATE_CASE')}
+              </>
+            )}
           </Button>
         </div>
       </DialogContent>

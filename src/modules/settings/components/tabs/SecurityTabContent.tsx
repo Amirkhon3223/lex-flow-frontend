@@ -14,6 +14,8 @@ import { Card } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Separator } from '@/shared/ui/separator';
+import { cn } from '@/shared/ui/utils';
+import { validators, parseApiErrors, type FormErrors } from '@/shared/utils';
 
 export function SecurityTabContent() {
   const { t } = useI18n();
@@ -23,6 +25,7 @@ export function SecurityTabContent() {
     newPassword: '',
     confirmPassword: '',
   });
+  const [passwordErrors, setPasswordErrors] = useState<FormErrors>({});
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [enable2FAOpen, setEnable2FAOpen] = useState(false);
@@ -46,16 +49,39 @@ export function SecurityTabContent() {
     fetchData();
   }, []);
 
+  const handlePasswordFieldChange = (field: string, value: string) => {
+    setPasswordForm((prev) => ({ ...prev, [field]: value }));
+    if (passwordErrors[field]) {
+      setPasswordErrors((prev) => { const n = { ...prev }; delete n[field]; return n; });
+    }
+  };
+
+  const validatePasswordForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    const currentPasswordError = validators.required(passwordForm.currentPassword, t('SETTINGS.SECURITY.CURRENT_PASSWORD'));
+    if (currentPasswordError) newErrors.currentPassword = currentPasswordError;
+
+    const newPasswordError = validators.required(passwordForm.newPassword, t('SETTINGS.SECURITY.NEW_PASSWORD')) ||
+      validators.password(passwordForm.newPassword);
+    if (newPasswordError) newErrors.newPassword = newPasswordError;
+
+    const confirmPasswordError = validators.required(passwordForm.confirmPassword, t('SETTINGS.SECURITY.CONFIRM_PASSWORD'));
+    if (confirmPasswordError) newErrors.confirmPassword = confirmPasswordError;
+
+    if (passwordForm.newPassword && passwordForm.confirmPassword && passwordForm.newPassword !== passwordForm.confirmPassword) {
+      newErrors.confirmPassword = t('SETTINGS.SECURITY.PASSWORD_MISMATCH');
+    }
+
+    setPasswordErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      toast.error(t('SETTINGS.SECURITY.PASSWORD_MISMATCH'));
-      return;
-    }
-
-    if (passwordForm.newPassword.length < 8) {
-      toast.error(t('SETTINGS.SECURITY.PASSWORD_TOO_SHORT'));
+    if (!validatePasswordForm()) {
+      toast.error(t('COMMON.ERRORS.VALIDATION'));
       return;
     }
 
@@ -68,7 +94,12 @@ export function SecurityTabContent() {
       });
       toast.success(t('SETTINGS.SECURITY.PASSWORD_UPDATED'));
       setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      setPasswordErrors({});
     } catch (error) {
+      const apiErrors = parseApiErrors(error);
+      if (Object.keys(apiErrors).length > 0) {
+        setPasswordErrors(apiErrors);
+      }
       toast.error(t('COMMON.ERRORS.GENERIC'));
       console.error('Password change error:', error);
     } finally {
@@ -110,49 +141,52 @@ export function SecurityTabContent() {
 
           <form onSubmit={handlePasswordChange} className="space-y-3 sm:space-y-4">
             <div className="space-y-1.5 sm:space-y-2">
-              <Label htmlFor="currentPassword" className="text-xs sm:text-sm">
-                {t('SETTINGS.SECURITY.CURRENT_PASSWORD')}
+              <Label htmlFor="currentPassword" className={cn("text-xs sm:text-sm", passwordErrors.currentPassword && "text-destructive")}>
+                {t('SETTINGS.SECURITY.CURRENT_PASSWORD')} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="currentPassword"
                 type="password"
                 value={passwordForm.currentPassword}
-                onChange={(e) =>
-                  setPasswordForm((prev) => ({ ...prev, currentPassword: e.target.value }))
-                }
-                className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm"
-                required
+                onChange={(e) => handlePasswordFieldChange('currentPassword', e.target.value)}
+                className={cn(
+                  "h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm",
+                  passwordErrors.currentPassword && "border-destructive ring-destructive/20"
+                )}
               />
+              {passwordErrors.currentPassword && <p className="text-destructive text-xs">{passwordErrors.currentPassword}</p>}
             </div>
             <div className="space-y-1.5 sm:space-y-2">
-              <Label htmlFor="newPassword" className="text-xs sm:text-sm">
-                {t('SETTINGS.SECURITY.NEW_PASSWORD')}
+              <Label htmlFor="newPassword" className={cn("text-xs sm:text-sm", passwordErrors.newPassword && "text-destructive")}>
+                {t('SETTINGS.SECURITY.NEW_PASSWORD')} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="newPassword"
                 type="password"
                 value={passwordForm.newPassword}
-                onChange={(e) =>
-                  setPasswordForm((prev) => ({ ...prev, newPassword: e.target.value }))
-                }
-                className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm"
-                required
+                onChange={(e) => handlePasswordFieldChange('newPassword', e.target.value)}
+                className={cn(
+                  "h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm",
+                  passwordErrors.newPassword && "border-destructive ring-destructive/20"
+                )}
               />
+              {passwordErrors.newPassword && <p className="text-destructive text-xs">{passwordErrors.newPassword}</p>}
             </div>
             <div className="space-y-1.5 sm:space-y-2">
-              <Label htmlFor="confirmPassword" className="text-xs sm:text-sm">
-                {t('SETTINGS.SECURITY.CONFIRM_PASSWORD')}
+              <Label htmlFor="confirmPassword" className={cn("text-xs sm:text-sm", passwordErrors.confirmPassword && "text-destructive")}>
+                {t('SETTINGS.SECURITY.CONFIRM_PASSWORD')} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 value={passwordForm.confirmPassword}
-                onChange={(e) =>
-                  setPasswordForm((prev) => ({ ...prev, confirmPassword: e.target.value }))
-                }
-                className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm"
-                required
+                onChange={(e) => handlePasswordFieldChange('confirmPassword', e.target.value)}
+                className={cn(
+                  "h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-input text-xs sm:text-sm",
+                  passwordErrors.confirmPassword && "border-destructive ring-destructive/20"
+                )}
               />
+              {passwordErrors.confirmPassword && <p className="text-destructive text-xs">{passwordErrors.confirmPassword}</p>}
             </div>
 
             <Separator className="my-4 sm:my-5 md:my-6 bg-border" />

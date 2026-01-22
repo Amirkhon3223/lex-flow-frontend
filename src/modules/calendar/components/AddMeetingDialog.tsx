@@ -33,6 +33,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/shared/ui/separator';
 import { Textarea } from '@/shared/ui/textarea';
 import { TimePicker } from '@/shared/ui/time-picker';
+import { cn } from '@/shared/ui/utils';
+import { validators, parseApiErrors, type FormErrors } from '@/shared/utils';
 
 export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddMeetingDialogProps) {
   const { t } = useI18n();
@@ -51,6 +53,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
     description: '',
     reminder: '30',
   });
+  const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     if (open && clients.length === 0) {
@@ -120,16 +123,47 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
     }
   }, [meeting, open]);
 
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    const titleError = validators.required(formData.title, t('CALENDAR.FORMS.TITLE'));
+    if (titleError) newErrors.title = titleError;
+
+    if (!date) {
+      newErrors.date = t('CALENDAR.FORMS.SELECT_DATE');
+    }
+
+    const timeError = validators.required(formData.time, t('CALENDAR.FORMS.TIME'));
+    if (timeError) newErrors.time = timeError;
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleFieldChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => { const n = { ...prev }; delete n[field]; return n; });
+    }
+  };
+
+  const handleDateChange = (newDate: Date | undefined) => {
+    setDate(newDate);
+    if (errors.date && newDate) {
+      setErrors((prev) => { const n = { ...prev }; delete n.date; return n; });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!date) {
-      toast.error(t('CALENDAR.FORMS.SELECT_DATE'));
+    if (!validateForm()) {
+      toast.error(t('COMMON.ERRORS.VALIDATION'));
       return;
     }
 
     // Validate date and time are not in the past
-    const selectedDateTime = new Date(`${format(date, 'yyyy-MM-dd')}T${formData.time}`);
+    const selectedDateTime = new Date(`${format(date!, 'yyyy-MM-dd')}T${formData.time}`);
     const now = new Date();
     if (selectedDateTime < now) {
       toast.error(t('CALENDAR.FORMS.PAST_DATE_ERROR') || 'Cannot create meeting in the past');
@@ -140,7 +174,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
       const meetingData = {
         title: formData.title,
         clientId: formData.clientId || undefined,
-        date: format(date, 'yyyy-MM-dd'),
+        date: format(date!, 'yyyy-MM-dd'),
         time: formData.time,
         duration: formData.duration,
         type: formData.type,
@@ -158,14 +192,15 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
       }
 
       onOpenChange(false);
+      setErrors({});
       onSubmit?.();
-    } catch {
+    } catch (error) {
+      const apiErrors = parseApiErrors(error);
+      if (Object.keys(apiErrors).length > 0) {
+        setErrors(apiErrors);
+      }
       toast.error(t('COMMON.MESSAGES.ERROR'));
     }
-  };
-
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const getClientDisplayName = (clientId: string) => {
@@ -191,16 +226,19 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
           <div className="px-4 pb-2 flex-1 overflow-y-auto space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-xs sm:text-sm text-muted-foreground">
-                  {t('CALENDAR.FORMS.TITLE')}
+                <Label className={cn("text-xs sm:text-sm text-muted-foreground", errors.title && "text-destructive")}>
+                  {t('CALENDAR.FORMS.TITLE')} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   value={formData.title}
-                  onChange={(e) => handleChange('title', e.target.value)}
-                  className="h-10 sm:h-11 rounded-xl border-input text-sm"
+                  onChange={(e) => handleFieldChange('title', e.target.value)}
+                  className={cn(
+                    "h-10 sm:h-11 rounded-xl border-input text-sm",
+                    errors.title && "border-destructive ring-destructive/20"
+                  )}
                   placeholder={t('CALENDAR.FORMS.TITLE_PLACEHOLDER')}
-                  required
                 />
+                {errors.title && <p className="text-destructive text-xs">{errors.title}</p>}
               </div>
 
               <div className="space-y-2">
@@ -209,7 +247,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                 </Label>
                 <Select
                   value={formData.clientId}
-                  onValueChange={(value) => handleChange('clientId', value)}
+                  onValueChange={(value) => handleFieldChange('clientId', value)}
                 >
                   <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
                     <SelectValue placeholder={t('CALENDAR.FORMS.SELECT_CLIENT')} />
@@ -242,7 +280,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                 </Label>
                 <Select
                   value={formData.priority}
-                  onValueChange={(value) => handleChange('priority', value)}
+                  onValueChange={(value) => handleFieldChange('priority', value)}
                 >
                   <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
                     <SelectValue />
@@ -267,7 +305,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                 </Label>
                 <Select
                   value={formData.type}
-                  onValueChange={(value) => handleChange('type', value)}
+                  onValueChange={(value) => handleFieldChange('type', value)}
                 >
                   <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
                     <SelectValue />
@@ -297,15 +335,18 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
-                  <CalendarIcon className="w-4 h-4" />
-                  {t('CALENDAR.FORMS.DATE')}
+                <Label className={cn("text-xs sm:text-sm text-muted-foreground flex items-center gap-2", errors.date && "text-destructive")}>
+                  <CalendarIcon className={cn("w-4 h-4", errors.date && "text-destructive")} />
+                  {t('CALENDAR.FORMS.DATE')} <span className="text-destructive">*</span>
                 </Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      className="h-10 sm:h-11 w-full justify-start text-left rounded-xl border-input text-sm"
+                      className={cn(
+                        "h-10 sm:h-11 w-full justify-start text-left rounded-xl border-input text-sm",
+                        errors.date && "border-destructive ring-destructive/20"
+                      )}
                     >
                       {date ? format(date, 'PPP', { locale: ru }) : t('CALENDAR.FORMS.SELECT_DATE')}
                     </Button>
@@ -313,7 +354,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                   <PopoverContent className="w-auto p-0 rounded-xl">
                     <Calendar
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={handleDateChange}
                       disabled={(date) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
@@ -324,20 +365,22 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                     />
                   </PopoverContent>
                 </Popover>
+                {errors.date && <p className="text-destructive text-xs">{errors.date}</p>}
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  {t('CALENDAR.FORMS.TIME')}
+                <Label className={cn("text-xs sm:text-sm text-muted-foreground flex items-center gap-2", errors.time && "text-destructive")}>
+                  <Clock className={cn("w-4 h-4", errors.time && "text-destructive")} />
+                  {t('CALENDAR.FORMS.TIME')} <span className="text-destructive">*</span>
                 </Label>
                 <TimePicker
                   value={formData.time}
-                  onChange={(time) => handleChange('time', time)}
+                  onChange={(time) => handleFieldChange('time', time)}
                   placeholder={t('CALENDAR.FORMS.SELECT_TIME')}
-                  className="h-10 sm:h-11"
+                  className={cn("h-10 sm:h-11", errors.time && "border-destructive ring-destructive/20")}
                   selectedDate={date ? format(date, 'yyyy-MM-dd') : undefined}
                 />
+                {errors.time && <p className="text-destructive text-xs">{errors.time}</p>}
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -347,7 +390,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                 </Label>
                 <Select
                   value={formData.duration}
-                  onValueChange={(value) => handleChange('duration', value)}
+                  onValueChange={(value) => handleFieldChange('duration', value)}
                 >
                   <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
                     <SelectValue />
@@ -370,7 +413,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                 </Label>
                 <Select
                   value={formData.reminder}
-                  onValueChange={(value) => handleChange('reminder', value)}
+                  onValueChange={(value) => handleFieldChange('reminder', value)}
                 >
                   <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
                     <SelectValue />
@@ -399,7 +442,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
                 </Label>
                 <Input
                   value={formData.location}
-                  onChange={(e) => handleChange('location', e.target.value)}
+                  onChange={(e) => handleFieldChange('location', e.target.value)}
                   className="h-10 sm:h-11 rounded-xl border-input text-sm"
                   placeholder={
                     formData.type === MeetingTypeEnum.VIDEO
@@ -416,7 +459,7 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
               </Label>
               <Textarea
                 value={formData.description}
-                onChange={(e) => handleChange('description', e.target.value)}
+                onChange={(e) => handleFieldChange('description', e.target.value)}
                 className="min-h-[80px] rounded-xl border-input text-sm resize-none"
                 placeholder={t('CALENDAR.FORMS.DESCRIPTION_PLACEHOLDER')}
               />

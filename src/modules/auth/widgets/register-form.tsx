@@ -6,6 +6,7 @@ import { COUNTRIES, CITIES } from '@/app/constants/locations';
 import { ROUTES } from '@/app/config/routes.config';
 import type { RegisterFormProps } from '@/app/types/auth/auth.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
+import { cn } from '@/shared/ui/utils';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Combobox } from '@/shared/ui/Combobox.tsx';
@@ -22,6 +23,7 @@ export function RegisterForm({
   country,
   city,
   phone,
+  errors = {},
   onFirstNameChange,
   onLastNameChange,
   onEmailChange,
@@ -59,47 +61,68 @@ export function RegisterForm({
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
-      {}
+      {/* Name fields */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <Label>{t('AUTH.FIRST_NAME')}</Label>
+          <Label className={cn(errors.firstName && "text-destructive")}>
+            {t('AUTH.FIRST_NAME')} <span className="text-destructive">*</span>
+          </Label>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <User className={cn(
+              "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5",
+              errors.firstName ? "text-destructive" : "text-muted-foreground"
+            )} />
             <Input
               placeholder={t('AUTH.PLACEHOLDER.FIRST_NAME')}
               value={firstName}
               onChange={(e) => onFirstNameChange(e.target.value)}
-              className="pl-11 h-12 rounded-xl bg-muted/50 border-input"
-              required
+              className={cn(
+                "pl-11 h-12 rounded-xl bg-muted/50 border-input",
+                errors.firstName && "border-destructive ring-destructive/20"
+              )}
             />
           </div>
+          {errors.firstName && <p className="text-destructive text-xs">{errors.firstName}</p>}
         </div>
 
         <div className="space-y-1.5">
-          <Label>{t('AUTH.LAST_NAME')}</Label>
+          <Label className={cn(errors.lastName && "text-destructive")}>
+            {t('AUTH.LAST_NAME')} <span className="text-destructive">*</span>
+          </Label>
           <Input
             placeholder={t('AUTH.PLACEHOLDER.LAST_NAME')}
             value={lastName}
             onChange={(e) => onLastNameChange(e.target.value)}
-            className="h-12 rounded-xl bg-muted/50 border-input"
-            required
+            className={cn(
+              "h-12 rounded-xl bg-muted/50 border-input",
+              errors.lastName && "border-destructive ring-destructive/20"
+            )}
           />
+          {errors.lastName && <p className="text-destructive text-xs">{errors.lastName}</p>}
         </div>
       </div>
 
       <div className="space-y-1.5">
-        <Label>{t('AUTH.EMAIL')}</Label>
+        <Label className={cn(errors.email && "text-destructive")}>
+          {t('AUTH.EMAIL')} <span className="text-destructive">*</span>
+        </Label>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <Mail className={cn(
+            "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5",
+            errors.email ? "text-destructive" : "text-slate-400"
+          )} />
           <Input
             type="email"
             placeholder="you@lawfirm.com"
             value={email}
             onChange={(e) => onEmailChange(e.target.value)}
-            className="pl-11 h-12 rounded-xl bg-slate-50/50 border-slate-200"
-            required
+            className={cn(
+              "pl-11 h-12 rounded-xl bg-slate-50/50 border-slate-200",
+              errors.email && "border-destructive ring-destructive/20"
+            )}
           />
         </div>
+        {errors.email && <p className="text-destructive text-xs">{errors.email}</p>}
       </div>
 
       <div className="space-y-1.5">
@@ -169,19 +192,26 @@ export function RegisterForm({
       </div>
 
       <div className="space-y-1.5">
-        <Label>{t('AUTH.PASSWORD')}</Label>
+        <Label className={cn(errors.password && "text-destructive")}>
+          {t('AUTH.PASSWORD')} <span className="text-destructive">*</span>
+        </Label>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <Lock className={cn(
+            "absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5",
+            errors.password ? "text-destructive" : "text-slate-400"
+          )} />
           <Input
             type="password"
             placeholder="••••••••"
             value={password}
             onChange={(e) => onPasswordChange(e.target.value)}
-            className="pl-11 h-12 rounded-xl bg-slate-50/50 border-slate-200"
-            required
+            className={cn(
+              "pl-11 h-12 rounded-xl bg-slate-50/50 border-slate-200",
+              errors.password && "border-destructive ring-destructive/20"
+            )}
           />
         </div>
-
+        {errors.password && <p className="text-destructive text-xs">{errors.password}</p>}
         <p className="text-xs text-muted-foreground">{t('AUTH.PASSWORD_REQUIREMENTS')}</p>
       </div>
 
