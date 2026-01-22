@@ -13,6 +13,8 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Separator } from '@/shared/ui/separator';
+import { cn } from '@/shared/ui/utils';
+import { validators, parseApiErrors, type FormErrors } from '@/shared/utils';
 
 export function ProfileTabContent() {
   const { t, setLanguage } = useI18n();
@@ -34,6 +36,7 @@ export function ProfileTabContent() {
   const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en' | 'tj'>('ru');
   const [currentCurrency, setCurrentCurrency] = useState<'USD' | 'RUB' | 'EUR' | 'TJS' | 'UZS' | 'KZT' | 'CAD'>('USD');
   const [timezone, setTimezone] = useState('');
+  const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     if (user) {
@@ -57,10 +60,34 @@ export function ProfileTabContent() {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => { const n = { ...prev }; delete n[field]; return n; });
+    }
+  };
+
+  const validateProfileForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    const firstNameError = validators.required(formData.firstName, t('SETTINGS.PROFILE.FIRST_NAME')) ||
+      validators.minLength(formData.firstName, 2, t('SETTINGS.PROFILE.FIRST_NAME'));
+    if (firstNameError) newErrors.firstName = firstNameError;
+
+    const lastNameError = validators.required(formData.lastName, t('SETTINGS.PROFILE.LAST_NAME')) ||
+      validators.minLength(formData.lastName, 2, t('SETTINGS.PROFILE.LAST_NAME'));
+    if (lastNameError) newErrors.lastName = lastNameError;
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateProfileForm()) {
+      toast.error(t('COMMON.ERRORS.VALIDATION'));
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -77,8 +104,13 @@ export function ProfileTabContent() {
       });
 
       updateUserData(updatedUser);
+      setErrors({});
       toast.success(t('SETTINGS.PROFILE.PROFILE_UPDATED'));
     } catch (error) {
+      const apiErrors = parseApiErrors(error);
+      if (Object.keys(apiErrors).length > 0) {
+        setErrors(apiErrors);
+      }
       toast.error(t('COMMON.ERRORS.GENERIC'));
       console.error('Profile update error:', error);
     } finally {
@@ -136,28 +168,34 @@ export function ProfileTabContent() {
             <div className="space-y-3 sm:space-y-4 md:space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-1.5 sm:space-y-2">
-                  <Label htmlFor="firstName" className="text-xs sm:text-sm">
-                    {t('SETTINGS.PROFILE.FIRST_NAME')}
+                  <Label htmlFor="firstName" className={cn("text-xs sm:text-sm", errors.firstName && "text-destructive")}>
+                    {t('SETTINGS.PROFILE.FIRST_NAME')} <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
-                    required
+                    className={cn(
+                      "h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm",
+                      errors.firstName && "border-destructive ring-destructive/20"
+                    )}
                   />
+                  {errors.firstName && <p className="text-destructive text-xs">{errors.firstName}</p>}
                 </div>
                 <div className="space-y-1.5 sm:space-y-2">
-                  <Label htmlFor="lastName" className="text-xs sm:text-sm">
-                    {t('SETTINGS.PROFILE.LAST_NAME')}
+                  <Label htmlFor="lastName" className={cn("text-xs sm:text-sm", errors.lastName && "text-destructive")}>
+                    {t('SETTINGS.PROFILE.LAST_NAME')} <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="lastName"
                     value={formData.lastName}
                     onChange={(e) => handleInputChange('lastName', e.target.value)}
-                    className="h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm"
-                    required
+                    className={cn(
+                      "h-9 sm:h-10 md:h-12 rounded-lg sm:rounded-xl border-gray-200 text-xs sm:text-sm",
+                      errors.lastName && "border-destructive ring-destructive/20"
+                    )}
                   />
+                  {errors.lastName && <p className="text-destructive text-xs">{errors.lastName}</p>}
                 </div>
               </div>
 

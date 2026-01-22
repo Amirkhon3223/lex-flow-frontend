@@ -104,7 +104,8 @@
     },
     "ERRORS": {
       "GENERIC": "An error occurred. Please try again.",
-      "COPY_FAILED": "Failed to copy"
+      "COPY_FAILED": "Failed to copy",
+      "VALIDATION": "Please fill in all required fields"
     },
     "TIME": {
       "TODAY": "Today",
@@ -205,6 +206,8 @@
     "SHARE_CASE": "Share Case",
     "CHECK_THIS_CASE": "Check out this case",
     "CREATED": "Created",
+    "CASE_CREATED": "Case created successfully",
+    "CASE_UPDATED": "Case updated successfully",
     "STATS": {
       "TOTAL": "Total Cases",
       "IN_WORK": "In Progress",
@@ -362,6 +365,8 @@
     "SUBTITLE": "Client database and contacts",
     "NEW_CLIENT": "New Client",
     "CREATE_CLIENT": "Create Client",
+    "CLIENT_CREATED": "Client created successfully",
+    "CLIENT_UPDATED": "Client updated successfully",
     "SELECT_CATEGORY": "Select category",
     "SELECT_BIRTH_DATE": "Select birth date",
     "NOTES_PLACEHOLDER": "Additional information about the client...",
@@ -1091,8 +1096,11 @@
       "CITY": "Select a city"
     },
     "ERROR": {
-      "SELECT_COUNTRY": "Please select a country first"
+      "SELECT_COUNTRY": "Please select a country first",
+      "LOGIN_FAILED": "Login failed. Please check your credentials.",
+      "REGISTER_FAILED": "Registration failed. Please try again."
     },
+    "REGISTER_SUCCESS": "Registration successful! Welcome to LexFlow.",
     "AGREE": "I agree with the",
     "TERMS": "Terms of Use",
     "AND": "and",
@@ -1203,7 +1211,7 @@
       "FEATURES": {
         "CLIENTS": "Up to 50 clients",
         "CASES": "Up to 100 cases",
-        "STORAGE": "10 GB storage",
+        "STORAGE": "500 MB storage",
         "USERS": "1 user"
       }
     },
@@ -1213,7 +1221,7 @@
       "FEATURES": {
         "CLIENTS": "Unlimited clients",
         "CASES": "Unlimited cases",
-        "STORAGE": "100 GB storage",
+        "STORAGE": "3 GB storage",
         "USERS": "Up to 5 users"
       }
     },
@@ -1223,7 +1231,7 @@
       "FEATURES": {
         "CLIENTS": "Unlimited clients",
         "CASES": "Unlimited cases",
-        "STORAGE": "Unlimited storage",
+        "STORAGE": "18 GB storage",
         "USERS": "Unlimited users"
       }
     }
@@ -1397,6 +1405,15 @@
     "SECTION_10_TEXT": "These Terms are governed by the laws of the Russian Federation. All disputes are subject to resolution in courts at our company's location.",
     "SECTION_11_TITLE": "11. Contact",
     "SECTION_11_TEXT": "For questions related to the Terms of Service, contact:"
+  },
+  "STORAGE": {
+    "TITLE": "Storage",
+    "USED": "Used",
+    "AVAILABLE": "Available",
+    "REMAINING": "Remaining",
+    "WARNING_70": "Storage is more than 70% full",
+    "WARNING_90": "Critically low space!",
+    "LIMIT_REACHED": "Storage limit reached"
   },
   "LANGUAGE_SELECTOR": {
     "SELECT_LANGUAGE": "Select Language",

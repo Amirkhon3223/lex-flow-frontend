@@ -1,6 +1,7 @@
 import { Mail, Lock, ArrowRight } from 'lucide-react';
 import type { LoginFormProps } from '@/app/types/auth/auth.interfaces.ts';
 import { useI18n } from '@/shared/context/I18nContext';
+import { cn } from '@/shared/ui/utils';
 import { Button } from '@/shared/ui/button.tsx';
 import { Checkbox } from '@/shared/ui/checkbox.tsx';
 import { Input } from '@/shared/ui/input.tsx';
@@ -11,6 +12,7 @@ export function LoginForm({
   email,
   password,
   rememberMe,
+  errors = {},
   onEmailChange,
   onPasswordChange,
   onRememberMeChange,
@@ -21,39 +23,57 @@ export function LoginForm({
   return (
     <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
       <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="login-email" className="text-foreground text-sm sm:text-base">
-          {t('AUTH.EMAIL')}
+        <Label
+          htmlFor="login-email"
+          className={cn("text-foreground text-sm sm:text-base", errors.email && "text-destructive")}
+        >
+          {t('AUTH.EMAIL')} <span className="text-destructive">*</span>
         </Label>
         <div className="relative">
-          <Mail className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
+          <Mail className={cn(
+            "absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5",
+            errors.email ? "text-destructive" : "text-muted-foreground"
+          )} />
           <Input
             id="login-email"
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => onEmailChange(e.target.value)}
-            className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-muted/50 border-input focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
-            required
+            className={cn(
+              "pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-muted/50 border-input focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base",
+              errors.email && "border-destructive ring-destructive/20"
+            )}
           />
         </div>
+        {errors.email && <p className="text-destructive text-xs">{errors.email}</p>}
       </div>
 
       <div className="space-y-1.5 sm:space-y-2">
-        <Label htmlFor="login-password" className="text-foreground text-sm sm:text-base">
-          {t('AUTH.PASSWORD')}
+        <Label
+          htmlFor="login-password"
+          className={cn("text-foreground text-sm sm:text-base", errors.password && "text-destructive")}
+        >
+          {t('AUTH.PASSWORD')} <span className="text-destructive">*</span>
         </Label>
         <div className="relative">
-          <Lock className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+          <Lock className={cn(
+            "absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5",
+            errors.password ? "text-destructive" : "text-slate-400"
+          )} />
           <Input
             id="login-password"
             type="password"
             placeholder="••••••••"
             value={password}
             onChange={(e) => onPasswordChange(e.target.value)}
-            className="pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-slate-50/50 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base"
-            required
+            className={cn(
+              "pl-9 sm:pl-11 h-11 sm:h-12 rounded-lg sm:rounded-xl bg-slate-50/50 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base",
+              errors.password && "border-destructive ring-destructive/20"
+            )}
           />
         </div>
+        {errors.password && <p className="text-destructive text-xs">{errors.password}</p>}
       </div>
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">

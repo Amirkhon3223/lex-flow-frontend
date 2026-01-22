@@ -1,5 +1,6 @@
 import type { MembershipRole } from '@/app/types/membership';
 import type { WorkspaceInfo } from '@/app/types/workspaces';
+import type { FormErrors } from '@/shared/utils/formValidation';
 
 export type { WorkspaceInfo };
 export type { MembershipRole };
@@ -95,6 +96,7 @@ export interface AuthCardProps {
   loginEmail: string;
   loginPassword: string;
   rememberMe: boolean;
+  loginErrors?: FormErrors;
   onLoginEmailChange: (value: string) => void;
   onLoginPasswordChange: (value: string) => void;
   onRememberMeChange: (value: boolean) => void;
@@ -107,6 +109,7 @@ export interface AuthCardProps {
   registerCountry: string;
   registerCity: string;
   registerPhone: string;
+  registerErrors?: FormErrors;
   onRegisterFirstNameChange: (value: string) => void;
   onRegisterLastNameChange: (value: string) => void;
   onRegisterEmailChange: (value: string) => void;
@@ -127,6 +130,7 @@ export interface LoginFormProps {
   email: string;
   password: string;
   rememberMe: boolean;
+  errors?: FormErrors;
   onEmailChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
   onRememberMeChange: (value: boolean) => void;
@@ -143,6 +147,7 @@ export interface RegisterFormProps {
   country: string;
   city: string;
   phone: string;
+  errors?: FormErrors;
   onFirstNameChange: (value: string) => void;
   onLastNameChange: (value: string) => void;
   onEmailChange: (value: string) => void;

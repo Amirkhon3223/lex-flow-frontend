@@ -167,8 +167,8 @@ modules/clients/ui/
 
 ### Core
 - **React 19.1.1** - Последняя версия UI библиотеки
-- **TypeScript 5.9** - Типизация (⚠️ strict mode выключен)
-- **Vite 7.1** - Сборщик (экспериментальный Rolldown)
+- **TypeScript 5.9.3** - Типизация (✅ strict mode включён)
+- **Vite 7.1.14** - Сборщик (Rolldown)
 - **React Router 7.9.4** - Роутинг с Outlet API
 
 ### UI
@@ -198,24 +198,20 @@ modules/clients/ui/
 ## 🔐 Аутентификация и безопасность
 
 ### Реализовано
-- ✅ JWT токены в Authorization header
-- ✅ Persist auth state с Zustand
-- ✅ AuthGuard для защищенных роутов
+- ✅ JWT токены в httpOnly cookies (XSS защита)
+- ✅ Session restoration через API
+- ✅ AuthGuard для защищённых роутов
 - ✅ Автоматический logout при 401
 - ✅ Role-based access control (owner/admin/member)
 - ✅ Workspace isolation
+- ✅ TypeScript strict mode
 
-### ⚠️ Известные проблемы безопасности
+### ⚠️ Оставшиеся задачи
 
-> **ВНИМАНИЕ:** Перед production deployment необходимо исправить:
-
-1. **JWT токен в localStorage** (XSS уязвимость) - рекомендуется httpOnly cookies
-2. **Токен в WebSocket URL query string** - переместить в subprotocol
-3. **Отсутствует refresh token механизм** - добавить обновление токена
-4. **TypeScript strict mode выключен** - включить для type safety
-5. **Отсутствует CSRF защита** - добавить CSRF токены
-
-Подробнее: [ARCHITECTURE.md → Security](ARCHITECTURE.md#security)
+1. ~~**JWT токен в localStorage**~~ ✅ Исправлено (httpOnly cookies)
+2. ~~**TypeScript strict mode выключен**~~ ✅ Исправлено
+3. **Refresh token механизм** - нужно добавить
+4. **CSRF защита** - реализована на бэкенде
 
 ## 🛠️ ESLint конфигурация
 
@@ -430,8 +426,9 @@ CMD ["npm", "run", "preview"]
 ## 📊 Метрики качества
 
 ### Code Quality
-- **Total Lines:** ~27,568
+- **Total Files:** 286 TS/TSX файлов
 - **TypeScript Coverage:** 100%
+- **TypeScript Strict Mode:** ✅ Включён
 - **ESLint Errors:** 0
 - **Bundle Size:** 1.6M (378 KB gzip)
 
@@ -439,54 +436,46 @@ CMD ["npm", "run", "preview"]
 - ✅ Feature-Sliced Design
 - ✅ Разделение ответственности
 - ✅ Single Responsibility Principle
-- ⚠️ TypeScript strict mode выключен
+- ✅ TypeScript strict mode включён
 - ⚠️ Нет unit тестов
 
 ## ✅ Production Checklist
 
 Перед деплоем на production необходимо:
 
+### Completed ✅
+- [x] Включить TypeScript strict mode
+- [x] JWT в httpOnly cookies (XSS защита)
+- [x] CSRF protection (бэкенд)
+
 ### Critical
-- [ ] Включить TypeScript strict mode
-- [ ] Исправить security vulnerabilities (JWT в localStorage, WebSocket URL)
 - [ ] Добавить refresh token flow
 - [ ] Настроить CSP headers
-- [ ] Добавить CSRF protection
 - [ ] Удалить все console.log
 - [ ] Настроить error tracking (Sentry)
 
 ### Important
 - [ ] Добавить unit тесты (минимум 70% coverage)
-- [ ] Настроить CI/CD pipeline
 - [ ] Провести security audit
-- [ ] Добавить monitoring (Datadog/New Relic)
-- [ ] Настроить analytics (Google Analytics)
 - [ ] Провести performance audit (Lighthouse)
 - [ ] Добавить error boundaries
-- [ ] Настроить rate limiting
+- [ ] Оптимизировать bundle size
 
 ### Nice to have
 - [ ] Добавить Storybook для UI компонентов
 - [ ] Настроить PWA features
 - [ ] Провести accessibility audit
-- [ ] Добавить feature flags
-- [ ] Настроить A/B testing
-
-Подробнее: [ARCHITECTURE.md → Production Checklist](ARCHITECTURE.md#production-checklist)
 
 ## 🐛 Известные проблемы
 
 ### High Priority
 1. **Memory leak** в notifications store (нет лимита на массив)
-2. **Race condition** в WebSocket reconnect
-3. **Infinite loop potential** в useEffect dependencies
+2. **Bundle size** 1.6MB (цель: <200KB gzipped)
 
 ### Medium Priority
 1. Отсутствует offline mode поддержка
-2. Timezone проблемы в датах
-3. Form validation не везде применена
-
-См. полный список: [ARCHITECTURE.md → Known Issues](ARCHITECTURE.md#known-issues)
+2. Form validation не везде применена
+3. AI Assistant не реализован
 
 ## 🤝 Вклад в проект
 

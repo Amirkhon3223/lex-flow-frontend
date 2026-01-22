@@ -10,6 +10,7 @@ import type {
   PaymentMethodResponse,
   CreateCheckoutSessionRequest,
   CheckoutSessionResponse,
+  StorageUsageResponse,
 } from '../../types/billing/billing.interfaces';
 
 export const billingService = {
@@ -86,6 +87,11 @@ export const billingService = {
     const response = await httpClient.delete<SuccessResponse>(
       `/billing/payment-methods/${paymentMethodId}`
     );
+    return response.data;
+  },
+
+  getStorageUsage: async (): Promise<StorageUsageResponse> => {
+    const response = await httpClient.get<StorageUsageResponse>('/billing/storage-usage');
     return response.data;
   },
 };
