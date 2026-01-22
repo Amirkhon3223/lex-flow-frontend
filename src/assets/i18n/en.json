@@ -1203,7 +1203,7 @@
       "FEATURES": {
         "CLIENTS": "Up to 50 clients",
         "CASES": "Up to 100 cases",
-        "STORAGE": "10 GB storage",
+        "STORAGE": "500 MB storage",
         "USERS": "1 user"
       }
     },
@@ -1213,7 +1213,7 @@
       "FEATURES": {
         "CLIENTS": "Unlimited clients",
         "CASES": "Unlimited cases",
-        "STORAGE": "100 GB storage",
+        "STORAGE": "3 GB storage",
         "USERS": "Up to 5 users"
       }
     },
@@ -1223,7 +1223,7 @@
       "FEATURES": {
         "CLIENTS": "Unlimited clients",
         "CASES": "Unlimited cases",
-        "STORAGE": "Unlimited storage",
+        "STORAGE": "18 GB storage",
         "USERS": "Unlimited users"
       }
     }
@@ -1397,6 +1397,15 @@
     "SECTION_10_TEXT": "These Terms are governed by the laws of the Russian Federation. All disputes are subject to resolution in courts at our company's location.",
     "SECTION_11_TITLE": "11. Contact",
     "SECTION_11_TEXT": "For questions related to the Terms of Service, contact:"
+  },
+  "STORAGE": {
+    "TITLE": "Storage",
+    "USED": "Used",
+    "AVAILABLE": "Available",
+    "REMAINING": "Remaining",
+    "WARNING_70": "Storage is more than 70% full",
+    "WARNING_90": "Critically low space!",
+    "LIMIT_REACHED": "Storage limit reached"
   },
   "LANGUAGE_SELECTOR": {
     "SELECT_LANGUAGE": "Select Language",

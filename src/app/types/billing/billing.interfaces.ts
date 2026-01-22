@@ -121,3 +121,18 @@ export interface CreateCheckoutSessionRequest {
 export interface CheckoutSessionResponse {
   url: string;
 }
+
+export type StorageWarningLevel = 'normal' | 'warning' | 'critical';
+
+export interface StorageUsageResponse {
+  used: number;
+  usedFormatted: string;
+  limit: number;
+  limitFormatted: string;
+  percentage: number;
+  remainingFormatted: string;
+  planId: string;
+  planName: string;
+  canUpgrade: boolean;
+  warningLevel: StorageWarningLevel;
+}

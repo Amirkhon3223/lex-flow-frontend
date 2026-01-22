@@ -10,6 +10,7 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
+import { StorageIndicator } from '@/shared/components/StorageIndicator';
 
 export function ProfileSidebar({
   profileData,
@@ -188,6 +189,9 @@ export function ProfileSidebar({
               </div>
             )}
           </div>
+
+          {/* Storage Indicator */}
+          <StorageIndicator />
         </div>
       </Card>
 
