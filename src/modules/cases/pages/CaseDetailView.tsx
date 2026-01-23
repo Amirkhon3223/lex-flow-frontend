@@ -4,6 +4,7 @@ import { ROUTES } from '@/app/config/routes.config';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
 import { useDocumentsStore } from '@/app/store/documents.store';
+import { usePlanLimitsStore } from '@/app/store/planLimits.store';
 import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import type { CaseDocumentInterface, AIInsightInterface } from '@/app/types/cases/cases.interfaces';
 import { CaseAIInsightsCard } from '@/modules/cases/components/CaseAIInsightsCard';
@@ -48,7 +49,16 @@ export function CaseDetailView() {
 
   const { selectedClient, fetchClientById } = useClientsStore();
   const { documents, fetchDocuments } = useDocumentsStore();
+  const { usage, fetchUsage } = usePlanLimitsStore();
   const { t } = useI18n();
+
+  const documentLimitReached = usage
+    ? usage.maxDocumentsPerCase !== -1 && documents.length >= usage.maxDocumentsPerCase
+    : false;
+
+  useEffect(() => {
+    fetchUsage();
+  }, [fetchUsage]);
 
   useEffect(() => {
     if (!id || initialized) return;
@@ -223,6 +233,7 @@ export function CaseDetailView() {
         onShareEmail={handleShareEmail}
         onEdit={() => setIsEditCaseDialogOpen(true)}
         onAddDocument={() => setIsUploadDocumentDialogOpen(true)}
+        documentLimitReached={documentLimitReached}
       />
 
       <main className="py-4 sm:py-6">

@@ -1415,6 +1415,14 @@
     "WARNING_90": "Critically low space!",
     "LIMIT_REACHED": "Storage limit reached"
   },
+  "LIMITS": {
+    "REACHED": "Plan limit reached. Upgrade to add more.",
+    "CLIENTS_LIMIT": "Clients limit reached",
+    "CASES_LIMIT": "Cases limit reached",
+    "DOCUMENTS_LIMIT": "Documents per case limit reached",
+    "MEMBERS_LIMIT": "Team members limit reached",
+    "UPGRADE": "Upgrade plan"
+  },
   "LANGUAGE_SELECTOR": {
     "SELECT_LANGUAGE": "Select Language",
     "RUSSIAN": "Русский",

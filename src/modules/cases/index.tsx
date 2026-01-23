@@ -19,9 +19,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { ROUTES } from '@/app/config/routes.config';
 import { useCasesStore } from '@/app/store/cases.store';
+import { usePlanLimitsStore } from '@/app/store/planLimits.store';
 import { CaseStatusEnum, CasePriorityEnum } from '@/app/types/cases/cases.enums';
 import { CaseFilters } from '@/modules/cases/ui/CaseFilters';
 import { AddCaseDialog } from '@/shared/components/AddCaseDialog';
+import { LimitBadge } from '@/shared/components/LimitBadge';
 import { DataPagination } from '@/shared/components/DataPagination';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
@@ -39,12 +41,14 @@ import {
 import { Progress } from '@/shared/ui/progress';
 import { StatCard } from '@/shared/ui/stat-card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
 import { formatDate } from '@/shared/utils';
 
 export function CasePage() {
   const navigate = useNavigate();
   const { t } = useI18n();
   const { cases, pagination, loading: _loading, fetchCases, deleteCase } = useCasesStore();
+  const { usage, fetchUsage, invalidate } = usePlanLimitsStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -71,6 +75,10 @@ export function CasePage() {
     setEditingCaseId(caseId);
     setIsCaseDialogOpen(true);
   };
+
+  useEffect(() => {
+    fetchUsage();
+  }, [fetchUsage]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -185,25 +193,51 @@ export function CasePage() {
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">
-                  {t('CASES.TITLE')}
-                </h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">
+                    {t('CASES.TITLE')}
+                  </h1>
+                  {usage && usage.maxCases !== -1 && (
+                    <LimitBadge current={usage.casesCount} max={usage.maxCases} />
+                  )}
+                </div>
                 <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
                   {t('CASES.SUBTITLE')}
                 </p>
               </div>
             </div>
 
-            <Button
-              onClick={() => {
-                setEditingCaseId(undefined);
-                setIsCaseDialogOpen(true);
-              }}
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md cursor-pointer w-full sm:w-auto"
-            >
-              <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
-              {t('CASES.NEW_CASE')}
-            </Button>
+            {usage && !usage.canAddCase ? (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="w-full sm:w-auto">
+                      <Button
+                        className="bg-blue-500/50 text-white rounded-xl shadow-md cursor-not-allowed w-full sm:w-auto"
+                        disabled
+                      >
+                        <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+                        {t('CASES.NEW_CASE')}
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">{t('LIMITS.CASES_LIMIT')}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <Button
+                onClick={() => {
+                  setEditingCaseId(undefined);
+                  setIsCaseDialogOpen(true);
+                }}
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md cursor-pointer w-full sm:w-auto"
+              >
+                <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+                {t('CASES.NEW_CASE')}
+              </Button>
+            )}
           </div>
 
           <div className="flex flex-col lg:flex-row lg:items-center gap-3 w-full">
@@ -488,7 +522,13 @@ export function CasePage() {
 
       <AddCaseDialog
         open={isCaseDialogOpen}
-        onOpenChange={setIsCaseDialogOpen}
+        onOpenChange={(open) => {
+          setIsCaseDialogOpen(open);
+          if (!open && !editingCaseId) {
+            invalidate();
+            fetchUsage();
+          }
+        }}
         caseId={editingCaseId}
       />
     </div>

@@ -122,6 +122,25 @@ export interface CheckoutSessionResponse {
   url: string;
 }
 
+export interface PlanUsageResponse {
+  planId: string;
+  planName: string;
+  clientsCount: number;
+  casesCount: number;
+  usersCount: number;
+  storageUsed: number;
+  maxClients: number;       // -1 = unlimited
+  maxCases: number;         // -1 = unlimited
+  maxUsers: number;
+  maxStorage: number;       // bytes, -1 = unlimited
+  maxDocumentsPerCase: number; // -1 = unlimited
+  canAddClient: boolean;
+  canAddCase: boolean;
+  canAddUser: boolean;
+  canUpload: boolean;
+  teamFeaturesEnabled: boolean;
+}
+
 export type StorageWarningLevel = 'normal' | 'warning' | 'critical';
 
 export interface StorageUsageResponse {
