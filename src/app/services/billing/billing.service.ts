@@ -11,6 +11,7 @@ import type {
   CreateCheckoutSessionRequest,
   CheckoutSessionResponse,
   StorageUsageResponse,
+  PlanUsageResponse,
 } from '../../types/billing/billing.interfaces';
 
 export const billingService = {
@@ -92,6 +93,11 @@ export const billingService = {
 
   getStorageUsage: async (): Promise<StorageUsageResponse> => {
     const response = await httpClient.get<StorageUsageResponse>('/billing/storage-usage');
+    return response.data;
+  },
+
+  getUsage: async (): Promise<PlanUsageResponse> => {
+    const response = await httpClient.get<PlanUsageResponse>('/billing/usage');
     return response.data;
   },
 };

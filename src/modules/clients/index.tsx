@@ -30,6 +30,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config.ts';
 import { useClientsStore } from '@/app/store/clients.store';
+import { usePlanLimitsStore } from '@/app/store/planLimits.store';
 import {
   ClientTypeEnum,
   ClientCategoryEnum,
@@ -37,6 +38,7 @@ import {
 } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
 import { ClientFormModal } from '@/shared/components/ClientFormModal';
+import { LimitBadge } from '@/shared/components/LimitBadge';
 import { DataPagination } from '@/shared/components/DataPagination';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { ActionsMenu } from '@/shared/components/menus/ActionsMenu';
@@ -47,12 +49,14 @@ import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { StatCard } from '@/shared/ui/stat-card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
 
 export function ClientsPage() {
   const navigate = useNavigate();
   const { t } = useI18n();
   const { clients, selectedClient, pagination, loading, fetchClients, deleteClient, selectClient } =
     useClientsStore();
+  const { usage, fetchUsage, invalidate } = usePlanLimitsStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [filterType, setFilterType] = useState('all');
@@ -63,6 +67,10 @@ export function ClientsPage() {
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
 
   const limit = 20;
+
+  useEffect(() => {
+    fetchUsage();
+  }, [fetchUsage]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -175,7 +183,13 @@ export function ClientsPage() {
     <div>
       <ClientFormModal
         open={isClientFormOpen}
-        onOpenChange={setIsClientFormOpen}
+        onOpenChange={(open) => {
+          setIsClientFormOpen(open);
+          if (!open && clientFormMode === 'create') {
+            invalidate();
+            fetchUsage();
+          }
+        }}
         mode={clientFormMode}
         client={clientFormMode === 'edit' ? selectedClient || undefined : undefined}
       />
@@ -188,25 +202,51 @@ export function ClientsPage() {
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">
-                  {t('CLIENTS.TITLE')}
-                </h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">
+                    {t('CLIENTS.TITLE')}
+                  </h1>
+                  {usage && usage.maxClients !== -1 && (
+                    <LimitBadge current={usage.clientsCount} max={usage.maxClients} />
+                  )}
+                </div>
                 <p className="text-muted-foreground text-sm sm:text-base lg:text-lg">
                   {t('CLIENTS.SUBTITLE')}
                 </p>
               </div>
             </div>
 
-            <Button
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full sm:w-auto"
-              onClick={() => {
-                setClientFormMode('create');
-                setIsClientFormOpen(true);
-              }}
-            >
-              <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
-              {t('CLIENTS.NEW_CLIENT')}
-            </Button>
+            {usage && !usage.canAddClient ? (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="w-full sm:w-auto">
+                      <Button
+                        className="bg-blue-500/50 text-white rounded-xl shadow-md w-full sm:w-auto cursor-not-allowed"
+                        disabled
+                      >
+                        <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+                        {t('CLIENTS.NEW_CLIENT')}
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">{t('LIMITS.CLIENTS_LIMIT')}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <Button
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full sm:w-auto"
+                onClick={() => {
+                  setClientFormMode('create');
+                  setIsClientFormOpen(true);
+                }}
+              >
+                <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+                {t('CLIENTS.NEW_CLIENT')}
+              </Button>
+            )}
           </div>
 
           <FilterBar

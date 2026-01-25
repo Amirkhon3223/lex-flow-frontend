@@ -15,6 +15,7 @@ import { BackButton } from '@/shared/components/BackButton';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,6 +35,7 @@ interface CaseHeaderProps {
   onShareEmail: () => void;
   onEdit: () => void;
   onAddDocument: () => void;
+  documentLimitReached?: boolean;
 }
 
 const getPriorityBadgeColor = (priority?: CasePriorityEnum) => {
@@ -67,6 +69,7 @@ export function CaseHeader({
   onShareEmail,
   onEdit,
   onAddDocument,
+  documentLimitReached,
 }: CaseHeaderProps) {
   const { t } = useI18n();
 
@@ -126,13 +129,34 @@ export function CaseHeader({
                   {t('CASES.IN_WORK')}
                 </Badge>
               </div>
-              <Button
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full mb-3 lg:w-auto text-sm sm:text-base"
-                onClick={onAddDocument}
-              >
-                <Paperclip className="w-4 h-4 mr-2" strokeWidth={2} />
-                {t('DOCUMENTS.UPLOAD_DOCUMENT')}
-              </Button>
+              {documentLimitReached ? (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span>
+                        <Button
+                          className="bg-blue-500/50 text-white rounded-xl shadow-md w-full mb-3 lg:w-auto text-sm sm:text-base cursor-not-allowed"
+                          disabled
+                        >
+                          <Paperclip className="w-4 h-4 mr-2" strokeWidth={2} />
+                          {t('DOCUMENTS.UPLOAD_DOCUMENT')}
+                        </Button>
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="text-xs">{t('LIMITS.DOCUMENTS_LIMIT')}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <Button
+                  className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full mb-3 lg:w-auto text-sm sm:text-base"
+                  onClick={onAddDocument}
+                >
+                  <Paperclip className="w-4 h-4 mr-2" strokeWidth={2} />
+                  {t('DOCUMENTS.UPLOAD_DOCUMENT')}
+                </Button>
+              )}
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center border-t-2 pt-4 gap-2 sm:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-[15px] text-muted-foreground">
               <span className="flex items-center gap-2">
