@@ -1,15 +1,38 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Shield, Server, Brain, Lock, Users, Bell, Cookie, FileText, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
 import { LanguageSelectorPublic } from '@/shared/components/LanguageSelectorPublic.tsx';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button.tsx';
 
+interface PrivacySection {
+  title: string;
+  text?: string;
+  items?: string[];
+  highlight?: boolean;
+}
+
+const sectionIcons: Record<number, React.ElementType> = {
+  1: Shield,
+  2: FileText,
+  3: Users,
+  4: Brain,
+  5: Server,
+  6: Server,
+  7: Lock,
+  8: FileText,
+  9: Users,
+  10: Lock,
+  11: Bell,
+  12: Cookie,
+  13: FileText,
+  14: Mail,
+};
+
 export default function PrivacyPolicyPage() {
   const { t, language } = useI18n();
 
-  // Import translations directly for arrays
   const getTranslations = () => {
     switch (language) {
       case 'en':
@@ -21,7 +44,7 @@ export default function PrivacyPolicyPage() {
     }
   };
 
-  const [privacyData, setPrivacyData] = useState<any>(null);
+  const [privacyData, setPrivacyData] = useState<Record<string, unknown> | null>(null);
 
   useEffect(() => {
     getTranslations().then((data) => {
@@ -33,9 +56,21 @@ export default function PrivacyPolicyPage() {
     return null;
   }
 
+  // Dynamically get all sections
+  const sections: PrivacySection[] = [];
+  let sectionNum = 1;
+  while (privacyData[`SECTION_${sectionNum}_TITLE`]) {
+    sections.push({
+      title: privacyData[`SECTION_${sectionNum}_TITLE`] as string,
+      text: privacyData[`SECTION_${sectionNum}_TEXT`] as string | undefined,
+      items: privacyData[`SECTION_${sectionNum}_ITEMS`] as string[] | undefined,
+      highlight: privacyData[`SECTION_${sectionNum}_HIGHLIGHT`] as boolean | undefined,
+    });
+    sectionNum++;
+  }
+
   return (
     <div className="min-h-screen bg-background">
-      {}
       <div className="absolute top-4 right-4 z-10">
         <LanguageSelectorPublic />
       </div>
@@ -53,117 +88,87 @@ export default function PrivacyPolicyPage() {
             {t('PRIVACY_POLICY.TITLE')}
           </h1>
           <p className="text-muted-foreground mb-8">
-            {t('PRIVACY_POLICY.LAST_UPDATED', { date: '17 января 2026' })}
+            {t('PRIVACY_POLICY.LAST_UPDATED', { date: '26 января 2026' })}
           </p>
 
-          <div className="space-y-6 text-foreground">
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_1_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_1_TEXT}</p>
-            </section>
+          <div className="space-y-8 text-foreground">
+            {sections.map((section, index) => {
+              const Icon = sectionIcons[index + 1] || Shield;
+              const isHighlight = section.highlight;
 
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_2_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed mb-3">
-                {privacyData.SECTION_2_TEXT}
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                {privacyData.SECTION_2_ITEMS.map((item: string, index: number) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </section>
+              return (
+                <section
+                  key={index}
+                  className={isHighlight ? 'bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 -mx-4' : ''}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className={`p-2 rounded-lg ${isHighlight ? 'bg-amber-500/20' : 'bg-primary/10'}`}>
+                      <Icon className={`w-5 h-5 ${isHighlight ? 'text-amber-600' : 'text-primary'}`} />
+                    </div>
+                    <div className="flex-1">
+                      <h2 className="text-xl font-semibold mb-3">{section.title}</h2>
+                      {section.text && (
+                        <p className="text-muted-foreground leading-relaxed mb-3">{section.text}</p>
+                      )}
+                      {section.items && (
+                        <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
+                          {section.items.map((item, itemIndex) => (
+                            <li key={itemIndex}>{item}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                </section>
+              );
+            })}
 
+            {/* Contacts Section */}
             <section>
-              <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_3_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed mb-3">
-                {privacyData.SECTION_3_TEXT}
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                {privacyData.SECTION_3_ITEMS.map((item: string, index: number) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_4_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_4_TEXT}</p>
-              <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4 mt-3">
-                {privacyData.SECTION_4_ITEMS.map((item: string, index: number) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_5_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_5_TEXT}</p>
-              <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4 mt-3">
-                {privacyData.SECTION_5_ITEMS.map((item: string, index: number) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_6_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed mb-3">
-                {privacyData.SECTION_6_TEXT}
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-4">
-                {privacyData.SECTION_6_ITEMS.map((item: string, index: number) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_7_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_7_TEXT}</p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_8_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed">{privacyData.SECTION_8_TEXT}</p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">{privacyData.SECTION_9_TITLE}</h2>
-              <p className="text-muted-foreground leading-relaxed mb-3">
-                {privacyData.SECTION_9_TEXT}
-              </p>
-              <ul className="space-y-2 text-muted-foreground ml-4">
-                <li>
-                  <strong>{t('CONTACTS_MODAL.EMAIL')}:</strong>{' '}
-                  <a href="mailto:lexflow.team@gmail.com" className="text-blue-500 hover:underline">
-                    lexflow.team@gmail.com
-                  </a>
-                </li>
-                <li>
-                  <strong>{t('CONTACTS_MODAL.TELEGRAM')}:</strong>{' '}
-                  <a
-                    href="https://t.me/Amirichinvoker"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline"
-                  >
-                    @Amirichinvoker
-                  </a>
-                </li>
-                <li>
-                  <strong>{t('CONTACTS_MODAL.PHONE')}:</strong>{' '}
-                  <a href="tel:+12672283117" className="text-blue-500 hover:underline">
-                    +1 267 228 3117
-                  </a>
-                </li>
-              </ul>
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Mail className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-semibold mb-3">
+                    {privacyData.CONTACTS_TITLE as string}
+                  </h2>
+                  <p className="text-muted-foreground leading-relaxed mb-3">
+                    {privacyData.CONTACTS_TEXT as string}
+                  </p>
+                  <ul className="space-y-2 text-muted-foreground ml-4">
+                    <li>
+                      <strong>{t('CONTACTS_MODAL.EMAIL')}:</strong>{' '}
+                      <a href="mailto:lexflow.team@gmail.com" className="text-blue-500 hover:underline">
+                        lexflow.team@gmail.com
+                      </a>
+                    </li>
+                    <li>
+                      <strong>{t('CONTACTS_MODAL.TELEGRAM')}:</strong>{' '}
+                      <a
+                        href="https://t.me/Amirichinvoker"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        @Amirichinvoker
+                      </a>
+                    </li>
+                    <li>
+                      <strong>{t('CONTACTS_MODAL.PHONE')}:</strong>{' '}
+                      <a href="tel:+12672283117" className="text-blue-500 hover:underline">
+                        +1 267 228 3117
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </section>
           </div>
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-sm text-muted-foreground">{t('AUTH_FOOTER.COPYRIGHT')}</p>
+          <p className="text-sm text-muted-foreground">{t('AUTH_FOOTER.COPYRIGHT', { year: new Date().getFullYear() })}</p>
         </div>
       </div>
     </div>

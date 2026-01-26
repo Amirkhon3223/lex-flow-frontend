@@ -1368,15 +1368,17 @@
     "LAST_UPDATED": "Last updated: {{date}}",
     "BACK_TO_LOGIN": "Back to Login",
     "SECTION_1_TITLE": "1. Introduction",
-    "SECTION_1_TEXT": "LexFlow (\"we\", \"our\" or \"us\") is committed to protecting the privacy of our users. This Privacy Policy describes how we collect, use, and protect your personal information when using our legal practice management system.",
+    "SECTION_1_TEXT": "LexFlow (\"we\", \"our\" or \"us\") is committed to protecting the privacy of our users and their clients. This Privacy Policy describes how we collect, use, and protect your personal information when using our legal practice management system.",
     "SECTION_2_TITLE": "2. Information Collection",
     "SECTION_2_TEXT": "We collect the following types of information:",
     "SECTION_2_ITEMS": [
-      "Personal information: first name, last name, email address",
-      "Firm information: firm name, country, city, phone",
+      "Personal information: first name, last name, email address, phone",
+      "Firm information: firm name, country, city",
       "Client and case data you add to the system",
       "Documents and files uploaded to the system",
-      "Service usage data and technical information"
+      "Calendar events and meetings",
+      "Financial and billing information",
+      "Technical information: IP address, browser type, device"
     ],
     "SECTION_3_TITLE": "3. Information Use",
     "SECTION_3_TEXT": "We use collected information to:",
@@ -1387,38 +1389,89 @@
       "Ensure security and prevent fraud",
       "Comply with legal obligations"
     ],
-    "SECTION_4_TITLE": "4. Data Protection",
-    "SECTION_4_TEXT": "We implement modern technical and organizational measures to protect your data, including:",
+    "SECTION_4_TITLE": "4. Artificial Intelligence and Automated Processing",
+    "SECTION_4_TEXT": "LexFlow uses artificial intelligence to enhance your experience:",
     "SECTION_4_ITEMS": [
-      "Data encryption in transit (HTTPS/SSL)",
-      "Secure password storage using bcrypt",
-      "Two-factor authentication (2FA)",
-      "Regular data backups",
-      "Limited access to personal data"
+      "Document analysis and summarization",
+      "Legal chat assistant",
+      "Document version comparison",
+      "Intelligent recommendations"
     ],
-    "SECTION_5_TITLE": "5. Third-Party Data Sharing",
-    "SECTION_5_TEXT": "We do not sell or share your personal data with third parties, except:",
+    "SECTION_4_HIGHLIGHT": true,
+    "SECTION_5_TITLE": "5. AI Provider and Data Protection",
+    "SECTION_5_TEXT": "We use Groq API (Llama models) for processing AI requests:",
     "SECTION_5_ITEMS": [
-      "Stripe payment system for payment processing",
-      "Cases required by law",
-      "Protecting our rights and user security"
+      "Your data is NOT used to train AI models",
+      "Data is transmitted over encrypted connection",
+      "AI provider does not store your data after processing",
+      "You can use LexFlow without AI features — they are optional"
     ],
-    "SECTION_6_TITLE": "6. Your Rights",
-    "SECTION_6_TEXT": "You have the right to:",
+    "SECTION_6_TITLE": "6. Data Location",
+    "SECTION_6_TEXT": "Your data is stored on Hetzner servers in Helsinki, Finland (European Union):",
     "SECTION_6_ITEMS": [
-      "Access your personal data",
-      "Correct inaccurate data",
-      "Delete your data",
-      "Restrict data processing",
-      "Object to data processing",
-      "Receive a copy of your data"
+      "GDPR-compliant jurisdiction",
+      "EU data protection laws apply",
+      "Data does not leave the EU"
     ],
-    "SECTION_7_TITLE": "7. Cookies",
-    "SECTION_7_TEXT": "We use cookies to provide service functionality, including authentication and CSRF protection. By continuing to use our service, you consent to the use of cookies.",
-    "SECTION_8_TITLE": "8. Policy Changes",
-    "SECTION_8_TEXT": "We may update this Privacy Policy. Changes take effect after publishing the updated version on our website. We recommend checking this page periodically.",
-    "SECTION_9_TITLE": "9. Contact",
-    "SECTION_9_TEXT": "If you have questions about this Privacy Policy, contact us:"
+    "SECTION_7_TITLE": "7. Attorney-Client Privilege Protection",
+    "SECTION_7_TEXT": "We understand the importance of attorney-client privilege:",
+    "SECTION_7_ITEMS": [
+      "All client data is isolated by workspaces (multi-tenant architecture)",
+      "We do NOT access your client data except for technical support (with your explicit permission)",
+      "Documents and case information are encrypted at rest",
+      "You retain full ownership of all data you enter",
+      "We never disclose your data to third parties except when required by law"
+    ],
+    "SECTION_7_HIGHLIGHT": true,
+    "SECTION_8_TITLE": "8. Third Parties",
+    "SECTION_8_TEXT": "We use the following third-party services:",
+    "SECTION_8_ITEMS": [
+      "Stripe — payment processing",
+      "Groq — AI processing (Llama models)",
+      "Resend — email notifications",
+      "Hetzner — hosting (Finland, EU)"
+    ],
+    "SECTION_9_TITLE": "9. Data Protection",
+    "SECTION_9_TEXT": "We implement modern security measures:",
+    "SECTION_9_ITEMS": [
+      "HTTPS/TLS encryption in transit",
+      "bcrypt password hashing",
+      "Two-factor authentication (2FA)",
+      "CSRF protection",
+      "Rate limiting",
+      "Regular backups"
+    ],
+    "SECTION_10_TITLE": "10. Data Retention",
+    "SECTION_10_TEXT": "We retain your data:",
+    "SECTION_10_ITEMS": [
+      "Account data: while account is active + 30 days after deletion request",
+      "Documents: until you delete them or close your account",
+      "Payment records: 7 years (legal requirement)",
+      "AI chat history: until you delete them or close your account"
+    ],
+    "SECTION_11_TITLE": "11. Your Rights (GDPR)",
+    "SECTION_11_TEXT": "You have the right to:",
+    "SECTION_11_ITEMS": [
+      "Access — request a copy of your personal data",
+      "Rectification — correct inaccurate information",
+      "Erasure — request deletion of your data (\"right to be forgotten\")",
+      "Portability — export data in a machine-readable format",
+      "Restriction — restrict processing of your data",
+      "Objection — object to data processing"
+    ],
+    "SECTION_12_TITLE": "12. Data Breach Notification",
+    "SECTION_12_TEXT": "In case of a data breach affecting your personal data:",
+    "SECTION_12_ITEMS": [
+      "We will notify affected users within 72 hours",
+      "We will notify relevant supervisory authorities as required by GDPR",
+      "We will provide information about the nature of the breach and measures taken"
+    ],
+    "SECTION_13_TITLE": "13. Cookies",
+    "SECTION_13_TEXT": "We use only essential cookies for authentication and security. These cookies are required for login and CSRF protection. We do NOT use tracking or advertising cookies.",
+    "SECTION_14_TITLE": "14. Policy Changes",
+    "SECTION_14_TEXT": "We may update this Privacy Policy. Changes take effect after publishing. For significant changes, we will notify you by email.",
+    "CONTACTS_TITLE": "15. Contact",
+    "CONTACTS_TEXT": "If you have questions about this Privacy Policy, contact us:"
   },
   "TERMS_OF_SERVICE": {
     "TITLE": "Terms of Service",
