@@ -149,8 +149,10 @@ export const aiService = {
           }
 
           if (eventType === 'message' && eventData !== undefined) {
+            // Decode escaped newlines from SSE format (backend escapes \n to \\n)
+            const decodedData = eventData.replace(/\\n/g, '\n');
             // Send chunk even if it's just whitespace - preserve all characters
-            onChunk(eventData);
+            onChunk(decodedData);
           }
         }
       }
@@ -165,7 +167,9 @@ export const aiService = {
               eventData = eventData.slice(1);
             }
             if (eventData) {
-              onChunk(eventData);
+              // Decode escaped newlines from SSE format
+              const decodedData = eventData.replace(/\\n/g, '\n');
+              onChunk(decodedData);
             }
           }
         }
