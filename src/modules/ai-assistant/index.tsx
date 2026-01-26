@@ -125,7 +125,7 @@ export function AIAssistantView() {
   ];
 
   // Convert messages to chat history format
-  const chatHistory = messages.map((msg) => ({
+  const chatHistory = (messages ?? []).map((msg) => ({
     type: msg.role === 'user' ? ('user' as const) : ('ai' as const),
     message: msg.content,
     time: new Date(msg.createdAt).toLocaleTimeString([], {
@@ -212,9 +212,9 @@ export function AIAssistantView() {
       </Sheet>
 
       {/* Content Area: Sidebar + Main */}
-      <div className="flex flex-1 overflow-hidden space-x-2">
+      <div className="flex flex-1 min-h-0 gap-2">
         {/* Desktop Sidebar - Left, below header */}
-        <div className="hidden lg:flex flex-shrink-0">
+        <div className="hidden lg:block flex-shrink-0">
           {sidebarContent}
         </div>
 
