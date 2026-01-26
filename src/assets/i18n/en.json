@@ -1148,6 +1148,14 @@
     "NO_POSITION": "Position not specified",
     "NO_SPECIALIZATION": "Specialization not specified",
     "AVATAR_UPDATED": "Avatar updated",
+    "AVATAR_DELETED": "Avatar deleted",
+    "AVATAR_ERRORS": {
+      "AVATAR_REQUIRED": "Please select a file to upload",
+      "AVATAR_TOO_LARGE": "File size exceeds 1 MB. Please choose a smaller file.",
+      "AVATAR_INVALID_FORMAT": "Invalid file format. Allowed: JPEG, PNG, WebP",
+      "AVATAR_UPLOAD_FAILED": "Failed to upload avatar. Please try again.",
+      "AVATAR_DELETE_FAILED": "Failed to delete avatar. Please try again."
+    },
     "CHANGES_SAVED": "Changes saved",
     "DELETE_ACCOUNT_CONFIRM": "Are you sure you want to delete your account?",
     "ACCOUNT_DELETED": "Account deleted"

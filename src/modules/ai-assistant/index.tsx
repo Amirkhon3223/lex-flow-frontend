@@ -214,7 +214,7 @@ export function AIAssistantView() {
       {/* Content Area: Sidebar + Main */}
       <div className="flex flex-1 overflow-hidden space-x-2">
         {/* Desktop Sidebar - Left, below header */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex flex-shrink-0">
           {sidebarContent}
         </div>
 

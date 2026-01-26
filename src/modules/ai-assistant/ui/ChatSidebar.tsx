@@ -120,7 +120,7 @@ export function ChatSidebar({
   }
 
   return (
-    <div className="w-52 lg:w-56 flex flex-col">
+    <div className="flex flex-col min-w-0">
       {/* Header */}
       <div className="p-2 border-b border-border">
         <div className="flex items-center justify-between mb-3">
@@ -157,7 +157,7 @@ export function ChatSidebar({
       </div>
 
       {/* Chat List */}
-      <ScrollArea className="flex-1">
+      <ScrollArea className="">
         <div className="py-2">
           {loading && safeChats.length === 0 ? (
             <div className="flex items-center justify-center py-8">
@@ -173,18 +173,18 @@ export function ChatSidebar({
             <>
               {/* Active Chats */}
               {activeChats.length > 0 && (
-                <div className="space-y-1">
+                <div className="space-y-1 w-full">
                   {activeChats.map((chat) => (
                     <div
                       key={chat.id}
                       onClick={() => onSelectChat(chat.id)}
-                      className={`group flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors ${
+                      className={`group relative flex items-center gap-2 p-2 rounded-lg w-full cursor-pointer transition-colors ${
                         currentChat?.id === chat.id
                           ? 'bg-purple-500/20 text-purple-700 dark:text-purple-300'
                           : 'hover:bg-muted'
                       }`}
                     >
-                      <MessageSquare className="w-4 h-4 flex-shrink-0" />
+                      <MessageSquare className="w-4 h-4" />
                       <div className="flex-1 min-w-0">
                         <div className="text-sm truncate">{chat.title}</div>
                         <div className="text-xs text-muted-foreground">
@@ -197,13 +197,13 @@ export function ChatSidebar({
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-6 w-6 opacity-0 group-hover:opacity-100"
+                            className="relative h-6 w-6 opacity-none group-hover:opacity-100"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <MoreHorizontal className="w-3 h-3" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
+                        <DropdownMenuContent align="end" side="bottom" className="min-w-[140px] z-[100]">
                           <DropdownMenuItem onClick={(e) => handleArchive(chat.id, e as unknown as React.MouseEvent)}>
                             <Archive className="w-4 h-4 mr-2" />
                             {t('AI_ASSISTANT.SIDEBAR.ARCHIVE')}
