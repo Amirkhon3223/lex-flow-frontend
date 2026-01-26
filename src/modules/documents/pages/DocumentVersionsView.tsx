@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useDocumentsStore } from '@/app/store/documents.store';
+import { DocumentAnalysis } from '@/modules/documents/components/DocumentAnalysis';
 import { BackButton } from '@/shared/components/BackButton';
 import { DataPagination } from '@/shared/components/DataPagination';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
@@ -256,6 +257,9 @@ export function DocumentVersionsView() {
               </div>
             </Card>
           )}
+
+          {/* AI Document Analysis */}
+          <DocumentAnalysis documentId={document.id} documentName={document.name} />
 
           <Card className="bg-blue-500/10 border-blue-500/20 mb-4 sm:mb-6">
             <div className="flex items-center gap-3">

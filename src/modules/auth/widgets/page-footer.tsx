@@ -20,7 +20,7 @@ export function PageFooter() {
   return (
     <div className="text-center mt-6 sm:mt-8">
       <p className="text-xs sm:text-sm text-slate-600">
-        {t('AUTH_FOOTER.COPYRIGHT', { year: '2026' })}
+        {t('AUTH_FOOTER.COPYRIGHT', { year: new Date().getFullYear() })}
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 mt-2.5 sm:mt-3">
         <Button
