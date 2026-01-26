@@ -19,7 +19,7 @@ interface ExtendedChatInputProps extends ChatInputProps {
   disabled?: boolean;
 }
 
-export function ChatInput({ message, setMessage, onSend, disabled }: ExtendedChatInputProps) {
+export function ChatInput({ message, setMessage, onSend, disabled: _disabled }: ExtendedChatInputProps) {
   const { t } = useI18n();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [files, setFiles] = useState<File[]>([]);
