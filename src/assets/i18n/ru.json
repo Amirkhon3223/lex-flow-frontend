@@ -1165,6 +1165,14 @@
     "NO_POSITION": "Должность не указана",
     "NO_SPECIALIZATION": "Специализация не указана",
     "AVATAR_UPDATED": "Аватар обновлён",
+    "AVATAR_DELETED": "Аватар удалён",
+    "AVATAR_ERRORS": {
+      "AVATAR_REQUIRED": "Выберите файл для загрузки",
+      "AVATAR_TOO_LARGE": "Размер файла превышает 1 МБ. Выберите файл меньшего размера.",
+      "AVATAR_INVALID_FORMAT": "Неверный формат файла. Разрешены: JPEG, PNG, WebP",
+      "AVATAR_UPLOAD_FAILED": "Не удалось загрузить аватар. Попробуйте ещё раз.",
+      "AVATAR_DELETE_FAILED": "Не удалось удалить аватар. Попробуйте ещё раз."
+    },
     "CHANGES_SAVED": "Изменения сохранены",
     "DELETE_ACCOUNT_CONFIRM": "Вы уверены, что хотите удалить аккаунт?",
     "ACCOUNT_DELETED": "Аккаунт удалён"

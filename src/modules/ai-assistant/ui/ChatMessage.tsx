@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Copy, Check } from 'lucide-react';
 import { MessageTypeEnum, InsightTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums';
 import type { ChatMessageProps } from '@/app/types/ai-assistant/ai-assistant.interfaces';
@@ -28,7 +30,15 @@ export function ChatMessage({ chat }: ChatMessageProps) {
             isUser ? 'bg-blue-500 text-white' : 'bg-muted text-foreground'
           }`}
         >
-          <p className="whitespace-pre-wrap text-xs sm:text-sm leading-relaxed">{chat.message}</p>
+          {isUser ? (
+            <p className="whitespace-pre-wrap text-xs sm:text-sm leading-relaxed">{chat.message}</p>
+          ) : (
+            <div className="markdown-content text-xs sm:text-sm leading-relaxed [&_p]:my-2 [&_h1]:text-lg [&_h1]:font-bold [&_h1]:my-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:my-2.5 [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:my-2 [&_li]:my-0.5 [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-xs [&_pre]:bg-muted [&_pre]:p-3 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_pre]:my-2 [&_blockquote]:border-l-4 [&_blockquote]:border-purple-500 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:my-2 [&_strong]:font-semibold [&_a]:text-purple-500 [&_a]:underline">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {chat.message}
+              </ReactMarkdown>
+            </div>
+          )}
           {chat.type === MessageTypeEnum.AI && chat.insights && (
             <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-border space-y-1.5 sm:space-y-2">
               {chat.insights.map((insight, idx) => (

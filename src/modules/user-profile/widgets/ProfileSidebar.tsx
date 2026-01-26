@@ -60,6 +60,26 @@ export function ProfileSidebar({
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      // Validate file size (1 MB max)
+      const maxSize = 1 * 1024 * 1024; // 1 MB
+      if (file.size > maxSize) {
+        toast.error(t('USER_PROFILE.AVATAR_ERRORS.AVATAR_TOO_LARGE'));
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        return;
+      }
+
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        toast.error(t('USER_PROFILE.AVATAR_ERRORS.AVATAR_INVALID_FORMAT'));
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setSelectedImage(reader.result as string);
@@ -86,8 +106,16 @@ export function ProfileSidebar({
       updateUserData({ avatar: uploadResponse.avatarUrl });
       setAvatarPreview(uploadResponse.avatarUrl);
       toast.success(t('USER_PROFILE.AVATAR_UPDATED'));
-    } catch (error) {
-      toast.error(t('COMMON.ERRORS.GENERIC'));
+    } catch (error: unknown) {
+      // Handle specific error codes from backend
+      const errorResponse = error as { response?: { data?: { message?: string } } };
+      const errorCode = errorResponse?.response?.data?.message;
+
+      if (errorCode && errorCode.startsWith('AVATAR_')) {
+        toast.error(t(`USER_PROFILE.AVATAR_ERRORS.${errorCode}`));
+      } else {
+        toast.error(t('USER_PROFILE.AVATAR_ERRORS.AVATAR_UPLOAD_FAILED'));
+      }
       console.error('Avatar upload error:', error);
       setAvatarPreview(null);
     }
