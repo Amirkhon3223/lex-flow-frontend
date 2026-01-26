@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Sparkles, Loader2 } from 'lucide-react';
-import { MessageTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums.ts';
+import { MessageTypeEnum, InsightTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums.ts';
 import type { ChatMessageInterface } from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Card } from '@/shared/ui/card';
@@ -20,7 +20,7 @@ interface ChatAreaProps {
   sendingMessage?: boolean;
 }
 
-export function ChatArea({ chatHistory, onSendMessage, loading, sendingMessage }: ChatAreaProps) {
+export function ChatArea({ chatHistory, onSendMessage, sendingMessage }: ChatAreaProps) {
   const { t } = useI18n();
   const [message, setMessage] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -39,7 +39,7 @@ export function ChatArea({ chatHistory, onSendMessage, loading, sendingMessage }
     message: chat.message,
     time: chat.time,
     insights: chat.insights?.map((i) => ({
-      type: i.type as 'success' | 'warning' | 'error',
+      type: (i.type === 'success' ? InsightTypeEnum.SUCCESS : i.type === 'warning' ? InsightTypeEnum.WARNING : InsightTypeEnum.ERROR),
       text: i.text,
     })),
   }));

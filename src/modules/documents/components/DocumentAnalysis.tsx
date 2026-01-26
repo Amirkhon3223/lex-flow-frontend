@@ -30,7 +30,7 @@ const analysisOptions: { type: AnalysisType; icon: typeof FileSearch; labelKey: 
   { type: 'full', icon: Sparkles, labelKey: 'DOCUMENTS.AI_ANALYSIS.FULL', descKey: 'DOCUMENTS.AI_ANALYSIS.FULL_DESC' },
 ];
 
-export function DocumentAnalysis({ documentId, documentName }: DocumentAnalysisProps) {
+export function DocumentAnalysis({ documentId, documentName: _documentName }: DocumentAnalysisProps) {
   const { t } = useI18n();
   const { analyzeDocument, tokenBalance, fetchTokenBalance, loading } = useAIStore();
   const [selectedType, setSelectedType] = useState<AnalysisType>('overview');
