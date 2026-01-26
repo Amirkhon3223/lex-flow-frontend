@@ -15,7 +15,11 @@ import {
 } from '@/app/utils/speechRecognition';
 import { useI18n } from '@/shared/context/I18nContext';
 
-export function ChatInput({ message, setMessage, onSend }: ChatInputProps) {
+interface ExtendedChatInputProps extends ChatInputProps {
+  disabled?: boolean;
+}
+
+export function ChatInput({ message, setMessage, onSend, disabled }: ExtendedChatInputProps) {
   const { t } = useI18n();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [files, setFiles] = useState<File[]>([]);

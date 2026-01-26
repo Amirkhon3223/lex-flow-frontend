@@ -25,6 +25,7 @@ import { ScrollArea } from '@/shared/ui/scroll-area.tsx';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/shared/ui/select.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
 import { BlockRenderer } from '../components/BlockRenderer';
+import { VersionDiffSummary } from '../components/VersionDiffSummary';
 import { blockMatcher } from '../utils/BlockMatcher';
 import { diffCalculator } from '../utils/DiffCalculator';
 
@@ -394,6 +395,18 @@ export function DocumentCompareView() {
               unavailable.
             </AlertDescription>
           </Alert>
+        )}
+
+        {/* AI Version Diff Summary */}
+        {documentId && version1 && version2 && v1Meta && v2Meta && (
+          <VersionDiffSummary
+            documentId={documentId}
+            version1Id={version1}
+            version2Id={version2}
+            version1Number={v1Meta.versionNumber}
+            version2Number={v2Meta.versionNumber}
+            statistics={statistics}
+          />
         )}
 
         {}

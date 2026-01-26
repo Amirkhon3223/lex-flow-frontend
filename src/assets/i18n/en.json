@@ -168,7 +168,9 @@
       "TITLE": "AI Insights",
       "RECOMMENDATION_UPDATE_CONTRACT": "It's recommended to update the contract for client ООО \"ТехноСтрой\"",
       "FOUND_SIMILAR_CASES": "Found {{count}} similar cases in archive",
-      "ACTION_ASK": "Ask AI"
+      "ACTION_ASK": "Ask AI",
+      "NO_INSIGHTS": "No insights yet. They will appear after analyzing your cases.",
+      "TIP": "Tip: use AI to analyze documents and cases"
     },
     "TODAY": {
       "OPEN_CALENDAR": "Open calendar",
@@ -576,6 +578,36 @@
       "FILE_TOO_LARGE": "File is too large. Maximum size: {{maxSize}}MB",
       "UPLOAD_FAILED": "File upload failed. Please try again",
       "LOAD_FAILED": "Failed to load document and versions"
+    },
+    "AI_ANALYSIS": {
+      "TITLE": "AI Document Analysis",
+      "DESCRIPTION": "Get detailed document analysis powered by artificial intelligence",
+      "OVERVIEW": "Overview",
+      "OVERVIEW_DESC": "General structure and content",
+      "RISKS": "Risks",
+      "RISKS_DESC": "Potential legal risks",
+      "SUMMARY": "Summary",
+      "SUMMARY_DESC": "Brief document summary",
+      "FULL": "Full Analysis",
+      "FULL_DESC": "Detailed legal analysis",
+      "ANALYZE_BUTTON": "Analyze Document",
+      "ANALYZING": "Analyzing...",
+      "RESULT": "Analysis Result",
+      "SUCCESS": "Document analysis completed",
+      "ERROR": "Error analyzing document",
+      "INSUFFICIENT_TOKENS": "Insufficient tokens for analysis. Please top up your balance."
+    },
+    "AI_DIFF": {
+      "TITLE": "AI Changes Summary",
+      "DESCRIPTION": "Get AI-powered analysis of version differences",
+      "SUMMARY": "Changes Summary",
+      "DETAILED_ANALYSIS": "Detailed Analysis",
+      "GENERATE": "Generate AI Summary",
+      "GENERATING": "Analyzing changes...",
+      "SUCCESS": "AI summary generated successfully",
+      "ERROR": "Error generating summary",
+      "INSUFFICIENT_TOKENS": "Insufficient tokens. Please top up your balance.",
+      "CHARS": "chars"
     }
   },
   "CALENDAR": {
@@ -827,15 +859,42 @@
     "HEADER": {
       "TITLE": "AI Assistant",
       "SUBTITLE": "Intelligent analysis and assistance for lawyers",
-      "PREMIUM_ACCESS": "Premium access"
+      "PREMIUM_ACCESS": "Premium access",
+      "TOKENS_LEFT": "tokens",
+      "CHATS": "Chats",
+      "MORE_CHATS": "more chats",
+      "NEW_CHAT": "New Chat"
     },
     "CHAT": {
       "TITLE": "Legal assistant",
       "STATUS": "Always online",
+      "THINKING": "Thinking...",
+      "GENERATING": "Generating response...",
+      "WELCOME_TITLE": "Start a conversation",
+      "WELCOME_DESCRIPTION": "Ask a question or select a quick command on the right to start chatting with the AI assistant.",
       "MESSAGE_PLACEHOLDER": "Type your question here...",
       "COPY": "Copy",
       "COPY_MESSAGE": "Copy message",
-      "COPIED": "Copied"
+      "COPIED": "Copied",
+      "VOICE_UNAVAILABLE": "Voice input unavailable",
+      "VOICE_BROWSER_ERROR": "Your browser does not support voice input",
+      "DELETED": "Chat deleted",
+      "DELETE_ERROR": "Error deleting chat",
+      "ARCHIVED": "Chat archived",
+      "ARCHIVE_ERROR": "Error archiving chat"
+    },
+    "SIDEBAR": {
+      "HISTORY": "Chat History",
+      "SEARCH": "Search chats...",
+      "TODAY": "Today",
+      "YESTERDAY": "Yesterday",
+      "THIS_WEEK": "This week",
+      "MESSAGES": "msgs",
+      "NO_CHATS": "No chats. Start a new one!",
+      "NO_RESULTS": "No chats found",
+      "ARCHIVE": "Archive",
+      "DELETE": "Delete",
+      "ARCHIVED": "Archived"
     },
     "ANALYZE": {
       "UPLOAD_TITLE": "Upload a document for analysis",
@@ -854,6 +913,30 @@
     },
     "RECENT_ANALYSES": {
       "TITLE": "Recent Analyses"
+    },
+    "TOKENS": {
+      "BALANCE": "Token Balance",
+      "PURCHASED": "purchased",
+      "DAILY": "Daily Limit",
+      "WEEKLY": "Weekly Limit",
+      "MONTHLY": "Monthly Limit",
+      "DAYS": "d",
+      "HOURS": "h",
+      "SOON": "soon",
+      "BUY_MORE": "Buy More Tokens",
+      "LIMIT_REACHED_HINT": "Purchased tokens are not limited by daily/weekly limits",
+      "PURCHASE_TITLE": "Buy Tokens",
+      "PURCHASE_DESCRIPTION": "Choose a token pack for AI features",
+      "TOKENS": "tokens",
+      "POPULAR": "Popular",
+      "BUY_NOW": "Buy Now",
+      "PROCESSING": "Processing...",
+      "PURCHASE_STARTED": "Redirecting to checkout...",
+      "PURCHASE_ERROR": "Error creating order",
+      "INSUFFICIENT": "Insufficient tokens. Please top up your balance.",
+      "DAILY_LIMIT_REACHED": "Daily limit reached. Try again tomorrow or buy more tokens.",
+      "WEEKLY_LIMIT_REACHED": "Weekly limit reached. Try again next week or buy more tokens.",
+      "MONTHLY_LIMIT_REACHED": "Monthly limit reached. Upgrade your plan or buy more tokens."
     }
   },
   "SETTINGS": {
