@@ -86,7 +86,7 @@ export function ChatSidebar({
 
   if (isCollapsed) {
     return (
-      <div className="w-12 bg-card border-r border-border flex flex-col items-center py-4 gap-2">
+      <div className="w-10 flex flex-col items-center gap-2">
         <Button
           variant="ghost"
           size="icon"
@@ -120,9 +120,9 @@ export function ChatSidebar({
   }
 
   return (
-    <div className="w-64 lg:w-72 bg-card border-r border-border flex flex-col">
+    <div className="w-52 lg:w-56 flex flex-col">
       {/* Header */}
-      <div className="p-3 border-b border-border">
+      <div className="p-2 border-b border-border">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-medium">{t('AI_ASSISTANT.SIDEBAR.HISTORY')}</h2>
           <Button
@@ -144,7 +144,7 @@ export function ChatSidebar({
       </div>
 
       {/* Search */}
-      <div className="p-3 border-b border-border">
+      <div className="p-2 border-b border-border">
         <div className="relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
@@ -158,7 +158,7 @@ export function ChatSidebar({
 
       {/* Chat List */}
       <ScrollArea className="flex-1">
-        <div className="p-2">
+        <div className="py-2">
           {loading && safeChats.length === 0 ? (
             <div className="flex items-center justify-center py-8">
               <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />

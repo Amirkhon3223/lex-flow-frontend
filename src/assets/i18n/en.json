@@ -892,6 +892,7 @@
       "MESSAGES": "msgs",
       "NO_CHATS": "No chats. Start a new one!",
       "NO_RESULTS": "No chats found",
+      "NO_ARCHIVED": "No archived chats",
       "ARCHIVE": "Archive",
       "DELETE": "Delete",
       "ARCHIVED": "Archived"

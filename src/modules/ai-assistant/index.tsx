@@ -166,7 +166,6 @@ export function AIAssistantView() {
     },
   ];
 
-  // Sidebar component for reuse
   const sidebarContent = (
     <ChatSidebar
       chats={chats}
@@ -180,10 +179,29 @@ export function AIAssistantView() {
   );
 
   return (
-    <div className="flex">
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block">
-        {sidebarContent}
+    <div className="flex flex-col h-full">
+      <div className="pb-2">
+        <div className="flex items-center gap-3">
+          {/* Mobile Menu Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden h-9 w-9"
+            onClick={() => setMobileSidebarOpen(true)}
+          >
+            <Menu className="w-5 h-5" />
+          </Button>
+
+          <div className="flex-1">
+            <Header
+              tokenBalance={tokenBalance}
+              chats={chats}
+              currentChat={currentChat}
+              onSelectChat={handleSelectChat}
+              onPurchaseTokens={() => setPurchaseDialogOpen(true)}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Mobile Sidebar */}
@@ -193,151 +211,141 @@ export function AIAssistantView() {
         </SheetContent>
       </Sheet>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Mobile Header with Menu Button */}
-        <div className="lg:hidden flex items-center gap-2 p-2 border-b border-border bg-card">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9"
-            onClick={() => setMobileSidebarOpen(true)}
-          >
-            <Menu className="w-5 h-5" />
-          </Button>
-          <span className="text-sm font-medium truncate flex-1">
-            {currentChat?.title || t('AI_ASSISTANT.HEADER.NEW_CHAT')}
-          </span>
+      {/* Content Area: Sidebar + Main */}
+      <div className="flex flex-1 overflow-hidden space-x-2">
+        {/* Desktop Sidebar - Left, below header */}
+        <div className="hidden lg:block">
+          {sidebarContent}
         </div>
 
-        <div className="flex-1 overflow-auto">
-          <div className="p-4">
-            <Header
-              tokenBalance={tokenBalance}
-              chats={chats}
-              currentChat={currentChat}
-              onSelectChat={handleSelectChat}
-              onPurchaseTokens={() => setPurchaseDialogOpen(true)}
-            />
+        {/* Main Content */}
+        <div className="flex-1 overflow-auto p-1">
+          <main>
+            <Tabs defaultValue="chat" className="space-y-3 sm:space-y-4">
+              <TabsList className="rounded-lg sm:rounded-xl p-0.5 sm:p-1 w-full sm:w-auto">
+                <TabsTrigger
+                  value="chat"
+                  className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
+                  <span className="hidden sm:inline">{t('AI_ASSISTANT.TABS.CHAT')}</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="analyze"
+                  className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
+                >
+                  <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
+                  <span className="hidden sm:inline">{t('AI_ASSISTANT.TABS.ANALYZE')}</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="research"
+                  className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
+                >
+                  <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
+                  <span className="hidden sm:inline">{t('AI_ASSISTANT.TABS.RESEARCH')}</span>
+                </TabsTrigger>
+              </TabsList>
 
-            <main className="">
-              <Tabs defaultValue="chat" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-                <TabsList className="rounded-lg sm:rounded-xl p-0.5 sm:p-1 w-full sm:w-auto">
-                  <TabsTrigger
-                    value="chat"
-                    className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
-                  >
-                    <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                    <span className="hidden sm:inline">{t('AI_ASSISTANT.TABS.CHAT')}</span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="analyze"
-                    className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
-                  >
-                    <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                    <span className="hidden sm:inline">{t('AI_ASSISTANT.TABS.ANALYZE')}</span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="research"
-                    className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
-                  >
-                    <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
-                    <span className="hidden sm:inline">{t('AI_ASSISTANT.TABS.RESEARCH')}</span>
-                  </TabsTrigger>
-                </TabsList>
+              {/* Chat Tab - No Feature Cards */}
+              <TabsContent value="chat" className="space-y-4 sm:space-y-6 mt-0">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                  <ChatArea
+                    chatHistory={chatHistory}
+                    onSendMessage={handleSendMessage}
+                    loading={loading}
+                    sendingMessage={sendingMessage || isStreaming}
+                  />
 
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
+                  <div className="space-y-4 sm:space-y-6">
+                    <QuickCommands commands={quickActions} onCommandClick={handleQuickCommand} />
+                    <RecentAnalyses analyses={[]} />
+                  </div>
+                </div>
+              </TabsContent>
+
+              {/* Analyze Tab - With Feature Cards */}
+              <TabsContent value="analyze" className="space-y-4 sm:space-y-6 mt-0">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                   {features.map((feature, index) => (
                     <FeatureCard key={index} {...feature} />
                   ))}
                 </div>
 
-                <TabsContent value="chat" className="space-y-4 sm:space-y-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <ChatArea
-                      chatHistory={chatHistory}
-                      onSendMessage={handleSendMessage}
-                      loading={loading}
-                      sendingMessage={sendingMessage || isStreaming}
-                    />
-
-                    <div className="space-y-4 sm:space-y-6">
-                      <QuickCommands commands={quickActions} onCommandClick={handleQuickCommand} />
-                      <RecentAnalyses analyses={[]} />
+                <Card>
+                  <div className="text-center w-full">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
+                      <Upload
+                        className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white"
+                        strokeWidth={2}
+                      />
                     </div>
+                    <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-1.5 sm:mb-2">
+                      {t('AI_ASSISTANT.ANALYZE.UPLOAD_TITLE')}
+                    </h3>
+                    <p className="text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-xs sm:text-sm md:text-base">
+                      {t('AI_ASSISTANT.ANALYZE.DESCRIPTION')}
+                    </p>
+                    <Button
+                      onClick={() => setUploadDialogOpen(true)}
+                      className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg sm:rounded-xl shadow-lg shadow-purple-500/30 text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-3 sm:px-4"
+                    >
+                      <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
+                      {t('COMMON.ACTIONS.UPLOAD')}
+                    </Button>
                   </div>
-                </TabsContent>
+                </Card>
+              </TabsContent>
 
-                <TabsContent value="analyze" className="space-y-4 sm:space-y-6">
-                  <Card>
-                    <div className="text-center w-full">
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
-                        <Upload
-                          className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white"
+              {/* Research Tab - With Feature Cards */}
+              <TabsContent value="research" className="space-y-4 sm:space-y-6 mt-0">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+                  {features.map((feature, index) => (
+                    <FeatureCard key={index} {...feature} />
+                  ))}
+                </div>
+
+                <Card>
+                  <div className="max-w-2xl mx-auto w-full">
+                    <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-4 sm:mb-5 md:mb-6 text-center">
+                      {t('AI_ASSISTANT.RESEARCH.TITLE')}
+                    </h3>
+                    <div className="relative mb-4 sm:mb-6 md:mb-8">
+                      <Search
+                        className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
+                        strokeWidth={2}
+                      />
+                      <Input
+                        placeholder={t('AI_ASSISTANT.RESEARCH.SEARCH_PLACEHOLDER')}
+                        className="h-10 sm:h-12 md:h-14 pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 rounded-xl sm:rounded-2xl border-input focus-visible:ring-purple-500 text-sm sm:text-base md:text-lg"
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
+                      <Button
+                        variant="outline"
+                        className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-input hover:bg-purple-500/10 hover:border-purple-500/20 justify-start text-xs sm:text-sm"
+                      >
+                        <Scale
+                          className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-purple-500"
                           strokeWidth={2}
                         />
-                      </div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-1.5 sm:mb-2">
-                        {t('AI_ASSISTANT.ANALYZE.UPLOAD_TITLE')}
-                      </h3>
-                      <p className="text-muted-foreground mb-4 sm:mb-5 md:mb-6 text-xs sm:text-sm md:text-base">
-                        {t('AI_ASSISTANT.ANALYZE.DESCRIPTION')}
-                      </p>
+                        <span>{t('AI_ASSISTANT.RESEARCH.BUTTONS.PRACTICE')}</span>
+                      </Button>
                       <Button
-                        onClick={() => setUploadDialogOpen(true)}
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg sm:rounded-xl shadow-lg shadow-purple-500/30 text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-3 sm:px-4"
+                        variant="outline"
+                        className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-input hover:bg-blue-500/10 hover:border-blue-500/20 justify-start text-xs sm:text-sm"
                       >
-                        <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
-                        {t('COMMON.ACTIONS.UPLOAD')}
+                        <BookOpen
+                          className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-blue-500"
+                          strokeWidth={2}
+                        />
+                        <span>{t('AI_ASSISTANT.RESEARCH.BUTTONS.LEGISLATION')}</span>
                       </Button>
                     </div>
-                  </Card>
-                </TabsContent>
-
-                <TabsContent value="research" className="space-y-4 sm:space-y-6">
-                  <Card>
-                    <div className="max-w-2xl mx-auto w-full">
-                      <h3 className="text-lg sm:text-xl md:text-2xl tracking-tight mb-4 sm:mb-5 md:mb-6 text-center">
-                        {t('AI_ASSISTANT.RESEARCH.TITLE')}
-                      </h3>
-                      <div className="relative mb-4 sm:mb-6 md:mb-8">
-                        <Search
-                          className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground"
-                          strokeWidth={2}
-                        />
-                        <Input
-                          placeholder={t('AI_ASSISTANT.RESEARCH.SEARCH_PLACEHOLDER')}
-                          className="h-10 sm:h-12 md:h-14 pl-9 sm:pl-11 md:pl-12 pr-3 sm:pr-4 rounded-xl sm:rounded-2xl border-input focus-visible:ring-purple-500 text-sm sm:text-base md:text-lg"
-                        />
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
-                        <Button
-                          variant="outline"
-                          className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-input hover:bg-purple-500/10 hover:border-purple-500/20 justify-start text-xs sm:text-sm"
-                        >
-                          <Scale
-                            className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-purple-500"
-                            strokeWidth={2}
-                          />
-                          <span>{t('AI_ASSISTANT.RESEARCH.BUTTONS.PRACTICE')}</span>
-                        </Button>
-                        <Button
-                          variant="outline"
-                          className="h-10 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-input hover:bg-blue-500/10 hover:border-blue-500/20 justify-start text-xs sm:text-sm"
-                        >
-                          <BookOpen
-                            className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-blue-500"
-                            strokeWidth={2}
-                          />
-                          <span>{t('AI_ASSISTANT.RESEARCH.BUTTONS.LEGISLATION')}</span>
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                </TabsContent>
-              </Tabs>
-            </main>
-          </div>
+                  </div>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </main>
         </div>
       </div>
 
