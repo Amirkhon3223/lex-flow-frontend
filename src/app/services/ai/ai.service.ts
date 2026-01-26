@@ -101,37 +101,76 @@ export const aiService = {
       return;
     }
 
+    // Buffer for incomplete SSE events
+    let buffer = '';
+
     try {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        const text = decoder.decode(value, { stream: true });
-        const lines = text.split('\n');
+        // Append new data to buffer
+        buffer += decoder.decode(value, { stream: true });
 
-        for (const line of lines) {
-          if (line.startsWith('event: message')) {
-            continue;
-          }
-          if (line.startsWith('data: ')) {
-            const content = line.slice(6);
-            if (content && content !== '') {
-              onChunk(content);
+        // Process complete SSE events (separated by double newline)
+        const events = buffer.split(/\r?\n\r?\n/);
+
+        // Keep the last potentially incomplete event in buffer
+        buffer = events.pop() || '';
+
+        for (const event of events) {
+          if (!event.trim()) continue;
+
+          const lines = event.split(/\r?\n/);
+          let eventType = '';
+          let eventData = '';
+
+          for (const line of lines) {
+            if (line.startsWith('event:')) {
+              eventType = line.slice(6).trim();
+            } else if (line.startsWith('data:')) {
+              // Get data after "data:" - preserve spaces!
+              eventData = line.slice(5);
+              // Remove only leading space if present (SSE spec says one space after colon is optional)
+              if (eventData.startsWith(' ')) {
+                eventData = eventData.slice(1);
+              }
             }
           }
-          if (line.startsWith('event: done')) {
+
+          if (eventType === 'done') {
             onDone();
             return;
           }
-          if (line.startsWith('event: error')) {
-            continue;
-          }
-          if (line.startsWith('data: ') && line.includes('error')) {
-            onError(line.slice(6));
+
+          if (eventType === 'error') {
+            onError(eventData || 'Stream error');
             return;
+          }
+
+          if (eventType === 'message' && eventData !== undefined) {
+            // Send chunk even if it's just whitespace - preserve all characters
+            onChunk(eventData);
           }
         }
       }
+
+      // Process any remaining buffer
+      if (buffer.trim()) {
+        const lines = buffer.split(/\r?\n/);
+        for (const line of lines) {
+          if (line.startsWith('data:')) {
+            let eventData = line.slice(5);
+            if (eventData.startsWith(' ')) {
+              eventData = eventData.slice(1);
+            }
+            if (eventData) {
+              onChunk(eventData);
+            }
+          }
+        }
+      }
+
       onDone();
     } catch (err) {
       onError(err instanceof Error ? err.message : 'Stream error');
