@@ -42,8 +42,8 @@ export function SecurityTabContent() {
         ]);
         setTwoFactorEnabled(twoFactorStatus.enabled);
         setSessions(sessionsData.sessions);
-      } catch (error) {
-        console.error('Failed to fetch security data:', error);
+      } catch {
+        // Silently handle - empty state will be shown
       }
     };
     fetchData();
@@ -101,7 +101,6 @@ export function SecurityTabContent() {
         setPasswordErrors(apiErrors);
       }
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Password change error:', error);
     } finally {
       setLoading(false);
     }
@@ -123,9 +122,8 @@ export function SecurityTabContent() {
       await securityService.terminateSession(sessionId);
       setSessions((prev) => prev.filter((s) => s.id !== sessionId));
       toast.success(t('SETTINGS.SECURITY.SESSION_TERMINATED'));
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Session termination error:', error);
     } finally {
       setLoading(false);
     }

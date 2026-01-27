@@ -77,8 +77,8 @@ export function UploadDocumentDialog({
     try {
       const response = await casesService.list({ limit: 100 });
       setCases(response.cases);
-    } catch (err) {
-      console.error('Failed to fetch cases:', err);
+    } catch {
+      // Silently handle - cases list will be empty
     } finally {
       setLoadingCases(false);
     }
@@ -179,8 +179,7 @@ export function UploadDocumentDialog({
 
       onSuccess?.();
       onOpenChange(false);
-    } catch (err) {
-      console.error('Upload failed:', err);
+    } catch {
       setError(t('DOCUMENTS.ERRORS.UPLOAD_FAILED'));
     } finally {
       setUploading(false);

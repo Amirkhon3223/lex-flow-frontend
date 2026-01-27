@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { Copy, Check } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Copy, Check } from 'lucide-react';
 import { MessageTypeEnum, InsightTypeEnum } from '@/app/types/ai-assistant/ai-assistant.enums';
 import type { ChatMessageProps } from '@/app/types/ai-assistant/ai-assistant.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -15,8 +15,8 @@ export function ChatMessage({ chat }: ChatMessageProps) {
       await navigator.clipboard.writeText(chat.message);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
+    } catch {
+      // Copy failed - silently handle
     }
   };
 

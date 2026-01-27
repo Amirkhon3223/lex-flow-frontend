@@ -34,8 +34,8 @@ export function BillingTabContent() {
     const fetchData = async () => {
       try {
         await Promise.all([fetchSubscription(), fetchPlans(), fetchPayments()]);
-      } catch (error) {
-        console.error('Failed to fetch billing data:', error);
+      } catch {
+        // Silently handle - empty state will be shown
       }
     };
     fetchData();
@@ -71,15 +71,14 @@ export function BillingTabContent() {
         interval,
       });
       window.location.href = response.url;
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Checkout session error:', error);
       setLoading(false);
     }
   };
 
-  const handlePaymentSubmit = async (data: { cardNumber: string; expiry: string; cvv: string }) => {
-    console.log('Способ оплаты обновлен:', data);
+  const handlePaymentSubmit = async (_data: { cardNumber: string; expiry: string; cvv: string }) => {
+    // TODO: Implement payment method update
     toast.success(t('SETTINGS.BILLING.PAYMENT_METHOD_UPDATED'));
   };
 
@@ -87,9 +86,8 @@ export function BillingTabContent() {
     try {
       await downloadReceipt(paymentId);
       toast.success(t('SETTINGS.BILLING.RECEIPT_DOWNLOADED'));
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Receipt download error:', error);
     }
   };
 

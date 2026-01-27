@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { casesService } from '../services/cases/cases.service';
+import { i18nService } from '../services/i18n/i18n.service';
 import type { Pagination } from '../types/api/api.types';
 import type {
   CaseInterface,
@@ -57,12 +58,12 @@ interface CasesState {
   toggleTask: (caseId: string, taskId: string) => Promise<void>;
 }
 
-const getErrorMessage = (error: unknown, defaultMessage: string): string => {
+const getErrorMessage = (error: unknown, translationKey: string): string => {
   if (error instanceof Error && 'response' in error) {
     const response = (error as { response?: { data?: { message?: string } } }).response;
-    return response?.data?.message || defaultMessage;
+    return response?.data?.message || i18nService.t(translationKey);
   }
-  return defaultMessage;
+  return i18nService.t(translationKey);
 };
 
 export const useCasesStore = create<CasesState>((set, get) => ({
@@ -171,7 +172,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       set({ comments, commentsLoading: false });
     } catch (error) {
       set({
-        commentsError: getErrorMessage(error, 'Failed to fetch comments'),
+        commentsError: getErrorMessage(error, 'COMMON.ERRORS.COMMENTS_FETCH_FAILED'),
         commentsLoading: false,
       });
       throw error;
@@ -188,7 +189,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       }));
     } catch (error) {
       set({
-        commentsError: getErrorMessage(error, 'Failed to add comment'),
+        commentsError: getErrorMessage(error, 'COMMON.ERRORS.COMMENT_ADD_FAILED'),
         commentsLoading: false,
       });
       throw error;
@@ -205,7 +206,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       }));
     } catch (error) {
       set({
-        commentsError: getErrorMessage(error, 'Failed to update comment'),
+        commentsError: getErrorMessage(error, 'COMMON.ERRORS.COMMENT_UPDATE_FAILED'),
         commentsLoading: false,
       });
       throw error;
@@ -222,7 +223,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       }));
     } catch (error) {
       set({
-        commentsError: getErrorMessage(error, 'Failed to delete comment'),
+        commentsError: getErrorMessage(error, 'COMMON.ERRORS.COMMENT_DELETE_FAILED'),
         commentsLoading: false,
       });
       throw error;
@@ -236,7 +237,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       set({ tasks, tasksLoading: false });
     } catch (error) {
       set({
-        tasksError: getErrorMessage(error, 'Failed to fetch tasks'),
+        tasksError: getErrorMessage(error, 'COMMON.ERRORS.TASKS_FETCH_FAILED'),
         tasksLoading: false,
       });
       throw error;
@@ -253,7 +254,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       }));
     } catch (error) {
       set({
-        tasksError: getErrorMessage(error, 'Failed to add task'),
+        tasksError: getErrorMessage(error, 'COMMON.ERRORS.TASK_ADD_FAILED'),
         tasksLoading: false,
       });
       throw error;
@@ -274,7 +275,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       }));
     } catch (error) {
       set({
-        tasksError: getErrorMessage(error, 'Failed to update task'),
+        tasksError: getErrorMessage(error, 'COMMON.ERRORS.TASK_UPDATE_FAILED'),
         tasksLoading: false,
       });
       throw error;
@@ -291,7 +292,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       }));
     } catch (error) {
       set({
-        tasksError: getErrorMessage(error, 'Failed to delete task'),
+        tasksError: getErrorMessage(error, 'COMMON.ERRORS.TASK_DELETE_FAILED'),
         tasksLoading: false,
       });
       throw error;
@@ -314,7 +315,7 @@ export const useCasesStore = create<CasesState>((set, get) => ({
       }));
     } catch (error) {
       set({
-        tasksError: getErrorMessage(error, 'Failed to toggle task'),
+        tasksError: getErrorMessage(error, 'COMMON.ERRORS.TASK_TOGGLE_FAILED'),
         tasksLoading: false,
       });
       throw error;

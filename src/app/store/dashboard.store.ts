@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { dashboardService } from '../services/dashboard/dashboard.service';
+import { i18nService } from '../services/i18n/i18n.service';
 import type { DashboardStatsResponse } from '../types/analytics/analytics.interfaces';
 import type {
   PriorityCaseItem,
@@ -48,7 +49,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
       set({ dashboardStats: data, dashboardLoading: false });
     } catch (error) {
       set({
-        dashboardError: error instanceof Error ? error.message : 'Failed to fetch dashboard stats',
+        dashboardError: error instanceof Error ? error.message : i18nService.t('COMMON.ERRORS.DASHBOARD_STATS_FAILED'),
         dashboardLoading: false,
       });
       throw error;
@@ -62,7 +63,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
       set({ priorityCases: data.cases || [], casesLoading: false });
     } catch (error) {
       set({
-        casesError: error instanceof Error ? error.message : 'Failed to fetch priority cases',
+        casesError: error instanceof Error ? error.message : i18nService.t('COMMON.ERRORS.PRIORITY_CASES_FAILED'),
         casesLoading: false,
       });
       throw error;
@@ -76,7 +77,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
       set({ todayMeetings: data.meetings || [], meetingsLoading: false });
     } catch (error) {
       set({
-        meetingsError: error instanceof Error ? error.message : 'Failed to fetch today meetings',
+        meetingsError: error instanceof Error ? error.message : i18nService.t('COMMON.ERRORS.TODAY_MEETINGS_FAILED'),
         meetingsLoading: false,
       });
       throw error;
@@ -90,8 +91,8 @@ export const useDashboardStore = create<DashboardState>((set) => ({
         useDashboardStore.getState().fetchPriorityCases(5),
         useDashboardStore.getState().fetchTodayMeetings(),
       ]);
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+    } catch {
+      // Individual fetch methods handle their own errors
     }
   },
 

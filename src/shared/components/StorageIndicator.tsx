@@ -19,8 +19,8 @@ export function StorageIndicator({ className = '' }: StorageIndicatorProps) {
       try {
         const data = await billingService.getStorageUsage();
         setStorageData(data);
-      } catch (error) {
-        console.error('Failed to fetch storage usage:', error);
+      } catch {
+        // Silently handle - indicator will show loading state
       } finally {
         setLoading(false);
       }

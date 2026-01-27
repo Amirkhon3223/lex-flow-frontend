@@ -90,12 +90,17 @@ export default function AuthPage() {
       });
     } catch (error) {
       const apiErrors = parseApiErrors(error);
-      if (Object.keys(apiErrors).length > 0) {
+      const hasFieldErrors = Object.keys(apiErrors).filter(k => k !== '_general').length > 0;
+
+      if (hasFieldErrors) {
+        // Show field-specific errors inline, no toast needed
         setLoginErrors(apiErrors);
+      } else {
+        // Show generic error in toast
+        const errMsg = apiErrors._general || t('AUTH.ERROR.LOGIN_FAILED');
+        setLocalError(errMsg);
+        toast.error(t('AUTH.ERROR.LOGIN_FAILED'));
       }
-      const errMsg = (error as Error).message || t('AUTH.ERROR.LOGIN_FAILED');
-      setLocalError(errMsg);
-      toast.error(errMsg);
     }
   };
 
@@ -148,12 +153,17 @@ export default function AuthPage() {
       toast.success(t('AUTH.REGISTER_SUCCESS'));
     } catch (error) {
       const apiErrors = parseApiErrors(error);
-      if (Object.keys(apiErrors).length > 0) {
+      const hasFieldErrors = Object.keys(apiErrors).filter(k => k !== '_general').length > 0;
+
+      if (hasFieldErrors) {
+        // Show field-specific errors inline, no toast needed
         setRegisterErrors(apiErrors);
+      } else {
+        // Show generic error in toast
+        const errMsg = apiErrors._general || t('AUTH.ERROR.REGISTER_FAILED');
+        setLocalError(errMsg);
+        toast.error(t('AUTH.ERROR.REGISTER_FAILED'));
       }
-      const errMsg = (error as Error).message || t('AUTH.ERROR.REGISTER_FAILED');
-      setLocalError(errMsg);
-      toast.error(errMsg);
     }
   };
 

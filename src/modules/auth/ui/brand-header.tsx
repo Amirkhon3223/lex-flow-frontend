@@ -1,4 +1,8 @@
+import { useI18n } from '@/shared/context/I18nContext';
+
 export function BrandHeader() {
+  const { t } = useI18n();
+
   return (
     <div className="text-center mb-6 sm:mb-8">
       <div className="inline-flex items-center justify-center mb-3 sm:mb-4">
@@ -8,7 +12,7 @@ export function BrandHeader() {
         LexFlow
       </h1>
       <p className="text-sm sm:text-base text-secondary-foreground px-4">
-        Платформа управления для юридических практик
+        {t('AUTH.SUBTITLE')}
       </p>
     </div>
   );

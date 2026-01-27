@@ -19,13 +19,13 @@ export interface LanguageInfo {
 }
 
 export const LANGUAGES: LanguageInfo[] = [
-  { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺' },
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧' },
+  { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺' },
   { code: 'tj', name: 'Tajik', nativeName: 'Тоҷикӣ', flag: '🇹🇯' },
 ];
 
 const STORAGE_KEY = 'app-language';
-const DEFAULT_LANGUAGE: Language = 'ru';
+const DEFAULT_LANGUAGE: Language = 'en';
 
 type Translations = { [key: string]: string | Translations };
 

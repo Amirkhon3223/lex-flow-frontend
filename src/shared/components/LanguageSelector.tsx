@@ -55,9 +55,8 @@ export function LanguageSelector() {
 
       // 4. Показать уведомление
       toast.success(t('SETTINGS.PROFILE.LANGUAGE_UPDATED'));
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Language update error:', error);
     }
   };
 

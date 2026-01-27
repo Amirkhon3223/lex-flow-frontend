@@ -146,7 +146,7 @@ export function PriorityCases() {
                   <DropdownMenuItem
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log('Edit case:', item.id);
+                      // TODO: Implement edit case
                     }}
                     className="cursor-pointer"
                   >
@@ -156,7 +156,7 @@ export function PriorityCases() {
                   <DropdownMenuItem
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log('Archive case:', item.id);
+                      // TODO: Implement archive case
                     }}
                     className="cursor-pointer"
                   >
@@ -167,7 +167,7 @@ export function PriorityCases() {
                   <DropdownMenuItem
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log('Delete case:', item.id);
+                      // TODO: Implement delete case
                     }}
                     className="text-destructive focus:text-destructive cursor-pointer"
                   >

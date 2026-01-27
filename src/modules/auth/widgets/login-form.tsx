@@ -1,11 +1,11 @@
 import { Mail, Lock, ArrowRight } from 'lucide-react';
 import type { LoginFormProps } from '@/app/types/auth/auth.interfaces.ts';
 import { useI18n } from '@/shared/context/I18nContext';
-import { cn } from '@/shared/ui/utils';
 import { Button } from '@/shared/ui/button.tsx';
 import { Checkbox } from '@/shared/ui/checkbox.tsx';
 import { Input } from '@/shared/ui/input.tsx';
 import { Label } from '@/shared/ui/label.tsx';
+import { cn } from '@/shared/ui/utils';
 
 export function LoginForm({
   isLoading,

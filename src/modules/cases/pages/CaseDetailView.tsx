@@ -102,8 +102,8 @@ export function CaseDetailView() {
         priority: caseData.priority as CasePriorityEnum,
       });
       setIsEditCaseDialogOpen(false);
-    } catch (error) {
-      console.error('Error updating case:', error);
+    } catch {
+      // Error handled by the store
     }
   };
 
