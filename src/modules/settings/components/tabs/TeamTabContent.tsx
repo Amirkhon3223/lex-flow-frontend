@@ -24,8 +24,8 @@ export function TeamTabContent() {
     const fetchData = async () => {
       try {
         await Promise.all([fetchMembers(), fetchInvites()]);
-      } catch (error) {
-        console.error('Failed to fetch team data:', error);
+      } catch {
+        // Silently handle - empty state will be shown
       }
     };
     fetchData();
@@ -48,16 +48,15 @@ export function TeamTabContent() {
       await inviteMember({ email: data.email, role: data.role as any });
       toast.success(t('SETTINGS.TEAM.INVITE_SENT'));
       setIsInviteDialogOpen(false);
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Invite error:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleMemberSettings = (memberId: string) => {
-    console.log('Настройки члена команды:', memberId);
+  const handleMemberSettings = (_memberId: string) => {
+    // TODO: Implement member settings
   };
 
   const getRoleTranslation = (role: string) => {

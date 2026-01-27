@@ -4,13 +4,13 @@ import { toast } from 'sonner';
 import { usersService } from '@/app/services/users/users.service';
 import { useAuthStore } from '@/app/store/auth.store';
 import { AvatarCropperModal } from '@/modules/user-profile/ui/AvatarCropperModal';
+import { StorageIndicator } from '@/shared/components/StorageIndicator';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
-import { StorageIndicator } from '@/shared/components/StorageIndicator';
 
 export function ProfileSidebar({
   profileData,
@@ -116,7 +116,6 @@ export function ProfileSidebar({
       } else {
         toast.error(t('USER_PROFILE.AVATAR_ERRORS.AVATAR_UPLOAD_FAILED'));
       }
-      console.error('Avatar upload error:', error);
       setAvatarPreview(null);
     }
   };
@@ -137,9 +136,8 @@ export function ProfileSidebar({
       await usersService.deleteAccount('', '');
       toast.success(t('USER_PROFILE.ACCOUNT_DELETED'));
       onLogout();
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Delete account error:', error);
     } finally {
       setLoading(false);
     }

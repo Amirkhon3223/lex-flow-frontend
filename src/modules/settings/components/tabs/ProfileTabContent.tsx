@@ -112,7 +112,6 @@ export function ProfileTabContent() {
         setErrors(apiErrors);
       }
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Profile update error:', error);
     } finally {
       setLoading(false);
     }
@@ -124,9 +123,8 @@ export function ProfileTabContent() {
       await setLanguage(newLanguage);
       updateUserData({ language: newLanguage });
       toast.success(t('SETTINGS.PROFILE.LANGUAGE_UPDATED'));
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Language update error:', error);
     }
   };
 
@@ -137,9 +135,8 @@ export function ProfileTabContent() {
       await usersService.updateTimezone({ timezone: newTimezone });
       updateUserData({ timezone: newTimezone });
       toast.success(t('SETTINGS.PROFILE.TIMEZONE_UPDATED'));
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Timezone update error:', error);
     }
   };
 
@@ -150,9 +147,8 @@ export function ProfileTabContent() {
       await usersService.updateCurrency({ currency: newCurrency });
       updateUserData({ currency: newCurrency });
       toast.success(t('SETTINGS.PROFILE.CURRENCY_UPDATED'));
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Currency update error:', error);
     }
   };
 

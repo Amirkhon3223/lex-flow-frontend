@@ -54,8 +54,8 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit, currentPlanId }
           setLoading(true);
           const response = await billingService.getPlans();
           setPlans(response.plans);
-        } catch (error) {
-          console.error('Failed to fetch plans:', error);
+        } catch {
+          // Silently handle - plans list will be empty
         } finally {
           setLoading(false);
         }

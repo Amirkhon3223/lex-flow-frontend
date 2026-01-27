@@ -98,8 +98,7 @@ export const startSpeechRecognition = (recognition: SpeechRecognitionInstance | 
   try {
     recognition.start();
     return true;
-  } catch (error) {
-    console.error('Ошибка запуска распознавания:', error);
+  } catch {
     return false;
   }
 };

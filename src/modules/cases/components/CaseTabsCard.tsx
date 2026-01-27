@@ -70,8 +70,7 @@ export function CaseTabsCard({
       setTimeout(() => {
         setSaveStatus('idle');
       }, 2000);
-    } catch (error) {
-      console.error('Failed to save notes:', error);
+    } catch {
       setSaveStatus('error');
     } finally {
       setIsSaving(false);

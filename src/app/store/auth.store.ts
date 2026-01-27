@@ -80,7 +80,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
               user: state.user ? { ...state.user, ...fullUser, twoFactorEnabled: statusResponse.enabled } : fullUser,
             }));
           } catch (error) {
-            console.error('Failed to load full user profile:', error);
+            // Silently handle - user profile loaded partially;
           }
         } catch (error) {
           const errorMessage = (error as Error).message || 'Login failed';
@@ -122,7 +122,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
               user: state.user ? { ...state.user, ...fullUser, twoFactorEnabled: statusResponse.enabled } : fullUser,
             }));
           } catch (error) {
-            console.error('Failed to load full user profile:', error);
+            // Silently handle - user profile loaded partially;
           }
         } catch (error) {
           const errorMessage = (error as Error).message || '2FA verification failed';
@@ -188,7 +188,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
               user: state.user ? { ...state.user, ...fullUser } : fullUser,
             }));
           } catch (error) {
-            console.error('Failed to load full user profile:', error);
+            // Silently handle - user profile loaded partially;
           }
         } catch (error) {
           const errorMessage = (error as Error).message || 'Registration failed';

@@ -42,9 +42,8 @@ export function Enable2FADialog({ open, onOpenChange, onSuccess }: Enable2FADial
       setQrCode(response.qrCode);
       setSecret(response.secret);
       setStep('verify');
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Failed to initiate 2FA:', error);
       onOpenChange(false);
     } finally {
       setLoading(false);
@@ -63,9 +62,8 @@ export function Enable2FADialog({ open, onOpenChange, onSuccess }: Enable2FADial
       toast.success(t('SETTINGS.SECURITY.TWO_FACTOR.ENABLED_SUCCESS'));
       onSuccess(response.backupCodes || []);
       handleClose();
-    } catch (error) {
+    } catch {
       toast.error(t('SETTINGS.SECURITY.TWO_FACTOR.INVALID_CODE'));
-      console.error('Failed to verify 2FA:', error);
     } finally {
       setLoading(false);
     }

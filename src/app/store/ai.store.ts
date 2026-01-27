@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { aiService } from '../services/ai/ai.service';
+import { i18nService } from '../services/i18n/i18n.service';
 import type {
   ChatInterface,
   MessageInterface,
@@ -148,7 +149,7 @@ export const useAIStore = create<AIState>((set, get) => ({
   sendMessage: async (content: string, documentIds?: string[], caseIds?: string[]) => {
     const { currentChat } = get();
     if (!currentChat) {
-      throw new Error('No chat selected');
+      throw new Error(i18nService.t('COMMON.ERRORS.NO_CHAT_SELECTED'));
     }
 
     // Add user message optimistically
@@ -195,7 +196,7 @@ export const useAIStore = create<AIState>((set, get) => ({
   sendMessageStreaming: async (content: string, documentIds?: string[], caseIds?: string[]) => {
     const { currentChat } = get();
     if (!currentChat) {
-      throw new Error('No chat selected');
+      throw new Error(i18nService.t('COMMON.ERRORS.NO_CHAT_SELECTED'));
     }
 
     // Add user message optimistically

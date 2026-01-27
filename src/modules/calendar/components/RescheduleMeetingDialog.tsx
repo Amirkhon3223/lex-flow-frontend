@@ -43,8 +43,8 @@ export function RescheduleMeetingDialog({
         try {
           const parsedDate = parse(currentDate, 'yyyy-MM-dd', new Date());
           setDate(parsedDate);
-        } catch (error) {
-          console.error('Error parsing date:', error);
+        } catch {
+          // Invalid date format - use default
         }
       }
       setTime(currentTime || '');

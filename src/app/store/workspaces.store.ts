@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { i18nService } from '@/app/services/i18n/i18n.service';
 import { workspacesService } from '@/app/services/workspaces';
 import type {
   WorkspaceInfo,
@@ -39,8 +40,9 @@ export const useWorkspacesStore = create<WorkspacesState>()(
         try {
           const workspaces = await workspacesService.getMyWorkspaces();
           set({ workspaces, loading: false });
-        } catch (error: any) {
-          set({ error: error.message || 'Failed to fetch workspaces', loading: false });
+        } catch (error: unknown) {
+          const err = error as { message?: string };
+          set({ error: err.message || i18nService.t('COMMON.ERRORS.WORKSPACES_FETCH_FAILED'), loading: false });
           throw error;
         }
       },
@@ -50,9 +52,10 @@ export const useWorkspacesStore = create<WorkspacesState>()(
         try {
           const workspace = await workspacesService.getCurrentWorkspace();
           set({ currentWorkspace: workspace, loading: false });
-        } catch (error: any) {
+        } catch (error: unknown) {
+          const err = error as { message?: string };
           set({
-            error: error.message || 'Failed to fetch current workspace',
+            error: err.message || i18nService.t('COMMON.ERRORS.WORKSPACES_FETCH_FAILED'),
             loading: false,
           });
           throw error;
@@ -65,8 +68,9 @@ export const useWorkspacesStore = create<WorkspacesState>()(
           const workspace = await workspacesService.createWorkspace(data);
           set({ currentWorkspace: workspace, loading: false });
           return workspace;
-        } catch (error: any) {
-          set({ error: error.message || 'Failed to create workspace', loading: false });
+        } catch (error: unknown) {
+          const err = error as { message?: string };
+          set({ error: err.message || i18nService.t('COMMON.ERRORS.WORKSPACE_CREATE_FAILED'), loading: false });
           throw error;
         }
       },
@@ -76,8 +80,9 @@ export const useWorkspacesStore = create<WorkspacesState>()(
         try {
           const updated = await workspacesService.updateWorkspace(workspaceId, data);
           set({ currentWorkspace: updated, loading: false });
-        } catch (error: any) {
-          set({ error: error.message || 'Failed to update workspace', loading: false });
+        } catch (error: unknown) {
+          const err = error as { message?: string };
+          set({ error: err.message || i18nService.t('COMMON.ERRORS.WORKSPACE_UPDATE_FAILED'), loading: false });
           throw error;
         }
       },
@@ -93,8 +98,9 @@ export const useWorkspacesStore = create<WorkspacesState>()(
             const fetchedWorkspace = await workspacesService.getCurrentWorkspace();
             set({ currentWorkspace: fetchedWorkspace, loading: false });
           }
-        } catch (error: any) {
-          set({ error: error.message || 'Failed to switch workspace', loading: false });
+        } catch (error: unknown) {
+          const err = error as { message?: string };
+          set({ error: err.message || i18nService.t('COMMON.ERRORS.WORKSPACE_SWITCH_FAILED'), loading: false });
           throw error;
         }
       },

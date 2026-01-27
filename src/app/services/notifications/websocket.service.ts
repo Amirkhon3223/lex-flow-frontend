@@ -11,14 +11,12 @@ class WebSocketService {
 
   public connect(): void {
     if (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)) {
-      console.log('WebSocket: Already connected or connecting.');
       return;
     }
 
     this.socket = new WebSocket(WEBSOCKET_URL);
 
     this.socket.onopen = () => {
-      console.log('WebSocket connection established.');
       this.reconnectAttempts = 0;
       if (this.reconnectTimeout) {
         clearTimeout(this.reconnectTimeout);
@@ -32,18 +30,17 @@ class WebSocketService {
         if (message.type === 'notification' && message.payload) {
           this.handleNotification(message.payload);
         }
-      } catch (error) {
-        console.error('WebSocket: Error parsing message data.', error);
+      } catch {
+        // Invalid message format - ignore
       }
     };
 
     this.socket.onclose = () => {
-      console.log('WebSocket connection closed.');
       this.scheduleReconnect();
     };
 
-    this.socket.onerror = (error) => {
-      console.error('WebSocket error:', error);
+    this.socket.onerror = () => {
+      // Error handled by onclose
     };
   }
 
@@ -63,13 +60,11 @@ class WebSocketService {
 
   private scheduleReconnect(): void {
     if (this.reconnectAttempts >= 5) {
-      console.error('WebSocket: Max reconnect attempts reached.');
       return;
     }
     const delay = Math.pow(2, this.reconnectAttempts) * 1000;
     this.reconnectAttempts++;
 
-    console.log(`WebSocket: Attempting to reconnect in ${delay / 1000}s...`);
     this.reconnectTimeout = setTimeout(() => {
       this.connect();
     }, delay);

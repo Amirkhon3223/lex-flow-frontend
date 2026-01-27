@@ -81,8 +81,8 @@ export default function UserProfilePage() {
           completedCases: stats.completedCases || 0,
           daysInSystem: stats.daysInSystem || 0,
         });
-      } catch (error) {
-        console.error('Failed to load user stats:', error);
+      } catch {
+        // Silently handle - stats will show default values
       }
     };
 
@@ -117,9 +117,8 @@ export default function UserProfilePage() {
       setInitialProfileData(profileData);
 
       toast.success(t('USER_PROFILE.CHANGES_SAVED'));
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Profile update error:', error);
     } finally {
       setLoading(false);
     }

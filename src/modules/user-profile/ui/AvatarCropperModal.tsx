@@ -90,8 +90,8 @@ export function AvatarCropperModal({
       const croppedImageUrl = await getCroppedImg();
       onCropComplete(croppedImageUrl);
       onClose();
-    } catch (error) {
-      console.error('Error cropping image:', error);
+    } catch {
+      // Silently handle - crop failed, modal stays open
     }
   };
 

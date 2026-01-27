@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, FileText, Plus, Minus } from 'lucide-react';
 import type { DocumentBlockInterface } from '@/app/types/documents/documents.interfaces';
+import { useI18n } from '@/shared/context/I18nContext';
 import { cn } from '@/shared/ui/utils';
 import { diffCalculator, type DiffResult } from '../utils/DiffCalculator';
 
@@ -22,6 +23,8 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
   side,
   className,
 }) => {
+  const { t } = useI18n();
+
   if (!block) {
     return (
       <div
@@ -37,12 +40,12 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
           {side === 'old' ? (
             <>
               <Plus className="h-4 w-4 text-green-500" />
-              <span className="text-xs">Block added in new version</span>
+              <span className="text-xs">{t('DOCUMENTS.BLOCKS.ADDED')}</span>
             </>
           ) : (
             <>
               <Minus className="h-4 w-4 text-red-500" />
-              <span className="text-xs">Block removed in new version</span>
+              <span className="text-xs">{t('DOCUMENTS.BLOCKS.REMOVED')}</span>
             </>
           )}
         </div>
@@ -61,9 +64,9 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
         <div className="flex items-center gap-3">
           <Image className="h-5 w-5 text-muted-foreground" />
           <div>
-            <div className="font-semibold text-sm">[IMAGE]</div>
+            <div className="font-semibold text-sm">{t('DOCUMENTS.BLOCKS.IMAGE')}</div>
             <div className="text-xs text-muted-foreground">
-              {block.meta?.fileName || block.meta?.imageId || 'Embedded image'}
+              {block.meta?.fileName || block.meta?.imageId || t('DOCUMENTS.BLOCKS.EMBEDDED_IMAGE')}
               {block.meta?.page && ` (Page ${block.meta.page})`}
             </div>
           </div>
@@ -103,7 +106,7 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
       <div className="flex items-start gap-2 mb-2">
         <FileText className="h-4 w-4 text-muted-foreground mt-0.5" />
         <div className="text-xs text-muted-foreground">
-          Paragraph {block.meta?.paragraphIndex ?? block.orderIndex + 1}
+          {t('DOCUMENTS.BLOCKS.PARAGRAPH')} {block.meta?.paragraphIndex ?? block.orderIndex + 1}
         </div>
       </div>
       <div className="font-mono text-sm leading-relaxed whitespace-pre-wrap">

@@ -44,9 +44,8 @@ export function Disable2FADialog({ open, onOpenChange, onSuccess }: Disable2FADi
       toast.success(t('SETTINGS.SECURITY.TWO_FACTOR.DISABLED_SUCCESS'));
       onSuccess();
       handleClose();
-    } catch (error) {
+    } catch {
       toast.error(t('SETTINGS.SECURITY.TWO_FACTOR.DISABLE_FAILED'));
-      console.error('Failed to disable 2FA:', error);
     } finally {
       setLoading(false);
     }
