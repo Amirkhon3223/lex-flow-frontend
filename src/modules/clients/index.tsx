@@ -38,9 +38,9 @@ import {
 } from '@/app/types/clients/clients.enums';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
 import { ClientFormModal } from '@/shared/components/ClientFormModal';
-import { LimitBadge } from '@/shared/components/LimitBadge';
 import { DataPagination } from '@/shared/components/DataPagination';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
+import { LimitBadge } from '@/shared/components/LimitBadge';
 import { ActionsMenu } from '@/shared/components/menus/ActionsMenu';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';

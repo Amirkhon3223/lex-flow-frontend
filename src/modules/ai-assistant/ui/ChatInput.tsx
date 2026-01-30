@@ -57,8 +57,7 @@ export function ChatInput({ message, setMessage, onSend, disabled: _disabled }: 
             setInterimText(transcript.trim());
           }
         },
-        onError: (error: string) => {
-          console.error('Ошибка распознавания речи:', error);
+        onError: (_error: string) => {
           setIsRecording(false);
           setInterimText('');
         },

@@ -24,8 +24,8 @@ import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Textarea } from '@/shared/ui/textarea';
 import { cn } from '@/shared/ui/utils';
-import { formatDescription } from '@/shared/utils/textFormatting';
 import { validators, parseApiErrors, type FormErrors } from '@/shared/utils';
+import { formatDescription } from '@/shared/utils/textFormatting';
 
 interface AddCaseDialogProps {
   open: boolean;

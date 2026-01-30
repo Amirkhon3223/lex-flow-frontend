@@ -25,13 +25,8 @@ export default function DashboardPage() {
     fetchAllDashboardData();
   }, [fetchAllDashboardData]);
 
-  const handleAddCase = async (caseData: CaseFormData) => {
-    try {
-      console.log('Дело успешно создано:', caseData);
-      fetchAllDashboardData();
-    } catch (error) {
-      console.error('Ошибка при создании дела:', error);
-    }
+  const handleAddCase = async (_caseData: CaseFormData) => {
+    fetchAllDashboardData();
   };
 
   const handleUploadDocument = async () => {

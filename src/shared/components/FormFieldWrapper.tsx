@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { cn } from '@/shared/ui/utils';
 import { Label } from '@/shared/ui/label';
+import { cn } from '@/shared/ui/utils';
 
 interface FormFieldWrapperProps {
   label?: string;

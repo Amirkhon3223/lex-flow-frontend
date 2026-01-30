@@ -7,7 +7,6 @@ import { Button } from '@/shared/ui/button';
 export function PaymentHistoryItem({ payment, onDownload }: PaymentHistoryItemProps) {
   const { t } = useI18n();
   const handleDownload = () => {
-    console.log('Скачать чек:', payment.invoice);
     onDownload?.();
   };
 

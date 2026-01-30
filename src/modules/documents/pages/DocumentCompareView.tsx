@@ -106,15 +106,15 @@ export function DocumentCompareView() {
       try {
         await containerRef.current?.requestFullscreen();
         setIsFullscreen(true);
-      } catch (err) {
-        console.error('Error attempting to enable fullscreen:', err);
+      } catch {
+        // Fullscreen not supported or denied
       }
     } else {
       try {
         await document.exitFullscreen();
         setIsFullscreen(false);
-      } catch (err) {
-        console.error('Error attempting to exit fullscreen:', err);
+      } catch {
+        // Exit fullscreen failed
       }
     }
   };

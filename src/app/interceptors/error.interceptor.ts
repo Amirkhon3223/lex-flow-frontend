@@ -131,7 +131,11 @@ export const errorInterceptor = {
       }
     }
 
-    handleApiError(error);
+    // Don't show toast for auth routes - they handle errors themselves
+    const isAuthRoute = originalRequest?.url?.includes('/auth/');
+    if (!isAuthRoute) {
+      handleApiError(error);
+    }
     return Promise.reject(error);
   },
 };

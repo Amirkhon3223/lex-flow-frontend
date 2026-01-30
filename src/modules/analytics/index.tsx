@@ -88,8 +88,7 @@ export default function AnalyticsPage() {
       toast.success(t('ANALYTICS.EXPORT_SUCCESS'), {
         description: t('ANALYTICS.EXPORT_SUCCESS_DESCRIPTION'),
       });
-    } catch (error) {
-      console.error('Export failed:', error);
+    } catch {
       toast.error(t('ANALYTICS.EXPORT_ERROR'));
     } finally {
       setIsExporting(false);

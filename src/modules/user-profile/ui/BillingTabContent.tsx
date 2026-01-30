@@ -20,8 +20,8 @@ export function BillingTabContent() {
     const fetchData = async () => {
       try {
         await Promise.all([fetchSubscription(), fetchPlans(), fetchPayments(1, 5)]);
-      } catch (error) {
-        console.error('Failed to fetch billing data:', error);
+      } catch {
+        // Silently handle - empty state will be shown
       }
     };
     fetchData();
@@ -31,9 +31,8 @@ export function BillingTabContent() {
     try {
       await downloadReceipt(paymentId);
       toast.success(t('SETTINGS.BILLING.RECEIPT_DOWNLOADED'));
-    } catch (error) {
+    } catch {
       toast.error(t('COMMON.ERRORS.GENERIC'));
-      console.error('Receipt download error:', error);
     }
   };
 

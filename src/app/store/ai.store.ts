@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { i18nService } from '../services/i18n/i18n.service';
 import { aiService } from '../services/ai/ai.service';
+import { i18nService } from '../services/i18n/i18n.service';
 import type {
   ChatInterface,
   MessageInterface,

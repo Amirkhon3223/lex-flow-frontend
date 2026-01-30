@@ -9,8 +9,8 @@ export const handleLogout = async (navigate: (path: string) => void) => {
     const { logout } = useAuthStore.getState();
     await logout();
     navigate('/login');
-  } catch (error) {
-    console.error('Logout error:', error);
+  } catch {
+    // Redirect to login even if logout fails
     navigate('/login');
   }
 };

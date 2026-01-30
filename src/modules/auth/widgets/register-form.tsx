@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 import { Mail, Lock, User, Building2, Sparkles, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { COUNTRIES, CITIES } from '@/app/constants/locations';
 import { ROUTES } from '@/app/config/routes.config';
+import { COUNTRIES, CITIES } from '@/app/constants/locations';
 import type { RegisterFormProps } from '@/app/types/auth/auth.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
-import { cn } from '@/shared/ui/utils';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Combobox } from '@/shared/ui/Combobox.tsx';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
+import { cn } from '@/shared/ui/utils';
 
 export function RegisterForm({
   isLoading,
