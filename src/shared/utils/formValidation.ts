@@ -2,6 +2,8 @@
  * Form validation utilities and API error handling
  */
 
+import { i18nService } from '@/app/services/i18n/i18n.service';
+
 export interface FieldError {
   field: string;
   message: string;
@@ -17,7 +19,7 @@ export interface FormErrors {
 export const validators = {
   required: (value: string | undefined | null, fieldName: string): string | null => {
     if (!value || value.trim() === '') {
-      return `${fieldName} is required`;
+      return i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', fieldName);
     }
     return null;
   },
@@ -26,15 +28,19 @@ export const validators = {
     if (!value) return null;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(value)) {
-      return `${fieldName} must be a valid email address`;
+      return i18nService.t('COMMON.ERRORS.INVALID_EMAIL');
     }
+    void fieldName;
     return null;
   },
 
   minLength: (value: string, min: number, fieldName: string): string | null => {
     if (!value) return null;
     if (value.length < min) {
-      return `${fieldName} must be at least ${min} characters`;
+      return i18nService
+        .t('COMMON.ERRORS.MIN_LENGTH')
+        .replace('{field}', fieldName)
+        .replace('{min}', String(min));
     }
     return null;
   },
@@ -42,7 +48,10 @@ export const validators = {
   maxLength: (value: string, max: number, fieldName: string): string | null => {
     if (!value) return null;
     if (value.length > max) {
-      return `${fieldName} must be at most ${max} characters`;
+      return i18nService
+        .t('COMMON.ERRORS.MAX_LENGTH')
+        .replace('{field}', fieldName)
+        .replace('{max}', String(max));
     }
     return null;
   },
@@ -50,7 +59,10 @@ export const validators = {
   exactLength: (value: string, len: number, fieldName: string): string | null => {
     if (!value) return null;
     if (value.length !== len) {
-      return `${fieldName} must be exactly ${len} characters`;
+      return i18nService
+        .t('COMMON.ERRORS.EXACT_LENGTH')
+        .replace('{field}', fieldName)
+        .replace('{len}', String(len));
     }
     return null;
   },
@@ -58,22 +70,25 @@ export const validators = {
   oneOf: (value: string, allowed: string[], fieldName: string): string | null => {
     if (!value) return null;
     if (!allowed.includes(value)) {
-      return `${fieldName} must be one of: ${allowed.join(', ')}`;
+      return i18nService
+        .t('COMMON.ERRORS.ONE_OF')
+        .replace('{field}', fieldName)
+        .replace('{values}', allowed.join(', '));
     }
     return null;
   },
 
   password: (value: string): string | null => {
-    if (!value) return 'Password is required';
+    if (!value) return i18nService.t('COMMON.ERRORS.PASSWORD_REQUIRED');
     if (value.length < 8) {
-      return 'Password must be at least 8 characters';
+      return i18nService.t('COMMON.ERRORS.PASSWORD_MIN');
     }
     return null;
   },
 
   passwordMatch: (password: string, confirmPassword: string): string | null => {
     if (password !== confirmPassword) {
-      return 'Passwords do not match';
+      return i18nService.t('COMMON.ERRORS.PASSWORDS_NOT_MATCH');
     }
     return null;
   },
@@ -83,8 +98,9 @@ export const validators = {
     // Allow various phone formats
     const phoneRegex = /^[+]?[\d\s\-()]{7,20}$/;
     if (!phoneRegex.test(value)) {
-      return `${fieldName} must be a valid phone number`;
+      return i18nService.t('COMMON.ERRORS.INVALID_PHONE');
     }
+    void fieldName;
     return null;
   },
 };
@@ -116,25 +132,25 @@ export function parseApiErrors(error: unknown): FormErrors {
 
       // Map common backend error messages to fields
       const errorMappings: [RegExp, string, string][] = [
-        [/email.*already.*exists|duplicate.*email/i, 'email', 'Email already exists'],
-        [/email.*required/i, 'email', 'Email is required'],
-        [/invalid.*email/i, 'email', 'Invalid email format'],
-        [/password.*required/i, 'password', 'Password is required'],
-        [/password.*short|password.*min/i, 'password', 'Password must be at least 8 characters'],
-        [/passwords.*match|confirm.*password/i, 'confirmPassword', 'Passwords do not match'],
-        [/firstName.*required|first.*name.*required/i, 'firstName', 'First name is required'],
-        [/lastName.*required|last.*name.*required/i, 'lastName', 'Last name is required'],
-        [/phone.*required/i, 'phone', 'Phone is required'],
-        [/title.*required/i, 'title', 'Title is required'],
-        [/client.*required|clientId.*required/i, 'clientId', 'Client is required'],
-        [/type.*required/i, 'type', 'Type is required'],
-        [/category.*required/i, 'category', 'Category is required'],
-        [/date.*required/i, 'date', 'Date is required'],
-        [/time.*required/i, 'time', 'Time is required'],
-        [/invalid.*credentials|wrong.*password/i, 'password', 'Invalid email or password'],
-        [/user.*not.*found/i, 'email', 'User not found'],
-        [/2fa.*code.*invalid|invalid.*code/i, 'code', 'Invalid verification code'],
-        [/code.*required/i, 'code', 'Verification code is required'],
+        [/email.*already.*exists|duplicate.*email/i, 'email', i18nService.t('COMMON.ERRORS.EMAIL_EXISTS')],
+        [/email.*required/i, 'email', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', 'Email')],
+        [/invalid.*email/i, 'email', i18nService.t('COMMON.ERRORS.INVALID_EMAIL')],
+        [/password.*required/i, 'password', i18nService.t('COMMON.ERRORS.PASSWORD_REQUIRED')],
+        [/password.*short|password.*min/i, 'password', i18nService.t('COMMON.ERRORS.PASSWORD_MIN')],
+        [/passwords.*match|confirm.*password/i, 'confirmPassword', i18nService.t('COMMON.ERRORS.PASSWORDS_NOT_MATCH')],
+        [/firstName.*required|first.*name.*required/i, 'firstName', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('AUTH.REGISTER.FIRST_NAME'))],
+        [/lastName.*required|last.*name.*required/i, 'lastName', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('AUTH.REGISTER.LAST_NAME'))],
+        [/phone.*required/i, 'phone', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('SETTINGS.PROFILE.PHONE'))],
+        [/title.*required/i, 'title', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CASES.FIELDS.TITLE'))],
+        [/client.*required|clientId.*required/i, 'clientId', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CASES.FIELDS.CLIENT'))],
+        [/type.*required/i, 'type', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CASES.FIELDS.TYPE'))],
+        [/category.*required/i, 'category', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CASES.FIELDS.CATEGORY'))],
+        [/date.*required/i, 'date', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CALENDAR.FIELDS.DATE'))],
+        [/time.*required/i, 'time', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CALENDAR.FIELDS.TIME'))],
+        [/invalid.*credentials|wrong.*password/i, 'password', i18nService.t('COMMON.ERRORS.INVALID_CREDENTIALS')],
+        [/user.*not.*found/i, 'email', i18nService.t('COMMON.ERRORS.USER_NOT_FOUND')],
+        [/2fa.*code.*invalid|invalid.*code/i, 'code', i18nService.t('COMMON.ERRORS.INVALID_CODE')],
+        [/code.*required/i, 'code', i18nService.t('COMMON.ERRORS.CODE_REQUIRED')],
       ];
 
       for (const [pattern, field, errorMessage] of errorMappings) {

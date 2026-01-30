@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { i18nService } from '../services/i18n/i18n.service';
 import { authService } from '../services/auth/auth.service';
 import { securityService } from '../services/security/security.service';
 import { usersService } from '../services/users/users.service';
@@ -79,11 +80,11 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             set((state) => ({
               user: state.user ? { ...state.user, ...fullUser, twoFactorEnabled: statusResponse.enabled } : fullUser,
             }));
-          } catch (error) {
-            console.error('Failed to load full user profile:', error);
+          } catch {
+            // Profile enrichment is optional, login still succeeded
           }
         } catch (error) {
-          const errorMessage = (error as Error).message || 'Login failed';
+          const errorMessage = (error as Error).message || i18nService.t('COMMON.ERRORS.LOGIN_FAILED');
           set({ error: errorMessage, loading: false, isAuthenticated: false, twoFactorRequired: false, tempToken: null, initializing: false });
           throw error;
         }
@@ -121,11 +122,11 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             set((state) => ({
               user: state.user ? { ...state.user, ...fullUser, twoFactorEnabled: statusResponse.enabled } : fullUser,
             }));
-          } catch (error) {
-            console.error('Failed to load full user profile:', error);
+          } catch {
+            // Profile enrichment is optional, 2FA login still succeeded
           }
         } catch (error) {
-          const errorMessage = (error as Error).message || '2FA verification failed';
+          const errorMessage = (error as Error).message || i18nService.t('COMMON.ERRORS.TWO_FA_FAILED');
           set({ error: errorMessage, loading: false, initializing: false });
           throw error;
         }
@@ -187,11 +188,11 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             set((state) => ({
               user: state.user ? { ...state.user, ...fullUser } : fullUser,
             }));
-          } catch (error) {
-            console.error('Failed to load full user profile:', error);
+          } catch {
+            // Profile enrichment is optional, registration still succeeded
           }
         } catch (error) {
-          const errorMessage = (error as Error).message || 'Registration failed';
+          const errorMessage = (error as Error).message || i18nService.t('COMMON.ERRORS.REGISTRATION_FAILED');
           set({ error: errorMessage, loading: false, isAuthenticated: false, initializing: false });
           throw error;
         }

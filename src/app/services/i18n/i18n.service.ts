@@ -25,7 +25,7 @@ export const LANGUAGES: LanguageInfo[] = [
 ];
 
 const STORAGE_KEY = 'app-language';
-const DEFAULT_LANGUAGE: Language = 'ru';
+const DEFAULT_LANGUAGE: Language = 'en';
 
 type Translations = { [key: string]: string | Translations };
 

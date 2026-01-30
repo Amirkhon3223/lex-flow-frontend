@@ -1,6 +1,7 @@
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { API_CONFIG } from '../config/api.config';
+import { i18nService } from '../services/i18n/i18n.service';
 import { useAuthStore } from '../store/auth.store';
 import { handleApiError } from '../utils/errorHandler';
 
@@ -99,7 +100,7 @@ export const errorInterceptor = {
 
         return axios(originalRequest);
       } catch (refreshError) {
-        processQueue(new Error('Token refresh failed'));
+        processQueue(new Error(i18nService.t('COMMON.ERRORS.TOKEN_REFRESH_FAILED')));
         isRefreshing = false;
 
         handleApiError(error);
