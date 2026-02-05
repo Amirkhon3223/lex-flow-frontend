@@ -17,6 +17,7 @@ export function LoginForm({
   onPasswordChange,
   onRememberMeChange,
   onSubmit,
+  onForgotPassword,
 }: LoginFormProps) {
   const { t } = useI18n();
 
@@ -46,7 +47,7 @@ export function LoginForm({
             )}
           />
         </div>
-        {errors.email && <p className="text-destructive text-xs">{errors.email}</p>}
+        {errors.email && errors.email.trim() && <p className="text-destructive text-xs">{errors.email}</p>}
       </div>
 
       <div className="space-y-1.5 sm:space-y-2">
@@ -81,7 +82,7 @@ export function LoginForm({
           <Checkbox
             id="remember"
             checked={rememberMe}
-            onCheckedChange={(checked) => onRememberMeChange(Boolean(checked))}
+            onCheckedChange={(checked) => onRememberMeChange?.(Boolean(checked))}
             className="rounded-md border-input"
           />
           <label
@@ -95,6 +96,7 @@ export function LoginForm({
           type="button"
           variant="link"
           className="text-xs sm:text-sm text-blue-600 hover:text-blue-700 h-auto p-0"
+          onClick={() => onForgotPassword?.()}
         >
           {t('AUTH.FORGOT_PASSWORD')}
         </Button>

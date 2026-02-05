@@ -1,12 +1,13 @@
 import { ROUTES } from '@/app/config/routes.config';
 
-export type SettingsTab = 'profile' | 'notifications' | 'security' | 'billing';
+export type SettingsTab = 'profile' | 'notifications' | 'security' | 'billing' | 'audit';
 
 export const SETTINGS_TAB_TO_ROUTE = {
   profile: ROUTES.SETTINGS.PROFILE,
   notifications: ROUTES.SETTINGS.NOTIFICATIONS,
   security: ROUTES.SETTINGS.SECURITY,
   billing: ROUTES.SETTINGS.BILLING,
+  audit: ROUTES.SETTINGS.AUDIT,
 } satisfies Record<SettingsTab, string>;
 
 export const ROUTE_TO_SETTINGS_TAB = {
@@ -14,6 +15,7 @@ export const ROUTE_TO_SETTINGS_TAB = {
   [ROUTES.SETTINGS.NOTIFICATIONS]: 'notifications',
   [ROUTES.SETTINGS.SECURITY]: 'security',
   [ROUTES.SETTINGS.BILLING]: 'billing',
+  [ROUTES.SETTINGS.AUDIT]: 'audit',
 } satisfies Record<string, SettingsTab>;
 
 export const getSettingsTabFromPath = (path: string): SettingsTab => {

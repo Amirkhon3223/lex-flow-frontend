@@ -1,10 +1,11 @@
 /**
  * @file GlobalSearchDialog.tsx
- * @description Глобальный поиск по всем сущностям приложения
+ * @description Global search across all entities with document content search
  */
 
-import { useState } from 'react';
-import { Search, FileText, Users, Briefcase, X } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, FileText, Users, Briefcase, Calendar, MessageSquare, X, Loader2, FileSearch } from 'lucide-react';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -12,6 +13,15 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/shared/
 import { Input } from '@/shared/ui/input';
 import { ScrollArea } from '@/shared/ui/scroll-area';
 import { Separator } from '@/shared/ui/separator';
+import { Tabs, TabsList, TabsTrigger } from '@/shared/ui/tabs';
+import {
+  searchService,
+  type GlobalSearchResponse,
+  type SearchResultItem,
+  type DocumentContentSearchResponse,
+  type DocumentContentSearchResult,
+} from '@/app/services/search/search.service';
+import { useDebounce } from '@/shared/hooks/useDebounce';
 
 interface GlobalSearchDialogProps {
   open: boolean;
@@ -20,27 +30,203 @@ interface GlobalSearchDialogProps {
 
 export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogProps) {
   const { t } = useI18n();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<'quick' | 'content'>('quick');
+  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState<GlobalSearchResponse | null>(null);
+  const [contentResults, setContentResults] = useState<DocumentContentSearchResponse | null>(null);
 
-  const searchResults = {
-    cases: [
-      {
-        id: 1,
-        title: 'Трудовой спор - незаконное увольнение',
-        client: 'Иванов П.А.',
-        status: 'В работе',
-      },
-      { id: 2, title: 'Договор аренды помещения', client: 'ООО "ТехноСтрой"', status: 'Новое' },
-    ],
-    clients: [
-      { id: 1, name: 'Иванов Петр Алексеевич', phone: '+7 (999) 123-45-67', cases: 3 },
-      { id: 2, name: 'ООО "ТехноСтрой"', phone: '+7 (495) 777-88-99', cases: 5 },
-    ],
-    documents: [
-      { id: 1, name: 'Исковое заявление.pdf', case: 'Трудовой спор', size: '2.4 MB' },
-      { id: 2, name: 'Трудовой договор.pdf', case: 'Трудовой спор', size: '1.8 MB' },
-    ],
+  const debouncedQuery = useDebounce(searchQuery, 300);
+
+  const performSearch = useCallback(async (query: string, tab: 'quick' | 'content') => {
+    if (query.length < 2) {
+      setResults(null);
+      setContentResults(null);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      if (tab === 'quick') {
+        const data = await searchService.globalSearch(query);
+        setResults(data);
+      } else {
+        const data = await searchService.searchDocumentContent(query);
+        setContentResults(data);
+      }
+    } catch (error) {
+      console.error('Search failed:', error);
+      setResults(null);
+      setContentResults(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    performSearch(debouncedQuery, activeTab);
+  }, [debouncedQuery, activeTab, performSearch]);
+
+  // Reset when dialog closes
+  useEffect(() => {
+    if (!open) {
+      setSearchQuery('');
+      setResults(null);
+      setContentResults(null);
+      setActiveTab('quick');
+    }
+  }, [open]);
+
+  const handleResultClick = (item: SearchResultItem) => {
+    onOpenChange(false);
+
+    switch (item.type) {
+      case 'client':
+        navigate(`/clients/${item.id}?highlight=${item.id}`);
+        break;
+      case 'case':
+        navigate(`/cases/${item.id}?highlight=${item.id}`);
+        break;
+      case 'document':
+        navigate(`/documents/${item.id}/file-versions?highlight=${item.id}`);
+        break;
+      case 'meeting':
+        navigate(`/calendar/meetings/${item.id}?highlight=${item.id}`);
+        break;
+      case 'chat':
+        navigate(`/ai-assistant?chat=${item.id}&highlight=${item.id}`);
+        break;
+    }
   };
+
+  const handleContentResultClick = (item: DocumentContentSearchResult) => {
+    onOpenChange(false);
+    navigate(`/documents/${item.documentId}/file-versions?highlight=${item.blockId}`);
+  };
+
+  const getStatusColor = (status?: string) => {
+    switch (status?.toLowerCase()) {
+      case 'active':
+      case 'in_progress':
+        return 'bg-green-50 text-green-700';
+      case 'pending':
+      case 'new':
+        return 'bg-blue-50 text-blue-700';
+      case 'closed':
+      case 'inactive':
+        return 'bg-gray-50 text-gray-700';
+      default:
+        return 'bg-muted text-muted-foreground';
+    }
+  };
+
+  const renderSection = (
+    title: string,
+    icon: React.ReactNode,
+    items: SearchResultItem[],
+    iconColor: string
+  ) => {
+    if (items.length === 0) return null;
+
+    return (
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <span className={iconColor}>{icon}</span>
+          <h3 className="text-sm font-medium text-foreground">{title}</h3>
+          <Badge className="bg-muted text-muted-foreground border-0 text-xs">
+            {items.length}
+          </Badge>
+        </div>
+        <div className="space-y-2">
+          {items.map((item) => (
+            <button
+              key={`${item.type}-${item.id}`}
+              className="w-full p-4 rounded-xl hover:bg-muted transition-colors text-left group"
+              onClick={() => handleResultClick(item)}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1">
+                  <h4 className="text-sm font-medium mb-1 group-hover:text-blue-600 transition-colors">
+                    {item.title}
+                  </h4>
+                  {item.subtitle && (
+                    <p className="text-xs text-muted-foreground">{item.subtitle}</p>
+                  )}
+                </div>
+                {item.status && (
+                  <Badge className={`${getStatusColor(item.status)} border-0 text-xs`}>
+                    {item.status}
+                  </Badge>
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderContentResults = () => {
+    if (!contentResults || contentResults.results.length === 0) return null;
+
+    return (
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-orange-500">
+            <FileSearch className="w-5 h-5" strokeWidth={2} />
+          </span>
+          <h3 className="text-sm font-medium text-foreground">
+            {t('SEARCH.DOCUMENT_CONTENT')}
+          </h3>
+          <Badge className="bg-muted text-muted-foreground border-0 text-xs">
+            {contentResults.total}
+          </Badge>
+        </div>
+        <div className="space-y-3">
+          {contentResults.results.map((item) => (
+            <button
+              key={item.blockId}
+              className="w-full p-4 rounded-xl hover:bg-muted transition-colors text-left group border border-border/50"
+              onClick={() => handleContentResultClick(item)}
+            >
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <div className="flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-orange-500" />
+                  <h4 className="text-sm font-medium group-hover:text-blue-600 transition-colors">
+                    {item.documentName}
+                  </h4>
+                </div>
+                {item.caseName && (
+                  <Badge className="bg-blue-50 text-blue-700 border-0 text-xs">
+                    {item.caseName}
+                  </Badge>
+                )}
+              </div>
+              <div
+                className="text-xs text-muted-foreground line-clamp-3 [&_mark]:bg-yellow-200 [&_mark]:text-yellow-900 [&_mark]:px-0.5 [&_mark]:rounded"
+                dangerouslySetInnerHTML={{ __html: item.highlight || item.content }}
+              />
+            </button>
+          ))}
+        </div>
+        {contentResults.hasMore && (
+          <div className="text-center mt-4">
+            <Button variant="outline" size="sm" onClick={() => {/* TODO: Load more */}}>
+              {t('COMMON.ACTIONS.LOAD_MORE')}
+            </Button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const hasResults = results && results.counts.total > 0;
+  const hasContentResults = contentResults && contentResults.results.length > 0;
+  const showEmptyState =
+    debouncedQuery.length >= 2 &&
+    !loading &&
+    ((activeTab === 'quick' && !hasResults) || (activeTab === 'content' && !hasContentResults));
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -72,113 +258,108 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
               </Button>
             )}
           </div>
+
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'quick' | 'content')} className="mt-4">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="quick" className="flex items-center gap-2">
+                <Search className="w-4 h-4" />
+                {t('SEARCH.QUICK_SEARCH')}
+              </TabsTrigger>
+              <TabsTrigger value="content" className="flex items-center gap-2">
+                <FileSearch className="w-4 h-4" />
+                {t('SEARCH.CONTENT_SEARCH')}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
 
         <Separator className="bg-border" />
 
         <ScrollArea className="max-h-[500px]">
           <div className="p-6 space-y-6">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <Briefcase className="w-5 h-5 text-blue-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-foreground">
-                  {t('COMMON.NAVIGATION.CASES')}
-                </h3>
-                <Badge className="bg-muted text-muted-foreground border-0 text-xs">
-                  {searchResults.cases.length}
-                </Badge>
+            {loading && (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
               </div>
-              <div className="space-y-2">
-                {searchResults.cases.map((caseItem) => (
-                  <button
-                    key={caseItem.id}
-                    className="w-full p-4 rounded-xl hover:bg-muted transition-colors text-left group"
-                    onClick={() => onOpenChange(false)}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1">
-                        <h4 className="text-sm font-medium mb-1 group-hover:text-blue-600 transition-colors">
-                          {caseItem.title}
-                        </h4>
-                        <p className="text-xs text-muted-foreground">{caseItem.client}</p>
-                      </div>
-                      <Badge className="bg-blue-50 text-blue-700 border-0 text-xs">
-                        {caseItem.status}
-                      </Badge>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
 
-            <Separator className="bg-border" />
+            {showEmptyState && (
+              <div className="text-center py-12 text-muted-foreground">
+                {t('SEARCH.NO_RESULTS')}
+              </div>
+            )}
 
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <Users className="w-5 h-5 text-purple-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-foreground">
-                  {t('COMMON.NAVIGATION.CLIENTS')}
-                </h3>
-                <Badge className="bg-muted text-muted-foreground border-0 text-xs">
-                  {searchResults.clients.length}
-                </Badge>
-              </div>
-              <div className="space-y-2">
-                {searchResults.clients.map((client) => (
-                  <button
-                    key={client.id}
-                    className="w-full p-4 rounded-xl hover:bg-muted transition-colors text-left group"
-                    onClick={() => onOpenChange(false)}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1">
-                        <h4 className="text-sm font-medium mb-1 group-hover:text-blue-600 transition-colors">
-                          {client.name}
-                        </h4>
-                        <p className="text-xs text-muted-foreground">{client.phone}</p>
-                      </div>
-                      <Badge className="bg-muted text-muted-foreground border-0 text-xs">
-                        {client.cases} {t('CLIENTS.CASES_COUNT')}
-                      </Badge>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
+            {!loading && activeTab === 'quick' && hasResults && (
+              <>
+                {renderSection(
+                  t('COMMON.NAVIGATION.CASES'),
+                  <Briefcase className="w-5 h-5" strokeWidth={2} />,
+                  results.cases,
+                  'text-blue-500'
+                )}
 
-            <Separator className="bg-border" />
+                {results.cases.length > 0 && results.clients.length > 0 && (
+                  <Separator className="bg-border" />
+                )}
 
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <FileText className="w-5 h-5 text-orange-500" strokeWidth={2} />
-                <h3 className="text-sm font-medium text-foreground">
-                  {t('COMMON.NAVIGATION.DOCUMENTS')}
-                </h3>
-                <Badge className="bg-muted text-muted-foreground border-0 text-xs">
-                  {searchResults.documents.length}
-                </Badge>
+                {renderSection(
+                  t('COMMON.NAVIGATION.CLIENTS'),
+                  <Users className="w-5 h-5" strokeWidth={2} />,
+                  results.clients,
+                  'text-purple-500'
+                )}
+
+                {(results.cases.length > 0 || results.clients.length > 0) &&
+                  results.documents.length > 0 && <Separator className="bg-border" />}
+
+                {renderSection(
+                  t('COMMON.NAVIGATION.DOCUMENTS'),
+                  <FileText className="w-5 h-5" strokeWidth={2} />,
+                  results.documents,
+                  'text-orange-500'
+                )}
+
+                {(results.cases.length > 0 ||
+                  results.clients.length > 0 ||
+                  results.documents.length > 0) &&
+                  results.meetings.length > 0 && <Separator className="bg-border" />}
+
+                {renderSection(
+                  t('COMMON.NAVIGATION.CALENDAR'),
+                  <Calendar className="w-5 h-5" strokeWidth={2} />,
+                  results.meetings,
+                  'text-green-500'
+                )}
+
+                {(results.cases.length > 0 ||
+                  results.clients.length > 0 ||
+                  results.documents.length > 0 ||
+                  results.meetings.length > 0) &&
+                  results.chats.length > 0 && <Separator className="bg-border" />}
+
+                {renderSection(
+                  t('COMMON.NAVIGATION.AI_ASSISTANT'),
+                  <MessageSquare className="w-5 h-5" strokeWidth={2} />,
+                  results.chats,
+                  'text-pink-500'
+                )}
+              </>
+            )}
+
+            {!loading && activeTab === 'content' && hasContentResults && renderContentResults()}
+
+            {!loading && debouncedQuery.length < 2 && debouncedQuery.length > 0 && (
+              <div className="text-center py-12 text-muted-foreground">
+                {t('SEARCH.MIN_CHARS')}
               </div>
-              <div className="space-y-2">
-                {searchResults.documents.map((doc) => (
-                  <button
-                    key={doc.id}
-                    className="w-full p-4 rounded-xl hover:bg-muted transition-colors text-left group"
-                    onClick={() => onOpenChange(false)}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1">
-                        <h4 className="text-sm font-medium mb-1 group-hover:text-blue-600 transition-colors">
-                          {doc.name}
-                        </h4>
-                        <p className="text-xs text-muted-foreground">
-                          {doc.case} • {doc.size}
-                        </p>
-                      </div>
-                    </div>
-                  </button>
-                ))}
+            )}
+
+            {!loading && debouncedQuery.length === 0 && activeTab === 'content' && (
+              <div className="text-center py-12 text-muted-foreground">
+                <FileSearch className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p>{t('SEARCH.CONTENT_SEARCH_HINT')}</p>
               </div>
-            </div>
+            )}
           </div>
         </ScrollArea>
       </DialogContent>

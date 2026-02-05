@@ -9,7 +9,8 @@ import {
   ZoomOut,
   GitCompare,
   ChevronDown,
-  ArrowRight,
+  ChevronUp,
+  ArrowLeftRight,
   AlertCircle,
   Loader2,
 } from 'lucide-react';
@@ -57,7 +58,10 @@ export function DocumentCompareView() {
   const [version2, setVersion2] = useState(searchParams.get('v2') || '');
   const [openSelect, setOpenSelect] = useState<'version1' | 'version2' | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [currentChangeIndex, setCurrentChangeIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
+  const blockRefsOld = useRef<Map<number, HTMLDivElement>>(new Map());
+  const blockRefsNew = useRef<Map<number, HTMLDivElement>>(new Map());
 
   useEffect(() => {
     if (documentId) {
@@ -79,7 +83,8 @@ export function DocumentCompareView() {
       compareVersions(documentId, version1, version2);
       setSearchParams({ v1: version1, v2: version2 });
     }
-  }, [documentId, version1, version2, compareVersions, setSearchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [documentId, version1, version2]);
 
   const handleVersionChange = (versionId: string, isVersion1: boolean) => {
     if (isVersion1) {
@@ -87,6 +92,12 @@ export function DocumentCompareView() {
     } else {
       if (versionId !== version1) setVersion2(versionId);
     }
+  };
+
+  const handleSwapVersions = () => {
+    const temp = version1;
+    setVersion1(version2);
+    setVersion2(temp);
   };
 
   const handleZoomIn = () => {
@@ -166,6 +177,46 @@ export function DocumentCompareView() {
     return { added: totalAdded, removed: totalRemoved, unchanged: totalUnchanged };
   }, [alignedPairs]);
 
+  // Find indices of changed blocks
+  const changedBlockIndices = useMemo(() => {
+    const indices: number[] = [];
+    alignedPairs.forEach((pair, idx) => {
+      // Block is changed if: added, removed, or modified (different content)
+      if (pair.matchType === 'added' || pair.matchType === 'removed') {
+        indices.push(idx);
+      } else if (pair.block1?.blockType === 'TEXT' && pair.block2?.blockType === 'TEXT') {
+        if (pair.block1.content !== pair.block2.content) {
+          indices.push(idx);
+        }
+      }
+    });
+    return indices;
+  }, [alignedPairs]);
+
+  const navigateToChange = (direction: 'prev' | 'next') => {
+    if (changedBlockIndices.length === 0) return;
+
+    let newIndex: number;
+    if (currentChangeIndex === -1) {
+      // First navigation - go to first or last change
+      newIndex = direction === 'next' ? 0 : changedBlockIndices.length - 1;
+    } else {
+      newIndex = direction === 'next'
+        ? (currentChangeIndex + 1) % changedBlockIndices.length
+        : (currentChangeIndex - 1 + changedBlockIndices.length) % changedBlockIndices.length;
+    }
+
+    setCurrentChangeIndex(newIndex);
+    const blockIdx = changedBlockIndices[newIndex];
+
+    // Scroll both panels to the changed block
+    const oldRef = blockRefsOld.current.get(blockIdx);
+    const newRef = blockRefsNew.current.get(blockIdx);
+
+    oldRef?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    newRef?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
   if (error) {
     return (
       <div className="p-6">
@@ -225,7 +276,7 @@ export function DocumentCompareView() {
             <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_VERSIONS')} />
 
             <div className="flex items-center gap-2 flex-wrap">
-              {}
+              {/* Zoom controls */}
               <div className="hidden sm:flex items-center gap-2">
                 <Button
                   variant="outline"
@@ -331,9 +382,15 @@ export function DocumentCompareView() {
               </Select>
             </div>
 
-            <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" strokeWidth={2} />
-            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleSwapVersions}
+              className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-blue-50 hover:bg-blue-100 border-blue-200 flex-shrink-0"
+              title={t('DOCUMENTS.SWAP_VERSIONS')}
+            >
+              <ArrowLeftRight className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" strokeWidth={2} />
+            </Button>
 
             <div className="flex-1 min-w-0">
               <Select
@@ -409,14 +466,39 @@ export function DocumentCompareView() {
           />
         )}
 
-        {}
+        {/* Mobile view */}
         <div className="lg:hidden space-y-4">
-          {}
+          {/* Stats and navigation */}
           <Card>
             <div>
-              <h3 className="font-semibold tracking-tight text-sm mb-3">
-                {t('DOCUMENTS.CHANGES_DETECTED')}
-              </h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold tracking-tight text-sm">
+                  {t('DOCUMENTS.CHANGES_DETECTED')}
+                </h3>
+                {changedBlockIndices.length > 0 && (
+                  <div className="flex items-center gap-1 bg-muted/50 rounded-lg p-0.5">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => navigateToChange('prev')}
+                      className="h-7 w-7 rounded"
+                    >
+                      <ChevronUp className="w-4 h-4" />
+                    </Button>
+                    <span className="text-xs text-muted-foreground px-1">
+                      {currentChangeIndex === -1 ? '-' : currentChangeIndex + 1}/{changedBlockIndices.length}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => navigateToChange('next')}
+                      className="h-7 w-7 rounded"
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
+              </div>
               <div className="flex gap-2">
                 <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-green-500/10">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
@@ -432,7 +514,7 @@ export function DocumentCompareView() {
             </div>
           </Card>
 
-          {}
+          {/* Old version */}
           <Card>
             <div className="p-3 bg-muted/50 border-b border-border">
               <div className="flex items-center justify-between">
@@ -452,18 +534,22 @@ export function DocumentCompareView() {
             <ScrollArea className="h-[400px]">
               <div className="p-4 space-y-4" style={{ fontSize: `${zoomLevel}%` }}>
                 {alignedPairs.map((pair, idx) => (
-                  <BlockRenderer
-                    key={pair.block1?.id || pair.block2?.id || `pair-${idx}`}
-                    block={pair.block1!}
-                    comparisonBlock={pair.block2 || undefined}
-                    side="old"
-                  />
+                  <div
+                    key={pair.block1?.id || pair.block2?.id || `pair-mobile-old-${idx}`}
+                    className={currentChangeIndex !== -1 && changedBlockIndices[currentChangeIndex] === idx ? 'ring-2 ring-blue-500 ring-offset-2 rounded-lg' : ''}
+                  >
+                    <BlockRenderer
+                      block={pair.block1!}
+                      comparisonBlock={pair.block2 || undefined}
+                      side="old"
+                    />
+                  </div>
                 ))}
               </div>
             </ScrollArea>
           </Card>
 
-          {}
+          {/* New version */}
           <Card>
             <div className="p-3 bg-green-500/10 border-b border-green-500/20">
               <div className="flex items-center justify-between">
@@ -483,12 +569,16 @@ export function DocumentCompareView() {
             <ScrollArea className="h-[400px]">
               <div className="p-4 space-y-4" style={{ fontSize: `${zoomLevel}%` }}>
                 {alignedPairs.map((pair, idx) => (
-                  <BlockRenderer
-                    key={pair.block1?.id || pair.block2?.id || `pair-${idx}`}
-                    block={pair.block2!}
-                    comparisonBlock={pair.block1 || undefined}
-                    side="new"
-                  />
+                  <div
+                    key={pair.block1?.id || pair.block2?.id || `pair-mobile-new-${idx}`}
+                    className={currentChangeIndex !== -1 && changedBlockIndices[currentChangeIndex] === idx ? 'ring-2 ring-blue-500 ring-offset-2 rounded-lg' : ''}
+                  >
+                    <BlockRenderer
+                      block={pair.block2!}
+                      comparisonBlock={pair.block1 || undefined}
+                      side="new"
+                    />
+                  </div>
                 ))}
               </div>
             </ScrollArea>
@@ -525,6 +615,36 @@ export function DocumentCompareView() {
                   <Info className="w-4 h-4 text-muted-foreground" strokeWidth={2} />
                   Statistics
                 </h3>
+
+                {/* Change navigation */}
+                {changedBlockIndices.length > 0 && (
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-blue-500/10 mb-3">
+                    <span className="text-sm text-blue-700 dark:text-blue-400">
+                      {t('DOCUMENTS.CHANGES_DETECTED')}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => navigateToChange('prev')}
+                        className="h-7 w-7 rounded hover:bg-blue-200 dark:hover:bg-blue-800"
+                      >
+                        <ChevronUp className="w-4 h-4 text-blue-600" strokeWidth={2} />
+                      </Button>
+                      <span className="text-xs text-blue-600 dark:text-blue-400 min-w-[40px] text-center">
+                        {currentChangeIndex === -1 ? '-' : currentChangeIndex + 1}/{changedBlockIndices.length}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => navigateToChange('next')}
+                        className="h-7 w-7 rounded hover:bg-blue-200 dark:hover:bg-blue-800"
+                      >
+                        <ChevronDown className="w-4 h-4 text-blue-600" strokeWidth={2} />
+                      </Button>
+                    </div>
+                  </div>
+                )}
 
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/10">
@@ -602,18 +722,25 @@ export function DocumentCompareView() {
                   <ScrollArea className="h-[800px]">
                     <div className="p-6 space-y-4" style={{ fontSize: `${zoomLevel}%` }}>
                       {alignedPairs.map((pair, idx) => (
-                        <BlockRenderer
-                          key={pair.block1?.id || pair.block2?.id || `pair-${idx}`}
-                          block={pair.block1!}
-                          comparisonBlock={pair.block2 || undefined}
-                          side="old"
-                        />
+                        <div
+                          key={pair.block1?.id || pair.block2?.id || `pair-old-${idx}`}
+                          ref={(el) => {
+                            if (el) blockRefsOld.current.set(idx, el);
+                          }}
+                          className={currentChangeIndex !== -1 && changedBlockIndices[currentChangeIndex] === idx ? 'ring-2 ring-blue-500 ring-offset-2 rounded-lg' : ''}
+                        >
+                          <BlockRenderer
+                            block={pair.block1!}
+                            comparisonBlock={pair.block2 || undefined}
+                            side="old"
+                          />
+                        </div>
                       ))}
                     </div>
                   </ScrollArea>
                 </div>
 
-                {}
+                {/* New version */}
                 <div>
                   <div className="p-4 bg-green-500/10 border-b border-green-500/20">
                     <div className="flex items-center justify-between">
@@ -633,12 +760,19 @@ export function DocumentCompareView() {
                   <ScrollArea className="h-[800px]">
                     <div className="p-6 space-y-4" style={{ fontSize: `${zoomLevel}%` }}>
                       {alignedPairs.map((pair, idx) => (
-                        <BlockRenderer
-                          key={pair.block1?.id || pair.block2?.id || `pair-${idx}`}
-                          block={pair.block2!}
-                          comparisonBlock={pair.block1 || undefined}
-                          side="new"
-                        />
+                        <div
+                          key={pair.block1?.id || pair.block2?.id || `pair-new-${idx}`}
+                          ref={(el) => {
+                            if (el) blockRefsNew.current.set(idx, el);
+                          }}
+                          className={currentChangeIndex !== -1 && changedBlockIndices[currentChangeIndex] === idx ? 'ring-2 ring-blue-500 ring-offset-2 rounded-lg' : ''}
+                        >
+                          <BlockRenderer
+                            block={pair.block2!}
+                            comparisonBlock={pair.block1 || undefined}
+                            side="new"
+                          />
+                        </div>
                       ))}
                     </div>
                   </ScrollArea>

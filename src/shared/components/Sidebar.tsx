@@ -8,8 +8,10 @@
  * - Счетчики активных элементов (дела, клиенты)
  * - Быстрый доступ к AI-помощнику, настройкам и выходу
  * - Адаптивные режимы: desktop (полный), tablet (collapsed), mobile (overlay)
+ * - Route prefetching on hover for improved navigation performance
  */
 
+import { memo, useCallback } from 'react';
 import {
   Home,
   Briefcase,
@@ -20,6 +22,7 @@ import {
   Sparkles,
   Settings,
   LogOut,
+  FileStack,
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config';
@@ -27,6 +30,7 @@ import { handleLogout } from '@/app/utils/authUtils';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Badge } from '@/shared/ui/badge';
 import { Separator } from '@/shared/ui/separator';
+import { prefetchRoute } from '@/shared/utils/prefetch';
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -35,7 +39,7 @@ interface SidebarProps {
   onMobileClose?: () => void;
 }
 
-export function Sidebar({
+export const Sidebar = memo(function Sidebar({
   isCollapsed = false,
   isMobileOpen = false,
   onCollapse: _onCollapse,
@@ -48,6 +52,11 @@ export function Sidebar({
   const handleLogoutClick = () => {
     handleLogout(navigate);
   };
+
+  // Prefetch route on hover for improved navigation performance
+  const handlePrefetch = useCallback((path: string) => {
+    prefetchRoute(path);
+  }, []);
 
   const navigationItems = [
     {
@@ -92,10 +101,20 @@ export function Sidebar({
       id: 'analytics',
       count: undefined,
     },
+    {
+      icon: FileStack,
+      label: t('COMMON.NAVIGATION.TEMPLATES'),
+      path: ROUTES.TEMPLATES,
+      id: 'templates',
+      count: undefined,
+    },
   ];
 
   return (
     <aside
+      id="main-nav"
+      role="navigation"
+      aria-label="Main navigation"
       className={`
           fixed left-0 top-0 h-full bg-card border-r border-border z-50 transition-all duration-300 ease-in-out
         ${isCollapsed ? 'md:w-20 lg:w-72' : 'md:w-72'}
@@ -136,6 +155,9 @@ export function Sidebar({
                 key={item.id}
                 to={item.path}
                 onClick={onMobileClose}
+                onMouseEnter={() => handlePrefetch(item.path)}
+                onFocus={() => handlePrefetch(item.path)}
+                aria-current={isActive ? 'page' : undefined}
                 className={`
                   w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer relative
                   ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
@@ -184,6 +206,8 @@ export function Sidebar({
           <Link
             to={ROUTES.AI_ASSISTANT}
             onClick={onMobileClose}
+            onMouseEnter={() => handlePrefetch(ROUTES.AI_ASSISTANT)}
+            onFocus={() => handlePrefetch(ROUTES.AI_ASSISTANT)}
             className={`
               w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer relative
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
@@ -228,6 +252,8 @@ export function Sidebar({
           <Link
             to={ROUTES.SETTINGS.ROOT}
             onClick={onMobileClose}
+            onMouseEnter={() => handlePrefetch(ROUTES.SETTINGS.ROOT)}
+            onFocus={() => handlePrefetch(ROUTES.SETTINGS.ROOT)}
             className={`
               w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all cursor-pointer
               ${isCollapsed ? 'md:justify-center md:px-2 lg:justify-start lg:px-4' : ''}
@@ -263,4 +289,6 @@ export function Sidebar({
       </div>
     </aside>
   );
-}
+});
+
+Sidebar.displayName = 'Sidebar';

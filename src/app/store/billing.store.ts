@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { trackSubscription } from '@/shared/utils/analytics';
 import { billingService } from '../services/billing/billing.service';
 import type { Pagination } from '../types/api/api.types';
 import type {
@@ -32,6 +33,8 @@ interface BillingState {
   fetchPaymentMethods: () => Promise<void>;
   addPaymentMethod: (data: AddPaymentMethodRequest) => Promise<void>;
   deletePaymentMethod: (paymentMethodId: string) => Promise<void>;
+  setDefaultPaymentMethod: (paymentMethodId: string) => Promise<void>;
+  retryPayment: (paymentId: string) => Promise<void>;
 }
 
 export const useBillingStore = create<BillingState>((set, get) => ({
@@ -75,8 +78,19 @@ export const useBillingStore = create<BillingState>((set, get) => ({
   changePlan: async (data: ChangePlanRequest) => {
     set({ loading: true, error: null });
     try {
+      const currentSub = get().subscription;
       await billingService.changePlan(data);
       await get().fetchSubscription();
+
+      // Determine if this is an upgrade or downgrade based on plan order
+      const planOrder = ['plan_basic', 'plan_pro', 'plan_pro_max'];
+      const currentPlanIndex = currentSub?.planId ? planOrder.indexOf(currentSub.planId) : -1;
+      const newPlanIndex = planOrder.indexOf(data.planId);
+      const action = newPlanIndex > currentPlanIndex ? 'upgrade' : 'downgrade';
+
+      // Track the subscription change
+      trackSubscription(action, data.planId, data.interval);
+
       set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
@@ -88,6 +102,10 @@ export const useBillingStore = create<BillingState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       const response = await billingService.createCheckoutSession(data);
+
+      // Track subscription intent
+      trackSubscription('subscribe', data.planId, data.interval);
+
       set({ loading: false });
       return response;
     } catch (error) {
@@ -99,8 +117,13 @@ export const useBillingStore = create<BillingState>((set, get) => ({
   cancelSubscription: async () => {
     set({ loading: true, error: null });
     try {
+      const currentSub = get().subscription;
       await billingService.cancelSubscription();
       await get().fetchSubscription();
+
+      // Track subscription cancellation
+      trackSubscription('cancel', currentSub?.planId);
+
       set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
@@ -178,6 +201,36 @@ export const useBillingStore = create<BillingState>((set, get) => ({
         paymentMethods: state.paymentMethods.filter((pm) => pm.id !== paymentMethodId),
         loading: false,
       }));
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+      throw error;
+    }
+  },
+
+  setDefaultPaymentMethod: async (paymentMethodId: string) => {
+    set({ loading: true, error: null });
+    try {
+      await billingService.setDefaultPaymentMethod(paymentMethodId);
+      set((state) => ({
+        paymentMethods: state.paymentMethods.map((pm) => ({
+          ...pm,
+          isDefault: pm.id === paymentMethodId,
+        })),
+        loading: false,
+      }));
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+      throw error;
+    }
+  },
+
+  retryPayment: async (paymentId: string) => {
+    set({ loading: true, error: null });
+    try {
+      await billingService.retryPayment(paymentId);
+      // Refresh payments to get updated status
+      await get().fetchPayments();
+      set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
       throw error;

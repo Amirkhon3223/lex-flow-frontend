@@ -1,0 +1,8 @@
+# LexFlow Ads.txt
+# https://lexflow.app
+
+# This file declares authorized digital sellers
+# Contact: advertising@lexflow.app
+
+# Reserved for future advertising partnerships
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

@@ -15,3 +15,10 @@ export enum MeetingPriorityEnum {
   MEDIUM = 'medium',
   HIGH = 'high',
 }
+
+export enum VideoProviderEnum {
+  JITSI = 'jitsi',
+  GOOGLE_MEET = 'google_meet',
+  ZOOM = 'zoom',
+  CUSTOM = 'custom',
+}

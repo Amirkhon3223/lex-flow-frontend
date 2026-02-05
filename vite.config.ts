@@ -38,7 +38,7 @@ export default defineConfig({
 
         manualChunks(id) {
           // React core (самый важный vendor chunk)
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
             return 'react-core';
           }
 
@@ -53,8 +53,27 @@ export default defineConfig({
           }
 
           // Charts (очень тяжелая библиотека - отдельно)
-          if (id.includes('node_modules/recharts')) {
+          if (id.includes('node_modules/recharts') || id.includes('node_modules/d3-')) {
             return 'charts';
+          }
+
+          // Markdown (только для AI Assistant)
+          if (id.includes('node_modules/react-markdown') ||
+              id.includes('node_modules/remark-') ||
+              id.includes('node_modules/unified') ||
+              id.includes('node_modules/micromark') ||
+              id.includes('node_modules/mdast-')) {
+            return 'markdown';
+          }
+
+          // Document comparison
+          if (id.includes('node_modules/diff-match-patch')) {
+            return 'diff';
+          }
+
+          // Image cropping
+          if (id.includes('node_modules/react-image-crop')) {
+            return 'image-crop';
           }
 
           // Radix UI компоненты (большой набор)
@@ -85,6 +104,11 @@ export default defineConfig({
           // Date utilities
           if (id.includes('node_modules/date-fns')) {
             return 'date-utils';
+          }
+
+          // Calendar component
+          if (id.includes('node_modules/react-day-picker')) {
+            return 'calendar';
           }
 
           // Other node_modules -> common vendor

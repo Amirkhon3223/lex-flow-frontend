@@ -8,6 +8,13 @@
  * - Экспорт данных (Excel, VCF)
  * - Массовые действия
  * - Режим сетки (Grid view)
+ *
+ * PERFORMANCE TODO:
+ * - Consider implementing virtual scrolling for large client lists (100+ items)
+ *   using @tanstack/react-virtual or react-window library.
+ *   This would significantly improve performance when displaying many clients
+ *   by only rendering visible rows in the viewport.
+ *   Example: Replace the clients.map() in TableBody with a virtualized list.
  */
 
 import { useState, useEffect } from 'react';
@@ -26,6 +33,7 @@ import {
   Users,
   Building2,
   Sparkles,
+  Download,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/config/routes.config.ts';
@@ -50,6 +58,7 @@ import { Card } from '@/shared/ui/card';
 import { StatCard } from '@/shared/ui/stat-card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
+import { exportToCsv, formatDateForExport, formatCurrencyForExport } from '@/shared/utils/exportUtils';
 
 export function ClientsPage() {
   const navigate = useNavigate();
@@ -141,6 +150,54 @@ export function ClientsPage() {
     return <Badge className={`${styles[status]} border-0 text-xs`}>{labels[status]}</Badge>;
   };
 
+  const handleExport = () => {
+    if (!clients.length) return;
+
+    const typeLabels: Record<string, string> = {
+      individual: t('CLIENTS.FILTERS.INDIVIDUAL'),
+      legal: t('CLIENTS.FILTERS.LEGAL'),
+      entrepreneur: t('CLIENTS.FILTERS.ENTREPRENEUR'),
+      company: t('CLIENTS.FILTERS.LEGAL'),
+    };
+
+    const categoryLabels: Record<string, string> = {
+      vip: t('CLIENTS.CATEGORIES.VIP'),
+      premium: t('CLIENTS.CATEGORIES.PREMIUM'),
+      standard: t('CLIENTS.CATEGORIES.STANDARD'),
+    };
+
+    const statusLabels: Record<string, string> = {
+      active: t('CLIENTS.STATUS.ACTIVE'),
+      inactive: t('CLIENTS.STATUS.INACTIVE'),
+      pending: t('CLIENTS.STATUS.PENDING'),
+    };
+
+    const columns = [
+      { key: 'name', header: t('CLIENTS.FIELDS.NAME') },
+      { key: 'type', header: t('CLIENTS.FIELDS.TYPE'), formatter: (v: unknown) => typeLabels[v as string] || String(v || '') },
+      { key: 'category', header: t('CLIENTS.FIELDS.CATEGORY'), formatter: (v: unknown) => categoryLabels[v as string] || String(v || '') },
+      { key: 'status', header: t('CLIENTS.FIELDS.STATUS'), formatter: (v: unknown) => statusLabels[v as string] || String(v || '') },
+      { key: 'email', header: t('CLIENTS.FIELDS.EMAIL') },
+      { key: 'phone', header: t('CLIENTS.FIELDS.PHONE') },
+      { key: 'address', header: t('CLIENTS.FIELDS.ADDRESS') },
+      { key: 'inn', header: t('CLIENTS.FIELDS.INN') },
+      { key: 'activeCases', header: t('CLIENTS.FIELDS.ACTIVE_CASES') },
+      { key: 'totalCases', header: t('CLIENTS.FIELDS.TOTAL_CASES') },
+      { key: 'totalRevenue', header: t('CLIENTS.FIELDS.TOTAL_REVENUE'), formatter: (v: unknown) => formatCurrencyForExport(v as number) },
+      { key: 'joinDate', header: t('CLIENTS.FIELDS.JOIN_DATE'), formatter: (v: unknown) => formatDateForExport(v as string) },
+      { key: 'lastContact', header: t('CLIENTS.FIELDS.LAST_CONTACT'), formatter: (v: unknown) => formatDateForExport(v as string) },
+    ];
+
+    // Prepare data with computed name field
+    const exportData = clients.map(client => ({
+      ...client,
+      name: getClientName(client),
+    }));
+
+    const date = new Date().toISOString().split('T')[0];
+    exportToCsv(exportData, columns, `clients_${date}`);
+  };
+
   const getTypeIcon = (type: ClientTypeEnum) => {
     switch (type) {
       case ClientTypeEnum.LEGAL:
@@ -216,37 +273,49 @@ export function ClientsPage() {
               </div>
             </div>
 
-            {usage && !usage.canAddClient ? (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span className="w-full sm:w-auto">
-                      <Button
-                        className="bg-blue-500/50 text-white rounded-xl shadow-md w-full sm:w-auto cursor-not-allowed"
-                        disabled
-                      >
-                        <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
-                        {t('CLIENTS.NEW_CLIENT')}
-                      </Button>
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="text-xs">{t('LIMITS.CLIENTS_LIMIT')}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <Button
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full sm:w-auto"
-                onClick={() => {
-                  setClientFormMode('create');
-                  setIsClientFormOpen(true);
-                }}
+                variant="outline"
+                className="rounded-xl"
+                onClick={handleExport}
+                disabled={!clients.length}
               >
-                <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
-                {t('CLIENTS.NEW_CLIENT')}
+                <Download className="w-4 h-4 mr-2" />
+                {t('COMMON.ACTIONS.EXPORT')}
               </Button>
-            )}
+
+              {usage && !usage.canAddClient ? (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="flex-1 sm:flex-none">
+                        <Button
+                          className="bg-blue-500/50 text-white rounded-xl shadow-md w-full cursor-not-allowed"
+                          disabled
+                        >
+                          <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+                          {t('CLIENTS.NEW_CLIENT')}
+                        </Button>
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="text-xs">{t('LIMITS.CLIENTS_LIMIT')}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <Button
+                  className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md flex-1 sm:flex-none"
+                  onClick={() => {
+                    setClientFormMode('create');
+                    setIsClientFormOpen(true);
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+                  {t('CLIENTS.NEW_CLIENT')}
+                </Button>
+              )}
+            </div>
           </div>
 
           <FilterBar

@@ -1,512 +1,166 @@
-# LexFlow - Юридическая CRM система
+# LexFlow Frontend
 
-> Современное React-приложение для управления юридической практикой с Feature-Sliced Design архитектурой и Workspace Multi-Tenancy
+> React приложение для SaaS-платформы управления юридической практикой
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-19.1-61dafb.svg)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-7.1-646cff.svg)](https://vitejs.dev/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-## 🚀 Быстрый старт
+## Quick Start
 
 ```bash
-# Установка зависимостей
+# Зависимости
 npm install
 
 # Запуск dev сервера
 npm run dev
 
-# Сборка для production
+# Production сборка
 npm run build
 
 # Проверка типов
 npm run type-check
+
+# Линтинг
+npm run lint
 ```
 
-Приложение будет доступно по адресу: `http://localhost:5173`
-
-## 📋 О проекте
-
-LexFlow - это полнофункциональная CRM система для юридических компаний с поддержкой multi-tenancy через Workspace архитектуру.
-
-### Основные возможности
-
-- 📊 **Dashboard** - Обзор активных дел, задач и статистики
-- 👥 **Клиенты** - Управление базой клиентов (физ. лица, ИП, юр. лица)
-- ⚖️ **Дела** - Ведение судебных и несудебных дел с timeline событий
-- 📄 **Документы** - Управление документами с версионированием и сравнением
-- 📅 **Календарь** - Планирование встреч и событий (Day/Week/Month views)
-- 📈 **Аналитика** - Детальная статистика и отчёты с графиками
-- 🤖 **AI Помощник** - Интеллектуальный анализ документов
-- 💳 **Биллинг** - Интеграция со Stripe для управления подписками
-- 👨‍💼 **Команда** - Управление workspace и членами команды
-- ⚙️ **Настройки** - Управление профилем, безопасностью и подпиской
-- 🌍 **i18n** - Поддержка 3 языков (Русский, English, Тоҷикӣ)
-
-### Архитектура Workspace
-
-Проект использует современную **Workspace + Membership** модель:
-
-- **Workspace** - изолированное рабочее пространство для команды
-- **Membership** - связь пользователя с workspace и его роль
-- **Roles**: `owner`, `admin`, `member` с разными уровнями доступа
-- **Subscription** - подписка привязана к workspace, не к пользователю
-- Поддержка **trial периода** и автоматического создания workspace при регистрации
-
-## 🏗️ Архитектура проекта
-
-### Feature-Sliced Design (FSD)
-
-Проект следует принципам FSD архитектуры для максимальной масштабируемости и поддерживаемости.
-
-```
-src/
-├── app/                    # Конфигурация приложения
-│   ├── config/            # API конфиг, роуты
-│   ├── guards/            # Auth guards
-│   ├── interceptors/      # HTTP interceptors (auth, error handling)
-│   ├── services/          # API сервисы
-│   │   ├── auth/          # Аутентификация
-│   │   ├── billing/       # Stripe интеграция
-│   │   ├── clients/       # Управление клиентами
-│   │   ├── cases/         # Управление делами
-│   │   ├── documents/     # Управление документами
-│   │   ├── i18n/          # Интернационализация
-│   │   ├── notifications/ # Уведомления
-│   │   ├── security/      # 2FA, сессии
-│   │   ├── team/          # Управление командой
-│   │   ├── users/         # Профиль пользователя
-│   │   ├── websocket/     # WebSocket соединения
-│   │   └── workspaces/    # Управление workspace
-│   ├── store/             # Zustand stores
-│   │   ├── auth.store.ts          # Auth + Workspace + Role
-│   │   ├── billing.store.ts       # Подписки и платежи
-│   │   ├── clients.store.ts       # Клиенты
-│   │   ├── notifications.store.ts # Уведомления
-│   │   ├── team.store.ts          # Команда
-│   │   └── workspaces.store.ts    # Workspaces
-│   ├── types/             # TypeScript типы и enums
-│   │   ├── auth/          # User, AuthResponse, Workspace
-│   │   ├── billing/       # Subscriptions, Plans, Payments
-│   │   ├── membership/    # Membership, MembershipRole
-│   │   └── workspaces/    # WorkspaceInfo, CreateWorkspaceRequest
-│   └── router.tsx         # React Router конфигурация
-│
-├── modules/               # Бизнес-логика и компоненты
-│   ├── auth/              # Логин, регистрация
-│   ├── dashboard/         # Главная страница
-│   ├── clients/           # Управление клиентами
-│   ├── cases/             # Управление делами
-│   ├── documents/         # Управление документами
-│   ├── calendar/          # Календарь встреч
-│   ├── analytics/         # Аналитика и отчёты
-│   ├── ai-assistant/      # AI помощник
-│   ├── settings/          # Настройки (Profile, Billing, Team, Security)
-│   ├── user-profile/      # Профиль пользователя
-│   ├── reports/           # Отчёты
-│   └── notifications/     # Уведомления
-│
-├── pages/                 # Обёртки страниц для роутинга (2 строки)
-│   ├── DashboardPage.tsx
-│   ├── ClientsPage.tsx
-│   └── ...
-│
-├── shared/                # Переиспользуемые компоненты
-│   ├── ui/                # shadcn/ui компоненты (50+)
-│   ├── components/        # Layout, Header, Sidebar, NotificationsPanel
-│   ├── context/           # I18nContext, SelectProvider, ThemeProvider
-│   └── utils/             # Утилиты
-│
-└── assets/                # Статические файлы
-    └── i18n/              # Переводы (ru.json, en.json, tj.json)
-```
-
-### Ключевые принципы
-
-#### 1. **modules/** - Вся бизнес-логика
-`index.tsx` каждого модуля - это главная страница, собранная из мелких UI компонентов:
-
-```tsx
-// modules/dashboard/index.tsx
-import { StatsCards } from './widgets/StatsCards';
-import { PriorityCases } from './widgets/PriorityCases';
-
-export default function DashboardPage() {
-  return (
-    <div>
-      <StatsCards />
-      <PriorityCases />
-    </div>
-  );
-}
-```
-
-#### 2. **pages/** - Простые обёртки
-Каждый файл в `pages/` - это 2 строки для чистого роутинга:
-
-```tsx
-// pages/DashboardPage.tsx
-export { default } from '@/modules/dashboard';
-```
-
-#### 3. **ui/** в каждом модуле
-Мелкие переиспользуемые UI компоненты, специфичные для модуля:
-
-```
-modules/clients/ui/
-├── AddClientDialog.tsx
-├── EditClientDialog.tsx
-├── ClientCard.tsx
-├── SearchBar.tsx
-└── StatsCards.tsx
-```
-
-Подробнее об архитектуре: [ARCHITECTURE.md](ARCHITECTURE.md)
-
-## 📦 Технологический стек
-
-### Core
-- **React 19.1.1** - Последняя версия UI библиотеки
-- **TypeScript 5.9.3** - Типизация (✅ strict mode включён)
-- **Vite 7.1.14** - Сборщик (Rolldown)
-- **React Router 7.9.4** - Роутинг с Outlet API
-
-### UI
-- **Tailwind CSS 4.1.14** - Утилитарные стили
-- **shadcn/ui** - 50+ готовых компонентов
-- **Radix UI** - Headless компоненты с accessibility
-- **Lucide React** - 1000+ SVG иконок
-- **Recharts** - Графики и диаграммы
-- **Sonner** - Toast уведомления
-- **Vaul** - Bottom sheets
-
-### State Management
-- **Zustand 5.0.8** - Глобальное состояние с persist middleware
-- **React Hook Form** - Управление формами
-- **Zod** - Валидация схем
-
-### API & Data
-- **Axios** - HTTP клиент с interceptors
-- **TanStack Query 5.90.4** - Data fetching (⚠️ не используется активно)
-- **WebSocket** - Real-time уведомления
-
-### Development
-- **ESLint 9** - Линтинг с запретом `any`
-- **Prettier** - Форматирование кода
-- **TypeScript ESLint** - Строгие правила для TS
-
-## 🔐 Аутентификация и безопасность
-
-### Реализовано
-- ✅ JWT токены в httpOnly cookies (XSS защита)
-- ✅ Session restoration через API
-- ✅ AuthGuard для защищённых роутов
-- ✅ Автоматический logout при 401
-- ✅ Role-based access control (owner/admin/member)
-- ✅ Workspace isolation
-- ✅ TypeScript strict mode
-
-### ⚠️ Оставшиеся задачи
-
-1. ~~**JWT токен в localStorage**~~ ✅ Исправлено (httpOnly cookies)
-2. ~~**TypeScript strict mode выключен**~~ ✅ Исправлено
-3. **Refresh token механизм** - нужно добавить
-4. **CSRF защита** - реализована на бэкенде
-
-## 🛠️ ESLint конфигурация
-
-### Правила линтера:
-- ❌ **Запрещено использование `any`** (`@typescript-eslint/no-explicit-any: error`)
-- ✅ **Обязательные точки с запятой**
-- ✅ **Trailing commas** только где есть продолжение
-- ✅ **Автоматическая сортировка импортов** (React → внешние → внутренние)
-- ✅ **Удаление неиспользуемых импортов**
-- ✅ **Запрет `console.log`** в production
-
-### Команды:
-```bash
-npm run lint          # Проверка ошибок
-npm run lint:fix      # Автофикс (включая сортировку импортов)
-```
-
-## 📝 Доступные скрипты
-
-```bash
-npm run dev           # Запуск dev сервера (localhost:5173)
-npm run build         # Production сборка (TypeScript → Rolldown)
-npm run preview       # Предпросмотр production сборки
-npm run type-check    # Проверка типов TypeScript
-npm run lint          # ESLint проверка
-npm run lint:fix      # Автофикс ошибок линтера
-```
-
-## 🔧 Конфигурация
-
-### Переменные окружения
-
-Создайте `.env` файл в корне проекта:
-
-```env
-# API Backend URL
-VITE_API_BASE_URL=http://localhost:8080/api/v1
-
-# WebSocket URL (опционально, по умолчанию ws://localhost:8080/api/v1/notifications/ws)
-VITE_WS_URL=ws://localhost:8080/api/v1/notifications/ws
-
-# Stripe Public Key (для биллинга)
-VITE_STRIPE_PUBLIC_KEY=pk_test_...
-```
-
-### Path Aliases
-
-Настроены алиасы для удобного импорта:
-
-```typescript
-import { Button } from '@/shared/ui/button';
-import { clientsService } from '@/app/services/clients/clients.service';
-import { ClientCard } from '@/modules/clients/ui/ClientCard';
-import { useAuthStore } from '@/app/store/auth.store';
-```
-
-## 🎨 UI/UX Особенности
-
-### Дизайн-система
-- **Цветовая палитра:** Профессиональная синяя гамма с градиентами
-- **Типографика:** Inter font family
-- **Компоненты:** Единый стиль на основе shadcn/ui
-- **Адаптивность:** Mobile-first responsive дизайн
-- **Анимации:** Плавные transitions и modal animations
-- **Темная тема:** CSS variables для переключения (TODO)
-- **Accessibility:** ARIA labels и keyboard navigation (⚠️ требует улучшения)
-
-### Ключевые компоненты
-- **Cards** с градиентами и hover эффектами
-- **Badges** для статусов (pending/in_progress/completed)
-- **Avatars** с fallback на инициалы
-- **Dialogs** для форм и подтверждений
-- **Tabs** для навигации внутри страниц
-- **Progress bars** для отслеживания прогресса дел
-- **Charts** для аналитики (Line, Bar, Pie)
-- **DataTables** с сортировкой, фильтрацией и pagination
-
-### Responsive Дизайн
-- **Mobile:** < 640px - hamburger menu, single column
-- **Tablet:** 640px - 1024px - collapsed sidebar
-- **Desktop:** > 1024px - full sidebar
-
-## 🗺️ Маршруты
-
-### Публичные роуты
-- `/login` - Вход в систему
-- `/register` - Регистрация нового пользователя
-
-### Защищенные роуты (с Layout)
-
-#### Основные
-- `/` - Dashboard с статистикой
-- `/clients` - Список клиентов с фильтрами
-- `/clients/:id` - Детали клиента
-- `/cases` - Список дел
-- `/cases/:id` - Детали дела с timeline
-- `/documents` - Управление документами
-- `/documents/:id/versions` - Версии документа
-- `/documents/:id/compare` - Сравнение версий документов
-- `/calendar` - Календарь встреч
-- `/analytics` - Аналитика и отчёты
-- `/ai-assistant` - AI Помощник
-
-#### Настройки
-- `/settings` - Основные настройки
-- `/settings/profile` - Редактирование профиля
-- `/settings/billing` - Управление подпиской и платежами
-- `/settings/team` - Управление командой (только owner/admin на Pro Max)
-- `/settings/security` - Безопасность (смена пароля, 2FA, сессии)
-
-#### Другие
-- `/user-profile` - Публичный профиль пользователя
-- `/reports` - Генерация отчётов
-- `/notifications` - Центр уведомлений
-
-## 💳 Биллинг и подписки
-
-### Интеграция Stripe
-- **Планы:** Free Trial, Pro, Pro Max
-- **Функции:**
-  - Просмотр текущей подписки
-  - Смена плана (upgrade/downgrade)
-  - Управление способами оплаты
-  - История платежей
-  - Отмена подписки
-
-### Лимиты по планам
-```typescript
-Free Trial: 1 user, 10 clients, 5 cases
-Pro:        5 users, 100 clients, 50 cases
-Pro Max:    Unlimited users, clients, cases + Team Management
-```
-
-## 🌍 Интернационализация (i18n)
-
-### Поддерживаемые языки
-- 🇷🇺 **Русский** (ru) - основной
-- 🇬🇧 **English** (en)
-- 🇹🇯 **Тоҷикӣ** (tj) - Таджикский
-
-### Использование
-
-```tsx
-import { useI18n } from '@/shared/context/I18nContext';
-
-function Component() {
-  const { t, setLanguage } = useI18n();
-
-  return (
-    <div>
-      <h1>{t('DASHBOARD.WELCOME')}</h1>
-      <button onClick={() => setLanguage('en')}>
-        Switch to English
-      </button>
-    </div>
-  );
-}
-```
-
-### Структура переводов
-
-```json
-// assets/i18n/ru.json
-{
-  "DASHBOARD": {
-    "WELCOME": "Добро пожаловать",
-    "STATS": {
-      "ACTIVE_CASES": "Активные дела",
-      "TOTAL_CLIENTS": "Всего клиентов"
-    }
-  }
-}
-```
-
-## 🏗️ Сборка и деплой
-
-### Production Build
-
-```bash
-# Создание production сборки
-npm run build
-
-# Результат в папке dist/
-# - dist/index.html
-# - dist/assets/*.js (minified)
-# - dist/assets/*.css (minified)
-```
-
-### Размер бандла
-- **Total:** ~1.6M (378 KB gzip)
-- **CSS:** 156 KB (25 KB gzip)
-- **JS:** 1.4 MB (379 KB gzip)
-
-⚠️ **Рекомендации:**
-- Использовать code splitting для уменьшения initial load
-- Настроить CDN для статических файлов
-- Включить Brotli compression
-
-### Docker (опционально)
-
-```dockerfile
-FROM node:20-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-EXPOSE 5173
-CMD ["npm", "run", "preview"]
-```
-
-## 📊 Метрики качества
-
-### Code Quality
-- **Total Files:** 286 TS/TSX файлов
-- **TypeScript Coverage:** 100%
-- **TypeScript Strict Mode:** ✅ Включён
-- **ESLint Errors:** 0
-- **Bundle Size:** 1.6M (378 KB gzip)
-
-### Архитектурные метрики
-- ✅ Feature-Sliced Design
-- ✅ Разделение ответственности
-- ✅ Single Responsibility Principle
-- ✅ TypeScript strict mode включён
-- ⚠️ Нет unit тестов
-
-## ✅ Production Checklist
-
-Перед деплоем на production необходимо:
-
-### Completed ✅
-- [x] Включить TypeScript strict mode
-- [x] JWT в httpOnly cookies (XSS защита)
-- [x] CSRF protection (бэкенд)
-
-### Critical
-- [ ] Добавить refresh token flow
-- [ ] Настроить CSP headers
-- [ ] Удалить все console.log
-- [ ] Настроить error tracking (Sentry)
-
-### Important
-- [ ] Добавить unit тесты (минимум 70% coverage)
-- [ ] Провести security audit
-- [ ] Провести performance audit (Lighthouse)
-- [ ] Добавить error boundaries
-- [ ] Оптимизировать bundle size
-
-### Nice to have
-- [ ] Добавить Storybook для UI компонентов
-- [ ] Настроить PWA features
-- [ ] Провести accessibility audit
-
-## 🐛 Известные проблемы
-
-### High Priority
-1. **Memory leak** в notifications store (нет лимита на массив)
-2. **Bundle size** 1.6MB (цель: <200KB gzipped)
-
-### Medium Priority
-1. Отсутствует offline mode поддержка
-2. Form validation не везде применена
-3. AI Assistant не реализован
-
-## 🤝 Вклад в проект
-
-### Процесс разработки
-
-1. Fork репозитория
-2. Создайте feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Push в branch (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
-
-### Стиль кода
-
-- Следуйте ESLint правилам
-- Используйте TypeScript типы (не `any`)
-- Добавляйте комментарии для сложной логики
-- Пишите unit тесты для новых функций
-- Обновляйте документацию
-
-## 📚 Дополнительная документация
-
-- [ARCHITECTURE.md](ARCHITECTURE.md) - Подробная архитектура проекта
-- [API Documentation](docs/api.md) - API endpoints и типы (TODO)
-- [Contributing Guide](docs/contributing.md) - Руководство для контрибьюторов (TODO)
-
-## 📄 Лицензия
-
-MIT License - см. [LICENSE](LICENSE)
+**URLs:**
+- App: http://localhost:5173
+- API: http://localhost:8080/api/v1
 
 ---
 
-**Разработано с ❤️ для юридических компаний**
+## Tech Stack
 
-[GitHub](https://github.com/your-org/lex-flow-frontend) | [Документация](ARCHITECTURE.md) | [Issues](https://github.com/your-org/lex-flow-frontend/issues)
+- **React 19** + TypeScript 5.9 (strict mode)
+- **Vite 7** (Rolldown)
+- **Zustand** (state management)
+- **shadcn/ui** + Tailwind CSS 4
+- **React Router 7**
+- **Axios** + WebSocket
+- **Sentry** (error tracking)
+
+---
+
+## Architecture (FSD)
+
+```
+src/
+├── app/                 # Config, router, services, stores
+│   ├── config/         # API config, routes
+│   ├── services/       # 18 API services
+│   ├── store/          # 14 Zustand stores
+│   └── types/          # TypeScript interfaces
+├── modules/            # 11 feature modules
+│   ├── auth/          # Login, register, 2FA
+│   ├── dashboard/     # Stats, widgets
+│   ├── clients/       # Client CRUD
+│   ├── cases/         # Case management + timeline
+│   ├── documents/     # Upload, versioning, comparison
+│   ├── calendar/      # Meetings (day/week/month)
+│   ├── analytics/     # Charts, reports
+│   ├── ai-assistant/  # AI chat, document analysis
+│   ├── settings/      # Profile, billing, team, security
+│   ├── notifications/ # Real-time notifications
+│   └── billing/       # Stripe integration
+├── pages/              # Route wrappers (2-line exports)
+├── shared/             # Reusable UI (shadcn/ui)
+└── assets/i18n/        # Translations (ru, en, tj)
+```
+
+---
+
+## Features
+
+| Feature | Status | Description |
+|---------|--------|-------------|
+| Auth | ✅ | Login, register, 2FA |
+| Clients | ✅ | CRUD, filters, categories |
+| Cases | ✅ | Timeline, tasks, comments |
+| Documents | ✅ | Versioning, extraction, comparison |
+| Calendar | ✅ | Day/week/month, video calls |
+| Analytics | ✅ | Charts, reports |
+| AI Assistant | ✅ | Chat, document analysis |
+| Billing | ✅ | Plans, payments, methods |
+| Team | ✅ | Members, invites (Pro Max) |
+| Notifications | ✅ | WebSocket real-time |
+
+---
+
+## Zustand Stores
+
+| Store | Purpose |
+|-------|---------|
+| useAuthStore | Auth, user, workspace |
+| useClientsStore | Clients CRUD |
+| useCasesStore | Cases + timeline/tasks |
+| useDocumentsStore | Documents + versions |
+| useMeetingsStore | Calendar meetings |
+| useBillingStore | Subscription, payments |
+| useAIStore | AI chats, tokens |
+| useNotificationsStore | Real-time notifications |
+
+---
+
+## Environment (.env)
+
+```env
+VITE_API_BASE_URL=http://localhost:8080/api/v1
+VITE_WS_URL=ws://localhost:8080/api/v1/notifications/ws
+VITE_STRIPE_PUBLIC_KEY=pk_test_...
+VITE_SENTRY_DSN=https://...@sentry.io/...
+```
+
+---
+
+## Security
+
+- JWT httpOnly cookies (XSS protected)
+- CSRF Double Submit Cookie
+- TypeScript strict mode
+- Role-based access (owner/admin/member)
+- Workspace data isolation
+
+---
+
+## Subscription Plans
+
+| Plan | Price | Clients | Cases | Storage | Users |
+|------|-------|---------|-------|---------|-------|
+| Basic | $7/mo | 5 | 10 | 500MB | 1 |
+| Pro | $20/mo | ∞ | ∞ | 3GB | 1 |
+| Pro Max | $80/mo | ∞ | ∞ | 18GB | 8 |
+
+---
+
+## Localization
+
+Languages: **Russian (ru)**, **English (en)**, **Tajik (tj)**
+
+```tsx
+const { t } = useI18n();
+t('CLIENTS.TITLE')
+```
+
+**Important:** Always update ALL THREE language files!
+
+---
+
+## Scripts
+
+```bash
+npm run dev           # Development
+npm run build         # Production build
+npm run preview       # Preview build
+npm run type-check    # TypeScript check
+npm run lint          # ESLint
+npm run lint:fix      # Auto-fix
+npm run test          # Vitest
+```
+
+---
+
+## License
+
+MIT License
+
+---
+
+**LexFlow Frontend v1.0.0**

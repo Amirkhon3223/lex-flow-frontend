@@ -1,10 +1,12 @@
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from '@/shared/components/Layout';
+import { PageLoader } from '@/shared/components/PageLoader';
 import { ROUTES } from './config/routes.config';
 import { AuthGuard } from './guards/auth.guard';
 
 const AuthPage = lazy(() => import('@/pages/AuthPage'));
+const ResetPasswordPage = lazy(() => import('@/modules/auth/pages/reset-password-page'));
 const PrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
 const TermsOfServicePage = lazy(() => import('@/pages/TermsOfServicePage'));
 const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
@@ -23,18 +25,13 @@ const MeetingDetailPage = lazy(() =>
 );
 const AnalyticsPage = lazy(() => import('@/pages/AnalyticsPage'));
 const AiAssistantPage = lazy(() => import('@/pages/AiAssistantPage'));
+const TemplatesPage = lazy(() => import('@/pages/TemplatesPage'));
 const NotificationsPage = lazy(() => import('@/pages/NotificationsPage'));
 const SettingsPage = lazy(() => import('@/pages/SettingsPage'));
 const UserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
 
-const PageLoader = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500" />
-  </div>
-);
-
 const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<PageLoader />}>{children}</Suspense>
+  <Suspense fallback={<PageLoader fullScreen size="md" />}>{children}</Suspense>
 );
 
 export const router = createBrowserRouter([
@@ -43,6 +40,14 @@ export const router = createBrowserRouter([
     element: (
       <SuspenseWrapper>
         <AuthPage />
+      </SuspenseWrapper>
+    ),
+  },
+  {
+    path: ROUTES.AUTH.RESET_PASSWORD,
+    element: (
+      <SuspenseWrapper>
+        <ResetPasswordPage />
       </SuspenseWrapper>
     ),
   },
@@ -174,6 +179,15 @@ export const router = createBrowserRouter([
       },
 
       {
+        path: ROUTES.TEMPLATES,
+        element: (
+          <SuspenseWrapper>
+            <TemplatesPage />
+          </SuspenseWrapper>
+        ),
+      },
+
+      {
         path: ROUTES.NOTIFICATIONS,
         element: (
           <SuspenseWrapper>
@@ -209,6 +223,14 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTES.SETTINGS.NOTIFICATIONS,
+        element: (
+          <SuspenseWrapper>
+            <SettingsPage />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: ROUTES.SETTINGS.AUDIT,
         element: (
           <SuspenseWrapper>
             <SettingsPage />

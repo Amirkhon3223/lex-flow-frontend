@@ -8,6 +8,7 @@ import {
   Plus,
   Mail,
   Phone,
+  Printer,
 } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCasesStore } from '@/app/store/cases.store';
@@ -23,16 +24,19 @@ import { ClientFormModal } from '@/shared/components/ClientFormModal';
 import { DataPagination } from '@/shared/components/DataPagination';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { useI18n } from '@/shared/context/I18nContext';
+import { useHighlightItem } from '@/shared/hooks/useHighlightItem';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { StatCard } from '@/shared/ui/stat-card';
+import { cn } from '@/shared/ui/utils';
 
 export default function ClientDetailPage() {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const { isHighlighted } = useHighlightItem();
   const [isAddCaseDialogOpen, setIsAddCaseDialogOpen] = useState(false);
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -102,8 +106,171 @@ export default function ClientDetailPage() {
     return (firstInitial + lastInitial).toUpperCase() || 'CL';
   };
 
+  const handlePrint = () => {
+    const client = selectedClient;
+    if (!client) return;
+
+    const typeLabels: Record<string, string> = {
+      individual: t('CLIENTS.TYPES.INDIVIDUAL'),
+      legal: t('CLIENTS.TYPES.LEGAL'),
+      entrepreneur: t('CLIENTS.TYPES.ENTREPRENEUR'),
+      company: t('CLIENTS.TYPES.LEGAL'),
+    };
+
+    const categoryLabels: Record<string, string> = {
+      vip: t('CLIENTS.CATEGORIES.VIP'),
+      premium: t('CLIENTS.CATEGORIES.PREMIUM'),
+      standard: t('CLIENTS.CATEGORIES.STANDARD'),
+    };
+
+    const statusLabels: Record<string, string> = {
+      active: t('CLIENTS.STATUS.ACTIVE'),
+      inactive: t('CLIENTS.STATUS.INACTIVE'),
+      pending: t('CLIENTS.STATUS.PENDING'),
+    };
+
+    const caseStatusLabels: Record<string, string> = {
+      new: t('COMMON.STATUS.NEW'),
+      in_progress: t('COMMON.STATUS.IN_PROGRESS'),
+      waiting: t('COMMON.STATUS.WAITING'),
+      closed: t('COMMON.STATUS.CLOSED'),
+      won: t('COMMON.STATUS.WON'),
+      lost: t('COMMON.STATUS.LOST'),
+      settled: t('COMMON.STATUS.SETTLED'),
+    };
+
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const formatDate = (date: string | Date) => {
+      return new Date(date).toLocaleDateString('ru-RU');
+    };
+
+    const formatCurrency = (amount: number) => {
+      return amount.toLocaleString('ru-RU') + ' ₽';
+    };
+
+    const casesHtml = cases.length > 0 ? `
+      <h2 style="margin-top: 30px; padding-bottom: 10px; border-bottom: 2px solid #e5e7eb;">${t('CLIENTS.CASES')}</h2>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+        <thead>
+          <tr style="background: #f9fafb;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #e5e7eb;">${t('CASES.FIELDS.TITLE')}</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #e5e7eb;">${t('CASES.FIELDS.STATUS')}</th>
+            <th style="padding: 10px; text-align: right; border: 1px solid #e5e7eb;">${t('CASES.FIELDS.FEE')}</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #e5e7eb;">${t('CASES.FIELDS.DEADLINE')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${cases.map(c => `
+            <tr>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${c.title}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${caseStatusLabels[c.status] || c.status}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb; text-align: right;">${formatCurrency(c.fee || 0)}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${c.deadline ? formatDate(c.deadline) : '-'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    ` : '';
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${t('CLIENTS.CLIENT_REPORT')} - ${getClientName(client)}</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; color: #1f2937; }
+          h1 { color: #111827; margin-bottom: 5px; }
+          .subtitle { color: #6b7280; margin-bottom: 30px; }
+          .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+          .logo { font-size: 24px; font-weight: bold; color: #3b82f6; }
+          .date { color: #6b7280; font-size: 14px; }
+          .section { margin-bottom: 25px; }
+          .section-title { font-size: 14px; font-weight: 600; color: #6b7280; text-transform: uppercase; margin-bottom: 10px; }
+          .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+          .info-item { }
+          .info-label { font-size: 12px; color: #6b7280; }
+          .info-value { font-size: 15px; color: #111827; font-weight: 500; }
+          .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 25px 0; padding: 20px; background: #f9fafb; border-radius: 8px; }
+          .stat { text-align: center; }
+          .stat-value { font-size: 24px; font-weight: bold; color: #3b82f6; }
+          .stat-label { font-size: 12px; color: #6b7280; }
+          @media print { body { padding: 20px; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="logo">LexFlow</div>
+          <div class="date">${formatDate(new Date())}</div>
+        </div>
+
+        <h1>${getClientName(client)}</h1>
+        <div class="subtitle">${typeLabels[client.type] || client.type} • ${categoryLabels[client.category] || client.category} • ${statusLabels[client.status] || client.status}</div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">${client.activeCases}</div>
+            <div class="stat-label">${t('CLIENTS.ACTIVE_CASES_COUNT')}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${client.totalCases}</div>
+            <div class="stat-label">${t('CLIENTS.TOTAL_CASES_COUNT')}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${formatCurrency(client.totalRevenue)}</div>
+            <div class="stat-label">${t('CLIENTS.TOTAL_FEE')}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${formatDate(client.joinDate)}</div>
+            <div class="stat-label">${t('CLIENTS.CLIENT_SINCE')}</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">${t('CLIENTS.CONTACT_INFO')}</div>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">Email</div>
+              <div class="info-value">${client.email || '-'}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">${t('CLIENTS.FIELDS.PHONE')}</div>
+              <div class="info-value">${client.phone || '-'}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">${t('CLIENTS.FIELDS.ADDRESS')}</div>
+              <div class="info-value">${client.address || '-'}</div>
+            </div>
+            ${client.inn ? `
+            <div class="info-item">
+              <div class="info-label">${t('CLIENTS.FIELDS.INN')}</div>
+              <div class="info-value">${client.inn}</div>
+            </div>
+            ` : ''}
+          </div>
+        </div>
+
+        ${casesHtml}
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #9ca3af; font-size: 12px;">
+          ${t('CLIENTS.REPORT_GENERATED')} LexFlow • ${formatDate(new Date())}
+        </div>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(html);
+    printWindow.document.close();
+    printWindow.print();
+  };
+
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div
+      id={id ? `highlight-${id}` : undefined}
+      className={cn('space-y-4 sm:space-y-6', id && isHighlighted(id) && 'animate-highlight')}
+    >
       <AddCaseDialog
         open={isAddCaseDialogOpen}
         onOpenChange={setIsAddCaseDialogOpen}
@@ -168,6 +335,14 @@ export default function ClientDetailPage() {
           </div>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            className="flex-1 sm:flex-none text-sm sm:text-base"
+            onClick={handlePrint}
+          >
+            <Printer className="w-4 h-4 mr-2" />
+            PDF
+          </Button>
           <Button variant="outline" className="flex-1 sm:flex-none text-sm sm:text-base">
             {t('CLIENTS.WRITE')}
           </Button>

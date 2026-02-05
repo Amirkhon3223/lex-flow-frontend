@@ -214,6 +214,22 @@
   }
 }
 
+@keyframes highlight-pulse {
+  0%, 100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  50% {
+    background-color: rgb(234 179 8 / 0.3); /* yellow-400/30 */
+    box-shadow: 0 0 0 2px rgb(234 179 8 / 0.4);
+  }
+}
+
+.animate-highlight {
+  animation: highlight-pulse 1s ease-in-out 3;
+  border-radius: 0.5rem;
+}
+
 [data-slot='dialog-overlay'][data-state='open'],
 [data-slot='alert-dialog-overlay'][data-state='open'],
 [data-slot='sheet-overlay'][data-state='open'],
@@ -412,6 +428,108 @@
     font-weight: 700;
     letter-spacing: -0.02em;
   }
+
+  /* ========================================
+     Accessibility (a11y) Styles
+     ======================================== */
+
+  /* Screen reader only class - visually hidden but accessible */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Make sr-only visible when focused (for skip links) */
+  .sr-only-focusable:focus,
+  .sr-only-focusable:active {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  /* Focus visible styles for consistent keyboard navigation */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Remove default focus outline (use focus-visible instead) */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Skip link styles - visible only when focused */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-radius: 0.5rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: top 0.2s ease-out;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Reduced motion support - respect user preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (forced-colors: active) {
+    .focus-ring,
+    *:focus-visible {
+      outline: 2px solid CanvasText !important;
+      outline-offset: 2px !important;
+    }
+
+    /* Ensure buttons and links are distinguishable */
+    button,
+    a {
+      forced-color-adjust: none;
+    }
+  }
+
+  /* Improved touch target sizes for mobile accessibility */
+  @media (pointer: coarse) {
+    button,
+    [role='button'],
+    input[type='checkbox'],
+    input[type='radio'],
+    select,
+    a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
 }
 
 /* Scrollbar styles - must be outside @layer base */
@@ -510,4 +628,188 @@ body::-webkit-scrollbar-corner,
     scrollbar-width: none;
     scrollbar-color: #a855f7 transparent;
   }
+}
+
+/* ========================================
+   UI/UX Enhancement Utilities
+   ======================================== */
+
+/* Skeleton animations */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes skeleton-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  50%, 100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 0%,
+    hsl(var(--muted) / 0.5) 50%,
+    hsl(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-wave::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--background) / 0.4),
+    transparent
+  );
+  animation: skeleton-wave 1.6s linear infinite;
+}
+
+/* Hover lift effects */
+.hover-lift {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+}
+
+.hover-lift-sm {
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.hover-lift-sm:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px -1px rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+}
+
+.hover-lift-lg {
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+
+.hover-lift-lg:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.12), 0 4px 8px -4px rgb(0 0 0 / 0.08);
+}
+
+/* Interactive scale effect */
+.hover-scale {
+  transition: transform 0.15s ease-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.98);
+}
+
+/* Subtle glow on hover */
+.hover-glow {
+  transition: box-shadow 0.2s ease-out;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.3);
+}
+
+/* Card hover states */
+.card-interactive {
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.08);
+  border-color: hsl(var(--primary) / 0.2);
+}
+
+.card-interactive:active {
+  transform: translateY(0);
+}
+
+/* Button press effect */
+.btn-press {
+  transition: transform 0.1s ease-out;
+}
+
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* Focus ring enhancement */
+.focus-ring-primary {
+  outline: none;
+}
+
+.focus-ring-primary:focus-visible {
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--primary));
+}
+
+/* Page transition classes */
+.page-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 200ms ease-in, transform 200ms ease-in;
+}
+
+/* Mobile-friendly dialog styles */
+@media (max-width: 640px) {
+  [data-slot='dialog-content'] {
+    max-width: calc(100vw - 1rem) !important;
+    max-height: calc(100vh - 2rem) !important;
+    margin: 0.5rem;
+    border-radius: 1rem !important;
+  }
+
+  [data-slot='sheet-content'] {
+    max-height: 90vh;
+  }
+}
+
+/* Dark mode hover adjustments */
+.dark .hover-lift:hover {
+  box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+}
+
+.dark .hover-lift-lg:hover {
+  box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.4), 0 4px 8px -4px rgb(0 0 0 / 0.3);
+}
+
+.dark .card-interactive:hover {
+  box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.3);
 }

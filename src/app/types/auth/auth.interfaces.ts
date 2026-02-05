@@ -123,6 +123,7 @@ export interface AuthCardProps {
   onRegisterSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onVerify2FA: (code: string) => void;
   onBackFrom2FA: () => void;
+  onForgotPassword?: () => void;
 }
 
 export interface LoginFormProps {
@@ -135,6 +136,7 @@ export interface LoginFormProps {
   onPasswordChange: (value: string) => void;
   onRememberMeChange: (value: boolean) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onForgotPassword?: () => void;
 }
 
 export interface RegisterFormProps {

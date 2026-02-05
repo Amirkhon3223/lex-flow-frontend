@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { trackDocumentAction } from '@/shared/utils/analytics';
 import { documentsService } from '../services/documents/documents.service';
 import type { Pagination } from '../types/api/api.types';
 import type {
@@ -82,6 +83,10 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     try {
       await documentsService.create(data);
       await get().fetchDocuments();
+
+      // Track document upload
+      trackDocumentAction('upload', data.type, data.fileSize);
+
       set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
@@ -107,8 +112,13 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   deleteDocument: async (id: string) => {
     set({ loading: true, error: null });
     try {
+      const document = get().documents.find((d) => d.id === id);
       await documentsService.delete(id);
       await get().fetchDocuments();
+
+      // Track document deletion
+      trackDocumentAction('delete', document?.type);
+
       set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
@@ -120,6 +130,10 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       await documentsService.createVersion(documentId, data);
+
+      // Track new version creation
+      trackDocumentAction('create_version', undefined, data.fileSize);
+
       set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
@@ -149,6 +163,10 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
         version1Id,
         version2Id
       );
+
+      // Track document comparison
+      trackDocumentAction('compare');
+
       set({ comparisonData, loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });

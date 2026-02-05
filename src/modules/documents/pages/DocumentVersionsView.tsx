@@ -20,6 +20,7 @@ import { BackButton } from '@/shared/components/BackButton';
 import { DataPagination } from '@/shared/components/DataPagination';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
+import { useHighlightItem } from '@/shared/hooks/useHighlightItem';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
@@ -30,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
+import { cn } from '@/shared/ui/utils';
 import { formatFileSize } from '@/shared/utils';
 
 export function DocumentVersionsView() {
@@ -37,6 +39,7 @@ export function DocumentVersionsView() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
+  const { isHighlighted } = useHighlightItem();
 
   const {
     selectedDocument: document,
@@ -118,7 +121,10 @@ export function DocumentVersionsView() {
   }
 
   return (
-    <div>
+    <div
+      id={id ? `highlight-${id}` : undefined}
+      className={cn(id && isHighlighted(id) && 'animate-highlight')}
+    >
       <UploadDocumentDialog
         open={isUploadDialogOpen}
         onOpenChange={setIsUploadDialogOpen}

@@ -1,0 +1,13 @@
+# LexFlow Security Policy
+# https://lexflow.app
+
+Contact: mailto:security@lexflow.app
+Contact: https://lexflow.app/security
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en, ru
+Canonical: https://lexflow.app/.well-known/security.txt
+Policy: https://lexflow.app/security-policy
+Hiring: https://lexflow.app/careers
+
+# We take security seriously. If you discover a vulnerability,
+# please report it responsibly to security@lexflow.app

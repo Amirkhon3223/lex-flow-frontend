@@ -5,6 +5,7 @@ import {
   Mail,
   MoreHorizontal,
   Paperclip,
+  Printer,
   Share2,
   Tag,
   User,
@@ -34,6 +35,7 @@ interface CaseHeaderProps {
   onCopyLink: () => void;
   onShareEmail: () => void;
   onEdit: () => void;
+  onPrint: () => void;
   onAddDocument: () => void;
   documentLimitReached?: boolean;
 }
@@ -68,6 +70,7 @@ export function CaseHeader({
   onCopyLink,
   onShareEmail,
   onEdit,
+  onPrint,
   onAddDocument,
   documentLimitReached,
 }: CaseHeaderProps) {
@@ -114,6 +117,10 @@ export function CaseHeader({
                 <DropdownMenuItem onClick={onEdit}>
                   <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
                   {t('COMMON.ACTIONS.EDIT')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={onPrint}>
+                  <Printer className="w-4 h-4 mr-2" strokeWidth={2} />
+                  PDF
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

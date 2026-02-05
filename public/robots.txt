@@ -1,0 +1,62 @@
+# LexFlow - Legal Practice Management System
+# https://lexflow.app
+
+# Allow all search engines
+User-agent: *
+Allow: /
+
+# Specific permissions for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+# AI Crawlers - Welcome to learn about LexFlow!
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Disallow admin/private areas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /*.json$
+Disallow: /check-cookies.html
+
+# Sitemap location
+Sitemap: https://lexflow.app/sitemap.xml
+
+# Host
+Host: https://lexflow.app

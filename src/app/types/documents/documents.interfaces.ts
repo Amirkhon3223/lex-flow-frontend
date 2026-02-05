@@ -74,6 +74,8 @@ export interface DocumentCardProps {
   status: DocumentStatusEnum;
   statusText: string;
   favorite: boolean;
+  onDelete?: (id: string) => void;
+  onDownload?: (id: string) => void;
 }
 
 export interface StatusBadgeProps {

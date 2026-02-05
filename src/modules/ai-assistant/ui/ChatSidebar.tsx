@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Archive,
   ChevronLeft,
@@ -27,6 +27,7 @@ interface ChatSidebarProps {
   chats: ChatInterface[];
   currentChat: ChatInterface | null;
   loading: boolean;
+  highlightedChatId?: string | null;
   onNewChat: () => void;
   onSelectChat: (chatId: string) => void;
   onDeleteChat: (chatId: string) => Promise<void>;
@@ -51,6 +52,7 @@ export function ChatSidebar({
   chats,
   currentChat,
   loading,
+  highlightedChatId,
   onNewChat,
   onSelectChat,
   onDeleteChat,
@@ -59,6 +61,16 @@ export function ChatSidebar({
   const { t } = useI18n();
   const [collapsed, setCollapsed] = useState(false);
   const [search, setSearch] = useState('');
+  const highlightRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to highlighted chat when it changes
+  useEffect(() => {
+    if (highlightedChatId && highlightRef.current) {
+      setTimeout(() => {
+        highlightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [highlightedChatId]);
 
   const filteredChats = useMemo(() => {
     return (chats ?? []).filter((c) => c.title.toLowerCase().includes(search.toLowerCase()));
@@ -203,6 +215,8 @@ export function ChatSidebar({
                           key={chat.id}
                           chat={chat}
                           active={currentChat?.id === chat.id}
+                          highlighted={highlightedChatId === chat.id}
+                          highlightRef={highlightedChatId === chat.id ? highlightRef : undefined}
                           onSelect={onSelectChat}
                           onDelete={handleDelete}
                           onArchive={handleArchive}
@@ -226,6 +240,8 @@ export function ChatSidebar({
                     chat={chat}
                     archived
                     active={currentChat?.id === chat.id}
+                    highlighted={highlightedChatId === chat.id}
+                    highlightRef={highlightedChatId === chat.id ? highlightRef : undefined}
                     onSelect={onSelectChat}
                     onDelete={handleDelete}
                   />
@@ -251,6 +267,8 @@ function ChatRow({
   chat,
   active,
   archived,
+  highlighted,
+  highlightRef,
   onSelect,
   onDelete,
   onArchive,
@@ -258,16 +276,21 @@ function ChatRow({
   chat: ChatInterface;
   active: boolean;
   archived?: boolean;
+  highlighted?: boolean;
+  highlightRef?: React.RefObject<HTMLDivElement | null>;
   onSelect: (id: string) => void;
   onDelete: (id: string) => void;
   onArchive?: (id: string) => void;
 }) {
   return (
     <div
+      ref={highlightRef}
+      id={`highlight-${chat.id}`}
       onClick={() => onSelect(chat.id)}
       className={cn(
         'group flex items-center gap-2 rounded-lg px-2 py-2 cursor-pointer',
-        active ? 'bg-muted' : 'hover:bg-muted/50'
+        active ? 'bg-muted' : 'hover:bg-muted/50',
+        highlighted && 'animate-highlight'
       )}
     >
       {archived ? (

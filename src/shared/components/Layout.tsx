@@ -3,22 +3,92 @@
  * @description Основной layout-компонент приложения с Sidebar и Header
  */
 
-import { useState, type ReactNode, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useState, useCallback, type ReactNode, useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/app/config/routes.config';
 import { useAuth } from '@/app/hooks/useAuth';
 import { webSocketService } from '@/app/services/notifications/websocket.service';
 import { SelectProvider } from '@/shared/context/SelectContext.tsx';
+import { usePageTracking } from '@/shared/hooks/useAnalytics';
+import { useKeyboardShortcuts, type Shortcut } from '@/shared/hooks/useKeyboardShortcuts';
 import { Header } from './Header';
+import { KeyboardShortcutsHelp } from './KeyboardShortcutsHelp';
 import { Sidebar } from './Sidebar';
+import { SkipLink } from './SkipLink';
 
 interface LayoutProps {
   children?: ReactNode;
 }
 
 export const Layout = ({ children }: LayoutProps) => {
+  const navigate = useNavigate();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isShortcutsHelpOpen, setIsShortcutsHelpOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+
+  // Track page views on route changes
+  usePageTracking();
+
+  // Define global keyboard shortcuts
+  const shortcuts: Shortcut[] = [
+    {
+      key: 'k',
+      ctrl: true,
+      description: 'SHORTCUTS.SEARCH',
+      scope: 'global',
+      action: useCallback(() => setIsSearchOpen(true), []),
+    },
+    {
+      key: '/',
+      ctrl: true,
+      description: 'SHORTCUTS.HELP',
+      scope: 'global',
+      action: useCallback(() => setIsShortcutsHelpOpen(true), []),
+    },
+    {
+      key: 'Escape',
+      description: 'SHORTCUTS.CLOSE',
+      scope: 'global',
+      action: useCallback(() => {
+        setIsSearchOpen(false);
+        setIsShortcutsHelpOpen(false);
+      }, []),
+    },
+    {
+      key: 'g',
+      ctrl: true,
+      description: 'SHORTCUTS.GO_TO_DASHBOARD',
+      action: useCallback(() => navigate(ROUTES.DASHBOARD), [navigate]),
+    },
+    {
+      key: '1',
+      ctrl: true,
+      description: 'SHORTCUTS.GO_TO_CLIENTS',
+      action: useCallback(() => navigate(ROUTES.CLIENTS.BASE), [navigate]),
+    },
+    {
+      key: '2',
+      ctrl: true,
+      description: 'SHORTCUTS.GO_TO_CASES',
+      action: useCallback(() => navigate(ROUTES.CASES.BASE), [navigate]),
+    },
+    {
+      key: '3',
+      ctrl: true,
+      description: 'SHORTCUTS.GO_TO_DOCUMENTS',
+      action: useCallback(() => navigate(ROUTES.DOCUMENTS.BASE), [navigate]),
+    },
+    {
+      key: '4',
+      ctrl: true,
+      description: 'SHORTCUTS.GO_TO_CALENDAR',
+      action: useCallback(() => navigate(ROUTES.CALENDAR), [navigate]),
+    },
+  ];
+
+  useKeyboardShortcuts({ shortcuts, enabled: isAuthenticated });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -51,9 +121,15 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <SelectProvider>
       <div className="min-h-screen bg-background">
-        {}
+        <SkipLink mainContentId="main-content" navigationId="main-nav" />
+
+        {/* Mobile overlay */}
         {isMobileSidebarOpen && (
-          <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={closeMobileSidebar} />
+          <div
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            onClick={closeMobileSidebar}
+            aria-hidden="true"
+          />
         )}
 
         <Sidebar
@@ -63,7 +139,7 @@ export const Layout = ({ children }: LayoutProps) => {
           onMobileClose={closeMobileSidebar}
         />
 
-        {}
+        {/* Main content area */}
         <div
           className={`
           transition-all duration-300 ease-in-out
@@ -71,10 +147,29 @@ export const Layout = ({ children }: LayoutProps) => {
           ${isSidebarCollapsed ? 'md:ml-20' : 'md:ml-72'}
         `}
         >
-          <Header onMenuClick={handleMenuClick} isSidebarCollapsed={isSidebarCollapsed} />
+          <Header
+            onMenuClick={handleMenuClick}
+            isSidebarCollapsed={isSidebarCollapsed}
+            onSearchOpen={() => setIsSearchOpen(true)}
+            isSearchOpen={isSearchOpen}
+            onSearchClose={() => setIsSearchOpen(false)}
+          />
 
-          <main className="p-4 sm:p-6 md:p-8">{children || <Outlet />}</main>
+          <main
+            id="main-content"
+            role="main"
+            tabIndex={-1}
+            className="p-4 sm:p-6 md:p-8 outline-none"
+          >
+            {children || <Outlet />}
+          </main>
         </div>
+
+        {/* Keyboard shortcuts help modal */}
+        <KeyboardShortcutsHelp
+          open={isShortcutsHelpOpen}
+          onOpenChange={setIsShortcutsHelpOpen}
+        />
       </div>
     </SelectProvider>
   );

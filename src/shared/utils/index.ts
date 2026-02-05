@@ -123,3 +123,39 @@ export {
   type FieldError,
   type FormErrors,
 } from './formValidation';
+
+export {
+  exportToCsv,
+  formatDateForExport,
+  formatCurrencyForExport,
+} from './exportUtils';
+
+export {
+  initializeAnalytics,
+  trackPageView,
+  trackEvent,
+  trackLogin,
+  trackRegistration,
+  trackSubscription,
+  trackAIUsage,
+  trackDocumentAction,
+  trackCaseAction,
+  trackClientAction,
+  trackMeetingAction,
+  trackFeatureUsage,
+  trackError,
+  setUserProperties,
+  clearUserProperties,
+  getConsentStatus,
+  setConsentStatus,
+} from './analytics';
+
+export {
+  prefetchRoute,
+  usePrefetchOnHover,
+  usePreloadImages,
+  preloadImage,
+  preloadImages,
+  isRoutePrefetched,
+  clearPrefetchCache,
+} from './prefetch';

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useMeetingsStore } from '@/app/store/meetings.store';
-import { MeetingStatusEnum } from '@/app/types/calendar/calendar.enums';
+import { MeetingStatusEnum, MeetingTypeEnum } from '@/app/types/calendar/calendar.enums';
 import { AddMeetingDialog } from '@/modules/calendar/components/AddMeetingDialog';
 import { AddMeetingNoteDialog } from '@/modules/calendar/components/AddMeetingNoteDialog';
 import { MeetingCaseCard } from '@/modules/calendar/components/MeetingCaseCard';
@@ -13,15 +13,19 @@ import { MeetingInfoCard } from '@/modules/calendar/components/MeetingInfoCard';
 import { MeetingNotesCard } from '@/modules/calendar/components/MeetingNotesCard';
 import { MeetingParticipantsCard } from '@/modules/calendar/components/MeetingParticipantsCard';
 import { RescheduleMeetingDialog } from '@/modules/calendar/components/RescheduleMeetingDialog';
+import { VideoCallCard } from '@/modules/calendar/components/VideoCallCard';
 import { QuickActionsCard } from '@/modules/calendar/ui/QuickActionsCard';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
+import { useHighlightItem } from '@/shared/hooks/useHighlightItem';
+import { cn } from '@/shared/ui/utils';
 
 export function MeetingDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useI18n();
+  const { isHighlighted } = useHighlightItem();
   const { selectedMeeting, loading, fetchMeetingById, updateMeeting, deleteMeeting } =
     useMeetingsStore();
 
@@ -110,7 +114,10 @@ export function MeetingDetailPage() {
   };
 
   return (
-    <div>
+    <div
+      id={id ? `highlight-${id}` : undefined}
+      className={cn(id && isHighlighted(id) && 'animate-highlight')}
+    >
       <UploadDocumentDialog open={isAddDocumentOpen} onOpenChange={setIsAddDocumentOpen} />
       <AddMeetingNoteDialog
         open={isAddNoteOpen}
@@ -158,6 +165,9 @@ export function MeetingDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+          {meeting.type === MeetingTypeEnum.VIDEO && (
+            <VideoCallCard meeting={meeting} />
+          )}
           <MeetingInfoCard meeting={meeting} />
           <MeetingParticipantsCard
             participants={

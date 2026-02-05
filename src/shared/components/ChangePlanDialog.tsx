@@ -163,7 +163,7 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit, currentPlanId }
                     </div>
                     <Button
                       onClick={() => handleSelectPlan(plan.id)}
-                      disabled={isProMax || isCurrentPlan}
+                      disabled={isProMax}
                       className={`w-full h-11 rounded-xl ${
                         plan.popular
                           ? 'bg-blue-500 hover:bg-blue-600 text-white'
@@ -172,8 +172,6 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit, currentPlanId }
                     >
                       {isProMax
                         ? t('PLAN.COMING_SOON')
-                        : isCurrentPlan
-                        ? t('PLAN.ALREADY_SELECTED')
                         : t('PLAN.SELECT_PLAN')}
                     </Button>
                   </Card>

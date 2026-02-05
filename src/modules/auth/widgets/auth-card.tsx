@@ -37,6 +37,7 @@ export function AuthCard({
   onRegisterSubmit,
   onVerify2FA,
   onBackFrom2FA,
+  onForgotPassword,
 }: AuthCardProps) {
   const { t } = useI18n();
 
@@ -81,6 +82,7 @@ export function AuthCard({
             onPasswordChange={onLoginPasswordChange}
             onRememberMeChange={onRememberMeChange}
             onSubmit={onLoginSubmit}
+            onForgotPassword={onForgotPassword}
           />
         </TabsContent>
 

@@ -1,6 +1,13 @@
 import { create } from 'zustand';
-import { i18nService } from '../services/i18n/i18n.service';
+import {
+  trackLogin,
+  trackRegistration,
+  setUserProperties,
+  clearUserProperties,
+} from '@/shared/utils/analytics';
+import { setUser as setSentryUser } from '@/app/config/sentry';
 import { authService } from '../services/auth/auth.service';
+import { i18nService } from '../services/i18n/i18n.service';
 import { securityService } from '../services/security/security.service';
 import { usersService } from '../services/users/users.service';
 import type {
@@ -74,6 +81,24 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             initializing: false, // Ensure initializing is false after successful login
           });
 
+          // Track successful login
+          trackLogin('email');
+
+          // Set user properties for analytics
+          if (response.user.id) {
+            setUserProperties(response.user.id, {
+              plan: response.workspace?.planId || 'free',
+              role: response.user.role || 'member',
+            });
+          }
+
+          // Set Sentry user context
+          setSentryUser({
+            id: response.user.id,
+            email: response.user.email,
+            name: response.user.name || response.user.email,
+          });
+
           try {
             const fullUser = await usersService.getMe();
             const statusResponse = await securityService.get2FAStatus();
@@ -116,6 +141,25 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             initializing: false, // Ensure initializing is false after successful login
           });
 
+          // Track successful 2FA login
+          trackLogin('2fa');
+
+          // Set user properties for analytics
+          if (response.user.id) {
+            setUserProperties(response.user.id, {
+              plan: response.workspace?.planId || 'free',
+              role: response.user.role || 'member',
+              has_2fa: true,
+            });
+          }
+
+          // Set Sentry user context
+          setSentryUser({
+            id: response.user.id,
+            email: response.user.email,
+            name: response.user.name || response.user.email,
+          });
+
           try {
             const fullUser = await usersService.getMe();
             const statusResponse = await securityService.get2FAStatus();
@@ -142,6 +186,13 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
           await authService.logout();
           // Clear all auth-related data
           localStorage.removeItem('userTimezone');
+
+          // Clear analytics user properties
+          clearUserProperties();
+
+          // Clear Sentry user context
+          setSentryUser(null);
+
           set({
             user: null,
             workspace: null,
@@ -153,6 +204,13 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         } catch (error) {
           // Even if logout fails on backend, clear local state
           localStorage.removeItem('userTimezone');
+
+          // Clear analytics user properties
+          clearUserProperties();
+
+          // Clear Sentry user context
+          setSentryUser(null);
+
           set({
             user: null,
             workspace: null,
@@ -181,6 +239,24 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             loading: false,
             error: null,
             initializing: false,
+          });
+
+          // Track successful registration
+          trackRegistration('email');
+
+          // Set user properties for analytics
+          if (response.user.id) {
+            setUserProperties(response.user.id, {
+              plan: 'trial',
+              role: response.user.role || 'owner',
+            });
+          }
+
+          // Set Sentry user context
+          setSentryUser({
+            id: response.user.id,
+            email: response.user.email,
+            name: response.user.name || response.user.email,
           });
 
           try {
@@ -240,6 +316,13 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
           // Get 2FA status
           const statusResponse = await securityService.get2FAStatus();
 
+          // Set Sentry user context on session restore
+          setSentryUser({
+            id: user.id,
+            email: user.email,
+            name: user.name || user.email,
+          });
+
           set({
             user: { ...user, twoFactorEnabled: statusResponse.enabled },
             workspace: null, // Workspace info comes from user data
@@ -247,9 +330,10 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             isAuthenticated: true,
             initializing: false,
           });
-        } catch (error) {
+        } catch {
           // No valid session (401 error) or network error
           // User stays logged out
+          setSentryUser(null);
           set({
             user: null,
             workspace: null,

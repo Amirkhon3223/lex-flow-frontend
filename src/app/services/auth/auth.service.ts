@@ -38,4 +38,26 @@ export const authService = {
       throw error;
     }
   },
+
+  forgotPassword: async (email: string): Promise<SuccessResponse> => {
+    try {
+      const response = await httpClient.post<SuccessResponse>('/auth/forgot-password', { email });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  resetPassword: async (token: string, newPassword: string, confirmPassword: string): Promise<SuccessResponse> => {
+    try {
+      const response = await httpClient.post<SuccessResponse>('/auth/reset-password', {
+        token,
+        newPassword,
+        confirmPassword,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

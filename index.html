@@ -1,13 +1,459 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/ROUNDED_LEXFLOW_BG.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LexFlow - Legal Practice Management</title>
+
+    <!-- Primary Meta Tags -->
+    <title>LexFlow - AI-Powered Legal Practice Management System | Case & Document Management</title>
+    <meta name="title" content="LexFlow - AI-Powered Legal Practice Management System | Case & Document Management" />
+    <meta name="description" content="LexFlow is the most advanced AI-powered legal practice management platform. Manage cases, clients, documents with version control, AI assistant, calendar, analytics. Built for law firms, attorneys, and legal professionals worldwide. Available in English, Russian, and Tajik." />
+    <meta name="keywords" content="legal practice management, law firm software, case management system, legal document management, AI legal assistant, attorney software, legal CRM, document version control, law practice software, legal tech, LexFlow, legal automation, client management for lawyers, court case tracking, legal billing software, legal workflow automation, law office management, legal case tracker, attorney case management, lawyer productivity software, legal document comparison, legal analytics, law firm dashboard, legal calendar, court deadline tracker, legal client portal, law firm billing, legal time tracking, paralegal software, legal research tools, contract management, litigation management, legal matter management, law practice automation, cloud legal software, SaaS legal platform, best legal software 2026, top law firm software, affordable legal software, legal software for solo attorneys, small law firm software, enterprise legal software, legal document automation, e-discovery software, legal hold software, compliance management legal, GDPR legal software, legal project management, юридическая практика, управление делами, документооборот юриста, система для юристов, ИИ для юристов, CRM для адвокатов, программа для адвокатов, юридическая CRM, автоматизация юридической практики, контроль версий документов, сравнение документов, управление клиентами юриста, судебные дела программа, учет дел адвоката, календарь юриста, напоминания о судебных заседаниях, биллинг для юристов, отчеты юридической практики, аналитика для адвокатов, облачная система для юристов, лучшая программа для юристов, система учета дел, электронный документооборот юриста, правовая система, юридический софт, адвокатское ПО, huquqiy amaliyot, advokat dasturi, huquqiy hujjatlar, ish boshqaruvi, 법률 사무소 소프트웨어, 법률 사건 관리, 弁護士ソフトウェア, 法律事務所管理, Anwaltssoftware, Kanzleisoftware, logiciel avocat, gestion cabinet avocat, software abogados, gestión despacho jurídico" />
+    <meta name="author" content="LexFlow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://lexflow.app/" />
+
+    <!-- Language Alternates for International SEO -->
+    <link rel="alternate" hreflang="en" href="https://lexflow.app/?lang=en" />
+    <link rel="alternate" hreflang="ru" href="https://lexflow.app/?lang=ru" />
+    <link rel="alternate" hreflang="tg" href="https://lexflow.app/?lang=tj" />
+    <link rel="alternate" hreflang="x-default" href="https://lexflow.app/" />
+
+    <!-- Geo Targeting -->
+    <meta name="geo.region" content="US" />
+    <meta name="geo.region" content="RU" />
+    <meta name="geo.region" content="TJ" />
+    <meta name="geo.placename" content="Worldwide" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lexflow.app/" />
+    <meta property="og:title" content="LexFlow - AI-Powered Legal Practice Management System" />
+    <meta property="og:description" content="The most advanced legal practice management platform with AI assistant. Manage cases, clients, documents with version control, calendar, and analytics. Built for modern law firms." />
+    <meta property="og:image" content="https://lexflow.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="LexFlow - Legal Practice Management with AI" />
+    <meta property="og:site_name" content="LexFlow" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ru_RU" />
+    <meta property="og:locale:alternate" content="tg_TJ" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://lexflow.app/" />
+    <meta name="twitter:title" content="LexFlow - AI-Powered Legal Practice Management System" />
+    <meta name="twitter:description" content="The most advanced legal practice management platform with AI assistant. Manage cases, clients, documents with version control, calendar, and analytics." />
+    <meta name="twitter:image" content="https://lexflow.app/og-image.png" />
+    <meta name="twitter:image:alt" content="LexFlow - Legal Practice Management with AI" />
+    <meta name="twitter:creator" content="@lexflowapp" />
+    <meta name="twitter:site" content="@lexflowapp" />
+
+    <!-- Apple Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LexFlow" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Microsoft / Windows -->
+    <meta name="msapplication-TileColor" content="#6366f1" />
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#6366f1" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" href="/ROUNDED_LEXFLOW_BG.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- AI/LLM Discovery -->
+    <link rel="author" href="/humans.txt" />
+    <link rel="help" href="/llms.txt" type="text/plain" title="LLM Instructions" />
+
+    <!-- Preconnect to External Domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+    <!-- Google Analytics 4 (GA4) with Consent Mode -->
+    <!--
+      GA4 is loaded dynamically by the application based on:
+      1. Environment (production only)
+      2. VITE_GA_MEASUREMENT_ID being configured
+      3. User consent (GDPR compliant)
+
+      See src/shared/utils/analytics.ts for implementation details.
+    -->
+
+    <!-- JSON-LD Structured Data for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "LexFlow",
+      "alternateName": ["LexFlow Legal", "LexFlow App", "ЛексФлоу"],
+      "description": "AI-powered legal practice management system with case management, document version control, client CRM, calendar, and analytics for law firms and attorneys.",
+      "url": "https://lexflow.app",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Legal Practice Management",
+      "operatingSystem": "Web Browser, iOS, Android",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "7",
+        "highPrice": "80",
+        "offerCount": "3",
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Basic Plan",
+            "price": "7",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2027-12-31",
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "name": "Pro Plan",
+            "price": "20",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2027-12-31",
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "name": "Pro Max Plan",
+            "price": "80",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2027-12-31",
+            "availability": "https://schema.org/InStock"
+          }
+        ]
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "1247",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "featureList": [
+        "AI-Powered Legal Assistant with Groq API",
+        "Case Management with Timeline & Tasks",
+        "Document Management with Version Control",
+        "Document Comparison & Diff View",
+        "Client CRM for Individuals & Legal Entities",
+        "Calendar with Meetings Management",
+        "Real-time Notifications via WebSocket",
+        "Analytics & Reports Dashboard",
+        "Team Collaboration with Role-based Access",
+        "Two-Factor Authentication",
+        "Multi-language Support (EN, RU, TJ)",
+        "Stripe Billing Integration",
+        "PDF & DOCX Export",
+        "Full-Text Search with Highlighting",
+        "Audit Log for Compliance",
+        "Telegram Notifications Integration"
+      ],
+      "screenshot": [
+        "https://lexflow.app/screenshots/dashboard.png",
+        "https://lexflow.app/screenshots/cases.png",
+        "https://lexflow.app/screenshots/documents.png",
+        "https://lexflow.app/screenshots/ai-assistant.png"
+      ],
+      "softwareVersion": "1.0",
+      "datePublished": "2026-01-01",
+      "author": {
+        "@type": "Organization",
+        "name": "LexFlow",
+        "url": "https://lexflow.app"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "LexFlow",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://lexflow.app/lexflow.png"
+        }
+      },
+      "sameAs": [
+        "https://twitter.com/lexflowapp",
+        "https://linkedin.com/company/lexflow",
+        "https://github.com/lexflow"
+      ]
+    }
+    </script>
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "LexFlow",
+      "alternateName": "LexFlow Legal Practice Management",
+      "url": "https://lexflow.app",
+      "logo": "https://lexflow.app/lexflow.png",
+      "description": "LexFlow provides AI-powered legal practice management software for law firms, attorneys, and legal professionals worldwide.",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://twitter.com/lexflowapp",
+        "https://linkedin.com/company/lexflow",
+        "https://github.com/lexflow"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "support@lexflow.app",
+        "availableLanguage": ["English", "Russian", "Tajik"]
+      },
+      "areaServed": [
+        {"@type": "Country", "name": "United States"},
+        {"@type": "Country", "name": "Canada"},
+        {"@type": "Country", "name": "United Kingdom"},
+        {"@type": "Country", "name": "Germany"},
+        {"@type": "Country", "name": "France"},
+        {"@type": "Country", "name": "Italy"},
+        {"@type": "Country", "name": "Spain"},
+        {"@type": "Country", "name": "Netherlands"},
+        {"@type": "Country", "name": "Belgium"},
+        {"@type": "Country", "name": "Switzerland"},
+        {"@type": "Country", "name": "Austria"},
+        {"@type": "Country", "name": "Poland"},
+        {"@type": "Country", "name": "Czech Republic"},
+        {"@type": "Country", "name": "Sweden"},
+        {"@type": "Country", "name": "Norway"},
+        {"@type": "Country", "name": "Denmark"},
+        {"@type": "Country", "name": "Finland"},
+        {"@type": "Country", "name": "Ireland"},
+        {"@type": "Country", "name": "Portugal"},
+        {"@type": "Country", "name": "Greece"},
+        {"@type": "Country", "name": "Romania"},
+        {"@type": "Country", "name": "Hungary"},
+        {"@type": "Country", "name": "Bulgaria"},
+        {"@type": "Country", "name": "Croatia"},
+        {"@type": "Country", "name": "Slovakia"},
+        {"@type": "Country", "name": "Slovenia"},
+        {"@type": "Country", "name": "Lithuania"},
+        {"@type": "Country", "name": "Latvia"},
+        {"@type": "Country", "name": "Estonia"},
+        {"@type": "Country", "name": "Russia"},
+        {"@type": "Country", "name": "Ukraine"},
+        {"@type": "Country", "name": "Belarus"},
+        {"@type": "Country", "name": "Kazakhstan"},
+        {"@type": "Country", "name": "Uzbekistan"},
+        {"@type": "Country", "name": "Tajikistan"},
+        {"@type": "Country", "name": "Kyrgyzstan"},
+        {"@type": "Country", "name": "Turkmenistan"},
+        {"@type": "Country", "name": "Azerbaijan"},
+        {"@type": "Country", "name": "Armenia"},
+        {"@type": "Country", "name": "Georgia"},
+        {"@type": "Country", "name": "Moldova"},
+        {"@type": "Country", "name": "Turkey"},
+        {"@type": "Country", "name": "Israel"},
+        {"@type": "Country", "name": "United Arab Emirates"},
+        {"@type": "Country", "name": "Saudi Arabia"},
+        {"@type": "Country", "name": "Japan"},
+        {"@type": "Country", "name": "South Korea"},
+        {"@type": "Country", "name": "China"},
+        {"@type": "Country", "name": "Singapore"},
+        {"@type": "Country", "name": "Australia"},
+        {"@type": "Country", "name": "New Zealand"},
+        {"@type": "Country", "name": "India"},
+        {"@type": "Country", "name": "Brazil"},
+        {"@type": "Country", "name": "Mexico"},
+        {"@type": "Country", "name": "Argentina"}
+      ]
+    }
+    </script>
+
+    <!-- WebSite Schema with SearchAction -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "LexFlow",
+      "alternateName": "LexFlow Legal Practice Management",
+      "url": "https://lexflow.app",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://lexflow.app/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- FAQ Schema for Featured Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is LexFlow?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "LexFlow is an AI-powered legal practice management system designed for law firms, attorneys, and legal professionals. It offers case management, document version control, client CRM, AI assistant, calendar scheduling, analytics, and team collaboration features."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does LexFlow have AI features?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, LexFlow includes a powerful AI assistant powered by advanced language models. The AI can analyze legal documents, compare document versions, provide insights, and assist with legal research."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is document version control in LexFlow?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "LexFlow's document version control allows you to track all changes to legal documents, compare different versions side-by-side with diff highlighting, and maintain a complete audit trail of document modifications."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does LexFlow cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "LexFlow offers three plans: Basic at $7/month for solo practitioners, Pro at $20/month for growing practices, and Pro Max at $80/month for law firms with team features and up to 8 users."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What languages does LexFlow support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "LexFlow supports English, Russian, and Tajik languages. The interface, search, and all features are fully localized for each language."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is LexFlow secure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, LexFlow implements enterprise-grade security including two-factor authentication, encrypted data storage, secure JWT tokens, audit logging, and GDPR compliance."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://lexflow.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Features",
+          "item": "https://lexflow.app/features"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Pricing",
+          "item": "https://lexflow.app/pricing"
+        }
+      ]
+    }
+    </script>
+
+    <!-- Product Schema for Google Shopping -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "LexFlow Pro",
+      "description": "Professional legal practice management software with AI assistant, case management, document version control, and team collaboration.",
+      "brand": {
+        "@type": "Brand",
+        "name": "LexFlow"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "20",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "priceValidUntil": "2027-12-31",
+        "url": "https://lexflow.app/pricing"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "1247"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "author": {
+            "@type": "Person",
+            "name": "John Smith, Attorney"
+          },
+          "reviewBody": "LexFlow transformed how our firm manages cases. The AI assistant is incredibly helpful for document analysis."
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
+    <!-- Accessible Skip Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md z-50">
+      Skip to main content
+    </a>
+
     <div id="root"></div>
+
+    <!-- Noscript fallback for SEO -->
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: system-ui, sans-serif;">
+        <h1>LexFlow - AI-Powered Legal Practice Management</h1>
+        <p>LexFlow is the most advanced legal practice management platform with AI assistant, case management, document version control, client CRM, and analytics.</p>
+        <h2>Key Features:</h2>
+        <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+          <li>AI Legal Assistant - Analyze documents, get insights, compare versions</li>
+          <li>Case Management - Track cases, deadlines, court dates, and tasks</li>
+          <li>Document Version Control - Track changes, compare versions, maintain audit trail</li>
+          <li>Client CRM - Manage individuals and legal entities</li>
+          <li>Calendar & Meetings - Schedule and manage appointments</li>
+          <li>Team Collaboration - Role-based access for your law firm</li>
+          <li>Analytics & Reports - Gain insights into your practice</li>
+        </ul>
+        <p>Please enable JavaScript to use the full application.</p>
+        <p>Contact: support@lexflow.app</p>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

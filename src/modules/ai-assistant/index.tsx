@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { FileText, Upload, BookOpen, Scale, Search, Lightbulb, MessageSquare, Menu } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAIStore } from '@/app/store/ai.store';
@@ -18,9 +19,12 @@ import { RecentAnalyses } from './ui/RecentAnalyses';
 import { TokenPurchaseDialog } from './ui/TokenPurchaseDialog';
 
 export function AIAssistantView() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [purchaseDialogOpen, setPurchaseDialogOpen] = useState(false);
+  const [highlightedChatId, setHighlightedChatId] = useState<string | null>(null);
+  const hasHandledUrlParams = useRef(false);
   const { t } = useI18n();
 
   const {
@@ -59,6 +63,42 @@ export function AIAssistantView() {
       clearError();
     }
   }, [error, clearError]);
+
+  // Handle URL params for chat selection and highlight (from global search)
+  useEffect(() => {
+    if (hasHandledUrlParams.current || loading) return;
+
+    const chatId = searchParams.get('chat');
+    const highlightId = searchParams.get('highlight');
+
+    if (chatId && chats.length > 0) {
+      hasHandledUrlParams.current = true;
+
+      // Select the chat if not already selected
+      if (currentChat?.id !== chatId) {
+        selectChat(chatId).catch(() => {
+          // Error handled by store
+        });
+      }
+
+      // Set highlight for animation
+      if (highlightId) {
+        setHighlightedChatId(highlightId);
+
+        // Clear highlight after animation (3 seconds)
+        const timer = setTimeout(() => {
+          setHighlightedChatId(null);
+          // Remove URL params
+          const newParams = new URLSearchParams(searchParams);
+          newParams.delete('chat');
+          newParams.delete('highlight');
+          setSearchParams(newParams, { replace: true });
+        }, 3000);
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [searchParams, setSearchParams, chats, currentChat, loading, selectChat]);
 
   const handleDocumentUpload = () => {
     toast.success(t('DOCUMENTS.UPLOAD_SUCCESS'));
@@ -171,6 +211,7 @@ export function AIAssistantView() {
       chats={chats}
       currentChat={currentChat}
       loading={loading}
+      highlightedChatId={highlightedChatId}
       onNewChat={handleNewChat}
       onSelectChat={handleSelectChat}
       onDeleteChat={handleDeleteChat}

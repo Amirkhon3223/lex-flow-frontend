@@ -1,15 +1,30 @@
-import { useState, useEffect } from 'react';
-import { ArrowUpDown, Clock, FileText, Filter, Sparkles, Star, Upload } from 'lucide-react';
+/**
+ * @file DocumentsPage.tsx
+ * @description Documents list page with filtering, search, and statistics
+ *
+ * PERFORMANCE TODO:
+ * - Consider implementing virtual scrolling for large document lists (100+ items)
+ *   using @tanstack/react-virtual or react-window library.
+ *   This would significantly improve performance when displaying many documents
+ *   by only rendering visible rows in the viewport.
+ *   Example: Replace the documents.map() with a virtualized list component.
+ */
+
+import { useState, useEffect, useCallback } from 'react';
+import { ArrowUpDown, Clock, Download, FileText, Filter, Sparkles, Star, Upload } from 'lucide-react';
+import { toast } from 'sonner';
 import { useDocumentsStore } from '@/app/store/documents.store';
+import { documentsService } from '@/app/services/documents/documents.service';
 import { DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 import { DocumentCard } from '@/modules/documents/ui/DocumentCard';
+import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { DataPagination } from '@/shared/components/DataPagination';
 import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
 import { StatCard } from '@/shared/ui/stat-card';
-import { formatFileSize } from '@/shared/utils';
+import { formatFileSize, exportToCsv, formatDateForExport } from '@/shared/utils';
 
 export function DocumentsPage() {
   const { t } = useI18n();
@@ -19,12 +34,15 @@ export function DocumentsPage() {
     loading,
     error,
     fetchDocuments,
+    deleteDocument,
   } = useDocumentsStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
   const [sortBy, setSortBy] = useState('date');
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [documentToDelete, setDocumentToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     fetchDocuments({
@@ -48,6 +66,41 @@ export function DocumentsPage() {
   const handleSuccess = () => {
     fetchDocuments({ page: pagination.page, sortBy });
   };
+
+  const handleDeleteDocument = useCallback((id: string) => {
+    setDocumentToDelete(id);
+    setDeleteDialogOpen(true);
+  }, []);
+
+  const confirmDeleteDocument = useCallback(async () => {
+    if (!documentToDelete) return;
+    try {
+      await deleteDocument(documentToDelete);
+      toast.success(t('COMMON.MESSAGES.DELETED'));
+    } catch {
+      toast.error(t('COMMON.ERRORS.GENERIC'));
+    } finally {
+      setDocumentToDelete(null);
+    }
+  }, [deleteDocument, documentToDelete, t]);
+
+  const handleDownloadDocument = useCallback(async (id: string) => {
+    try {
+      const blob = await documentsService.download(id);
+      const doc = documents.find(d => d.id === id);
+      const filename = doc?.name || 'document';
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch {
+      toast.error(t('DOCUMENTS.ERRORS.DOWNLOAD_FAILED'));
+    }
+  }, [documents, t]);
 
   const stats = [
     {
@@ -76,6 +129,39 @@ export function DocumentsPage() {
     },
   ];
 
+  const handleExport = () => {
+    if (!documents.length) return;
+
+    const statusLabels: Record<string, string> = {
+      draft: t('DOCUMENTS.STATUS.DRAFT'),
+      review: t('DOCUMENTS.STATUS.REVIEW'),
+      final: t('DOCUMENTS.STATUS.FINAL'),
+    };
+
+    const categoryLabels: Record<string, string> = {
+      legal: t('DOCUMENTS.FILTERS.LEGAL'),
+      contract: t('DOCUMENTS.FILTERS.CONTRACTS'),
+      administrative: t('DOCUMENTS.FILTERS.ADMINISTRATIVE'),
+    };
+
+    const columns = [
+      { key: 'name', header: t('DOCUMENTS.FIELDS.NAME') },
+      { key: 'caseName', header: t('DOCUMENTS.FIELDS.CASE') },
+      { key: 'clientName', header: t('DOCUMENTS.FIELDS.CLIENT') },
+      { key: 'category', header: t('DOCUMENTS.FIELDS.CATEGORY'), formatter: (v: unknown) => categoryLabels[v as string] || String(v || '') },
+      { key: 'status', header: t('DOCUMENTS.FIELDS.STATUS'), formatter: (v: unknown) => statusLabels[v as string] || String(v || '') },
+      { key: 'version', header: t('DOCUMENTS.FIELDS.VERSION') },
+      { key: 'fileSize', header: t('DOCUMENTS.FIELDS.SIZE'), formatter: (v: unknown) => formatFileSize(v as number) },
+      { key: 'mimeType', header: t('DOCUMENTS.FIELDS.TYPE') },
+      { key: 'uploadedByName', header: t('DOCUMENTS.FIELDS.UPLOADED_BY') },
+      { key: 'createdAt', header: t('COMMON.CREATED_AT'), formatter: (v: unknown) => formatDateForExport(v as string) },
+      { key: 'updatedAt', header: t('COMMON.UPDATED_AT'), formatter: (v: unknown) => formatDateForExport(v as string) },
+    ];
+
+    const date = new Date().toISOString().split('T')[0];
+    exportToCsv(documents as unknown as Record<string, unknown>[], columns, `documents_${date}`);
+  };
+
   return (
     <div>
       <UploadDocumentDialog
@@ -101,13 +187,24 @@ export function DocumentsPage() {
               </div>
             </div>
 
-            <Button
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md w-full sm:w-auto"
-              onClick={() => setIsUploadDialogOpen(true)}
-            >
-              <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-              {t('DOCUMENTS.UPLOAD_DOCUMENT')}
-            </Button>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <Button
+                variant="outline"
+                className="rounded-xl"
+                onClick={handleExport}
+                disabled={!documents.length}
+              >
+                <Download className="w-4 h-4 mr-2" />
+                {t('COMMON.ACTIONS.EXPORT')}
+              </Button>
+              <Button
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md flex-1 sm:flex-none"
+                onClick={() => setIsUploadDialogOpen(true)}
+              >
+                <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
+                {t('DOCUMENTS.UPLOAD_DOCUMENT')}
+              </Button>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
@@ -190,6 +287,8 @@ export function DocumentsPage() {
                 status={doc.status}
                 statusText=""
                 favorite={doc.starred}
+                onDelete={handleDeleteDocument}
+                onDownload={handleDownloadDocument}
               />
             ))}
           </div>
@@ -201,6 +300,17 @@ export function DocumentsPage() {
           className="mt-6"
         />
       </main>
+
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        title={t('DOCUMENTS.DELETE_CONFIRM_TITLE')}
+        description={t('DOCUMENTS.DELETE_CONFIRM_DESC')}
+        confirmText={t('COMMON.ACTIONS.DELETE')}
+        cancelText={t('COMMON.ACTIONS.CANCEL')}
+        onConfirm={confirmDeleteDocument}
+        variant="destructive"
+      />
     </div>
   );
 }

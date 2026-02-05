@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum } from './calendar.enums';
+import { MeetingTypeEnum, MeetingStatusEnum, MeetingPriorityEnum, VideoProviderEnum } from './calendar.enums';
 import type { Pagination } from '../api/api.types';
 
 export interface MeetingClientInterface {
@@ -23,6 +23,7 @@ export interface MeetingInterface {
   priority: MeetingPriorityEnum;
   location: string | null;
   videoLink: string | null;
+  videoProvider: VideoProviderEnum | null;
   participants: string | null;
   description: string | null;
   notes: string | null;
@@ -150,6 +151,7 @@ export interface CreateMeetingInterface {
   priority: MeetingPriorityEnum;
   location?: string;
   videoLink?: string;
+  videoProvider?: VideoProviderEnum;
   participants?: string;
   description?: string;
   notes?: string;
@@ -164,6 +166,7 @@ export interface UpdateMeetingInterface {
   priority?: MeetingPriorityEnum;
   location?: string;
   videoLink?: string;
+  videoProvider?: VideoProviderEnum;
   participants?: string;
   description?: string;
   notes?: string;

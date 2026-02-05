@@ -20,10 +20,13 @@ import { AddTaskDialog } from '@/shared/components/AddTaskDialog';
 import { CommentsDialog } from '@/shared/components/CommentsDialog';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
+import { useHighlightItem } from '@/shared/hooks/useHighlightItem';
 import { parseLocalDate } from '@/shared/utils';
+import { cn } from '@/shared/ui/utils';
 
 export function CaseDetailView() {
   const { id = '' } = useParams<{ id: string }>();
+  const { isHighlighted } = useHighlightItem();
 
   const navigate = useNavigate();
   const onBack = () => navigate(-1);
@@ -172,6 +175,208 @@ export function CaseDetailView() {
 
   const handleCopyLink = () => navigator.clipboard.writeText(window.location.href);
 
+  const handlePrint = () => {
+    if (!selectedCase) return;
+
+    const statusLabels: Record<string, string> = {
+      new: t('COMMON.STATUS.NEW'),
+      in_progress: t('COMMON.STATUS.IN_PROGRESS'),
+      waiting: t('COMMON.STATUS.WAITING'),
+      closed: t('COMMON.STATUS.CLOSED'),
+      won: t('COMMON.STATUS.WON'),
+      lost: t('COMMON.STATUS.LOST'),
+      settled: t('COMMON.STATUS.SETTLED'),
+    };
+
+    const priorityLabels: Record<string, string> = {
+      low: t('COMMON.PRIORITY.LOW'),
+      medium: t('COMMON.PRIORITY.MEDIUM'),
+      high: t('COMMON.PRIORITY.HIGH'),
+      urgent: t('COMMON.PRIORITY.URGENT'),
+    };
+
+    const categoryLabels: Record<string, string> = {
+      labor: t('CASES.CATEGORIES.LABOR'),
+      civil: t('CASES.CATEGORIES.CIVIL'),
+      family: t('CASES.CATEGORIES.FAMILY'),
+      inheritance: t('CASES.CATEGORIES.INHERITANCE'),
+      contract: t('CASES.CATEGORIES.CONTRACT'),
+      corporate: t('CASES.CATEGORIES.CORPORATE'),
+    };
+
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const formatDate = (date: string | Date | undefined) => {
+      if (!date) return '-';
+      return new Date(date).toLocaleDateString('ru-RU');
+    };
+
+    const formatCurrency = (amount: number) => {
+      return amount.toLocaleString('ru-RU') + ' ₽';
+    };
+
+    const tasksHtml = tasks.length > 0 ? `
+      <h2 style="margin-top: 30px; padding-bottom: 10px; border-bottom: 2px solid #e5e7eb;">${t('CASES.TABS.TASKS')}</h2>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+        <thead>
+          <tr style="background: #f9fafb;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #e5e7eb;">${t('TASKS.TASK_TITLE')}</th>
+            <th style="padding: 10px; text-align: center; border: 1px solid #e5e7eb;">${t('COMMON.STATUS.STATUS')}</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #e5e7eb;">${t('CASES.FIELDS.DEADLINE')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tasks.map(task => `
+            <tr>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${task.title}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb; text-align: center;">
+                ${task.completed ? '✅' : '⬜'}
+              </td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${formatDate(task.createdAt)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    ` : '';
+
+    const documentsHtml = caseDocuments.length > 0 ? `
+      <h2 style="margin-top: 30px; padding-bottom: 10px; border-bottom: 2px solid #e5e7eb;">${t('CASES.TABS.DOCUMENTS')}</h2>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+        <thead>
+          <tr style="background: #f9fafb;">
+            <th style="padding: 10px; text-align: left; border: 1px solid #e5e7eb;">${t('DOCUMENTS.FIELDS.NAME')}</th>
+            <th style="padding: 10px; text-align: right; border: 1px solid #e5e7eb;">${t('DOCUMENTS.FIELDS.SIZE')}</th>
+            <th style="padding: 10px; text-align: left; border: 1px solid #e5e7eb;">${t('COMMON.CREATED_AT')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${caseDocuments.map(doc => `
+            <tr>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${doc.name}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb; text-align: right;">${doc.size}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${doc.date}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    ` : '';
+
+    const timelineHtml = timeline.length > 0 ? `
+      <h2 style="margin-top: 30px; padding-bottom: 10px; border-bottom: 2px solid #e5e7eb;">${t('CASES.TABS.TIMELINE')}</h2>
+      <div style="margin-top: 15px;">
+        ${timeline.map(event => `
+          <div style="padding: 12px; margin-bottom: 10px; background: #f9fafb; border-radius: 8px; border-left: 3px solid #3b82f6;">
+            <div style="font-weight: 600; color: #111827;">${event.title}</div>
+            <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">${event.description || ''}</div>
+            <div style="font-size: 12px; color: #9ca3af; margin-top: 6px;">${formatDate(event.eventDate)}</div>
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${t('CASES.CASE_REPORT')} - ${selectedCase.title}</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; color: #1f2937; }
+          h1 { color: #111827; margin-bottom: 5px; }
+          .subtitle { color: #6b7280; margin-bottom: 30px; }
+          .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+          .logo { font-size: 24px; font-weight: bold; color: #3b82f6; }
+          .date { color: #6b7280; font-size: 14px; }
+          .section { margin-bottom: 25px; }
+          .section-title { font-size: 14px; font-weight: 600; color: #6b7280; text-transform: uppercase; margin-bottom: 10px; }
+          .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+          .info-item { }
+          .info-label { font-size: 12px; color: #6b7280; }
+          .info-value { font-size: 15px; color: #111827; font-weight: 500; }
+          .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 25px 0; padding: 20px; background: #f9fafb; border-radius: 8px; }
+          .stat { text-align: center; }
+          .stat-value { font-size: 24px; font-weight: bold; color: #3b82f6; }
+          .stat-label { font-size: 12px; color: #6b7280; }
+          .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+          .badge-status { background: #dbeafe; color: #1d4ed8; }
+          .badge-priority { background: #fef3c7; color: #92400e; }
+          @media print { body { padding: 20px; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="logo">LexFlow</div>
+          <div class="date">${formatDate(new Date())}</div>
+        </div>
+
+        <h1>${selectedCase.title}</h1>
+        <div class="subtitle">
+          <span class="badge badge-status">${statusLabels[selectedCase.status] || selectedCase.status}</span>
+          <span class="badge badge-priority" style="margin-left: 8px;">${priorityLabels[selectedCase.priority] || selectedCase.priority}</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">${selectedCase.progress || 0}%</div>
+            <div class="stat-label">${t('CASES.FIELDS.PROGRESS')}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${caseDocuments.length}</div>
+            <div class="stat-label">${t('DOCUMENTS.TITLE')}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${tasks.length}</div>
+            <div class="stat-label">${t('CASES.TABS.TASKS')}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${formatCurrency(selectedCase.fee || 0)}</div>
+            <div class="stat-label">${t('CASES.FIELDS.FEE')}</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">${t('CASES.DETAIL.OVERVIEW')}</div>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">${t('CASES.FIELDS.CLIENT')}</div>
+              <div class="info-value">${selectedCase.clientName || '-'}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">${t('CASES.FIELDS.CATEGORY')}</div>
+              <div class="info-value">${categoryLabels[selectedCase.category] || selectedCase.category}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">${t('CASES.FIELDS.DEADLINE')}</div>
+              <div class="info-value">${formatDate(selectedCase.deadline)}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">${t('CASES.FIELDS.COURT_DATE')}</div>
+              <div class="info-value">${formatDate(selectedCase.courtDate)}</div>
+            </div>
+            <div class="info-item" style="grid-column: span 2;">
+              <div class="info-label">${t('CASES.FIELDS.DESCRIPTION')}</div>
+              <div class="info-value">${selectedCase.description || '-'}</div>
+            </div>
+          </div>
+        </div>
+
+        ${tasksHtml}
+        ${documentsHtml}
+        ${timelineHtml}
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #9ca3af; font-size: 12px;">
+          ${t('CASES.REPORT_GENERATED')} LexFlow • ${formatDate(new Date())}
+        </div>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(html);
+    printWindow.document.close();
+    printWindow.print();
+  };
+
   const handleShareEmail = () => {
     const url = window.location.href;
     window.location.href = `mailto:?subject=${encodeURIComponent(
@@ -198,7 +403,10 @@ export function CaseDetailView() {
   };
 
   return (
-    <div>
+    <div
+      id={id ? `highlight-${id}` : undefined}
+      className={cn(id && isHighlighted(id) && 'animate-highlight')}
+    >
       <UploadDocumentDialog
         open={isUploadDocumentDialogOpen}
         onOpenChange={setIsUploadDocumentDialogOpen}
@@ -232,6 +440,7 @@ export function CaseDetailView() {
         onCopyLink={handleCopyLink}
         onShareEmail={handleShareEmail}
         onEdit={() => setIsEditCaseDialogOpen(true)}
+        onPrint={handlePrint}
         onAddDocument={() => setIsUploadDocumentDialogOpen(true)}
         documentLimitReached={documentLimitReached}
       />

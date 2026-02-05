@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage - All languages -->
+  <url>
+    <loc>https://lexflow.app/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lexflow.app/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://lexflow.app/?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="tg" href="https://lexflow.app/?lang=tj"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lexflow.app/"/>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://lexflow.app/lexflow.png</image:loc>
+      <image:title>LexFlow Logo</image:title>
+      <image:caption>LexFlow - AI-Powered Legal Practice Management</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Auth/Login Page -->
+  <url>
+    <loc>https://lexflow.app/auth</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lexflow.app/auth?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://lexflow.app/auth?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="tg" href="https://lexflow.app/auth?lang=tj"/>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://lexflow.app/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lexflow.app/privacy?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://lexflow.app/privacy?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="tg" href="https://lexflow.app/privacy?lang=tj"/>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Terms of Service -->
+  <url>
+    <loc>https://lexflow.app/terms</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lexflow.app/terms?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://lexflow.app/terms?lang=ru"/>
+    <xhtml:link rel="alternate" hreflang="tg" href="https://lexflow.app/terms?lang=tj"/>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Feature Pages (for SEO content) -->
+  <url>
+    <loc>https://lexflow.app/features/ai-assistant</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://lexflow.app/features/case-management</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://lexflow.app/features/document-version-control</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://lexflow.app/features/client-management</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://lexflow.app/features/analytics</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://lexflow.app/pricing</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+</urlset>

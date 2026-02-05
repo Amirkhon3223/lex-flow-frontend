@@ -1,5 +1,6 @@
 import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
+import { captureError } from '../config/sentry';
 import { API_CONFIG } from '../config/api.config';
 import { i18nService } from '../services/i18n/i18n.service';
 import { useAuthStore } from '../store/auth.store';
@@ -62,12 +63,12 @@ export const errorInterceptor = {
     }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
+      // Auth endpoints handle their own errors - don't show toast here
       if (
         originalRequest.url?.includes('/auth/login') ||
         originalRequest.url?.includes('/auth/register') ||
         originalRequest.url?.includes('/auth/refresh')
       ) {
-        handleApiError(error);
         return Promise.reject(error);
       }
 
@@ -136,6 +137,18 @@ export const errorInterceptor = {
     if (!isAuthRoute) {
       handleApiError(error);
     }
+
+    // Capture server errors (5xx) and unexpected errors to Sentry
+    const status = error.response?.status;
+    if (status && status >= 500) {
+      captureError(error, {
+        url: originalRequest?.url,
+        method: originalRequest?.method,
+        status,
+        responseData: error.response?.data,
+      });
+    }
+
     return Promise.reject(error);
   },
 };

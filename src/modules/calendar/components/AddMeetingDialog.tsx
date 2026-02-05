@@ -14,7 +14,7 @@ import {
 import { toast } from 'sonner';
 import { useClientsStore } from '@/app/store/clients.store';
 import { useMeetingsStore } from '@/app/store/meetings.store';
-import { MeetingTypeEnum, MeetingPriorityEnum } from '@/app/types/calendar/calendar.enums';
+import { MeetingTypeEnum, MeetingPriorityEnum, VideoProviderEnum } from '@/app/types/calendar/calendar.enums';
 import type { AddMeetingDialogProps } from '@/app/types/calendar/calendar.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
@@ -50,6 +50,8 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
     time: '',
     duration: '60',
     location: '',
+    videoLink: '',
+    videoProvider: VideoProviderEnum.JITSI,
     description: '',
     reminder: '30',
   });
@@ -71,6 +73,8 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
         time: meeting.time,
         duration: meeting.duration,
         location: meeting.location || '',
+        videoLink: meeting.videoLink || '',
+        videoProvider: meeting.videoProvider || VideoProviderEnum.JITSI,
         description: meeting.description || '',
         reminder: '30',
       });
@@ -103,6 +107,8 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
         time: currentTime,
         duration: '60',
         location: '',
+        videoLink: '',
+        videoProvider: VideoProviderEnum.JITSI,
         description: '',
         reminder: '30',
       });
@@ -117,6 +123,8 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
         time: '',
         duration: '60',
         location: '',
+        videoLink: '',
+        videoProvider: VideoProviderEnum.JITSI,
         description: '',
         reminder: '30',
       });
@@ -180,6 +188,8 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
         type: formData.type,
         priority: formData.priority,
         location: formData.location || undefined,
+        videoLink: formData.type === MeetingTypeEnum.VIDEO ? (formData.videoLink || undefined) : undefined,
+        videoProvider: formData.type === MeetingTypeEnum.VIDEO ? formData.videoProvider : undefined,
         description: formData.description || undefined,
       };
 
@@ -431,25 +441,107 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
 
             <Separator />
 
-            {(formData.type === MeetingTypeEnum.IN_PERSON ||
-              formData.type === MeetingTypeEnum.VIDEO) && (
+            {formData.type === MeetingTypeEnum.IN_PERSON && (
               <div className="space-y-2">
                 <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
-                  {formData.type === MeetingTypeEnum.VIDEO
-                    ? t('CALENDAR.FORMS.LINK_OR_LOCATION')
-                    : t('CALENDAR.FORMS.LINK_OR_LOCATION_ALT')}
+                  {t('CALENDAR.FORMS.LINK_OR_LOCATION_ALT')}
                 </Label>
                 <Input
                   value={formData.location}
                   onChange={(e) => handleFieldChange('location', e.target.value)}
                   className="h-10 sm:h-11 rounded-xl border-input text-sm"
-                  placeholder={
-                    formData.type === MeetingTypeEnum.VIDEO
-                      ? t('CALENDAR.FORMS.LINK_PLACEHOLDER')
-                      : t('CALENDAR.FORMS.LOCATION_PLACEHOLDER')
-                  }
+                  placeholder={t('CALENDAR.FORMS.LOCATION_PLACEHOLDER')}
                 />
+              </div>
+            )}
+
+            {formData.type === MeetingTypeEnum.VIDEO && (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                    <Video className="w-4 h-4" />
+                    {t('VIDEO_CALL.PROVIDER')}
+                  </Label>
+                  <Select
+                    value={formData.videoProvider}
+                    onValueChange={(value) => handleFieldChange('videoProvider', value)}
+                  >
+                    <SelectTrigger className="h-10 sm:h-11 rounded-xl border-input text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl">
+                      <SelectItem value={VideoProviderEnum.JITSI}>
+                        {t('VIDEO_CALL.JITSI')}
+                      </SelectItem>
+                      <SelectItem value={VideoProviderEnum.GOOGLE_MEET}>
+                        {t('VIDEO_CALL.GOOGLE_MEET')}
+                      </SelectItem>
+                      <SelectItem value={VideoProviderEnum.ZOOM}>
+                        {t('VIDEO_CALL.ZOOM')}
+                      </SelectItem>
+                      <SelectItem value={VideoProviderEnum.CUSTOM}>
+                        {t('VIDEO_CALL.CUSTOM')}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {formData.videoProvider === VideoProviderEnum.JITSI && (
+                  <p className="text-xs text-muted-foreground bg-muted/50 p-3 rounded-lg">
+                    {t('VIDEO_CALL.AUTO_GENERATED')}
+                  </p>
+                )}
+
+                {formData.videoProvider === VideoProviderEnum.GOOGLE_MEET && (
+                  <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground">
+                      {t('VIDEO_CALL.GOOGLE_MEET_HINT')}
+                    </p>
+                    <a
+                      href="https://meet.google.com/new"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm text-blue-500 hover:text-blue-600"
+                    >
+                      {t('VIDEO_CALL.CREATE_GOOGLE_MEET')}
+                    </a>
+                    <Input
+                      value={formData.videoLink}
+                      onChange={(e) => handleFieldChange('videoLink', e.target.value)}
+                      className="h-10 sm:h-11 rounded-xl border-input text-sm"
+                      placeholder="https://meet.google.com/xxx-xxxx-xxx"
+                    />
+                  </div>
+                )}
+
+                {formData.videoProvider === VideoProviderEnum.ZOOM && (
+                  <div className="space-y-2">
+                    <Label className="text-xs sm:text-sm text-muted-foreground">
+                      {t('VIDEO_CALL.ZOOM_LINK')}
+                    </Label>
+                    <Input
+                      value={formData.videoLink}
+                      onChange={(e) => handleFieldChange('videoLink', e.target.value)}
+                      className="h-10 sm:h-11 rounded-xl border-input text-sm"
+                      placeholder="https://zoom.us/j/..."
+                    />
+                  </div>
+                )}
+
+                {formData.videoProvider === VideoProviderEnum.CUSTOM && (
+                  <div className="space-y-2">
+                    <Label className="text-xs sm:text-sm text-muted-foreground">
+                      {t('VIDEO_CALL.CUSTOM_LINK')}
+                    </Label>
+                    <Input
+                      value={formData.videoLink}
+                      onChange={(e) => handleFieldChange('videoLink', e.target.value)}
+                      className="h-10 sm:h-11 rounded-xl border-input text-sm"
+                      placeholder={t('CALENDAR.FORMS.LINK_PLACEHOLDER')}
+                    />
+                  </div>
+                )}
               </div>
             )}
 

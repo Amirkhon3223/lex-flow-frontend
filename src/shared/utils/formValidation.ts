@@ -19,7 +19,7 @@ export interface FormErrors {
 export const validators = {
   required: (value: string | undefined | null, fieldName: string): string | null => {
     if (!value || value.trim() === '') {
-      return i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', fieldName);
+      return i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', fieldName);
     }
     return null;
   },
@@ -39,8 +39,8 @@ export const validators = {
     if (value.length < min) {
       return i18nService
         .t('COMMON.ERRORS.MIN_LENGTH')
-        .replace('{field}', fieldName)
-        .replace('{min}', String(min));
+        .replace('{{field}}', fieldName)
+        .replace('{{min}}', String(min));
     }
     return null;
   },
@@ -50,8 +50,8 @@ export const validators = {
     if (value.length > max) {
       return i18nService
         .t('COMMON.ERRORS.MAX_LENGTH')
-        .replace('{field}', fieldName)
-        .replace('{max}', String(max));
+        .replace('{{field}}', fieldName)
+        .replace('{{max}}', String(max));
     }
     return null;
   },
@@ -61,8 +61,8 @@ export const validators = {
     if (value.length !== len) {
       return i18nService
         .t('COMMON.ERRORS.EXACT_LENGTH')
-        .replace('{field}', fieldName)
-        .replace('{len}', String(len));
+        .replace('{{field}}', fieldName)
+        .replace('{{len}}', String(len));
     }
     return null;
   },
@@ -72,8 +72,8 @@ export const validators = {
     if (!allowed.includes(value)) {
       return i18nService
         .t('COMMON.ERRORS.ONE_OF')
-        .replace('{field}', fieldName)
-        .replace('{values}', allowed.join(', '));
+        .replace('{{field}}', fieldName)
+        .replace('{{values}}', allowed.join(', '));
     }
     return null;
   },
@@ -131,31 +131,37 @@ export function parseApiErrors(error: unknown): FormErrors {
       const message = data.message || data.error || '';
 
       // Map common backend error messages to fields
-      const errorMappings: [RegExp, string, string][] = [
-        [/email.*already.*exists|duplicate.*email/i, 'email', i18nService.t('COMMON.ERRORS.EMAIL_EXISTS')],
-        [/email.*required/i, 'email', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', 'Email')],
-        [/invalid.*email/i, 'email', i18nService.t('COMMON.ERRORS.INVALID_EMAIL')],
-        [/password.*required/i, 'password', i18nService.t('COMMON.ERRORS.PASSWORD_REQUIRED')],
-        [/password.*short|password.*min/i, 'password', i18nService.t('COMMON.ERRORS.PASSWORD_MIN')],
-        [/passwords.*match|confirm.*password/i, 'confirmPassword', i18nService.t('COMMON.ERRORS.PASSWORDS_NOT_MATCH')],
-        [/firstName.*required|first.*name.*required/i, 'firstName', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('AUTH.REGISTER.FIRST_NAME'))],
-        [/lastName.*required|last.*name.*required/i, 'lastName', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('AUTH.REGISTER.LAST_NAME'))],
-        [/phone.*required/i, 'phone', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('SETTINGS.PROFILE.PHONE'))],
-        [/title.*required/i, 'title', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CASES.FIELDS.TITLE'))],
-        [/client.*required|clientId.*required/i, 'clientId', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CASES.FIELDS.CLIENT'))],
-        [/type.*required/i, 'type', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CASES.FIELDS.TYPE'))],
-        [/category.*required/i, 'category', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CASES.FIELDS.CATEGORY'))],
-        [/date.*required/i, 'date', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CALENDAR.FIELDS.DATE'))],
-        [/time.*required/i, 'time', i18nService.t('COMMON.ERRORS.REQUIRED').replace('{field}', i18nService.t('CALENDAR.FIELDS.TIME'))],
-        [/invalid.*credentials|wrong.*password/i, 'password', i18nService.t('COMMON.ERRORS.INVALID_CREDENTIALS')],
-        [/user.*not.*found/i, 'email', i18nService.t('COMMON.ERRORS.USER_NOT_FOUND')],
-        [/2fa.*code.*invalid|invalid.*code/i, 'code', i18nService.t('COMMON.ERRORS.INVALID_CODE')],
-        [/code.*required/i, 'code', i18nService.t('COMMON.ERRORS.CODE_REQUIRED')],
+      // IMPORTANT: More specific patterns MUST come before generic ones!
+      // Using lazy evaluation (functions) to avoid translation warnings for unused patterns
+      const errorMappings: [RegExp, string, () => string][] = [
+        // Login errors - these are general, not field-specific
+        [/invalid email or password/i, '_general', () => i18nService.t('COMMON.ERRORS.INVALID_CREDENTIALS')],
+        [/invalid.*credentials|wrong.*password/i, '_general', () => i18nService.t('COMMON.ERRORS.INVALID_CREDENTIALS')],
+        [/user.*not.*found/i, '_general', () => i18nService.t('COMMON.ERRORS.INVALID_CREDENTIALS')],
+        // Field-specific errors
+        [/email.*already.*exists|duplicate.*email/i, 'email', () => i18nService.t('COMMON.ERRORS.EMAIL_EXISTS')],
+        [/email.*required/i, 'email', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', 'Email')],
+        [/invalid.*email.*format|email.*invalid/i, 'email', () => i18nService.t('COMMON.ERRORS.INVALID_EMAIL')],
+        [/password.*required/i, 'password', () => i18nService.t('AUTH.ERRORS.PASSWORD_REQUIRED')],
+        [/password.*short|password.*min/i, 'password', () => i18nService.t('AUTH.ERRORS.PASSWORD_MIN_LENGTH')],
+        [/passwords.*match|confirm.*password/i, 'confirmPassword', () => i18nService.t('AUTH.ERRORS.PASSWORDS_NOT_MATCH')],
+        [/firstName.*required|first.*name.*required/i, 'firstName', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', i18nService.t('AUTH.FIRST_NAME'))],
+        [/lastName.*required|last.*name.*required/i, 'lastName', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', i18nService.t('AUTH.LAST_NAME'))],
+        [/phone.*required/i, 'phone', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', i18nService.t('SETTINGS.PROFILE.PHONE'))],
+        [/title.*required/i, 'title', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', i18nService.t('CASES.FIELDS.TITLE'))],
+        [/client.*required|clientId.*required/i, 'clientId', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', i18nService.t('CASES.FIELDS.CLIENT'))],
+        [/type.*required/i, 'type', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', i18nService.t('DOCUMENTS.TYPE'))],
+        [/category.*required/i, 'category', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', i18nService.t('CASES.CATEGORY'))],
+        [/date.*required/i, 'date', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', i18nService.t('CALENDAR.DATE'))],
+        [/time.*required/i, 'time', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', i18nService.t('CALENDAR.TIME'))],
+        [/2fa.*code.*invalid|invalid.*code/i, 'code', () => i18nService.t('AUTH.ERRORS.INVALID_CODE')],
+        [/code.*required/i, 'code', () => i18nService.t('AUTH.ERRORS.CODE_REQUIRED')],
       ];
 
-      for (const [pattern, field, errorMessage] of errorMappings) {
+      for (const [pattern, field, getErrorMessage] of errorMappings) {
         if (pattern.test(message)) {
-          errors[field] = errorMessage;
+          errors[field] = getErrorMessage(); // Only call translation when pattern matches
+          break; // Stop after first match to avoid multiple errors
         }
       }
 

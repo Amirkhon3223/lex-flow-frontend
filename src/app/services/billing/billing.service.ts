@@ -91,6 +91,27 @@ export const billingService = {
     return response.data;
   },
 
+  setDefaultPaymentMethod: async (paymentMethodId: string): Promise<SuccessResponse> => {
+    const response = await httpClient.post<SuccessResponse>(
+      `/billing/payment-methods/${paymentMethodId}/default`
+    );
+    return response.data;
+  },
+
+  createSetupIntent: async (): Promise<{ clientSecret: string }> => {
+    const response = await httpClient.post<{ clientSecret: string }>(
+      '/billing/payment-methods/setup'
+    );
+    return response.data;
+  },
+
+  retryPayment: async (paymentId: string): Promise<SuccessResponse> => {
+    const response = await httpClient.post<SuccessResponse>(
+      `/billing/payments/${paymentId}/retry`
+    );
+    return response.data;
+  },
+
   getStorageUsage: async (): Promise<StorageUsageResponse> => {
     const response = await httpClient.get<StorageUsageResponse>('/billing/storage-usage');
     return response.data;

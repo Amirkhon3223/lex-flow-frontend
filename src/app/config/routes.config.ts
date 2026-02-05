@@ -2,6 +2,7 @@ export const ROUTES = {
   AUTH: {
     LOGIN: '/login',
     REGISTER: '/register',
+    RESET_PASSWORD: '/reset-password',
   },
 
   DASHBOARD: '/',
@@ -24,6 +25,8 @@ export const ROUTES = {
     COMPARE: (id: string) => `/documents/${id}/compare`,
   },
 
+  TEMPLATES: '/templates',
+
   CALENDAR: '/calendar',
   CALENDAR_MEETING: (id: string) => `/calendar/meetings/${id}`,
 
@@ -37,6 +40,7 @@ export const ROUTES = {
     NOTIFICATIONS: '/settings/notifications',
     SECURITY: '/settings/security',
     BILLING: '/settings/billing',
+    AUDIT: '/settings/audit',
   },
 
   USER_PROFILE: '/user-profile',

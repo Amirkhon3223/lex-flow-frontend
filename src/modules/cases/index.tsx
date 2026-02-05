@@ -1,3 +1,16 @@
+/**
+ * @file CasePage.tsx
+ * @description Cases list page with filtering, search, and statistics
+ *
+ * PERFORMANCE TODO:
+ * - Consider implementing virtual scrolling for large case lists (100+ items)
+ *   using @tanstack/react-virtual or react-window library.
+ *   This would significantly improve performance when displaying many cases
+ *   by only rendering visible rows in the viewport.
+ *   Example: Replace the filteredCases.map() in TableBody and grid view
+ *   with a virtualized list.
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Plus,
@@ -14,6 +27,7 @@ import {
   CheckCircle2,
   AlertCircle,
   Sparkles,
+  Download,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -43,6 +57,7 @@ import { StatCard } from '@/shared/ui/stat-card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
 import { formatDate } from '@/shared/utils';
+import { exportToCsv, formatDateForExport, formatCurrencyForExport } from '@/shared/utils/exportUtils';
 
 export function CasePage() {
   const navigate = useNavigate();
@@ -146,6 +161,56 @@ export function CasePage() {
     return <Badge className={`${styles[priority]} border-0 text-xs`}>{labels[priority]}</Badge>;
   };
 
+  const handleExport = () => {
+    if (!cases.length) return;
+
+    const statusLabels: Record<string, string> = {
+      new: t('COMMON.STATUS.NEW'),
+      in_progress: t('COMMON.STATUS.IN_PROGRESS'),
+      waiting: t('COMMON.STATUS.WAITING'),
+      closed: t('COMMON.STATUS.CLOSED'),
+      won: t('COMMON.STATUS.WON'),
+      lost: t('COMMON.STATUS.LOST'),
+      settled: t('COMMON.STATUS.SETTLED'),
+    };
+
+    const priorityLabels: Record<string, string> = {
+      urgent: t('COMMON.STATUS.URGENT'),
+      high: t('COMMON.PRIORITY.HIGH'),
+      medium: t('COMMON.PRIORITY.MEDIUM'),
+      low: t('COMMON.PRIORITY.LOW'),
+    };
+
+    const categoryLabels: Record<string, string> = {
+      labor: t('CASES.CATEGORIES.LABOR'),
+      civil: t('CASES.CATEGORIES.CIVIL'),
+      family: t('CASES.CATEGORIES.FAMILY'),
+      inheritance: t('CASES.CATEGORIES.INHERITANCE'),
+      contract: t('CASES.CATEGORIES.CONTRACT'),
+      corporate: t('CASES.CATEGORIES.CORPORATE'),
+    };
+
+    const columns = [
+      { key: 'title', header: t('CASES.FIELDS.TITLE') },
+      { key: 'clientName', header: t('CASES.FIELDS.CLIENT') },
+      { key: 'category', header: t('CASES.FIELDS.CATEGORY'), formatter: (v: unknown) => categoryLabels[v as string] || String(v || '') },
+      { key: 'status', header: t('CASES.FIELDS.STATUS'), formatter: (v: unknown) => statusLabels[v as string] || String(v || '') },
+      { key: 'priority', header: t('CASES.FIELDS.PRIORITY'), formatter: (v: unknown) => priorityLabels[v as string] || String(v || '') },
+      { key: 'progress', header: t('CASES.FIELDS.PROGRESS'), formatter: (v: unknown) => `${v || 0}%` },
+      { key: 'fee', header: t('CASES.FIELDS.FEE'), formatter: (v: unknown) => formatCurrencyForExport(v as number) },
+      { key: 'paidAmount', header: t('CASES.FIELDS.PAID_AMOUNT'), formatter: (v: unknown) => formatCurrencyForExport(v as number) },
+      { key: 'deadline', header: t('CASES.FIELDS.DEADLINE'), formatter: (v: unknown) => formatDateForExport(v as string) },
+      { key: 'courtDate', header: t('CASES.FIELDS.COURT_DATE'), formatter: (v: unknown) => formatDateForExport(v as string) },
+      { key: 'documentsCount', header: t('CASES.FIELDS.DOCUMENTS') },
+      { key: 'commentsCount', header: t('CASES.FIELDS.COMMENTS') },
+      { key: 'tasksCount', header: t('CASES.FIELDS.TASKS') },
+      { key: 'createdAt', header: t('COMMON.CREATED_AT'), formatter: (v: unknown) => formatDateForExport(v as string) },
+    ];
+
+    const date = new Date().toISOString().split('T')[0];
+    exportToCsv(cases as unknown as Record<string, unknown>[], columns, `cases_${date}`);
+  };
+
   const stats = [
     {
       label: t('CASES.STATS.TOTAL'),
@@ -207,37 +272,49 @@ export function CasePage() {
               </div>
             </div>
 
-            {usage && !usage.canAddCase ? (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span className="w-full sm:w-auto">
-                      <Button
-                        className="bg-blue-500/50 text-white rounded-xl shadow-md cursor-not-allowed w-full sm:w-auto"
-                        disabled
-                      >
-                        <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
-                        {t('CASES.NEW_CASE')}
-                      </Button>
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="text-xs">{t('LIMITS.CASES_LIMIT')}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <Button
-                onClick={() => {
-                  setEditingCaseId(undefined);
-                  setIsCaseDialogOpen(true);
-                }}
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md cursor-pointer w-full sm:w-auto"
+                variant="outline"
+                className="rounded-xl"
+                onClick={handleExport}
+                disabled={!cases.length}
               >
-                <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
-                {t('CASES.NEW_CASE')}
+                <Download className="w-4 h-4 mr-2" />
+                {t('COMMON.ACTIONS.EXPORT')}
               </Button>
-            )}
+
+              {usage && !usage.canAddCase ? (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="flex-1 sm:flex-none">
+                        <Button
+                          className="bg-blue-500/50 text-white rounded-xl shadow-md cursor-not-allowed w-full"
+                          disabled
+                        >
+                          <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+                          {t('CASES.NEW_CASE')}
+                        </Button>
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="text-xs">{t('LIMITS.CASES_LIMIT')}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <Button
+                  onClick={() => {
+                    setEditingCaseId(undefined);
+                    setIsCaseDialogOpen(true);
+                  }}
+                  className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md cursor-pointer flex-1 sm:flex-none"
+                >
+                  <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+                  {t('CASES.NEW_CASE')}
+                </Button>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col lg:flex-row lg:items-center gap-3 w-full">

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
   FileText,
   Star,
@@ -23,7 +24,12 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { StatusBadge } from './StatusBadge';
 
-export function DocumentCard({
+/**
+ * DocumentCard - Memoized component for displaying document items in lists
+ * Wrapped with React.memo to prevent unnecessary re-renders when parent re-renders
+ * but the document data hasn't changed.
+ */
+export const DocumentCard = memo(function DocumentCard({
   id,
   title,
   case: caseName,
@@ -34,6 +40,8 @@ export function DocumentCard({
   versions,
   status,
   favorite,
+  onDelete,
+  onDownload,
 }: DocumentCardProps) {
   const { t } = useI18n();
   const navigate = useNavigate();
@@ -44,6 +52,16 @@ export function DocumentCard({
 
   const handleOpenDocument = () => {
     navigate(`/documents/${id}/file-versions?from=documents`);
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDelete?.(id);
+  };
+
+  const handleDownload = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDownload?.(id);
   };
 
   return (
@@ -87,11 +105,11 @@ export function DocumentCard({
                 <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('DOCUMENTS.ACTIONS.OPEN')}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
+              <DropdownMenuItem onClick={handleDownload}>
                 <Download className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-destructive" onClick={(e) => e.stopPropagation()}>
+              <DropdownMenuItem className="text-destructive" onClick={handleDelete}>
                 <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('DOCUMENTS.ACTIONS.DELETE')}
               </DropdownMenuItem>
@@ -193,11 +211,11 @@ export function DocumentCard({
                 <Eye className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('DOCUMENTS.ACTIONS.OPEN')}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
+              <DropdownMenuItem onClick={handleDownload}>
                 <Download className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('DOCUMENTS.ACTIONS.DOWNLOAD')}
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-destructive" onClick={(e) => e.stopPropagation()}>
+              <DropdownMenuItem className="text-destructive" onClick={handleDelete}>
                 <Trash2 className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('DOCUMENTS.ACTIONS.DELETE')}
               </DropdownMenuItem>
@@ -207,4 +225,6 @@ export function DocumentCard({
       </div>
     </Card>
   );
-}
+});
+
+DocumentCard.displayName = 'DocumentCard';

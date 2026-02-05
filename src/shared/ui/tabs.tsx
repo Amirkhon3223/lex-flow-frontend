@@ -44,8 +44,10 @@ function TabsContent({ className, ...props }: React.ComponentProps<typeof TabsPr
   return (
     <TabsPrimitive.Content
       data-slot="tabs-content"
+      role="tabpanel"
+      tabIndex={0}
       className={cn(
-        'flex-1 outline-none',
+        'flex-1 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         'data-[state=active]:animate-in data-[state=active]:fade-in-50 data-[state=active]:slide-in-from-bottom-1 data-[state=active]:duration-500',
         className
       )}

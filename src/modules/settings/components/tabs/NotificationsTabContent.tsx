@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
+import { Send, CheckCircle, XCircle, Loader2, Bot } from 'lucide-react';
 import { toast } from 'sonner';
+import { telegramService, type TelegramBotStatusResponse } from '@/app/services/telegram/telegram.service';
 import { useNotificationsStore } from '@/app/store/notifications.store';
 import { NotificationEventType, EmailNotificationType } from '@/app/types/notifications/notifications.enums';
+import { GoogleCalendarSettings } from '@/modules/settings/components/GoogleCalendarSettings';
 import { useI18n } from '@/shared/context/I18nContext';
+import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Input } from '@/shared/ui/input';
+import { Label } from '@/shared/ui/label';
 import { Switch } from '@/shared/ui/switch';
 
 export function NotificationsTabContent() {
@@ -41,9 +47,45 @@ export function NotificationsTabContent() {
   const [settings, setSettings] = useState(initialSettings);
   const [emailSettings, setEmailSettings] = useState(initialEmailSettings);
 
+  // Telegram state
+  const [telegramStatus, setTelegramStatus] = useState<TelegramBotStatusResponse | null>(null);
+  const [telegramLoading, setTelegramLoading] = useState(false);
+  const [telegramChatId, setTelegramChatId] = useState('');
+  const [sendingTest, setSendingTest] = useState(false);
+
   useEffect(() => {
     fetchSettings();
+    fetchTelegramStatus();
   }, []);
+
+  const fetchTelegramStatus = async () => {
+    setTelegramLoading(true);
+    try {
+      const status = await telegramService.getBotStatus();
+      setTelegramStatus(status);
+    } catch {
+      setTelegramStatus(null);
+    } finally {
+      setTelegramLoading(false);
+    }
+  };
+
+  const handleSendTestMessage = async () => {
+    if (!telegramChatId.trim()) {
+      toast.error(t('TELEGRAM.CHAT_ID_REQUIRED'));
+      return;
+    }
+
+    setSendingTest(true);
+    try {
+      await telegramService.sendTestMessage(telegramChatId.trim());
+      toast.success(t('TELEGRAM.TEST_SENT'));
+    } catch {
+      toast.error(t('TELEGRAM.TEST_FAILED'));
+    } finally {
+      setSendingTest(false);
+    }
+  };
 
   useEffect(() => {
     setSettings(initialSettings);
@@ -123,6 +165,90 @@ export function NotificationsTabContent() {
           ))}
         </CardContent>
       </Card>
+
+      {/* Telegram notifications */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Bot className="w-5 h-5 text-blue-500" />
+              <div>
+                <CardTitle>{t('TELEGRAM.TITLE')}</CardTitle>
+                <CardDescription>{t('TELEGRAM.DESCRIPTION')}</CardDescription>
+              </div>
+            </div>
+            {telegramLoading ? (
+              <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+            ) : telegramStatus?.enabled ? (
+              <div className="flex items-center gap-2 text-sm text-green-600">
+                <CheckCircle className="w-4 h-4" />
+                <span>{t('TELEGRAM.BOT_ACTIVE')}</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <XCircle className="w-4 h-4" />
+                <span>{t('TELEGRAM.BOT_INACTIVE')}</span>
+              </div>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {telegramStatus?.enabled ? (
+            <>
+              {telegramStatus.botUsername && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 p-3 rounded-lg">
+                  <span>{t('TELEGRAM.BOT_NAME')}:</span>
+                  <a
+                    href={`https://t.me/${telegramStatus.botUsername}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline font-medium"
+                  >
+                    @{telegramStatus.botUsername}
+                  </a>
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="telegram-chat-id">{t('TELEGRAM.CHAT_ID_LABEL')}</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="telegram-chat-id"
+                    type="text"
+                    placeholder={t('TELEGRAM.CHAT_ID_PLACEHOLDER')}
+                    value={telegramChatId}
+                    onChange={(e) => setTelegramChatId(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button
+                    onClick={handleSendTestMessage}
+                    disabled={sendingTest || !telegramChatId.trim()}
+                    variant="outline"
+                  >
+                    {sendingTest ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Send className="w-4 h-4" />
+                    )}
+                    <span className="ml-2">{t('TELEGRAM.SEND_TEST')}</span>
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {t('TELEGRAM.CHAT_ID_HINT')}
+                </p>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-4 text-muted-foreground">
+              <p>{t('TELEGRAM.NOT_CONFIGURED')}</p>
+              <p className="text-xs mt-1">{t('TELEGRAM.CONTACT_ADMIN')}</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Google Calendar Integration */}
+      <GoogleCalendarSettings />
     </div>
   );
 }

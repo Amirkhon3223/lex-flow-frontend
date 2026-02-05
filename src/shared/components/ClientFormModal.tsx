@@ -30,8 +30,13 @@ import {
   Briefcase,
   Hash,
   Shield,
+  CheckCircle,
+  XCircle,
+  Loader2,
+  Search,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { fnsService } from '@/app/services/fns/fns.service';
 import { useClientsStore } from '@/app/store/clients.store';
 import {
   ClientTypeEnum,
@@ -92,6 +97,61 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
+  const [innValidating, setInnValidating] = useState(false);
+  const [innValid, setInnValid] = useState<boolean | null>(null);
+  const [innError, setInnError] = useState<string | null>(null);
+
+  // Validate INN and optionally fetch company data
+  const handleValidateINN = async () => {
+    if (!formData.inn || formData.inn.length < 10) {
+      setInnError(t('FNS.INN_TOO_SHORT'));
+      setInnValid(false);
+      return;
+    }
+
+    setInnValidating(true);
+    setInnError(null);
+    setInnValid(null);
+
+    try {
+      const result = await fnsService.validateINN(formData.inn);
+
+      if (result.valid) {
+        setInnValid(true);
+        toast.success(t('FNS.INN_VALID', { type: result.typeDescription || result.type || '' }));
+
+        // Try to fetch company data for legal entities
+        if (result.type === 'legal' && clientType === ClientTypeEnum.LEGAL) {
+          try {
+            const company = await fnsService.lookupCompany(formData.inn);
+            if (company.found) {
+              // Auto-fill company data
+              setFormData(prev => ({
+                ...prev,
+                companyName: company.name || company.shortName || prev.companyName,
+                kpp: company.kpp || prev.kpp,
+                address: company.address || prev.address,
+              }));
+              toast.success(t('FNS.COMPANY_DATA_LOADED'));
+            } else if (company.requiresApiKey) {
+              toast.info(t('FNS.API_KEY_REQUIRED'));
+            }
+          } catch {
+            // Company lookup failed, but INN is still valid
+          }
+        }
+      } else {
+        setInnValid(false);
+        setInnError(result.error || t('FNS.INN_INVALID'));
+      }
+    } catch (error) {
+      setInnValid(false);
+      setInnError(t('FNS.VALIDATION_ERROR'));
+      console.error('INN validation error:', error);
+    } finally {
+      setInnValidating(false);
+    }
+  };
 
   // Clear field error when user types
   const handleFieldChange = (field: string, value: string) => {
@@ -368,26 +428,55 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   </div>
                 </div>
 
-                {}
+                {/* ИНН, КПП, Дата рождения */}
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="inn" className="text-sm text-foreground">
+                    <Label htmlFor="inn" className={cn("text-sm text-foreground", innError && "text-destructive")}>
                       {t('CLIENTS.FIELDS.INN')}
                     </Label>
-                    <div className="relative">
-                      <Hash
-                        className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-                        strokeWidth={2}
-                      />
-                      <Input
-                        id="inn"
-                        placeholder="123456789012"
-                        value={formData.inn}
-                        onChange={(e) => setFormData({ ...formData, inn: e.target.value })}
-                        maxLength={12}
-                        className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
-                      />
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <Hash
+                          className={cn("absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4", innValid === true ? "text-green-500" : innValid === false ? "text-destructive" : "text-muted-foreground")}
+                          strokeWidth={2}
+                        />
+                        <Input
+                          id="inn"
+                          placeholder="123456789012"
+                          value={formData.inn}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, '');
+                            setFormData({ ...formData, inn: value });
+                            setInnValid(null);
+                            setInnError(null);
+                          }}
+                          maxLength={12}
+                          className={cn("h-11 pl-10 pr-10 rounded-xl border-input focus-visible:ring-purple-500", innValid === true && "border-green-500", innValid === false && "border-destructive")}
+                        />
+                        {innValid === true && (
+                          <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
+                        )}
+                        {innValid === false && (
+                          <XCircle className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-destructive" />
+                        )}
+                      </div>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-11 w-11 rounded-xl flex-shrink-0"
+                        onClick={handleValidateINN}
+                        disabled={innValidating || !formData.inn}
+                        title={t('FNS.VALIDATE_INN')}
+                      >
+                        {innValidating ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Search className="w-4 h-4" />
+                        )}
+                      </Button>
                     </div>
+                    {innError && <p className="text-destructive text-xs">{innError}</p>}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="kpp" className="text-sm text-foreground">
@@ -440,29 +529,58 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   {errors.companyName && <p className="text-destructive text-xs">{errors.companyName}</p>}
                 </div>
 
-                {}
+                {/* ИНН и КПП для юрлиц */}
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="inn" className="text-sm text-foreground">
+                    <Label htmlFor="inn-legal" className={cn("text-sm text-foreground", innError && "text-destructive")}>
                       {t('CLIENTS.FIELDS.INN')}
                     </Label>
-                    <div className="relative">
-                      <Hash
-                        className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
-                        strokeWidth={2}
-                      />
-                      <Input
-                        id="inn"
-                        placeholder="123456789012"
-                        value={formData.inn}
-                        onChange={(e) => setFormData({ ...formData, inn: e.target.value })}
-                        maxLength={12}
-                        className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"
-                      />
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <Hash
+                          className={cn("absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4", innValid === true ? "text-green-500" : innValid === false ? "text-destructive" : "text-muted-foreground")}
+                          strokeWidth={2}
+                        />
+                        <Input
+                          id="inn-legal"
+                          placeholder="1234567890"
+                          value={formData.inn}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, '');
+                            setFormData({ ...formData, inn: value });
+                            setInnValid(null);
+                            setInnError(null);
+                          }}
+                          maxLength={10}
+                          className={cn("h-11 pl-10 pr-10 rounded-xl border-input focus-visible:ring-purple-500", innValid === true && "border-green-500", innValid === false && "border-destructive")}
+                        />
+                        {innValid === true && (
+                          <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
+                        )}
+                        {innValid === false && (
+                          <XCircle className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-destructive" />
+                        )}
+                      </div>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-11 w-11 rounded-xl flex-shrink-0"
+                        onClick={handleValidateINN}
+                        disabled={innValidating || !formData.inn}
+                        title={t('FNS.VALIDATE_INN')}
+                      >
+                        {innValidating ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Search className="w-4 h-4" />
+                        )}
+                      </Button>
                     </div>
+                    {innError && <p className="text-destructive text-xs">{innError}</p>}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="kpp" className="text-sm text-foreground">
+                    <Label htmlFor="kpp-legal" className="text-sm text-foreground">
                       {t('CLIENTS.FIELDS.KPP')}
                     </Label>
                     <div className="relative">
@@ -471,7 +589,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                         strokeWidth={2}
                       />
                       <Input
-                        id="kpp"
+                        id="kpp-legal"
                         placeholder="123456789"
                         value={formData.kpp}
                         onChange={(e) => setFormData({ ...formData, kpp: e.target.value })}

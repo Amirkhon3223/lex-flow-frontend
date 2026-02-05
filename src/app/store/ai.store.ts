@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { i18nService } from '../services/i18n/i18n.service';
+import { trackAIUsage } from '@/shared/utils/analytics';
 import { aiService } from '../services/ai/ai.service';
 import { i18nService } from '../services/i18n/i18n.service';
 import type {
@@ -183,6 +183,11 @@ export const useAIStore = create<AIState>((set, get) => ({
         ],
         sendingMessage: false,
       }));
+
+      // Track AI chat message
+      trackAIUsage('chat_message', {
+        tokens_used: (response.tokensInput || 0) + (response.tokensOutput || 0),
+      });
     } catch (error) {
       // Remove optimistic message on error
       set((state) => ({
@@ -246,6 +251,9 @@ export const useAIStore = create<AIState>((set, get) => ({
         // onDone
         () => {
           set({ isStreaming: false, streamingMessage: '' });
+
+          // Track AI streaming message
+          trackAIUsage('chat_message', { streaming: 1 });
         },
         // onError
         (error: string) => {
@@ -273,6 +281,10 @@ export const useAIStore = create<AIState>((set, get) => ({
     try {
       const response = await aiService.quickChat({ message });
       set({ sendingMessage: false });
+
+      // Track quick chat usage
+      trackAIUsage('quick_chat');
+
       return response;
     } catch (error) {
       set({ sendingMessage: false, error: (error as Error).message });
@@ -286,6 +298,10 @@ export const useAIStore = create<AIState>((set, get) => ({
     try {
       const response = await aiService.analyzeDocument(documentId, { analysisType });
       set({ loading: false });
+
+      // Track document analysis
+      trackAIUsage('document_analysis', { analysis_type: analysisType });
+
       return response;
     } catch (error) {
       set({ loading: false, error: (error as Error).message });
@@ -309,6 +325,10 @@ export const useAIStore = create<AIState>((set, get) => ({
     try {
       const response = await aiService.purchaseTokens(packType);
       set({ loading: false });
+
+      // Track token purchase intent
+      trackAIUsage('token_purchase', { pack_type: packType });
+
       return response.checkoutUrl;
     } catch (error) {
       set({ loading: false, error: (error as Error).message });

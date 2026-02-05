@@ -5,6 +5,7 @@ import { useAuthStore } from '@/app/store/auth.store';
 import { BrandHeader } from '@/modules/auth/ui/brand-header.tsx';
 import { GradientBackground } from '@/modules/auth/ui/gradient-background.tsx';
 import { AuthCard } from '@/modules/auth/widgets/auth-card.tsx';
+import { ForgotPasswordModal } from '@/modules/auth/widgets/forgot-password-modal.tsx';
 import { PageFooter } from '@/modules/auth/widgets/page-footer.tsx';
 import { LanguageSelectorPublic } from '@/shared/components/LanguageSelectorPublic.tsx';
 import { useI18n } from '@/shared/context/I18nContext';
@@ -39,6 +40,7 @@ export default function AuthPage() {
   const [registerCity, setRegisterCity] = useState('');
   const [registerPhone, setRegisterPhone] = useState('');
   const [registerErrors, setRegisterErrors] = useState<FormErrors>({});
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated && !loading) {
@@ -95,10 +97,16 @@ export default function AuthPage() {
       if (hasFieldErrors) {
         // Show field-specific errors inline, no toast needed
         setLoginErrors(apiErrors);
+      } else if (apiErrors._general) {
+        // Invalid credentials - highlight both fields and show toast
+        const credentialsError = apiErrors._general;
+        setLoginErrors({
+          email: ' ', // Empty space to trigger red border without showing text
+          password: credentialsError, // Show message under password field
+        });
+        toast.error(t('AUTH.ERROR.LOGIN_FAILED'));
       } else {
-        // Show generic error in toast
-        const errMsg = apiErrors._general || t('AUTH.ERROR.LOGIN_FAILED');
-        setLocalError(errMsg);
+        // Unknown error
         toast.error(t('AUTH.ERROR.LOGIN_FAILED'));
       }
     }
@@ -224,6 +232,12 @@ export default function AuthPage() {
             onRegisterSubmit={handleRegister}
             onVerify2FA={handleVerify2FA}
             onBackFrom2FA={handleBackFrom2FA}
+            onForgotPassword={() => setForgotPasswordOpen(true)}
+          />
+
+          <ForgotPasswordModal
+            open={forgotPasswordOpen}
+            onOpenChange={setForgotPasswordOpen}
           />
 
           <PageFooter />

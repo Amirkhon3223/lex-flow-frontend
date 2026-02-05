@@ -46,7 +46,8 @@
       "COMPARE": "Сравнить",
       "RESTORE": "Восстановить",
       "BACK": "Назад",
-      "PREVIEW": "Просмотр"
+      "PREVIEW": "Просмотр",
+      "LOAD_MORE": "Загрузить ещё"
     },
     "CLEAR_ALL": "Очистить все",
     "OF": "из",
@@ -172,6 +173,7 @@
       "DOCUMENTS": "Документы",
       "CALENDAR": "Календарь",
       "ANALYTICS": "Аналитика",
+      "TEMPLATES": "Шаблоны",
       "AI_ASSISTANT": "AI Помощник",
       "SETTINGS": "Настройки",
       "NEW_BADGE": "Новое"
@@ -377,7 +379,9 @@
     "SHARE": {
       "SUBJECT": "Поделиться делом",
       "BODY": "Посмотрите это дело: {{url}}"
-    }
+    },
+    "CASE_REPORT": "Отчёт по делу",
+    "REPORT_GENERATED": "Отчёт создан в"
   },
   "CLIENT": {
     "TYPE": {
@@ -535,7 +539,9 @@
     "NO_CASES": "У клиента пока нет дел",
     "NO_NOTES": "Нет дополнительных примечаний о клиенте",
     "CONFIRM_DELETE": "Вы уверены, что хотите удалить этого клиента?",
-    "NO_CLIENTS": "Клиентов не найдено"
+    "NO_CLIENTS": "Клиентов не найдено",
+    "CLIENT_REPORT": "Отчёт по клиенту",
+    "REPORT_GENERATED": "Отчёт создан в"
   },
   "DOCUMENTS": {
     "TITLE": "Документы",
@@ -551,6 +557,9 @@
     "BACK_TO_VERSIONS": "Назад к версиям",
     "EXPORT_COMPARISON": "Экспорт сравнения",
     "VERSION_COMPARISON": "Сравнение версий",
+    "SWAP_VERSIONS": "Поменять версии местами",
+    "PREV_CHANGE": "Предыдущее изменение",
+    "NEXT_CHANGE": "Следующее изменение",
     "UPLOAD_NEW_VERSION": "Загрузить новую версию",
     "CURRENT_VERSION": "Текущая версия",
     "EMPTY_STATE": "Документов нет",
@@ -577,6 +586,8 @@
     "EXIT_FULLSCREEN": "Выйти из полного экрана",
     "LINE": "Строка",
     "VIEW_DETAILS": "Вы можете просмотреть, скачать или сравнить любые версии",
+    "DELETE_CONFIRM_TITLE": "Удалить документ?",
+    "DELETE_CONFIRM_DESC": "Документ и все его версии будут удалены. Это действие нельзя отменить.",
     "STATS": {
       "TOTAL": "Всего",
       "ON_REVIEW": "На проверке",
@@ -623,7 +634,15 @@
       "UNSUPPORTED_FILE_FORMAT": "Неподдерживаемый формат файла. Разрешены: PDF, Word, Excel, TXT, RTF, ODT, ODS",
       "FILE_TOO_LARGE": "Файл слишком большой. Максимальный размер: {{maxSize}}МБ",
       "UPLOAD_FAILED": "Не удалось загрузить файл. Попробуйте снова",
-      "LOAD_FAILED": "Не удалось загрузить документ и его версии"
+      "LOAD_FAILED": "Не удалось загрузить документ и его версии",
+      "DOWNLOAD_FAILED": "Не удалось скачать документ"
+    },
+    "BLOCKS": {
+      "ADDED_IN_NEW": "Добавлено в новой версии",
+      "REMOVED_IN_NEW": "Удалено в новой версии",
+      "IMAGE_LABEL": "Изображение",
+      "EMBEDDED_IMAGE": "Встроенное изображение",
+      "PARAGRAPH": "Параграф"
     },
     "AI_ANALYSIS": {
       "TITLE": "AI Анализ документа",
@@ -950,6 +969,8 @@
       "TODAY": "Сегодня",
       "YESTERDAY": "Вчера",
       "THIS_WEEK": "На этой неделе",
+      "WEEK": "На этой неделе",
+      "OLDER": "Ранее",
       "MESSAGES": "сообщ.",
       "NO_CHATS": "Нет чатов. Начните новый!",
       "NO_RESULTS": "Чаты не найдены",
@@ -1010,7 +1031,18 @@
       "NOTIFICATIONS": "Уведомления",
       "TEAM": "Команда",
       "SECURITY": "Безопасность",
-      "BILLING": "Тариф"
+      "BILLING": "Тариф",
+      "AUDIT": "Журнал"
+    },
+    "AUDIT": {
+      "TITLE": "Журнал действий",
+      "DESCRIPTION": "История всех действий в рабочем пространстве",
+      "SEARCH_PLACEHOLDER": "Поиск по пользователю или объекту...",
+      "FILTER_ACTION": "Действие",
+      "FILTER_ENTITY": "Тип объекта",
+      "ALL_ACTIONS": "Все действия",
+      "ALL_ENTITIES": "Все объекты",
+      "NO_LOGS": "Записей не найдено"
     },
     "PROFILE": {
       "PERSONAL_INFO": "Личная информация",
@@ -1098,13 +1130,60 @@
       "PAID": "Оплачено",
       "FAILED": "Ошибка",
       "PENDING": "В обработке",
+      "REFUNDED": "Возврат",
       "UPDATE_CARD_INFO": "Обновите информацию о вашей карте",
       "CARD_NUMBER": "Номер карты",
       "EXPIRY_DATE": "Срок действия",
       "PLAN_INFO": "Информация о плане",
       "MAX_USERS": "Макс. пользователей",
       "RECEIPT": "Квитанция",
-      "RECEIPT_DOWNLOADED": "Квитанция успешно загружена"
+      "RECEIPT_DOWNLOADED": "Квитанция успешно загружена",
+      "TABS": {
+        "PLAN": "Тариф",
+        "PAYMENT_METHODS": "Методы оплаты",
+        "HISTORY": "История"
+      },
+      "PAYMENT_METHODS": {
+        "TITLE": "Методы оплаты",
+        "SUBTITLE": "Управление способами оплаты",
+        "ADD_CARD": "Добавить карту",
+        "NO_METHODS": "Нет сохранённых карт",
+        "NO_METHODS_DESC": "Добавьте карту для автоматического продления подписки",
+        "DEFAULT": "По умолчанию",
+        "SET_DEFAULT": "Сделать основной",
+        "SET_DEFAULT_SUCCESS": "Карта установлена как основная",
+        "REMOVE": "Удалить",
+        "REMOVE_CONFIRM": "Удалить карту {{card}}?",
+        "REMOVE_SUCCESS": "Карта удалена",
+        "EXPIRES": "Истекает",
+        "CARD_ENDING": "Карта •••• {{last4}}"
+      },
+      "HISTORY": {
+        "TITLE": "История платежей",
+        "SUBTITLE": "Все транзакции по вашей подписке",
+        "FILTER_ALL": "Все",
+        "FILTER_PAID": "Оплачено",
+        "FILTER_FAILED": "Ошибки",
+        "FILTER_PENDING": "В обработке",
+        "RETRY": "Повторить",
+        "RETRY_SUCCESS": "Платёж повторяется...",
+        "AMOUNT": "Сумма",
+        "DATE": "Дата",
+        "STATUS": "Статус",
+        "DESCRIPTION": "Описание",
+        "INVOICE": "Счёт"
+      },
+      "PLAN": {
+        "CURRENT": "Текущий план",
+        "CANCEL": "Отменить подписку",
+        "CANCEL_CONFIRM": "Вы уверены? Подписка будет отменена в конце периода.",
+        "CANCEL_SUCCESS": "Подписка отменена",
+        "REACTIVATE": "Возобновить",
+        "REACTIVATE_SUCCESS": "Подписка возобновлена",
+        "CANCELED": "Отменена",
+        "PAST_DUE": "Просрочена",
+        "UNPAID": "Не оплачена"
+      }
     },
     "SECURITY": {
       "CHANGE_PASSWORD": "Изменить пароль",
@@ -1170,6 +1249,22 @@
     "MARK_ALL_READ": "Отметить все как прочитанные",
     "NO_NOTIFICATIONS": "Нет уведомлений",
     "CLEAR_ALL": "Очистить все"
+  },
+  "TELEGRAM": {
+    "TITLE": "Telegram уведомления",
+    "DESCRIPTION": "Получайте уведомления в Telegram",
+    "BOT_ACTIVE": "Бот активен",
+    "BOT_INACTIVE": "Бот не настроен",
+    "BOT_NAME": "Бот",
+    "CHAT_ID_LABEL": "Ваш Chat ID",
+    "CHAT_ID_PLACEHOLDER": "Например: 123456789",
+    "CHAT_ID_HINT": "Чтобы узнать ваш Chat ID, напишите /start боту и используйте команду /id",
+    "CHAT_ID_REQUIRED": "Введите Chat ID",
+    "SEND_TEST": "Тест",
+    "TEST_SENT": "Тестовое сообщение отправлено! Проверьте Telegram.",
+    "TEST_FAILED": "Не удалось отправить сообщение. Проверьте Chat ID.",
+    "NOT_CONFIGURED": "Telegram бот не настроен на сервере",
+    "CONTACT_ADMIN": "Обратитесь к администратору для настройки"
   },
   "USER_PROFILE": {
     "TITLE": "Профиль пользователя",
@@ -1271,7 +1366,38 @@
     "CREATE_ACCOUNT": "Создать аккаунт",
     "CREATING_ACCOUNT": "Создание аккаунта...",
     "SIGNING_IN": "Вход...",
-    "TRIAL_TEXT": "Регистрируясь, вы получаете доступ к 14-дневному бесплатному пробному периоду"
+    "TRIAL_TEXT": "Регистрируясь, вы получаете доступ к 14-дневному бесплатному пробному периоду",
+    "FORGOT_PASSWORD_TITLE": "Восстановление пароля",
+    "FORGOT_PASSWORD_DESCRIPTION": "Введите ваш email, и мы отправим вам ссылку для сброса пароля.",
+    "SEND_RESET_LINK": "Отправить ссылку",
+    "CHECK_YOUR_EMAIL": "Проверьте почту",
+    "RESET_LINK_SENT": "Мы отправили ссылку для сброса пароля на указанный email.",
+    "RESET_LINK_EXPIRY": "Ссылка действительна в течение 1 часа.",
+    "RESET_PASSWORD_TITLE": "Сброс пароля",
+    "RESET_PASSWORD_DESC": "Введите новый пароль для вашей учётной записи.",
+    "NEW_PASSWORD": "Новый пароль",
+    "CONFIRM_PASSWORD": "Подтвердите пароль",
+    "RESET_PASSWORD": "Сбросить пароль",
+    "PASSWORD_CHANGED": "Пароль изменён",
+    "PASSWORD_CHANGED_DESC": "Ваш пароль успешно изменён. Теперь вы можете войти с новым паролем.",
+    "PASSWORD_RESET_SUCCESS": "Пароль успешно сброшен!",
+    "GO_TO_LOGIN": "Перейти ко входу",
+    "REDIRECTING_TO_LOGIN": "Перенаправление на страницу входа через {{seconds}} сек...",
+    "BACK_TO_LOGIN": "Вернуться ко входу",
+    "INVALID_RESET_LINK": "Недействительная ссылка",
+    "INVALID_RESET_LINK_DESC": "Ссылка для сброса пароля недействительна или истекла. Запросите новую ссылку.",
+    "ERRORS": {
+      "EMAIL_REQUIRED": "Введите email",
+      "INVALID_EMAIL": "Введите корректный email",
+      "PASSWORD_REQUIRED": "Введите пароль",
+      "PASSWORD_MIN_LENGTH": "Пароль должен содержать минимум 8 символов",
+      "CONFIRM_PASSWORD_REQUIRED": "Подтвердите пароль",
+      "PASSWORDS_NOT_MATCH": "Пароли не совпадают",
+      "INVALID_RESET_TOKEN": "Ссылка для сброса пароля недействительна или истекла",
+      "RESET_FAILED": "Не удалось сбросить пароль. Попробуйте ещё раз.",
+      "CODE_REQUIRED": "Введите код подтверждения",
+      "INVALID_CODE": "Неверный код подтверждения"
+    }
   },
   "ERRORS": {
     "400": {
@@ -1354,7 +1480,13 @@
   "SEARCH": {
     "GLOBAL": "Глобальный поиск",
     "PLACEHOLDER": "Поиск клиентов, дел, документов...",
-    "DESCRIPTION": "Поиск по делам, клиентам и документам"
+    "DESCRIPTION": "Поиск по делам, клиентам и документам",
+    "NO_RESULTS": "Ничего не найдено",
+    "MIN_CHARS": "Введите минимум 2 символа для поиска",
+    "QUICK_SEARCH": "Быстрый поиск",
+    "CONTENT_SEARCH": "Поиск в документах",
+    "DOCUMENT_CONTENT": "Найдено в документах",
+    "CONTENT_SEARCH_HINT": "Поиск по содержимому документов (PDF, DOCX)"
   },
   "PLAN": {
     "TITLE": "Выберите план подписки",
@@ -1639,10 +1771,226 @@
     "MEMBERS_LIMIT": "Лимит участников команды достигнут",
     "UPGRADE": "Обновить план"
   },
+  "FNS": {
+    "VALIDATE_INN": "Проверить ИНН",
+    "INN_VALID": "ИНН действителен ({{type}})",
+    "INN_INVALID": "Неверный ИНН",
+    "INN_TOO_SHORT": "ИНН должен содержать 10 или 12 цифр",
+    "VALIDATION_ERROR": "Ошибка проверки ИНН",
+    "COMPANY_DATA_LOADED": "Данные компании загружены",
+    "API_KEY_REQUIRED": "Для загрузки данных компании требуется API ключ"
+  },
   "LANGUAGE_SELECTOR": {
     "SELECT_LANGUAGE": "Выбор языка",
     "RUSSIAN": "Русский",
     "ENGLISH": "English",
     "TAJIK": "Тоҷикӣ"
+  },
+  "PWA": {
+    "INSTALL_TITLE": "Установить LexFlow",
+    "INSTALL_DESC": "Установите приложение для лучшего опыта с офлайн-доступом и быстрой работой.",
+    "INSTALL_DESC_IOS": "Добавьте LexFlow на главный экран для быстрого доступа и работы офлайн.",
+    "INSTALL_BUTTON": "Установить",
+    "INSTALLING": "Установка...",
+    "TAP": "Нажмите",
+    "THEN": "затем",
+    "ADD_TO_HOME": "На экран «Домой»",
+    "FEATURE_OFFLINE": "Работает офлайн",
+    "FEATURE_FAST": "Быстрая загрузка",
+    "FEATURE_NATIVE": "Нативный опыт",
+    "UPDATE_AVAILABLE": "Доступно обновление",
+    "UPDATE_DESC": "Доступна новая версия LexFlow.",
+    "UPDATE_BUTTON": "Обновить",
+    "OFFLINE_TITLE": "Вы офлайн",
+    "OFFLINE_DESC": "Похоже, вы потеряли подключение к интернету.",
+    "OFFLINE_RETRY": "Повторить"
+  },
+  "SHORTCUTS": {
+    "TITLE": "Горячие клавиши",
+    "DESCRIPTION": "Быстрый доступ к часто используемым действиям с помощью клавиатуры",
+    "PRESS_ESCAPE_TO_CLOSE": "Нажмите Escape для закрытия",
+    "GROUPS": {
+      "GLOBAL": "Общие",
+      "NAVIGATION": "Навигация",
+      "ACTIONS": "Действия"
+    },
+    "SEARCH": "Открыть поиск",
+    "HELP": "Показать горячие клавиши",
+    "CLOSE": "Закрыть диалог",
+    "GO_TO_DASHBOARD": "Перейти на главную",
+    "GO_TO_CLIENTS": "Перейти к клиентам",
+    "GO_TO_CASES": "Перейти к делам",
+    "GO_TO_DOCUMENTS": "Перейти к документам",
+    "GO_TO_CALENDAR": "Перейти к календарю",
+    "NEW_ITEM": "Создать новый элемент",
+    "NEW_CLIENT": "Создать нового клиента",
+    "NEW_CASE": "Создать новое дело",
+    "NEW_MEETING": "Создать новую встречу",
+    "UPLOAD_DOCUMENT": "Загрузить документ",
+    "SAVE": "Сохранить",
+    "SUBMIT": "Отправить форму",
+    "GO_TO_TODAY": "Перейти к сегодня"
+  },
+  "EMPTY_STATE": {
+    "NO_CLIENTS": "Нет клиентов",
+    "NO_CLIENTS_DESC": "Начните с добавления первого клиента для управления их делами и документами.",
+    "ADD_CLIENT": "Добавить клиента",
+    "NO_CASES": "Нет дел",
+    "NO_CASES_DESC": "Создайте первое дело, чтобы начать отслеживать вашу юридическую работу.",
+    "ADD_CASE": "Добавить дело",
+    "NO_DOCUMENTS": "Нет документов",
+    "NO_DOCUMENTS_DESC": "Загрузите первый документ для начала работы с юридическими файлами.",
+    "UPLOAD_DOCUMENT": "Загрузить документ",
+    "NO_MEETINGS": "Нет запланированных встреч",
+    "NO_MEETINGS_DESC": "Запланируйте первую встречу, чтобы оставаться организованным.",
+    "ADD_MEETING": "Запланировать встречу",
+    "NO_NOTIFICATIONS": "Нет уведомлений",
+    "NO_NOTIFICATIONS_DESC": "Вы в курсе всего! Новые уведомления появятся здесь.",
+    "NO_RESULTS": "Ничего не найдено",
+    "NO_RESULTS_DESC": "Попробуйте изменить параметры поиска или фильтра.",
+    "CLEAR_FILTERS": "Сбросить фильтры"
+  },
+  "VIDEO_CALL": {
+    "PROVIDER": "Провайдер видеосвязи",
+    "JITSI": "Jitsi Meet (Бесплатно)",
+    "GOOGLE_MEET": "Google Meet",
+    "ZOOM": "Zoom",
+    "CUSTOM": "Своя ссылка",
+    "JOIN_CALL": "Присоединиться к звонку",
+    "COPY_LINK": "Скопировать ссылку",
+    "LINK_COPIED": "Ссылка скопирована!",
+    "AUTO_GENERATED": "Ссылка будет сгенерирована автоматически",
+    "MEETING_LINK": "Ссылка на встречу",
+    "GOOGLE_MEET_HINT": "Создайте ссылку Google Meet и вставьте её ниже",
+    "CREATE_GOOGLE_MEET": "Создать ссылку Google Meet",
+    "ZOOM_LINK": "Ссылка на Zoom конференцию",
+    "CUSTOM_LINK": "Ссылка на видеозвонок"
+  },
+  "GOOGLE_CALENDAR": {
+    "TITLE": "Google Календарь",
+    "DESCRIPTION": "Синхронизируйте встречи с Google Календарём",
+    "CONNECTED": "Подключено",
+    "NOT_CONNECTED": "Не подключено",
+    "COMING_SOON": "Скоро",
+    "COMING_SOON_DESC": "Интеграция с Google Календарём будет доступна в ближайшее время. Следите за обновлениями!",
+    "CONNECT_BENEFITS_TITLE": "Преимущества подключения:",
+    "BENEFIT_1": "Автоматическая синхронизация встреч LexFlow с Google Календарём",
+    "BENEFIT_2": "Импорт событий из Google Календаря как встречи",
+    "BENEFIT_3": "Кросс-платформенные напоминания — не пропустите ни одной встречи",
+    "CONNECT_BUTTON": "Подключить Google Календарь",
+    "CONNECTED_AS": "Подключено как",
+    "CONNECTED_SINCE": "Подключено с",
+    "LAST_SYNC": "Последняя синхронизация",
+    "LAST_SYNC_RESULT": "Отправлено: {{pushed}}, Импортировано: {{imported}}",
+    "SYNC_NOW": "Синхронизировать",
+    "AUTO_SYNC": "Автоматическая синхронизация",
+    "AUTO_SYNC_DESC": "Автоматически синхронизировать встречи с заданным интервалом",
+    "SYNC_INTERVAL": "Интервал синхронизации",
+    "MINUTES": "минут",
+    "HOUR": "час",
+    "HOURS": "часа",
+    "SYNC_DIRECTION": "Направление синхронизации",
+    "DIRECTION_TO_GOOGLE": "LexFlow в Google",
+    "DIRECTION_TO_LEXFLOW": "Google в LexFlow",
+    "DIRECTION_BOTH": "Двусторонняя",
+    "ADVANCED_SETTINGS": "Расширенные настройки",
+    "SELECT_CALENDARS": "Выберите календари для синхронизации",
+    "PRIMARY": "Основной",
+    "INCLUDE_DESCRIPTIONS": "Включать описания встреч",
+    "INCLUDE_ATTENDEES": "Включать участников",
+    "DISCONNECT_TITLE": "Отключить аккаунт",
+    "DISCONNECT_DESC": "Удалить подключение к Google Календарю",
+    "DISCONNECT_BUTTON": "Отключить",
+    "DISCONNECT_CONFIRM_TITLE": "Отключить Google Календарь?",
+    "DISCONNECT_CONFIRM_DESC": "Ваши встречи больше не будут синхронизироваться с Google Календарём. Это действие нельзя отменить.",
+    "HELP_LINK": "Справка Google Календаря"
+  },
+  "TEMPLATES": {
+    "TITLE": "Шаблоны документов",
+    "SUBTITLE": "Создание и управление шаблонами",
+    "CREATE_TEMPLATE": "Создать шаблон",
+    "EDIT_TEMPLATE": "Редактировать шаблон",
+    "GENERATE": "Сгенерировать",
+    "GENERATE_DOCUMENT": "Генерация документа",
+    "GENERATING": "Генерация...",
+    "DOCUMENT_GENERATED": "Документ успешно создан",
+    "INSERT_VARIABLE": "Вставить переменную",
+    "SEARCH_VARIABLES": "Поиск переменных...",
+    "SEARCH_PLACEHOLDER": "Поиск шаблонов...",
+    "NO_DESCRIPTION": "Описание отсутствует",
+    "VARIABLES_COUNT": "переменных",
+    "USES": "использований",
+    "DETECTED_VARIABLES": "Обнаруженные переменные",
+    "VARIABLES_IN_TEMPLATE": "Переменные в шаблоне",
+    "NO_VARIABLES_FOUND": "Переменные не найдены",
+    "CONTENT_HINT": "Используйте {{переменная}} для вставки динамических значений",
+    "SELECT_CLIENT": "Выберите клиента",
+    "SELECT_CASE": "Выберите дело",
+    "SELECT_CLIENT_FIRST": "Сначала выберите клиента",
+    "CUSTOM_VARIABLES": "Пользовательские переменные",
+    "PREVIEW_TITLE": "Предпросмотр шаблона",
+    "PREVIEW_TAB": "Предпросмотр",
+    "SOURCE_TAB": "Исходный код",
+    "DATA_TAB": "Данные",
+    "CREATE_FIRST_TEMPLATE": "Создать первый шаблон",
+    "DELETE_CONFIRM_TITLE": "Удалить шаблон?",
+    "DELETE_CONFIRM_MESSAGE": "Шаблон \"{{name}}\" будет удален. Это действие нельзя отменить.",
+    "EMPTY_STATE_TITLE": "Шаблоны не найдены",
+    "EMPTY_STATE_MESSAGE": "Создайте первый шаблон для автоматизации документов",
+    "CATEGORIES": {
+      "LAWSUIT": "Исковое заявление",
+      "CONTRACT": "Договор",
+      "STATEMENT": "Заявление",
+      "LETTER": "Письмо",
+      "POWER_OF_ATTORNEY": "Доверенность"
+    },
+    "STATUS": {
+      "DRAFT": "Черновик",
+      "ACTIVE": "Активный",
+      "ARCHIVED": "В архиве"
+    },
+    "STATS": {
+      "TOTAL": "Всего шаблонов",
+      "LAWSUITS": "Исковые",
+      "CONTRACTS": "Договоры",
+      "OTHER": "Другие"
+    },
+    "FILTERS": {
+      "ALL_CATEGORIES": "Все категории",
+      "SORT_BY": "Сортировка",
+      "SORT_BY_DATE": "По дате",
+      "SORT_BY_NAME": "По названию",
+      "SORT_BY_USAGE": "По использованию"
+    },
+    "FIELDS": {
+      "NAME": "Название",
+      "DESCRIPTION": "Описание",
+      "CATEGORY": "Категория",
+      "CONTENT": "Содержимое",
+      "DOCUMENT_NAME": "Название документа"
+    },
+    "PLACEHOLDERS": {
+      "NAME": "Введите название шаблона",
+      "DESCRIPTION": "Краткое описание шаблона",
+      "CATEGORY": "Выберите категорию",
+      "CONTENT": "Введите содержимое шаблона...\n\nИспользуйте переменные:\n{{client.fullName}} - ФИО клиента\n{{case.title}} - Название дела\n{{date.today}} - Текущая дата",
+      "DOCUMENT_NAME": "Введите название документа",
+      "SELECT_CLIENT": "Выберите клиента",
+      "SELECT_CASE": "Выберите дело"
+    },
+    "VARIABLE_GROUPS": {
+      "CLIENT": "Клиент",
+      "CASE": "Дело",
+      "USER": "Пользователь",
+      "CUSTOM": "Другие"
+    },
+    "ERRORS": {
+      "NAME_REQUIRED": "Название шаблона обязательно",
+      "CONTENT_REQUIRED": "Содержимое шаблона обязательно",
+      "SAVE_FAILED": "Не удалось сохранить шаблон",
+      "DOCUMENT_NAME_REQUIRED": "Название документа обязательно",
+      "GENERATE_FAILED": "Не удалось сгенерировать документ",
+      "DOWNLOAD_FAILED": "Не удалось скачать документ"
+    }
   }
 }
