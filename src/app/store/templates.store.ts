@@ -16,7 +16,6 @@ import type {
 } from '../types/templates/templates.types';
 
 interface TemplatesState {
-  // State
   templates: DocumentTemplate[];
   selectedTemplate: DocumentTemplate | null;
   generatedDocuments: GeneratedDocument[];
@@ -37,7 +36,6 @@ interface TemplatesState {
     totalPages: number;
   };
 
-  // Template Actions
   fetchTemplates: (params?: {
     page?: number;
     limit?: number;
@@ -51,7 +49,6 @@ interface TemplatesState {
   deleteTemplate: (id: string) => Promise<void>;
   selectTemplate: (template: DocumentTemplate | null) => void;
 
-  // Generate Actions
   generateDocument: (data: GenerateDocumentInterface) => Promise<GeneratedDocument>;
   fetchGeneratedDocuments: (params?: {
     page?: number;
@@ -64,11 +61,9 @@ interface TemplatesState {
   downloadGeneratedDocument: (id: string, fileName: string) => Promise<void>;
   deleteGeneratedDocument: (id: string) => Promise<void>;
 
-  // Variables Actions
   fetchAvailableVariables: () => Promise<void>;
   getAllVariables: () => TemplateVariable[];
 
-  // Utility Actions
   clearError: () => void;
   reset: () => void;
 }
@@ -81,7 +76,6 @@ const initialPagination = {
 };
 
 export const useTemplatesStore = create<TemplatesState>((set, get) => ({
-  // Initial State
   templates: [],
   selectedTemplate: null,
   generatedDocuments: [],
@@ -92,7 +86,6 @@ export const useTemplatesStore = create<TemplatesState>((set, get) => ({
   pagination: { ...initialPagination },
   generatedPagination: { ...initialPagination },
 
-  // Template Actions
   fetchTemplates: async (params) => {
     set({ loading: true, error: null });
     try {
@@ -173,7 +166,6 @@ export const useTemplatesStore = create<TemplatesState>((set, get) => ({
     set({ selectedTemplate: template });
   },
 
-  // Generate Actions
   generateDocument: async (data: GenerateDocumentInterface) => {
     set({ generating: true, error: null });
     try {
@@ -240,7 +232,6 @@ export const useTemplatesStore = create<TemplatesState>((set, get) => ({
     }
   },
 
-  // Variables Actions
   fetchAvailableVariables: async () => {
     try {
       const variables = await templatesService.getAvailableVariables();
@@ -262,7 +253,6 @@ export const useTemplatesStore = create<TemplatesState>((set, get) => ({
     ];
   },
 
-  // Utility Actions
   clearError: () => {
     set({ error: null });
   },

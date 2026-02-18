@@ -96,7 +96,6 @@ export function GoogleCalendarSettings() {
 
   const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
 
-  // If feature is not available, show coming soon
   if (!isAvailable) {
     return (
       <Card>
@@ -124,7 +123,6 @@ export function GoogleCalendarSettings() {
     );
   }
 
-  // Loading initial connection status
   if (loading.connection && !connection) {
     return (
       <Card>

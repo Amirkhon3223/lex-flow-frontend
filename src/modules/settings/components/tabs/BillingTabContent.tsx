@@ -76,7 +76,6 @@ export function BillingTabContent() {
           fetchPaymentMethods(),
         ]);
       } catch {
-        // Silently handle - empty state will be shown
       }
     };
     fetchData();
@@ -214,7 +213,6 @@ export function BillingTabContent() {
   });
 
   const getCardBrandIcon = (brand: string) => {
-    // Could add specific brand icons here
     return <CreditCard className="w-8 h-8 text-muted-foreground" />;
   };
 
@@ -271,7 +269,6 @@ export function BillingTabContent() {
           <TabsTrigger value="history">{t('SETTINGS.BILLING.TABS.HISTORY')}</TabsTrigger>
         </TabsList>
 
-        {/* Plan Tab */}
         <TabsContent value="plan" className="space-y-6">
           {currentPlan && subscription ? (
             <Card className="bg-gradient-to-br from-indigo-500 to-purple-600 border-0 text-white overflow-hidden relative">
@@ -356,7 +353,6 @@ export function BillingTabContent() {
           )}
         </TabsContent>
 
-        {/* Payment Methods Tab */}
         <TabsContent value="methods" className="space-y-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -435,7 +431,6 @@ export function BillingTabContent() {
           </Card>
         </TabsContent>
 
-        {/* Payment History Tab */}
         <TabsContent value="history" className="space-y-6">
           <Card>
             <CardHeader>

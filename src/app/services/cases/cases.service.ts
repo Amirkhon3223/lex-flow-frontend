@@ -8,6 +8,14 @@ import type {
   CreateTimelineEventInterface,
   CommentInterface,
   CaseTaskInterface,
+  TimeEntryInterface,
+  CreateTimeEntryInterface,
+  UpdateTimeEntryInterface,
+  TimeEntriesListResponse,
+  CasePartyInterface,
+  CreateCasePartyInterface,
+  UpdateCasePartyInterface,
+  ConflictCheckResponseInterface,
 } from '../../types/cases/cases.interfaces';
 
 export const casesService = {
@@ -135,5 +143,79 @@ export const casesService = {
 
   deleteTask: async (caseId: string, taskId: string): Promise<void> => {
     await httpClient.delete(`/cases/${caseId}/tasks/${taskId}`);
+  },
+
+  getTimeEntries: async (caseId: string): Promise<TimeEntriesListResponse> => {
+    const response = await httpClient.get<TimeEntriesListResponse>(
+      `/cases/${caseId}/time-entries`
+    );
+    return response.data;
+  },
+
+  createTimeEntry: async (
+    caseId: string,
+    data: CreateTimeEntryInterface
+  ): Promise<TimeEntryInterface> => {
+    const response = await httpClient.post<TimeEntryInterface>(
+      `/cases/${caseId}/time-entries`,
+      data
+    );
+    return response.data;
+  },
+
+  updateTimeEntry: async (
+    caseId: string,
+    entryId: string,
+    data: UpdateTimeEntryInterface
+  ): Promise<TimeEntryInterface> => {
+    const response = await httpClient.put<TimeEntryInterface>(
+      `/cases/${caseId}/time-entries/${entryId}`,
+      data
+    );
+    return response.data;
+  },
+
+  deleteTimeEntry: async (caseId: string, entryId: string): Promise<void> => {
+    await httpClient.delete(`/cases/${caseId}/time-entries/${entryId}`);
+  },
+
+  getParties: async (caseId: string): Promise<CasePartyInterface[]> => {
+    const response = await httpClient.get<CasePartyInterface[]>(`/cases/${caseId}/parties`);
+    return response.data;
+  },
+
+  addParty: async (
+    caseId: string,
+    data: CreateCasePartyInterface
+  ): Promise<CasePartyInterface> => {
+    const response = await httpClient.post<CasePartyInterface>(
+      `/cases/${caseId}/parties`,
+      data
+    );
+    return response.data;
+  },
+
+  updateParty: async (
+    caseId: string,
+    partyId: string,
+    data: UpdateCasePartyInterface
+  ): Promise<CasePartyInterface> => {
+    const response = await httpClient.put<CasePartyInterface>(
+      `/cases/${caseId}/parties/${partyId}`,
+      data
+    );
+    return response.data;
+  },
+
+  removeParty: async (caseId: string, partyId: string): Promise<void> => {
+    await httpClient.delete(`/cases/${caseId}/parties/${partyId}`);
+  },
+
+  checkConflicts: async (query: string): Promise<ConflictCheckResponseInterface> => {
+    const response = await httpClient.get<ConflictCheckResponseInterface>(
+      '/conflicts/check',
+      { params: { q: query } }
+    );
+    return response.data;
   },
 };

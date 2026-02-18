@@ -28,6 +28,10 @@ interface GlobalSearchDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
+function sanitizeHighlight(html: string): string {
+  return html.replace(/<(?!\/?mark\b)[^>]*>/gi, '');
+}
+
 export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogProps) {
   const { t } = useI18n();
   const navigate = useNavigate();
@@ -56,7 +60,9 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
         setContentResults(data);
       }
     } catch (error) {
-      console.error('Search failed:', error);
+      if (import.meta.env.DEV) {
+        console.error('Search failed:', error);
+      }
       setResults(null);
       setContentResults(null);
     } finally {
@@ -68,7 +74,6 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
     performSearch(debouncedQuery, activeTab);
   }, [debouncedQuery, activeTab, performSearch]);
 
-  // Reset when dialog closes
   useEffect(() => {
     if (!open) {
       setSearchQuery('');
@@ -205,7 +210,7 @@ export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogPro
               </div>
               <div
                 className="text-xs text-muted-foreground line-clamp-3 [&_mark]:bg-yellow-200 [&_mark]:text-yellow-900 [&_mark]:px-0.5 [&_mark]:rounded"
-                dangerouslySetInnerHTML={{ __html: item.highlight || item.content }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHighlight(item.highlight || item.content) }}
               />
             </button>
           ))}

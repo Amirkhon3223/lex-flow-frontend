@@ -13,6 +13,7 @@ import {
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCasesStore } from '@/app/store/cases.store';
 import { useClientsStore } from '@/app/store/clients.store';
+import { usePlanLimitsStore } from '@/app/store/planLimits.store';
 import type { ClientInterface } from '@/app/types/clients/clients.interfaces.ts';
 import { CaseCard } from '@/modules/cases/ui/CaseCard.tsx';
 import { ClientNotesCard } from '@/modules/clients/ui/ClientNotesCard.tsx';
@@ -30,6 +31,7 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { StatCard } from '@/shared/ui/stat-card';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
 import { cn } from '@/shared/ui/utils';
 
 export default function ClientDetailPage() {
@@ -49,6 +51,12 @@ export default function ClientDetailPage() {
 
   const { selectedClient, fetchClientById, selectClient } = useClientsStore();
   const { cases, pagination, loading, fetchCases } = useCasesStore();
+  const { usage, fetchUsage } = usePlanLimitsStore();
+  const canAddCase = usage?.canAddCase !== false;
+
+  useEffect(() => {
+    fetchUsage();
+  }, [fetchUsage]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -346,13 +354,25 @@ export default function ClientDetailPage() {
           <Button variant="outline" className="flex-1 sm:flex-none text-sm sm:text-base">
             {t('CLIENTS.WRITE')}
           </Button>
-          <Button
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md flex-1 sm:flex-none text-sm sm:text-base"
-            onClick={() => setIsAddCaseDialogOpen(true)}
-          >
-            <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
-            {t('CLIENTS.NEW_CASE')}
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="flex-1 sm:flex-none">
+                  <Button
+                    className={`w-full bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md text-sm sm:text-base ${!canAddCase ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={canAddCase ? () => setIsAddCaseDialogOpen(true) : undefined}
+                    disabled={!canAddCase}
+                  >
+                    <Plus className="w-4 h-4 mr-2" strokeWidth={2} />
+                    {t('CLIENTS.NEW_CASE')}
+                  </Button>
+                </span>
+              </TooltipTrigger>
+              {!canAddCase && (
+                <TooltipContent>{t('LIMITS.CASES_LIMIT')}</TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 

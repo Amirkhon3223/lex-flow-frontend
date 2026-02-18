@@ -26,11 +26,12 @@ import { Textarea } from '@/shared/ui/textarea';
 import { cn } from '@/shared/ui/utils';
 import { validators, parseApiErrors, type FormErrors } from '@/shared/utils';
 import { formatDescription } from '@/shared/utils/textFormatting';
+import { CasePriorityEnum } from '@/app/types/cases/cases.enums';
 
 interface AddCaseDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit?: (caseData: any) => void;
+  onSubmit?: (caseData: Record<string, string>) => void;
   caseId?: string;
   preselectedClientId?: string;
 }
@@ -150,7 +151,7 @@ export function AddCaseDialog({
         courtDate: formData.courtDate || undefined,
         fee: parseFloat(formData.fee) || 0,
         description: formatDescription(formData.description),
-        priority: formData.priority as any,
+        priority: formData.priority as CasePriorityEnum,
       };
 
       if (caseId) {

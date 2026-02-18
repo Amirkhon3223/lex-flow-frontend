@@ -84,7 +84,6 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       await documentsService.create(data);
       await get().fetchDocuments();
 
-      // Track document upload
       trackDocumentAction('upload', data.type, data.fileSize);
 
       set({ loading: false });
@@ -116,7 +115,6 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       await documentsService.delete(id);
       await get().fetchDocuments();
 
-      // Track document deletion
       trackDocumentAction('delete', document?.type);
 
       set({ loading: false });
@@ -131,7 +129,6 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     try {
       await documentsService.createVersion(documentId, data);
 
-      // Track new version creation
       trackDocumentAction('create_version', undefined, data.fileSize);
 
       set({ loading: false });
@@ -164,7 +161,6 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
         version2Id
       );
 
-      // Track document comparison
       trackDocumentAction('compare');
 
       set({ comparisonData, loading: false });

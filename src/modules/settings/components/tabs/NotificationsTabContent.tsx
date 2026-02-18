@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Send, CheckCircle, XCircle, Loader2, Bot } from 'lucide-react';
+import { Send, CheckCircle, XCircle, Loader2, Bot, Bell, BellOff, BellRing, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 import { telegramService, type TelegramBotStatusResponse } from '@/app/services/telegram/telegram.service';
 import { useNotificationsStore } from '@/app/store/notifications.store';
 import { NotificationEventType, EmailNotificationType } from '@/app/types/notifications/notifications.enums';
 import { GoogleCalendarSettings } from '@/modules/settings/components/GoogleCalendarSettings';
 import { useI18n } from '@/shared/context/I18nContext';
+import { usePushNotifications } from '@/shared/hooks/usePushNotifications';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
@@ -21,6 +22,16 @@ export function NotificationsTabContent() {
     fetchSettings,
     updateSettings,
   } = useNotificationsStore();
+
+  const {
+    isSupported: pushSupported,
+    isSubscribed: pushSubscribed,
+    permission: pushPermission,
+    loading: pushLoading,
+    subscribe: pushSubscribe,
+    unsubscribe: pushUnsubscribe,
+    sendTest: pushSendTest,
+  } = usePushNotifications();
 
   const notificationTypeLabels: Record<NotificationEventType, string> = {
     [NotificationEventType.CASE_DEADLINE]: t('NOTIFICATIONS.TYPES.CASE_DEADLINE'),
@@ -47,11 +58,11 @@ export function NotificationsTabContent() {
   const [settings, setSettings] = useState(initialSettings);
   const [emailSettings, setEmailSettings] = useState(initialEmailSettings);
 
-  // Telegram state
   const [telegramStatus, setTelegramStatus] = useState<TelegramBotStatusResponse | null>(null);
   const [telegramLoading, setTelegramLoading] = useState(false);
   const [telegramChatId, setTelegramChatId] = useState('');
   const [sendingTest, setSendingTest] = useState(false);
+  const [pushTestSending, setPushTestSending] = useState(false);
 
   useEffect(() => {
     fetchSettings();
@@ -99,7 +110,7 @@ export function NotificationsTabContent() {
     try {
       await updateSettings(updatedSettings, emailSettings);
       toast.success(t('NOTIFICATIONS.SETTING_UPDATED'));
-    } catch (error) {
+    } catch {
       toast.error(t('NOTIFICATIONS.SETTING_UPDATE_FAILED'));
       setSettings(settings);
     }
@@ -112,9 +123,39 @@ export function NotificationsTabContent() {
     try {
       await updateSettings(settings, updatedEmailSettings);
       toast.success(t('NOTIFICATIONS.SETTING_UPDATED'));
-    } catch (error) {
+    } catch {
       toast.error(t('NOTIFICATIONS.SETTING_UPDATE_FAILED'));
       setEmailSettings(emailSettings);
+    }
+  };
+
+  const handlePushToggle = async (enabled: boolean) => {
+    try {
+      if (enabled) {
+        await pushSubscribe();
+        if (Notification.permission === 'granted') {
+          toast.success(t('PUSH.ENABLED'));
+        } else if (Notification.permission === 'denied') {
+          toast.error(t('PUSH.PERMISSION_DENIED'));
+        }
+      } else {
+        await pushUnsubscribe();
+        toast.success(t('PUSH.DISABLED'));
+      }
+    } catch {
+      toast.error(t('PUSH.SUBSCRIBE_ERROR'));
+    }
+  };
+
+  const handlePushTest = async () => {
+    setPushTestSending(true);
+    try {
+      await pushSendTest();
+      toast.success(t('PUSH.TEST_SENT'));
+    } catch {
+      toast.error(t('PUSH.SUBSCRIBE_ERROR'));
+    } finally {
+      setPushTestSending(false);
     }
   };
 
@@ -146,7 +187,78 @@ export function NotificationsTabContent() {
       {}
       <Card>
         <CardHeader>
-          <CardTitle>📧 {t('NOTIFICATIONS.EMAIL_TITLE')}</CardTitle>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <BellRing className="w-5 h-5 text-purple-500" />
+              <div>
+                <CardTitle>{t('PUSH.SETTINGS')}</CardTitle>
+                <CardDescription>
+                  {pushSubscribed ? t('PUSH.ENABLED') : t('PUSH.DISABLED')}
+                </CardDescription>
+              </div>
+            </div>
+            {pushSubscribed ? (
+              <div className="flex items-center gap-2 text-sm text-green-600">
+                <Bell className="w-4 h-4" />
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <BellOff className="w-4 h-4" />
+              </div>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {!pushSupported ? (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 p-3 rounded-lg">
+              <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+              <span>{t('PUSH.NOT_SUPPORTED')}</span>
+            </div>
+          ) : (
+            <>
+              {pushPermission === 'denied' && (
+                <div className="flex items-center gap-2 text-sm text-destructive bg-destructive/10 p-3 rounded-lg">
+                  <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                  <span>{t('PUSH.PERMISSION_DENIED')}</span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-between">
+                <label htmlFor="push-toggle" className="font-medium text-sm">
+                  {pushSubscribed ? t('PUSH.DISABLE') : t('PUSH.ENABLE')}
+                </label>
+                <Switch
+                  id="push-toggle"
+                  checked={pushSubscribed}
+                  onCheckedChange={handlePushToggle}
+                  disabled={pushLoading || pushPermission === 'denied'}
+                />
+              </div>
+
+              {pushSubscribed && (
+                <Button
+                  onClick={handlePushTest}
+                  disabled={pushTestSending}
+                  variant="outline"
+                  className="w-full"
+                >
+                  {pushTestSending ? (
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  ) : (
+                    <Send className="w-4 h-4 mr-2" />
+                  )}
+                  {t('PUSH.TEST')}
+                </Button>
+              )}
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      {}
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('NOTIFICATIONS.EMAIL_TITLE')}</CardTitle>
           <CardDescription>{t('NOTIFICATIONS.EMAIL_DESCRIPTION')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -166,7 +278,6 @@ export function NotificationsTabContent() {
         </CardContent>
       </Card>
 
-      {/* Telegram notifications */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -247,7 +358,6 @@ export function NotificationsTabContent() {
         </CardContent>
       </Card>
 
-      {/* Google Calendar Integration */}
       <GoogleCalendarSettings />
     </div>
   );

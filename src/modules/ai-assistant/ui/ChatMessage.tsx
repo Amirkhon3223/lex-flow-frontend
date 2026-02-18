@@ -15,9 +15,7 @@ export function ChatMessage({ chat }: ChatMessageProps) {
       await navigator.clipboard.writeText(chat.message);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Copy failed - silently handle
-    }
+    } catch {}
   };
 
   const isUser = chat.type === MessageTypeEnum.USER;

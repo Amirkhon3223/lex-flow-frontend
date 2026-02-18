@@ -19,7 +19,6 @@ export class BlockMatcher {
     blocks1: DocumentBlockInterface[],
     blocks2: DocumentBlockInterface[]
   ): AlignedBlockPair[] {
-    console.log(`[BLOCK MATCHER] blocks1: ${blocks1.length}, blocks2: ${blocks2.length}`);
 
     if (blocks1.length === 0 && blocks2.length === 0) {
       return [];
@@ -44,13 +43,6 @@ export class BlockMatcher {
     const lcsMatrix = this.buildLCSMatrix(blocks1, blocks2);
 
     const alignedPairs = this.backtrack(lcsMatrix, blocks1, blocks2);
-
-    // DEBUG: Log alignment results
-    const matched = alignedPairs.filter(p => p.matchType === 'matched').length;
-    const modified = alignedPairs.filter(p => p.matchType === 'modified').length;
-    const added = alignedPairs.filter(p => p.matchType === 'added').length;
-    const removed = alignedPairs.filter(p => p.matchType === 'removed').length;
-    console.log(`[BLOCK MATCHER] Result: ${matched} matched, ${modified} modified, ${added} added, ${removed} removed`);
 
     return alignedPairs;
   }

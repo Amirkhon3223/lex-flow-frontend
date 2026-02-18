@@ -113,32 +113,56 @@ export function parseApiErrors(error: unknown): FormErrors {
 
   if (!error) return errors;
 
-  // Handle Axios error structure
-  const axiosError = error as { response?: { data?: { message?: string; error?: string; errors?: FieldError[] } } };
+  const axiosError = error as { response?: { data?: { code?: string; message?: string; error?: string; errors?: FieldError[] } } };
 
   if (axiosError.response?.data) {
     const data = axiosError.response.data;
 
-    // If server returns field-specific errors
     if (data.errors && Array.isArray(data.errors)) {
       for (const fieldError of data.errors) {
         errors[fieldError.field] = fieldError.message;
       }
     }
 
-    // Parse common error patterns from message
+    if (data.code) {
+      const codeMappings: Record<string, [string, () => string]> = {
+        INVALID_CREDENTIALS: ['_general', () => i18nService.t('COMMON.ERRORS.INVALID_CREDENTIALS')],
+        EMAIL_EXISTS: ['email', () => i18nService.t('COMMON.ERRORS.EMAIL_EXISTS')],
+        CLIENT_EMAIL_EXISTS: ['email', () => i18nService.t('COMMON.ERRORS.EMAIL_EXISTS')],
+        EMAIL_REQUIRED: ['email', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', 'Email')],
+        INVALID_EMAIL: ['email', () => i18nService.t('COMMON.ERRORS.INVALID_EMAIL')],
+        PASSWORD_REQUIRED: ['password', () => i18nService.t('AUTH.ERRORS.PASSWORD_REQUIRED')],
+        WEAK_PASSWORD: ['password', () => i18nService.t('AUTH.ERRORS.PASSWORD_MIN_LENGTH')],
+        PASSWORD_MISMATCH: ['confirmPassword', () => i18nService.t('AUTH.ERRORS.PASSWORDS_NOT_MATCH')],
+        TWO_FA_INVALID_CODE: ['code', () => i18nService.t('AUTH.ERRORS.INVALID_CODE')],
+        TWO_FA_REQUIRED: ['_general', () => i18nService.t('AUTH.ERRORS.TWO_FA_REQUIRED')],
+        TOKEN_EXPIRED: ['_general', () => i18nService.t('COMMON.ERRORS.SESSION_EXPIRED')],
+        TOKEN_INVALID: ['_general', () => i18nService.t('COMMON.ERRORS.SESSION_EXPIRED')],
+        PLAN_LIMIT_REACHED: ['_general', () => i18nService.t('COMMON.ERRORS.PLAN_LIMIT')],
+        INSUFFICIENT_TOKENS: ['_general', () => i18nService.t('COMMON.ERRORS.INSUFFICIENT_TOKENS')],
+        DAILY_LIMIT_REACHED: ['_general', () => i18nService.t('COMMON.ERRORS.DAILY_LIMIT')],
+        RESOURCE_NOT_FOUND: ['_general', () => i18nService.t('COMMON.ERRORS.NOT_FOUND')],
+        RATE_LIMIT_EXCEEDED: ['_general', () => i18nService.t('COMMON.ERRORS.RATE_LIMIT')],
+        STORAGE_LIMIT_REACHED: ['_general', () => i18nService.t('COMMON.ERRORS.STORAGE_LIMIT')],
+        INVALID_FILE_TYPE: ['_general', () => i18nService.t('COMMON.ERRORS.INVALID_FILE_TYPE')],
+        FILE_TOO_LARGE: ['_general', () => i18nService.t('COMMON.ERRORS.FILE_TOO_LARGE')],
+      };
+
+      const mapping = codeMappings[data.code];
+      if (mapping) {
+        const [field, getErrorMessage] = mapping;
+        errors[field] = getErrorMessage();
+        return errors;
+      }
+    }
+
     if (data.message || data.error) {
       const message = data.message || data.error || '';
 
-      // Map common backend error messages to fields
-      // IMPORTANT: More specific patterns MUST come before generic ones!
-      // Using lazy evaluation (functions) to avoid translation warnings for unused patterns
       const errorMappings: [RegExp, string, () => string][] = [
-        // Login errors - these are general, not field-specific
         [/invalid email or password/i, '_general', () => i18nService.t('COMMON.ERRORS.INVALID_CREDENTIALS')],
         [/invalid.*credentials|wrong.*password/i, '_general', () => i18nService.t('COMMON.ERRORS.INVALID_CREDENTIALS')],
         [/user.*not.*found/i, '_general', () => i18nService.t('COMMON.ERRORS.INVALID_CREDENTIALS')],
-        // Field-specific errors
         [/email.*already.*exists|duplicate.*email/i, 'email', () => i18nService.t('COMMON.ERRORS.EMAIL_EXISTS')],
         [/email.*required/i, 'email', () => i18nService.t('COMMON.ERRORS.REQUIRED').replace('{{field}}', 'Email')],
         [/invalid.*email.*format|email.*invalid/i, 'email', () => i18nService.t('COMMON.ERRORS.INVALID_EMAIL')],
@@ -160,24 +184,21 @@ export function parseApiErrors(error: unknown): FormErrors {
 
       for (const [pattern, field, getErrorMessage] of errorMappings) {
         if (pattern.test(message)) {
-          errors[field] = getErrorMessage(); // Only call translation when pattern matches
-          break; // Stop after first match to avoid multiple errors
+          errors[field] = getErrorMessage();
+          break;
         }
       }
 
-      // If no specific field matched, add general error
       if (Object.keys(errors).length === 0 && message) {
         errors._general = message;
       }
     }
   }
 
-  // Handle string error
   if (typeof error === 'string') {
     errors._general = error;
   }
 
-  // Handle Error object
   if (error instanceof Error && !Object.keys(errors).length) {
     errors._general = error.message;
   }

@@ -45,7 +45,6 @@ export function DocumentAnalysis({ documentId, documentName: _documentName }: Do
     try {
       const result = await analyzeDocument(documentId, selectedType);
       setAnalysis(result);
-      // Refresh token balance after analysis
       fetchTokenBalance().catch(() => {});
       toast.success(t('DOCUMENTS.AI_ANALYSIS.SUCCESS'));
     } catch (error) {

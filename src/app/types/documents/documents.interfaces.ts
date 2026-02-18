@@ -137,13 +137,12 @@ export interface CreateDocumentVersionInterface {
   notes?: string;
 }
 
-// Document Comparison Interfaces
 export interface DocumentBlockInterface {
   id: string;
   blockType: 'TEXT' | 'IMAGE';
   content?: string;
   orderIndex: number;
-  meta: Record<string, any>;
+  meta: Record<string, unknown>;
 }
 
 export interface VersionWithBlocksInterface {
@@ -160,7 +159,6 @@ export interface CompareVersionsResponse {
   version2: VersionWithBlocksInterface;
 }
 
-// Extraction Job Interfaces
 export interface ExtractionJobInterface {
   id: string;
   versionId: string;

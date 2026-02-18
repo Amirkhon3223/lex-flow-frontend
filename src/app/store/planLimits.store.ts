@@ -22,7 +22,6 @@ export const usePlanLimitsStore = create<PlanLimitsState>((set, get) => ({
 
   fetchUsage: async () => {
     const { lastFetched, loading } = get();
-    // Skip if recently fetched or already loading
     if (loading) return;
     if (lastFetched && Date.now() - lastFetched < CACHE_TTL) return;
 

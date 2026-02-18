@@ -1,6 +1,6 @@
 import { httpClient } from '../../interceptors/http.interceptor';
 import type { SuccessResponse } from '../../types/api/api.types';
-import type { LoginRequest, RegisterRequest, AuthResponse, Verify2FALoginRequest } from '../../types/auth/auth.interfaces';
+import type { LoginRequest, RegisterRequest, AuthResponse, Verify2FALoginRequest, VerifyEmailRequest, VerifyEmailResponse } from '../../types/auth/auth.interfaces';
 
 export const authService = {
   register: async (data: RegisterRequest): Promise<AuthResponse> => {
@@ -55,6 +55,24 @@ export const authService = {
         newPassword,
         confirmPassword,
       });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  verifyEmail: async (data: VerifyEmailRequest): Promise<VerifyEmailResponse> => {
+    try {
+      const response = await httpClient.post<VerifyEmailResponse>('/auth/verify-email', data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  resendVerificationCode: async (): Promise<SuccessResponse> => {
+    try {
+      const response = await httpClient.post<SuccessResponse>('/auth/resend-verification');
       return response.data;
     } catch (error) {
       throw error;

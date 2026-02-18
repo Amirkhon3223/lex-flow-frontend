@@ -37,7 +37,9 @@ export function exportToCsv(
   filename: string
 ): void {
   if (!data.length) {
-    console.warn('No data to export');
+    if (import.meta.env.DEV) {
+      console.warn('No data to export');
+    }
     return;
   }
 

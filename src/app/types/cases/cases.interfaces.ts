@@ -28,6 +28,10 @@ export interface CaseInterface {
   description: string;
   fee: number;
   paidAmount: number;
+  billingMethod: string;
+  hourlyRate: number;
+  totalHours: number;
+  billableAmount: number;
   documents: number;
   commentsCount: number;
   tasksCount: number;
@@ -166,6 +170,98 @@ export interface CaseTypeData {
   [key: string]: string | number;
 }
 
+export interface TimeEntryInterface {
+  id: string;
+  caseId: string;
+  taskId?: string;
+  userId: string;
+  userName: string;
+  description: string;
+  duration: number;
+  hourlyRate: number;
+  billableAmount: number;
+  isBillable: boolean;
+  entryDate: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateTimeEntryInterface {
+  description: string;
+  duration: number;
+  hourlyRate?: number;
+  isBillable?: boolean;
+  entryDate: string;
+  taskId?: string;
+}
+
+export interface UpdateTimeEntryInterface {
+  description?: string;
+  duration?: number;
+  hourlyRate?: number;
+  isBillable?: boolean;
+  entryDate?: string;
+}
+
+export interface TimeEntriesListResponse {
+  entries: TimeEntryInterface[];
+  totalDuration: number;
+  totalBillable: number;
+}
+
+export interface CasePartyInterface {
+  id: string;
+  caseId: string;
+  name: string;
+  role: string;
+  email?: string;
+  phone?: string;
+  companyName?: string;
+  notes?: string;
+  createdAt: string;
+}
+
+export interface CreateCasePartyInterface {
+  name: string;
+  role: string;
+  email?: string;
+  phone?: string;
+  companyName?: string;
+  notes?: string;
+}
+
+export interface UpdateCasePartyInterface {
+  name?: string;
+  role?: string;
+  email?: string;
+  phone?: string;
+  companyName?: string;
+  notes?: string;
+}
+
+export interface ConflictCheckResultInterface {
+  matchType: 'client' | 'case_party';
+  matchedName: string;
+  matchedField: string;
+  clientId?: string;
+  clientName?: string;
+  clientType?: string;
+  clientStatus?: string;
+  partyId?: string;
+  partyRole?: string;
+  caseId?: string;
+  caseTitle?: string;
+  caseStatus?: string;
+  caseClientName?: string;
+  conflictLevel: 'high' | 'medium' | 'low';
+}
+
+export interface ConflictCheckResponseInterface {
+  query: string;
+  results: ConflictCheckResultInterface[];
+  total: number;
+}
+
 export interface CreateCaseInterface {
   title: string;
   clientId: string;
@@ -175,6 +271,8 @@ export interface CreateCaseInterface {
   courtDate?: string;
   description: string;
   fee: number;
+  billingMethod?: string;
+  hourlyRate?: number;
   assignedTo?: string;
 }
 
@@ -187,6 +285,8 @@ export interface UpdateCaseInterface {
   progress?: number;
   description?: string;
   fee?: number;
+  billingMethod?: string;
+  hourlyRate?: number;
   assignedTo?: string;
   notes?: string;
 }

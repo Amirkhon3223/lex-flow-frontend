@@ -90,9 +90,7 @@ export function AvatarCropperModal({
       const croppedImageUrl = await getCroppedImg();
       onCropComplete(croppedImageUrl);
       onClose();
-    } catch {
-      // Silently handle - crop failed, modal stays open
-    }
+    } catch {}
   };
 
   const handleCancel = () => {

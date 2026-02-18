@@ -63,7 +63,6 @@ export function ChatSidebar({
   const [search, setSearch] = useState('');
   const highlightRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to highlighted chat when it changes
   useEffect(() => {
     if (highlightedChatId && highlightRef.current) {
       setTimeout(() => {

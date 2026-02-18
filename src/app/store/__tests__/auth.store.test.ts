@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useAuthStore } from '../auth.store';
 import { mockUser, mockWorkspace } from '@/test/mocks/handlers';
+import type { User } from '@/app/types/users/users.interfaces';
+import type { WorkspaceInfo } from '@/app/types/workspaces/workspace.interfaces';
 
 // Mock the auth service
 vi.mock('@/app/services/auth/auth.service', () => ({
@@ -46,7 +48,7 @@ describe('useAuthStore', () => {
   it('sets user and workspace on successful auth', () => {
     const { setAuth } = useAuthStore.getState();
 
-    setAuth(mockUser as any, mockWorkspace as any, 'owner');
+    setAuth(mockUser as User, mockWorkspace as WorkspaceInfo, 'owner');
 
     const state = useAuthStore.getState();
     expect(state.user).toEqual(mockUser);
@@ -58,8 +60,8 @@ describe('useAuthStore', () => {
   it('clears state on logout', () => {
     // First set some auth state
     useAuthStore.setState({
-      user: mockUser as any,
-      workspace: mockWorkspace as any,
+      user: mockUser as User,
+      workspace: mockWorkspace as WorkspaceInfo,
       role: 'owner',
       isAuthenticated: true,
     });

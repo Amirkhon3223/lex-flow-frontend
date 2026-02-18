@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 const AuthPage = lazy(() => import('@/pages/AuthPage'));
 const ResetPasswordPage = lazy(() => import('@/modules/auth/pages/reset-password-page'));
+const VerifyEmailPage = lazy(() => import('@/modules/auth/pages/verify-email-page'));
 const PrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
 const TermsOfServicePage = lazy(() => import('@/pages/TermsOfServicePage'));
 const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
@@ -23,9 +24,11 @@ const MeetingDetailPage = lazy(() =>
     default: m.MeetingDetailPage,
   }))
 );
+const ConflictCheckPage = lazy(() => import('@/pages/ConflictCheckPage'));
 const AnalyticsPage = lazy(() => import('@/pages/AnalyticsPage'));
 const AiAssistantPage = lazy(() => import('@/pages/AiAssistantPage'));
 const TemplatesPage = lazy(() => import('@/pages/TemplatesPage'));
+const TrustAccountsPage = lazy(() => import('@/pages/TrustAccountsPage'));
 const NotificationsPage = lazy(() => import('@/pages/NotificationsPage'));
 const SettingsPage = lazy(() => import('@/pages/SettingsPage'));
 const UserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
@@ -48,6 +51,14 @@ export const router = createBrowserRouter([
     element: (
       <SuspenseWrapper>
         <ResetPasswordPage />
+      </SuspenseWrapper>
+    ),
+  },
+  {
+    path: ROUTES.AUTH.VERIFY_EMAIL,
+    element: (
+      <SuspenseWrapper>
+        <VerifyEmailPage />
       </SuspenseWrapper>
     ),
   },
@@ -161,6 +172,15 @@ export const router = createBrowserRouter([
       },
 
       {
+        path: ROUTES.CONFLICT_CHECK,
+        element: (
+          <SuspenseWrapper>
+            <ConflictCheckPage />
+          </SuspenseWrapper>
+        ),
+      },
+
+      {
         path: ROUTES.ANALYTICS,
         element: (
           <SuspenseWrapper>
@@ -174,6 +194,15 @@ export const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <AiAssistantPage />
+          </SuspenseWrapper>
+        ),
+      },
+
+      {
+        path: ROUTES.TRUST_ACCOUNTS,
+        element: (
+          <SuspenseWrapper>
+            <TrustAccountsPage />
           </SuspenseWrapper>
         ),
       },
@@ -196,7 +225,6 @@ export const router = createBrowserRouter([
         ),
       },
 
-      // 🔽 SETTINGS (alias-роуты, ОЧЕНЬ ВАЖНО)
       {
         path: ROUTES.SETTINGS.ROOT,
         element: (

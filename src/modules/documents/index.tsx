@@ -14,6 +14,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { ArrowUpDown, Clock, Download, FileText, Filter, Sparkles, Star, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 import { useDocumentsStore } from '@/app/store/documents.store';
+import { usePlanLimitsStore } from '@/app/store/planLimits.store';
 import { documentsService } from '@/app/services/documents/documents.service';
 import { DocumentStatusEnum } from '@/app/types/documents/documents.enums';
 import { DocumentCard } from '@/modules/documents/ui/DocumentCard';
@@ -23,6 +24,7 @@ import { FilterBar } from '@/shared/components/filters/FilterBar';
 import { UploadDocumentDialog } from '@/shared/components/UploadDocumentDialog';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
 import { StatCard } from '@/shared/ui/stat-card';
 import { formatFileSize, exportToCsv, formatDateForExport } from '@/shared/utils';
 
@@ -37,12 +39,19 @@ export function DocumentsPage() {
     deleteDocument,
   } = useDocumentsStore();
 
+  const { usage, fetchUsage } = usePlanLimitsStore();
+  const canUpload = usage?.canUpload !== false;
+
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
   const [sortBy, setSortBy] = useState('date');
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [documentToDelete, setDocumentToDelete] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchUsage();
+  }, [fetchUsage]);
 
   useEffect(() => {
     fetchDocuments({
@@ -197,13 +206,25 @@ export function DocumentsPage() {
                 <Download className="w-4 h-4 mr-2" />
                 {t('COMMON.ACTIONS.EXPORT')}
               </Button>
-              <Button
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md flex-1 sm:flex-none"
-                onClick={() => setIsUploadDialogOpen(true)}
-              >
-                <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-                {t('DOCUMENTS.UPLOAD_DOCUMENT')}
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="flex-1 sm:flex-none">
+                      <Button
+                        className={`w-full bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md ${!canUpload ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        onClick={canUpload ? () => setIsUploadDialogOpen(true) : undefined}
+                        disabled={!canUpload}
+                      >
+                        <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
+                        {t('DOCUMENTS.UPLOAD_DOCUMENT')}
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  {!canUpload && (
+                    <TooltipContent>{t('LIMITS.STORAGE_LIMIT')}</TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
 

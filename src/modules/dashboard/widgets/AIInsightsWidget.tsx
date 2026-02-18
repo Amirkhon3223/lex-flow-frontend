@@ -47,9 +47,7 @@ export function AIInsightsWidget() {
   const { insights, loading, fetchInsights } = useAIStore();
 
   useEffect(() => {
-    fetchInsights().catch(() => {
-      // Silently handle - insights are optional
-    });
+    fetchInsights().catch(() => {});
   }, [fetchInsights]);
 
   const handleRefresh = () => {

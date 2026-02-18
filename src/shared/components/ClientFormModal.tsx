@@ -147,7 +147,9 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
     } catch (error) {
       setInnValid(false);
       setInnError(t('FNS.VALIDATION_ERROR'));
-      console.error('INN validation error:', error);
+      if (import.meta.env.DEV) {
+        console.error('INN validation error:', error);
+      }
     } finally {
       setInnValidating(false);
     }
@@ -300,7 +302,9 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
 
       onOpenChange(false);
     } catch (error) {
-      console.error(`Failed to ${mode} client:`, error);
+      if (import.meta.env.DEV) {
+        console.error(`Failed to ${mode} client:`, error);
+      }
       const apiErrors = parseApiErrors(error);
       if (Object.keys(apiErrors).length > 0) {
         setErrors(apiErrors);
@@ -394,7 +398,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                     </Label>
                     <Input
                       id="lastName"
-                      placeholder="Иванов"
+                      placeholder={t('CLIENTS.PLACEHOLDER.LAST_NAME')}
                       value={formData.lastName}
                       onChange={(e) => handleFieldChange('lastName', e.target.value)}
                       className={cn("h-11 rounded-xl border-input focus-visible:ring-purple-500", errors.lastName && "border-destructive ring-destructive/20")}
@@ -407,7 +411,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                     </Label>
                     <Input
                       id="firstName"
-                      placeholder="Иван"
+                      placeholder={t('CLIENTS.PLACEHOLDER.FIRST_NAME')}
                       value={formData.firstName}
                       onChange={(e) => handleFieldChange('firstName', e.target.value)}
                       className={cn("h-11 rounded-xl border-input focus-visible:ring-purple-500", errors.firstName && "border-destructive ring-destructive/20")}
@@ -420,7 +424,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                     </Label>
                     <Input
                       id="middleName"
-                      placeholder="Иванович"
+                      placeholder={t('CLIENTS.PLACEHOLDER.MIDDLE_NAME')}
                       value={formData.middleName}
                       onChange={(e) => handleFieldChange('middleName', e.target.value)}
                       className="h-11 rounded-xl border-input focus-visible:ring-purple-500"
@@ -521,7 +525,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   </Label>
                   <Input
                     id="companyName"
-                    placeholder='ООО "Рога и Копыта"'
+                    placeholder={t('CLIENTS.PLACEHOLDER.COMPANY_NAME')}
                     value={formData.companyName}
                     onChange={(e) => handleFieldChange('companyName', e.target.value)}
                     className={cn("h-11 rounded-xl border-input focus-visible:ring-purple-500", errors.companyName && "border-destructive ring-destructive/20")}
@@ -705,7 +709,7 @@ export function ClientFormModal({ open, onOpenChange, mode, client }: ClientForm
                   />
                   <Input
                     id="address"
-                    placeholder="г. Москва, ул. Пушкина, д. 10"
+                    placeholder={t('CLIENTS.PLACEHOLDER.ADDRESS')}
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     className="h-11 pl-10 rounded-xl border-input focus-visible:ring-purple-500"

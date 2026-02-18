@@ -20,7 +20,7 @@ export default function TermsOfServicePage() {
     }
   };
 
-  const [termsData, setTermsData] = useState<any>(null);
+  const [termsData, setTermsData] = useState<Record<string, string | string[]> | null>(null);
 
   useEffect(() => {
     getTranslations().then((data) => {

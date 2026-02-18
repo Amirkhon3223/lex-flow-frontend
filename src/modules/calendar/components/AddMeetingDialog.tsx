@@ -90,11 +90,9 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
         }
       }
     } else if (open && !meeting) {
-      // New meeting - set current date and time
       const now = new Date();
       setDate(now);
 
-      // Format current time as HH:mm (24-hour format)
       const currentHours = String(now.getHours()).padStart(2, '0');
       const currentMinutes = String(now.getMinutes()).padStart(2, '0');
       const currentTime = `${currentHours}:${currentMinutes}`;
@@ -113,7 +111,6 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
         reminder: '30',
       });
     } else if (!open) {
-      // Reset on close
       setDate(undefined);
       setFormData({
         title: '',
@@ -170,7 +167,6 @@ export function AddMeetingDialog({ open, onOpenChange, meeting, onSubmit }: AddM
       return;
     }
 
-    // Validate date and time are not in the past
     const selectedDateTime = new Date(`${format(date!, 'yyyy-MM-dd')}T${formData.time}`);
     const now = new Date();
     if (selectedDateTime < now) {

@@ -35,7 +35,6 @@ export function ForgotPasswordModal({ open, onOpenChange }: ForgotPasswordModalP
       return;
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError(t('AUTH.ERRORS.INVALID_EMAIL'));
@@ -48,7 +47,6 @@ export function ForgotPasswordModal({ open, onOpenChange }: ForgotPasswordModalP
       await authService.forgotPassword(email);
       setIsSuccess(true);
     } catch {
-      // Always show success to not reveal if email exists (security)
       setIsSuccess(true);
     } finally {
       setIsLoading(false);
@@ -56,7 +54,6 @@ export function ForgotPasswordModal({ open, onOpenChange }: ForgotPasswordModalP
   };
 
   const handleClose = () => {
-    // Reset state when closing
     setEmail('');
     setError('');
     setIsSuccess(false);

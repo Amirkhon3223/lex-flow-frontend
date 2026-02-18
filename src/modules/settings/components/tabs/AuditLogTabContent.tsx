@@ -16,14 +16,14 @@ import {
   SelectValue,
 } from '@/shared/ui/select';
 
-const actionLabels: Record<AuditAction, string> = {
-  create: 'Создание',
-  update: 'Изменение',
-  delete: 'Удаление',
-  view: 'Просмотр',
-  export: 'Экспорт',
-  login: 'Вход',
-  logout: 'Выход',
+const actionLabelKeys: Record<AuditAction, string> = {
+  create: 'SETTINGS.AUDIT.ACTIONS.CREATE',
+  update: 'SETTINGS.AUDIT.ACTIONS.UPDATE',
+  delete: 'SETTINGS.AUDIT.ACTIONS.DELETE',
+  view: 'SETTINGS.AUDIT.ACTIONS.VIEW',
+  export: 'SETTINGS.AUDIT.ACTIONS.EXPORT',
+  login: 'SETTINGS.AUDIT.ACTIONS.LOGIN',
+  logout: 'SETTINGS.AUDIT.ACTIONS.LOGOUT',
 };
 
 const actionColors: Record<AuditAction, string> = {
@@ -36,18 +36,18 @@ const actionColors: Record<AuditAction, string> = {
   logout: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
 };
 
-const entityLabels: Record<AuditEntityType, string> = {
-  client: 'Клиент',
-  case: 'Дело',
-  document: 'Документ',
-  meeting: 'Встреча',
-  task: 'Задача',
-  comment: 'Комментарий',
-  user: 'Пользователь',
-  workspace: 'Рабочее пространство',
-  subscription: 'Подписка',
-  team_member: 'Член команды',
-  auth: 'Авторизация',
+const entityLabelKeys: Record<AuditEntityType, string> = {
+  client: 'SETTINGS.AUDIT.ENTITIES.CLIENT',
+  case: 'SETTINGS.AUDIT.ENTITIES.CASE',
+  document: 'SETTINGS.AUDIT.ENTITIES.DOCUMENT',
+  meeting: 'SETTINGS.AUDIT.ENTITIES.MEETING',
+  task: 'SETTINGS.AUDIT.ENTITIES.TASK',
+  comment: 'SETTINGS.AUDIT.ENTITIES.COMMENT',
+  user: 'SETTINGS.AUDIT.ENTITIES.USER',
+  workspace: 'SETTINGS.AUDIT.ENTITIES.WORKSPACE',
+  subscription: 'SETTINGS.AUDIT.ENTITIES.SUBSCRIPTION',
+  team_member: 'SETTINGS.AUDIT.ENTITIES.TEAM_MEMBER',
+  auth: 'SETTINGS.AUDIT.ENTITIES.AUTH',
 };
 
 const entityIcons: Record<AuditEntityType, React.ElementType> = {
@@ -144,11 +144,11 @@ export function AuditLogTabContent() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t('SETTINGS.AUDIT.ALL_ACTIONS')}</SelectItem>
-              <SelectItem value="create">{actionLabels.create}</SelectItem>
-              <SelectItem value="update">{actionLabels.update}</SelectItem>
-              <SelectItem value="delete">{actionLabels.delete}</SelectItem>
-              <SelectItem value="login">{actionLabels.login}</SelectItem>
-              <SelectItem value="logout">{actionLabels.logout}</SelectItem>
+              <SelectItem value="create">{t(actionLabelKeys.create)}</SelectItem>
+              <SelectItem value="update">{t(actionLabelKeys.update)}</SelectItem>
+              <SelectItem value="delete">{t(actionLabelKeys.delete)}</SelectItem>
+              <SelectItem value="login">{t(actionLabelKeys.login)}</SelectItem>
+              <SelectItem value="logout">{t(actionLabelKeys.logout)}</SelectItem>
             </SelectContent>
           </Select>
           <Select value={entityFilter} onValueChange={setEntityFilter}>
@@ -157,11 +157,11 @@ export function AuditLogTabContent() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t('SETTINGS.AUDIT.ALL_ENTITIES')}</SelectItem>
-              <SelectItem value="client">{entityLabels.client}</SelectItem>
-              <SelectItem value="case">{entityLabels.case}</SelectItem>
-              <SelectItem value="document">{entityLabels.document}</SelectItem>
-              <SelectItem value="meeting">{entityLabels.meeting}</SelectItem>
-              <SelectItem value="auth">{entityLabels.auth}</SelectItem>
+              <SelectItem value="client">{t(entityLabelKeys.client)}</SelectItem>
+              <SelectItem value="case">{t(entityLabelKeys.case)}</SelectItem>
+              <SelectItem value="document">{t(entityLabelKeys.document)}</SelectItem>
+              <SelectItem value="meeting">{t(entityLabelKeys.meeting)}</SelectItem>
+              <SelectItem value="auth">{t(entityLabelKeys.auth)}</SelectItem>
             </SelectContent>
           </Select>
           <Button onClick={handleSearch} className="w-full sm:w-auto">
@@ -200,10 +200,10 @@ export function AuditLogTabContent() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-medium truncate">{log.userName}</span>
                         <Badge className={`${actionColors[log.action]} border-0`}>
-                          {actionLabels[log.action]}
+                          {t(actionLabelKeys[log.action])}
                         </Badge>
                         <span className="text-muted-foreground text-sm">
-                          {entityLabels[log.entityType]}
+                          {t(entityLabelKeys[log.entityType])}
                         </span>
                       </div>
                       {log.entityName && (

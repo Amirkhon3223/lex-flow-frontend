@@ -43,7 +43,6 @@ export function SecurityTabContent() {
         setTwoFactorEnabled(twoFactorStatus.enabled);
         setSessions(sessionsData.sessions);
       } catch {
-        // Silently handle - empty state will be shown
       }
     };
     fetchData();

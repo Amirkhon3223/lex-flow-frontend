@@ -8,18 +8,18 @@ export interface DiffResult {
 export interface WordDiffResult {
   type: 'added' | 'removed' | 'unchanged';
   word: string;
-  trailingSpace: string; // preserve spaces after word
+  trailingSpace: string;
 }
 
 export interface HybridDiffPart {
   char: string;
-  changed: boolean; // true if this specific char was changed
+  changed: boolean;
 }
 
 export interface HybridWordDiff {
   type: 'added' | 'removed' | 'unchanged' | 'modified';
-  parts: HybridDiffPart[]; // character-level breakdown within the word
-  trailingParts: HybridDiffPart[]; // character-level breakdown of trailing whitespace
+  parts: HybridDiffPart[];
+  trailingParts: HybridDiffPart[];
 }
 
 /**
@@ -111,7 +111,6 @@ export class DiffCalculator {
    * @returns массив WordDiffResult
    */
   calculateWordDiff(oldText: string, newText: string): WordDiffResult[] {
-    // Split text into words preserving spaces
     const splitIntoWords = (text: string): { word: string; trailingSpace: string }[] => {
       const result: { word: string; trailingSpace: string }[] = [];
       const regex = /(\S+)(\s*)/g;
@@ -125,7 +124,6 @@ export class DiffCalculator {
     const oldWords = splitIntoWords(oldText);
     const newWords = splitIntoWords(newText);
 
-    // Use diff-match-patch on words (as single units)
     const oldWordsText = oldWords.map(w => w.word).join('\x00');
     const newWordsText = newWords.map(w => w.word).join('\x00');
 
@@ -141,18 +139,15 @@ export class DiffCalculator {
 
       for (const word of words) {
         if (operation === 0) {
-          // Unchanged - use spacing from appropriate source
           const trailing = oldWords[oldIdx]?.trailingSpace || newWords[newIdx]?.trailingSpace || '';
           result.push({ type: 'unchanged', word, trailingSpace: trailing });
           oldIdx++;
           newIdx++;
         } else if (operation === -1) {
-          // Removed
           const trailing = oldWords[oldIdx]?.trailingSpace || '';
           result.push({ type: 'removed', word, trailingSpace: trailing });
           oldIdx++;
         } else if (operation === 1) {
-          // Added
           const trailing = newWords[newIdx]?.trailingSpace || '';
           result.push({ type: 'added', word, trailingSpace: trailing });
           newIdx++;
@@ -179,21 +174,12 @@ export class DiffCalculator {
    * @returns массив HybridWordDiff
    */
   calculateHybridDiff(oldText: string, newText: string, side: 'old' | 'new'): HybridWordDiff[] {
-    // DEBUG: Log input texts
-    console.log(`[DIFF DEBUG] side=${side}, oldText.length=${oldText.length}, newText.length=${newText.length}`);
-    console.log(`[DIFF DEBUG] oldText first 100: "${oldText.substring(0, 100)}"`);
-    console.log(`[DIFF DEBUG] newText first 100: "${newText.substring(0, 100)}"`);
-    console.log(`[DIFF DEBUG] texts are identical: ${oldText === newText}`);
-
-    // Split text into tokens (word + all trailing whitespace as one unit)
     const tokenize = (text: string): string[] => {
       const tokens: string[] = [];
-      // Handle leading whitespace specially
       const leadingWs = text.match(/^(\s+)/);
       if (leadingWs) {
         tokens.push(leadingWs[1]);
       }
-      // Match words with their trailing whitespace
       const wordRegex = /\S+\s*/g;
       const startIdx = leadingWs ? leadingWs[1].length : 0;
       const restText = text.slice(startIdx);
@@ -207,34 +193,23 @@ export class DiffCalculator {
     const oldTokens = tokenize(oldText);
     const newTokens = tokenize(newText);
 
-    // Compare tokens using diff-match-patch with separator
     const oldTokensText = oldTokens.join('\x00');
     const newTokensText = newTokens.join('\x00');
 
     const tokenDiffs = this.dmp.diff_main(oldTokensText, newTokensText);
-    // DEBUG: Log raw diffs BEFORE cleanup
-    const rawDiffCount = tokenDiffs.filter(([op]) => op !== 0).length;
-    console.log(`[DIFF DEBUG] side=${side}, raw token diffs (non-zero): ${rawDiffCount}`);
 
     this.dmp.diff_cleanupSemantic(tokenDiffs);
 
-    // DEBUG: Log diffs AFTER cleanup
-    const cleanedDiffCount = tokenDiffs.filter(([op]) => op !== 0).length;
-    console.log(`[DIFF DEBUG] side=${side}, after cleanup: ${cleanedDiffCount} changed operations`);
-
-    // Process token-level diff to build aligned pairs
     type TokenPair = {
       oldToken: string | null;
       newToken: string | null;
     };
     const pairs: TokenPair[] = [];
 
-    // Parse the diffs back into token pairs
     let tempRemoved: string[] = [];
     let tempAdded: string[] = [];
 
     const flushPairs = () => {
-      // Match removed and added tokens as modifications
       const maxLen = Math.max(tempRemoved.length, tempAdded.length);
       for (let i = 0; i < maxLen; i++) {
         pairs.push({
@@ -250,22 +225,18 @@ export class DiffCalculator {
       const tokens = text.split('\x00').filter(t => t.length > 0);
 
       if (op === 0) {
-        // Unchanged tokens - flush any pending and add as pairs
         flushPairs();
         for (const token of tokens) {
           pairs.push({ oldToken: token, newToken: token });
         }
       } else if (op === -1) {
-        // Removed tokens
         tempRemoved.push(...tokens);
       } else if (op === 1) {
-        // Added tokens
         tempAdded.push(...tokens);
       }
     }
     flushPairs();
 
-    // Now build the result for the requested side
     const result: HybridWordDiff[] = [];
 
     const splitToken = (token: string): { word: string; trailing: string } => {
@@ -279,7 +250,6 @@ export class DiffCalculator {
     for (const pair of pairs) {
       if (pair.oldToken && pair.newToken) {
         if (pair.oldToken === pair.newToken) {
-          // Unchanged token
           const { word, trailing } = splitToken(pair.oldToken);
           result.push({
             type: 'unchanged',
@@ -287,12 +257,9 @@ export class DiffCalculator {
             trailingParts: trailing.split('').map(char => ({ char, changed: false })),
           });
         } else {
-          // Modified token - do char-level diff
-          // Char-level diff for the whole token
           const charDiffs = this.dmp.diff_main(pair.oldToken, pair.newToken);
           this.dmp.diff_cleanupSemantic(charDiffs);
 
-          // Build parts for the requested side
           const allParts: HybridDiffPart[] = [];
 
           for (const [op, text] of charDiffs) {
@@ -301,14 +268,12 @@ export class DiffCalculator {
                 allParts.push({ char, changed: false });
               }
             } else if (op === -1) {
-              // Deleted - only show on old side
               if (side === 'old') {
                 for (const char of text) {
                   allParts.push({ char, changed: true });
                 }
               }
             } else if (op === 1) {
-              // Added - only show on new side
               if (side === 'new') {
                 for (const char of text) {
                   allParts.push({ char, changed: true });
@@ -317,7 +282,6 @@ export class DiffCalculator {
             }
           }
 
-          // Split allParts into word and trailing based on content
           const wordParts: HybridDiffPart[] = [];
           const trailingParts: HybridDiffPart[] = [];
           let inTrailing = false;
@@ -327,12 +291,11 @@ export class DiffCalculator {
             if (!inTrailing && !isWs) {
               wordParts.push(part);
             } else if (!inTrailing && isWs) {
-              // First whitespace - check if we have more non-ws chars ahead
               const remainingHasWord = allParts.slice(allParts.indexOf(part) + 1).some(p =>
                 p.char !== ' ' && p.char !== '\t' && p.char !== '\n' && p.char !== '\r'
               );
               if (remainingHasWord) {
-                wordParts.push(part); // whitespace in middle of word
+                wordParts.push(part);
               } else {
                 inTrailing = true;
                 trailingParts.push(part);
@@ -342,8 +305,6 @@ export class DiffCalculator {
             }
           }
 
-          // Mark as modified - the key point: BOTH sides show this as modified
-          // even if one side only has insertions/deletions
           result.push({
             type: 'modified',
             parts: wordParts,
@@ -351,7 +312,6 @@ export class DiffCalculator {
           });
         }
       } else if (pair.oldToken && !pair.newToken) {
-        // Token only in old (removed) - only show on old side
         if (side === 'old') {
           const { word, trailing } = splitToken(pair.oldToken);
           result.push({
@@ -361,7 +321,6 @@ export class DiffCalculator {
           });
         }
       } else if (!pair.oldToken && pair.newToken) {
-        // Token only in new (added) - only show on new side
         if (side === 'new') {
           const { word, trailing } = splitToken(pair.newToken);
           result.push({
@@ -372,11 +331,6 @@ export class DiffCalculator {
         }
       }
     }
-
-    // DEBUG: Log result summary
-    const modifiedCount = result.filter(r => r.type === 'modified').length;
-    const unchangedCount = result.filter(r => r.type === 'unchanged').length;
-    console.log(`[DIFF DEBUG] side=${side}, RESULT: ${modifiedCount} modified, ${unchangedCount} unchanged tokens`);
 
     return result;
   }

@@ -12,56 +12,36 @@ import type {
 } from '../types/ai/ai.interfaces';
 
 interface AIState {
-  // Chats
   chats: ChatInterface[];
   currentChat: ChatInterface | null;
   messages: MessageInterface[];
-
-  // Token balance
   tokenBalance: TokenBalanceResponse | null;
-
-  // Insights
   insights: InsightInterface[];
-
-  // UI state
   loading: boolean;
   sendingMessage: boolean;
   streamingMessage: string;
   isStreaming: boolean;
   error: string | null;
-
-  // Chat actions
   fetchChats: () => Promise<void>;
   createChat: (title?: string) => Promise<ChatInterface>;
   selectChat: (chatId: string) => Promise<void>;
   deleteChat: (chatId: string) => Promise<void>;
   archiveChat: (chatId: string) => Promise<void>;
-
-  // Message actions
   sendMessage: (content: string, documentIds?: string[], caseIds?: string[]) => Promise<void>;
   sendMessageStreaming: (content: string, documentIds?: string[], caseIds?: string[]) => Promise<void>;
   quickChat: (message: string) => Promise<QuickChatResponse>;
-
-  // Document analysis
   analyzeDocument: (
     documentId: string,
     analysisType: 'overview' | 'risks' | 'summary' | 'full'
   ) => Promise<DocumentAnalysisResponse>;
-
-  // Token actions
   fetchTokenBalance: () => Promise<void>;
   purchaseTokens: (packType: 'starter' | 'standard' | 'large') => Promise<string>;
-
-  // Insights actions
   fetchInsights: () => Promise<void>;
-
-  // Clear actions
   clearChat: () => void;
   clearError: () => void;
 }
 
 export const useAIStore = create<AIState>((set, get) => ({
-  // Initial state
   chats: [],
   currentChat: null,
   messages: [],
@@ -73,7 +53,6 @@ export const useAIStore = create<AIState>((set, get) => ({
   isStreaming: false,
   error: null,
 
-  // Chat actions
   fetchChats: async () => {
     set({ loading: true, error: null });
     try {
@@ -146,14 +125,12 @@ export const useAIStore = create<AIState>((set, get) => ({
     }
   },
 
-  // Message actions
   sendMessage: async (content: string, documentIds?: string[], caseIds?: string[]) => {
     const { currentChat } = get();
     if (!currentChat) {
       throw new Error(i18nService.t('COMMON.ERRORS.NO_CHAT_SELECTED'));
     }
 
-    // Add user message optimistically
     const userMessage: MessageInterface = {
       id: `temp-${Date.now()}`,
       role: 'user',
@@ -174,7 +151,6 @@ export const useAIStore = create<AIState>((set, get) => ({
         caseIds,
       });
 
-      // Replace temp message with real one and add AI response
       set((state) => ({
         messages: [
           ...state.messages.filter((m) => m.id !== userMessage.id),
@@ -184,12 +160,10 @@ export const useAIStore = create<AIState>((set, get) => ({
         sendingMessage: false,
       }));
 
-      // Track AI chat message
       trackAIUsage('chat_message', {
         tokens_used: (response.tokensInput || 0) + (response.tokensOutput || 0),
       });
     } catch (error) {
-      // Remove optimistic message on error
       set((state) => ({
         messages: state.messages.filter((m) => m.id !== userMessage.id),
         sendingMessage: false,
@@ -205,7 +179,6 @@ export const useAIStore = create<AIState>((set, get) => ({
       throw new Error(i18nService.t('COMMON.ERRORS.NO_CHAT_SELECTED'));
     }
 
-    // Add user message optimistically
     const userMessage: MessageInterface = {
       id: `user-${Date.now()}`,
       role: 'user',
@@ -213,7 +186,6 @@ export const useAIStore = create<AIState>((set, get) => ({
       createdAt: new Date().toISOString(),
     };
 
-    // Add placeholder for AI response
     const aiMessageId = `ai-${Date.now()}`;
 
     set((state) => ({
@@ -236,7 +208,6 @@ export const useAIStore = create<AIState>((set, get) => ({
       await aiService.streamMessage(
         currentChat.id,
         { content, documentIds, caseIds },
-        // onChunk
         (chunk: string) => {
           set((state) => {
             const newStreamingMessage = state.streamingMessage + chunk;
@@ -248,14 +219,11 @@ export const useAIStore = create<AIState>((set, get) => ({
             };
           });
         },
-        // onDone
         () => {
           set({ isStreaming: false, streamingMessage: '' });
 
-          // Track AI streaming message
           trackAIUsage('chat_message', { streaming: 1 });
         },
-        // onError
         (error: string) => {
           set((state) => ({
             isStreaming: false,
@@ -282,7 +250,6 @@ export const useAIStore = create<AIState>((set, get) => ({
       const response = await aiService.quickChat({ message });
       set({ sendingMessage: false });
 
-      // Track quick chat usage
       trackAIUsage('quick_chat');
 
       return response;
@@ -292,14 +259,12 @@ export const useAIStore = create<AIState>((set, get) => ({
     }
   },
 
-  // Document analysis
   analyzeDocument: async (documentId: string, analysisType) => {
     set({ loading: true, error: null });
     try {
       const response = await aiService.analyzeDocument(documentId, { analysisType });
       set({ loading: false });
 
-      // Track document analysis
       trackAIUsage('document_analysis', { analysis_type: analysisType });
 
       return response;
@@ -309,7 +274,6 @@ export const useAIStore = create<AIState>((set, get) => ({
     }
   },
 
-  // Token actions
   fetchTokenBalance: async () => {
     try {
       const balance = await aiService.getTokenBalance();
@@ -326,7 +290,6 @@ export const useAIStore = create<AIState>((set, get) => ({
       const response = await aiService.purchaseTokens(packType);
       set({ loading: false });
 
-      // Track token purchase intent
       trackAIUsage('token_purchase', { pack_type: packType });
 
       return response.checkoutUrl;
@@ -336,18 +299,15 @@ export const useAIStore = create<AIState>((set, get) => ({
     }
   },
 
-  // Insights actions
   fetchInsights: async () => {
     try {
       const response = await aiService.getInsights();
       set({ insights: response.insights || [] });
     } catch (error) {
-      // Don't show error for insights - they are optional
       set({ insights: [] });
     }
   },
 
-  // Clear actions
   clearChat: () => {
     set({ currentChat: null, messages: [] });
   },

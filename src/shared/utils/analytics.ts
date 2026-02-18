@@ -163,10 +163,8 @@ export const initializeAnalytics = (): void => {
         send_page_view: false, // We'll handle page views manually for SPA
       });
 
-      console.log('[Analytics] Initialized with consent:', hasConsent === true);
     })
-    .catch((error) => {
-      console.warn('[Analytics] Failed to load GA script:', error);
+    .catch(() => {
     });
 };
 

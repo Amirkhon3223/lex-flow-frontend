@@ -86,7 +86,6 @@ export const useWorkspacesStore = create<WorkspacesState>()(
       switchWorkspace: async (workspaceId) => {
         set({ loading: true, error: null });
         try {
-          // TODO: Implement workspace switching logic
           const workspace = get().workspaces.find((w) => w.id === workspaceId);
           if (workspace) {
             set({ currentWorkspace: workspace, loading: false });

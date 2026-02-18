@@ -40,6 +40,7 @@ export interface User {
   role?: string
   workspaceId?: string
   twoFactorEnabled?: boolean
+  emailVerified?: boolean
   createdAt?: string
   updatedAt?: string
 }
@@ -82,6 +83,16 @@ export interface AuthResponse {
   role?: MembershipRole
   twoFactorRequired?: boolean
   tempToken?: string
+  emailVerificationRequired?: boolean
+}
+
+export interface VerifyEmailRequest {
+  code: string
+}
+
+export interface VerifyEmailResponse {
+  message: string
+  user: User
 }
 
 export interface Verify2FALoginRequest {

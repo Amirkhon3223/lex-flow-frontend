@@ -188,7 +188,6 @@ export function ClientsPage() {
       { key: 'lastContact', header: t('CLIENTS.FIELDS.LAST_CONTACT'), formatter: (v: unknown) => formatDateForExport(v as string) },
     ];
 
-    // Prepare data with computed name field
     const exportData = clients.map(client => ({
       ...client,
       name: getClientName(client),

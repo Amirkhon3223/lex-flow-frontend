@@ -17,6 +17,7 @@ interface VersionDiffSummaryProps {
     removed: number;
     unchanged: number;
   };
+  isLatestVsPrevious?: boolean;
 }
 
 interface DiffSummary {
@@ -34,6 +35,7 @@ export function VersionDiffSummary({
   version1Number,
   version2Number,
   statistics,
+  isLatestVsPrevious = false,
 }: VersionDiffSummaryProps) {
   const { t } = useI18n();
   const [loading, setLoading] = useState(false);
@@ -41,8 +43,13 @@ export function VersionDiffSummary({
   const [isExpanded, setIsExpanded] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
 
-  // Check if summary already exists
   useEffect(() => {
+    setSummary(null);
+  }, [version1Id, version2Id]);
+
+  useEffect(() => {
+    if (!isLatestVsPrevious) return;
+
     const checkExistingSummary = async () => {
       try {
         const response = await aiService.getVersionComparison(documentId, version1Id, version2Id);
@@ -56,14 +63,13 @@ export function VersionDiffSummary({
           });
         }
       } catch {
-        // No cached summary exists, that's fine
       }
     };
 
     if (version1Id && version2Id) {
       checkExistingSummary();
     }
-  }, [documentId, version1Id, version2Id]);
+  }, [documentId, version1Id, version2Id, isLatestVsPrevious]);
 
   const handleGenerateSummary = async () => {
     if (loading) return;
@@ -126,7 +132,6 @@ export function VersionDiffSummary({
 
       {isExpanded && (
         <div className="mt-4 space-y-4">
-          {/* Context Info */}
           <div className="flex flex-wrap gap-2 text-xs">
             <span className="px-2 py-1 rounded-lg bg-white/50 dark:bg-gray-800/50 text-purple-700 dark:text-purple-300">
               v{version1Number} → v{version2Number}
@@ -141,7 +146,6 @@ export function VersionDiffSummary({
 
           {summary ? (
             <div className="space-y-3">
-              {/* Summary */}
               <div className="p-4 bg-white/80 dark:bg-gray-800/80 rounded-xl">
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="text-sm font-medium text-purple-700 dark:text-purple-300">
@@ -168,7 +172,6 @@ export function VersionDiffSummary({
                 <p className="text-sm text-foreground whitespace-pre-wrap">{summary.summary}</p>
               </div>
 
-              {/* Details (expandable) */}
               {summary.details && (
                 <div>
                   <Button

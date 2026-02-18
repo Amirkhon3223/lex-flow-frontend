@@ -71,7 +71,6 @@ export function TemplateEditor({
 
     setFormData({ ...formData, content: newContent });
 
-    // Restore cursor position after state update
     setTimeout(() => {
       textarea.focus();
       const newPos = start + variable.length;
@@ -127,7 +126,6 @@ export function TemplateEditor({
     return labels[category] || category;
   };
 
-  // Extract variables from content
   const extractedVariables = formData.content.match(/\{\{[\w.]+\}\}/g) || [];
   const uniqueVariables = [...new Set(extractedVariables)];
 

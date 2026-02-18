@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { usersService } from '@/app/services/users/users.service';
 import { useAuthStore } from '@/app/store/auth.store';
+import type { Specialization } from '@/app/types/users/users.interfaces';
 import { handleLogout } from '@/app/utils/authUtils';
 import { useI18n } from '@/shared/context/I18nContext';
 import { Button } from '@/shared/ui/button';
@@ -40,7 +41,6 @@ export default function UserProfilePage() {
     specialization: '',
   });
 
-  // Храним исходные данные для сравнения
   const [initialProfileData, setInitialProfileData] = useState({
     firstName: '',
     lastName: '',
@@ -82,7 +82,6 @@ export default function UserProfilePage() {
           daysInSystem: stats.daysInSystem || 0,
         });
       } catch {
-        // Silently handle - stats will show default values
       }
     };
 
@@ -93,7 +92,6 @@ export default function UserProfilePage() {
     setProfileData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Проверяем, изменились ли данные
   const hasChanges = useMemo(() => {
     return JSON.stringify(profileData) !== JSON.stringify(initialProfileData);
   }, [profileData, initialProfileData]);
@@ -109,11 +107,9 @@ export default function UserProfilePage() {
         position: profileData.position,
         company: profileData.company || undefined,
         address: profileData.address || undefined,
-        specialization: profileData.specialization as any,
+        specialization: profileData.specialization as Specialization,
       });
       updateUserData(updatedUser);
-
-      // Обновляем исходные данные после успешного сохранения
       setInitialProfileData(profileData);
 
       toast.success(t('USER_PROFILE.CHANGES_SAVED'));

@@ -94,7 +94,6 @@ export function ErrorBoundary({ children }: ErrorBoundaryProps) {
         <ErrorFallback error={error} resetError={resetError} />
       )}
       onError={(error, componentStack) => {
-        // Log to console in development
         if (import.meta.env.DEV) {
           console.error('ErrorBoundary caught an error:', error);
           console.error('Component stack:', componentStack);

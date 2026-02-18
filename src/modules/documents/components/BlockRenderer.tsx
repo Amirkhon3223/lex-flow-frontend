@@ -79,8 +79,6 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
     );
   }
 
-  // For diff calculation we always need both old and new text
-  // block is the current side's content, comparisonBlock is the other side
   const oldText = side === 'old' ? (block.content || '') : (comparisonBlock?.content || '');
   const newText = side === 'old' ? (comparisonBlock?.content || '') : (block.content || '');
 
@@ -89,7 +87,6 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
   if (comparisonBlock?.blockType === 'TEXT') {
     hybridDiffs = diffCalculator.calculateHybridDiff(oldText, newText, side);
   } else {
-    // No comparison block - mark all as modified (all chars changed)
     const content = block.content || '';
     const regex = /(\S+)(\s*)/g;
     let match;
@@ -114,7 +111,6 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
     }
   }
 
-  // Neutral block styling - no colored borders/backgrounds
   const blockStyle = cn(
     'p-4 rounded-lg border-2 transition-colors bg-card border-border',
     className
@@ -133,18 +129,16 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
           const isModified = wordDiff.type === 'modified';
           const hasWordContent = wordDiff.parts.length > 0;
 
-          // Word background color when modified (only for actual words, not whitespace-only tokens)
           const wordStyle = isModified && hasWordContent
             ? {
                 backgroundColor: side === 'old'
-                  ? 'rgba(239, 68, 68, 0.3)'  // red
-                  : 'rgba(34, 197, 94, 0.3)', // green
+                  ? 'rgba(239, 68, 68, 0.3)'
+                  : 'rgba(34, 197, 94, 0.3)',
                 borderRadius: '2px',
                 padding: '0 2px',
               }
             : {};
 
-          // Group consecutive chars by their changed status for cleaner rendering
           const charGroups: { text: string; changed: boolean }[] = [];
           for (const part of wordDiff.parts) {
             const lastGroup = charGroups[charGroups.length - 1];
@@ -155,7 +149,6 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
             }
           }
 
-          // Group trailing whitespace chars by changed status
           const trailingGroups: { text: string; changed: boolean }[] = [];
           for (const part of wordDiff.trailingParts) {
             const lastGroup = trailingGroups[trailingGroups.length - 1];
@@ -171,7 +164,6 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
               <span style={wordStyle}>
                 {charGroups.map((group, groupIdx) => {
                   if (group.changed) {
-                    // Changed characters get extra highlight
                     const charClass = side === 'old'
                       ? 'bg-red-500 dark:bg-red-500 text-white font-semibold'
                       : 'bg-green-500 dark:bg-green-500 text-white font-semibold';
@@ -181,14 +173,11 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
                       </span>
                     );
                   }
-                  // Unchanged characters - just text, inherits word background
                   return <React.Fragment key={groupIdx}>{group.text}</React.Fragment>;
                 })}
               </span>
-              {/* Render trailing whitespace with potential highlighting */}
               {trailingGroups.map((group, groupIdx) => {
                 if (group.changed) {
-                  // Changed whitespace gets highlight (visible as colored background)
                   const spaceClass = side === 'old'
                     ? 'bg-red-400 dark:bg-red-400'
                     : 'bg-green-400 dark:bg-green-400';

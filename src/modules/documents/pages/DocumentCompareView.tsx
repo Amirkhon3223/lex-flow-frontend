@@ -118,14 +118,12 @@ export function DocumentCompareView() {
         await containerRef.current?.requestFullscreen();
         setIsFullscreen(true);
       } catch {
-        // Fullscreen not supported or denied
       }
     } else {
       try {
         await document.exitFullscreen();
         setIsFullscreen(false);
       } catch {
-        // Exit fullscreen failed
       }
     }
   };
@@ -177,11 +175,9 @@ export function DocumentCompareView() {
     return { added: totalAdded, removed: totalRemoved, unchanged: totalUnchanged };
   }, [alignedPairs]);
 
-  // Find indices of changed blocks
   const changedBlockIndices = useMemo(() => {
     const indices: number[] = [];
     alignedPairs.forEach((pair, idx) => {
-      // Block is changed if: added, removed, or modified (different content)
       if (pair.matchType === 'added' || pair.matchType === 'removed') {
         indices.push(idx);
       } else if (pair.block1?.blockType === 'TEXT' && pair.block2?.blockType === 'TEXT') {
@@ -198,7 +194,6 @@ export function DocumentCompareView() {
 
     let newIndex: number;
     if (currentChangeIndex === -1) {
-      // First navigation - go to first or last change
       newIndex = direction === 'next' ? 0 : changedBlockIndices.length - 1;
     } else {
       newIndex = direction === 'next'
@@ -209,7 +204,6 @@ export function DocumentCompareView() {
     setCurrentChangeIndex(newIndex);
     const blockIdx = changedBlockIndices[newIndex];
 
-    // Scroll both panels to the changed block
     const oldRef = blockRefsOld.current.get(blockIdx);
     const newRef = blockRefsNew.current.get(blockIdx);
 
@@ -268,6 +262,27 @@ export function DocumentCompareView() {
   const v1Meta = getVersionMeta(version1);
   const v2Meta = getVersionMeta(version2);
 
+  const isV1Newer = useMemo(() => {
+    if (!v1Data?.createdAt || !v2Data?.createdAt) return false;
+    return new Date(v1Data.createdAt) > new Date(v2Data.createdAt);
+  }, [v1Data?.createdAt, v2Data?.createdAt]);
+
+  const isDataStale = useMemo(() => {
+    if (!comparisonData) return false;
+    return v1Data.id !== version1 || v2Data.id !== version2;
+  }, [comparisonData, v1Data.id, v2Data.id, version1, version2]);
+
+  const isLatestVsPrevious = useMemo(() => {
+    if (versions.length < 2) return false;
+    const sortedVersions = [...versions].sort((a, b) => b.versionNumber - a.versionNumber);
+    const latestId = sortedVersions[0].id;
+    const previousId = sortedVersions[1].id;
+    return (
+      (version1 === latestId && version2 === previousId) ||
+      (version1 === previousId && version2 === latestId)
+    );
+  }, [versions, version1, version2]);
+
   return (
     <div ref={containerRef}>
       <header className="relative bg-card border-b border-border rounded-xl">
@@ -276,7 +291,6 @@ export function DocumentCompareView() {
             <BackButton onClick={onBack} label={t('DOCUMENTS.BACK_TO_VERSIONS')} />
 
             <div className="flex items-center gap-2 flex-wrap">
-              {/* Zoom controls */}
               <div className="hidden sm:flex items-center gap-2">
                 <Button
                   variant="outline"
@@ -442,7 +456,6 @@ export function DocumentCompareView() {
       </header>
 
       <main className="p-4 sm:p-6 lg:p-8">
-        {}
         {(v1Data.extractionStatus === 'failed' || v2Data.extractionStatus === 'failed') && (
           <Alert variant="destructive" className="mb-4">
             <AlertCircle className="h-4 w-4" />
@@ -454,7 +467,6 @@ export function DocumentCompareView() {
           </Alert>
         )}
 
-        {/* AI Version Diff Summary */}
         {documentId && version1 && version2 && v1Meta && v2Meta && (
           <VersionDiffSummary
             documentId={documentId}
@@ -463,12 +475,16 @@ export function DocumentCompareView() {
             version1Number={v1Meta.versionNumber}
             version2Number={v2Meta.versionNumber}
             statistics={statistics}
+            isLatestVsPrevious={isLatestVsPrevious}
           />
         )}
 
-        {/* Mobile view */}
         <div className="lg:hidden space-y-4">
-          {/* Stats and navigation */}
+          {(loading || isDataStale) && (
+            <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            </div>
+          )}
           <Card>
             <div>
               <div className="flex items-center justify-between mb-3">
@@ -514,9 +530,8 @@ export function DocumentCompareView() {
             </div>
           </Card>
 
-          {/* Old version */}
           <Card>
-            <div className="p-3 bg-muted/50 border-b border-border">
+            <div className={`p-3 border-b ${isV1Newer ? 'bg-green-500/10 border-green-500/20' : 'bg-muted/50 border-border'}`}>
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-semibold tracking-tight text-sm mb-0.5">
@@ -526,8 +541,8 @@ export function DocumentCompareView() {
                     {new Date(v1Data.createdAt).toLocaleString()}
                   </p>
                 </div>
-                <Badge className="bg-muted text-muted-foreground border-0 text-xs">
-                  {t('DOCUMENTS.OLD')}
+                <Badge className={`text-xs border-0 ${isV1Newer ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'}`}>
+                  {isV1Newer ? t('DOCUMENTS.NEW') : t('DOCUMENTS.OLD')}
                 </Badge>
               </div>
             </div>
@@ -541,7 +556,7 @@ export function DocumentCompareView() {
                     <BlockRenderer
                       block={pair.block1!}
                       comparisonBlock={pair.block2 || undefined}
-                      side="old"
+                      side={isV1Newer ? 'new' : 'old'}
                     />
                   </div>
                 ))}
@@ -549,9 +564,8 @@ export function DocumentCompareView() {
             </ScrollArea>
           </Card>
 
-          {/* New version */}
           <Card>
-            <div className="p-3 bg-green-500/10 border-b border-green-500/20">
+            <div className={`p-3 border-b ${!isV1Newer ? 'bg-green-500/10 border-green-500/20' : 'bg-muted/50 border-border'}`}>
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-semibold tracking-tight text-sm mb-0.5">
@@ -561,8 +575,8 @@ export function DocumentCompareView() {
                     {new Date(v2Data.createdAt).toLocaleString()}
                   </p>
                 </div>
-                <Badge className="bg-green-500 text-white border-0 text-xs">
-                  {t('DOCUMENTS.NEW')}
+                <Badge className={`text-xs border-0 ${!isV1Newer ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'}`}>
+                  {!isV1Newer ? t('DOCUMENTS.NEW') : t('DOCUMENTS.OLD')}
                 </Badge>
               </div>
             </div>
@@ -576,7 +590,7 @@ export function DocumentCompareView() {
                     <BlockRenderer
                       block={pair.block2!}
                       comparisonBlock={pair.block1 || undefined}
-                      side="new"
+                      side={!isV1Newer ? 'new' : 'old'}
                     />
                   </div>
                 ))}
@@ -584,7 +598,6 @@ export function DocumentCompareView() {
             </ScrollArea>
           </Card>
 
-          {}
           <Card className="bg-muted/50">
             <div>
               <div className="flex items-center gap-2 mb-2">
@@ -605,9 +618,7 @@ export function DocumentCompareView() {
           </Card>
         </div>
 
-        {}
         <div className="hidden lg:grid grid-cols-4 gap-6">
-          {}
           <div className="space-y-6">
             <Card>
               <div>
@@ -616,7 +627,6 @@ export function DocumentCompareView() {
                   Statistics
                 </h3>
 
-                {/* Change navigation */}
                 {changedBlockIndices.length > 0 && (
                   <div className="flex items-center justify-between p-3 rounded-xl bg-blue-500/10 mb-3">
                     <span className="text-sm text-blue-700 dark:text-blue-400">
@@ -698,13 +708,16 @@ export function DocumentCompareView() {
             </Card>
           </div>
 
-          {}
           <div className="col-span-3">
             <Card>
-              <div className="grid grid-cols-2 divide-x divide-border">
-                {}
+              <div className="grid grid-cols-2 divide-x divide-border relative">
+                {(loading || isDataStale) && (
+                  <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex items-center justify-center">
+                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                  </div>
+                )}
                 <div>
-                  <div className="p-4 bg-muted/50 border-b border-border">
+                  <div className={`p-4 border-b ${isV1Newer ? 'bg-green-500/10 border-green-500/20' : 'bg-muted/50 border-border'}`}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold tracking-tight mb-1">
@@ -714,8 +727,8 @@ export function DocumentCompareView() {
                           {new Date(v1Data.createdAt).toLocaleString()}
                         </p>
                       </div>
-                      <Badge className="bg-muted text-muted-foreground border-0">
-                        {t('DOCUMENTS.OLD')}
+                      <Badge className={isV1Newer ? 'bg-green-500 text-white border-0' : 'bg-muted text-muted-foreground border-0'}>
+                        {isV1Newer ? t('DOCUMENTS.NEW') : t('DOCUMENTS.OLD')}
                       </Badge>
                     </div>
                   </div>
@@ -732,7 +745,7 @@ export function DocumentCompareView() {
                           <BlockRenderer
                             block={pair.block1!}
                             comparisonBlock={pair.block2 || undefined}
-                            side="old"
+                            side={isV1Newer ? 'new' : 'old'}
                           />
                         </div>
                       ))}
@@ -740,9 +753,8 @@ export function DocumentCompareView() {
                   </ScrollArea>
                 </div>
 
-                {/* New version */}
                 <div>
-                  <div className="p-4 bg-green-500/10 border-b border-green-500/20">
+                  <div className={`p-4 border-b ${!isV1Newer ? 'bg-green-500/10 border-green-500/20' : 'bg-muted/50 border-border'}`}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold tracking-tight mb-1">
@@ -752,8 +764,8 @@ export function DocumentCompareView() {
                           {new Date(v2Data.createdAt).toLocaleString()}
                         </p>
                       </div>
-                      <Badge className="bg-green-500 text-white border-0">
-                        {t('DOCUMENTS.NEW')}
+                      <Badge className={!isV1Newer ? 'bg-green-500 text-white border-0' : 'bg-muted text-muted-foreground border-0'}>
+                        {!isV1Newer ? t('DOCUMENTS.NEW') : t('DOCUMENTS.OLD')}
                       </Badge>
                     </div>
                   </div>
@@ -770,7 +782,7 @@ export function DocumentCompareView() {
                           <BlockRenderer
                             block={pair.block2!}
                             comparisonBlock={pair.block1 || undefined}
-                            side="new"
+                            side={!isV1Newer ? 'new' : 'old'}
                           />
                         </div>
                       ))}

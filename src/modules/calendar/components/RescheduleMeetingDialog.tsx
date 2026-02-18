@@ -43,9 +43,7 @@ export function RescheduleMeetingDialog({
         try {
           const parsedDate = parse(currentDate, 'yyyy-MM-dd', new Date());
           setDate(parsedDate);
-        } catch {
-          // Invalid date format - use default
-        }
+        } catch {}
       }
       setTime(currentTime || '');
     }

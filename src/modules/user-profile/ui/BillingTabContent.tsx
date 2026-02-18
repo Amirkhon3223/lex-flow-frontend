@@ -21,7 +21,6 @@ export function BillingTabContent() {
       try {
         await Promise.all([fetchSubscription(), fetchPlans(), fetchPayments(1, 5)]);
       } catch {
-        // Silently handle - empty state will be shown
       }
     };
     fetchData();

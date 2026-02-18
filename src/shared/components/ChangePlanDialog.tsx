@@ -55,7 +55,6 @@ export function ChangePlanDialog({ open, onOpenChange, onSubmit, currentPlanId }
           const response = await billingService.getPlans();
           setPlans(response.plans);
         } catch {
-          // Silently handle - plans list will be empty
         } finally {
           setLoading(false);
         }

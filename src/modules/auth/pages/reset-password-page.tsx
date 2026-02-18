@@ -31,7 +31,6 @@ export function ResetPasswordPage() {
     }
   }, [searchParams]);
 
-  // Auto-redirect after success
   useEffect(() => {
     if (!isSuccess) return;
 
@@ -100,14 +99,12 @@ export function ResetPasswordPage() {
     window.location.href = '/login';
   };
 
-  // Simple card wrapper (not AuthCard which requires login/register props)
   const Card = ({ children }: { children: React.ReactNode }) => (
     <div className="bg-card/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl shadow-muted/50 border border-border/20 p-5 sm:p-6 md:p-8">
       {children}
     </div>
   );
 
-  // No token provided
   if (!token && !isSuccess) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-4">

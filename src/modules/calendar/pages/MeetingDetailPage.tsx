@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useMeetingsStore } from '@/app/store/meetings.store';
+import { usePlanLimitsStore } from '@/app/store/planLimits.store';
 import { MeetingStatusEnum, MeetingTypeEnum } from '@/app/types/calendar/calendar.enums';
 import { AddMeetingDialog } from '@/modules/calendar/components/AddMeetingDialog';
 import { AddMeetingNoteDialog } from '@/modules/calendar/components/AddMeetingNoteDialog';
@@ -28,6 +29,8 @@ export function MeetingDetailPage() {
   const { isHighlighted } = useHighlightItem();
   const { selectedMeeting, loading, fetchMeetingById, updateMeeting, deleteMeeting } =
     useMeetingsStore();
+  const { usage, fetchUsage } = usePlanLimitsStore();
+  const canUpload = usage?.canUpload !== false;
 
   const [isEditingOpen, setIsEditingOpen] = useState(false);
   const [isAddNoteOpen, setIsAddNoteOpen] = useState(false);
@@ -35,6 +38,10 @@ export function MeetingDetailPage() {
   const [isRescheduleOpen, setIsRescheduleOpen] = useState(false);
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  useEffect(() => {
+    fetchUsage();
+  }, [fetchUsage]);
 
   useEffect(() => {
     if (id) {
@@ -186,7 +193,7 @@ export function MeetingDetailPage() {
           {meeting.caseName && (
             <MeetingCaseCard caseName={meeting.caseName} caseId={meeting.caseId} />
           )}
-          <MeetingDocumentsCard onAddDocument={() => setIsAddDocumentOpen(true)} />
+          <MeetingDocumentsCard onAddDocument={canUpload ? () => setIsAddDocumentOpen(true) : undefined} />
           <QuickActionsCard
             onComplete={handleComplete}
             onReschedule={handleReschedule}

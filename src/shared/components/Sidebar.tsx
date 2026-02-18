@@ -15,10 +15,12 @@ import { memo, useCallback } from 'react';
 import {
   Home,
   Briefcase,
+  Shield,
   Users,
   FileText,
   Calendar,
   BarChart3,
+  DollarSign,
   Sparkles,
   Settings,
   LogOut,
@@ -53,7 +55,6 @@ export const Sidebar = memo(function Sidebar({
     handleLogout(navigate);
   };
 
-  // Prefetch route on hover for improved navigation performance
   const handlePrefetch = useCallback((path: string) => {
     prefetchRoute(path);
   }, []);
@@ -71,6 +72,13 @@ export const Sidebar = memo(function Sidebar({
       label: t('COMMON.NAVIGATION.CASES'),
       path: ROUTES.CASES.BASE,
       id: 'cases',
+      count: undefined,
+    },
+    {
+      icon: Shield,
+      label: t('COMMON.NAVIGATION.CONFLICT_CHECK'),
+      path: ROUTES.CONFLICT_CHECK,
+      id: 'conflict-check',
       count: undefined,
     },
     {
@@ -99,6 +107,13 @@ export const Sidebar = memo(function Sidebar({
       label: t('COMMON.NAVIGATION.ANALYTICS'),
       path: ROUTES.ANALYTICS,
       id: 'analytics',
+      count: undefined,
+    },
+    {
+      icon: DollarSign,
+      label: t('COMMON.NAVIGATION.TRUST_ACCOUNTS'),
+      path: ROUTES.TRUST_ACCOUNTS,
+      id: 'trust-accounts',
       count: undefined,
     },
     {
@@ -137,7 +152,6 @@ export const Sidebar = memo(function Sidebar({
                 } object-contain flex-shrink-0`}
               />
             </div>
-            {}
             <div
               className={`transition-all duration-300 ${isCollapsed ? 'hidden lg:block' : 'block'}`}
             >

@@ -25,6 +25,11 @@ export const handleApiError = (error: AxiosError<ErrorResponse>) => {
           description: message || i18nService.t('ERRORS.401.DESCRIPTION'),
         });
         break;
+      case 402:
+        toast.error(i18nService.t('ERRORS.402.TITLE'), {
+          description: message || i18nService.t('ERRORS.402.DESCRIPTION'),
+        });
+        break;
       case 403:
         toast.error(i18nService.t('ERRORS.403.TITLE'), {
           description: i18nService.t('ERRORS.403.DESCRIPTION'),

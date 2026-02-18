@@ -13,7 +13,6 @@ export function MeetingClientCard({ clientName, clientAvatar, clientId }: Meetin
   const navigate = useNavigate();
   const { t } = useI18n();
 
-  // Don't render if no client
   if (!clientName) {
     return null;
   }

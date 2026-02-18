@@ -220,7 +220,9 @@ export function usePWA(): UsePWAReturn {
       deferredPromptRef.current = null;
       return outcome;
     } catch (error) {
-      console.error('Error prompting install:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error prompting install:', error);
+      }
       return 'not-available';
     }
   }, []);

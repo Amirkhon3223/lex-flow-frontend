@@ -3,6 +3,7 @@ export const ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
     RESET_PASSWORD: '/reset-password',
+    VERIFY_EMAIL: '/verify-email',
   },
 
   DASHBOARD: '/',
@@ -30,6 +31,8 @@ export const ROUTES = {
   CALENDAR: '/calendar',
   CALENDAR_MEETING: (id: string) => `/calendar/meetings/${id}`,
 
+  CONFLICT_CHECK: '/conflict-check',
+  TRUST_ACCOUNTS: '/trust-accounts',
   ANALYTICS: '/analytics',
   AI_ASSISTANT: '/ai-assistant',
   NOTIFICATIONS: '/notifications',

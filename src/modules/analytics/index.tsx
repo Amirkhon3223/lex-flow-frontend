@@ -7,6 +7,7 @@ import {
   DollarSign,
   Users,
   Sparkles,
+  FileBarChart,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAnalyticsStore } from '@/app/store/analytics.store';
@@ -29,6 +30,7 @@ import { FinanceTabContent } from './components/FinanceTabContent';
 import { RevenueChart } from './components/RevenueChart';
 import { StatsCards } from './components/StatsCards';
 import { TeamStats } from './components/TeamStats';
+import { ReportsTabContent } from './components/reports/ReportsTabContent';
 
 export default function AnalyticsPage() {
   const { t } = useI18n();
@@ -67,10 +69,8 @@ export default function AnalyticsPage() {
     try {
       setIsExporting(true);
 
-      // Get user currency (default to USD if not set)
       const userCurrency = user?.currency || 'USD';
 
-      // Export all analytics data
       exportAnalyticsToCSV(
         {
           dashboard,
@@ -84,7 +84,6 @@ export default function AnalyticsPage() {
         userCurrency
       );
 
-      // Show success message
       toast.success(t('ANALYTICS.EXPORT_SUCCESS'), {
         description: t('ANALYTICS.EXPORT_SUCCESS_DESCRIPTION'),
       });
@@ -184,6 +183,13 @@ export default function AnalyticsPage() {
               <Users className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
               <span className="hidden sm:inline">{t('ANALYTICS.TABS.TEAM')}</span>
             </TabsTrigger>
+            <TabsTrigger
+              value="reports"
+              className="rounded-md sm:rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm text-xs sm:text-sm flex-1 sm:flex-none"
+            >
+              <FileBarChart className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" strokeWidth={2} />
+              <span className="hidden sm:inline">{t('ANALYTICS.TABS.REPORTS')}</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4 sm:space-y-6">
@@ -204,6 +210,10 @@ export default function AnalyticsPage() {
 
           <TabsContent value="team" className="space-y-4 sm:space-y-6">
             <TeamStats />
+          </TabsContent>
+
+          <TabsContent value="reports" className="space-y-4 sm:space-y-6">
+            <ReportsTabContent />
           </TabsContent>
         </Tabs>
       </main>

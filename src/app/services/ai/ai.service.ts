@@ -16,7 +16,6 @@ import type {
   InsightsListResponse,
 } from '../../types/ai/ai.interfaces';
 
-// Helper to get CSRF token from cookies (for native fetch requests)
 const getCsrfToken = (): string | null => {
   const match = document.cookie
     .split('; ')
@@ -28,7 +27,6 @@ const getCsrfToken = (): string | null => {
 };
 
 export const aiService = {
-  // Chat methods
   createChat: async (data: CreateChatRequest): Promise<ChatInterface> => {
     const response = await httpClient.post<ChatInterface>('/ai/chats', data);
     return response.data;
@@ -52,7 +50,6 @@ export const aiService = {
     await httpClient.post(`/ai/chats/${chatId}/archive`);
   },
 
-  // Message methods
   sendMessage: async (chatId: string, data: SendMessageRequest): Promise<MessageInterface> => {
     const response = await httpClient.post<MessageInterface>(
       `/ai/chats/${chatId}/messages`,
@@ -61,7 +58,6 @@ export const aiService = {
     return response.data;
   },
 
-  // Streaming message
   streamMessage: async (
     chatId: string,
     data: SendMessageRequest,
@@ -101,7 +97,6 @@ export const aiService = {
       return;
     }
 
-    // Buffer for incomplete SSE events
     let buffer = '';
 
     try {
@@ -109,13 +104,10 @@ export const aiService = {
         const { done, value } = await reader.read();
         if (done) break;
 
-        // Append new data to buffer
         buffer += decoder.decode(value, { stream: true });
 
-        // Process complete SSE events (separated by double newline)
         const events = buffer.split(/\r?\n\r?\n/);
 
-        // Keep the last potentially incomplete event in buffer
         buffer = events.pop() || '';
 
         for (const event of events) {
@@ -129,9 +121,7 @@ export const aiService = {
             if (line.startsWith('event:')) {
               eventType = line.slice(6).trim();
             } else if (line.startsWith('data:')) {
-              // Get data after "data:" - preserve spaces!
               eventData = line.slice(5);
-              // Remove only leading space if present (SSE spec says one space after colon is optional)
               if (eventData.startsWith(' ')) {
                 eventData = eventData.slice(1);
               }
@@ -149,15 +139,12 @@ export const aiService = {
           }
 
           if (eventType === 'message' && eventData !== undefined) {
-            // Decode escaped newlines from SSE format (backend escapes \n to \\n)
             const decodedData = eventData.replace(/\\n/g, '\n');
-            // Send chunk even if it's just whitespace - preserve all characters
             onChunk(decodedData);
           }
         }
       }
 
-      // Process any remaining buffer
       if (buffer.trim()) {
         const lines = buffer.split(/\r?\n/);
         for (const line of lines) {
@@ -167,7 +154,6 @@ export const aiService = {
               eventData = eventData.slice(1);
             }
             if (eventData) {
-              // Decode escaped newlines from SSE format
               const decodedData = eventData.replace(/\\n/g, '\n');
               onChunk(decodedData);
             }
@@ -181,13 +167,11 @@ export const aiService = {
     }
   },
 
-  // Quick chat (no session)
   quickChat: async (data: QuickChatRequest): Promise<QuickChatResponse> => {
     const response = await httpClient.post<QuickChatResponse>('/ai/quick-chat', data);
     return response.data;
   },
 
-  // Document analysis
   analyzeDocument: async (
     documentId: string,
     data: AnalyzeDocumentRequest
@@ -211,7 +195,6 @@ export const aiService = {
     return response.data;
   },
 
-  // Version comparison
   compareVersions: async (
     documentId: string,
     data: { version1Id: string; version2Id: string }
@@ -255,7 +238,6 @@ export const aiService = {
     }
   },
 
-  // Token methods
   getTokenBalance: async (): Promise<TokenBalanceResponse> => {
     const response = await httpClient.get<TokenBalanceResponse>('/ai/tokens/balance');
     return response.data;
@@ -282,7 +264,6 @@ export const aiService = {
     return response.data;
   },
 
-  // Insights
   getInsights: async (): Promise<InsightsListResponse> => {
     const response = await httpClient.get<InsightsListResponse>('/ai/insights');
     return response.data;

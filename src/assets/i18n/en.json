@@ -59,6 +59,9 @@
     "IN_DEVELOPMENT": "In development",
     "DOWNLOAD": "Download",
     "UPLOADING": "Uploading...",
+    "NOT_SPECIFIED": "Not specified",
+    "NOT_SPECIFIED_F": "Not specified",
+    "UNTITLED": "Untitled",
     "NO_DATA": "No data",
     "CASES": "cases",
     "TOTAL": "Total",
@@ -118,6 +121,15 @@
       "INVALID_CREDENTIALS": "Invalid email or password",
       "USER_NOT_FOUND": "User not found",
       "INVALID_CODE": "Invalid verification code",
+      "SESSION_EXPIRED": "Your session has expired. Please log in again.",
+      "PLAN_LIMIT": "You have reached the limit of your current plan.",
+      "INSUFFICIENT_TOKENS": "Insufficient tokens. Please top up your balance.",
+      "DAILY_LIMIT": "Daily limit reached. Try again tomorrow.",
+      "NOT_FOUND": "The requested resource was not found.",
+      "RATE_LIMIT": "Too many requests. Please try again later.",
+      "STORAGE_LIMIT": "Storage limit reached. Upgrade your plan for more space.",
+      "INVALID_FILE_TYPE": "This file type is not supported.",
+      "FILE_TOO_LARGE": "The file is too large.",
       "ONE_OF": "{{field}} must be one of: {{options}}",
       "FETCH_FAILED": "Failed to load data",
       "SAVE_FAILED": "Failed to save data",
@@ -176,7 +188,9 @@
       "TEMPLATES": "Templates",
       "AI_ASSISTANT": "AI Assistant",
       "SETTINGS": "Settings",
-      "NEW_BADGE": "New"
+      "NEW_BADGE": "New",
+      "CONFLICT_CHECK": "Conflicts",
+      "TRUST_ACCOUNTS": "Trust Accounts"
     }
   },
   "DASHBOARD": {
@@ -503,6 +517,13 @@
       "ADDRESS": "Address",
       "BIRTH_DATE": "Birth date",
       "NOTES": "Notes"
+    },
+    "PLACEHOLDER": {
+      "FIRST_NAME": "John",
+      "LAST_NAME": "Smith",
+      "MIDDLE_NAME": "Michael",
+      "COMPANY_NAME": "Acme Corp LLC",
+      "ADDRESS": "123 Main St, New York, NY 10001"
     },
     "FINANCIAL": {
       "TITLE": "Finance",
@@ -842,7 +863,8 @@
     "TABS": {
       "CASES": "Cases",
       "FINANCE": "Finance",
-      "TEAM": "Team"
+      "TEAM": "Team",
+      "REPORTS": "Reports"
     },
     "STATS": {
       "ACTIVE_CASES": "Active Cases",
@@ -986,6 +1008,13 @@
     "QUICK_COMMANDS": {
       "TITLE": "Quick Commands"
     },
+    "QUICK_ACTIONS": {
+      "CHECK_CONTRACT": "Check contract for legal correctness",
+      "FIND_PRACTICE": "Find case law on this issue",
+      "DRAFT_CLAIM": "Draft a statement of claim",
+      "ASSESS_PROSPECTS": "Assess case prospects",
+      "FIND_LAWS": "Find relevant legislative acts"
+    },
     "RECENT_ANALYSES": {
       "TITLE": "Recent Analyses"
     },
@@ -1034,7 +1063,29 @@
       "FILTER_ENTITY": "Entity type",
       "ALL_ACTIONS": "All actions",
       "ALL_ENTITIES": "All entities",
-      "NO_LOGS": "No records found"
+      "NO_LOGS": "No records found",
+      "ACTIONS": {
+        "CREATE": "Create",
+        "UPDATE": "Update",
+        "DELETE": "Delete",
+        "VIEW": "View",
+        "EXPORT": "Export",
+        "LOGIN": "Login",
+        "LOGOUT": "Logout"
+      },
+      "ENTITIES": {
+        "CLIENT": "Client",
+        "CASE": "Case",
+        "DOCUMENT": "Document",
+        "MEETING": "Meeting",
+        "TASK": "Task",
+        "COMMENT": "Comment",
+        "USER": "User",
+        "WORKSPACE": "Workspace",
+        "SUBSCRIPTION": "Subscription",
+        "TEAM_MEMBER": "Team member",
+        "AUTH": "Authentication"
+      }
     },
     "PROFILE": {
       "PERSONAL_INFO": "Personal Information",
@@ -1095,6 +1146,11 @@
       }
     },
     "BILLING": {
+      "FREE_PLAN": "Free",
+      "FREE_PLAN_DESC": "Free plan — 1 client, 2 cases, 50 MB",
+      "FREE_UPGRADE_CTA": "Upgrade to a paid plan",
+      "FREE_CURRENT": "Current plan: Free",
+      "FREE_LIMITS": "You've reached the free plan limit",
       "PREMIUM": "Premium",
       "UNLIMITED_ACCESS": "Unlimited access to all features",
       "PER_MONTH": "per month",
@@ -1258,6 +1314,18 @@
     "NOT_CONFIGURED": "Telegram bot is not configured on the server",
     "CONTACT_ADMIN": "Contact your administrator for setup"
   },
+  "PUSH": {
+    "SETTINGS": "Push Notifications",
+    "ENABLE": "Enable push notifications",
+    "DISABLE": "Disable push notifications",
+    "ENABLED": "Push notifications enabled",
+    "DISABLED": "Push notifications disabled",
+    "PERMISSION_DENIED": "Notification permission blocked. Change it in your browser settings.",
+    "NOT_SUPPORTED": "Push notifications are not supported in this browser",
+    "TEST": "Send test notification",
+    "TEST_SENT": "Test push notification sent!",
+    "SUBSCRIBE_ERROR": "Failed to subscribe to push notifications"
+  },
   "USER_PROFILE": {
     "TITLE": "User Profile",
     "SUBTITLE": "Manage your profile and settings",
@@ -1314,7 +1382,10 @@
       "AVATAR_DELETE_FAILED": "Failed to delete avatar. Please try again."
     },
     "CHANGES_SAVED": "Changes saved",
-    "DELETE_ACCOUNT_CONFIRM": "Are you sure you want to delete your account?",
+    "DELETE_ACCOUNT_CONFIRM": "This action is irreversible. All data will be deleted. Enter your password to confirm.",
+    "DELETE_PASSWORD_PLACEHOLDER": "Enter password",
+    "DELETE_PASSWORD_REQUIRED": "Enter password to delete account",
+    "DELETE_PASSWORD_WRONG": "Wrong password",
     "ACCOUNT_DELETED": "Account deleted"
   },
   "AUTH": {
@@ -1388,7 +1459,25 @@
       "INVALID_RESET_TOKEN": "Password reset link is invalid or expired",
       "RESET_FAILED": "Failed to reset password. Please try again.",
       "CODE_REQUIRED": "Enter verification code",
-      "INVALID_CODE": "Invalid verification code"
+      "INVALID_CODE": "Invalid verification code",
+      "TWO_FA_REQUIRED": "Two-factor authentication is required"
+    },
+    "VERIFY_EMAIL": {
+      "TITLE": "Email Verification",
+      "DESCRIPTION": "We sent a 6-digit verification code to your email",
+      "CODE_LABEL": "Verification Code",
+      "BUTTON": "Verify",
+      "VERIFYING": "Verifying...",
+      "RESEND": "Resend Code",
+      "RESEND_COOLDOWN": "Resend in {{seconds}} sec.",
+      "LOGOUT": "Log Out",
+      "HINT": "The code is valid for 15 minutes. Check your Spam folder if you don't see the email.",
+      "SUCCESS": "Email verified successfully!",
+      "INVALID_CODE": "Invalid or expired code",
+      "ERROR": "Verification failed. Please try again.",
+      "CODE_SENT": "Code sent to your email",
+      "RESEND_TOO_SOON": "Please wait a minute before resending",
+      "RESEND_ERROR": "Failed to send code. Please try later."
     }
   },
   "ERRORS": {
@@ -1411,6 +1500,10 @@
     "422": {
       "TITLE": "Validation Error",
       "DESCRIPTION": "Please check the correctness of the data"
+    },
+    "402": {
+      "TITLE": "Plan Limit",
+      "DESCRIPTION": "Your plan limit has been reached. Upgrade your plan to continue"
     },
     "429": {
       "TITLE": "Too Many Requests",
@@ -1761,6 +1854,7 @@
     "CASES_LIMIT": "Cases limit reached",
     "DOCUMENTS_LIMIT": "Documents per case limit reached",
     "MEMBERS_LIMIT": "Team members limit reached",
+    "STORAGE_LIMIT": "Storage limit reached",
     "UPGRADE": "Upgrade plan"
   },
   "FNS": {
@@ -1983,6 +2077,281 @@
       "DOCUMENT_NAME_REQUIRED": "Document name is required",
       "GENERATE_FAILED": "Failed to generate document",
       "DOWNLOAD_FAILED": "Failed to download document"
+    }
+  },
+  "TIME_TRACKING": {
+    "TITLE": "Time Tracking",
+    "LOG_TIME": "Log Time",
+    "DESCRIPTION": "Work description",
+    "DURATION": "Duration",
+    "HOURS": "Hours",
+    "MINUTES": "Minutes",
+    "HOURLY_RATE": "Hourly Rate",
+    "BILLABLE": "Billable",
+    "NON_BILLABLE": "Non-billable",
+    "ENTRY_DATE": "Entry Date",
+    "TOTAL_HOURS": "Total Hours",
+    "TOTAL_BILLABLE": "Total Billable",
+    "EMPTY": "No time entries",
+    "ADD_SUCCESS": "Time entry added",
+    "UPDATE_SUCCESS": "Time entry updated",
+    "DELETE_SUCCESS": "Time entry deleted",
+    "DELETE_CONFIRM": "Delete entry?",
+    "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete this time entry?",
+    "BILLING_METHOD": "Billing Method",
+    "FIXED_FEE": "Fixed Fee",
+    "HOURLY": "Hourly",
+    "TODAY": "Today",
+    "THIS_WEEK": "This Week",
+    "THIS_MONTH": "This Month",
+    "SAVE": "Save"
+  },
+  "CONFLICT_CHECK": {
+    "TITLE": "Conflict Check",
+    "SEARCH_PLACEHOLDER": "Enter name to check for conflicts...",
+    "SEARCHING": "Searching...",
+    "NO_CONFLICTS_FOUND": "No conflicts found",
+    "NO_RESULTS": "No results",
+    "RESULT_CLIENT": "Client",
+    "RESULT_PARTY": "Case Party",
+    "LEVEL_HIGH": "High Risk",
+    "LEVEL_MEDIUM": "Medium Risk",
+    "LEVEL_LOW": "Low Risk",
+    "MATCH_NAME": "Name match",
+    "MATCH_COMPANY": "Company match",
+    "MATCH_EMAIL": "Email match",
+    "MATCH_PHONE": "Phone match",
+    "RELATED_CASE": "Related Case"
+  },
+  "PARTIES": {
+    "TITLE": "Case Parties",
+    "ADD": "Add Party",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "DELETE_CONFIRM": "Delete party?",
+    "EMPTY": "No parties added",
+    "SAVE": "Save",
+    "ROLE_OPPOSING_PARTY": "Opposing Party",
+    "ROLE_OPPOSING_COUNSEL": "Opposing Counsel",
+    "ROLE_WITNESS": "Witness",
+    "ROLE_JUDGE": "Judge",
+    "ROLE_CO_COUNSEL": "Co-Counsel",
+    "ROLE_EXPERT": "Expert",
+    "ROLE_THIRD_PARTY": "Third Party",
+    "FIELDS": {
+      "NAME": "Name",
+      "ROLE": "Role",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "COMPANY": "Company",
+      "NOTES": "Notes"
+    }
+  },
+  "DEADLINES": {
+    "TITLE": "Deadlines",
+    "ADD_MANUAL": "Add Manual",
+    "AUTO_CALCULATE": "Auto-Calculate",
+    "PROCEDURAL": "Procedural",
+    "STATUTE": "Statute of Limitations",
+    "MANUAL": "Manual",
+    "DAYS_REMAINING": "days remaining",
+    "OVERDUE": "Overdue",
+    "COMPLETED": "Completed",
+    "NO_DEADLINES": "No deadlines",
+    "COMPLETE": "Complete",
+    "DELETE": "Delete",
+    "NAME": "Name",
+    "DUE_DATE": "Due Date",
+    "DESCRIPTION": "Description",
+    "NOTES": "Notes",
+    "JURISDICTION": "Jurisdiction",
+    "EVENT_TYPE": "Event Type",
+    "EVENT_DATE": "Event Date",
+    "INCIDENT_DATE": "Incident Date",
+    "CATEGORY": "Case Category",
+    "CALCULATE": "Calculate",
+    "CALCULATE_STATUTE": "Calculate Statute of Limitations",
+    "CALCULATE_PROCEDURAL": "Calculate Procedural Deadlines",
+    "REMINDER_DAYS": "Reminder Days",
+    "RULE": "Rule",
+    "DISMISSED": "Dismissed",
+    "PENDING": "Pending",
+    "STATUS": "Status",
+    "CREATED": "Deadline created",
+    "CALCULATED": "Deadlines calculated",
+    "COMPLETED_SUCCESS": "Deadline completed",
+    "DELETED": "Deadline deleted"
+  },
+  "TRUST": {
+    "TITLE": "Trust Accounts (IOLTA)",
+    "ACCOUNTS": "Accounts",
+    "TRANSACTIONS": "Transactions",
+    "CREATE_ACCOUNT": "Create Account",
+    "ADD_TRANSACTION": "Add Transaction",
+    "TOTAL_BALANCE": "Total Balance",
+    "BANK_NAME": "Bank Name",
+    "ACCOUNT_NUMBER": "Account Number",
+    "ROUTING_NUMBER": "Routing Number",
+    "STATUS": "Status",
+    "DEPOSIT": "Deposit",
+    "WITHDRAWAL": "Withdrawal",
+    "INTEREST": "Interest",
+    "FEE_DEDUCTION": "Fee Deduction",
+    "REFUND": "Refund",
+    "TRANSFER": "Transfer",
+    "AMOUNT": "Amount",
+    "DESCRIPTION": "Description",
+    "REFERENCE": "Reference",
+    "DATE": "Date",
+    "CLIENT": "Client",
+    "CASE": "Case",
+    "RUNNING_BALANCE": "Running Balance",
+    "NO_ACCOUNTS": "No trust accounts",
+    "NO_TRANSACTIONS": "No transactions",
+    "SUMMARY": "Summary",
+    "CLIENTS_COUNT": "Clients",
+    "DELETE_ACCOUNT": "Delete Account",
+    "DELETE_TRANSACTION": "Delete Transaction",
+    "ACCOUNT_CREATED": "Account created",
+    "ACCOUNT_DELETED": "Account deleted",
+    "TRANSACTION_CREATED": "Transaction created",
+    "TRANSACTION_DELETED": "Transaction deleted",
+    "NAME": "Account Name",
+    "NOTES": "Notes",
+    "ACTIVE": "Active",
+    "FROZEN": "Frozen",
+    "CLOSED": "Closed"
+  },
+  "JURISDICTION": {
+    "RUSSIA": "Russia",
+    "TAJIKISTAN": "Tajikistan",
+    "US": "USA"
+  },
+  "TASK_TEMPLATES": {
+    "TITLE": "Task Templates",
+    "CREATE": "Create Template",
+    "EDIT": "Edit Template",
+    "DELETE": "Delete Template",
+    "APPLY": "Apply Template",
+    "APPLY_TO_CASE": "Apply to Case",
+    "APPLIED_SUCCESS": "Task template applied",
+    "NO_TEMPLATES": "No task templates",
+    "SYSTEM_TEMPLATE": "System Template",
+    "CUSTOM_TEMPLATE": "Custom Template",
+    "CATEGORY": "Category",
+    "TASKS_COUNT": "Tasks Count",
+    "USAGE_COUNT": "Usage Count",
+    "DAYS_OFFSET": "Offset (days)",
+    "SELECT_TEMPLATE": "Select a template",
+    "CONFIRM_APPLY": "Apply task template to this case?",
+    "CONFIRM_DELETE": "Are you sure you want to delete this template?",
+    "NAME": "Template Name",
+    "DESCRIPTION": "Description",
+    "ACTIVE": "Active"
+  },
+  "ENGAGEMENT": {
+    "TITLE": "Engagement Letter",
+    "GENERATE": "Generate Engagement Letter",
+    "GENERATED_SUCCESS": "Engagement letter generated successfully",
+    "AUTO_GENERATE": "Auto-generate Engagement Letter",
+    "TEMPLATE_NAME": "Legal Services Agreement"
+  },
+  "DICTATION": {
+    "START": "Start dictation",
+    "STOP": "Stop dictation",
+    "LISTENING": "Listening...",
+    "NOT_SUPPORTED": "Dictation is not supported in this browser",
+    "ERROR": "Speech recognition error"
+  },
+  "PUSH": {
+    "TITLE": "Push Notifications",
+    "ENABLE": "Enable push notifications",
+    "DISABLE": "Disable push notifications",
+    "ENABLED": "Push notifications enabled",
+    "DISABLED": "Push notifications disabled",
+    "PERMISSION_DENIED": "Notifications blocked in browser",
+    "NOT_SUPPORTED": "Push notifications not supported",
+    "TEST": "Send test notification",
+    "TEST_SENT": "Test notification sent",
+    "DESCRIPTION": "Receive notifications even when the app is closed"
+  },
+  "CALENDAR_SYNC": {
+    "TITLE": "Calendar Sync",
+    "CONNECT_GOOGLE": "Connect Google Calendar",
+    "DISCONNECT": "Disconnect",
+    "CONNECTED": "Google Calendar connected",
+    "NOT_CONNECTED": "Google Calendar not connected",
+    "SYNC_NOW": "Sync Now",
+    "IMPORT": "Import from Google",
+    "EXPORT": "Export to Google",
+    "LAST_SYNC": "Last sync",
+    "SYNC_HISTORY": "Sync History",
+    "IMPORTED": "Imported",
+    "EXPORTED": "Exported",
+    "SKIPPED": "Skipped",
+    "FAILED": "Failed",
+    "AUTO_SYNC": "Auto-sync"
+  },
+  "REPORTS": {
+    "TITLE": "Advanced Reports",
+    "SELECT_REPORT": "Select report",
+    "DATE_FROM": "From",
+    "DATE_TO": "To",
+    "EXPORT": "Export",
+    "NO_DATA": "No data for the selected period",
+    "LOADING": "Loading report...",
+    "PRESETS": {
+      "LAST_30_DAYS": "30 days",
+      "THIS_QUARTER": "Quarter",
+      "THIS_YEAR": "This year",
+      "LAST_YEAR": "Last year"
+    },
+    "TYPES": {
+      "PROFITABILITY": "Case Profitability",
+      "TIME_BILLING": "Time & Billing",
+      "DEADLINE_COMPLIANCE": "Deadline Compliance",
+      "CLIENT_REVENUE": "Client Revenue",
+      "WORKLOAD": "Workload"
+    },
+    "PROFITABILITY": {
+      "FEE": "Fee",
+      "TIME_COST": "Time Cost",
+      "PROFIT_MARGIN": "Profit Margin",
+      "TOTAL_FEES": "Total Fees",
+      "TOTAL_COST": "Total Cost",
+      "TOTAL_PROFIT": "Total Profit",
+      "AVG_MARGIN": "Avg Margin"
+    },
+    "TIME_BILLING": {
+      "TOTAL_HOURS": "Total Hours",
+      "BILLABLE_HOURS": "Billable Hours",
+      "UTILIZATION": "Utilization",
+      "REVENUE": "Revenue"
+    },
+    "DEADLINE": {
+      "TOTAL": "Total Deadlines",
+      "ON_TIME": "On Time",
+      "OVERDUE": "Overdue",
+      "COMPLIANCE": "Compliance"
+    },
+    "CLIENT_REVENUE": {
+      "TOTAL_REVENUE": "Total Revenue",
+      "PAID": "Paid",
+      "OUTSTANDING": "Outstanding",
+      "CASES": "Cases"
+    },
+    "WORKLOAD": {
+      "ACTIVE_CASES": "Active Cases",
+      "TASKS": "Tasks",
+      "TASK_COMPLETION": "Completion",
+      "MEETINGS": "Meetings",
+      "HOURS": "Hours"
+    },
+    "EXPORT_SUCCESS": "Report exported",
+    "EXPORT_FORMATS": {
+      "CSV": "CSV",
+      "EXCEL": "Excel",
+      "PDF": "PDF"
     }
   }
 }

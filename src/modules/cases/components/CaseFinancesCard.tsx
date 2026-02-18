@@ -8,14 +8,25 @@ import { formatCurrency } from '@/shared/utils';
 interface CaseFinancesCardProps {
   fee?: number;
   paidAmount?: number;
+  billingMethod?: string;
+  totalHours?: number;
+  billableAmount?: number;
 }
 
-export function CaseFinancesCard({ fee = 0, paidAmount = 0 }: CaseFinancesCardProps) {
+export function CaseFinancesCard({
+  fee = 0,
+  paidAmount = 0,
+  billingMethod = 'fixed_fee',
+  totalHours = 0,
+  billableAmount = 0,
+}: CaseFinancesCardProps) {
   const { t } = useI18n();
   const { user } = useAuthStore();
   const userCurrency = user?.currency || 'USD';
 
-  const remainingAmount = Math.max(0, fee - paidAmount);
+  const isHourly = billingMethod === 'hourly';
+  const effectiveTotal = isHourly ? billableAmount : fee;
+  const remainingAmount = Math.max(0, effectiveTotal - paidAmount);
 
   return (
     <Card>
@@ -26,12 +37,31 @@ export function CaseFinancesCard({ fee = 0, paidAmount = 0 }: CaseFinancesCardPr
 
         <div className="space-y-3 sm:space-y-4">
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs sm:text-sm text-muted-foreground">
-                {t('CASES.FIELDS.FEE')}
-              </span>
-              <span className="text-lg sm:text-xl tracking-tight">{formatCurrency(fee, userCurrency)}</span>
-            </div>
+            {isHourly ? (
+              <>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    {t('TIME_TRACKING.TOTAL_HOURS')}
+                  </span>
+                  <span className="text-lg sm:text-xl tracking-tight">{totalHours.toFixed(1)}h</span>
+                </div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    {t('TIME_TRACKING.TOTAL_BILLABLE')}
+                  </span>
+                  <span className="text-lg sm:text-xl tracking-tight">
+                    {formatCurrency(billableAmount, userCurrency)}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs sm:text-sm text-muted-foreground">
+                  {t('CASES.FIELDS.FEE')}
+                </span>
+                <span className="text-lg sm:text-xl tracking-tight">{formatCurrency(fee, userCurrency)}</span>
+              </div>
+            )}
             <div className="flex items-center justify-between text-xs sm:text-sm">
               <span className="text-muted-foreground">{t('CLIENTS.FINANCIAL.PAID_AMOUNT')}</span>
               <span className="text-green-600 dark:text-green-400">

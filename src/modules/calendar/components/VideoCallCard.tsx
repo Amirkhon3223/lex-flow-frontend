@@ -23,7 +23,6 @@ export function VideoCallCard({ meeting }: VideoCallCardProps) {
     if (meeting.videoLink) {
       return meeting.videoLink;
     }
-    // For Jitsi, generate a link based on meeting ID
     if (meeting.videoProvider === VideoProviderEnum.JITSI) {
       const roomName = `lexflow-${meeting.id.replace(/-/g, '').slice(0, 12)}`;
       return `https://meet.jit.si/${roomName}`;

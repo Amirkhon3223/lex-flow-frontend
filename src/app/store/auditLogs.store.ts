@@ -17,7 +17,6 @@ interface AuditLogsState {
   loading: boolean;
   error: string | null;
 
-  // Actions
   fetchLogs: (page?: number, limit?: number) => Promise<void>;
   setFilter: (filter: AuditLogFilter) => void;
   clearFilter: () => void;
@@ -100,7 +99,6 @@ export const useAuditLogsStore = create<AuditLogsState>((set, get) => ({
       const { filter } = get();
       const blob = await auditLogService.exportToCsv(filter);
 
-      // Create download link
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

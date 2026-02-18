@@ -9,6 +9,12 @@ import type {
   TimelineEventInterface,
   CommentInterface,
   CaseTaskInterface,
+  TimeEntryInterface,
+  CreateTimeEntryInterface,
+  UpdateTimeEntryInterface,
+  CasePartyInterface,
+  CreateCasePartyInterface,
+  UpdateCasePartyInterface,
 } from '../types/cases/cases.interfaces';
 
 interface CasesState {
@@ -26,6 +32,14 @@ interface CasesState {
   tasks: CaseTaskInterface[];
   tasksLoading: boolean;
   tasksError: string | null;
+
+  timeEntries: TimeEntryInterface[];
+  timeEntriesLoading: boolean;
+  timeEntriesTotalDuration: number;
+  timeEntriesTotalBillable: number;
+
+  parties: CasePartyInterface[];
+  partiesLoading: boolean;
 
   fetchCases: (params?: {
     page?: number;
@@ -56,6 +70,16 @@ interface CasesState {
   ) => Promise<void>;
   deleteTask: (caseId: string, taskId: string) => Promise<void>;
   toggleTask: (caseId: string, taskId: string) => Promise<void>;
+
+  fetchTimeEntries: (caseId: string) => Promise<void>;
+  createTimeEntry: (caseId: string, data: CreateTimeEntryInterface) => Promise<void>;
+  updateTimeEntry: (caseId: string, entryId: string, data: UpdateTimeEntryInterface) => Promise<void>;
+  deleteTimeEntry: (caseId: string, entryId: string) => Promise<void>;
+
+  fetchParties: (caseId: string) => Promise<void>;
+  addParty: (caseId: string, data: CreateCasePartyInterface) => Promise<void>;
+  updateParty: (caseId: string, partyId: string, data: UpdateCasePartyInterface) => Promise<void>;
+  removeParty: (caseId: string, partyId: string) => Promise<void>;
 }
 
 const getErrorMessage = (error: unknown, i18nKey: string): string => {
@@ -81,6 +105,14 @@ export const useCasesStore = create<CasesState>((set, get) => ({
   tasks: [],
   tasksLoading: false,
   tasksError: null,
+
+  timeEntries: [],
+  timeEntriesLoading: false,
+  timeEntriesTotalDuration: 0,
+  timeEntriesTotalBillable: 0,
+
+  parties: [],
+  partiesLoading: false,
 
   fetchCases: async (params) => {
     set({ loading: true, error: null });
@@ -318,6 +350,123 @@ export const useCasesStore = create<CasesState>((set, get) => ({
         tasksError: getErrorMessage(error, 'COMMON.ERRORS.TASK_TOGGLE_FAILED'),
         tasksLoading: false,
       });
+      throw error;
+    }
+  },
+
+  fetchTimeEntries: async (caseId: string) => {
+    set({ timeEntriesLoading: true });
+    try {
+      const response = await casesService.getTimeEntries(caseId);
+      set({
+        timeEntries: response.entries,
+        timeEntriesTotalDuration: response.totalDuration,
+        timeEntriesTotalBillable: response.totalBillable,
+        timeEntriesLoading: false,
+      });
+    } catch (error) {
+      set({ timeEntriesLoading: false });
+      throw error;
+    }
+  },
+
+  createTimeEntry: async (caseId: string, data: CreateTimeEntryInterface) => {
+    set({ timeEntriesLoading: true });
+    try {
+      const newEntry = await casesService.createTimeEntry(caseId, data);
+      set((state) => ({
+        timeEntries: [newEntry, ...state.timeEntries],
+        timeEntriesTotalDuration: state.timeEntriesTotalDuration + newEntry.duration,
+        timeEntriesTotalBillable: state.timeEntriesTotalBillable + (newEntry.isBillable ? newEntry.billableAmount : 0),
+        timeEntriesLoading: false,
+      }));
+    } catch (error) {
+      set({ timeEntriesLoading: false });
+      throw error;
+    }
+  },
+
+  updateTimeEntry: async (caseId: string, entryId: string, data: UpdateTimeEntryInterface) => {
+    set({ timeEntriesLoading: true });
+    try {
+      const updated = await casesService.updateTimeEntry(caseId, entryId, data);
+      set((state) => ({
+        timeEntries: state.timeEntries.map((e) => (e.id === entryId ? updated : e)),
+        timeEntriesLoading: false,
+      }));
+      await get().fetchTimeEntries(caseId);
+    } catch (error) {
+      set({ timeEntriesLoading: false });
+      throw error;
+    }
+  },
+
+  deleteTimeEntry: async (caseId: string, entryId: string) => {
+    set({ timeEntriesLoading: true });
+    try {
+      await casesService.deleteTimeEntry(caseId, entryId);
+      const deleted = get().timeEntries.find((e) => e.id === entryId);
+      set((state) => ({
+        timeEntries: state.timeEntries.filter((e) => e.id !== entryId),
+        timeEntriesTotalDuration: state.timeEntriesTotalDuration - (deleted?.duration ?? 0),
+        timeEntriesTotalBillable: state.timeEntriesTotalBillable - (deleted?.isBillable ? deleted.billableAmount : 0),
+        timeEntriesLoading: false,
+      }));
+    } catch (error) {
+      set({ timeEntriesLoading: false });
+      throw error;
+    }
+  },
+
+  fetchParties: async (caseId: string) => {
+    set({ partiesLoading: true });
+    try {
+      const parties = await casesService.getParties(caseId);
+      set({ parties, partiesLoading: false });
+    } catch (error) {
+      set({ partiesLoading: false });
+      throw error;
+    }
+  },
+
+  addParty: async (caseId: string, data: CreateCasePartyInterface) => {
+    set({ partiesLoading: true });
+    try {
+      const newParty = await casesService.addParty(caseId, data);
+      set((state) => ({
+        parties: [...state.parties, newParty],
+        partiesLoading: false,
+      }));
+    } catch (error) {
+      set({ partiesLoading: false });
+      throw error;
+    }
+  },
+
+  updateParty: async (caseId: string, partyId: string, data: UpdateCasePartyInterface) => {
+    set({ partiesLoading: true });
+    try {
+      const updated = await casesService.updateParty(caseId, partyId, data);
+      set((state) => ({
+        parties: state.parties.map((p) => (p.id === partyId ? updated : p)),
+        partiesLoading: false,
+      }));
+    } catch (error) {
+      set({ partiesLoading: false });
+      throw error;
+    }
+  },
+
+  removeParty: async (caseId: string, partyId: string) => {
+    set({ partiesLoading: true });
+    try {
+      await casesService.removeParty(caseId, partyId);
+      set((state) => ({
+        parties: state.parties.filter((p) => p.id !== partyId),
+        partiesLoading: false,
+      }));
+    } catch (error) {
+      set({ partiesLoading: false });
       throw error;
     }
   },

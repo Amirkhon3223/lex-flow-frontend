@@ -92,7 +92,6 @@ export const useDashboardStore = create<DashboardState>((set) => ({
         useDashboardStore.getState().fetchTodayMeetings(),
       ]);
     } catch {
-      // Individual fetch methods already handle their own errors
     }
   },
 

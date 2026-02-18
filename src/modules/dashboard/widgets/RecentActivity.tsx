@@ -6,10 +6,10 @@ import { formatRelativeTime } from '@/shared/utils';
 
 const getActivityAction = (type: string, t: (key: string) => string): string => {
   const actionMap: Record<string, string> = {
-    case_created: t('DASHBOARD.RECENT_ACTIVITY.CASE_CREATED') || 'создал новое дело',
-    document_uploaded: t('DASHBOARD.RECENT_ACTIVITY.DOCUMENT_UPLOADED') || 'добавил документ',
-    meeting_scheduled: t('DASHBOARD.RECENT_ACTIVITY.MEETING_SCHEDULED') || 'запланировал встречу',
-    case_updated: t('DASHBOARD.RECENT_ACTIVITY.CASE_UPDATED') || 'обновил статус дела',
+    case_created: t('DASHBOARD.RECENT_ACTIVITY.CASE_CREATED'),
+    document_uploaded: t('DASHBOARD.RECENT_ACTIVITY.DOCUMENT_UPLOADED'),
+    meeting_scheduled: t('DASHBOARD.RECENT_ACTIVITY.MEETING_SCHEDULED'),
+    case_updated: t('DASHBOARD.RECENT_ACTIVITY.CASE_UPDATED'),
   };
   return actionMap[type] || type;
 };

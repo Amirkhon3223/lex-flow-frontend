@@ -57,7 +57,9 @@ class I18nService {
       const translations = await import(`../../../assets/i18n/${language}.json`);
       this.translations = translations.default || translations;
     } catch (error) {
-      console.error(`Failed to load translations for language: ${language}`, error);
+      if (import.meta.env.DEV) {
+        console.error(`Failed to load translations for language: ${language}`, error);
+      }
       if (language !== DEFAULT_LANGUAGE) {
         const fallbackTranslations = await import(`../../../assets/i18n/${DEFAULT_LANGUAGE}.json`);
         this.translations = fallbackTranslations.default || fallbackTranslations;
@@ -84,7 +86,9 @@ class I18nService {
    */
   async setLanguage(language: Language): Promise<void> {
     if (!this.isValidLanguage(language)) {
-      console.error(`Invalid language: ${language}`);
+      if (import.meta.env.DEV) {
+        console.error(`Invalid language: ${language}`);
+      }
       return;
     }
 
@@ -108,13 +112,17 @@ class I18nService {
       if (value && typeof value === 'object' && k in value) {
         value = value[k] as string | Translations;
       } else {
-        console.warn(`Translation key not found: ${key}`);
+        if (import.meta.env.DEV) {
+          console.warn(`Translation key not found: ${key}`);
+        }
         return key;
       }
     }
 
     if (typeof value !== 'string') {
-      console.warn(`Translation value is not a string: ${key}`);
+      if (import.meta.env.DEV) {
+        console.warn(`Translation value is not a string: ${key}`);
+      }
       return key;
     }
 

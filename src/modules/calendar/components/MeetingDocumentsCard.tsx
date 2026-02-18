@@ -5,7 +5,7 @@ import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 
 interface MeetingDocumentsCardProps {
-  onAddDocument: () => void;
+  onAddDocument?: () => void;
 }
 
 export function MeetingDocumentsCard({ onAddDocument }: MeetingDocumentsCardProps) {
@@ -20,8 +20,9 @@ export function MeetingDocumentsCard({ onAddDocument }: MeetingDocumentsCardProp
           <Button
             size="sm"
             variant="outline"
-            className="rounded-lg sm:rounded-xl text-xs h-7 sm:h-8 px-2 sm:px-3 flex-shrink-0"
+            className={`rounded-lg sm:rounded-xl text-xs h-7 sm:h-8 px-2 sm:px-3 flex-shrink-0 ${!onAddDocument ? 'opacity-50 cursor-not-allowed' : ''}`}
             onClick={onAddDocument}
+            disabled={!onAddDocument}
           >
             <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5 sm:mr-2" strokeWidth={2} />
             <span className="hidden sm:inline">{t('COMMON.ACTIONS.ADD')}</span>

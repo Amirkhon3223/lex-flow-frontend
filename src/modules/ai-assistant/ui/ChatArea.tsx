@@ -33,7 +33,6 @@ export function ChatArea({ chatHistory, onSendMessage, sendingMessage }: ChatAre
     await onSendMessage(messageToSend);
   };
 
-  // Convert to ChatMessageInterface format
   const messages: ChatMessageInterface[] = chatHistory.map((chat) => ({
     type: chat.type === 'user' ? MessageTypeEnum.USER : MessageTypeEnum.AI,
     message: chat.message,

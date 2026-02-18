@@ -8,6 +8,7 @@ import { Briefcase, User, Tag, Calendar, DollarSign, Scale } from 'lucide-react'
 import { useClientsStore } from '@/app/store/clients.store';
 import type { EditCaseDialogProps } from '@/app/types/cases/cases.interfaces';
 import { useI18n } from '@/shared/context/I18nContext';
+import { DictationButton } from '@/shared/components/DictationButton';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -23,7 +24,7 @@ import { Textarea } from '@/shared/ui/textarea';
 import { formatDescription } from '@/shared/utils/textFormatting';
 
 export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: EditCaseDialogProps) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const { clients, fetchClients } = useClientsStore();
   const [formData, setFormData] = useState({
     title: '',
@@ -224,9 +225,20 @@ export function EditCaseDialog({ open, onOpenChange, initialData, onSubmit }: Ed
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-sm text-foreground">
-              {t('CASES.FIELDS.DESCRIPTION')}
-            </Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="description" className="text-sm text-foreground">
+                {t('CASES.FIELDS.DESCRIPTION')}
+              </Label>
+              <DictationButton
+                language={language}
+                onTranscript={(text) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    description: prev.description ? prev.description + ' ' + text : text,
+                  }))
+                }
+              />
+            </div>
             <Textarea
               id="description"
               placeholder={t('CASES.EDIT_DIALOG.DESCRIPTION_PLACEHOLDER')}

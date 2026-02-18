@@ -95,18 +95,15 @@ export default function AuthPage() {
       const hasFieldErrors = Object.keys(apiErrors).filter(k => k !== '_general').length > 0;
 
       if (hasFieldErrors) {
-        // Show field-specific errors inline, no toast needed
         setLoginErrors(apiErrors);
       } else if (apiErrors._general) {
-        // Invalid credentials - highlight both fields and show toast
         const credentialsError = apiErrors._general;
         setLoginErrors({
-          email: ' ', // Empty space to trigger red border without showing text
-          password: credentialsError, // Show message under password field
+          email: ' ',
+          password: credentialsError,
         });
         toast.error(t('AUTH.ERROR.LOGIN_FAILED'));
       } else {
-        // Unknown error
         toast.error(t('AUTH.ERROR.LOGIN_FAILED'));
       }
     }
@@ -164,10 +161,8 @@ export default function AuthPage() {
       const hasFieldErrors = Object.keys(apiErrors).filter(k => k !== '_general').length > 0;
 
       if (hasFieldErrors) {
-        // Show field-specific errors inline, no toast needed
         setRegisterErrors(apiErrors);
       } else {
-        // Show generic error in toast
         const errMsg = apiErrors._general || t('AUTH.ERROR.REGISTER_FAILED');
         setLocalError(errMsg);
         toast.error(t('AUTH.ERROR.REGISTER_FAILED'));

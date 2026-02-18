@@ -45,20 +45,17 @@ export function GenerateDocumentDialog({
   const [error, setError] = useState<string | null>(null);
   const [generatedDoc, setGeneratedDoc] = useState<{ id: string; name: string } | null>(null);
 
-  // Data loading states
   const [clients, setClients] = useState<ClientInterface[]>([]);
   const [cases, setCases] = useState<CaseInterface[]>([]);
   const [loadingClients, setLoadingClients] = useState(false);
   const [loadingCases, setLoadingCases] = useState(false);
 
-  // Extract variables from template
   const templateVariables = useMemo(() => {
     if (!template?.content) return [];
     const matches = template.content.match(/\{\{[\w.]+\}\}/g) || [];
     return [...new Set(matches)].map((v) => v.replace(/\{\{|\}\}/g, ''));
   }, [template?.content]);
 
-  // Categorize variables
   const categorizedVariables = useMemo(() => {
     const categories = {
       client: [] as string[],
@@ -105,7 +102,6 @@ export function GenerateDocumentDialog({
       const response = await clientsService.list({ limit: 100 });
       setClients(response.data);
     } catch {
-      // Silently handle
     } finally {
       setLoadingClients(false);
     }
@@ -117,17 +113,14 @@ export function GenerateDocumentDialog({
       const response = await casesService.list({ clientId, limit: 100 });
       setCases(response.cases);
     } catch {
-      // Silently handle
     } finally {
       setLoadingCases(false);
     }
   };
 
-  // Build variables object for preview
   const previewVariables = useMemo(() => {
     const vars: Record<string, string> = { ...customVariables };
 
-    // Add client data if selected
     const selectedClient = clients.find((c) => c.id === selectedClientId);
     if (selectedClient) {
       vars['client.fullName'] = [
@@ -149,7 +142,6 @@ export function GenerateDocumentDialog({
       vars['client.type'] = selectedClient.type || '';
     }
 
-    // Add case data if selected
     const selectedCase = cases.find((c) => c.id === selectedCaseId);
     if (selectedCase) {
       vars['case.title'] = selectedCase.title || '';
@@ -165,7 +157,6 @@ export function GenerateDocumentDialog({
       vars['case.fee'] = selectedCase.fee?.toString() || '';
     }
 
-    // Add date variables
     vars['date.today'] = new Date().toLocaleDateString('ru-RU');
     vars['date.formatted'] = new Date().toLocaleDateString('ru-RU', {
       day: 'numeric',
@@ -176,7 +167,6 @@ export function GenerateDocumentDialog({
     return vars;
   }, [clients, cases, selectedClientId, selectedCaseId, customVariables]);
 
-  // Render preview
   const renderedPreview = useMemo(() => {
     if (!template?.content) return '';
 

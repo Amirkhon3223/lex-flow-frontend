@@ -16,10 +16,10 @@ interface CaseClientCardProps {
 }
 
 export function CaseClientCard({
-  clientName = 'Не указано',
+  clientName,
   clientAvatar,
-  clientPhone = 'Не указано',
-  clientEmail = 'Не указано',
+  clientPhone,
+  clientEmail,
   clientCases = 0,
   clientSince = '',
   onViewProfile,
@@ -45,15 +45,15 @@ export function CaseClientCard({
         <div className="flex items-center gap-3 mb-3 sm:mb-4">
           <Avatar className="w-12 h-12 sm:w-14 sm:h-14 ring-2 ring-border flex-shrink-0">
             {clientAvatar ? (
-              <img src={clientAvatar} alt={clientName} />
+              <img src={clientAvatar} alt={clientName || t('COMMON.NOT_SPECIFIED')} />
             ) : (
               <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white text-base sm:text-lg">
-                {getInitials(clientName)}
+                {getInitials(clientName || t('COMMON.NOT_SPECIFIED'))}
               </AvatarFallback>
             )}
           </Avatar>
           <div className="min-w-0">
-            <h4 className="tracking-tight mb-1 text-sm sm:text-base">{clientName}</h4>
+            <h4 className="tracking-tight mb-1 text-sm sm:text-base">{clientName || t('COMMON.NOT_SPECIFIED')}</h4>
             <p className="text-xs sm:text-sm text-muted-foreground">
               {clientSince ? `${t('CASES.CLIENT.SINCE')} ${clientSince}` : t('CASES.CLIENT.NEW')}
             </p>
@@ -65,11 +65,11 @@ export function CaseClientCard({
         <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('CASES.CLIENT.PHONE')}</span>
-            <span className="text-foreground">{clientPhone}</span>
+            <span className="text-foreground">{clientPhone || t('COMMON.NOT_SPECIFIED')}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('CASES.CLIENT.EMAIL')}</span>
-            <span className="text-foreground truncate ml-2">{clientEmail}</span>
+            <span className="text-foreground truncate ml-2">{clientEmail || t('COMMON.NOT_SPECIFIED')}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('CASES.CLIENT.TOTAL_CASES')}</span>

@@ -13,7 +13,6 @@ import { ScrollArea } from '@/shared/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { Badge } from '@/shared/ui/badge';
 
-// Sample data for preview
 const sampleData: Record<string, string> = {
   'client.fullName': 'Ivanov Ivan Ivanovich',
   'client.firstName': 'Ivan',
@@ -68,12 +67,10 @@ export function TemplatePreview({
     }
   }, [open]);
 
-  // Merge sample data with provided variables
   const mergedVariables = useMemo(() => {
     return { ...sampleData, ...variables };
   }, [variables]);
 
-  // Render template with variables
   const renderedContent = useMemo(() => {
     if (!template?.content) return '';
 
@@ -87,7 +84,6 @@ export function TemplatePreview({
     return content;
   }, [template?.content, mergedVariables]);
 
-  // Extract variables from template
   const extractedVariables = useMemo(() => {
     if (!template?.content) return [];
     const matches = template.content.match(/\{\{[\w.]+\}\}/g) || [];
@@ -100,7 +96,6 @@ export function TemplatePreview({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Silently fail
     }
   };
 

@@ -54,14 +54,14 @@ const getPriorityBadgeColor = (priority?: CasePriorityEnum) => {
 };
 
 const getCategoryLabel = (category?: string, t?: (key: string) => string) => {
-  if (!category) return 'Не указано';
+  if (!category) return t ? t('COMMON.NOT_SPECIFIED') : '';
   const categoryKey = `CASES.CATEGORIES.${category.toUpperCase()}`;
   return t ? t(categoryKey) : category;
 };
 
 export function CaseHeader({
-  title = 'Без названия',
-  clientName = 'Не указано',
+  title,
+  clientName,
   category,
   deadline,
   courtDate,
@@ -77,7 +77,7 @@ export function CaseHeader({
   const { t } = useI18n();
 
   const formatDate = (dateString?: string) => {
-    if (!dateString) return 'Не указана';
+    if (!dateString) return t('COMMON.NOT_SPECIFIED_F');
     const date = new Date(dateString);
     return date.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
   };
@@ -131,7 +131,7 @@ export function CaseHeader({
           <div className="flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between items-center">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
-                <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight">{title}</h1>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl tracking-tight">{title || t('COMMON.UNTITLED')}</h1>
                 <Badge className={`${getPriorityBadgeColor(priority)} border-0 w-fit`}>
                   {t('CASES.IN_WORK')}
                 </Badge>
@@ -168,7 +168,7 @@ export function CaseHeader({
             <div className="flex flex-col sm:flex-row sm:items-center border-t-2 pt-4 gap-2 sm:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-[15px] text-muted-foreground">
               <span className="flex items-center gap-2">
                 <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
-                <span className="truncate">{clientName}</span>
+                <span className="truncate">{clientName || t('COMMON.NOT_SPECIFIED')}</span>
               </span>
               <span className="flex items-center gap-2">
                 <Tag className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />

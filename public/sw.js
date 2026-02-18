@@ -267,15 +267,15 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Handle push notifications (for future use)
 self.addEventListener('push', (event) => {
   if (!event.data) return;
 
   const data = event.data.json();
   const options = {
     body: data.body || 'New notification from LexFlow',
-    icon: '/lexflow.png',
+    icon: data.icon || '/lexflow.png',
     badge: '/lexflow.png',
+    tag: data.tag || undefined,
     vibrate: [100, 50, 100],
     data: {
       url: data.url || '/',

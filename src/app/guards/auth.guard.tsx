@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { ROUTES } from '../config/routes.config';
 import { useAuth } from '../hooks/useAuth';
 
@@ -8,19 +8,16 @@ interface AuthGuardProps {
 }
 
 export const AuthGuard = ({ children }: AuthGuardProps) => {
-  const { isAuthenticated, loading, initializing, initializeAuth } = useAuth();
+  const { isAuthenticated, loading, initializing, emailVerificationRequired, initializeAuth } = useAuth();
+  const location = useLocation();
 
-  // Initialize auth on first mount for protected routes
   useEffect(() => {
-    // Only initialize if not already authenticated
-    // This prevents unnecessary API calls when navigating between protected pages
     if (!isAuthenticated) {
       initializeAuth();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Empty dependency array - run only once on mount
+  }, []);
 
-  // Show loading screen while initializing auth or during login/logout
   if (loading || initializing) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
@@ -34,6 +31,10 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
 
   if (!isAuthenticated) {
     return <Navigate to={ROUTES.AUTH.LOGIN} replace />;
+  }
+
+  if (emailVerificationRequired && location.pathname !== ROUTES.AUTH.VERIFY_EMAIL) {
+    return <Navigate to={ROUTES.AUTH.VERIFY_EMAIL} replace />;
   }
 
   return children || <Outlet />;

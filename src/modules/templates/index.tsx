@@ -51,22 +51,18 @@ export function TemplatesPage() {
     deleteTemplate,
   } = useTemplatesStore();
 
-  // UI State
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
   const [sortBy, setSortBy] = useState('date');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
-  // Dialog States
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-  // Selected template for operations
   const [selectedTemplate, setSelectedTemplate] = useState<DocumentTemplate | null>(null);
 
-  // Fetch templates on mount and filter change
   useEffect(() => {
     fetchTemplates({
       page: 1,
@@ -118,7 +114,6 @@ export function TemplatesPage() {
       setIsDeleteDialogOpen(false);
       setSelectedTemplate(null);
     } catch {
-      // Error handled by store
     }
   };
 
@@ -130,7 +125,6 @@ export function TemplatesPage() {
     });
   };
 
-  // Calculate stats
   const stats = [
     {
       label: t('TEMPLATES.STATS.TOTAL'),
@@ -164,7 +158,6 @@ export function TemplatesPage() {
 
   return (
     <div>
-      {/* Editor Dialog */}
       <TemplateEditor
         open={isEditorOpen}
         onOpenChange={setIsEditorOpen}
@@ -172,24 +165,20 @@ export function TemplatesPage() {
         onSuccess={handleEditorSuccess}
       />
 
-      {/* Preview Dialog */}
       <TemplatePreview
         open={isPreviewOpen}
         onOpenChange={setIsPreviewOpen}
         template={selectedTemplate}
       />
 
-      {/* Generate Document Dialog */}
       <GenerateDocumentDialog
         open={isGenerateOpen}
         onOpenChange={setIsGenerateOpen}
         template={selectedTemplate}
         onSuccess={() => {
-          // Optionally refresh or navigate
         }}
       />
 
-      {/* Delete Confirmation Dialog */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -210,7 +199,6 @@ export function TemplatesPage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Page Header */}
       <header className="relative bg-card border-b border-border rounded-xl">
         <div className="px-4 py-4 sm:py-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4 sm:mb-6">
@@ -247,7 +235,6 @@ export function TemplatesPage() {
             </div>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
             {stats.map((stat, index) => (
               <StatCard
@@ -260,7 +247,6 @@ export function TemplatesPage() {
             ))}
           </div>
 
-          {/* Filters */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <FilterBar
               searchConfig={{
@@ -303,7 +289,6 @@ export function TemplatesPage() {
               ]}
             />
 
-            {/* View Mode Toggle */}
             <ToggleGroup
               type="single"
               value={viewMode}
@@ -321,7 +306,6 @@ export function TemplatesPage() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="py-4 sm:py-6 lg:py-8">
         {loading ? (
           <div className="flex items-center justify-center py-12">

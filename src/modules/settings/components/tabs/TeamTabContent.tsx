@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Users } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/app/store/auth.store';
+import { usePlanLimitsStore } from '@/app/store/planLimits.store';
 import { useTeamStore } from '@/app/store/team.store';
 import { TeamMemberItem } from '@/modules/settings/components/TeamMemberItem';
 import { InviteTeamMemberDialog } from '@/shared/components/InviteTeamMemberDialog';
@@ -25,14 +26,19 @@ export function TeamTabContent() {
       try {
         await Promise.all([fetchMembers(), fetchInvites()]);
       } catch {
-        // Silently handle - empty state will be shown
       }
     };
     fetchData();
   }, []);
 
-  const hasProMaxPlan = workspace?.planId === 'pro_max';
-  const canManageTeam = (role === 'owner' || role === 'admin') && hasProMaxPlan;
+  const { usage, fetchUsage } = usePlanLimitsStore();
+
+  useEffect(() => {
+    fetchUsage();
+  }, [fetchUsage]);
+
+  const hasTeamFeatures = usage?.teamFeaturesEnabled ?? workspace?.planId === 'pro_max';
+  const canManageTeam = (role === 'owner' || role === 'admin') && hasTeamFeatures;
 
   const handleInvite = () => {
     if (availableSlots <= 0) {
@@ -45,7 +51,7 @@ export function TeamTabContent() {
   const handleInviteSubmit = async (data: { email: string; role: string }) => {
     setLoading(true);
     try {
-      await inviteMember({ email: data.email, role: data.role as any });
+      await inviteMember({ email: data.email, role: data.role as 'admin' | 'member' });
       toast.success(t('SETTINGS.TEAM.INVITE_SENT'));
       setIsInviteDialogOpen(false);
     } catch {
@@ -56,7 +62,6 @@ export function TeamTabContent() {
   };
 
   const handleMemberSettings = (_memberId: string) => {
-    // TODO: Implement member settings
   };
 
   const getRoleTranslation = (role: string) => {
@@ -146,7 +151,7 @@ export function TeamTabContent() {
                     member={{
                       name: `${member.firstName} ${member.lastName}`,
                       email: member.email,
-                      role: member.role as any,
+                      role: member.role as 'admin' | 'lawyer' | 'assistant',
                       status: getRoleTranslation(member.role),
                     }}
                     onSettings={() => handleMemberSettings(member.id)}

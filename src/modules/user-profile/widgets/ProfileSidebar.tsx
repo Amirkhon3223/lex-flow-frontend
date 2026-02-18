@@ -6,10 +6,15 @@ import { useAuthStore } from '@/app/store/auth.store';
 import { AvatarCropperModal } from '@/modules/user-profile/ui/AvatarCropperModal';
 import { StorageIndicator } from '@/shared/components/StorageIndicator';
 import { useI18n } from '@/shared/context/I18nContext';
+import {
+  AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogCancel,
+} from '@/shared/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card } from '@/shared/ui/card';
+import { Input } from '@/shared/ui/input';
 import { Separator } from '@/shared/ui/separator';
 
 export function ProfileSidebar({
@@ -52,6 +57,8 @@ export function ProfileSidebar({
   const [cropperOpen, setCropperOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
 
   const handleAvatarUpload = () => {
     fileInputRef.current?.click();
@@ -60,8 +67,7 @@ export function ProfileSidebar({
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // Validate file size (1 MB max)
-      const maxSize = 1 * 1024 * 1024; // 1 MB
+      const maxSize = 1 * 1024 * 1024;
       if (file.size > maxSize) {
         toast.error(t('USER_PROFILE.AVATAR_ERRORS.AVATAR_TOO_LARGE'));
         if (fileInputRef.current) {
@@ -70,7 +76,6 @@ export function ProfileSidebar({
         return;
       }
 
-      // Validate file type
       const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
       if (!allowedTypes.includes(file.type)) {
         toast.error(t('USER_PROFILE.AVATAR_ERRORS.AVATAR_INVALID_FORMAT'));
@@ -107,7 +112,6 @@ export function ProfileSidebar({
       setAvatarPreview(uploadResponse.avatarUrl);
       toast.success(t('USER_PROFILE.AVATAR_UPDATED'));
     } catch (error: unknown) {
-      // Handle specific error codes from backend
       const errorResponse = error as { response?: { data?: { message?: string } } };
       const errorCode = errorResponse?.response?.data?.message;
 
@@ -126,20 +130,22 @@ export function ProfileSidebar({
   };
 
   const handleDeleteAccount = async () => {
-    if (!confirm(t('USER_PROFILE.DELETE_ACCOUNT_CONFIRM'))) {
+    if (!deletePassword) {
+      toast.error(t('USER_PROFILE.DELETE_PASSWORD_REQUIRED'));
       return;
     }
 
     setLoading(true);
     try {
-      // TODO: Implement proper password and confirmation dialog
-      await usersService.deleteAccount('', '');
+      await usersService.deleteAccount(deletePassword, 'DELETE');
       toast.success(t('USER_PROFILE.ACCOUNT_DELETED'));
       onLogout();
     } catch {
-      toast.error(t('COMMON.ERRORS.GENERIC'));
+      toast.error(t('USER_PROFILE.DELETE_PASSWORD_WRONG'));
     } finally {
       setLoading(false);
+      setDeleteDialogOpen(false);
+      setDeletePassword('');
     }
   };
 
@@ -270,15 +276,43 @@ export function ProfileSidebar({
           </p>
           <Button
             variant="outline"
-            onClick={handleDeleteAccount}
+            onClick={() => setDeleteDialogOpen(true)}
             disabled={loading}
             className="w-full border-white/20 text-white hover:bg-white/10 rounded-lg sm:rounded-xl text-xs sm:text-sm h-8 sm:h-10"
           >
             <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" strokeWidth={2} />
-            {loading ? t('COMMON.LOADING') : t('USER_PROFILE.DELETE_ACCOUNT_BUTTON')}
+            {t('USER_PROFILE.DELETE_ACCOUNT_BUTTON')}
           </Button>
         </div>
       </Card>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={(open) => { setDeleteDialogOpen(open); if (!open) setDeletePassword(''); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('USER_PROFILE.DELETE_ACCOUNT')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('USER_PROFILE.DELETE_ACCOUNT_CONFIRM')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <Input
+            type="password"
+            placeholder={t('USER_PROFILE.DELETE_PASSWORD_PLACEHOLDER')}
+            value={deletePassword}
+            onChange={(e) => setDeletePassword(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter' && deletePassword) handleDeleteAccount(); }}
+          />
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('COMMON.CANCEL')}</AlertDialogCancel>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteAccount}
+              disabled={loading || !deletePassword}
+            >
+              {loading ? t('COMMON.LOADING') : t('USER_PROFILE.DELETE_ACCOUNT_BUTTON')}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {selectedImage && (
         <AvatarCropperModal

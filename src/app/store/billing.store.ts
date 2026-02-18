@@ -82,13 +82,11 @@ export const useBillingStore = create<BillingState>((set, get) => ({
       await billingService.changePlan(data);
       await get().fetchSubscription();
 
-      // Determine if this is an upgrade or downgrade based on plan order
-      const planOrder = ['plan_basic', 'plan_pro', 'plan_pro_max'];
+      const planOrder = ['plan_free', 'plan_basic', 'plan_pro', 'plan_pro_max'];
       const currentPlanIndex = currentSub?.planId ? planOrder.indexOf(currentSub.planId) : -1;
       const newPlanIndex = planOrder.indexOf(data.planId);
       const action = newPlanIndex > currentPlanIndex ? 'upgrade' : 'downgrade';
 
-      // Track the subscription change
       trackSubscription(action, data.planId, data.interval);
 
       set({ loading: false });
@@ -103,7 +101,6 @@ export const useBillingStore = create<BillingState>((set, get) => ({
     try {
       const response = await billingService.createCheckoutSession(data);
 
-      // Track subscription intent
       trackSubscription('subscribe', data.planId, data.interval);
 
       set({ loading: false });
@@ -121,7 +118,6 @@ export const useBillingStore = create<BillingState>((set, get) => ({
       await billingService.cancelSubscription();
       await get().fetchSubscription();
 
-      // Track subscription cancellation
       trackSubscription('cancel', currentSub?.planId);
 
       set({ loading: false });
@@ -228,7 +224,6 @@ export const useBillingStore = create<BillingState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       await billingService.retryPayment(paymentId);
-      // Refresh payments to get updated status
       await get().fetchPayments();
       set({ loading: false });
     } catch (error) {

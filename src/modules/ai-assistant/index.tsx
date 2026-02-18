@@ -46,17 +46,13 @@ export function AIAssistantView() {
     clearError,
   } = useAIStore();
 
-  // Fetch chats and token balance on mount
   useEffect(() => {
     fetchChats().catch(() => {
-      // Silently handle - error is stored in state
     });
     fetchTokenBalance().catch(() => {
-      // Silently handle - error is stored in state
     });
   }, [fetchChats, fetchTokenBalance]);
 
-  // Show error toast
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -64,7 +60,6 @@ export function AIAssistantView() {
     }
   }, [error, clearError]);
 
-  // Handle URL params for chat selection and highlight (from global search)
   useEffect(() => {
     if (hasHandledUrlParams.current || loading) return;
 
@@ -74,21 +69,16 @@ export function AIAssistantView() {
     if (chatId && chats.length > 0) {
       hasHandledUrlParams.current = true;
 
-      // Select the chat if not already selected
       if (currentChat?.id !== chatId) {
         selectChat(chatId).catch(() => {
-          // Error handled by store
         });
       }
 
-      // Set highlight for animation
       if (highlightId) {
         setHighlightedChatId(highlightId);
 
-        // Clear highlight after animation (3 seconds)
         const timer = setTimeout(() => {
           setHighlightedChatId(null);
-          // Remove URL params
           const newParams = new URLSearchParams(searchParams);
           newParams.delete('chat');
           newParams.delete('highlight');
@@ -107,21 +97,16 @@ export function AIAssistantView() {
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
 
-    // If no current chat, create one
     if (!currentChat) {
       try {
         await createChat(content.substring(0, 50));
-        // Send message with streaming after chat is created
         await sendMessageStreaming(content);
       } catch {
-        // Error handled by store
       }
     } else {
       try {
-        // Use streaming for real-time response
         await sendMessageStreaming(content);
       } catch {
-        // Error handled by store
       }
     }
   };
@@ -135,7 +120,6 @@ export function AIAssistantView() {
       await createChat();
       setMobileSidebarOpen(false);
     } catch {
-      // Error handled by store
     }
   };
 
@@ -144,7 +128,6 @@ export function AIAssistantView() {
       await selectChat(chatId);
       setMobileSidebarOpen(false);
     } catch {
-      // Error handled by store
     }
   };
 
@@ -157,14 +140,13 @@ export function AIAssistantView() {
   };
 
   const quickActions = [
-    'Проверить договор на юридическую корректность',
-    'Найти судебную практику по данному вопросу',
-    'Составить исковое заявление',
-    'Оценить перспективы дела',
-    'Найти релевантные законодательные акты',
+    t('AI_ASSISTANT.QUICK_ACTIONS.CHECK_CONTRACT'),
+    t('AI_ASSISTANT.QUICK_ACTIONS.FIND_PRACTICE'),
+    t('AI_ASSISTANT.QUICK_ACTIONS.DRAFT_CLAIM'),
+    t('AI_ASSISTANT.QUICK_ACTIONS.ASSESS_PROSPECTS'),
+    t('AI_ASSISTANT.QUICK_ACTIONS.FIND_LAWS'),
   ];
 
-  // Convert messages to chat history format
   const chatHistory = (messages ?? []).map((msg) => ({
     type: msg.role === 'user' ? ('user' as const) : ('ai' as const),
     message: msg.content,
@@ -223,7 +205,6 @@ export function AIAssistantView() {
     <div className="flex flex-col h-full">
       <div className="pb-2">
         <div className="flex items-center gap-3">
-          {/* Mobile Menu Button */}
           <Button
             variant="ghost"
             size="icon"
@@ -245,21 +226,17 @@ export function AIAssistantView() {
         </div>
       </div>
 
-      {/* Mobile Sidebar */}
       <Sheet open={mobileSidebarOpen} onOpenChange={setMobileSidebarOpen}>
         <SheetContent side="left" className="p-0 w-72">
           {sidebarContent}
         </SheetContent>
       </Sheet>
 
-      {/* Content Area: Sidebar + Main */}
       <div className="flex flex-1 min-h-0 gap-2">
-        {/* Desktop Sidebar - Left, below header */}
         <div className="hidden lg:block flex-shrink-0">
           {sidebarContent}
         </div>
 
-        {/* Main Content */}
         <div className="flex-1 overflow-auto p-1">
           <main>
             <Tabs defaultValue="chat" className="space-y-3 sm:space-y-4">
@@ -287,7 +264,6 @@ export function AIAssistantView() {
                 </TabsTrigger>
               </TabsList>
 
-              {/* Chat Tab - No Feature Cards */}
               <TabsContent value="chat" className="space-y-4 sm:space-y-6 mt-0">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                   <ChatArea
@@ -304,7 +280,6 @@ export function AIAssistantView() {
                 </div>
               </TabsContent>
 
-              {/* Analyze Tab - With Feature Cards */}
               <TabsContent value="analyze" className="space-y-4 sm:space-y-6 mt-0">
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                   {features.map((feature, index) => (
@@ -337,7 +312,6 @@ export function AIAssistantView() {
                 </Card>
               </TabsContent>
 
-              {/* Research Tab - With Feature Cards */}
               <TabsContent value="research" className="space-y-4 sm:space-y-6 mt-0">
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                   {features.map((feature, index) => (

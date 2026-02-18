@@ -18,7 +18,6 @@ import {
 import { ScrollArea } from '@/shared/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 
-// Default variables when API is not available
 const defaultVariables: Record<string, TemplateVariable[]> = {
   client: [
     { key: 'client.fullName', label: 'Full Name', group: 'client', type: 'text', required: true },
@@ -79,9 +78,7 @@ export const VariableSelector = memo(function VariableSelector({
 
   useEffect(() => {
     if (open && !availableVariables) {
-      fetchAvailableVariables().catch(() => {
-        // Use default variables if API fails
-      });
+      fetchAvailableVariables().catch(() => {});
     }
   }, [open, availableVariables, fetchAvailableVariables]);
 

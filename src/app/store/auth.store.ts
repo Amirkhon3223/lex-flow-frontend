@@ -27,9 +27,12 @@ interface AuthState {
   error: string | null
   twoFactorRequired: boolean
   tempToken: string | null
+  emailVerificationRequired: boolean
   initializing: boolean
   login: (data: LoginRequest) => Promise<void>
   verify2FALogin: (code: string) => Promise<void>
+  verifyEmail: (code: string) => Promise<void>
+  resendVerificationCode: () => Promise<void>
   logout: () => Promise<void>
   register: (data: RegisterRequest) => Promise<void>
   setUser: (user: User | null) => void
@@ -48,7 +51,8 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   error: null,
   twoFactorRequired: false,
   tempToken: null,
-  initializing: true, // Start as true to prevent flashing login page on page reload
+  emailVerificationRequired: false,
+  initializing: true,
 
       login: async (data: LoginRequest) => {
         set({ loading: true, error: null, twoFactorRequired: false, tempToken: null });
@@ -61,6 +65,25 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
               tempToken: response.tempToken,
               loading: false,
               error: null,
+            });
+            return;
+          }
+
+          if (response.emailVerificationRequired) {
+            if (response.user.timezone) {
+              localStorage.setItem('userTimezone', response.user.timezone);
+            }
+            set({
+              user: response.user,
+              workspace: response.workspace || null,
+              role: (response.user.role as MembershipRole) || null,
+              isAuthenticated: true,
+              emailVerificationRequired: true,
+              loading: false,
+              error: null,
+              twoFactorRequired: false,
+              tempToken: null,
+              initializing: false,
             });
             return;
           }
@@ -78,13 +101,12 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             error: null,
             twoFactorRequired: false,
             tempToken: null,
-            initializing: false, // Ensure initializing is false after successful login
+            emailVerificationRequired: false,
+            initializing: false,
           });
 
-          // Track successful login
           trackLogin('email');
 
-          // Set user properties for analytics
           if (response.user.id) {
             setUserProperties(response.user.id, {
               plan: response.workspace?.planId || 'free',
@@ -92,12 +114,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             });
           }
 
-          // Set Sentry user context
-          setSentryUser({
-            id: response.user.id,
-            email: response.user.email,
-            name: response.user.name || response.user.email,
-          });
+          setSentryUser({ id: response.user.id });
 
           try {
             const fullUser = await usersService.getMe();
@@ -106,7 +123,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
               user: state.user ? { ...state.user, ...fullUser, twoFactorEnabled: statusResponse.enabled } : fullUser,
             }));
           } catch {
-            // Profile enrichment is optional, login still succeeded
           }
         } catch (error) {
           const errorMessage = (error as Error).message || i18nService.t('COMMON.ERRORS.LOGIN_FAILED');
@@ -138,13 +154,11 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             error: null,
             twoFactorRequired: false,
             tempToken: null,
-            initializing: false, // Ensure initializing is false after successful login
+            initializing: false,
           });
 
-          // Track successful 2FA login
           trackLogin('2fa');
 
-          // Set user properties for analytics
           if (response.user.id) {
             setUserProperties(response.user.id, {
               plan: response.workspace?.planId || 'free',
@@ -153,12 +167,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             });
           }
 
-          // Set Sentry user context
-          setSentryUser({
-            id: response.user.id,
-            email: response.user.email,
-            name: response.user.name || response.user.email,
-          });
+          setSentryUser({ id: response.user.id });
 
           try {
             const fullUser = await usersService.getMe();
@@ -167,11 +176,38 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
               user: state.user ? { ...state.user, ...fullUser, twoFactorEnabled: statusResponse.enabled } : fullUser,
             }));
           } catch {
-            // Profile enrichment is optional, 2FA login still succeeded
           }
         } catch (error) {
           const errorMessage = (error as Error).message || i18nService.t('COMMON.ERRORS.TWO_FA_FAILED');
           set({ error: errorMessage, loading: false, initializing: false });
+          throw error;
+        }
+      },
+
+      verifyEmail: async (code: string) => {
+        set({ loading: true, error: null });
+        try {
+          const response = await authService.verifyEmail({ code });
+          set((state) => ({
+            user: state.user ? { ...state.user, emailVerified: true } : null,
+            emailVerificationRequired: false,
+            loading: false,
+            error: null,
+          }));
+          return response;
+        } catch (error) {
+          set({ loading: false });
+          throw error;
+        }
+      },
+
+      resendVerificationCode: async () => {
+        set({ loading: true, error: null });
+        try {
+          await authService.resendVerificationCode();
+          set({ loading: false });
+        } catch (error) {
+          set({ loading: false });
           throw error;
         }
       },
@@ -184,13 +220,10 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         set({ loading: true, error: null });
         try {
           await authService.logout();
-          // Clear all auth-related data
           localStorage.removeItem('userTimezone');
 
-          // Clear analytics user properties
           clearUserProperties();
 
-          // Clear Sentry user context
           setSentryUser(null);
 
           set({
@@ -198,17 +231,15 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             workspace: null,
             role: null,
             isAuthenticated: false,
+            emailVerificationRequired: false,
             loading: false,
             initializing: false,
           });
         } catch (error) {
-          // Even if logout fails on backend, clear local state
           localStorage.removeItem('userTimezone');
 
-          // Clear analytics user properties
           clearUserProperties();
 
-          // Clear Sentry user context
           setSentryUser(null);
 
           set({
@@ -216,6 +247,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             workspace: null,
             role: null,
             isAuthenticated: false,
+            emailVerificationRequired: false,
             loading: false,
             initializing: false,
             error: (error as Error).message,
@@ -236,15 +268,14 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             workspace: response.workspace || null,
             role: (response.user.role as MembershipRole) || null,
             isAuthenticated: true,
+            emailVerificationRequired: response.emailVerificationRequired || false,
             loading: false,
             error: null,
             initializing: false,
           });
 
-          // Track successful registration
           trackRegistration('email');
 
-          // Set user properties for analytics
           if (response.user.id) {
             setUserProperties(response.user.id, {
               plan: 'trial',
@@ -252,12 +283,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             });
           }
 
-          // Set Sentry user context
-          setSentryUser({
-            id: response.user.id,
-            email: response.user.email,
-            name: response.user.name || response.user.email,
-          });
+          setSentryUser({ id: response.user.id });
 
           try {
             const fullUser = await usersService.getMe();
@@ -265,7 +291,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
               user: state.user ? { ...state.user, ...fullUser } : fullUser,
             }));
           } catch {
-            // Profile enrichment is optional, registration still succeeded
           }
         } catch (error) {
           const errorMessage = (error as Error).message || i18nService.t('COMMON.ERRORS.REGISTRATION_FAILED');
@@ -298,7 +323,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       initializeAuth: async () => {
         const currentState = get();
 
-        // Skip if already authenticated to prevent unnecessary API calls
         if (currentState.isAuthenticated) {
           set({ initializing: false });
           return;
@@ -306,33 +330,25 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
         set({ initializing: true, error: null });
         try {
-          // Try to restore session from httpOnly cookie
           const user = await usersService.getMe();
 
           if (user.timezone) {
             localStorage.setItem('userTimezone', user.timezone);
           }
 
-          // Get 2FA status
           const statusResponse = await securityService.get2FAStatus();
 
-          // Set Sentry user context on session restore
-          setSentryUser({
-            id: user.id,
-            email: user.email,
-            name: user.name || user.email,
-          });
+          setSentryUser({ id: user.id });
 
           set({
             user: { ...user, twoFactorEnabled: statusResponse.enabled },
-            workspace: null, // Workspace info comes from user data
+            workspace: null,
             role: (user.role as MembershipRole) || null,
             isAuthenticated: true,
+            emailVerificationRequired: user.emailVerified === false,
             initializing: false,
           });
         } catch {
-          // No valid session (401 error) or network error
-          // User stays logged out
           setSentryUser(null);
           set({
             user: null,

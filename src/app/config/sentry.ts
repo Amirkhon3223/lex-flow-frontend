@@ -24,9 +24,9 @@ export function initSentry() {
   }
 }
 
-export function setUser(user: { id: string; email: string; name: string } | null) {
+export function setUser(user: { id: string } | null) {
   if (user) {
-    Sentry.setUser({ id: user.id, email: user.email, username: user.name });
+    Sentry.setUser({ id: user.id });
   } else {
     Sentry.setUser(null);
   }

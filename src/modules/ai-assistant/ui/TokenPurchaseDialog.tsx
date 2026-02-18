@@ -51,7 +51,6 @@ export function TokenPurchaseDialog({ open, onOpenChange }: TokenPurchaseDialogP
     try {
       const checkoutUrl = await purchaseTokens(selectedPack);
       toast.success(t('AI_ASSISTANT.TOKENS.PURCHASE_STARTED'));
-      // Redirect to checkout or open in new tab
       window.location.href = checkoutUrl;
     } catch {
       toast.error(t('AI_ASSISTANT.TOKENS.PURCHASE_ERROR'));

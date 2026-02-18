@@ -20,6 +20,7 @@ export interface Plan {
   trialDays: number;
   popular: boolean;
   currency: string;
+  isFree?: boolean;
 }
 
 export interface Subscription {

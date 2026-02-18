@@ -28,10 +28,8 @@ export const Layout = ({ children }: LayoutProps) => {
   const [isShortcutsHelpOpen, setIsShortcutsHelpOpen] = useState(false);
   const { isAuthenticated } = useAuth();
 
-  // Track page views on route changes
   usePageTracking();
 
-  // Define global keyboard shortcuts
   const shortcuts: Shortcut[] = [
     {
       key: 'k',
@@ -123,7 +121,6 @@ export const Layout = ({ children }: LayoutProps) => {
       <div className="min-h-screen bg-background">
         <SkipLink mainContentId="main-content" navigationId="main-nav" />
 
-        {/* Mobile overlay */}
         {isMobileSidebarOpen && (
           <div
             className="fixed inset-0 bg-black/50 z-40 md:hidden"
@@ -139,7 +136,6 @@ export const Layout = ({ children }: LayoutProps) => {
           onMobileClose={closeMobileSidebar}
         />
 
-        {/* Main content area */}
         <div
           className={`
           transition-all duration-300 ease-in-out
@@ -165,7 +161,6 @@ export const Layout = ({ children }: LayoutProps) => {
           </main>
         </div>
 
-        {/* Keyboard shortcuts help modal */}
         <KeyboardShortcutsHelp
           open={isShortcutsHelpOpen}
           onOpenChange={setIsShortcutsHelpOpen}

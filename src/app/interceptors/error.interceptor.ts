@@ -63,7 +63,6 @@ export const errorInterceptor = {
     }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      // Auth endpoints handle their own errors - don't show toast here
       if (
         originalRequest.url?.includes('/auth/login') ||
         originalRequest.url?.includes('/auth/register') ||
@@ -106,10 +105,8 @@ export const errorInterceptor = {
 
         handleApiError(error);
 
-        // Clear auth state
         localStorage.removeItem('userTimezone');
 
-        // Reset Zustand store to ensure isAuthenticated = false
         useAuthStore.setState({
           user: null,
           workspace: null,
@@ -119,12 +116,11 @@ export const errorInterceptor = {
           error: null,
           twoFactorRequired: false,
           tempToken: null,
+          emailVerificationRequired: false,
           initializing: false,
         });
 
-        // Only redirect if not already on login page to prevent loop
         if (!window.location.pathname.includes('/login')) {
-          // Use location.replace to prevent back button issues
           window.location.replace('/login');
         }
 
@@ -132,7 +128,17 @@ export const errorInterceptor = {
       }
     }
 
-    // Don't show toast for auth routes - they handle errors themselves
+    if (error.response?.status === 403) {
+      const errorCode = (error.response.data as { code?: string })?.code;
+      if (errorCode === 'EMAIL_NOT_VERIFIED') {
+        useAuthStore.setState({ emailVerificationRequired: true });
+        if (!window.location.pathname.includes('/verify-email')) {
+          window.location.replace('/verify-email');
+        }
+        return Promise.reject(error);
+      }
+    }
+
     const isAuthRoute = originalRequest?.url?.includes('/auth/');
     if (!isAuthRoute) {
       handleApiError(error);

@@ -4,11 +4,10 @@ import type { Notification } from '@/app/types/notifications/notifications.inter
 
 const WEBSOCKET_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/api/v1/notifications/ws';
 
-// Reconnect settings
-const INITIAL_RECONNECT_DELAY = 1000; // 1 second
-const MAX_RECONNECT_DELAY = 30000; // 30 seconds
-const HEARTBEAT_INTERVAL = 30000; // 30 seconds
-const HEARTBEAT_TIMEOUT = 10000; // 10 seconds
+const INITIAL_RECONNECT_DELAY = 1000;
+const MAX_RECONNECT_DELAY = 30000;
+const HEARTBEAT_INTERVAL = 30000;
+const HEARTBEAT_TIMEOUT = 10000;
 
 export type ConnectionStatus = 'connected' | 'connecting' | 'disconnected' | 'reconnecting';
 
@@ -26,11 +25,9 @@ class WebSocketService {
   private wasConnected = false;
 
   constructor() {
-    // Listen for online/offline events
     if (typeof window !== 'undefined') {
       window.addEventListener('online', this.handleOnline);
       window.addEventListener('offline', this.handleOffline);
-      // Reconnect when tab becomes visible
       document.addEventListener('visibilitychange', this.handleVisibilityChange);
     }
   }
@@ -90,7 +87,6 @@ class WebSocketService {
       this.clearReconnectTimeout();
       this.startHeartbeat();
 
-      // Show reconnected toast only if we were previously connected
       if (this.wasConnected) {
         toast.success('Соединение восстановлено');
       }
@@ -98,13 +94,11 @@ class WebSocketService {
     };
 
     this.socket.onmessage = (event) => {
-      // Reset heartbeat on any message
       this.resetHeartbeat();
 
       try {
         const message = JSON.parse(event.data);
 
-        // Handle pong response
         if (message.type === 'pong') {
           this.clearHeartbeatTimeout();
           return;
@@ -114,7 +108,6 @@ class WebSocketService {
           this.handleNotification(message.payload);
         }
       } catch {
-        // Invalid message format - ignore
       }
     };
 
@@ -125,7 +118,6 @@ class WebSocketService {
       if (!this.isIntentionalDisconnect) {
         this.setStatus('disconnected');
 
-        // Show disconnected toast only if we were connected before
         if (this.wasConnected && this.reconnectAttempts === 0) {
           toast.error('Соединение потеряно. Переподключение...');
         }
@@ -135,7 +127,6 @@ class WebSocketService {
     };
 
     this.socket.onerror = () => {
-      // Error will trigger onclose, so we handle reconnection there
     };
   }
 
@@ -159,7 +150,6 @@ class WebSocketService {
   private scheduleReconnect(): void {
     this.clearReconnectTimeout();
 
-    // Exponential backoff with max delay
     const delay = Math.min(
       INITIAL_RECONNECT_DELAY * Math.pow(2, this.reconnectAttempts),
       MAX_RECONNECT_DELAY
@@ -208,15 +198,12 @@ class WebSocketService {
       try {
         this.socket.send(JSON.stringify({ type: 'ping' }));
 
-        // Set timeout for pong response
         this.heartbeatTimeout = setTimeout(() => {
-          // No pong received, connection might be dead
           if (this.socket) {
             this.socket.close();
           }
         }, HEARTBEAT_TIMEOUT);
       } catch {
-        // Send failed, connection is broken
         if (this.socket) {
           this.socket.close();
         }

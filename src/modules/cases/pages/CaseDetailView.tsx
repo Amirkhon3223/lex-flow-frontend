@@ -15,6 +15,9 @@ import { CaseHeader } from '@/modules/cases/components/CaseHeader';
 import { CaseProgressCard } from '@/modules/cases/components/CaseProgressCard';
 import { CaseTabsCard } from '@/modules/cases/components/CaseTabsCard';
 import { CaseTasksCard } from '@/modules/cases/components/CaseTasksCard';
+import { CaseTimeTrackingCard } from '@/modules/cases/components/CaseTimeTrackingCard';
+import { CasePartiesCard } from '@/modules/cases/components/CasePartiesCard';
+import CaseDeadlinesCard from '@/modules/cases/components/CaseDeadlinesCard';
 import { EditCaseDialog } from '@/modules/cases/ui/EditCaseDialog';
 import { AddTaskDialog } from '@/shared/components/AddTaskDialog';
 import { CommentsDialog } from '@/shared/components/CommentsDialog';
@@ -48,6 +51,14 @@ export function CaseDetailView() {
     fetchTasks,
     fetchComments,
     tasksLoading,
+    timeEntries,
+    timeEntriesLoading,
+    timeEntriesTotalDuration,
+    timeEntriesTotalBillable,
+    fetchTimeEntries,
+    parties,
+    partiesLoading,
+    fetchParties,
   } = useCasesStore();
 
   const { selectedClient, fetchClientById } = useClientsStore();
@@ -73,6 +84,8 @@ export function CaseDetailView() {
         fetchTasks(id),
         fetchComments(id),
         fetchDocuments({ caseId: id }),
+        fetchTimeEntries(id),
+        fetchParties(id),
       ]);
       setInitialized(true);
     };
@@ -106,7 +119,6 @@ export function CaseDetailView() {
       });
       setIsEditCaseDialogOpen(false);
     } catch {
-      // Error handled by the store
     }
   };
 
@@ -488,10 +500,39 @@ export function CaseDetailView() {
               tasks={tasks}
               loading={tasksLoading}
               caseId={id}
+              category={selectedCase?.category || ''}
               onAddTask={() => setIsAddTaskDialogOpen(true)}
+              onTasksChanged={() => fetchTasks(id)}
             />
 
-            <CaseFinancesCard fee={selectedCase?.fee} paidAmount={selectedCase?.paidAmount ?? 0} />
+            <CaseTimeTrackingCard
+              caseId={id}
+              timeEntries={timeEntries}
+              totalDuration={timeEntriesTotalDuration}
+              totalBillable={timeEntriesTotalBillable}
+              loading={timeEntriesLoading}
+              defaultHourlyRate={selectedCase?.hourlyRate ?? 0}
+            />
+
+            <CasePartiesCard
+              caseId={id}
+              parties={parties}
+              loading={partiesLoading}
+            />
+
+            <CaseDeadlinesCard
+              caseId={id}
+              jurisdiction={selectedCase?.jurisdiction}
+              category={selectedCase?.category}
+            />
+
+            <CaseFinancesCard
+              fee={selectedCase?.fee}
+              paidAmount={selectedCase?.paidAmount ?? 0}
+              billingMethod={selectedCase?.billingMethod}
+              totalHours={selectedCase?.totalHours}
+              billableAmount={selectedCase?.billableAmount}
+            />
 
             <CaseCommentsCard
               commentsCount={comments.length}

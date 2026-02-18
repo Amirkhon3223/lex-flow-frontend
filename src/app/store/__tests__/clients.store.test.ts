@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useClientsStore } from '../clients.store';
 import { mockClient } from '@/test/mocks/handlers';
+import type { ClientInterface } from '@/app/types/clients/clients.interfaces';
 
 // Mock the clients service
 vi.mock('@/app/services/clients/clients.service', () => ({
@@ -45,7 +46,7 @@ describe('useClientsStore', () => {
     const { setClients } = useClientsStore.getState();
     const clients = [mockClient, { ...mockClient, id: 'client-456' }];
 
-    setClients(clients as any);
+    setClients(clients as ClientInterface[]);
 
     expect(useClientsStore.getState().clients).toEqual(clients);
   });
@@ -53,13 +54,13 @@ describe('useClientsStore', () => {
   it('sets selected client', () => {
     const { setSelectedClient } = useClientsStore.getState();
 
-    setSelectedClient(mockClient as any);
+    setSelectedClient(mockClient as ClientInterface);
 
     expect(useClientsStore.getState().selectedClient).toEqual(mockClient);
   });
 
   it('clears selected client', () => {
-    useClientsStore.setState({ selectedClient: mockClient as any });
+    useClientsStore.setState({ selectedClient: mockClient as ClientInterface });
 
     const { clearSelectedClient } = useClientsStore.getState();
     clearSelectedClient();

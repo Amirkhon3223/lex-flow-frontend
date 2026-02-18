@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useDocumentsStore } from '@/app/store/documents.store';
+import { usePlanLimitsStore } from '@/app/store/planLimits.store';
 import { DocumentAnalysis } from '@/modules/documents/components/DocumentAnalysis';
 import { BackButton } from '@/shared/components/BackButton';
 import { DataPagination } from '@/shared/components/DataPagination';
@@ -31,6 +32,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu.tsx';
 import { Separator } from '@/shared/ui/separator.tsx';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip';
 import { cn } from '@/shared/ui/utils';
 import { formatFileSize } from '@/shared/utils';
 
@@ -50,9 +52,16 @@ export function DocumentVersionsView() {
     fetchVersions,
   } = useDocumentsStore();
 
+  const { usage, fetchUsage } = usePlanLimitsStore();
+  const canUpload = usage?.canUpload !== false;
+
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<'upload' | 'edit'>('upload');
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    fetchUsage();
+  }, [fetchUsage]);
 
   useEffect(() => {
     if (id) {
@@ -158,13 +167,25 @@ export function DocumentVersionsView() {
                 <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('COMMON.ACTIONS.EDIT')}
               </Button>
-              <Button
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl flex-1 text-sm"
-                onClick={handleUploadClick}
-              >
-                <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-                {t('DOCUMENTS.UPLOAD_NEW_VERSION')}
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="flex-1">
+                      <Button
+                        className={`w-full bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm ${!canUpload ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        onClick={canUpload ? handleUploadClick : undefined}
+                        disabled={!canUpload}
+                      >
+                        <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
+                        {t('DOCUMENTS.UPLOAD_NEW_VERSION')}
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  {!canUpload && (
+                    <TooltipContent>{t('LIMITS.STORAGE_LIMIT')}</TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
 
@@ -177,13 +198,25 @@ export function DocumentVersionsView() {
                 <Edit className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t('COMMON.ACTIONS.EDIT')}
               </Button>
-              <Button
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base"
-                onClick={handleUploadClick}
-              >
-                <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
-                {t('DOCUMENTS.UPLOAD_NEW_VERSION')}
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span>
+                      <Button
+                        className={`bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base ${!canUpload ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        onClick={canUpload ? handleUploadClick : undefined}
+                        disabled={!canUpload}
+                      >
+                        <Upload className="w-4 h-4 mr-2" strokeWidth={2} />
+                        {t('DOCUMENTS.UPLOAD_NEW_VERSION')}
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  {!canUpload && (
+                    <TooltipContent>{t('LIMITS.STORAGE_LIMIT')}</TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
 

@@ -22,3 +22,6 @@ export { useReducedMotion } from './useReducedMotion';
 // Integration hooks
 export { useGoogleCalendar } from './useGoogleCalendar';
 export type { UseGoogleCalendarState, UseGoogleCalendarReturn } from './useGoogleCalendar';
+
+export { useSpeechToText } from './useSpeechToText';
+export { usePushNotifications } from './usePushNotifications';

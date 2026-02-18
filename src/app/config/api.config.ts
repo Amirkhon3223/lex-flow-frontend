@@ -54,5 +54,12 @@ export const API_CONFIG = {
       DOCUMENTS: '/analytics/documents',
       MEETINGS: '/analytics/meetings',
     },
+    TASK_TEMPLATES: {
+      BASE: '/task-templates',
+      BY_ID: (id: string) => `/task-templates/${id}`,
+      CATEGORIES: '/task-templates/categories',
+      APPLY: (templateId: string, caseId: string) =>
+        `/task-templates/${templateId}/apply/${caseId}`,
+    },
   },
 };
