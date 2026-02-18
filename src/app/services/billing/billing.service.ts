@@ -57,14 +57,11 @@ export const billingService = {
     return response.data;
   },
 
-  downloadReceipt: async (paymentId: string): Promise<Blob> => {
-    const response = await httpClient.get<Blob>(
+  getReceiptUrl: async (paymentId: string): Promise<string> => {
+    const response = await httpClient.get<{ receiptUrl: string }>(
       `/billing/payments/${paymentId}/receipt`,
-      {
-        responseType: 'blob',
-      }
     );
-    return response.data;
+    return response.data.receiptUrl;
   },
 
   getPaymentMethods: async (): Promise<PaymentMethodsListResponse> => {

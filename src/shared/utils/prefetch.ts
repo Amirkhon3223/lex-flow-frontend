@@ -61,7 +61,9 @@ export async function prefetchRoute(path: string): Promise<void> {
       prefetchedRoutes.add(normalizedPath);
     } catch (error) {
       // Silently fail - prefetching is an optimization, not critical
-      console.debug('[Prefetch] Failed to prefetch route:', normalizedPath, error);
+      if (import.meta.env.DEV) {
+        console.debug('[Prefetch] Failed to prefetch route:', normalizedPath, error);
+      }
     }
   }
 }

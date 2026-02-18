@@ -145,15 +145,8 @@ export const useBillingStore = create<BillingState>((set, get) => ({
   downloadReceipt: async (paymentId: string) => {
     set({ loading: true, error: null });
     try {
-      const blob = await billingService.downloadReceipt(paymentId);
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `receipt-${paymentId}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      const receiptUrl = await billingService.getReceiptUrl(paymentId);
+      window.open(receiptUrl, '_blank', 'noopener,noreferrer');
       set({ loading: false });
     } catch (error) {
       set({ error: (error as Error).message, loading: false });
