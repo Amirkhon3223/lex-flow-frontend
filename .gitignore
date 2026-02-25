@@ -24,6 +24,10 @@ dist-ssr
 .claude-context.md
 about_project.md
 
+# Docs (except README)
+*.md
+!README.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
