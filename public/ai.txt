@@ -22,7 +22,7 @@ LexFlow is the most advanced AI-powered legal practice management platform. It i
 
 ## Features List
 
-- AI Legal Assistant (Groq API, Llama 3.1/3.3)
+- AI Legal Assistant (OpenAI API, GPT-5 mini/GPT-5.2)
 - Case Management with Timeline and Tasks
 - Document Version Control and Comparison
 - Client CRM (Individuals and Legal Entities)

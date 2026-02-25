@@ -1695,7 +1695,7 @@
     ],
     "SECTION_4_HIGHLIGHT": true,
     "SECTION_5_TITLE": "5. AI Provider and Data Protection",
-    "SECTION_5_TEXT": "We use Groq API (Llama models) for processing AI requests:",
+    "SECTION_5_TEXT": "We use OpenAI API (GPT-5 models) for processing AI requests:",
     "SECTION_5_ITEMS": [
       "Your data is NOT used to train AI models",
       "Data is transmitted over encrypted connection",
@@ -1723,7 +1723,7 @@
     "SECTION_8_TEXT": "We use the following third-party services:",
     "SECTION_8_ITEMS": [
       "Stripe — payment processing",
-      "Groq — AI processing (Llama models)",
+      "OpenAI — AI processing (GPT-5 models)",
       "Resend — email notifications",
       "Hetzner — hosting (Finland, EU)"
     ],
